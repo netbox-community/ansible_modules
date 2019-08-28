@@ -1,0 +1,30 @@
+---
+
+language: python
+
+python:
+  - "3.6"
+
+sudo: false
+
+env:
+  global:
+    - COLLECTION_NAMESPACE: fragmentedpacket
+    - COLLECTION_NAME: netbox_modules
+
+install:
+  - pip install -U pip
+  - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
+  - cd ../../
+  # This is due to ansible-test only being available within devel branch
+  - git clone https://github.com/ansible/ansible.git
+  - source ansible/hacking/env-setup
+
+before_script:
+  - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
+  - mv FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+  - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+
+script:
+  - ansible-test units --python 3.6 
+  - black . --check
