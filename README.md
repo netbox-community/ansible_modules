@@ -1,12 +1,13 @@
+[![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules) 
 # Netbox modules for Ansible using Ansible Collections 
-  
+
 **THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
 
 TODO:
 - ~~initial build and changes to properly import module_utils~~
 - Add testing to a CI (Travis?) and existing unit tests
   - ~~Initial unit tests~~
-  - Test different Python versions (3.6/3.7)
+  - ~~Test different Python versions (3.6/3.7)~~
   - Local testing using Tox
   - Test currently supported versions of Ansible
 - ~~Add documentation on how to use to README~~
