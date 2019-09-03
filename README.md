@@ -3,20 +3,23 @@
 
 **THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
 
-TODO:
+**TODO**
 - ~~initial build and changes to properly import module_utils~~
-- Add testing to a CI (Travis?) and existing unit tests
-  - ~~Initial unit tests~~
+- Add testing to Travis CI
+  - ~~Existing unit tests~~
   - ~~Test different Python versions (3.6/3.7)~~
   - Local testing using Tox
   - Test currently supported versions of Ansible
+  - Integration testing against at least two versions of Netbox
 - ~~Add documentation on how to use to README~~
 - Add documentation on how to contribute to collection
 
 ## Requirements
+- Netbox 2.5+
+- pynetbox 4.0.6+
+- Python 3.6+
 - Ansible 2.9+
   - Or run Ansible via source
-- Python 3.6+
 
 ## Existing Modules
 
@@ -29,7 +32,7 @@ TODO:
 ## How to Use
 - Install via Mazer
   - `mazer install fragmentedpacket.netbox_modules`
-- Follow Ansible instructions to use the collection:
+- Follow Ansible instructions to use the collection
   - [https://docs.ansible.com/ansible/devel/dev_guide/collections_tech_preview.html#using-collections](https://docs.ansible.com/ansible/devel/dev_guide/collections_tech_preview.html#using-collections)
 
 #### Example playbook
