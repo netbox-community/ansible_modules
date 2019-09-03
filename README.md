@@ -1,26 +1,30 @@
+[![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules) 
 # Netbox modules for Ansible using Ansible Collections 
-  
+
 **THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
 
-TODO:
+## Todo
 - ~~initial build and changes to properly import module_utils~~
-- Add testing to a CI (Travis?) and existing unit tests
+- Add testing to Travis CI
   - ~~Initial unit tests~~
-  - Test different Python versions (3.6/3.7)
+  - ~~Test different Python versions (3.6/3.7)~~
+  - ~~Integration testing against at least two versions of Netbox~~
   - Local testing using Tox
   - Test currently supported versions of Ansible
 - ~~Add documentation on how to use to README~~
 - Add documentation on how to contribute to collection
 
 ## Requirements
+- Netbox 2.5+
+- pynetbox 4.0.6+
+- Python 3.6+
 - Ansible 2.9+
   - Or run Ansible via source
-- Python 3.6+
 
 ## Existing Modules
 
  - netbox_device
- - netbox_interface
+ - netbox_device_interface
  - netbox_ip_address
  - netbox_prefix
  - netbox_site
@@ -28,7 +32,7 @@ TODO:
 ## How to Use
 - Install via Mazer
   - `mazer install fragmentedpacket.netbox_modules`
-- Follow Ansible instructions to use the collection:
+- Follow Ansible instructions to use the collection
   - [https://docs.ansible.com/ansible/devel/dev_guide/collections_tech_preview.html#using-collections](https://docs.ansible.com/ansible/devel/dev_guide/collections_tech_preview.html#using-collections)
 
 #### Example playbook

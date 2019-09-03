@@ -16,8 +16,8 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_interface
-short_description: Creates or removes interfaces from Netbox
+module: netbox_device_interface
+short_description: Creates or removes interfaces on devices from Netbox
 description:
   - Creates or removes interfaces from Netbox
 notes:
@@ -127,7 +127,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create interface within Netbox with only required information
-      netbox_interface:
+      netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -135,7 +135,7 @@ EXAMPLES = r"""
           name: GigabitEthernet1
         state: present
     - name: Delete interface within netbox
-      netbox_interface:
+      netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -143,7 +143,7 @@ EXAMPLES = r"""
           name: GigabitEthernet1
         state: absent
     - name: Create LAG with several specified options
-      netbox_interface:
+      netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -155,7 +155,7 @@ EXAMPLES = r"""
           mode: Access
         state: present
     - name: Create interface and assign it to parent LAG
-      netbox_interface:
+      netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -170,7 +170,7 @@ EXAMPLES = r"""
           mode: Access
         state: present
     - name: Create interface as a trunk port
-      netbox_interface:
+      netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -224,8 +224,8 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    netbox_interface = NetboxDcimModule(module, NB_INTERFACES)
-    netbox_interface.run()
+    netbox_device_interface = NetboxDcimModule(module, NB_INTERFACES)
+    netbox_device_interface.run()
 
 
 if __name__ == "__main__":

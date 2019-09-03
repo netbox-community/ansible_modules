@@ -36,14 +36,21 @@ class NetboxIpamModule(NetboxModule):
             if self.state == "present":
                 self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
             elif self.state == "new":
-                self._create_netbox_object(nb_endpoint, data)
+                self.nb_object, diff = self._create_netbox_object(nb_endpoint, data)
+                self.result["msg"] = "%s %s created" % (endpoint_name, name)
+                self.result["changed"] = True
+                self.result["diff"] = diff
         else:
             if self.state == "present":
-                self._ensure_ip_in_prefix_present_on_netif(nb_app, nb_endpoint, data)
+                self._ensure_ip_in_prefix_present_on_netif(
+                    nb_app, nb_endpoint, data, endpoint_name
+                )
             elif self.state == "new":
-                self._get_new_available_ip_address(nb_app, data)
+                self._get_new_available_ip_address(nb_app, data, endpoint_name)
 
-    def _ensure_ip_in_prefix_present_on_netif(self, nb_app, nb_endpoint, data):
+    def _ensure_ip_in_prefix_present_on_netif(
+        self, nb_app, nb_endpoint, data, endpoint_name
+    ):
         """
         """
         if not data.get("interface") or not data.get("prefix"):
@@ -57,13 +64,14 @@ class NetboxIpamModule(NetboxModule):
         if attached_ips:
             self.nb_object = attached_ips[-1].serialize()
             self.result["changed"] = False
-            self.result["msg"] = "IP Address %s already attached" % (
-                self.nb_object["address"]
+            self.result["msg"] = "%s %s already attached" % (
+                endpoint_name,
+                self.nb_object["address"],
             )
         else:
-            self._get_new_available_ip_address(nb_app, data)
+            self._get_new_available_ip_address(nb_app, data, endpoint_name)
 
-    def _get_new_available_ip_address(self, nb_app, data):
+    def _get_new_available_ip_address(self, nb_app, data, endpoint_name):
         prefix_query = self._build_query_params("prefix", data)
         prefix = nb_app.prefixes.get(**prefix_query)
         if not prefix:
@@ -76,7 +84,10 @@ class NetboxIpamModule(NetboxModule):
                 prefix.available_ips, data
             )
             self.result["changed"] = True
-            self.result["msg"] = "IP Address %s created" % (self.nb_object["address"])
+            self.result["msg"] = "%s %s created" % (
+                endpoint_name,
+                self.nb_object["address"],
+            )
             self.result["diff"] = diff
         else:
             self.result["changed"] = False
@@ -84,16 +95,19 @@ class NetboxIpamModule(NetboxModule):
                 data["prefix"]
             )
 
-    def _get_new_available_prefix(self, data):
+    def _get_new_available_prefix(self, data, endpoint_name):
         if not self.nb_object:
             self.result["changed"] = False
-            self.result["msg"] = "Parent prefix does not exist: %s" % (data["parent"])
+            self.result["msg"] = "Parent prefix does not exist - %s" % (data["parent"])
         elif self.nb_object.available_prefixes.list():
             self.nb_object, diff = self._create_netbox_object(
                 self.nb_object.available_prefixes, data
             )
             self.result["changed"] = True
-            self.result["msg"] = "Prefix %s created" % (self.nb_object["prefix"])
+            self.result["msg"] = "%s %s created" % (
+                endpoint_name,
+                self.nb_object["prefix"],
+            )
             self.result["diff"] = diff
         else:
             self.result["changed"] = False
@@ -146,7 +160,7 @@ class NetboxIpamModule(NetboxModule):
                 nb_app, nb_endpoint, endpoint_name, name, data
             )
         elif self.state == "present" and first_available and data.get("parent"):
-            self._get_new_available_prefix(data)
+            self._get_new_available_prefix(data, endpoint_name)
         elif self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
         elif self.state == "absent":
