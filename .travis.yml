@@ -1,9 +1,17 @@
 ---
 
 language: python
-
-python:
-  - "3.6"
+matrix:
+  include:
+    - name: "Python 3.6"
+      python: 3.6
+      env: PYTHON_VER=3.6
+    - name: "Python 3.7"
+      python: 3.7
+      env: PYTHON_VER=3.7
+#python:
+#  - "3.6"
+#  - "3.7"
 
 sudo: false
 
@@ -26,5 +34,5 @@ before_script:
   - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
 
 script:
-  - ansible-test units --python 3.6 
+  - ansible-test units --python $PYTHON_VER
   - black . --check
