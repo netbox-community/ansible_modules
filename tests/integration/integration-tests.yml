@@ -1,0 +1,1029 @@
+---
+##
+##
+### NETBOX_DEVICE
+##
+##
+- name: "TEST NETBOX_DEVICE"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Device with required information"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "R1"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['msg'] == "device R1 created"
+          - test_one['diff']['before']['state'] == 'absent'
+          - test_one['diff']['after']['state'] == 'present'
+          - test_one['device']['name'] == "R1"
+          - test_one['device']['device_role'] == 1
+          - test_one['device']['device_type'] == 1
+          - test_one['device']['site'] == 1
+          - test_one['device']['status'] == 3
+          - test_one['device']['name'] == "R1"
+
+    - name: "2 - Duplicate device"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "R1"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['msg'] == "device R1 already exists"
+          - test_two['device']['name'] == "R1"
+          - test_two['device']['device_role'] == 1
+          - test_two['device']['device_type'] == 1
+          - test_two['device']['site'] == 1
+          - test_two['device']['status'] == 3
+
+    - name: "3 - Update device"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "R1"
+          serial: "FXS1001"
+        state: present
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['msg'] == "device R1 updated"
+          - test_three['diff']['before']['serial'] == ""
+          - test_three['diff']['after']['serial'] == "FXS1001"
+          - test_three['device']['name'] == "R1"
+          - test_three['device']['device_role'] == 1
+          - test_three['device']['device_type'] == 1
+          - test_three['device']['site'] == 1
+          - test_three['device']['status'] == 3
+
+    - name: "4 - Create device with tags and assign to rack"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "TestR1"
+          device_type: "Arista Test"
+          device_role: "Core Switch"
+          site: "Test Site2"
+          rack: "Test Rack"
+          position: 35
+          face: "Front"
+          tags:
+            - "Schnozzberry"
+          tenant: "Test Tenant"
+          asset_tag: "1234"
+        state: present
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['msg'] == "device TestR1 created"
+          - test_four['diff']['before']['state'] == "absent"
+          - test_four['diff']['after']['state'] == "present"
+          - test_four['device']['name'] == "TestR1"
+          - test_four['device']['device_role'] == 1
+          - test_four['device']['device_type'] == 2
+          - test_four['device']['site'] == 2
+          - test_four['device']['status'] == 1
+          - test_four['device']['rack'] == 1
+          - test_four['device']['tags'][0] == 'Schnozzberry'
+          - test_four['device']['tenant'] == 1
+          - test_four['device']['asset_tag'] == '1234'
+
+    - name: "5 - Delete previous device"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "TestR1"
+        state: absent
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['before']['state'] == "present"
+          - test_five['diff']['after']['state'] == "absent"
+          - test_five['msg'] == "device TestR1 deleted"
+
+    - name: "6 - Delete R1"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "R1"
+        state: absent
+      register: test_six
+
+    - name: "6 - ASSERT"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['diff']['before']['state'] == "present"
+          - test_six['diff']['after']['state'] == "absent"
+          - test_six['msg'] == "device R1 deleted"
+##
+##
+### NETBOX_DEVICE_INTERFACE
+##
+##
+- name: "TEST NETBOX_DEVICE_INTERFACE"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Interface with required information"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet3
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['msg'] == "interface GigabitEthernet3 created"
+          - test_one['diff']['before']['state'] == 'absent'
+          - test_one['diff']['after']['state'] == 'present'
+          - test_one['interface']['name'] == "GigabitEthernet3"
+          - test_one['interface']['device'] == 1
+
+    - name: "2 - Update test100 - GigabitEthernet3"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet3
+          mtu: 1600
+          enabled: false
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - test_two is changed
+          - test_two['msg'] == "interface GigabitEthernet3 updated"
+          - test_two['diff']['after']['enabled'] == false
+          - test_two['diff']['after']['mtu'] == 1600
+          - test_two['interface']['name'] == "GigabitEthernet3"
+          - test_two['interface']['device'] == 1
+          - test_two['interface']['enabled'] == false 
+          - test_two['interface']['mtu'] == 1600 
+
+    - name: "3 - Delete interface test100 - GigabitEthernet3"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet3
+        state: absent
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['msg'] == "interface GigabitEthernet3 deleted"
+          - test_three['diff']['before']['state'] == "present"
+          - test_three['diff']['after']['state'] == "absent"
+
+    - name: "4 - Create LAG with several specified options"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: port-channel1
+          form_factor: Link Aggregation Group (LAG)
+          mtu: 1600
+          mgmt_only: false
+          mode: Access
+        state: present
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['msg'] == "interface port-channel1 created"
+          - test_four['diff']['before']['state'] == 'absent'
+          - test_four['diff']['after']['state'] == 'present'
+          - test_four['interface']['name'] == "port-channel1"
+          - test_four['interface']['device'] == 1
+          - test_four['interface']['enabled'] == true
+          - test_four['interface']['form_factor'] == 200
+          - test_four['interface']['mgmt_only'] == false
+          - test_four['interface']['mode'] == 100
+          - test_four['interface']['mtu'] == 1600
+
+    - name: "5 - Create interface and assign it to parent LAG"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet3
+          enabled: false
+          form_factor: 1000Base-t (1GE)
+          lag:
+            name: port-channel1
+          mtu: 1600
+          mgmt_only: false
+          mode: Access
+        state: present
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['msg'] == "interface GigabitEthernet3 created"
+          - test_five['diff']['before']['state'] == 'absent'
+          - test_five['diff']['after']['state'] == 'present'
+          - test_five['interface']['name'] == "GigabitEthernet3"
+          - test_five['interface']['device'] == 1
+          - test_five['interface']['enabled'] == false
+          - test_five['interface']['form_factor'] == 1000
+          - test_five['interface']['mgmt_only'] == false
+          - test_five['interface']['lag'] == 4
+          - test_five['interface']['mode'] == 100
+          - test_five['interface']['mtu'] == 1600
+
+    - name: "6 - Create interface as trunk port" 
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet21
+          enabled: false
+          form_factor: 1000Base-t (1GE)
+          untagged_vlan:
+            name: Wireless
+            site: Test Site
+          tagged_vlans:
+            - name: Data
+              site: Test Site
+            - name: VoIP
+              site: Test Site
+          mtu: 1600
+          mgmt_only: true
+          mode: Tagged
+        state: present
+      register: test_six
+
+    - name: "6 - ASSERT"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['msg'] == "interface GigabitEthernet21 created"
+          - test_six['diff']['before']['state'] == 'absent'
+          - test_six['diff']['after']['state'] == 'present'
+          - test_six['interface']['name'] == "GigabitEthernet21"
+          - test_six['interface']['device'] == 1
+          - test_six['interface']['enabled'] == false
+          - test_six['interface']['form_factor'] == 1000
+          - test_six['interface']['mgmt_only'] == true
+          - test_six['interface']['mode'] == 200
+          - test_six['interface']['mtu'] == 1600
+          - test_six['interface']['tagged_vlans'] == [2, 3]
+          - test_six['interface']['untagged_vlan'] == 1
+
+    - name: "7 - Duplicate Interface"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: test100
+          name: GigabitEthernet1
+      register: test_seven
+
+    - name: "7 - ASSERT"
+      assert:
+        that:
+          - not test_seven['changed']
+          - test_seven['msg'] == "interface GigabitEthernet1 already exists"
+          - test_seven['interface']['name'] == "GigabitEthernet1"
+          - test_seven['interface']['device'] == 1
+##
+##
+### NETBOX_IP_ADDRESS
+##
+##
+- name: "TEST NETBOX_IP_ADDRESS"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Create IP address within Netbox with only required information - State: Present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.1.10/30
+        state: present
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['msg'] == "ip_address 192.168.1.10/30 created"
+          - test_one['ip_address']['address'] == "192.168.1.10/30"
+
+    - name: "2 - Update 192.168.1.10/30"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.1.10/30
+          description: "Updated ip address"
+          tags:
+            - Updated
+        state: present
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - test_two is changed
+          - test_two['diff']['after']['description'] == "Updated ip address"
+          - test_two['diff']['after']['tags'][0] == "Updated"
+          - test_two['msg'] == "ip_address 192.168.1.10/30 updated"
+          - test_two['ip_address']['address'] == "192.168.1.10/30"
+          - test_two['ip_address']['tags'][0] == "Updated"
+          - test_two['ip_address']['description'] == "Updated ip address"
+
+    - name: "3 - Delete IP - 192.168.1.10 - State: Absent"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.1.10
+        state: absent
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "present"
+          - test_three['diff']['after']['state'] == "absent"
+          - test_three['msg'] == "ip_address 192.168.1.10 deleted"
+
+    - name: "4 - Create IP in global VRF - 192.168.1.20/30 - State: Present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.1.20/30
+        state: present
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "absent"
+          - test_four['diff']['after']['state'] == "present"
+          - test_four['msg'] == "ip_address 192.168.1.20/30 created"
+          - test_four['ip_address']['address'] == "192.168.1.20/30"
+
+    - name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.1.20/30
+        state: new
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['before']['state'] == "absent"
+          - test_five['diff']['after']['state'] == "present"
+          - test_five['msg'] == "ip_address 192.168.1.20/30 created"
+          - test_five['ip_address']['address'] == "192.168.1.20/30"
+
+    - name: "6 - Create new address with only prefix specified - State: new"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 192.168.100.0/24
+        state: new
+      register: test_six
+
+    - name: "6 - ASSERT"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['diff']['before']['state'] == "absent"
+          - test_six['diff']['after']['state'] == "present"
+          - test_six['msg'] == "ip_address 192.168.100.1/24 created"
+          - test_six['ip_address']['address'] == "192.168.100.1/24"
+
+    - name: "7 - Create IP address with several specified"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          address: 172.16.1.20/24
+          vrf: Test VRF
+          tenant: Test Tenant
+          status: Reserved
+          role: Loopback
+          description: Test description
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_seven
+
+    - name: "7 - ASSERT"
+      assert:
+        that:
+          - test_seven is changed
+          - test_seven['diff']['before']['state'] == "absent"
+          - test_seven['diff']['after']['state'] == "present"
+          - test_seven['msg'] == "ip_address 172.16.1.20/24 created"
+          - test_seven['ip_address']['address'] == "172.16.1.20/24"
+          - test_seven['ip_address']['description'] == "Test description"
+          - test_seven['ip_address']['family'] == 4
+          - test_seven['ip_address']['role'] == 10
+          - test_seven['ip_address']['status'] == 2
+          - test_seven['ip_address']['tags'][0] == "Schnozzberry"
+          - test_seven['ip_address']['tenant'] == 1
+          - test_seven['ip_address']['vrf'] == 1
+
+    - name: "8 - Create IP address and assign a nat_inside IP"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          address: 10.10.1.30/16
+          vrf: Test VRF
+          nat_inside:
+            address: 172.16.1.20
+            vrf: Test VRF
+          interface:
+            name: GigabitEthernet1
+            device: test100
+      register: test_eight
+
+    - name: "8 - ASSERT"
+      assert:
+        that:
+          - test_eight is changed
+          - test_eight['diff']['before']['state'] == "absent"
+          - test_eight['diff']['after']['state'] == "present"
+          - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
+          - test_eight['ip_address']['address'] == "10.10.1.30/16"
+          - test_eight['ip_address']['family'] == 4
+          - test_eight['ip_address']['interface'] == 1
+          - test_eight['ip_address']['nat_inside'] == 5
+          - test_eight['ip_address']['vrf'] == 1
+
+    - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          address: 10.10.200.30/16
+          interface:
+            name: GigabitEthernet2
+            device: test100
+      register: test_nine
+
+    - name: "9 - ASSERT"
+      assert:
+        that:
+          - test_nine is changed
+          - test_nine['diff']['before']['state'] == "absent"
+          - test_nine['diff']['after']['state'] == "present"
+          - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
+          - test_nine['ip_address']['address'] == "10.10.200.30/16"
+          - test_nine['ip_address']['family'] == 4
+          - test_nine['ip_address']['interface'] == 2
+
+    - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          prefix: 10.10.0.0/16
+          interface:
+            name: GigabitEthernet2
+            device: test100
+        state: new
+      register: test_ten
+
+    - name: "10 - ASSERT"
+      assert:
+        that:
+          - test_ten is changed
+          - test_ten['diff']['before']['state'] == "absent"
+          - test_ten['diff']['after']['state'] == "present"
+          - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
+          - test_ten['ip_address']['address'] == "10.10.0.1/16"
+          - test_ten['ip_address']['family']['value'] == 4
+          - test_ten['ip_address']['interface']['id'] == 2
+
+    - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          prefix: 192.168.100.0/24
+          interface:
+            name: GigabitEthernet2
+            device: test100
+        state: present
+      register: test_eleven
+
+    - name: "11 - ASSERT"
+      assert:
+        that:
+          - test_eleven is changed
+          - test_eleven['diff']['before']['state'] == "absent"
+          - test_eleven['diff']['after']['state'] == "present"
+          - test_eleven['msg'] == "ip_address 192.168.100.2/24 created"
+          - test_eleven['ip_address']['address'] == "192.168.100.2/24"
+
+    - name: "12 - Duplicate - 192.168.100.2/24 on interface"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.100.2/24
+          interface:
+            name: GigabitEthernet2
+            device: test100
+        state: present
+      register: test_twelve
+
+    - name: "12 - ASSERT"
+      assert:
+        that:
+          - not test_twelve['changed']
+          - test_twelve['msg'] == "ip_address 192.168.100.2/24 already exists"
+          - test_twelve['ip_address']['address'] == "192.168.100.2/24"
+          - test_twelve['ip_address']['interface'] == 2
+
+    - name: "13 - Duplicate - 192.168.100.2/24"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 192.168.100.2/24
+        state: present
+      register: test_thirteen
+
+    - name: "13 - ASSERT"
+      assert:
+        that:
+          - not test_thirteen['changed']
+          - test_thirteen['msg'] == "ip_address 192.168.100.2/24 already exists"
+          - test_thirteen['ip_address']['address'] == "192.168.100.2/24"
+##
+##
+### NETBOX_PREFIX
+##
+##
+- name: "TEST NETBOX_PREFIX"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Create prefix within Netbox with only required information"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.156.0.0/19
+        state: present
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['msg'] == "prefix 10.156.0.0/19 created"
+          - test_one['prefix']['prefix'] == "10.156.0.0/19"
+
+    - name: "2 - Duplicate" 
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.156.0.0/19
+        state: present
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['msg'] == "prefix 10.156.0.0/19 already exists"
+          - test_two['prefix']['prefix'] == "10.156.0.0/19"
+
+    - name: "3 - Update 10.156.0.0/19"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.156.0.0/19
+          site: Test Site
+          status: Reserved
+          description: "This prefix has been updated"
+        state: present
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['site'] == 1
+          - test_three['diff']['after']['status'] == 2
+          - test_three['diff']['after']['description'] == "This prefix has been updated"
+          - test_three['msg'] == "prefix 10.156.0.0/19 updated"
+          - test_three['prefix']['prefix'] == "10.156.0.0/19"
+          - test_three['prefix']['site'] == 1
+          - test_three['prefix']['status'] == 2
+          - test_three['prefix']['description'] == "This prefix has been updated"
+
+    - name: "4 - Delete prefix within netbox"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.156.0.0/19
+        state: absent
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "prefix 10.156.0.0/19 deleted"
+
+    - name: "5 - Create prefix with several specified options"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          prefix: 10.156.32.0/19
+          site: Test Site
+          vrf: Test VRF
+          tenant: Test Tenant
+          vlan:
+            name: Test VLAN
+            site: Test Site
+            tenant: Test Tenant
+            vlan_group: Test Vlan Group
+          status: Reserved
+          role: Network of care
+          description: Test description
+          is_pool: true
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['before']['state'] == "absent"
+          - test_five['diff']['after']['state'] == "present"
+          - test_five['msg'] == "prefix 10.156.32.0/19 created"
+          - test_five['prefix']['prefix'] == "10.156.32.0/19"
+          - test_five['prefix']['family'] == 4
+          - test_five['prefix']['site'] == 1
+          - test_five['prefix']['vrf'] == 1
+          - test_five['prefix']['tenant'] == 1
+          - test_five['prefix']['vlan'] == 4
+          - test_five['prefix']['status'] == 2
+          - test_five['prefix']['role'] == 1
+          - test_five['prefix']['description'] == "Test description"
+          - test_five['prefix']['is_pool'] == true
+          - test_five['prefix']['tags'][0] == "Schnozzberry"
+
+    - name: "6 - Get a new /24 inside 10.156.0.0/19 within Netbox - Parent doesn't exist"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          parent: 10.156.0.0/19
+          prefix_length: 24
+        state: present
+        first_available: yes
+      register: test_six
+
+    - name: "6 - ASSERT"
+      assert:
+        that:
+          - not test_six['changed']
+          - test_six['msg'] == "Parent prefix does not exist - 10.156.0.0/19"
+
+    - name: "7 - Create prefix within Netbox with only required information"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.156.0.0/19
+        state: present
+      register: test_seven
+
+    - name: "7 - ASSERT"
+      assert:
+        that:
+          - test_seven is changed
+          - test_seven['diff']['before']['state'] == "absent"
+          - test_seven['diff']['after']['state'] == "present"
+          - test_seven['msg'] == "prefix 10.156.0.0/19 created"
+          - test_seven['prefix']['prefix'] == "10.156.0.0/19"
+
+    - name: "8 - Get a new /24 inside 10.156.0.0/19 within Netbox"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          parent: 10.156.0.0/19
+          prefix_length: 24
+        state: present
+        first_available: yes
+      register: test_eight
+
+    - name: "8 - ASSERT"
+      assert:
+        that:
+          - test_eight is changed
+          - test_eight['diff']['before']['state'] == "absent"
+          - test_eight['diff']['after']['state'] == "present"
+          - test_eight['msg'] == "prefix 10.156.0.0/24 created"
+          - test_eight['prefix']['prefix'] == "10.156.0.0/24"
+
+    - name: "9 - Create 10.157.0.0/19"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          prefix: 10.157.0.0/19
+          vrf: Test VRF
+          site: Test Site
+        state: present
+      register: test_nine
+
+    - name: "9 - ASSERT"
+      assert:
+        that:
+          - test_nine is changed
+          - test_nine['diff']['before']['state'] == "absent"
+          - test_nine['diff']['after']['state'] == "present"
+          - test_nine['msg'] == "prefix 10.157.0.0/19 created"
+          - test_nine['prefix']['prefix'] == "10.157.0.0/19"
+          - test_nine['prefix']['site'] == 1 
+          - test_nine['prefix']['vrf'] == 1
+
+    - name: "10 - Get a new /24 inside 10.157.0.0/19 within Netbox with additional values"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          parent: 10.157.0.0/19
+          prefix_length: 24
+          vrf: Test VRF
+          site: Test Site
+        state: present
+        first_available: yes
+      register: test_ten
+
+    - name: "10 - ASSERT"
+      assert:
+        that:
+          - test_ten is changed
+          - test_ten['diff']['before']['state'] == "absent"
+          - test_ten['diff']['after']['state'] == "present"
+          - test_ten['msg'] == "prefix 10.157.0.0/24 created"
+          - test_ten['prefix']['prefix'] == "10.157.0.0/24"
+          - test_ten['prefix']['site']['id'] == 1 
+          - test_ten['prefix']['vrf']['id'] == 1
+
+    - name: "11 - Get a new /24 inside 10.156.0.0/19 within Netbox"
+      netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          parent: 10.156.0.0/19
+          prefix_length: 24
+        state: present
+        first_available: yes
+      register: test_eleven
+
+    - name: "11 - ASSERT"
+      assert:
+        that:
+          - test_eleven is changed
+          - test_eleven['diff']['before']['state'] == "absent"
+          - test_eleven['diff']['after']['state'] == "present"
+          - test_eleven['msg'] == "prefix 10.156.1.0/24 created"
+          - test_eleven['prefix']['prefix'] == "10.156.1.0/24"
+
+##
+##
+### NETBOX_SITE
+##
+##
+- name: "TEST NETBOX_SITE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Create site within Netbox with only required information"
+      netbox_site:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test - Colorado
+        state: present
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['site']['name'] == "Test - Colorado"
+          - test_one['msg'] == "site Test - Colorado created"
+
+    - name: "2 - Duplicate"
+      netbox_site:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test - Colorado
+        state: present
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['msg'] == "site Test - Colorado already exists"
+          - test_two['site']['name'] == "Test - Colorado"
+
+    - name: "3 - Update Test - Colorado"
+      netbox_site:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test - Colorado
+          status: Planned
+          region: Test Region
+          contact_name: Mikhail
+        state: present
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['status'] == 2
+          - test_three['diff']['after']['contact_name'] == "Mikhail"
+          - test_three['diff']['after']['region'] == 1
+          - test_three['msg'] == "site Test - Colorado updated"
+          - test_three['site']['name'] == "Test - Colorado"
+          - test_three['site']['status'] == 2
+          - test_three['site']['contact_name'] == "Mikhail"
+          - test_three['site']['region'] == 1
+
+    - name: "4 - Create site with all parameters"
+      netbox_site:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test - California
+          status: Planned
+          region: Test Region
+          tenant: Test Tenant
+          facility: EquinoxCA7
+          asn: 65001
+          time_zone: America/Los Angeles
+          description: This is a test description
+          physical_address: Hollywood, CA, 90210
+          shipping_address: Hollywood, CA, 90210
+          latitude: 10.1
+          longitude: 12.2
+          contact_name: Jenny
+          contact_phone: 867-5309
+          contact_email: jenny@changednumber.com
+          comments: "### Placeholder"
+        state: present
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "absent"
+          - test_four['diff']['after']['state'] == "present"
+          - test_four['site']['name'] == "Test - California"
+          - test_four['msg'] == "site Test - California created"
+          - test_four['site']['status'] == 2
+          - test_four['site']['region'] == 1
+          - test_four['site']['tenant'] == 1
+          - test_four['site']['facility'] == "EquinoxCA7"
+          - test_four['site']['asn'] == 65001
+          - test_four['site']['time_zone'] == "America/Los_Angeles"
+          - test_four['site']['description'] == "This is a test description"
+          - test_four['site']['physical_address'] == "Hollywood, CA, 90210"
+          - test_four['site']['shipping_address'] == "Hollywood, CA, 90210"
+          - test_four['site']['latitude'] == "10.100000"
+          - test_four['site']['longitude'] == "12.200000"
+          - test_four['site']['contact_name'] == "Jenny"
+          - test_four['site']['contact_phone'] == "867-5309"
+          - test_four['site']['contact_email'] == "jenny@changednumber.com"
+          - test_four['site']['comments'] == "### Placeholder"
+
+    - name: "5 - Delete site within netbox"
+      netbox_site:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test - Colorado
+        state: absent
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['before']['state'] == "present"
+          - test_five['diff']['after']['state'] == "absent"
+          - test_five['site']['name'] == "Test - Colorado"
+          - test_five['msg'] == "site Test - Colorado deleted"

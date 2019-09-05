@@ -3,14 +3,14 @@
 
 **THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
 
-**TODO**
+## Todo
 - ~~initial build and changes to properly import module_utils~~
 - Add testing to Travis CI
-  - ~~Existing unit tests~~
+  - ~~Initial unit tests~~
   - ~~Test different Python versions (3.6/3.7)~~
+  - ~~Integration testing against at least two versions of Netbox~~
   - Local testing using Tox
   - Test currently supported versions of Ansible
-  - Integration testing against at least two versions of Netbox
 - ~~Add documentation on how to use to README~~
 - Add documentation on how to contribute to collection
 
@@ -24,7 +24,7 @@
 ## Existing Modules
 
  - netbox_device
- - netbox_interface
+ - netbox_device_interface
  - netbox_ip_address
  - netbox_prefix
  - netbox_site
