@@ -117,4 +117,3 @@ matrix:
         - "sleep 60"
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
-
