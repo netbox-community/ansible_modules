@@ -13,12 +13,13 @@ env:
 
 matrix:
   include:
-    - name: "Python 3.6 - units"
+    - name: "Python 3.6 - Netbox 2.5"
       python: 3.6
-      env: PYTHON_VER=3.6
+      env: PYTHON_VER=3.6 VERSION=v2.5
       install:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
+        - pip install pynetbox==4.0.6 cryptography codecov
         - cd ../../
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
@@ -26,82 +27,42 @@ matrix:
         - git checkout stable-2.9
         - source hacking/env-setup
         - cd ..
-      
-      before_script:
-        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-        - mv FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-      
-      script:
-        - ansible-test units --python $PYTHON_VER -vvv
-        - black . --check
-
-    - name: "Python 3.7 - units"
-      python: 3.7
-      env: PYTHON_VER=3.7
-      install:
-        - pip install -U pip
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
-        - cd ../../
-        # This is due to ansible-test only being available within devel branch
-        - git clone https://github.com/ansible/ansible.git
-        - cd ansible
-        - git checkout stable-2.9
-        - source hacking/env-setup
-        - cd ..
-
-      before_script:
-        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-        - mv FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-      
-      script:
-        - ansible-test units --python $PYTHON_VER -vvv
-        - black . --check
-
-    - name: "Python 3.6 / Netbox 2.5 - integration"
-      python: 3.6
-      # This is set and used by netbox-docker to pull the correct Netbox image
-      env: VERSION=v2.5
-      install:
-        - pip install -U pip
-        - pip install jinja2 PyYAML pynetbox==4.0.6 cryptography
-        - cd ../../
-        - git clone https://github.com/ansible/ansible.git
-        - cd ansible
-        - git checkout stable-2.9
-        - source hacking/env-setup
-        - cd ..
+        # Setup netbox container for integration testing
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
         - docker-compose --verbose pull
         - docker-compose --verbose up -d
         - cd ..
-
+      
       before_script:
-        - cd FragmentedPacket/netbox_modules
-        - mkdir ansible_collections
+        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
+        - cp -R FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
         - ansible-galaxy collection build .
         - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
-
+      
       script:
+        - ansible-test units --python $PYTHON_VER -vvv
+        - black . --check
         - "sleep 60"
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
 
-    - name: "Python 3.6 / Netbox 2.6 - integration"
+    - name: "Python 3.6 - Netbox 2.6"
       python: 3.6
-      # This is set and used by netbox-docker to pull the correct Netbox image
-      env: VERSION=v2.6
+      env: PYTHON_VER=3.6 VERSION=v2.6
       install:
         - pip install -U pip
-        - pip install jinja2 PyYAML pynetbox==4.0.6 cryptography
+        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
+        - pip install pynetbox==4.0.6 cryptography
         - cd ../../
+        # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
         - cd ansible
         - git checkout stable-2.9
         - source hacking/env-setup
         - cd ..
+        # Setup netbox container for integration testing
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
         - docker-compose --verbose pull
@@ -109,11 +70,15 @@ matrix:
         - cd ..
 
       before_script:
-        - cd FragmentedPacket/netbox_modules
+        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
+        - cp -R FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
         - ansible-galaxy collection build .
         - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
-
+      
       script:
+        - ansible-test units --python $PYTHON_VER -vv
+        - black . --check
         - "sleep 60"
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
