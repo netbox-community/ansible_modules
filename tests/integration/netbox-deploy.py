@@ -3,6 +3,8 @@ import pynetbox
 nb = pynetbox.api("http://localhost:32768", "0123456789abcdef0123456789abcdef01234567")
 tenants = [{"name": "Test Tenant", "slug": "test-tenant"}]
 created_tenants = nb.tenancy.tenants.create(tenants)
+tenant_groups = [{"name": "Test Tenant Group", "slug": "test-tenant-group"}]
+created_tenant_groups = nb.tenancy.tenant_groups.create(tenant_groups)
 tenant = nb.tenancy.tenants.get(slug="test-tenant")
 sites = [
     {"name": "Test Site", "slug": "test-site", "tenant": tenant.id},
