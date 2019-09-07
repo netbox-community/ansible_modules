@@ -336,6 +336,11 @@ def test_update_netbox_object_with_changes_check_mode_true(
         ),
         ("prefixes", {"status": "Active"}, {"status": 1}),
         ("sites", {"status": "Retired"}, {"status": 4}),
+        (
+            "tenants",
+            {"name": "Test Tenant", "description": "Test Description"},
+            {"name": "Test Tenant", "description": "Test Description"},
+        ),
     ],
 )
 def test_change_choices_id(mock_netbox_module, endpoint, data, expected):

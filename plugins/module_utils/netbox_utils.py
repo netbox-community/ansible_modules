@@ -44,6 +44,7 @@ QUERY_TYPES = dict(
     device="name",
     device_role="slug",
     device_type="slug",
+    group="slug",
     manufacturer="slug",
     nat_inside="address",
     nat_outside="address",
@@ -68,6 +69,7 @@ CONVERT_TO_ID = dict(
     device="devices",
     device_role="device_roles",
     device_type="device_types",
+    group="tenant_groups",
     interface="interfaces",
     lag="interfaces",
     nat_inside="ip_addresses",
@@ -94,6 +96,7 @@ FACE_ID = dict(front=0, rear=1)
 NO_DEFAULT_ID = set(
     [
         "device",
+        "group",
         "lag",
         "primary_ip",
         "primary_ip4",
@@ -108,6 +111,7 @@ NO_DEFAULT_ID = set(
         "untagged_vlan",
         "tagged_vlans",
         "tenant",
+        "tenant_group",
     ]
 )
 
@@ -118,6 +122,7 @@ ENDPOINT_NAME_MAPPING = {
     "prefixes": "prefix",
     "sites": "site",
     "tenants": "tenant",
+    "tenant_groups": "tenant_group",
 }
 
 DEVICE_STATUS = dict(offline=0, active=1, planned=2, staged=3, failed=4, inventory=5)
@@ -209,8 +214,10 @@ ALLOWED_QUERY_PARAMS = {
     "prefix": set(["prefix", "vrf"]),
     "site": set(["name"]),
     "vlan": set(["name", "site", "vlan_group", "tenant"]),
-    "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
+    "tenant": set(["name"]),
+    "tenant_group": set(["name"]),
+    "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
 }
 
 QUERY_PARAMS_IDS = set(["device", "vrf", "site", "vlan_group", "tenant"])
@@ -343,11 +350,13 @@ class NetboxModule(object):
         :params endpoint (str): The endpoint that will be used for mapping to required _choices
         :params data (dict): User defined data passed into the module
         """
-        required_choices = REQUIRED_ID_FIND[endpoint]
-        for choice in required_choices:
-            for key, value in choice.items():
-                if data.get(key):
-                    data[key] = value[data[key].lower()]
+        if REQUIRED_ID_FIND.get(endpoint):
+            required_choices = REQUIRED_ID_FIND[endpoint]
+            for choice in required_choices:
+                for key, value in choice.items():
+                    if data.get(key):
+                        data[key] = value[data[key].lower()]
+
         return data
 
     def _find_app(self, endpoint):

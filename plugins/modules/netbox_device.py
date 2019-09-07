@@ -192,7 +192,6 @@ def main():
         validate_certs=dict(type="bool", default=True),
     )
 
-    global module
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
     # Fail if device name is not given
