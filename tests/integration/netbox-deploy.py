@@ -45,10 +45,10 @@ vlans = [
     },
 ]
 created_vlans = nb.ipam.vlans.create(vlans)
-ipam_roles = [{"name": "Network of Care", "slug": "network-of-care"}]
+ipam_roles = [{"name": "Network of care", "slug": "network-of-care"}]
 create_ipam_roles = nb.ipam.roles.create(ipam_roles)
 manufacturers = [
-    {"name": "Cicsco", "slug": "cisco"},
+    {"name": "Cisco", "slug": "cisco"},
     {"name": "Arista", "slug": "arista"},
 ]
 created_manufacturers = nb.dcim.manufacturers.create(manufacturers)
@@ -65,7 +65,15 @@ device_roles = [
 created_device_roles = nb.dcim.device_roles.create(device_roles)
 site_two = nb.dcim.sites.get(slug="test-site2")
 racks = [{"name": "Test Rack", "slug": "test-rack", "site": site_two.id}]
+rack_roles = [{"name": "Test Rack Role", "slug": "test-rack-role", "color": "4287f5"}]
+rack_groups = [
+    {"name": "Test Rack Group", "slug": "test-rack-group", "site": test_site.id}
+]
 created_racks = nb.dcim.racks.create(racks)
+created_rack_roles = nb.dcim.rack_roles.create(rack_roles)
+created_rack_groups = nb.dcim.rack_groups.create(rack_groups)
+manufacturers = [{"name": "Test Manufactuer", "slug": "test-manufacturer"}]
+created_manufacturers = nb.dcim.manufacturers.create(manufacturers)
 device_type = nb.dcim.device_types.get(slug="cisco-test")
 device_role = nb.dcim.device_roles.get(slug="core-switch")
 devices = [

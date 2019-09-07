@@ -20,6 +20,7 @@ except ImportError:
     PYNETBOX_IMP_ERR = traceback.format_exc()
     HAS_PYNETBOX = False
 
+# Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
     circuits=[],
     dcim=[
@@ -27,8 +28,11 @@ API_APPS_ENDPOINTS = dict(
         "device_roles",
         "device_types",
         "interfaces",
+        "manufacturers",
         "platforms",
         "racks",
+        "rack_groups",
+        "rack_roles",
         "regions",
         "sites",
     ],
@@ -39,6 +43,7 @@ API_APPS_ENDPOINTS = dict(
     virtualization=["clusters"],
 )
 
+# Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
     cluster="name",
     device="name",
@@ -49,21 +54,26 @@ QUERY_TYPES = dict(
     nat_inside="address",
     nat_outside="address",
     platform="slug",
+    prefix_role="slug",
     primary_ip="address",
     primary_ip4="address",
     primary_ip6="address",
     rack="name",
+    rack_group="slug",
+    rack_role="slug",
     region="slug",
-    role="slug",
+    slug="slug",
     site="slug",
     tenant="name",
     tenant_group="slug",
     time_zone="timezone",
     vlan="name",
     vlan_group="slug",
+    vlan_role="name",
     vrf="name",
 )
 
+# Specifies keys within data that need to be converted to ID
 CONVERT_TO_ID = dict(
     cluster="clusters",
     device="devices",
@@ -72,15 +82,18 @@ CONVERT_TO_ID = dict(
     group="tenant_groups",
     interface="interfaces",
     lag="interfaces",
+    manufacturer="manufacturers",
     nat_inside="ip_addresses",
     nat_outside="ip_addresses",
     platform="platforms",
+    prefix_role="roles",
     primary_ip="ip_addresses",
     primary_ip4="ip_addresses",
     primary_ip6="ip_addresses",
     rack="racks",
+    rack_group="rack_groups",
+    rack_role="rack_roles",
     region="regions",
-    role="roles",
     site="sites",
     tagged_vlans="vlans",
     tenant="tenants",
@@ -88,42 +101,32 @@ CONVERT_TO_ID = dict(
     untagged_vlan="vlans",
     vlan="vlans",
     vlan_group="vlan_groups",
+    vlan_role="roles",
     vrf="vrfs",
-)
-
-FACE_ID = dict(front=0, rear=1)
-
-NO_DEFAULT_ID = set(
-    [
-        "device",
-        "group",
-        "lag",
-        "primary_ip",
-        "primary_ip4",
-        "primary_ip6",
-        "role",
-        "vlan",
-        "vrf",
-        "nat_inside",
-        "nat_outside",
-        "region",
-        "role",
-        "untagged_vlan",
-        "tagged_vlans",
-        "tenant",
-        "tenant_group",
-    ]
 )
 
 ENDPOINT_NAME_MAPPING = {
     "devices": "device",
+    "device_roles": "device_role",
+    "device_types": "device_type",
     "interfaces": "interface",
     "ip_addresses": "ip_address",
+    "manufacturers": "manufacturer",
+    "platforms": "platform",
     "prefixes": "prefix",
+    "racks": "rack",
+    "rack_groups": "rack_group",
+    "rack_roles": "rack_role",
+    "roles": "role",
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
+    "vlans": "vlan",
+    "vlan_groups": "vlan_group",
+    "vrfs": "vrf",
 }
+
+FACE_ID = dict(front=0, rear=1)
 
 DEVICE_STATUS = dict(offline=0, active=1, planned=2, staged=3, failed=4, inventory=5)
 
@@ -138,6 +141,22 @@ PREFIX_STATUS = dict(container=0, active=1, reserved=2, deprecated=3)
 VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
 
 SITE_STATUS = dict(active=1, planned=2, retired=4)
+
+RACK_STATUS = dict(active=3, planned=2, reserved=0, available=1, deprecated=4)
+
+RACK_UNIT = dict(millimeters=1000, inches=2000)
+
+SUBDEVICE_ROLES = dict(parent=True, child=False)
+
+VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
+
+RACK_TYPE = {
+    "2-post frame": 100,
+    "4-post frame": 200,
+    "4-post cabinet": 300,
+    "wall-mounted frame": 1000,
+    "wall-mounted cabinet": 1100,
+}
 
 INTF_FORM_FACTOR = {
     "virtual": 0,
@@ -207,27 +226,63 @@ INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
 
 ALLOWED_QUERY_PARAMS = {
     "device": set(["name"]),
+    "device_role": set(["slug"]),
+    "device_type": set(["slug"]),
     "interface": set(["name", "device"]),
     "ip_address": set(["address", "vrf"]),
     "lag": set(["name"]),
+    "manufacturer": set(["name", "slug"]),
     "nat_inside": set(["vrf", "address"]),
+    "platform": set(["slug"]),
     "prefix": set(["prefix", "vrf"]),
-    "site": set(["name"]),
-    "vlan": set(["name", "site", "vlan_group", "tenant"]),
+    "rack": set(["name", "site"]),
+    "rack_group": set(["slug"]),
+    "rack_role": set(["slug"]),
+    "role": set(["slug"]),
+    "site": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
     "tenant": set(["name"]),
     "tenant_group": set(["name"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
+    "vlan": set(["name", "site", "tenant"]),
+    "vlan_group": set(["slug", "site"]),
+    "vrf": set(["name", "tenant"]),
 }
 
-QUERY_PARAMS_IDS = set(["device", "vrf", "site", "vlan_group", "tenant"])
+QUERY_PARAMS_IDS = set(["device", "group", "vrf", "site", "vlan_group", "tenant"])
 
+# This is used when converting static choices to an ID value acceptable to Netbox API
 REQUIRED_ID_FIND = {
     "devices": [{"status": DEVICE_STATUS, "face": FACE_ID}],
+    "device_types": [{"subdevice_role": SUBDEVICE_ROLES}],
     "interfaces": [{"form_factor": INTF_FORM_FACTOR, "mode": INTF_MODE}],
     "ip_addresses": [{"status": IP_ADDRESS_STATUS, "role": IP_ADDRESS_ROLE}],
     "prefixes": [{"status": PREFIX_STATUS}],
+    "racks": [{"status": RACK_STATUS, "outer_unit": RACK_UNIT, "type": RACK_TYPE}],
     "sites": [{"status": SITE_STATUS}],
+    "vlans": [{"status": VLAN_STATUS}],
+}
+
+# This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
+CONVERT_KEYS = {
+    "prefix_role": "role",
+    "rack_group": "group",
+    "rack_role": "role",
+    "tenant_group": "group",
+    "vlan_role": "role",
+    "vlan_group": "group",
+}
+
+# This is used to dynamically conver name to slug on endpoints requiring a slug
+SLUG_REQUIRED = {
+    "device_roles",
+    "ipam_roles",
+    "rack_groups",
+    "rack_roles",
+    "roles",
+    "manufacturers",
+    "platforms",
+    "vlan_groups",
 }
 
 
@@ -235,6 +290,9 @@ class NetboxModule(object):
     """
     Initialize connection to Netbox, sets AnsibleModule passed in to
     self.module to be used throughout the class
+    :params module (obj): Ansible Module object
+    :params endpoint (str): Used to tell class which endpoint the logic needs to follow
+    :params nb_client (obj): pynetbox.api object passed in (not required)
     """
 
     def __init__(self, module, endpoint, nb_client=None):
@@ -261,7 +319,8 @@ class NetboxModule(object):
         # These methods will normalize the regular data
         norm_data = self._normalize_data(module.params["data"])
         choices_data = self._change_choices_id(self.endpoint, norm_data)
-        self.data = self._find_ids(choices_data)
+        data = self._find_ids(choices_data)
+        self.data = self._convert_identical_keys(data)
 
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
@@ -280,6 +339,22 @@ class NetboxModule(object):
     def _build_diff(self, before=None, after=None):
         """Builds diff of before and after changes"""
         return {"before": before, "after": after}
+
+    def _convert_identical_keys(self, data):
+        """
+        Used to change non-clashing keys for each module into identical keys that are required
+        to be passed to pynetbox
+        ex. rack_role back into role to pass to Netbox
+        Returns data
+        :params data (dict): Data dictionary after _find_ids method ran
+        """
+        for key in data:
+            if key in CONVERT_KEYS:
+                new_key = CONVERT_KEYS[key]
+                value = data.pop(key)
+                data[new_key] = value
+
+        return data
 
     def _get_query_param_id(self, match, data):
         """Used to find IDs of necessary searches when required under _build_query_params
@@ -312,6 +387,7 @@ class NetboxModule(object):
         """
         query_dict = dict()
         query_params = ALLOWED_QUERY_PARAMS.get(parent)
+
         if child:
             matches = query_params.intersection(set(child.keys()))
         else:
@@ -355,7 +431,13 @@ class NetboxModule(object):
             for choice in required_choices:
                 for key, value in choice.items():
                     if data.get(key):
-                        data[key] = value[data[key].lower()]
+                        try:
+                            data[key] = value[data[key].lower()]
+                        except KeyError:
+                            self._handle_errors(
+                                msg="%s may not be a valid choice. If it is valid, please submit bug report."
+                                % (key)
+                            )
 
         return data
 
@@ -476,7 +558,10 @@ class NetboxModule(object):
         :returns diff (dict): Ansible diff
         """
         if not self.check_mode:
-            self.nb_object.delete()
+            try:
+                self.nb_object.delete()
+            except pynetbox.RequestError as e:
+                self._handle_errors(msg=e.error)
 
         diff = self._build_diff(before={"state": "present"}, after={"state": "absent"})
         return diff

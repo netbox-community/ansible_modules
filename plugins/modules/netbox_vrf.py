@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2019, Amy Liebowitz (@amylieb)
+# Copyright: (c) 2018, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -15,117 +15,110 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_tenant
-short_description: Creates or removes tenants from Netbox
+module: netbox_vrf
+short_description: Create, update or delete vrfs within Netbox
 description:
-  - Creates or removes tenants from Netbox
+  - Creates, updates or removes vrfs from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Amy Liebowitz (@amylieb)
+  - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.9"
+version_added: '2.8'
 options:
   netbox_url:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
-    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
-    type: str
   data:
-    type: dict
     description:
-      - Defines the tenant configuration
+      - Defines the vrf configuration
     suboptions:
       name:
         description:
-          - Name of the tenant to be created
+          - The name of the vrf
         required: true
-        type: str
-      tenant_group:
+      rd:
         description:
-          - Tenant group this tenant should be in
+          - The RD of the VRF. Must be quoted to pass as a string.
         type: str
+      tenant:
+        description:
+          - The tenant that the vrf will be assigned to
+      enforce_unique:
+        description:
+          - Prevent duplicate prefixes/IP addresses within this VRF
+        type: bool
       description:
         description:
-          - The description of the tenant
-        type: str
-      comments:
-        description:
-          - Comments for the tenant. This can be markdown syntax
-        type: str
+          - The description of the vrf
       tags:
         description:
-          - Any tags that the tenant may need to be associated with
-        type: list
+          - Any tags that the vrf may need to be associated with
       custom_fields:
         description:
           - must exist in Netbox
-        type: dict
     required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
-    type: str
   validate_certs:
     description:
-      - |
-        If C(no), SSL certificates will not be validated.
-        This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
+      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
+    default: 'yes'
     type: bool
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox module"
+- name: "Test Netbox modules"
   connection: local
   hosts: localhost
   gather_facts: False
+
   tasks:
-    - name: Create tenant within Netbox with only required information
-      netbox_tenant:
+    - name: Create vrf within Netbox with only required information
+      netbox_vrf:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test VRF
         state: present
 
-    - name: Delete tenant within netbox
-      netbox_tenant:
+    - name: Delete vrf within netbox
+      netbox_vrf:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test VRF
         state: absent
 
-    - name: Create tenant with all parameters
-      netbox_tenant:
+    - name: Create vrf with all information
+      netbox_vrf:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
-          group: Very Special Tenants
-          description: ABC Incorporated
-          comments: '### This tenant is super cool'
+          name: Test VRF
+          rd: "65000:1"
+          tenant: Test Tenant
+          enforce_unique: true
+          description: VRF description
           tags:
-            - tagA
-            - tagB
-            - tagC
+            - Schnozzberry
         state: present
 """
 
 RETURN = r"""
-tenant:
+vrf:
   description: Serialized object as created or already existent within Netbox
-  returned: on creation
+  returned: success (when I(state=present))
   type: dict
 msg:
   description: Message indicating failure or info about what has been achieved
@@ -134,9 +127,9 @@ msg:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_tenancy import (
-    NetboxTenancyModule,
-    NB_TENANTS,
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
+    NetboxIpamModule,
+    NB_VRFS,
 )
 
 
@@ -154,12 +147,12 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    # Fail if name is not given
+    # Fail if vrf name is not given
     if not module.params["data"].get("name"):
         module.fail_json(msg="missing name")
 
-    netbox_tenant = NetboxTenancyModule(module, NB_TENANTS)
-    netbox_tenant.run()
+    netbox_vrf = NetboxIpamModule(module, NB_VRFS)
+    netbox_vrf.run()
 
 
 if __name__ == "__main__":

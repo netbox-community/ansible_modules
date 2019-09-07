@@ -90,7 +90,7 @@ options:
           - Deprecated
           - Reserved
         type: str
-      role:
+      prefix_role:
         description:
           - The role of the prefix
         type: str
@@ -170,7 +170,7 @@ EXAMPLES = r"""
             tenant: Test Tenant
             vlan_group: Test Vlan Group
           status: Reserved
-          role: Network of care
+          prefix_role: Network of care
           description: Test description
           is_pool: true
           tags:
@@ -252,8 +252,8 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    prefix = NetboxIpamModule(module, NB_PREFIXES)
-    prefix.run()
+    netbox_prefix = NetboxIpamModule(module, NB_PREFIXES)
+    netbox_prefix.run()
 
 
 if __name__ == "__main__":

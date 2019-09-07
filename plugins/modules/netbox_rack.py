@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright: (c) 2018, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
-# Copyright: (c) 2018, David Gomez (@amb1s1) <david.gomez@networktocode.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -16,19 +15,18 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_device
-short_description: Create, update or delete devices within Netbox
+module: netbox_rack
+short_description: Create, update or delete racks within Netbox
 description:
-  - Creates, updates or removes devices from Netbox
+  - Creates, updates or removes racks from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Mikhail Yohman (@FragmentedPacket)
-  - David Gomez (@amb1s1)
 requirements:
   - pynetbox
-version_added: '2.8'
+version_added: '0.1.0'
 options:
   netbox_url:
     description:
@@ -40,61 +38,82 @@ options:
     required: true
   data:
     description:
-      - Defines the device configuration
+      - Defines the rack configuration
     suboptions:
       name:
         description:
-          - The name of the device
+          - The name of the rack
         required: true
-      device_type:
+      facility_id:
         description:
-          - Required if I(state=present) and the device does not exist yet
-      device_role:
+          - The unique rack ID assigned by the facility
+      site:
         description:
-          - Required if I(state=present) and the device does not exist yet
+          - Required if I(state=present) and the rack does not exist yet
+      rack_group:
+        description:
+          - The rack group the rack will be associated to
       tenant:
         description:
           - The tenant that the device will be assigned to
-      platform:
-        description:
-          - The platform of the device
-      serial:
-        description:
-          - Serial number of the device
-      asset_tag:
-        description:
-          - Asset tag that is associated to the device
-      site:
-        description:
-          - Required if I(state=present) and the device does not exist yet
-      rack:
-        description:
-          - The name of the rack to assign the device to
-      position:
-        description:
-          - The position of the device in the rack defined above
-      face:
-        description:
-          - Required if I(rack) is defined
       status:
         description:
-          - The status of the device
+          - The status of the rack
         choices:
           - Active
-          - Offline
           - Planned
-          - Staged
-          - Failed
-          - Inventory
-      cluster:
+          - Reserved
+          - Available
+          - Deprecated
+      rack_role:
         description:
-          - Cluster that the device will be assigned to
+          - The rack role the rack will be associated to
+      serial:
+        description:
+          - Serial number of the rack
+      asset_tag:
+        description:
+          - Asset tag that is associated to the rack
+      type:
+        description:
+          - The type of rack
+        choices:
+          - 2-post frame
+          - 4-post frame
+          - 4-post cabinet
+          - Wall-mounted frame
+          - Wall-mounted cabinet
+      width:
+        description:
+          - The rail-to-rail width
+        choices:
+          - 19
+          - 23
+      u_height:
+        description:
+          - The height of the rack in rack units
+      desc_units:
+        description:
+          - Rack units will be numbered top-to-bottom
+        type: bool
+      outer_width:
+        description:
+          - The outer width of the rack
+      outer_depth:
+        description:
+          - The outer depth of the rack
+      outer_unit:
+        description:
+          - Whether the rack unit is in Millimeters or Inches and is I(required) if outer_width/outer_depth is specified
+        choices:
+          - Millimeters
+          - Inches
       comments:
         description:
-          - Comments that may include additional information in regards to the device
+          - Comments that may include additional information in regards to the rack
       tags:
         description:
-          - Any tags that the device may need to be associated with
+          - Any tags that the rack may need to be associated with
       custom_fields:
         description:
           - must exist in Netbox
@@ -118,52 +137,26 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create device within Netbox with only required information
-      netbox_device:
+    - name: Create rack within Netbox with only required information
+      netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Device
-          device_type: C9410R
-          device_role: Core Switch
-          site: Main
+          name: Test rack
+          site: Test Site
         state: present
 
-    - name: Delete device within netbox
-      netbox_device:
+    - name: Delete rack within netbox
+      netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Device
+          name: Test Rack 
         state: absent
-
-    - name: Create device with tags
-      netbox_device:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Another Test Device
-          device_type: C9410R
-          device_role: Core Switch
-          site: Main
-          tags:
-            - Schnozzberry
-        state: present
-
-    - name: Update the rack and position of an existing device
-      netbox_device:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Test Device
-          rack: Test Rack
-          position: 10
-          face: Front
-        state: present
 """
 
 RETURN = r"""
-device:
+rack:
   description: Serialized object as created or already existent within Netbox
   returned: success (when I(state=present))
   type: dict
@@ -176,7 +169,7 @@ msg:
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
-    NB_DEVICES,
+    NB_RACKS,
 )
 
 
@@ -194,12 +187,12 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    # Fail if device name is not given
+    # Fail if name is not given
     if not module.params["data"].get("name"):
         module.fail_json(msg="missing name")
 
-    netbox_device = NetboxDcimModule(module, NB_DEVICES)
-    netbox_device.run()
+    netbox_rack = NetboxDcimModule(module, NB_RACKS)
+    netbox_rack.run()
 
 
 if __name__ == "__main__":

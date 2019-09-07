@@ -15,16 +15,21 @@ try:
     from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
+        SLUG_REQUIRED,
     )
 except ImportError:
     import sys
 
     sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
+    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
 
 
 NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
+NB_IPAM_ROLES = "roles"
+NB_VLANS = "vlans"
+NB_VLAN_GROUPS = "vlan_groups"
+NB_VRFS = "vrfs"
 
 
 class NetboxIpamModule(NetboxModule):
@@ -118,8 +123,12 @@ class NetboxIpamModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - ipam_roles
         - ip_addresses
         - prefixes
+        - vlans
+        - vlan_groups
+        - vrfs
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -136,6 +145,12 @@ class NetboxIpamModule(NetboxModule):
             name = data.get("address")
         elif self.endpoint == "prefixes":
             name = data.get("prefix")
+        else:
+            name = data.get("name")
+
+        if self.endpoint in SLUG_REQUIRED:
+            if not data.get("slug"):
+                data["slug"] = self._to_slug(name)
 
         if self.module.params.get("first_available"):
             first_available = True

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2019, Amy Liebowitz (@amylieb)
+# Copyright: (c) 2018, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -15,117 +15,97 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_tenant
-short_description: Creates or removes tenants from Netbox
+module: netbox_platform
+short_description: Create or delete platforms within Netbox
 description:
-  - Creates or removes tenants from Netbox
+  - Creates or removes platforms from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Amy Liebowitz (@amylieb)
+  - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.9"
+version_added: '0.1.0'
 options:
   netbox_url:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
-    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
-    type: str
   data:
-    type: dict
     description:
-      - Defines the tenant configuration
+      - Defines the platform configuration
     suboptions:
       name:
         description:
-          - Name of the tenant to be created
+          - The name of the platform
         required: true
-        type: str
-      tenant_group:
+      manufacturer:
         description:
-          - Tenant group this tenant should be in
-        type: str
-      description:
+          - The manufacturer the platform will be tied to
+      napalm_driver:
         description:
-          - The description of the tenant
-        type: str
-      comments:
+          - The name of the NAPALM driver to be used when using the NAPALM plugin
+      napalm_args:
         description:
-          - Comments for the tenant. This can be markdown syntax
-        type: str
-      tags:
-        description:
-          - Any tags that the tenant may need to be associated with
-        type: list
-      custom_fields:
-        description:
-          - must exist in Netbox
+          - The optional arguments used for NAPALM connections
         type: dict
-    required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
-    type: str
   validate_certs:
     description:
-      - |
-        If C(no), SSL certificates will not be validated.
-        This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
+      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
+    default: 'yes'
     type: bool
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox module"
+- name: "Test Netbox modules"
   connection: local
   hosts: localhost
   gather_facts: False
+
   tasks:
-    - name: Create tenant within Netbox with only required information
-      netbox_tenant:
+    - name: Create platform within Netbox with only required information
+      netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test Platform
         state: present
 
-    - name: Delete tenant within netbox
-      netbox_tenant:
+    - name: Create platform within Netbox with only required information
+      netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test Platform All
+          manufacturer: Test Manufacturer
+          napalm_driver: ios
+          napalm_args:
+            global_delay_factor: 2
+        state: present
+
+    - name: Delete platform within netbox
+      netbox_platform:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Platform
         state: absent
-
-    - name: Create tenant with all parameters
-      netbox_tenant:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Tenant ABC
-          group: Very Special Tenants
-          description: ABC Incorporated
-          comments: '### This tenant is super cool'
-          tags:
-            - tagA
-            - tagB
-            - tagC
-        state: present
 """
 
 RETURN = r"""
-tenant:
+platform:
   description: Serialized object as created or already existent within Netbox
-  returned: on creation
+  returned: success (when I(state=present))
   type: dict
 msg:
   description: Message indicating failure or info about what has been achieved
@@ -134,9 +114,9 @@ msg:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_tenancy import (
-    NetboxTenancyModule,
-    NB_TENANTS,
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+    NetboxDcimModule,
+    NB_PLATFORMS,
 )
 
 
@@ -158,8 +138,8 @@ def main():
     if not module.params["data"].get("name"):
         module.fail_json(msg="missing name")
 
-    netbox_tenant = NetboxTenancyModule(module, NB_TENANTS)
-    netbox_tenant.run()
+    netbox_platform = NetboxDcimModule(module, NB_PLATFORMS)
+    netbox_platform.run()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2019, Amy Liebowitz (@amylieb)
+# Copyright: (c) 2019, Mikhail Yohman (@FragmentedPacket)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -15,15 +15,15 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_tenant
-short_description: Creates or removes tenants from Netbox
+module: netbox_ipam_role
+short_description: Creates or removes ipam roles from Netbox
 description:
-  - Creates or removes tenants from Netbox
+  - Creates or removes ipam roles from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Amy Liebowitz (@amylieb)
+  - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
 version_added: "2.9"
@@ -41,33 +41,17 @@ options:
   data:
     type: dict
     description:
-      - Defines the tenant configuration
+      - Defines the ipam role configuration
     suboptions:
       name:
         description:
-          - Name of the tenant to be created
+          - Name of the ipam role to be created
         required: true
         type: str
-      tenant_group:
+      weight:
         description:
-          - Tenant group this tenant should be in
-        type: str
-      description:
-        description:
-          - The description of the tenant
-        type: str
-      comments:
-        description:
-          - Comments for the tenant. This can be markdown syntax
-        type: str
-      tags:
-        description:
-          - Any tags that the tenant may need to be associated with
-        type: list
-      custom_fields:
-        description:
-          - must exist in Netbox
-        type: dict
+          - The weight of the ipam role to be created
+        type: int
     required: true
   state:
     description:
@@ -90,40 +74,25 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create tenant within Netbox with only required information
-      netbox_tenant:
+    - name: Create ipam role within Netbox with only required information
+      netbox_ipam_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test IPAM Role 
         state: present
 
-    - name: Delete tenant within netbox
-      netbox_tenant:
+    - name: Delete ipam role within netbox
+      netbox_ipam_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
+          name: Test IPAM Role
         state: absent
-
-    - name: Create tenant with all parameters
-      netbox_tenant:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Tenant ABC
-          group: Very Special Tenants
-          description: ABC Incorporated
-          comments: '### This tenant is super cool'
-          tags:
-            - tagA
-            - tagB
-            - tagC
-        state: present
 """
 
 RETURN = r"""
-tenant:
+role:
   description: Serialized object as created or already existent within Netbox
   returned: on creation
   type: dict
@@ -134,9 +103,9 @@ msg:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_tenancy import (
-    NetboxTenancyModule,
-    NB_TENANTS,
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
+    NetboxIpamModule,
+    NB_IPAM_ROLES,
 )
 
 
@@ -158,8 +127,8 @@ def main():
     if not module.params["data"].get("name"):
         module.fail_json(msg="missing name")
 
-    netbox_tenant = NetboxTenancyModule(module, NB_TENANTS)
-    netbox_tenant.run()
+    netbox_ipam_role = NetboxIpamModule(module, NB_IPAM_ROLES)
+    netbox_ipam_role.run()
 
 
 if __name__ == "__main__":
