@@ -224,6 +224,9 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
+    if not module.params["data"].get("name"):
+        module.fail_json(msg="missing name")
+
     netbox_device_interface = NetboxDcimModule(module, NB_INTERFACES)
     netbox_device_interface.run()
 

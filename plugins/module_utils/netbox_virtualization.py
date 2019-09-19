@@ -5,36 +5,20 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-# Import necessary packages
-import traceback
-from ansible.module_utils.basic import missing_required_lib
-
+# This should just be temporary once 2.9 is relased and tested we can remove this
 try:
     from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
     )
 except ImportError:
     import sys
 
     sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
 
 
-NB_DEVICES = "devices"
-NB_DEVICE_ROLES = "device_roles"
-NB_DEVICE_TYPES = "device_types"
-NB_INTERFACES = "interfaces"
-NB_MANUFACTURERS = "manufacturers"
-NB_PLATFORMS = "platforms"
-NB_RACKS = "racks"
-NB_RACK_ROLES = "rack_roles"
-NB_RACK_GROUPS = "rack_groups"
-NB_SITES = "sites"
-
-
-class NetboxDcimModule(NetboxModule):
+class NetboxVirtualizationModule(NetboxModule):
     def __init__(self, module, endpoint):
         super().__init__(module, endpoint)
 
@@ -43,16 +27,6 @@ class NetboxDcimModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
-        - devices
-        - device_roles
-        - device_types
-        - interfaces
-        - manufacturers
-        - platforms
-        - sites
-        - racks
-        - rack_roles
-        - rack_groups
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -66,18 +40,9 @@ class NetboxDcimModule(NetboxModule):
         data = self.data
 
         # Used for msg output
-        if data.get("name"):
-            name = data["name"]
-        elif data.get("slug"):
-            name = data["slug"]
+        name = data.get("name")
 
-        if self.endpoint in SLUG_REQUIRED:
-            if not data.get("slug"):
-                data["slug"] = self._to_slug(name)
-
-        # Make color params lowercase
-        if data.get("color"):
-            data["color"] = data["color"].lower()
+        data["slug"] = self._to_slug(name)
 
         object_query_params = self._build_query_params(endpoint_name, data)
         try:
@@ -87,7 +52,6 @@ class NetboxDcimModule(NetboxModule):
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
-
         elif self.state == "absent":
             self._ensure_object_absent(endpoint_name, name)
 

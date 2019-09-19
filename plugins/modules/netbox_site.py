@@ -214,6 +214,10 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
+    # Fail if name is not given
+    if not module.params["data"].get("name"):
+        module.fail_json(msg="missing name")
+
     netbox_site = NetboxDcimModule(module, NB_SITES)
     netbox_site.run()
 

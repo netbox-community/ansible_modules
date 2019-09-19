@@ -9,7 +9,7 @@ env:
   global:
     - COLLECTION_NAMESPACE: fragmentedpacket
     - COLLECTION_NAME: netbox_modules
-    - COLLECTION_VERSION: 0.0.9
+    - COLLECTION_VERSION: 0.1.0
 
 matrix:
   include:
@@ -42,7 +42,7 @@ matrix:
         - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
       
       script:
-        - ansible-test units --python $PYTHON_VER -vvv
+        - ansible-test units --python $PYTHON_VER -v
         - black . --check
         - "sleep 60"
         - python tests/integration/netbox-deploy.py
@@ -77,7 +77,7 @@ matrix:
         - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
       
       script:
-        - ansible-test units --python $PYTHON_VER -vv
+        - ansible-test units --python $PYTHON_VER -v
         - black . --check
         - "sleep 60"
         - python tests/integration/netbox-deploy.py
