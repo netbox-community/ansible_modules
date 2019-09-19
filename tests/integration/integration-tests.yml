@@ -742,7 +742,7 @@
             tenant: Test Tenant
             vlan_group: Test Vlan Group
           status: Reserved
-          role: Network of care
+          prefix_role: Network of care
           description: Test description
           is_pool: true
           tags:
@@ -1057,6 +1057,7 @@
           - test_one['diff']['after']['state'] == "present"
           - test_one['tenant']['name'] == "Tenant ABC"
           - test_one['tenant']['slug'] == "tenant-abc"
+          - test_one['msg'] == "tenant Tenant ABC created"
 
     - name: "Test duplicate tenant"
       netbox_tenant:
@@ -1072,6 +1073,7 @@
           - not test_two['changed']
           - test_two['tenant']['name'] == "Tenant ABC"
           - test_two['tenant']['slug'] == "tenant-abc"
+          - test_two['msg'] == "tenant Tenant ABC already exists"
 
     - name: "3 - Test update"
       netbox_tenant:
@@ -1089,6 +1091,8 @@
           - test_three['diff']['after']['description'] == "Updated description"
           - test_three['tenant']['name'] == "Tenant ABC"
           - test_three['tenant']['slug'] == "tenant-abc"
+          - test_three['tenant']['description'] == "Updated description"
+          - test_three['msg'] == "tenant Tenant ABC updated"
 
     - name: "4 - Test delete"
       netbox_tenant:
@@ -1105,6 +1109,7 @@
           - test_four is changed
           - test_four['diff']['before']['state'] == "present"
           - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "tenant Tenant ABC deleted"
 
     - name: "5 - Create tenant with all parameters"
       netbox_tenant:
@@ -1114,7 +1119,7 @@
           name: "Tenant ABC"
           description: "ABC Incorporated"
           comments: "### This tenant is super cool"
-          group: "Test Tenant Group"
+          tenant_group: "Test Tenant Group"
           tags:
             - tagA
             - tagB
@@ -1134,6 +1139,7 @@
           - test_five['tenant']['comments'] == "### This tenant is super cool"
           - test_five['tenant']['group'] == 1
           - test_five['tenant']['tags'] | length == 3
+          - test_five['msg'] == "tenant Tenant ABC created"
 
 ##
 ##
@@ -1164,6 +1170,7 @@
           - test_one['diff']['after']['state'] == "present"
           - test_one['tenant_group']['name'] == "Test Tenant Group Two"
           - test_one['tenant_group']['slug'] == "test-tenant-group-two"
+          - test_one['msg'] == "tenant_group Test Tenant Group Two created"
 
     - name: "Test duplicate tenant group"
       netbox_tenant_group:
@@ -1179,6 +1186,7 @@
           - not test_two['changed']
           - test_two['tenant_group']['name'] == "Test Tenant Group Two"
           - test_two['tenant_group']['slug'] == "test-tenant-group-two"
+          - test_two['msg'] == "tenant_group Test Tenant Group Two already exists"
 
     - name: "3 - Test delete"
       netbox_tenant_group:
@@ -1195,3 +1203,1276 @@
           - test_three is changed
           - test_three['diff']['before']['state'] == "present"
           - test_three['diff']['after']['state'] == "absent"
+          - test_three['msg'] == "tenant_group Test Tenant Group Two deleted"
+
+##
+##
+### NETBOX_RACK
+##
+##
+- name: "TEST NETBOX_RACK"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "1 - Test rack creation"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test rack one"
+          site: "Test Site"
+      register: test_one
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['rack']['name'] == "Test rack one"
+          - test_one['rack']['site'] == 1
+
+    - name: "Test duplicate rack"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test rack one"
+      register: test_two
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['rack']['name'] == "Test rack one"
+          - test_two['rack']['site'] == 1
+          - test_two['msg'] == "rack Test rack one already exists"
+
+    - name: "3 - Create new rack with similar name"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test rack - Test Site
+          site: Test Site
+        state: present
+      register: test_three
+
+    - name: "3 - ASSERT"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "absent"
+          - test_three['diff']['after']['state'] == "present"
+          - test_three['rack']['name'] == "Test rack - Test Site"
+          - test_three['rack']['site'] == 1
+          - test_three['msg'] == "rack Test rack - Test Site created"
+
+    - name: "4 - Attempt to create Test rack one again"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test rack one
+          site: Test Site
+        state: present
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - not test_four['changed']
+          - test_four['rack']['name'] == "Test rack one"
+          - test_four['rack']['site'] == 1
+          - test_four['msg'] == "rack Test rack one already exists"
+
+    - name: "5 - Update Test rack one with more options"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test rack one
+          site: Test Site
+          rack_role: "Test Rack Role"
+          rack_group: "Test Rack Group"
+          facility_id: "EQUI10291"
+          tenant: "Test Tenant"
+          status: Available
+          serial: "FXS10001"
+          asset_tag: "1234"
+          width: 23
+          u_height: 48
+          type: "2-post frame"
+          outer_width: 32
+          outer_depth: 24
+          outer_unit: "Inches"
+          comments: "Just testing rack module"
+          tags:
+            - "Schnozzberry"
+        state: present
+      register: test_five
+
+    - name: "5 - ASSERT"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['after']['asset_tag'] == "1234"
+          - test_five['diff']['after']['comments'] == "Just testing rack module"
+          - test_five['diff']['after']['facility_id'] == "EQUI10291"
+          - test_five['diff']['after']['group'] == 1
+          - test_five['diff']['after']['outer_depth'] == 24
+          - test_five['diff']['after']['outer_unit'] == 2000
+          - test_five['diff']['after']['outer_width'] == 32
+          - test_five['diff']['after']['role'] == 1
+          - test_five['diff']['after']['serial'] == "FXS10001"
+          - test_five['diff']['after']['status'] == 1
+          - test_five['diff']['after']['tenant'] == 1
+          - test_five['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_five['diff']['after']['type'] == 100
+          - test_five['diff']['after']['u_height'] == 48
+          - test_five['diff']['after']['width'] == 23
+          - test_five['rack']['name'] == "Test rack one"
+          - test_five['rack']['site'] == 1
+          - test_five['rack']['asset_tag'] == "1234"
+          - test_five['rack']['comments'] == "Just testing rack module"
+          - test_five['rack']['facility_id'] == "EQUI10291"
+          - test_five['rack']['group'] == 1
+          - test_five['rack']['outer_depth'] == 24
+          - test_five['rack']['outer_unit'] == 2000
+          - test_five['rack']['outer_width'] == 32
+          - test_five['rack']['role'] == 1
+          - test_five['rack']['serial'] == "FXS10001"
+          - test_five['rack']['status'] == 1
+          - test_five['rack']['tenant'] == 1
+          - test_five['rack']['tags'][0] == "Schnozzberry"
+          - test_five['rack']['type'] == 100
+          - test_five['rack']['u_height'] == 48
+          - test_five['rack']['width'] == 23
+          - test_five['msg'] == "rack Test rack one updated"
+
+    - name: "6 - Create rack with same asset tag and serial number"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test rack two
+          site: Test Site
+          serial: "FXS10001"
+          asset_tag: "1234"
+        state: present
+      register: test_six
+
+    - name: "6 - ASSERT"
+      assert:
+        that:
+          - not test_six['changed']
+          - "'Asset tag already exists' in test_six['msg']"
+
+    - name: "7 - Test delete"
+      netbox_rack:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test rack one"
+        state: "absent"
+      register: test_seven
+
+    - name: "7 - ASSERT"
+      assert:
+        that:
+          - test_seven is changed
+          - test_seven['diff']['before']['state'] == "present"
+          - test_seven['diff']['after']['state'] == "absent"
+          - test_seven['msg'] == "rack Test rack one deleted"
+
+##
+##
+### NETBOX_RACK_ROLE
+##
+##
+- name: "TEST NETBOX_RACK_ROLE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "RACK_ROLE 1: Necessary info creation"
+      netbox_rack_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Role
+          color: "ffffff"
+        state: present
+      register: test_one
+
+    - name: "RACK_ROLE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['rack_role']['name'] == "Rack Role"
+          - test_one['rack_role']['slug'] == "rack-role"
+          - test_one['rack_role']['color'] == "ffffff"
+          - test_one['msg'] == "rack_role Rack Role created"
+
+    - name: "RACK_ROLE 2: Create duplicate"
+      netbox_rack_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Role
+        state: present
+      register: test_two
+
+    - name: "RACK_ROLE 1: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['rack_role']['name'] == "Rack Role"
+          - test_two['rack_role']['slug'] == "rack-role"
+          - test_two['rack_role']['color'] == "ffffff"
+          - test_two['msg'] == "rack_role Rack Role already exists"
+
+    - name: "RACK_ROLE 3: Update"
+      netbox_rack_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Role
+          color: "003EFF"
+        state: present
+      register: test_three
+
+    - name: "RACK_ROLE 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['color'] == "003eff"
+          - test_three['rack_role']['name'] == "Rack Role"
+          - test_three['rack_role']['slug'] == "rack-role"
+          - test_three['rack_role']['color'] == "003eff"
+          - test_three['msg'] == "rack_role Rack Role updated"
+
+    - name: "RACK_ROLE 4: Delete"
+      netbox_rack_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Role
+        state: absent
+      register: test_four
+
+    - name: "RACK_ROLE 4: ASSERT - Update"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "rack_role Rack Role deleted"
+
+##
+##
+### NETBOX_RACK_GROUP
+##
+##
+- name: "TEST NETBOX_RACK_GROUP"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "RACK_GROUP 1: Necessary info creation"
+      netbox_rack_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Group
+          site: Test Site
+        state: present
+      register: test_one
+
+    - name: "RACK_GROUP 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['rack_group']['name'] == "Rack Group"
+          - test_one['rack_group']['slug'] == "rack-group"
+          - test_one['rack_group']['site'] == 1
+          - test_one['msg'] == "rack_group Rack Group created"
+
+    - name: "RACK_GROUP 2: Create duplicate"
+      netbox_rack_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Group
+          site: Test Site
+        state: present
+      register: test_two
+
+    - name: "RACK_GROUP 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['rack_group']['name'] == "Rack Group"
+          - test_two['rack_group']['slug'] == "rack-group"
+          - test_two['rack_group']['site'] == 1
+          - test_two['msg'] == "rack_group Rack Group already exists"
+
+    - name: "RACK_GROUP 3: ASSERT - Delete"
+      netbox_rack_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Rack Group
+        state: absent
+      register: test_three
+
+    - name: "RACK_GROUP 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "present"
+          - test_three['diff']['after']['state'] == "absent"
+          - test_three['msg'] == "rack_group Rack Group deleted"
+
+##
+##
+### NETBOX_MANUFACTURER
+##
+##
+- name: "TEST NETBOX_MANUFACTURER"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "MANUFACTURER 1: Necessary info creation"
+      netbox_manufacturer:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Manufacturer Two
+        state: present
+      register: test_one
+
+    - name: "MANUFACTURER 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['manufacturer']['name'] == "Test Manufacturer Two"
+          - test_one['manufacturer']['slug'] == "test-manufacturer-two"
+          - test_one['msg'] == "manufacturer Test Manufacturer Two created"
+
+    - name: "MANUFACTURER 2: Create duplicate"
+      netbox_manufacturer:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Manufacturer Two
+        state: present
+      register: test_two
+
+    - name: "MANUFACTURER 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['manufacturer']['name'] == "Test Manufacturer Two"
+          - test_two['manufacturer']['slug'] == "test-manufacturer-two"
+          - test_two['msg'] == "manufacturer Test Manufacturer Two already exists"
+
+    - name: "MANUFACTURER 3: ASSERT - Delete"
+      netbox_manufacturer:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Manufacturer Two
+        state: absent
+      register: test_three
+
+    - name: "MANUFACTURER 3: ASSERT - Delete"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "present"
+          - test_three['diff']['after']['state'] == "absent"
+          - test_three['msg'] == "manufacturer Test Manufacturer Two deleted"
+
+    - name: "MANUFACTURER 4: ASSERT - Delete non existing"
+      netbox_manufacturer:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Manufacturer Two
+        state: absent
+      register: test_four
+
+    - name: "MANUFACTURER 4: ASSERT - Delete non existing"
+      assert:
+        that:
+          - not test_four['changed']
+          - test_four['manufacturer'] == None
+          - test_four['msg'] == "manufacturer Test Manufacturer Two already absent"
+
+##
+##
+### NETBOX_PLATFORM
+##
+##
+- name: "TEST NETBOX_PLATFORM"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "PLATFORM 1: Necessary info creation"
+      netbox_platform:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Platform
+        state: present
+      register: test_one
+
+    - name: "PLATFORM 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['platform']['name'] == "Test Platform"
+          - test_one['platform']['slug'] == "test-platform"
+          - test_one['msg'] == "platform Test Platform created"
+
+    - name: "PLATFORM 2: Create duplicate"
+      netbox_platform:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Platform
+        state: present
+      register: test_two
+
+    - name: "PLATFORM 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['platform']['name'] == "Test Platform"
+          - test_two['platform']['slug'] == "test-platform"
+          - test_two['msg'] == "platform Test Platform already exists"
+
+    - name: "PLATFORM 3: ASSERT - Update"
+      netbox_platform:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Platform
+          manufacturer: Test Manufacturer
+          napalm_driver: ios
+          napalm_args:
+            global_delay_factor: 2
+        state: present
+      register: test_three
+
+    - name: "PLATFORM 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['manufacturer'] == 3
+          - test_three['diff']['after']['napalm_args']['global_delay_factor'] == 2
+          - test_three['diff']['after']['napalm_driver'] == "ios"
+          - test_three['platform']['manufacturer'] == 3
+          - test_three['platform']['napalm_args']['global_delay_factor'] == 2
+          - test_three['platform']['napalm_driver'] == "ios"
+          - test_three['msg'] == "platform Test Platform updated"
+
+    - name: "PLATFORM 4: ASSERT - Delete"
+      netbox_platform:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Platform
+        state: absent
+      register: test_four
+
+    - name: "PLATFORM 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "platform Test Platform deleted"
+
+    - name: "PLATFORM 5: ASSERT - Delete non existing"
+      netbox_platform:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Platform
+        state: absent
+      register: test_five
+
+    - name: "PLATFORM 5: ASSERT - Delete non existing`"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['platform'] == None
+          - test_five['msg'] == "platform Test Platform already absent"
+
+##
+##
+### NETBOX_DEVICE_TYPE
+##
+##
+- name: "TEST NETBOX_DEVICE_TYPE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "DEVICE_TYPE 1: Necessary info creation"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          slug: test-device-type
+          model: ws-test-3750
+          manufacturer: Test Manufacturer
+        state: present
+      register: test_one
+
+    - name: "DEVICE_TYPE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['device_type']['slug'] == "test-device-type"
+          - test_one['device_type']['model'] == "ws-test-3750"
+          - test_one['device_type']['manufacturer'] == 3
+          - test_one['msg'] == "device_type test-device-type created"
+
+    - name: "DEVICE_TYPE 2: Create duplicate"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          slug: test-device-type
+          model: ws-test-3750
+          manufacturer: Test Manufacturer
+        state: present
+      register: test_two
+
+    - name: "DEVICE_TYPE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_one['device_type']['slug'] == "test-device-type"
+          - test_one['device_type']['model'] == "ws-test-3750"
+          - test_one['device_type']['manufacturer'] == 3
+          - test_two['msg'] == "device_type test-device-type already exists"
+
+    - name: "DEVICE_TYPE 3: ASSERT - Update"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          slug: test-device-type
+          model: ws-test-3750
+          manufacturer: Test Manufacturer
+          part_number: ws-3750g-v2
+          u_height: 1
+          is_full_depth: false
+          subdevice_role: parent
+        state: present
+      register: test_three
+
+    - name: "DEVICE_TYPE 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['is_full_depth'] == false
+          - test_three['diff']['after']['part_number'] == "ws-3750g-v2"
+          - test_three['diff']['after']['subdevice_role'] == true
+          - test_three['device_type']['slug'] == "test-device-type"
+          - test_three['device_type']['model'] == "ws-test-3750"
+          - test_three['device_type']['manufacturer'] == 3
+          - test_three['device_type']['is_full_depth'] == false
+          - test_three['device_type']['part_number'] == "ws-3750g-v2"
+          - test_three['device_type']['subdevice_role'] == true
+          - test_three['msg'] == "device_type test-device-type updated"
+
+    - name: "DEVICE_TYPE 4: ASSERT - Delete"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          slug: test-device-type
+        state: absent
+      register: test_four
+
+    - name: "DEVICE_TYPE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "device_type test-device-type deleted"
+
+    - name: "DEVICE_TYPE 5: ASSERT - Delete non existing"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          slug: test-device-type
+        state: absent
+      register: test_five
+
+    - name: "DEVICE_TYPE 5: ASSERT - Delete non existing`"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['device_type'] == None
+          - test_five['msg'] == "device_type test-device-type already absent"
+
+##
+##
+### NETBOX_DEVICE_ROLE
+##
+##
+- name: "TEST NETBOX_DEVICE_ROLE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "DEVICE_ROLE 1: Necessary info creation"
+      netbox_device_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Device Role"
+          color: "FFFFFF"
+        state: present
+      register: test_one
+
+    - name: "DEVICE_ROLE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['device_role']['name'] == "Test Device Role"
+          - test_one['device_role']['slug'] == "test-device-role"
+          - test_one['device_role']['color'] == "ffffff"
+          - test_one['msg'] == "device_role Test Device Role created"
+
+    - name: "DEVICE_ROLE 2: Create duplicate"
+      netbox_device_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Device Role"
+          color: "FFFFFF"
+        state: present
+      register: test_two
+
+    - name: "DEVICE_ROLE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['device_role']['name'] == "Test Device Role"
+          - test_two['device_role']['slug'] == "test-device-role"
+          - test_two['device_role']['color'] == "ffffff"
+          - test_two['msg'] == "device_role Test Device Role already exists"
+
+    - name: "DEVICE_ROLE 3: ASSERT - Update"
+      netbox_device_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Device Role"
+          color: "003EFF"
+          vm_role: false
+        state: present
+      register: test_three
+
+    - name: "DEVICE_ROLE 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['color'] == "003eff"
+          - test_three['diff']['after']['vm_role'] == false
+          - test_three['device_role']['name'] == "Test Device Role"
+          - test_three['device_role']['slug'] == "test-device-role"
+          - test_three['device_role']['color'] == "003eff"
+          - test_three['device_role']['vm_role'] == false
+          - test_three['msg'] == "device_role Test Device Role updated"
+
+    - name: "DEVICE_ROLE 4: ASSERT - Delete"
+      netbox_device_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Device Role
+        state: absent
+      register: test_four
+
+    - name: "DEVICE_ROLE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "device_role Test Device Role deleted"
+
+    - name: "DEVICE_ROLE 5: ASSERT - Delete non existing"
+      netbox_device_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Device Role
+        state: absent
+      register: test_five
+
+    - name: "DEVICE_ROLE 5: ASSERT - Delete non existing`"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['device_role'] == None
+          - test_five['msg'] == "device_role Test Device Role already absent"
+
+##
+##
+### NETBOX_IPAM_ROLE
+##
+##
+- name: "TEST NETBOX_IPAM_ROLE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "IPAM_ROLE 1: Necessary info creation"
+      netbox_ipam_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test IPAM Role"
+        state: present
+      register: test_one
+
+    - name: "IPAM_ROLE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['role']['name'] == "Test IPAM Role"
+          - test_one['role']['slug'] == "test-ipam-role"
+          - test_one['msg'] == "role Test IPAM Role created"
+
+    - name: "IPAM_ROLE 2: Create duplicate"
+      netbox_ipam_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test IPAM Role"
+        state: present
+      register: test_two
+
+    - name: "IPAM_ROLE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['role']['name'] == "Test IPAM Role"
+          - test_two['role']['slug'] == "test-ipam-role"
+          - test_two['msg'] == "role Test IPAM Role already exists"
+
+    - name: "IPAM_ROLE 3: ASSERT - Update"
+      netbox_ipam_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test IPAM Role"
+          weight: 4096
+        state: present
+      register: test_three
+
+    - name: "IPAM_ROLE 3: ASSERT - Update"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['weight'] == 4096
+          - test_three['role']['name'] == "Test IPAM Role"
+          - test_three['role']['slug'] == "test-ipam-role"
+          - test_three['role']['weight'] == 4096
+          - test_three['msg'] == "role Test IPAM Role updated"
+
+    - name: "IPAM_ROLE 4: ASSERT - Delete"
+      netbox_ipam_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test IPAM Role
+        state: absent
+      register: test_four
+
+    - name: "IPAM_ROLE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "role Test IPAM Role deleted"
+
+    - name: "IPAM_ROLE 5: ASSERT - Delete non existing"
+      netbox_ipam_role:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test IPAM Role
+        state: absent
+      register: test_five
+
+    - name: "IPAM_ROLE 5: ASSERT - Delete non existing`"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['role'] == None
+          - test_five['msg'] == "role Test IPAM Role already absent"
+
+##
+##
+### NETBOX_VLAN_GROUP
+##
+##
+- name: "TEST NETBOX_VLAN_GROUP"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "VLAN_GROUP 1: Necessary info creation"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "VLAN Group One"
+          site: Test Site
+        state: present
+      register: test_one
+
+    - name: "VLAN_GROUP 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['vlan_group']['name'] == "VLAN Group One"
+          - test_one['vlan_group']['slug'] == "vlan-group-one"
+          - test_one['vlan_group']['site'] == 1
+          - test_one['msg'] == "vlan_group VLAN Group One created"
+
+    - name: "VLAN_GROUP 2: Create duplicate"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "VLAN Group One"
+          site: Test Site
+        state: present
+      register: test_two
+
+    - name: "VLAN_GROUP 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['vlan_group']['name'] == "VLAN Group One"
+          - test_two['vlan_group']['slug'] == "vlan-group-one"
+          - test_two['vlan_group']['site'] == 1
+          - test_two['msg'] == "vlan_group VLAN Group One already exists"
+
+    - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "VLAN Group One"
+          site: "Test Site2"
+        state: present
+      register: test_three
+
+    - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['vlan_group']['name'] == "VLAN Group One"
+          - test_three['vlan_group']['slug'] == "vlan-group-one"
+          - test_three['vlan_group']['site'] == 2
+          - test_three['msg'] == "vlan_group VLAN Group One created"
+
+    - name: "VLAN_GROUP 4: ASSERT - Create vlan group, no site"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "VLAN Group One"
+        state: present
+      register: test_four
+
+    - name: "VLAN_GROUP 4: ASSERT - Create with same name, different site"
+      assert:
+        that:
+          - not test_four['changed']
+          - test_four['msg'] == "More than one result returned for VLAN Group One"
+
+    - name: "VLAN_GROUP 5: ASSERT - Delete"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: VLAN Group One
+          site: Test Site2
+        state: absent
+      register: test_five
+
+    - name: "VLAN_GROUP 5: ASSERT - Delete"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['diff']['before']['state'] == "present"
+          - test_five['diff']['after']['state'] == "absent"
+          - test_five['vlan_group']['name'] == "VLAN Group One"
+          - test_five['vlan_group']['slug'] == "vlan-group-one"
+          - test_five['vlan_group']['site'] == 2
+          - test_five['msg'] == "vlan_group VLAN Group One deleted"
+
+    - name: "VLAN_GROUP 6: ASSERT - Delete non existing"
+      netbox_vlan_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: VLAN Group One
+          site: Test Site2
+        state: absent
+      register: test_six
+
+    - name: "VLAN_GROUP 6: ASSERT - Delete non existing`"
+      assert:
+        that:
+          - not test_six['changed']
+          - test_six['vlan_group'] == None
+          - test_six['msg'] == "vlan_group VLAN Group One already absent"
+
+
+##
+##
+### NETBOX_VLAN
+##
+##
+- name: "TEST NETBOX_VLAN"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "VLAN 1: Necessary info creation"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VLAN 500
+          vid: 500
+        state: present
+      register: test_one
+
+    - name: "VLAN 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['vlan']['name'] == "Test VLAN 500"
+          - test_one['vlan']['vid'] == 500
+          - test_one['msg'] == "vlan Test VLAN 500 created"
+
+    - name: "VLAN 2: Create duplicate"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VLAN 500
+          vid: 500
+        state: present
+      register: test_two
+
+    - name: "VLAN 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['vlan']['name'] == "Test VLAN 500"
+          - test_two['vlan']['vid'] == 500
+          - test_two['msg'] == "vlan Test VLAN 500 already exists"
+
+    - name: "VLAN 3: Create VLAN with same name, but different site"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VLAN 500
+          vid: 500
+          site: Test Site
+          tenant: Test Tenant
+        state: present
+      register: test_three
+
+    - name: "VLAN 3: ASSERT - Create VLAN with same name, but different site"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "absent"
+          - test_three['diff']['after']['state'] == "present"
+          - test_three['vlan']['name'] == "Test VLAN 500"
+          - test_three['vlan']['vid'] == 500
+          - test_three['vlan']['site'] == 1
+          - test_three['msg'] == "vlan Test VLAN 500 created"
+
+    - name: "VLAN 4: ASSERT - Update"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VLAN 500"
+          vid: 500
+          tenant: "Test Tenant"
+          vlan_group: "Test VLAN Group"
+          status: Reserved
+          vlan_role: Network of care
+          description: Updated description
+          site: "Test Site"
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_four
+
+    - name: "VLAN 4: ASSERT - Updated"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['after']['group'] == 1
+          - test_four['diff']['after']['status'] == 2
+          - test_four['diff']['after']['role'] == 1
+          - test_four['diff']['after']['description'] == "Updated description"
+          - test_four['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_four['vlan']['name'] == "Test VLAN 500"
+          - test_four['vlan']['tenant'] == 1
+          - test_four['vlan']['site'] == 1
+          - test_four['vlan']['group'] == 1
+          - test_four['vlan']['status'] == 2
+          - test_four['vlan']['role'] == 1
+          - test_four['vlan']['description'] == "Updated description"
+          - test_four['vlan']['tags'][0] == "Schnozzberry"
+          - test_four['msg'] == "vlan Test VLAN 500 updated"
+
+    - name: "VLAN 5: ASSERT - Delete more than one result"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VLAN 500"
+        state: absent
+      register: test_five
+
+    - name: "VLAN 5: ASSERT - Delete more than one result"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['msg'] == "More than one result returned for Test VLAN 500"
+
+    - name: "VLAN 6: ASSERT - Delete"
+      netbox_vlan:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VLAN 500"
+          site: Test Site
+        state: absent
+      register: test_six
+
+    - name: "VLAN 6: ASSERT - Delete"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['vlan']['name'] == "Test VLAN 500"
+          - test_six['vlan']['tenant'] == 1
+          - test_six['vlan']['site'] == 1
+          - test_six['vlan']['group'] == 1
+          - test_six['vlan']['status'] == 2
+          - test_six['vlan']['role'] == 1
+          - test_six['vlan']['description'] == "Updated description"
+          - test_six['vlan']['tags'][0] == "Schnozzberry"
+          - test_six['msg'] == "vlan Test VLAN 500 deleted"
+
+##
+##
+### NETBOX_VRF
+##
+##
+- name: "TEST NETBOX_VRF"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "VRF 1: Necessary info creation"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VRF One
+        state: present
+      register: test_one
+
+    - name: "VRF 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['vrf']['name'] == "Test VRF One"
+          - test_one['msg'] == "vrf Test VRF One created"
+
+    - name: "VRF 2: Create duplicate"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VRF One
+        state: present
+      register: test_two
+
+    - name: "VRF 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['vrf']['name'] == "Test VRF One"
+          - test_two['msg'] == "vrf Test VRF One already exists"
+
+    - name: "VRF 3: Create VRF with same name, but different tenant"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test VRF One
+          tenant: Test Tenant
+        state: present
+      register: test_three
+
+    - name: "VRF 3: ASSERT - Create VRF with same name, but different site"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "absent"
+          - test_three['diff']['after']['state'] == "present"
+          - test_three['vrf']['name'] == "Test VRF One"
+          - test_three['vrf']['tenant'] == 1
+          - test_three['msg'] == "vrf Test VRF One created"
+
+    - name: "VRF 4: ASSERT - Update"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VRF One"
+          rd: "65001:1"
+          enforce_unique: False
+          tenant: "Test Tenant"
+          description: Updated description
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_four
+
+    - name: "VRF 4: ASSERT - Updated"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['after']['rd'] == "65001:1"
+          - test_four['diff']['after']['enforce_unique'] == false
+          - test_four['diff']['after']['description'] == "Updated description"
+          - test_four['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_four['vrf']['name'] == "Test VRF One"
+          - test_four['vrf']['tenant'] == 1
+          - test_four['vrf']['rd'] == "65001:1"
+          - test_four['vrf']['enforce_unique'] == false
+          - test_four['vrf']['description'] == "Updated description"
+          - test_four['vrf']['tags'][0] == "Schnozzberry"
+          - test_four['msg'] == "vrf Test VRF One updated"
+
+    - name: "VRF 5: ASSERT - Delete more than one result"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VRF One"
+        state: absent
+      register: test_five
+
+    - name: "VRF 5: ASSERT - Delete more than one result"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['msg'] == "More than one result returned for Test VRF One"
+
+    - name: "VRF 6: ASSERT - Delete"
+      netbox_vrf:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VRF One"
+          tenant: Test Tenant
+        state: absent
+      register: test_six
+
+    - name: "VRF 6: ASSERT - Delete"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['vrf']['name'] == "Test VRF One"
+          - test_six['vrf']['tenant'] == 1
+          - test_six['vrf']['rd'] == "65001:1"
+          - test_six['vrf']['enforce_unique'] == false
+          - test_six['vrf']['description'] == "Updated description"
+          - test_six['vrf']['tags'][0] == "Schnozzberry"
+          - test_six['msg'] == "vrf Test VRF One deleted"

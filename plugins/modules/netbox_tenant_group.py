@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_tenant_group
-short_description: Creates or removes tenants from Netbox
+short_description: Creates or removes tenant groups from Netbox
 description:
-  - Creates or removes tenants from Netbox
+  - Creates or removes tenant groups from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -26,7 +26,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.9"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -41,11 +41,11 @@ options:
   data:
     type: dict
     description:
-      - Defines the site configuration
+      - Defines the tenant group configuration
     suboptions:
       name:
         description:
-          - Name of the tenant to be created
+          - Name of the tenant group to be created
         required: true
         type: str
     required: true
@@ -120,12 +120,12 @@ def main():
 
     module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    # Fail if device name is not given
+    # Fail if name is not given
     if not module.params["data"].get("name"):
-        module.fail_json(msg="missing device name")
+        module.fail_json(msg="missing name")
 
-    netbox_tenant = NetboxTenancyModule(module, NB_TENANT_GROUPS)
-    netbox_tenant.run()
+    netbox_tenant_group = NetboxTenancyModule(module, NB_TENANT_GROUPS)
+    netbox_tenant_group.run()
 
 
 if __name__ == "__main__":
