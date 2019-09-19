@@ -73,7 +73,7 @@ QUERY_TYPES = dict(
     vrf="name",
 )
 
-# Specifies keys within data that need to be converted to ID
+# Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = dict(
     cluster="clusters",
     device="devices",

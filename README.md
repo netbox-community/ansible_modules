@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules) 
-# Netbox modules for Ansible using Ansible Collections 
+[![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules)
+# Netbox modules for Ansible using Ansible Collections
 
 **THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
 
@@ -274,6 +274,37 @@ if self.endpoint in SLUG_REQUIRED:
         data["slug"] = self._to_slug(name)
 ```
 
+If either **role** or **group** are within the acceptable keys to POST to the endpoint, we should prefix it with the endpoint name. This is to prevent the code from trying to fetch an ID from the wrong endpoint.
+Add the new key to **CONVERT_KEYS** within **netbox_utils** module util.
+
+```python
+CONVERT_KEYS = {
+    "prefix_role": "role",
+    "rack_group": "group",
+    "rack_role": "role",
+    "tenant_group": "group",
+    "vlan_role": "role",
+    "vlan_group": "group",
+}
+
+# Adding the method that uses this code (no change should be required within the method)
+def _convert_identical_keys(self, data):
+    """
+    Used to change non-clashing keys for each module into identical keys that are required
+    to be passed to pynetbox
+    ex. rack_role back into role to pass to Netbox
+    Returns data
+    :params data (dict): Data dictionary after _find_ids method ran
+    """
+    for key in data:
+        if key in CONVERT_KEYS:
+            new_key = CONVERT_KEYS[key]
+            value = data.pop(key)
+            data[new_key] = value
+
+    return data
+```
+
 #### Creating **netbox_endpoint** Module
 
 Copying an existing module that has close to the same options is typically the path to least resistence and then updating portions of it to fit the new module.
@@ -304,16 +335,16 @@ Copying an existing module that has close to the same options is typically the p
 
 #### Testing
 
- 1. Please update `tests/unit/module_utils/test_netbox_base_class.py` if editing anything within the base class that needs to be tested. This will most likely be needed as there are a few unit tests that test the data of **ALLOWED_QUERY_PARAMS**, etc.
+- Please update `tests/unit/module_utils/test_netbox_base_class.py` if editing anything within the base class that needs to be tested. This will most likely be needed as there are a few unit tests that test the data of **ALLOWED_QUERY_PARAMS**, etc.
 
-```python
-def test_normalize_data_returns_correct_data()
-def test_find_app_returns_valid_app()
-def test_change_choices_id()
-def test_build_query_params_no_child()
-def test_build_query_params_child()
-```
+  ```python
+  def test_normalize_data_returns_correct_data()
+  def test_find_app_returns_valid_app()
+  def test_change_choices_id()
+  def test_build_query_params_no_child()
+  def test_build_query_params_child()
+  ```
 
- 2. Please add or update an existing play to test the new Netbox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
- 3. Run `black .` within the base directory for black formatting as it's required for tests to pass
- 4. Check necessary dependencies defined within `.travis.yml` for now if you're wanting to test locally
+- Please add or update an existing play to test the new Netbox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
+- Run `black .` within the base directory for black formatting as it's required for tests to pass
+- Check necessary dependencies defined within `.travis.yml` for now if you're wanting to test locally
