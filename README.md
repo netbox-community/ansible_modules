@@ -80,11 +80,61 @@
 
 The structure of the Netbox modules attempts to follow the layout of the Netbox API by having a module_util for each application (`dcim, ipam, tenancy, etc`) that inherits from a base module (`NetboxModule - netbox_utils.py`) and then implements the specific endpoints within the correct application module.
 
-ex. Add logic for adding devices under netbox_dcim.py or ip addresses under netbox_ipam.py
+e.g. Add logic for adding devices under netbox_dcim.py or ip addresses under netbox_ipam.py
 
 In turn when creating the actual modules, we're just calling a single function and passing in the Ansible Module and the endpoint. This means all the logic is within the specific application's module_util module and a lot of the logic should be the same for most endpoints since it is a basic operation of using the desired state of the endpoint and then either making sure it exists, updating it if it does exist, or removing it. There may be some special logic for other endpoints, but it should be minimal.
 
 (Ansible Module) netbox_{{ endpoint }} -> (Module Util) netbox_{{ application }} -> (Module Util) netbox_utils
+
+These modules are built using the pynetbox Python library which allows you to interact with Netbox using objects. Most of this is abstracted away when creating more modules, but something to be aware of. The reasoning for using underscores within the endpoint names is so the endpoints work with pynetbox.
+
+An example of connecting to a Netbox instance and then choosing the application, endpoint, and operation:
+```python
+import pynetbox
+
+nb = pynetbox.api("http://localhost:32768", "0123456789abcdef0123456789abcdef01234567")
+
+# applications
+nb.circuits
+nb.dcim
+nb.extras
+nb.ipam
+nb.secrets
+nb.tenancy
+nb.virtualization
+
+# endpoints (small sample)
+nb.circuits.providers
+nb.dcim.devices
+nb.dcim.device_types
+nb.ipam.vrfs
+nb.ipam.ip_addresses
+nb.tenancy.tenant_groups
+
+# operations
+## Grabs a list of all endpoints
+nb.dcim.devices.**all**
+## Can pass a list of dicts to create multiple of the endpoints or just a dict to create a single endpoint
+nb.dcim.devices.**create**
+## Can filter to grab a name of the endpoint being filtered, not an object (Uses the same search criteria as the API)
+nb.dcim.devices.**filter**
+e.g. nb.dcim.devices.filter(name="test")
+## Will retrieve the actual object that can be manipulated (updated, etc.) (Uses the same search criteria as the API)
+nb.dcim.devices.**get**
+e.g. nb.dcim.devices.get(name="test")
+
+# Manipulate object after using .get
+## Now you can manipulate the object the same as a Python object
+device = nb.dcim.devices.get(name="test")
+device.description = "Test Description"
+## Patch operation (patches the data to the API)
+device.save()
+
+## If you were to just update the data in a fell swoop
+serial = {"serial": "FXS10001", "description": "Test Description"}
+## this operation will update the device and use the .save() method behind the scenes
+device.update(serial)
+```
 
 ### Adding an Endpoint
 
@@ -170,7 +220,7 @@ REQUIRED_ID_FIND = {
 # This is the method that uses the REQUIRED_ID_FIND variable (no change should be required within the method)
 def _change_choices_id(self, endpoint, data):
     """Used to change data that is static and under _choices for the application.
-    ex. DEVICE_STATUS
+    e.g. DEVICE_STATUS
     :returns data (dict): Returns the user defined data back with updated fields for _choices
     :params endpoint (str): The endpoint that will be used for mapping to required _choices
     :params data (dict): User defined data passed into the module

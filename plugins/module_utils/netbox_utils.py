@@ -138,8 +138,6 @@ IP_ADDRESS_ROLE = dict(
 
 PREFIX_STATUS = dict(container=0, active=1, reserved=2, deprecated=3)
 
-VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
-
 SITE_STATUS = dict(active=1, planned=2, retired=4)
 
 RACK_STATUS = dict(active=3, planned=2, reserved=0, available=1, deprecated=4)
