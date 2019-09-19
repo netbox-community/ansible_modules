@@ -44,7 +44,6 @@
 - netbox_vlan
 - netbox_vrf
 
-
 ## How to Use
 
 - Install via Mazer
