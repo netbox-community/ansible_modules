@@ -27,6 +27,7 @@ except ImportError:
 NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
+NB_RIRS = "rirs"
 NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
@@ -126,6 +127,7 @@ class NetboxIpamModule(NetboxModule):
         - ipam_roles
         - ip_addresses
         - prefixes
+        - rirs
         - vlans
         - vlan_groups
         - vrfs
