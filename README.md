@@ -37,6 +37,7 @@
 - netbox_rack_group
 - netbox_rack_role
 - netbox_rack
+- netbox_rir
 - netbox_site
 - netbox_tenant
 - netbox_tenant_group
