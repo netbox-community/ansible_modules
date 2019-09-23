@@ -11,11 +11,12 @@ env:
     - COLLECTION_NAME: netbox_modules
     - COLLECTION_VERSION: 0.1.0
 
+
 matrix:
   include:
-    - name: "Python 3.6 - Netbox 2.5"
+    - name: "Python 3.6 - Netbox 2.5 - Ansible 2.9RC1"
       python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.5
+      env: PYTHON_VER=3.6 VERSION=v2.5 ANSIBLE_VER=2.9.0rc1
       install:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
@@ -49,10 +50,16 @@ matrix:
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
 
-    - name: "Python 3.6 - Netbox 2.6"
+    - name: "Python 3.6 - Netbox 2.6 - Ansible Devel"
       python: 3.6
       env: PYTHON_VER=3.6 VERSION=v2.6
       install:
+        # Setup netbox container for integration testing
+        - git clone https://github.com/netbox-community/netbox-docker.git
+        - cd netbox-docker
+        - docker-compose --verbose pull
+        - docker-compose --verbose up -d
+        - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
         - pip install pynetbox==4.0.6 cryptography
@@ -61,14 +68,7 @@ matrix:
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
         - cd ansible
-        - git checkout stable-2.9
         - source hacking/env-setup
-        - cd ..
-        # Setup netbox container for integration testing
-        - git clone https://github.com/netbox-community/netbox-docker.git
-        - cd netbox-docker
-        - docker-compose --verbose pull
-        - docker-compose --verbose up -d
         - cd ..
 
       before_script:
