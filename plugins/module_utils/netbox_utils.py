@@ -37,7 +37,17 @@ API_APPS_ENDPOINTS = dict(
         "sites",
     ],
     extras=[],
-    ipam=["ip_addresses", "prefixes", "rirs", "roles", "vlans", "vlan_groups", "vrfs"],
+    ipam=[
+        "aggregates",
+        "ip_addresses",
+        "prefixes",
+        "services",
+        "rirs",
+        "roles",
+        "vlans",
+        "vlan_groups",
+        "vrfs",
+    ],
     secrets=[],
     tenancy=["tenants", "tenant_groups"],
     virtualization=["clusters"],
@@ -68,6 +78,7 @@ QUERY_TYPES = dict(
     tenant="name",
     tenant_group="slug",
     time_zone="timezone",
+    virtual_machine="name",
     vlan="name",
     vlan_group="slug",
     vlan_role="name",
@@ -82,6 +93,7 @@ CONVERT_TO_ID = dict(
     device_type="device_types",
     group="tenant_groups",
     interface="interfaces",
+    ip_addresses="ip_addresses",
     lag="interfaces",
     manufacturer="manufacturers",
     nat_inside="ip_addresses",
@@ -96,11 +108,13 @@ CONVERT_TO_ID = dict(
     rack_role="rack_roles",
     region="regions",
     rir="rirs",
+    services="services",
     site="sites",
     tagged_vlans="vlans",
     tenant="tenants",
     tenant_group="tenant_groups",
     untagged_vlan="vlans",
+    virtual_machine="virtual_machines",
     vlan="vlans",
     vlan_group="vlan_groups",
     vlan_role="roles",
@@ -108,6 +122,7 @@ CONVERT_TO_ID = dict(
 )
 
 ENDPOINT_NAME_MAPPING = {
+    "aggregates": "aggregate",
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
@@ -121,6 +136,7 @@ ENDPOINT_NAME_MAPPING = {
     "rack_roles": "rack_role",
     "rirs": "rir",
     "roles": "role",
+    "services": "services",
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
@@ -150,6 +166,8 @@ RACK_UNIT = dict(millimeters=1000, inches=2000)
 SUBDEVICE_ROLES = dict(parent=True, child=False)
 
 VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
+
+SERVICE_PROTOCOL = dict(tcp=6, udp=17)
 
 RACK_TYPE = {
     "2-post frame": 100,
@@ -226,11 +244,13 @@ INTF_FORM_FACTOR = {
 INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
 
 ALLOWED_QUERY_PARAMS = {
+    "aggregate": set(["prefix", "rir"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "interface": set(["name", "device"]),
     "ip_address": set(["address", "vrf"]),
+    "ip_addresses": set(["address", "vrf", "device"]),
     "lag": set(["name"]),
     "manufacturer": set(["name", "slug"]),
     "nat_inside": set(["vrf", "address"]),
@@ -241,6 +261,7 @@ ALLOWED_QUERY_PARAMS = {
     "rack_role": set(["slug"]),
     "rir": set(["slug"]),
     "role": set(["slug"]),
+    "services": set(["device", "virtual_machine", "name"]),
     "site": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
     "tenant": set(["name"]),
@@ -251,7 +272,9 @@ ALLOWED_QUERY_PARAMS = {
     "vrf": set(["name", "tenant"]),
 }
 
-QUERY_PARAMS_IDS = set(["device", "group", "vrf", "site", "vlan_group", "tenant"])
+QUERY_PARAMS_IDS = set(
+    ["device", "group", "rir", "vrf", "site", "vlan_group", "tenant"]
+)
 
 # This is used when converting static choices to an ID value acceptable to Netbox API
 REQUIRED_ID_FIND = {
@@ -261,6 +284,7 @@ REQUIRED_ID_FIND = {
     "ip_addresses": [{"status": IP_ADDRESS_STATUS, "role": IP_ADDRESS_ROLE}],
     "prefixes": [{"status": PREFIX_STATUS}],
     "racks": [{"status": RACK_STATUS, "outer_unit": RACK_UNIT, "type": RACK_TYPE}],
+    "services": [{"protocol": SERVICE_PROTOCOL}],
     "sites": [{"status": SITE_STATUS}],
     "vlans": [{"status": VLAN_STATUS}],
 }
@@ -419,6 +443,12 @@ class NetboxModule(object):
 
         elif parent == "prefix" and module_data.get("parent"):
             query_dict.update({"prefix": module_data["parent"]})
+
+        elif parent == "ip_addreses":
+            if isinstance(module_data["device"], int):
+                query_dict.update({"device_id": module_data["device"]})
+            else:
+                query_dict.update({"device": module_data["device"]})
 
         return query_dict
 

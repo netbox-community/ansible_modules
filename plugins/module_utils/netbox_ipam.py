@@ -24,6 +24,7 @@ except ImportError:
     from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
 
 
+NB_AGGREGATES = "aggregates"
 NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
@@ -124,6 +125,7 @@ class NetboxIpamModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - aggregates
         - ipam_roles
         - ip_addresses
         - prefixes
@@ -145,7 +147,7 @@ class NetboxIpamModule(NetboxModule):
 
         if self.endpoint == "ip_addresses":
             name = data.get("address")
-        elif self.endpoint == "prefixes":
+        elif self.endpoint in ["aggregates", "prefixes"]:
             name = data.get("prefix")
         else:
             name = data.get("name")
