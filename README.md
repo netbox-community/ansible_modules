@@ -25,6 +25,7 @@
 
 ## Existing Modules
 
+- netbox_aggregate
 - netbox_device
 - netbox_device_interface
 - netbox_device_role
