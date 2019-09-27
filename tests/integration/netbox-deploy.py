@@ -103,3 +103,5 @@ interfaces = [
     {"name": "GigabitEthernet2", "device": device.id, "form_factor": 1000},
 ]
 created_interfaces = nb.dcim.interfaces.create(interfaces)
+rirs = [{"name": "Example RIR", "slug": "example-rir"}]
+created_rirs = nb.ipam.rirs.create(rirs)

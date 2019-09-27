@@ -229,10 +229,12 @@ def test_to_slug_returns_valid_slug(mock_netbox_module):
         ("rack_roles", "dcim"),
         ("regions", "dcim"),
         ("sites", "dcim"),
+        ("aggregates", "ipam"),
         ("ip_addresses", "ipam"),
         ("prefixes", "ipam"),
         ("roles", "ipam"),
         ("rirs", "ipam"),
+        ("services", "ipam"),
         ("vlans", "ipam"),
         ("vlan_groups", "ipam"),
         ("vrfs", "ipam"),
@@ -469,6 +471,15 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
 @pytest.mark.parametrize(
     "parent, module_data, expected",
     [
+        (
+            "aggregate",
+            {
+                "prefix": "192.168.0.0/16",
+                "rir": "Example RIR",
+                "date_added": "2019-01-18",
+            },
+            {"prefix": "192.168.0.0/16", "rir_id": 1},
+        ),
         (
             "device",
             {"name": "Test Device", "status": "Active"},
