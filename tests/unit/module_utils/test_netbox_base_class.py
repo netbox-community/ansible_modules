@@ -486,6 +486,11 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
             {"name": "Test Device"},
         ),
         (
+            "device_bay",
+            {"name": "Device Bay #1", "device": "test100"},
+            {"name": "Device Bay #1", "device_id": 1},
+        ),
+        (
             "device_role",
             {
                 "name": "Test Device Role",
@@ -504,9 +509,24 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
             {"slug": "test-device-type"},
         ),
         (
+            "installed_device",
+            {"name": "Test Device", "status": "Active"},
+            {"name": "Test Device"},
+        ),
+        (
             "interface",
             {"name": "GigabitEthernet1", "device": "Test Device", "form_factor": 1000},
             {"name": "GigabitEthernet1", "device_id": 1},
+        ),
+        (
+            "inventory_item",
+            {
+                "name": "10G-SFP+",
+                "device": "test100",
+                "serial": "1234",
+                "asset_tag": "1234",
+            },
+            {"name": "10G-SFP+", "device_id": 1},
         ),
         (
             "ip_address",
@@ -537,6 +557,16 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
             "rack_role",
             {"name": "Test Rack Role", "slug": "test-rack-role"},
             {"slug": "test-rack-role"},
+        ),
+        (
+            "region",
+            {"name": "Test Region", "slug": "test-region"},
+            {"slug": "test-region"},
+        ),
+        (
+            "parent_region",
+            {"name": "Parent Region", "slug": "parent-region"},
+            {"slug": "parent-region"},
         ),
         (
             "rir",

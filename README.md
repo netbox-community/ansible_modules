@@ -26,10 +26,12 @@
 ## Existing Modules
 
 - netbox_aggregate
-- netbox_device
+- netbox_device_bay
 - netbox_device_interface
 - netbox_device_role
 - netbox_device_type
+- netbox_device
+- netbox_inventory_item
 - netbox_ip_address
 - netbox_ipam_role
 - netbox_manufacturer
@@ -38,10 +40,11 @@
 - netbox_rack_group
 - netbox_rack_role
 - netbox_rack
+- netbox_region
 - netbox_rir
 - netbox_site
-- netbox_tenant
 - netbox_tenant_group
+- netbox_tenant
 - netbox_vlan_group
 - netbox_vlan
 - netbox_vrf
