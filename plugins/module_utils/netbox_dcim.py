@@ -22,15 +22,18 @@ except ImportError:
     from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
 
 
+NB_DEVICE_BAYS = "device_bays"
 NB_DEVICES = "devices"
 NB_DEVICE_ROLES = "device_roles"
 NB_DEVICE_TYPES = "device_types"
 NB_INTERFACES = "interfaces"
+NB_INVENTORY_ITEMS = "inventory_items"
 NB_MANUFACTURERS = "manufacturers"
 NB_PLATFORMS = "platforms"
 NB_RACKS = "racks"
 NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
+NB_REGIONS = "regions"
 NB_SITES = "sites"
 
 
@@ -43,16 +46,19 @@ class NetboxDcimModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - device_bays
         - devices
         - device_roles
         - device_types
         - interfaces
+        - inventory_items
         - manufacturers
         - platforms
         - sites
         - racks
         - rack_roles
         - rack_groups
+        - regions
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
