@@ -610,6 +610,28 @@ def test_build_query_params_no_child(
     "parent, module_data, child, expected",
     [
         (
+            "primary_ip4",
+            {
+                "name": "test100",
+                "serial": "FXS1001",
+                "comments": "Temp device",
+                "primary_ip4": {"address": "172.16.180.1/24", "vrf": "Test VRF"},
+            },
+            {"address": "172.16.180.1/24", "vrf": "Test VRF"},
+            {"address": "172.16.180.1/24", "vrf_id": 1},
+        ),
+        (
+            "primary_ip6",
+            {
+                "name": "test100",
+                "serial": "FXS1001",
+                "comments": "Temp device",
+                "primary_ip4": {"address": "2001::1:1/64", "vrf": "Test VRF"},
+            },
+            {"address": "2001::1:1/64", "vrf": "Test VRF"},
+            {"address": "2001::1:1/64", "vrf_id": 1},
+        ),
+        (
             "lag",
             {"name": "GigabitEthernet1", "device": 1, "lag": {"name": "port-channel1"}},
             {"name": "port-channel1"},

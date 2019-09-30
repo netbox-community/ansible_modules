@@ -29,7 +29,6 @@
       assert:
         that:
           - test_one is changed
-          - test_one['msg'] == "device R1 created"
           - test_one['diff']['before']['state'] == 'absent'
           - test_one['diff']['after']['state'] == 'present'
           - test_one['device']['name'] == "R1"
@@ -38,6 +37,7 @@
           - test_one['device']['site'] == 1
           - test_one['device']['status'] == 3
           - test_one['device']['name'] == "R1"
+          - test_one['msg'] == "device R1 created"
 
     - name: "2 - Duplicate device"
       netbox_device:
@@ -56,12 +56,12 @@
       assert:
         that:
           - not test_two['changed']
-          - test_two['msg'] == "device R1 already exists"
           - test_two['device']['name'] == "R1"
           - test_two['device']['device_role'] == 1
           - test_two['device']['device_type'] == 1
           - test_two['device']['site'] == 1
           - test_two['device']['status'] == 3
+          - test_two['msg'] == "device R1 already exists"
 
     - name: "3 - Update device"
       netbox_device:
@@ -77,14 +77,14 @@
       assert:
         that:
           - test_three is changed
-          - test_three['msg'] == "device R1 updated"
-          - test_three['diff']['before']['serial'] == ""
           - test_three['diff']['after']['serial'] == "FXS1001"
           - test_three['device']['name'] == "R1"
           - test_three['device']['device_role'] == 1
           - test_three['device']['device_type'] == 1
           - test_three['device']['site'] == 1
           - test_three['device']['status'] == 3
+          - test_three['device']['serial'] == "FXS1001"
+          - test_three['msg'] == "device R1 updated"
 
     - name: "4 - Create device with tags and assign to rack"
       netbox_device:
@@ -109,7 +109,6 @@
       assert:
         that:
           - test_four is changed
-          - test_four['msg'] == "device TestR1 created"
           - test_four['diff']['before']['state'] == "absent"
           - test_four['diff']['after']['state'] == "present"
           - test_four['device']['name'] == "TestR1"
@@ -121,6 +120,7 @@
           - test_four['device']['tags'][0] == 'Schnozzberry'
           - test_four['device']['tenant'] == 1
           - test_four['device']['asset_tag'] == '1234'
+          - test_four['msg'] == "device TestR1 created"
 
     - name: "5 - Delete previous device"
       netbox_device:
@@ -155,6 +155,33 @@
           - test_six['diff']['before']['state'] == "present"
           - test_six['diff']['after']['state'] == "absent"
           - test_six['msg'] == "device R1 deleted"
+
+    - name: "7 - Add primary_ip4/6 to test100"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "test100"
+          primary_ip4: "172.16.180.1/24"
+          primary_ip6: "2001::1:1/64"
+        state: present
+      register: test_seven
+
+    - name: "7 - ASSERT"
+      assert:
+        that:
+          - test_seven is changed
+          - test_seven['diff']['after']['primary_ip4'] == 1
+          - test_seven['diff']['after']['primary_ip6'] == 2
+          - test_seven['device']['name'] == "test100"
+          - test_seven['device']['device_role'] == 1
+          - test_seven['device']['device_type'] == 1
+          - test_seven['device']['site'] == 1
+          - test_seven['device']['status'] == 1
+          - test_seven['device']['primary_ip4'] == 1
+          - test_seven['device']['primary_ip6'] == 2
+          - test_seven['msg'] == "device test100 updated"
+
 ##
 ##
 ### NETBOX_DEVICE_INTERFACE
@@ -530,7 +557,7 @@
           - test_eight['ip_address']['address'] == "10.10.1.30/16"
           - test_eight['ip_address']['family'] == 4
           - test_eight['ip_address']['interface'] == 1
-          - test_eight['ip_address']['nat_inside'] == 5
+          - test_eight['ip_address']['nat_inside'] == 7
           - test_eight['ip_address']['vrf'] == 1
 
     - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"

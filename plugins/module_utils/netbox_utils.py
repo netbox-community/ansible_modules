@@ -269,6 +269,8 @@ ALLOWED_QUERY_PARAMS = {
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
     "prefix": set(["prefix", "vrf"]),
+    "primary_ip4": set(["address", "vrf"]),
+    "primary_ip6": set(["address", "vrf"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
