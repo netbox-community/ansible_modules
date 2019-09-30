@@ -557,7 +557,7 @@
           - test_eight['ip_address']['address'] == "10.10.1.30/16"
           - test_eight['ip_address']['family'] == 4
           - test_eight['ip_address']['interface'] == 1
-          - test_eight['ip_address']['nat_inside'] == 5
+          - test_eight['ip_address']['nat_inside'] == 7
           - test_eight['ip_address']['vrf'] == 1
 
     - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
