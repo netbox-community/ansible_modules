@@ -86,6 +86,12 @@ options:
           - Staged
           - Failed
           - Inventory
+      primary_ip4:
+        description:
+          - Primary IPv4 address assigned to the device
+      primary_ip6:
+        description:
+          - Primary IPv6 address assigned to the device
       cluster:
         description:
           - Cluster that the device will be assigned to
