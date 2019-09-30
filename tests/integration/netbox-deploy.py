@@ -29,6 +29,11 @@ test_site = nb.dcim.sites.get(slug="test-site")
 test_site2 = nb.dcim.sites.get(slug="test-site2")
 
 
+## Create VRFs
+vrfs = [{"name": "Test VRF", "rd": "1:1"}]
+created_vrfs = nb.ipam.vrfs.create(vrfs)
+
+
 ## Create PREFIXES
 prefixes = [
     {"prefix": "192.168.100.0/24", "site": test_site2.id},
@@ -40,11 +45,6 @@ created_prefixes = nb.ipam.prefixes.create(prefixes)
 ## Create Regions
 regions = [{"name": "Test Region", "slug": "test-region"}]
 created_regions = nb.dcim.regions.create(regions)
-
-
-## Create VRFs
-vrfs = [{"name": "Test VRF", "rd": "1:1"}]
-created_vrfs = nb.ipam.vrfs.create(vrfs)
 
 
 ## Create VLAN GROUPS
@@ -190,6 +190,17 @@ interfaces = [
     {"name": "GigabitEthernet2", "device": test100.id, "form_factor": 1000},
 ]
 created_interfaces = nb.dcim.interfaces.create(interfaces)
+## Interface variables to be used later on
+test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
+test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
+
+
+## Create IP Addresses
+ip_addresses = [
+    {"address": "172.16.180.1/24", "interface": test100_gi1.id},
+    {"address": "2001::1:1/64", "interface": test100_gi2.id},
+]
+created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
 
 
 ## Create RIRs
