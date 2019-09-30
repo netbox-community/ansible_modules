@@ -77,13 +77,13 @@
       assert:
         that:
           - test_three is changed
-          - test_three['diff']['before']['serial'] == ""
           - test_three['diff']['after']['serial'] == "FXS1001"
           - test_three['device']['name'] == "R1"
           - test_three['device']['device_role'] == 1
           - test_three['device']['device_type'] == 1
           - test_three['device']['site'] == 1
           - test_three['device']['status'] == 3
+          - test_three['serial']['serial'] == "FXS1001"
           - test_three['msg'] == "device R1 updated"
 
     - name: "4 - Create device with tags and assign to rack"
