@@ -61,6 +61,7 @@ matrix:
 
 before_script:
   - echo $PWD
+  - echo $HOME
   - ls -la
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
   - cp -R FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
