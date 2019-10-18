@@ -46,6 +46,8 @@ matrix:
         - cd netbox-docker
         - docker-compose pull
         - docker-compose up -d
+        - "sleep 45"
+        - docker-compose logs
         - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
@@ -59,7 +61,6 @@ matrix:
         - cd  ..
 
 before_script:
-  - docker-compose logs
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
   - cp -R $COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
   - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
