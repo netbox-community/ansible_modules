@@ -42,7 +42,8 @@ matrix:
       env: PYTHON_VER=3.6 VERSION=v2.6
       install:
         # Setup netbox container for integration testing
-        - git clone https://github.com/FragmentedPacket/netbox-docker.git
+        - cd ..
+        - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
         - docker-compose pull
         - docker-compose up -d
