@@ -20,6 +20,7 @@ matrix:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
         - pip install pynetbox==4.0.6 cryptography codecov
+        - pip install jmespath
         - cd ../../
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
@@ -55,6 +56,7 @@ matrix:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
         - pip install pynetbox==4.0.6 cryptography
+        - pip install jmespath
         - cd ../../
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
