@@ -3020,7 +3020,7 @@
   tasks:
     - name: "NETBOX_LOOKUP 1: Lookup returns exactly two sites"
       assert:
-        that: "{{ query_result|count }} == 2"
+        that: "{{ query_result|count }} == 3"
       vars:
         query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
