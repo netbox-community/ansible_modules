@@ -59,6 +59,7 @@ matrix:
         - cd  ..
 
 before_script:
+  - docker-compose logs
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
   - cp -R $COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
   - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
