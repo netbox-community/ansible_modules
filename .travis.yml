@@ -44,7 +44,7 @@ matrix:
       script:
         - ansible-test units --python $PYTHON_VER -v
         - black . --check
-        - "sleep 60"
+        - "sleep 120"
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
 
@@ -79,6 +79,6 @@ matrix:
       script:
         - ansible-test units --python $PYTHON_VER -v
         - black . --check
-        - "sleep 60"
+        - "sleep 120"
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
