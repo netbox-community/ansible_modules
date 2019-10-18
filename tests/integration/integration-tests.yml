@@ -3006,3 +3006,38 @@
           - test_four['inventory_item']['part_id'] == "10G-SFP+"
           - test_four['inventory_item']['tags'][0] == "Schnozzberry"
           - test_four['msg'] == "inventory_item 10G-SFP+ deleted"
+
+##
+##
+### NETBOX_LOOKUP
+##
+##
+- name: "TEST NETBOX_LOOKUP"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+    - name: NETBOX_LOOKUP 1: Lookup returns exactly two sites
+      assert:
+        that: "{{ query_result|count }} == 2"
+      vars:
+        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+    - name: NETBOX_LOOKUP 2: Query doesn't return Wibble (sanity check json_query)
+      assert:
+        that: "{{ query_result|json_query('[?value.display_name==`Wibble`]')|count }} == 0"
+      vars:
+        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+    - name: NETBOX_LOOKUP 3: Device query returns exactly one TestDeviceR1
+      assert:
+        that: "{{ query_result|json_query('[?value.display_name==`TestDeviceR1`]')|count }} == 1"
+      vars:
+        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+    - name: NETBOX_LOOKUP 4: VLAN ID 400 can be queried and is named 'Test VLAN'
+      assert:
+        that: "{{ (query_result|json_query('[?value.vid==`400`].value.name'))[0] == 'Test VLAN' }}"
+      vars:
+        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'vlans', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
