@@ -20,6 +20,7 @@ matrix:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
         - pip install pynetbox==4.0.6 cryptography codecov
+        - pip install jmespath
         - cd ../../
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
@@ -44,7 +45,7 @@ matrix:
       script:
         - ansible-test units --python $PYTHON_VER -v
         - black . --check
-        - "sleep 60"
+        - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
 
@@ -55,6 +56,7 @@ matrix:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
         - pip install pynetbox==4.0.6 cryptography
+        - pip install jmespath
         - cd ../../
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
@@ -79,6 +81,6 @@ matrix:
       script:
         - ansible-test units --python $PYTHON_VER -v
         - black . --check
-        - "sleep 60"
+        - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
         - python tests/integration/netbox-deploy.py
         - ansible-playbook tests/integration/integration-tests.yml -v
