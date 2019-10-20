@@ -13,74 +13,52 @@ env:
 
 matrix:
   include:
-    - name: "Python 3.6 - Netbox 2.5"
+    - name: "Python 3.6 - Netbox 2.5 - Ansible 2.9RC4"
       python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.5
+      env: PYTHON_VER=3.6 VERSION=v2.5 ANSIBLE_VER=2.9.0rc4
       install:
+        - cd ..
+        # Setup netbox container for integration testing
+        - git clone https://github.com/FragmentedPacket/netbox-docker.git
+        - cd netbox-docker
+        - git checkout startup-dcim-interfaces-2.5
+        - docker-compose pull
+        - docker-compose up -d
+        - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
-        - pip install pynetbox==4.0.6 cryptography codecov
-        - pip install jmespath
-        - cd ../../
-        # This is due to ansible-test only being available within devel branch
-        - git clone https://github.com/ansible/ansible.git
-        - cd ansible
-        - git checkout stable-2.9
-        - source hacking/env-setup
+        - pip install pynetbox==4.0.6 cryptography codecov jmespath ansible==$ANSIBLE_VER
+
+    - name: "Python 3.6 - Netbox Latest - Ansible Devel"
+      python: 3.6
+      env: PYTHON_VER=3.6
+      install:
         - cd ..
         # Setup netbox container for integration testing
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
-        - docker-compose --verbose pull
-        - docker-compose --verbose up -d
+        - docker-compose pull
+        - docker-compose up -d
         - cd ..
-      
-      before_script:
-        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-        - cp -R FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - ansible-galaxy collection build .
-        - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
-      
-      script:
-        - ansible-test units --python $PYTHON_VER -v
-        - black . --check
-        - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
-        - python tests/integration/netbox-deploy.py
-        - ansible-playbook tests/integration/integration-tests.yml -v
-
-    - name: "Python 3.6 - Netbox 2.6"
-      python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.6
-      install:
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
-        - pip install pynetbox==4.0.6 cryptography
-        - pip install jmespath
-        - cd ../../
+        - pip install pynetbox==4.0.6 cryptography jmespath
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
         - cd ansible
-        - git checkout stable-2.9
         - source hacking/env-setup
-        - cd ..
-        # Setup netbox container for integration testing
-        - git clone https://github.com/netbox-community/netbox-docker.git
-        - cd netbox-docker
-        - docker-compose --verbose pull
-        - docker-compose --verbose up -d
-        - cd ..
+        - cd  ..
 
-      before_script:
-        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-        - cp -R FragmentedPacket/$COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        - ansible-galaxy collection build .
-        - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
-      
-      script:
-        - ansible-test units --python $PYTHON_VER -v
-        - black . --check
-        - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
-        - python tests/integration/netbox-deploy.py
-        - ansible-playbook tests/integration/integration-tests.yml -v
+before_script:
+  - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
+  - cp -R $COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+  - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+  - ansible-galaxy collection build .
+  - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
+
+script:
+  - ansible-test units --python $PYTHON_VER -v
+  - black . --check
+  - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
+  - python tests/integration/netbox-deploy.py
+  - ansible-playbook tests/integration/integration-tests.yml -v
