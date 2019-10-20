@@ -11,7 +11,6 @@ env:
     - COLLECTION_NAME: netbox_modules
     - COLLECTION_VERSION: 0.1.0
 
-
 matrix:
   include:
     - name: "Python 3.6 - Netbox 2.5 - Ansible 2.9RC4"
@@ -28,18 +27,13 @@ matrix:
         - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.3b0
-        - pip install pynetbox==4.0.6 cryptography codecov jmespath
-        # This is due to ansible-test only being available within devel branch
-        - git clone https://github.com/ansible/ansible.git
-        - cd ansible
-        - git checkout stable-2.9
-        - source hacking/env-setup
-        - cd ..
+        - pip install pynetbox==4.0.6 cryptography codecov jmespath ansible==$ANSIBLE_VER
 
     - name: "Python 3.6 - Netbox 2.6 - Ansible Devel"
       python: 3.6
       env: PYTHON_VER=3.6 VERSION=v2.6
       install:
+        - cd ..
         # Setup netbox container for integration testing
         - cd ..
         - git clone https://github.com/netbox-community/netbox-docker.git
