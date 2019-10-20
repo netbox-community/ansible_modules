@@ -35,7 +35,6 @@ matrix:
       install:
         - cd ..
         # Setup netbox container for integration testing
-        - cd ..
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
         - docker-compose pull
