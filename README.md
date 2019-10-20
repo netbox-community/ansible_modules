@@ -11,7 +11,7 @@
   - ~~Test different Python versions (3.6/3.7)~~
   - ~~Integration testing against at least two versions of Netbox~~
   - Local testing using Tox
-  - Test currently supported versions of Ansible
+  - ~~Test currently supported versions of Ansible~~
 - ~~Add documentation on how to use to README~~
 - ~~Add documentation on how to contribute to collection~~
 
@@ -48,6 +48,9 @@
 - netbox_vlan_group
 - netbox_vlan
 - netbox_vrf
+
+## Netbox Plugins
+- netbox lookup plugin
 
 ## How to Use
 
