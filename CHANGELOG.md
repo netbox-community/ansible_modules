@@ -25,7 +25,7 @@
 - [#15](https://github.com/FragmentedPacket/netbox_modules/issues/15) - Added netbox_region
 - [#15](https://github.com/FragmentedPacket/netbox_modules/issues/15) - Added netbox_device_bay
 - [#15](https://github.com/FragmentedPacket/netbox_modules/issues/15) - Added netbox_inventory_item
-- [#26](https://github.com/FragmentedPacket/netbox_modules/issues/17) - Added netbox lookup plugin
+- [#26](https://github.com/FragmentedPacket/netbox_modules/issues/26) - Added netbox lookup plugin
 
 ### Bug Fixes
 
