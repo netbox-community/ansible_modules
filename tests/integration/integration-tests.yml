@@ -3042,7 +3042,7 @@
       vars:
         query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'vlans', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
-    - name: "NETBOX_LOOKUP 5: Add one of two devices for looku filter test."
+    - name: "NETBOX_LOOKUP 5: Add one of two devices for lookup filter test."
       netbox_device:
         netbox_url: "http://localhost:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
