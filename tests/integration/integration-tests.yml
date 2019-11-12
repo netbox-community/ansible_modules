@@ -1391,12 +1391,13 @@
           serial: "FXS10001"
           asset_tag: "1234"
         state: present
+      ignore_errors: yes
       register: test_six
 
     - name: "6 - ASSERT"
       assert:
         that:
-          - not test_six['changed']
+          - test_six is failed
           - "'Asset tag already exists' in test_six['msg']"
 
     - name: "7 - Test delete"
@@ -2172,12 +2173,13 @@
         data:
           name: "VLAN Group One"
         state: present
+      ignore_errors: yes
       register: test_four
 
     - name: "VLAN_GROUP 4: ASSERT - Create with same name, different site"
       assert:
         that:
-          - not test_four['changed']
+          - test_four is failed
           - test_four['msg'] == "More than one result returned for VLAN Group One"
 
     - name: "VLAN_GROUP 5: ASSERT - Delete"
@@ -2336,12 +2338,13 @@
         data:
           name: "Test VLAN 500"
         state: absent
+      ignore_errors: yes
       register: test_five
 
     - name: "VLAN 5: ASSERT - Delete more than one result"
       assert:
         that:
-          - not test_five['changed']
+          - test_five is failed
           - test_five['msg'] == "More than one result returned for Test VLAN 500"
 
     - name: "VLAN 6: ASSERT - Delete"
@@ -2473,12 +2476,13 @@
         data:
           name: "Test VRF One"
         state: absent
+      ignore_errors: yes
       register: test_five
 
     - name: "VRF 5: ASSERT - Delete more than one result"
       assert:
         that:
-          - not test_five['changed']
+          - test_five is failed
           - test_five['msg'] == "More than one result returned for Test VRF One"
 
     - name: "VRF 6: ASSERT - Delete"

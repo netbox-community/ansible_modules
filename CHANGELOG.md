@@ -6,6 +6,7 @@
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Changed role to prefix_role in netbox_prefix.py
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Changed group to tenant_group in netbox_tenant.py
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Renamed netbox_interface to netbox_device_interface
+- [#24](https://github.com/FragmentedPacket/netbox_modules/issues/24) - Module failures when required fields arent provided
 
 ### New Modules / Plugins
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Added netbox_device_role

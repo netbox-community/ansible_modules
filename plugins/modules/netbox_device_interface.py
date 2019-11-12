@@ -203,7 +203,9 @@ msg:
   type: str
 """
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    NetboxAnsibleModule,
+)
 from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_INTERFACES,
@@ -221,11 +223,14 @@ def main():
         state=dict(required=False, default="present", choices=["present", "absent"]),
         validate_certs=dict(type="bool", default=True),
     )
+    required_if = [
+        ("state", "present", ["device", "name"]),
+        ("state", "absent", ["device", "name"]),
+    ]
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
-
-    if not module.params["data"].get("name"):
-        module.fail_json(msg="missing name")
+    module = NetboxAnsibleModule(
+        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+    )
 
     netbox_device_interface = NetboxDcimModule(module, NB_INTERFACES)
     netbox_device_interface.run()
