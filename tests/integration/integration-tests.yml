@@ -3041,3 +3041,39 @@
         that: "{{ (query_result|json_query('[?value.vid==`400`].value.name'))[0] == 'Test VLAN' }}"
       vars:
         query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'vlans', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+    - name: "NETBOX_LOOKUP 5: Add one of two devices for looku filter test."
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "L1"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+          tags: 
+            - "nolookup"
+        state: present
+
+    - name: "NETBOX_LOOKUP 6: Add two of two devices for lookup filter test."
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "L2"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+          tags: 
+            - "lookup"
+        state: present
+
+    - name: "NETBOX_LOOKUP 7: Device query returns exactly the L2 device"
+      assert:
+        that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
+      vars:
+          query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+
