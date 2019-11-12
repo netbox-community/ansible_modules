@@ -222,7 +222,9 @@ msg:
   type: str
 """
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    NetboxAnsibleModule,
+)
 from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_IP_ADDRESSES,
@@ -242,8 +244,15 @@ def main():
         ),
         validate_certs=dict(type="bool", default=True),
     )
+    required_if = [
+        ("state", "present", ["address", "prefix"], True),
+        ("state", "absent", ["address"]),
+        ("state", "new", ["address", "prefix"], True),
+    ]
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
+    module = NetboxAnsibleModule(
+        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+    )
 
     netbox_ip_address = NetboxIpamModule(module, NB_IP_ADDRESSES)
     netbox_ip_address.run()

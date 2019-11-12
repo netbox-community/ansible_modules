@@ -99,7 +99,9 @@ msg:
   type: str
 """
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    NetboxAnsibleModule,
+)
 from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_tenancy import (
     NetboxTenancyModule,
     NB_TENANT_GROUPS,
@@ -117,12 +119,11 @@ def main():
         state=dict(required=False, default="present", choices=["present", "absent"]),
         validate_certs=dict(type="bool", default=True),
     )
+    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
-
-    # Fail if name is not given
-    if not module.params["data"].get("name"):
-        module.fail_json(msg="missing name")
+    module = NetboxAnsibleModule(
+        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+    )
 
     netbox_tenant_group = NetboxTenancyModule(module, NB_TENANT_GROUPS)
     netbox_tenant_group.run()
