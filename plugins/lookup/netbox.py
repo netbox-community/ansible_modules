@@ -210,9 +210,9 @@ class LookupModule(LookupBase):
                 Display().vvvv("filter is %s" % filter)
 
                 for res in endpoint.filter(**filter):
-              
+
                     Display().vvvvv(pformat(dict(res)))
-                
+
                     key = dict(res)["id"]
                     result = {key: dict(res)}
 
