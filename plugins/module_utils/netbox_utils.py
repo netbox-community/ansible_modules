@@ -9,6 +9,10 @@ __metaclass__ = type
 import traceback
 from ansible.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
+
+# from ._text import to_native
+from ansible.module_utils._text import to_native
+from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
 
 PYNETBOX_IMP_ERR = None
@@ -379,7 +383,7 @@ class NetboxModule(object):
         :params msg (str): Message indicating why there is no change
         """
         if msg:
-            self.module.exit_json(msg=msg, changed=False)
+            self.module.fail_json(msg=msg, changed=False)
 
     def _build_diff(self, before=None, after=None):
         """Builds diff of before and after changes"""
@@ -692,3 +696,117 @@ class NetboxModule(object):
         Must be implemented in subclasses
         """
         raise NotImplementedError
+
+
+class NetboxAnsibleModule(AnsibleModule):
+    """
+    Creating this due to needing to override some functionality to provide required_together, required_if
+    and will be able to override more in the future.
+    This is due to the Netbox modules having the module arguments within a key in the argument spec, using suboptions rather than
+    having all module arguments within the regular argument spec.
+
+    Didn't want to change that functionality of the Netbox modules as its disruptive and we're required to send a specific payload
+    to the Netbox API
+    """
+
+    def __init__(
+        self,
+        argument_spec,
+        bypass_checks=False,
+        no_log=False,
+        check_invalid_arguments=None,
+        mutually_exclusive=None,
+        required_together=None,
+        required_one_of=None,
+        add_file_common_args=False,
+        supports_check_mode=False,
+        required_if=None,
+        required_by=None,
+    ):
+        super().__init__(
+            argument_spec,
+            bypass_checks,
+            no_log,
+            check_invalid_arguments,
+            mutually_exclusive,
+            required_together,
+            required_one_of,
+            add_file_common_args,
+            supports_check_mode,
+            required_if,
+            required_by,
+        )
+
+    def _check_required_if(self, spec, param=None):
+        """ ensure that parameters which conditionally required are present """
+        if spec is None:
+            return
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_required_if(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_required_if(self, requirements, module_parameters):
+        results = []
+        if requirements is None:
+            return results
+
+        for req in requirements:
+            missing = {}
+            missing["missing"] = []
+            max_missing_count = 0
+            is_one_of = False
+            if len(req) == 4:
+                key, val, requirements, is_one_of = req
+            else:
+                key, val, requirements = req
+
+            # is_one_of is True at least one requirement should be
+            # present, else all requirements should be present.
+            if is_one_of:
+                max_missing_count = len(requirements)
+                missing["requires"] = "any"
+            else:
+                missing["requires"] = "all"
+
+            if key in module_parameters and module_parameters[key] == val:
+                for check in requirements:
+                    count = self.count_terms(check, module_parameters["data"])
+                    if count == 0:
+                        missing["missing"].append(check)
+            if len(missing["missing"]) and len(missing["missing"]) >= max_missing_count:
+                missing["parameter"] = key
+                missing["value"] = val
+                missing["requirements"] = requirements
+                results.append(missing)
+
+        if results:
+            for missing in results:
+                msg = "%s is %s but %s of the following are missing: %s" % (
+                    missing["parameter"],
+                    missing["value"],
+                    missing["requires"],
+                    ", ".join(missing["missing"]),
+                )
+                raise TypeError(to_native(msg))
+
+        return results
+
+    def count_terms(self, terms, module_parameters):
+        """Count the number of occurrences of a key in a given dictionary
+        :arg terms: String or iterable of values to check
+        :arg module_parameters: Dictionary of module parameters
+        :returns: An integer that is the number of occurrences of the terms values
+            in the provided dictionary.
+        """
+
+        if not is_iterable(terms):
+            terms = [terms]
+
+        return len(set(terms).intersection(module_parameters))

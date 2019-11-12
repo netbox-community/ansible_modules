@@ -230,7 +230,9 @@ msg:
 """
 
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    NetboxAnsibleModule,
+)
 from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_PREFIXES,
@@ -249,8 +251,15 @@ def main():
         first_available=dict(type="bool", required=False, default=False),
         validate_certs=dict(type="bool", default=True),
     )
+    required_if = [
+        ("state", "present", ["prefix", "parent"], True),
+        ("state", "absent", ["prefix"]),
+        ("first_available", "yes", ["parent"]),
+    ]
 
-    module = AnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
+    module = NetboxAnsibleModule(
+        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+    )
 
     netbox_prefix = NetboxIpamModule(module, NB_PREFIXES)
     netbox_prefix.run()
