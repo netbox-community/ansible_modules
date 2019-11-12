@@ -15,6 +15,7 @@ from pprint import pformat
 
 from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
+from ansible.parsing.splitter import parse_kv
 from ansible.utils.display import Display
 
 import pynetbox
@@ -40,6 +41,10 @@ DOCUMENTATION = """
             description:
                 - The URL to the Netbox instance to query
             required: True
+        api_filter:
+            description:
+                - The api_filter to use.
+            required: False
         token:
             description:
                 - The API token created through Netbox
@@ -58,6 +63,20 @@ tasks:
          manufactured by {{ item.value.device_type.manufacturer.name }}"
     loop: "{{ query('netbox', 'devices',
                     api_endpoint='http://localhost/',
+                    token='<redacted>') }}"
+
+This example uses an API Filter
+
+tasks:
+  # query a list of devices
+  - name: Obtain list of devices from Netbox
+    debug:
+      msg: >
+        "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
+         manufactured by {{ item.value.device_type.manufacturer.name }}"
+    loop: "{{ query('netbox', 'devices',
+                    api_endpoint='http://localhost/',
+                    api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
 """
 
@@ -161,6 +180,7 @@ class LookupModule(LookupBase):
         netbox_api_token = kwargs.get("token")
         netbox_api_endpoint = kwargs.get("api_endpoint")
         netbox_private_key_file = kwargs.get("key_file")
+        netbox_api_filter = kwargs.get("api_filter")
 
         if not isinstance(terms, list):
             terms = [terms]
@@ -180,16 +200,32 @@ class LookupModule(LookupBase):
                 raise AnsibleError("Unrecognised term %s. Check documentation" % term)
 
             Display().vvvv(
-                u"Netbox lookup for %s to %s using token %s"
-                % (term, netbox_api_endpoint, netbox_api_token)
+                u"Netbox lookup for %s to %s using token %s filter %s"
+                % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter)
             )
-            for res in endpoint.all():
 
-                Display().vvvvv(pformat(dict(res)))
+            if netbox_api_filter:
+                filter = parse_kv(netbox_api_filter)
 
-                key = dict(res)["id"]
-                result = {key: dict(res)}
+                Display().vvvv("filter is %s" % filter)
 
-                results.extend(self._flatten_hash_to_list(result))
+                for res in endpoint.filter(**filter):
+
+                    Display().vvvvv(pformat(dict(res)))
+
+                    key = dict(res)["id"]
+                    result = {key: dict(res)}
+
+                    results.extend(self._flatten_hash_to_list(result))
+
+            else:
+                for res in endpoint.all():
+
+                    Display().vvvvv(pformat(dict(res)))
+
+                    key = dict(res)["id"]
+                    result = {key: dict(res)}
+
+                    results.extend(self._flatten_hash_to_list(result))
 
         return results
