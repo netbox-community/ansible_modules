@@ -56,12 +56,14 @@ API_APPS_ENDPOINTS = dict(
     ],
     secrets=[],
     tenancy=["tenants", "tenant_groups"],
-    virtualization=["clusters"],
+    virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
 )
 
 # Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
     cluster="name",
+    cluster_group="slug",
+    cluster_type="slug",
     device="name",
     device_role="slug",
     device_type="slug",
@@ -96,6 +98,8 @@ QUERY_TYPES = dict(
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = dict(
     cluster="clusters",
+    cluster_group="cluster_groups",
+    cluster_type="cluster_types",
     device="devices",
     device_role="device_roles",
     device_type="device_types",
@@ -125,6 +129,7 @@ CONVERT_TO_ID = dict(
     tenant_group="tenant_groups",
     untagged_vlan="vlans",
     virtual_machine="virtual_machines",
+    virtual_machine_role="device_roles",
     vlan="vlans",
     vlan_group="vlan_groups",
     vlan_role="roles",
@@ -133,6 +138,9 @@ CONVERT_TO_ID = dict(
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "clusters": "cluster",
+    "cluster_groups": "cluster_group",
+    "cluster_types": "cluster_type",
     "device_bays": "device_bay",
     "devices": "device",
     "device_roles": "device_role",
@@ -153,6 +161,7 @@ ENDPOINT_NAME_MAPPING = {
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
+    "virtual_machines": "virtual_machine",
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
@@ -256,8 +265,14 @@ INTF_FORM_FACTOR = {
 
 INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
 
+VIRTUAL_MACHINE_STATUS = dict(offline=0, active=1, staged=3)
+
+# TODO: Figure out why virtualization modules fail with multiple query params specified in set
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "cluster": set(["name", "type"]),
+    "cluster_group": set(["slug"]),
+    "cluster_type": set(["slug"]),
     "device_bay": set(["name", "device"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
@@ -287,13 +302,14 @@ ALLOWED_QUERY_PARAMS = {
     "tenant": set(["name"]),
     "tenant_group": set(["name"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
+    "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["name", "site", "tenant"]),
     "vlan_group": set(["slug", "site"]),
     "vrf": set(["name", "tenant"]),
 }
 
 QUERY_PARAMS_IDS = set(
-    ["device", "group", "rir", "vrf", "site", "vlan_group", "tenant"]
+    ["cluster", "device", "group", "rir", "vrf", "site", "vlan_group", "tenant", "type"]
 )
 
 # This is used when converting static choices to an ID value acceptable to Netbox API
@@ -306,22 +322,28 @@ REQUIRED_ID_FIND = {
     "racks": [{"status": RACK_STATUS, "outer_unit": RACK_UNIT, "type": RACK_TYPE}],
     "services": [{"protocol": SERVICE_PROTOCOL}],
     "sites": [{"status": SITE_STATUS}],
+    "virtual_machines": [{"status": VIRTUAL_MACHINE_STATUS, "face": FACE_ID}],
     "vlans": [{"status": VLAN_STATUS}],
 }
 
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
+    "cluster_type": "type",
+    "cluster_group": "group",
     "parent_region": "parent",
     "prefix_role": "role",
     "rack_group": "group",
     "rack_role": "role",
     "tenant_group": "group",
+    "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
 }
 
 # This is used to dynamically conver name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
+    "cluster_groups",
+    "cluster_types",
     "device_roles",
     "ipam_roles",
     "rack_groups",
