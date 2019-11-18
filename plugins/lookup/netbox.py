@@ -160,7 +160,7 @@ def get_endpoint(netbox, term):
         "tenants": {"endpoint": netbox.tenancy.tenants},
         "topology-maps": {"endpoint": netbox.extras.topology_maps},
         "virtual-chassis": {"endpoint": netbox.dcim.virtual_chassis},
-        "virtual-machines": {"endpoint": netbox.dcim.virtual_machines},
+        "virtual-machines": {"endpoint": netbox.virtualization.virtual_machines},
         "virtualization-interfaces": {"endpoint": netbox.virtualization.interfaces},
         "vlan-groups": {"endpoint": netbox.ipam.vlan_groups},
         "vlans": {"endpoint": netbox.ipam.vlans},
