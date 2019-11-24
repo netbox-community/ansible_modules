@@ -241,6 +241,7 @@ def test_to_slug_returns_valid_slug(mock_netbox_module):
         ("circuit_terminations", "circuits"),
         ("device_roles", "dcim"),
         ("device_types", "dcim"),
+        ("devices", "dcim"),
         ("interfaces", "dcim"),
         ("manufacturers", "dcim"),
         ("platforms", "dcim"),
