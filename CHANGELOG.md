@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.0 (WIP)
+## v0.1.0
 
 ### Breaking Changes
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Changed role to prefix_role in netbox_prefix.py
@@ -27,6 +27,15 @@
 - [#15](https://github.com/FragmentedPacket/netbox_modules/issues/15) - Added netbox_device_bay
 - [#15](https://github.com/FragmentedPacket/netbox_modules/issues/15) - Added netbox_inventory_item
 - [#26](https://github.com/FragmentedPacket/netbox_modules/issues/26) - Added netbox lookup plugin
+- [#16](https://github.com/FragmentedPacket/netbox_modules/issues/16) - Added netbox_virtual_machine
+- [#16](https://github.com/FragmentedPacket/netbox_modules/issues/16) - Added netbox_vm_interface
+- [#16](https://github.com/FragmentedPacket/netbox_modules/issues/16) - Added netbox_cluster_type
+- [#16](https://github.com/FragmentedPacket/netbox_modules/issues/16) - Added netbox_cluster_group
+- [#16](https://github.com/FragmentedPacket/netbox_modules/issues/16) - Added netbox_cluster
+- [#17](https://github.com/FragmentedPacket/netbox_modules/issues/17) - Added netbox_provider
+- [#17](https://github.com/FragmentedPacket/netbox_modules/issues/17) - Added netbox_circuit
+- [#17](https://github.com/FragmentedPacket/netbox_modules/issues/17) - Added netbox_circuit_type
+- [#17](https://github.com/FragmentedPacket/netbox_modules/issues/17) - Added netbox_circuit_termination
 
 ### Bug Fixes
 
