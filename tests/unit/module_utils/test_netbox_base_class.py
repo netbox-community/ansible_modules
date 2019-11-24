@@ -145,6 +145,9 @@ def test_init(mock_netbox_module, find_ids_return):
 
 def test_normalize_data_returns_correct_data(mock_netbox_module):
     data = {
+        "circuit": "Test-Circuit-1000",
+        "circuit_termination": "Test Circuit",
+        "circuit_type": "Test Circuit Type",
         "cluster": "Test Cluster",
         "cluster_group": "Test Cluster_group",
         "cluster_type": "Test Cluster Type",
@@ -161,6 +164,7 @@ def test_normalize_data_returns_correct_data(mock_netbox_module):
         "primary_ip": "192.168.1.1/24",
         "primary_ip4": "192.168.1.1/24",
         "primary_ip6": "2001::1/128",
+        "provider": "Test Provider",
         "rack": "Test Rack",
         "rack_group": "RacK_group",
         "rack_role": "Test Rack Role",
@@ -179,6 +183,9 @@ def test_normalize_data_returns_correct_data(mock_netbox_module):
         "vrf": "Test VRF",
     }
     norm_data_expected = {
+        "circuit": "Test-Circuit-1000",
+        "circuit_termination": "Test Circuit",
+        "circuit_type": "test-circuit-type",
         "cluster": "Test Cluster",
         "cluster_group": "test-cluster_group",
         "cluster_type": "test-cluster-type",
@@ -195,6 +202,7 @@ def test_normalize_data_returns_correct_data(mock_netbox_module):
         "primary_ip": "192.168.1.1/24",
         "primary_ip4": "192.168.1.1/24",
         "primary_ip6": "2001::1/128",
+        "provider": "test-provider",
         "rack": "Test Rack",
         "rack_group": "rack_group",
         "rack_role": "test-rack-role",
@@ -227,7 +235,10 @@ def test_to_slug_returns_valid_slug(mock_netbox_module):
 @pytest.mark.parametrize(
     "endpoint, app",
     [
-        ("devices", "dcim"),
+        ("providers", "circuits"),
+        ("circuits", "circuits"),
+        ("circuit_types", "circuits"),
+        ("circuit_terminations", "circuits"),
         ("device_roles", "dcim"),
         ("device_types", "dcim"),
         ("interfaces", "dcim"),
@@ -353,6 +364,25 @@ def test_update_netbox_object_with_changes_check_mode_true(
 @pytest.mark.parametrize(
     "endpoint, data, expected",
     [
+        (
+            "circuits",
+            {
+                "status": "Active",
+                "status": "Offline",
+                "status": "Planned",
+                "status": "Provisioning",
+                "status": "Deprovisioning",
+                "status": "Decommissioned",
+            },
+            {
+                "status": 1,
+                "status": 4,
+                "status": 2,
+                "status": 3,
+                "status": 0,
+                "status": 5,
+            },
+        ),
         (
             "devices",
             {
@@ -495,6 +525,30 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
     "parent, module_data, expected",
     [
         (
+            "circuit",
+            {
+                "cid": "Test-Circuit-1000",
+                "cluster_type": "Test Circuit Type",
+                "provider": "Test Provider",
+            },
+            {"cid": "Test-Circuit-1000"},
+        ),
+        (
+            "circuit_termination",
+            {
+                "circuit": "Test Circuit",
+                "term_side": "A",
+                "site": "Test Site",
+                "port_speed": 10000,
+            },
+            {"circuit_id": 1, "term_side": "A"},
+        ),
+        (
+            "circuit_type",
+            {"name": "Test Circuit Type", "slug": "test-circuit-type"},
+            {"slug": "test-circuit-type"},
+        ),
+        (
             "aggregate",
             {
                 "prefix": "192.168.0.0/16",
@@ -581,6 +635,11 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
             {"prefix": "10.10.10.0/24", "vrf_id": 1},
         ),
         ("prefix", {"parent": "10.10.0.0/16"}, {"prefix": "10.10.0.0/16"}),
+        (
+            "provider",
+            {"name": "Test Provider", "slug": "test-provider", "asn": 65001,},
+            {"slug": "test-provider"},
+        ),
         (
             "rack",
             {"name": "Test Rack", "slug": "test-rack", "site": "Test Site"},
