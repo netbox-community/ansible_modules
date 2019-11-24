@@ -1,20 +1,6 @@
 [![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules)
 # Netbox modules for Ansible using Ansible Collections
 
-**THIS IS A WIP DUE TO COLLECTIONS BEING IN TECH REVIEW CURRENTLY (Ansible 2.8) BUT WILL BE UPDATED AS NECESSARY AS COLLECTIONS MATURES**
-
-## Todo
-
-- ~~initial build and changes to properly import module_utils~~
-- Add testing to Travis CI
-  - ~~Initial unit tests~~
-  - ~~Test different Python versions (3.6/3.7)~~
-  - ~~Integration testing against at least two versions of Netbox~~
-  - Local testing using Tox
-  - ~~Test currently supported versions of Ansible~~
-- ~~Add documentation on how to use to README~~
-- ~~Add documentation on how to contribute to collection~~
-
 ## Requirements
 
 - Netbox 2.5+
@@ -26,6 +12,9 @@
 ## Existing Modules
 
 - netbox_aggregate
+- netbox_cluster
+- netbox_cluster_group
+- netbox_cluster_type
 - netbox_device_bay
 - netbox_device_interface
 - netbox_device_role
@@ -45,6 +34,8 @@
 - netbox_site
 - netbox_tenant_group
 - netbox_tenant
+- netbox_virtual_machine
+- netbox_vm_interface
 - netbox_vlan_group
 - netbox_vlan
 - netbox_vrf

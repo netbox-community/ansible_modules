@@ -2942,7 +2942,7 @@
         state: present
       register: test_two
 
-    - name: "DEVICE_BAY 2: ASSERT - Create duplicate"
+    - name: "INVENTORY_ITEM 2: ASSERT - Create duplicate"
       assert:
         that:
           - not test_two['changed']
@@ -3013,6 +3013,538 @@
 
 ##
 ##
+### NETBOX_VIRTUAL_MACHINES
+##
+##
+- name: "TEST NETBOX_VIRTUAL_MACHINES"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "VIRTUAL_MACHINE 1: Necessary info creation"
+      netbox_virtual_machine:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VM One"
+          cluster: "Test Cluster"
+        state: present
+      register: test_one
+
+    - name: "VIRTUAL_MACHINE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['virtual_machine']['name'] == "Test VM One"
+          - test_one['virtual_machine']['cluster'] == 1
+          - test_one['msg'] == "virtual_machine Test VM One created"
+
+    - name: "VIRTUAL_MACHINE 2: Create duplicate"
+      netbox_virtual_machine:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VM One"
+          cluster: "Test Cluster"
+        state: present
+      register: test_two
+
+    - name: "VIRTUAL_MACHINE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['virtual_machine']['name'] == "Test VM One"
+          - test_two['virtual_machine']['cluster'] == 1
+          - test_two['msg'] == "virtual_machine Test VM One already exists"
+
+    - name: "VIRTUAL_MACHINE 3: Update"
+      netbox_virtual_machine:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VM One"
+          cluster: "Test Cluster"
+          vcpus: 8
+          memory: 8
+          virtual_machine_role: "Test VM Role"
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_three
+
+    - name: "VIRTUAL_MACHINE 3: ASSERT - Updated"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['vcpus'] == 8
+          - test_three['diff']['after']['memory'] == 8
+          - test_three['diff']['after']['role'] == 2
+          - test_three['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_three['virtual_machine']['name'] == "Test VM One"
+          - test_three['virtual_machine']['cluster'] == 1
+          - test_three['virtual_machine']['vcpus'] == 8
+          - test_three['virtual_machine']['memory'] == 8
+          - test_three['virtual_machine']['role'] == 2
+          - test_three['virtual_machine']['tags'][0] == "Schnozzberry"
+          - test_three['msg'] == "virtual_machine Test VM One updated"
+
+    - name: "VIRTUAL_MACHINE 4: ASSERT - Delete"
+      netbox_virtual_machine:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test VM One"
+        state: absent
+      register: test_four
+
+    - name: "VIRTUAL_MACHINE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['virtual_machine']['name'] == "Test VM One"
+          - test_four['virtual_machine']['cluster'] == 1
+          - test_four['virtual_machine']['vcpus'] == 8
+          - test_four['virtual_machine']['memory'] == 8
+          - test_four['virtual_machine']['tags'][0] == "Schnozzberry"
+          - test_four['msg'] == "virtual_machine Test VM One deleted"
+
+##
+##
+### NETBOX_CLUSTER
+##
+##
+- name: "TEST NETBOX_CLUSTER"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "CLUSTER 1: Necessary info creation"
+      netbox_cluster:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster One"
+          cluster_type: "Test Cluster Type"
+        state: present
+      register: test_one
+
+    - name: "CLUSTER 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['cluster']['name'] == "Test Cluster One"
+          - test_one['cluster']['type'] == 1
+          - test_one['msg'] == "cluster Test Cluster One created"
+
+    - name: "CLUSTER 2: Create duplicate"
+      netbox_cluster:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster One"
+          cluster_type: "Test Cluster Type"
+        state: present
+      register: test_two
+
+    - name: "CLUSTER 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['cluster']['name'] == "Test Cluster One"
+          - test_two['cluster']['type'] == 1
+          - test_two['msg'] == "cluster Test Cluster One already exists"
+
+    - name: "CLUSTER 3: Update"
+      netbox_cluster:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster One"
+          cluster_type: "Test Cluster Type"
+          cluster_group: "Test Cluster Group"
+          site: "Test Site"
+          comments: "Updated cluster"
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_three
+
+    - name: "CLUSTER 3: ASSERT - Updated"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['group'] == 1
+          - test_three['diff']['after']['site'] == 1
+          - test_three['diff']['after']['comments'] == "Updated cluster"
+          - test_three['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_three['cluster']['name'] == "Test Cluster One"
+          - test_three['cluster']['type'] == 1
+          - test_three['cluster']['group'] == 1
+          - test_three['cluster']['site'] == 1
+          - test_three['cluster']['comments'] == "Updated cluster"
+          - test_three['cluster']['tags'][0] == "Schnozzberry"
+          - test_three['msg'] == "cluster Test Cluster One updated"
+
+    - name: "CLUSTER 4: ASSERT - Delete"
+      netbox_cluster:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster One"
+        state: absent
+      register: test_four
+
+    - name: "CLUSTER 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['cluster']['name'] == "Test Cluster One"
+          - test_four['cluster']['type'] == 1
+          - test_four['cluster']['group'] == 1
+          - test_four['cluster']['site'] == 1
+          - test_four['cluster']['comments'] == "Updated cluster"
+          - test_four['cluster']['tags'][0] == "Schnozzberry"
+          - test_four['msg'] == "cluster Test Cluster One deleted"
+
+##
+##
+### NETBOX_CLUSTER_GROUP
+##
+##
+- name: "TEST NETBOX_CLUSTER_GROUP"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "CLUSTER_GROUP 1: Necessary info creation"
+      netbox_cluster_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Group One"
+        state: present
+      register: test_one
+
+    - name: "CLUSTER_GROUP 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['cluster_group']['name'] == "Test Cluster Group One"
+          - test_one['cluster_group']['slug'] == "test-cluster-group-one"
+          - test_one['msg'] == "cluster_group Test Cluster Group One created"
+
+    - name: "CLUSTER_GROUP 2: Create duplicate"
+      netbox_cluster_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Group One"
+        state: present
+      register: test_two
+
+    - name: "CLUSTER_GROUP 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['cluster_group']['name'] == "Test Cluster Group One"
+          - test_two['cluster_group']['slug'] == "test-cluster-group-one"
+          - test_two['msg'] == "cluster_group Test Cluster Group One already exists"
+
+    - name: "CLUSTER_GROUP 3: User specified slug"
+      netbox_cluster_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Group Two"
+          slug: "test-cluster-group-2"
+        state: present
+      register: test_three
+
+    - name: "CLUSTER_GROUP 3: ASSERT - User specified slug"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "absent"
+          - test_three['diff']['after']['state'] == "present"
+          - test_three['cluster_group']['name'] == "Test Cluster Group Two"
+          - test_three['cluster_group']['slug'] == "test-cluster-group-2"
+          - test_three['msg'] == "cluster_group Test Cluster Group Two created"
+
+    - name: "CLUSTER_GROUP 4: ASSERT - Delete"
+      netbox_cluster_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Group One"
+        state: absent
+      register: test_four
+
+    - name: "CLUSTER_GROUP 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['cluster_group']['name'] == "Test Cluster Group One"
+          - test_four['cluster_group']['slug'] == "test-cluster-group-one"
+          - test_four['msg'] == "cluster_group Test Cluster Group One deleted"
+
+    - name: "CLUSTER_GROUP 5: ASSERT - Delete"
+      netbox_cluster_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Group Two"
+          slug: "test-cluster-group-2"
+        state: absent
+      register: test_five
+
+    - name: "CLUSTER_GROUP 5: ASSERT - Delete"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['cluster_group']['name'] == "Test Cluster Group Two"
+          - test_five['cluster_group']['slug'] == "test-cluster-group-2"
+          - test_five['msg'] == "cluster_group Test Cluster Group Two deleted"
+
+##
+##
+### NETBOX_CLUSTER_TYPE
+##
+##
+- name: "TEST NETBOX_CLUSTER_TYPE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "CLUSTER_TYPE 1: Necessary info creation"
+      netbox_cluster_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Type One"
+        state: present
+      register: test_one
+
+    - name: "CLUSTER_TYPE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['cluster_type']['name'] == "Test Cluster Type One"
+          - test_one['cluster_type']['slug'] == "test-cluster-type-one"
+          - test_one['msg'] == "cluster_type Test Cluster Type One created"
+
+    - name: "CLUSTER_TYPE 2: Create duplicate"
+      netbox_cluster_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Type One"
+        state: present
+      register: test_two
+
+    - name: "CLUSTER_TYPE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['cluster_type']['name'] == "Test Cluster Type One"
+          - test_two['cluster_type']['slug'] == "test-cluster-type-one"
+          - test_two['msg'] == "cluster_type Test Cluster Type One already exists"
+
+    - name: "CLUSTER_TYPE 3: User specified slug"
+      netbox_cluster_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Type Two"
+          slug: "test-cluster-type-2"
+        state: present
+      register: test_three
+
+    - name: "CLUSTER_TYPE 3: ASSERT - User specified slug"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['before']['state'] == "absent"
+          - test_three['diff']['after']['state'] == "present"
+          - test_three['cluster_type']['name'] == "Test Cluster Type Two"
+          - test_three['cluster_type']['slug'] == "test-cluster-type-2"
+          - test_three['msg'] == "cluster_type Test Cluster Type Two created"
+
+    - name: "CLUSTER_TYPE 4: ASSERT - Delete"
+      netbox_cluster_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Type One"
+        state: absent
+      register: test_four
+
+    - name: "CLUSTER_TYPE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['cluster_type']['name'] == "Test Cluster Type One"
+          - test_four['cluster_type']['slug'] == "test-cluster-type-one"
+          - test_four['msg'] == "cluster_type Test Cluster Type One deleted"
+
+    - name: "CLUSTER_TYPE 5: ASSERT - Delete"
+      netbox_cluster_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Cluster Type Two"
+          slug: "test-cluster-type-2"
+        state: absent
+      register: test_five
+
+    - name: "CLUSTER_TYPE 5: ASSERT - Delete"
+      assert:
+        that:
+          - test_five is changed
+          - test_five['cluster_type']['name'] == "Test Cluster Type Two"
+          - test_five['cluster_type']['slug'] == "test-cluster-type-2"
+          - test_five['msg'] == "cluster_type Test Cluster Type Two deleted"
+
+##
+##
+### NETBOX_VM_INTERFACE
+##
+##
+- name: "TEST NETBOX_VM_INTERFACE"
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  collections:
+    - fragmentedpacket.netbox_modules
+
+  tasks:
+    - name: "NETBOX_VM_INTERFACE 1: Necessary info creation"
+      netbox_vm_interface:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          virtual_machine: "test100-vm"
+          name: "Eth0"
+        state: present
+      register: test_one
+
+    - name: "NETBOX_VM_INTERFACE 1: ASSERT - Necessary info creation"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['interface']['name'] == "Eth0"
+          - test_one['interface']['virtual_machine'] == 1
+          - test_one['msg'] == "interface Eth0 created"
+
+    - name: "NETBOX_VM_INTERFACE 2: Create duplicate"
+      netbox_vm_interface:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          virtual_machine: "test100-vm"
+          name: "Eth0"
+        state: present
+      register: test_two
+
+    - name: "NETBOX_VM_INTERFACE 2: ASSERT - Create duplicate"
+      assert:
+        that:
+          - not test_two['changed']
+          - test_two['interface']['name'] == "Eth0"
+          - test_two['interface']['virtual_machine'] == 1
+          - test_two['msg'] == "interface Eth0 already exists"
+
+    - name: "NETBOX_VM_INTERFACE 3: Updated"
+      netbox_vm_interface:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          virtual_machine: "test100-vm"
+          name: "Eth0"
+          enabled: false
+          mtu: 9000
+          mac_address: "00:00:00:AA:AA:01"
+          description: "Updated test100-vm"
+          mode: Tagged
+          untagged_vlan:
+            name: Wireless
+            site: Test Site
+          tagged_vlans:
+            - name: Data
+              site: Test Site
+            - name: VoIP
+              site: Test Site
+          tags:
+            - Schnozzberry
+        state: present
+      register: test_three
+
+    - name: "NETBOX_VM_INTERFACE 4: ASSERT - Updated"
+      assert:
+        that:
+          - test_three is changed
+          - test_three['diff']['after']['enabled'] == false
+          - test_three['diff']['after']['mtu'] == 9000
+          - test_three['diff']['after']['mac_address'] == "00:00:00:AA:AA:01"
+          - test_three['diff']['after']['description'] == "Updated test100-vm"
+          - test_three['diff']['after']['mode'] == 200
+          - test_three['diff']['after']['untagged_vlan'] == 1
+          - test_three['diff']['after']['tagged_vlans'][0] == 2
+          - test_three['diff']['after']['tagged_vlans'][1] == 3
+          - test_three['diff']['after']['tags'][0] == "Schnozzberry"
+          - test_three['interface']['name'] == "Eth0"
+          - test_three['interface']['virtual_machine'] == 1
+          - test_three['interface']['enabled'] == false
+          - test_three['interface']['mtu'] == 9000
+          - test_three['interface']['mac_address'] == "00:00:00:AA:AA:01"
+          - test_three['interface']['description'] == "Updated test100-vm"
+          - test_three['interface']['mode'] == 200
+          - test_three['interface']['untagged_vlan'] == 1
+          - test_three['interface']['tagged_vlans'][0] == 2
+          - test_three['interface']['tagged_vlans'][1] == 3
+          - test_three['interface']['tags'][0] == "Schnozzberry"
+          - test_three['msg'] == "interface Eth0 updated"
+
+    - name: "NETBOX_VM_INTERFACE 4: ASSERT - Delete"
+      netbox_vm_interface:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Eth0"
+          virtual_machine: "test100-vm"
+        state: absent
+      register: test_four
+
+    - name: "CLUSTER_TYPE 4: ASSERT - Delete"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['interface']['name'] == "Eth0"
+          - test_four['interface']['virtual_machine'] == 1
+          - test_four['msg'] == "interface Eth0 deleted"
+##
+##
 ### NETBOX_LOOKUP
 ##
 ##
@@ -3079,5 +3611,3 @@
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
           query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
-
-

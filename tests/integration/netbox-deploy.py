@@ -122,7 +122,13 @@ nexus_child = nb.dcim.device_types.get(slug="nexus-child")
 
 ## Create Device Roles
 device_roles = [
-    {"name": "Core Switch", "slug": "core-switch", "color": "aa1409", "vm_role": False}
+    {"name": "Core Switch", "slug": "core-switch", "color": "aa1409", "vm_role": False},
+    {
+        "name": "Test VM Role",
+        "slug": "test-vm-role",
+        "color": "e91e63",
+        "vm_role": True,
+    },
 ]
 created_device_roles = nb.dcim.device_roles.create(device_roles)
 ### Device role variables to be used later on
@@ -202,7 +208,26 @@ ip_addresses = [
 ]
 created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
 
-
 ## Create RIRs
 rirs = [{"name": "Example RIR", "slug": "example-rir"}]
 created_rirs = nb.ipam.rirs.create(rirs)
+
+## Create Cluster Group
+cluster_groups = [{"name": "Test Cluster Group", "slug": "test-cluster-group"}]
+created_cluster_groups = nb.virtualization.cluster_groups.create(cluster_groups)
+
+## Create Cluster Type
+cluster_types = [{"name": "Test Cluster Type", "slug": "test-cluster-type"}]
+created_cluster_types = nb.virtualization.cluster_types.create(cluster_types)
+test_cluster_type = nb.virtualization.cluster_types.get(slug="test-cluster-type")
+
+## Create Cluster
+clusters = [
+    {"name": "Test Cluster", "type": test_cluster_type.id, "site": test_site.id}
+]
+created_clusters = nb.virtualization.clusters.create(clusters)
+test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
+
+## Create Virtual Machine
+virtual_machines = [{"name": "test100-vm", "cluster": test_cluster.id}]
+created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
