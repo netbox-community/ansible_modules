@@ -12,6 +12,9 @@
 ## Existing Modules
 
 - netbox_aggregate
+- netbox_circuit
+- netbox_circuit_termination
+- netbox_circuit_type
 - netbox_cluster
 - netbox_cluster_group
 - netbox_cluster_type
@@ -26,6 +29,7 @@
 - netbox_manufacturer
 - netbox_platform
 - netbox_prefix
+- netbox_provider
 - netbox_rack_group
 - netbox_rack_role
 - netbox_rack
