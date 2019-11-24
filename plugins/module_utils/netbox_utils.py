@@ -26,7 +26,7 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=[],
+    circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
     dcim=[
         "device_bays",
         "devices",
@@ -61,6 +61,9 @@ API_APPS_ENDPOINTS = dict(
 
 # Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
+    circuit="cid",
+    circuit_termination="circuit",
+    circuit_type="slug",
     cluster="name",
     cluster_group="slug",
     cluster_type="slug",
@@ -78,6 +81,7 @@ QUERY_TYPES = dict(
     primary_ip="address",
     primary_ip4="address",
     primary_ip6="address",
+    provider="slug",
     rack="name",
     rack_group="slug",
     rack_role="slug",
@@ -97,6 +101,9 @@ QUERY_TYPES = dict(
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = dict(
+    circuit="circuits",
+    circuit_type="circuit_types",
+    circuit_termination="circuit_terminations",
     cluster="clusters",
     cluster_group="cluster_groups",
     cluster_type="cluster_types",
@@ -117,6 +124,7 @@ CONVERT_TO_ID = dict(
     primary_ip="ip_addresses",
     primary_ip4="ip_addresses",
     primary_ip6="ip_addresses",
+    provider="providers",
     rack="racks",
     rack_group="rack_groups",
     rack_role="rack_roles",
@@ -138,6 +146,9 @@ CONVERT_TO_ID = dict(
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "circuit_terminations": "circuit_termination",
+    "circuit_types": "circuit_type",
+    "circuits": "circuit",
     "clusters": "cluster",
     "cluster_groups": "cluster_group",
     "cluster_types": "cluster_type",
@@ -151,6 +162,7 @@ ENDPOINT_NAME_MAPPING = {
     "manufacturers": "manufacturer",
     "platforms": "platform",
     "prefixes": "prefix",
+    "providers": "provider",
     "racks": "rack",
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
@@ -267,9 +279,16 @@ INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
 
 VIRTUAL_MACHINE_STATUS = dict(offline=0, active=1, staged=3)
 
+CIRCUIT_STATUS = dict(
+    deprovisioning=0, active=1, planned=2, provisioning=3, offline=4, decommissioned=5,
+)
+
 # This is used when attempting to search for existing endpoints
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "circuit": set(["cid"]),
+    "circuit_type": set(["slug"]),
+    "circuit_termination": set(["circuit", "term_side"]),
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
@@ -290,6 +309,7 @@ ALLOWED_QUERY_PARAMS = {
     "prefix": set(["prefix", "vrf"]),
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
+    "provider": set(["slug"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
@@ -309,11 +329,23 @@ ALLOWED_QUERY_PARAMS = {
 }
 
 QUERY_PARAMS_IDS = set(
-    ["cluster", "device", "group", "rir", "vrf", "site", "vlan_group", "tenant", "type"]
+    [
+        "circuit",
+        "cluster",
+        "device",
+        "group",
+        "rir",
+        "vrf",
+        "site",
+        "vlan_group",
+        "tenant",
+        "type",
+    ]
 )
 
 # This is used when converting static choices to an ID value acceptable to Netbox API
 REQUIRED_ID_FIND = {
+    "circuits": [{"status": CIRCUIT_STATUS}],
     "devices": [{"status": DEVICE_STATUS, "face": FACE_ID}],
     "device_types": [{"subdevice_role": SUBDEVICE_ROLES}],
     "interfaces": [{"form_factor": INTF_FORM_FACTOR, "mode": INTF_MODE}],
@@ -328,6 +360,7 @@ REQUIRED_ID_FIND = {
 
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
+    "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
     "parent_region": "parent",
@@ -342,6 +375,7 @@ CONVERT_KEYS = {
 
 # This is used to dynamically conver name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
+    "circuit_types",
     "cluster_groups",
     "cluster_types",
     "device_roles",
@@ -353,6 +387,7 @@ SLUG_REQUIRED = {
     "roles",
     "manufacturers",
     "platforms",
+    "providers",
     "vlan_groups",
 }
 

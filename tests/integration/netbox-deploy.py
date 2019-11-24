@@ -231,3 +231,19 @@ test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
 ## Create Virtual Machine
 virtual_machines = [{"name": "test100-vm", "cluster": test_cluster.id}]
 created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
+
+## Create Circuit Provider
+providers = [{"name": "Test Provider", "slug": "test-provider"}]
+created_providers = nb.circuits.providers.create(providers)
+test_provider = nb.circuits.providers.get(slug="test-provider")
+
+## Create Circuit Type
+circuit_types = [{"name": "Test Circuit Type", "slug": "test-circuit-type"}]
+created_circuit_types = nb.circuits.circuit_types.create(circuit_types)
+test_circuit_type = nb.circuits.circuit_types.get(slug="test-circuit-type")
+
+## Create Circuit
+circuits = [
+    {"cid": "Test Circuit", "provider": test_provider.id, "type": test_circuit_type.id}
+]
+created_circuits = nb.circuits.circuits.create(circuits)
