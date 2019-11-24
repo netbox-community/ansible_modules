@@ -267,7 +267,7 @@ INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
 
 VIRTUAL_MACHINE_STATUS = dict(offline=0, active=1, staged=3)
 
-# TODO: Figure out why virtualization modules fail with multiple query params specified in set
+# This is used when attempting to search for existing endpoints
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
     "cluster": set(["name", "type"]),
