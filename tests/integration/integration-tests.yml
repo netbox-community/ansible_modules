@@ -313,7 +313,7 @@
           - test_five['interface']['enabled'] == false
           - test_five['interface']['form_factor'] == 1000
           - test_five['interface']['mgmt_only'] == false
-          - test_five['interface']['lag'] == 4
+          - test_five['interface']['lag'] == 14
           - test_five['interface']['mode'] == 100
           - test_five['interface']['mtu'] == 1600
 
@@ -3510,8 +3510,7 @@
           - test_three['diff']['after']['description'] == "Updated test100-vm"
           - test_three['diff']['after']['mode'] == 200
           - test_three['diff']['after']['untagged_vlan'] == 1
-          - test_three['diff']['after']['tagged_vlans'][0] == 2
-          - test_three['diff']['after']['tagged_vlans'][1] == 3
+          - test_three['diff']['after']['tagged_vlans'] == [2, 3]
           - test_three['diff']['after']['tags'][0] == "Schnozzberry"
           - test_three['interface']['name'] == "Eth10"
           - test_three['interface']['virtual_machine'] == 1
@@ -3521,8 +3520,7 @@
           - test_three['interface']['description'] == "Updated test100-vm"
           - test_three['interface']['mode'] == 200
           - test_three['interface']['untagged_vlan'] == 1
-          - test_three['interface']['tagged_vlans'][0] == 2
-          - test_three['interface']['tagged_vlans'][1] == 3
+          - test_three['interface']['tagged_vlans'] == [2, 3]
           - test_three['interface']['tags'][0] == "Schnozzberry"
           - test_three['msg'] == "interface Eth10 updated"
 
@@ -3579,8 +3577,7 @@
           - test_five['diff']['after']['description'] == "Updated test100-vm Eth0 intf"
           - test_five['diff']['after']['mode'] == 200
           - test_five['diff']['after']['untagged_vlan'] == 1
-          - test_five['diff']['after']['tagged_vlans'][0] == 2
-          - test_five['diff']['after']['tagged_vlans'][1] == 3
+          - test_five['diff']['after']['tagged_vlans'] == [2, 3]
           - test_five['diff']['after']['tags'][0] == "Schnozzberry"
           - test_five['interface']['name'] == "Eth0"
           - test_five['interface']['virtual_machine'] == 1
@@ -3590,8 +3587,7 @@
           - test_five['interface']['description'] == "Updated test100-vm Eth0 intf"
           - test_five['interface']['mode'] == 200
           - test_five['interface']['untagged_vlan'] == 1
-          - test_five['interface']['tagged_vlans'][0] == 2
-          - test_five['interface']['tagged_vlans'][1] == 3
+          - test_five['interface']['tagged_vlans'] == [2, 3]
           - test_five['interface']['tags'][0] == "Schnozzberry"
           - test_five['msg'] == "interface Eth0 updated"
 ##

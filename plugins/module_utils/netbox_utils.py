@@ -337,9 +337,10 @@ QUERY_PARAMS_IDS = set(
         "rir",
         "vrf",
         "site",
-        "vlan_group",
         "tenant",
         "type",
+        "vlan_group",
+        "virtual_machine",
     ]
 )
 
