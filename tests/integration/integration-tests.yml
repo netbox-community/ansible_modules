@@ -674,7 +674,7 @@
           address: 10.188.1.100/24
           interface:
             name: Eth0
-            device: test100-vm
+            virtual_machine: test100-vm
       register: test_fourteen
 
     - name: "14 - ASSERT"
