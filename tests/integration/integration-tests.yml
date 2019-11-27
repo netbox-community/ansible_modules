@@ -664,6 +664,29 @@
           - not test_thirteen['changed']
           - test_thirteen['msg'] == "ip_address 192.168.100.2/24 already exists"
           - test_thirteen['ip_address']['address'] == "192.168.100.2/24"
+
+    - name: "14 - Create IP address on Eth0 - test100-vm - State: present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          family: 4
+          address: 10.188.1.100/24
+          interface:
+            name: Eth0
+            device: test100-vm
+      register: test_fourteen
+
+    - name: "14 - ASSERT"
+      assert:
+        that:
+          - test_fourteen is changed
+          - test_fourteen['diff']['before']['state'] == "absent"
+          - test_fourteen['diff']['after']['state'] == "present"
+          - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
+          - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
+          - test_fourteen['ip_address']['family'] == 4
+          - test_fourteen['ip_address']['interface'] == 15
 ##
 ##
 ### NETBOX_PREFIX

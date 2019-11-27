@@ -579,6 +579,9 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
+                    if k == "interface" and v.get("virtual_machine"):
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, v)
                     query_id = nb_endpoint.get(**query_params)
 
