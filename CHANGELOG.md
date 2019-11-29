@@ -1,14 +1,23 @@
 # Changelog
 
+## v0.1.1
+
+### Bug Fixes
+
+- [#40](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#id7) - Fixed issue with netbox_vm_interface where it would fail if different virtual machine had the same interface name
+- [#40](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#id7) - Updated netbox_ip_address to find interfaces on virtual machines correctly
+
 ## v0.1.0
 
 ### Breaking Changes
+
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Changed role to prefix_role in netbox_prefix.py
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Changed group to tenant_group in netbox_tenant.py
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Renamed netbox_interface to netbox_device_interface
 - [#24](https://github.com/FragmentedPacket/netbox_modules/issues/24) - Module failures when required fields arent provided
 
 ### New Modules / Plugins
+
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Added netbox_device_role
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Added netbox_device_type
 - [#9](https://github.com/FragmentedPacket/netbox_modules/issues/9) - Added netbox_ipam_role
@@ -40,4 +49,5 @@
 ### Bug Fixes
 
 ### Enhancements
+
 - [#10](https://github.com/FragmentedPacket/netbox_modules/issues/10) - Add primary_ip4/6 to netbox_ip_address

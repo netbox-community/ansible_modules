@@ -612,6 +612,11 @@ def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
             {"name": "GigabitEthernet1", "device_id": 1},
         ),
         (
+            "interface",
+            {"name": "Eth0", "virtual_machine": "Test Device", "type": 0},
+            {"name": "Eth0", "virtual_machine_id": 1},
+        ),
+        (
             "inventory_item",
             {
                 "name": "10G-SFP+",

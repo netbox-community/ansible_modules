@@ -297,7 +297,7 @@ ALLOWED_QUERY_PARAMS = {
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "installed_device": set(["name"]),
-    "interface": set(["name", "device"]),
+    "interface": set(["name", "device", "virtual_machine"]),
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf"]),
     "ip_addresses": set(["address", "vrf", "device"]),
@@ -337,9 +337,10 @@ QUERY_PARAMS_IDS = set(
         "rir",
         "vrf",
         "site",
-        "vlan_group",
         "tenant",
         "type",
+        "vlan_group",
+        "virtual_machine",
     ]
 )
 
@@ -578,6 +579,9 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
+                    if k == "interface" and v.get("virtual_machine"):
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, v)
                     query_id = nb_endpoint.get(**query_params)
 
