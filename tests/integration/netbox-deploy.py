@@ -191,11 +191,11 @@ test100 = nb.dcim.devices.get(name="test100")
 
 
 ## Create Interfaces
-interfaces = [
+dev_interfaces = [
     {"name": "GigabitEthernet1", "device": test100.id, "form_factor": 1000},
     {"name": "GigabitEthernet2", "device": test100.id, "form_factor": 1000},
 ]
-created_interfaces = nb.dcim.interfaces.create(interfaces)
+created_interfaces = nb.dcim.interfaces.create(dev_interfaces)
 ## Interface variables to be used later on
 test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
 test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
@@ -229,8 +229,35 @@ created_clusters = nb.virtualization.clusters.create(clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
 
 ## Create Virtual Machine
-virtual_machines = [{"name": "test100-vm", "cluster": test_cluster.id}]
+virtual_machines = [
+    {"name": "test100-vm", "cluster": test_cluster.id},
+    {"name": "test101-vm", "cluster": test_cluster.id},
+    {"name": "test102-vm", "cluster": test_cluster.id},
+    {"name": "test103-vm", "cluster": test_cluster.id},
+    {"name": "test104-vm", "cluster": test_cluster.id},
+]
 created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
+test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
+test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
+
+## Create Virtual Machine Interfaces
+virtual_machines_intfs = [
+    # Create test100-vm intfs
+    {"name": "Eth0", "virtual_machine": test100_vm.id},
+    {"name": "Eth1", "virtual_machine": test100_vm.id},
+    {"name": "Eth2", "virtual_machine": test100_vm.id},
+    {"name": "Eth3", "virtual_machine": test100_vm.id},
+    {"name": "Eth4", "virtual_machine": test100_vm.id},
+    # Create test101-vm intfs
+    {"name": "Eth0", "virtual_machine": test101_vm.id},
+    {"name": "Eth1", "virtual_machine": test101_vm.id},
+    {"name": "Eth2", "virtual_machine": test101_vm.id},
+    {"name": "Eth3", "virtual_machine": test101_vm.id},
+    {"name": "Eth4", "virtual_machine": test101_vm.id},
+]
+created_virtual_machines_intfs = nb.virtualization.interfaces.create(
+    virtual_machines_intfs
+)
 
 ## Create Circuit Provider
 providers = [{"name": "Test Provider", "slug": "test-provider"}]
