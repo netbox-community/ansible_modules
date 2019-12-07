@@ -544,6 +544,8 @@ class NetboxModule(object):
             for choice in required_choices:
                 for key, value in choice.items():
                     if data.get(key):
+                        if isinstance(data[key], int):
+                            break
                         try:
                             data[key] = value[data[key].lower()]
                         except KeyError:

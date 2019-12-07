@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.2
+
+### Bug Fixes
+- [#47] - Allow endpoint choices to be an integer of the choice rather than attempting to dynamically determine the choice ID
+
 ## v0.1.1
 
 ### Bug Fixes

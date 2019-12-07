@@ -3094,6 +3094,7 @@
           cluster: "Test Cluster"
           vcpus: 8
           memory: 8
+          status: 0
           virtual_machine_role: "Test VM Role"
           tags:
             - Schnozzberry
@@ -3106,12 +3107,14 @@
           - test_three is changed
           - test_three['diff']['after']['vcpus'] == 8
           - test_three['diff']['after']['memory'] == 8
+          - test_three['diff']['after']['status'] == 0
           - test_three['diff']['after']['role'] == 2
           - test_three['diff']['after']['tags'][0] == "Schnozzberry"
           - test_three['virtual_machine']['name'] == "Test VM One"
           - test_three['virtual_machine']['cluster'] == 1
           - test_three['virtual_machine']['vcpus'] == 8
           - test_three['virtual_machine']['memory'] == 8
+          - test_three['virtual_machine']['status'] == 0
           - test_three['virtual_machine']['role'] == 2
           - test_three['virtual_machine']['tags'][0] == "Schnozzberry"
           - test_three['msg'] == "virtual_machine Test VM One updated"
@@ -3133,6 +3136,8 @@
           - test_four['virtual_machine']['cluster'] == 1
           - test_four['virtual_machine']['vcpus'] == 8
           - test_four['virtual_machine']['memory'] == 8
+          - test_four['virtual_machine']['status'] == 0
+          - test_four['virtual_machine']['role'] == 2
           - test_four['virtual_machine']['tags'][0] == "Schnozzberry"
           - test_four['msg'] == "virtual_machine Test VM One deleted"
 
