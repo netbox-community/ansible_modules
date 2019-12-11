@@ -1,11 +1,16 @@
 # Changelog
 
+## v0.1.2
+
+### Bug Fixes
+- [#47](https://github.com/FragmentedPacket/netbox_modules/issues/47) - Allow endpoint choices to be an integer of the choice rather than attempting to dynamically determine the choice ID
+
 ## v0.1.1
 
 ### Bug Fixes
 
-- [#40](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#id7) - Fixed issue with netbox_vm_interface where it would fail if different virtual machine had the same interface name
-- [#40](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#id7) - Updated netbox_ip_address to find interfaces on virtual machines correctly
+- [#40](https://github.com/FragmentedPacket/netbox_modules/issues/40) - Fixed issue with netbox_vm_interface where it would fail if different virtual machine had the same interface name
+- [#40](https://github.com/FragmentedPacket/netbox_modules/issues/40) - Updated netbox_ip_address to find interfaces on virtual machines correctly
 
 ## v0.1.0
 

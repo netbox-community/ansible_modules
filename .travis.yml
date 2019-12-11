@@ -9,7 +9,7 @@ env:
   global:
     - COLLECTION_NAMESPACE: fragmentedpacket
     - COLLECTION_NAME: netbox_modules
-    - COLLECTION_VERSION: 0.1.1
+    - COLLECTION_VERSION: 0.1.2
 
 matrix:
   include:
