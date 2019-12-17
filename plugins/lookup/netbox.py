@@ -30,8 +30,7 @@ DOCUMENTATION = """
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - While secrets can be queried, the plugin doesn't yet support
-          decrypting them.
+        - If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
     options:
         _terms:
             description:
@@ -49,6 +48,10 @@ DOCUMENTATION = """
             description:
                 - The API token created through Netbox
             required: True
+        key_file:
+            description:
+                - The location of the private key tied to user account.
+            required: False
     requirements:
         - pynetbox
 """
@@ -78,6 +81,12 @@ tasks:
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
+
+# Obtain a secret for R1-device
+tasks:
+  - name: "Obtain secrets for R1-Device"
+    debug:
+      msg: "{{ query('netbox', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
@@ -149,9 +158,6 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
-        # Note: Currently unable to decrypt secrets as key wizardry needs to
-        # take place first but term will return unencrypted elements of secrets
-        # i.e. that they exist etc.
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
         "sites": {"endpoint": netbox.dcim.sites},
