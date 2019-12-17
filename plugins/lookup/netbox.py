@@ -198,7 +198,10 @@ class LookupModule(LookupBase):
                 private_key_file=netbox_private_key_file,
             )
         except FileNotFoundError:
-            raise AnsibleError('%s cannot be found. Please make sure file exists.' % netbox_private_key_file)
+            raise AnsibleError(
+                "%s cannot be found. Please make sure file exists."
+                % netbox_private_key_file
+            )
 
         results = []
         for term in terms:
