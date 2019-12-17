@@ -21,7 +21,6 @@ matrix:
         # Setup netbox container for integration testing
         - git clone https://github.com/FragmentedPacket/netbox-docker.git
         - cd netbox-docker
-        - git checkout startup-dcim-interfaces-2.5
         - docker-compose pull
         - docker-compose up -d
         - cd ..
