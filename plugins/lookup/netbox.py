@@ -191,11 +191,17 @@ class LookupModule(LookupBase):
         if not isinstance(terms, list):
             terms = [terms]
 
-        netbox = pynetbox.api(
-            netbox_api_endpoint,
-            token=netbox_api_token,
-            private_key_file=netbox_private_key_file,
-        )
+        try:
+            netbox = pynetbox.api(
+                netbox_api_endpoint,
+                token=netbox_api_token,
+                private_key_file=netbox_private_key_file,
+            )
+        except FileNotFoundError:
+            raise AnsibleError(
+                "%s cannot be found. Please make sure file exists."
+                % netbox_private_key_file
+            )
 
         results = []
         for term in terms:
