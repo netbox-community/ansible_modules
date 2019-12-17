@@ -31,7 +31,7 @@ matrix:
 
     - name: "Python 3.6 - Netbox Latest - Ansible Devel"
       python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.6.6
+      env: PYTHON_VER=3.6 VERSION=v2.6
       install:
         - cd ..
         # Setup netbox container for integration testing
