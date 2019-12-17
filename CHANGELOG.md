@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.3
+
+### Bug Fixes
+- [#52](https://github.com/FragmentedPacket/netbox_modules/issues/52) - Add error handling for invalid key_file for lookup plugin
+
+### Documentation
+- [#51](https://github.com/FragmentedPacket/netbox_modules/issues/51) - Update lookup plugin documentation for decryption of secrets
+
 ## v0.1.2
 
 ### Bug Fixes
