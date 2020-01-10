@@ -129,10 +129,10 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_circuits import (
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_circuits import (
     NetboxCircuitsModule,
     NB_PROVIDERS,
 )
