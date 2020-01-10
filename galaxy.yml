@@ -3,10 +3,10 @@
 # The namespace of the collection. This can be a company/brand/organization or product namespace under which all
 # content lives. May only contain alphanumeric characters and underscores. Additionally namespaces cannot start with
 # underscores or numbers and cannot contain consecutive underscores
-namespace: fragmentedpacket
+namespace: netbox_community
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: netbox_modules
+name: ansible_modules
 
 # The version of the collection. Must be compatible with semantic versioning
 version: 0.1.4
@@ -17,8 +17,7 @@ readme: README.md
 # A list of the collection's content authors. Can be just the name or in the format 'Full Name <email> (url)
 # @nicks:irc/im.site#channel'
 authors:
-- Mikhail Yohman <mikhail.yohman@gmail.com>
-
+  - Mikhail Yohman <mikhail.yohman@gmail.com>
 
 ### OPTIONAL but strongly recommended
 
@@ -28,11 +27,11 @@ description: This is a collection of Netbox Ansible modules
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
 license:
-- MIT
+  - MIT
 
 # The path to the license file for the collection. This path is relative to the root of the collection. This key is
 # mutually exclusive with 'license'
-license_file: ''
+license_file: ""
 
 # A list of tags you want to associate with the collection for indexing/searching. A tag name has the same character
 # requirements as 'namespace' and 'name'
@@ -49,13 +48,13 @@ tags:
 dependencies: {}
 
 # The URL of the originating SCM repository
-repository: https://github.com/FragmentedPacket/netbox_modules
+repository: https://github.com/netbox-community/ansible_modules
 
 # The URL to any online docs
-documentation: 
+documentation:
 
 # The URL to the homepage of the collection/project
 homepage:
 
 # The URL to the collection issue tracker
-issues: https://github.com/FragmentedPacket/netbox_modules/issues
+issues: https://github.com/netbox-community/ansible_modules/issues

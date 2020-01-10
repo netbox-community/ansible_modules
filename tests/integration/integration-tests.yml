@@ -9,7 +9,7 @@
   connection: local
   gather_facts: no
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Device with required information"
@@ -192,7 +192,7 @@
   connection: local
   gather_facts: no
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Interface with required information"
@@ -383,7 +383,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Create IP address within Netbox with only required information - State: Present"
@@ -697,7 +697,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Create prefix within Netbox with only required information"
@@ -950,7 +950,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Create site within Netbox with only required information"
@@ -1088,7 +1088,7 @@
   connection: local
   gather_facts: no
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Test tenant creation"
@@ -1201,7 +1201,7 @@
   connection: local
   gather_facts: no
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Test tenant group creation"
@@ -1265,7 +1265,7 @@
   connection: local
   gather_facts: no
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "1 - Test rack creation"
@@ -1450,7 +1450,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "RACK_ROLE 1: Necessary info creation"
@@ -1539,7 +1539,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "RACK_GROUP 1: Necessary info creation"
@@ -1609,7 +1609,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "MANUFACTURER 1: Necessary info creation"
@@ -1691,7 +1691,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "PLATFORM 1: Necessary info creation"
@@ -1798,7 +1798,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "DEVICE_TYPE 1: Necessary info creation"
@@ -1916,7 +1916,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "DEVICE_ROLE 1: Necessary info creation"
@@ -2025,7 +2025,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "IPAM_ROLE 1: Necessary info creation"
@@ -2127,7 +2127,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "VLAN_GROUP 1: Necessary info creation"
@@ -2253,7 +2253,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "VLAN 1: Necessary info creation"
@@ -2404,7 +2404,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "VRF 1: Necessary info creation"
@@ -2540,7 +2540,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "RIR 1: Necessary info creation"
@@ -2627,7 +2627,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "AGGREGATE 1: Necessary info creation"
@@ -2750,7 +2750,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "REGION 1: Necessary info creation"
@@ -2837,7 +2837,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "DEVICE_BAY 1: Necessary info creation"
@@ -2932,7 +2932,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "INVENTORY_ITEM 1: Necessary info creation"
@@ -3044,7 +3044,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "VIRTUAL_MACHINE 1: Necessary info creation"
@@ -3151,7 +3151,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "CLUSTER 1: Necessary info creation"
@@ -3254,7 +3254,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "CLUSTER_GROUP 1: Necessary info creation"
@@ -3358,7 +3358,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "CLUSTER_TYPE 1: Necessary info creation"
@@ -3462,7 +3462,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "NETBOX_VM_INTERFACE 1: Necessary info creation"
@@ -3628,7 +3628,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "NETBOX_PROVIDER 1: Create provider within Netbox with only required information"
@@ -3734,7 +3734,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "CIRCUIT_TYPE 1: Necessary info creation"
@@ -3837,7 +3837,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "NETBOX_CIRCUIT 1: Create provider within Netbox with only required information"
@@ -3953,7 +3953,7 @@
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: "NETBOX_CIRCUIT_TERMINATION 1: Create provider within Netbox with only required information"
@@ -4095,25 +4095,25 @@
       assert:
         that: "{{ query_result|count }} == 3"
       vars:
-        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 2: Query doesn't return Wibble (sanity check json_query)"
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`Wibble`]')|count }} == 0"
       vars:
-        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 3: Device query returns exactly one TestDeviceR1"
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`TestDeviceR1`]')|count }} == 1"
       vars:
-        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 4: VLAN ID 400 can be queried and is named 'Test VLAN'"
       assert:
         that: "{{ (query_result|json_query('[?value.vid==`400`].value.name'))[0] == 'Test VLAN' }}"
       vars:
-        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'vlans', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'vlans', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 5: Add one of two devices for lookup filter test."
       netbox_device:
@@ -4147,4 +4147,4 @@
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
-          query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+          query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"

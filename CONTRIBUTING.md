@@ -240,7 +240,7 @@ Copying an existing module that has close to the same options is typically the p
 - Update the module_util, module, and endpoint variable for the endpoint
 
   ```python
-  from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+  from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_dcim import (
       NetboxDcimModule,
       NB_DEVICE_ROLES,
   )

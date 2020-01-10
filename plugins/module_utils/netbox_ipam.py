@@ -12,7 +12,7 @@ from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
 
 try:
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
         SLUG_REQUIRED,

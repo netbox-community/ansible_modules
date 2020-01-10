@@ -7,7 +7,7 @@ __metaclass__ = type
 
 # This should just be temporary once 2.9 is relased and tested we can remove this
 try:
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
     )

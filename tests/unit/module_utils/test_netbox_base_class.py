@@ -12,14 +12,14 @@ from unittest.mock import patch, MagicMock, Mock
 from ansible.module_utils.basic import AnsibleModule
 
 try:
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
     )
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+    from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_dcim import (
         NB_DEVICES,
     )
 
-    MOCKER_PATCH_PATH = "ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils.NetboxModule"
+    MOCKER_PATCH_PATH = "ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils.NetboxModule"
 except ImportError:
     import sys
 
