@@ -7,8 +7,8 @@ sudo: false
 
 env:
   global:
-    - COLLECTION_NAMESPACE: fragmentedpacket
-    - COLLECTION_NAME: netbox_modules
+    - COLLECTION_NAMESPACE: netbox_community
+    - COLLECTION_NAME: ansible_modules
     - COLLECTION_VERSION: 0.1.4
 
 matrix:

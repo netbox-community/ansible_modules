@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/FragmentedPacket/netbox_modules.svg?branch=master)](https://travis-ci.org/FragmentedPacket/netbox_modules)
+[![Build Status](https://travis-ci.com/netbox-community/ansible_modules.svg?branch=devel)](https://travis-ci.com/netbox-community/ansible_modules)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 # Netbox modules for Ansible using Ansible Collections
@@ -52,12 +52,12 @@
 ## How to Use
 
 - Install via Galaxy
-  - `ansible-galaxy collection install fragmentedpacket.netbox_modules`
+  - `ansible-galaxy collection install netbox_community.ansible_modules`
 - Install via source
-  - `git clone git@github.com:fragmentedpacket/netbox_modules.git`
-  - `cd netbox_modules`
+  - `git clone git@github.com:netbox-community/ansible_modules.git`
+  - `cd ansible_modules`
   - `ansible-galaxy collection build .`
-  - `ansible-galaxy collection install fragmentedpacket-netbox_modules-X.X.X.tar.gz`
+  - `ansible-galaxy collection install netbox_community-ansible_modules-X.X.X.tar.gz`
     - Can add `-p` to provide a different path other than the default path, but it must be within your `ansible.cfg` or provided via an environment variable.
 
 ### Example playbooks
@@ -70,7 +70,7 @@ Using the **collections** at the play level
   hosts: localhost
   gather_facts: False
   collections:
-    - fragmentedpacket.netbox_modules
+    - netbox_community.ansible_modules
 
   tasks:
     - name: Create device within Netbox with only required information
@@ -96,7 +96,7 @@ Using the **collections** at the task level
 
   tasks:
     - name: Create device within Netbox with only required information
-      fragmentedpacket.netbox_modules.netbox_device:
+      netbox_community.ansible_modules.netbox_device:
         netbox_url: http://netbox-demo.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
@@ -113,7 +113,7 @@ Using the **collections** in a role's task files
 ```yaml
 ---
 - name: Create device within Netbox with only required information
-  fragmentedpacket.netbox_modules.netbox_device:
+  netbox_community.ansible_modules.netbox_device:
     netbox_url: http://netbox-demo.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -129,7 +129,7 @@ OR
 ---
 - name: Create device within Netbox with only required information
   collections:
-    - fragmentedpacket.netbox_modules:
+    - netbox_community.ansible_modules:
   netbox_device:
     netbox_url: http://netbox-demo.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -155,7 +155,7 @@ Using the **collections** lookup plugin at the task level
       assert:
         that: "{{ query_result|count }} == 3"
       vars:
-        query_result: "{{ query('fragmentedpacket.netbox_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 ```
 
 ## How to Contribute

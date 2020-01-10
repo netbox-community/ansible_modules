@@ -97,10 +97,10 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_RACK_GROUPS,
 )
