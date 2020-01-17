@@ -445,7 +445,19 @@ class NetboxModule(object):
 
     def _build_diff(self, before=None, after=None):
         """Builds diff of before and after changes"""
-        return {"before": before, "after": after}
+        before_str = {}
+        after_str = {}
+
+        for k, v in before.items():
+            before_str[k] = str(v)
+
+        for k, v in after.items():
+            after_str[k] = str(v)
+
+        if before_str == after_str:
+            return None
+        else:
+            return {"before": before, "after": after}
 
     def _convert_identical_keys(self, data):
         """
