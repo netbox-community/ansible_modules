@@ -455,7 +455,7 @@ class NetboxModule(object):
             after_str[k] = str(v)
 
         if before_str == after_str:
-            return None
+            return {"before": {}, "after": {}}
         else:
             return {"before": before, "after": after}
 
@@ -746,7 +746,8 @@ class NetboxModule(object):
                 self._handle_errors(
                     msg="Request failed, couldn't update device: %s" % name
                 )
-            if diff:
+            if diff and (len(diff['before'].keys()) > 0 or\
+                         len(diff['after'].keys()) > 0):
                 self.result["msg"] = "%s %s updated" % (endpoint_name, name)
                 self.result["changed"] = True
                 self.result["diff"] = diff
