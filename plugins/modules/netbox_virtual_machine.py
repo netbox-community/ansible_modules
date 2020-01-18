@@ -44,6 +44,9 @@ options:
         description:
           - The name of the virtual machine
         required: true
+      site:
+        description:
+          - The name of the site attach to the virtual machine
       cluster:
         description:
           - The name of the cluster attach to the virtual machine
@@ -159,6 +162,7 @@ msg:
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_virtualization import (
     NetboxVirtualizationModule,
@@ -170,13 +174,34 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    name=dict(required=True, type="str"),
+                    site=dict(required=False, type="raw"),
+                    cluster=dict(required=False, type="raw"),
+                    virtual_machine_role=dict(required=False, type="raw"),
+                    vcpus=dict(required=False, type="int"),
+                    tenant=dict(required=False, type="raw"),
+                    platform=dict(required=False, type="raw"),
+                    primary_ip4=dict(required=False, type="raw"),
+                    primary_ip6=dict(required=False, type="raw"),
+                    memory=dict(required=False, type="int"),
+                    disk=dict(required=False, type="int"),
+                    rack=dict(required=False, type="raw"),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(required=False, type="str", choices=["Active", "Offline", "Staged"]),
+                    tags=dict(required=False, type=list),
+                ),
+            ),
+        )
     )
+
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(

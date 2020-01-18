@@ -163,6 +163,7 @@ msg:
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_virtualization import (
     NetboxVirtualizationModule,
@@ -174,13 +175,30 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    virtual_machine=dict(required=False, type="raw"),
+                    name=dict(required=True, type="str"),
+                    enabled=dict(required=False, type="bool"),
+                    mtu=dict(required=False, type="int"),
+                    mac_address=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
+                    mode=dict(
+                        required=False, choices=["Access", "Tagged", "Tagged All"],
+                    ),
+                    untagged_vlan=dict(required=False, type="raw"),
+                    tagged_vlans=dict(required=False, type="raw"),
+                    tags=dict(required=False, type=list),
+                ),
+            ),
+        )
     )
+
     required_if = [
         ("state", "present", ["virtual_machine", "name"]),
         ("state", "absent", ["virtual_machine", "name"]),

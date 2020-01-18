@@ -196,12 +196,42 @@ def test_normalize_data_returns_correct_data(mock_netbox_module, before, after):
     assert norm_data == after
 
 
-def test_to_slug_returns_valid_slug(mock_netbox_module):
-    not_slug = "Test device-1_2"
-    expected_slug = "test-device-1_2"
-    convert_to_slug = mock_netbox_module._to_slug(not_slug)
+@pytest.mark.parametrize(
+    "data, expected",
+    [
+        (
+            {
+                "name": "Test Device",
+                "enabled": True,
+                "site": None,
+                "description": None,
+                "platform": None,
+                "status": 0,
+            },
+            {"name": "Test Device", "enabled": True, "status": 0},
+        ),
+    ],
+)
+def test_remove_arg_spec_defaults(mock_netbox_module, data, expected):
+    new_data = mock_netbox_module._remove_arg_spec_default(data)
 
-    assert expected_slug == convert_to_slug
+    assert new_data == expected
+
+
+@pytest.mark.parametrize(
+    "got, expected",
+    [
+        ("Test device-1_2", "test-device-1_2"),
+        ("TEST_DEVICE_1_2", "test_device_1_2"),
+        ("TEST DEVICE 1 2", "test-device-1-2"),
+        (1, 1),
+        (None, None),
+    ],
+)
+def test_to_slug_returns_valid_slug(mock_netbox_module, got, expected):
+    got_slug = mock_netbox_module._to_slug(got)
+
+    assert got_slug == expected
 
 
 @pytest.mark.parametrize(

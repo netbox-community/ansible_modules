@@ -149,6 +149,7 @@ msg:
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_circuits import (
     NetboxCircuitsModule,
@@ -160,12 +161,39 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    cid=dict(required=True, type="str"),
+                    provider=dict(required=False, type="raw"),
+                    circuit_type=dict(required=False, type="raw"),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(
+                    #    required=False,
+                    #    choices=[
+                    #        "Active",
+                    #        "Offline",
+                    #        "Planned",
+                    #        "Provisioning",
+                    #        "Deprovisioning",
+                    #        "Decommissioned",
+                    #    ],
+                    # ),
+                    tenant=dict(required=False, type="raw"),
+                    install_date=dict(required=False, type="str"),
+                    commit_rate=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+        )
     )
 
     required_if = [("state", "present", ["cid"]), ("state", "absent", ["cid"])]
