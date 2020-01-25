@@ -392,6 +392,13 @@ SLUG_REQUIRED = {
     "vlan_groups",
 }
 
+NETBOX_ARG_SPEC = dict(
+    netbox_url=dict(type="str", required=True),
+    netbox_token=dict(type="str", required=True, no_log=True),
+    state=dict(required=False, default="present", choices=["present", "absent"]),
+    validate_certs=dict(type="bool", default=True),
+)
+
 
 class NetboxModule(object):
     """
@@ -424,7 +431,8 @@ class NetboxModule(object):
             self.nb = nb_client
 
         # These methods will normalize the regular data
-        norm_data = self._normalize_data(module.params["data"])
+        cleaned_data = self._remove_arg_spec_default(module.params["data"])
+        norm_data = self._normalize_data(cleaned_data)
         choices_data = self._change_choices_id(self.endpoint, norm_data)
         data = self._find_ids(choices_data)
         self.data = self._convert_identical_keys(data)
@@ -462,6 +470,17 @@ class NetboxModule(object):
                 data[new_key] = value
 
         return data
+
+    def _remove_arg_spec_default(self, data):
+        """Used to remove any data keys that were not provided by user, but has the arg spec
+        default values
+        """
+        new_dict = dict()
+        for k, v in data.items():
+            if v is not None:
+                new_dict[k] = v
+
+        return new_dict
 
     def _get_query_param_id(self, match, data):
         """Used to find IDs of necessary searches when required under _build_query_params
@@ -623,7 +642,11 @@ class NetboxModule(object):
         :returns slug (str): Slugified value
         :params value (str): Value that needs to be changed to slug format
         """
-        if " " in value:
+        if value is None:
+            return value
+        elif isinstance(value, int):
+            return value
+        elif " " in value:
             slug = value.replace(" ", "-").lower()
         else:
             slug = value.lower()
@@ -777,7 +800,6 @@ class NetboxAnsibleModule(AnsibleModule):
         argument_spec,
         bypass_checks=False,
         no_log=False,
-        check_invalid_arguments=None,
         mutually_exclusive=None,
         required_together=None,
         required_one_of=None,
@@ -788,22 +810,22 @@ class NetboxAnsibleModule(AnsibleModule):
     ):
         super().__init__(
             argument_spec,
-            bypass_checks,
-            no_log,
-            check_invalid_arguments,
-            mutually_exclusive,
-            required_together,
-            required_one_of,
-            add_file_common_args,
-            supports_check_mode,
-            required_if,
-            required_by,
+            bypass_checks=False,
+            no_log=False,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
+            add_file_common_args=False,
+            supports_check_mode=supports_check_mode,
+            required_if=required_if,
+            required_by=None,
         )
 
     def _check_required_if(self, spec, param=None):
         """ ensure that parameters which conditionally required are present """
         if spec is None:
             return
+
         if param is None:
             param = self.params
 

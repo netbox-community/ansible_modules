@@ -48,6 +48,7 @@
 ## Netbox Plugins
 
 - netbox lookup plugin
+- netbox inventory plugin (0.1.5)
 
 ## How to Use
 

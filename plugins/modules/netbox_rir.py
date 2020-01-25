@@ -107,6 +107,7 @@ msg:
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
@@ -118,13 +119,21 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    name=dict(required=True, type="str"),
+                    slug=dict(required=False, type="str"),
+                    is_private=dict(required=False, type="bool"),
+                ),
+            ),
+        )
     )
+
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
