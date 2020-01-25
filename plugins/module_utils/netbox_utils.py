@@ -439,7 +439,7 @@ class NetboxModule(object):
 
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
-            return pynetbox.api(url, token=token, ssl_verify=ssl_verify, threading=True)
+            return pynetbox.api(url, token=token, ssl_verify=ssl_verify)
         except Exception:
             self.module.fail_json(msg="Failed to establish connection to Netbox API")
 
@@ -796,35 +796,17 @@ class NetboxAnsibleModule(AnsibleModule):
     """
 
     def __init__(
-        self,
-        argument_spec,
-        bypass_checks=False,
-        no_log=False,
-        mutually_exclusive=None,
-        required_together=None,
-        required_one_of=None,
-        add_file_common_args=False,
-        supports_check_mode=False,
-        required_if=None,
-        required_by=None,
+        self, argument_spec, no_log=False, supports_check_mode=False, required_if=None,
     ):
         super().__init__(
-            argument_spec,
-            bypass_checks,
-            no_log,
-            mutually_exclusive,
-            required_together,
-            required_one_of,
-            add_file_common_args,
-            supports_check_mode,
-            required_if,
-            required_by,
+            argument_spec, no_log, supports_check_mode, required_if,
         )
 
     def _check_required_if(self, spec, param=None):
         """ ensure that parameters which conditionally required are present """
         if spec is None:
             return
+
         if param is None:
             param = self.params
 
