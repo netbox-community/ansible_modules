@@ -809,7 +809,16 @@ class NetboxAnsibleModule(AnsibleModule):
         required_by=None,
     ):
         super().__init__(
-            argument_spec, no_log, supports_check_mode, required_if,
+            argument_spec,
+            bypass_checks=False,
+            no_log=False,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
+            add_file_common_args=False,
+            supports_check_mode=supports_check_mode,
+            required_if=required_if,
+            required_by=None,
         )
 
     def _check_required_if(self, spec, param=None):
