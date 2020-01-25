@@ -439,7 +439,7 @@ class NetboxModule(object):
 
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
-            return pynetbox.api(url, token=token, ssl_verify=ssl_verify)
+            return pynetbox.api(url, token=token, ssl_verify=ssl_verify, threading=True)
         except Exception:
             self.module.fail_json(msg="Failed to establish connection to Netbox API")
 
@@ -800,7 +800,6 @@ class NetboxAnsibleModule(AnsibleModule):
         argument_spec,
         bypass_checks=False,
         no_log=False,
-        check_invalid_arguments=None,
         mutually_exclusive=None,
         required_together=None,
         required_one_of=None,
@@ -813,7 +812,6 @@ class NetboxAnsibleModule(AnsibleModule):
             argument_spec,
             bypass_checks,
             no_log,
-            check_invalid_arguments,
             mutually_exclusive,
             required_together,
             required_one_of,
