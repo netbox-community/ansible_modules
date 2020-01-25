@@ -796,7 +796,17 @@ class NetboxAnsibleModule(AnsibleModule):
     """
 
     def __init__(
-        self, argument_spec, no_log=False, supports_check_mode=False, required_if=None,
+        self,
+        argument_spec,
+        bypass_checks=False,
+        no_log=False,
+        mutually_exclusive=None,
+        required_together=None,
+        required_one_of=None,
+        add_file_common_args=False,
+        supports_check_mode=False,
+        required_if=None,
+        required_by=None,
     ):
         super().__init__(
             argument_spec, no_log, supports_check_mode, required_if,
