@@ -1,0 +1,35 @@
+---
+##
+##
+### TEST NETBOX CONNECTION FAILURE
+##
+##
+- name: "TEST NETBOX CONNECTION FAILURE"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - netbox_community.ansible_modules
+  vars:
+    netbox_url: "http://localhost:32768"
+
+  tasks:
+    - name: "1 - Device with required information"
+      netbox_device:
+        netbox_url: netbox_url
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "R1"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+      register: test_one
+      ignore_errors: yes
+
+    - name: "1 - ASSERT"
+      assert:
+        that:
+          - test_one is failed
+          - test_one['msg'] == "Failed to establish connection to Netbox API"

@@ -26,7 +26,7 @@ matrix:
         - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
-        - pip install pynetbox==4.0.6 cryptography codecov jmespath ansible
+        - pip install pynetbox cryptography codecov jmespath ansible
 
     - name: "Python 3.6 - Netbox Latest - Ansible Devel"
       python: 3.6
@@ -41,7 +41,7 @@ matrix:
         - cd ..
         - pip install -U pip
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
-        - pip install pynetbox==4.0.6 cryptography jmespath
+        - pip install pynetbox cryptography jmespath
         # This is due to ansible-test only being available within devel branch
         - git clone https://github.com/ansible/ansible.git
         - cd ansible
@@ -60,4 +60,5 @@ script:
   - black . --check
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
   - python tests/integration/netbox-deploy.py
+  - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/integration-tests.yml -vvvv
