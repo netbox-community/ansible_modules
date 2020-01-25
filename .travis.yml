@@ -9,7 +9,7 @@ env:
   global:
     - COLLECTION_NAMESPACE: netbox_community
     - COLLECTION_NAME: ansible_modules
-    - COLLECTION_VERSION: 0.1.4
+    - COLLECTION_VERSION: 0.1.5
 
 matrix:
   include:
@@ -60,4 +60,4 @@ script:
   - black . --check
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
   - python tests/integration/netbox-deploy.py
-  - ansible-playbook tests/integration/integration-tests.yml -v
+  - ansible-playbook tests/integration/integration-tests.yml -vvvv
