@@ -4148,3 +4148,44 @@
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
           query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+##
+##
+### NETBOX_SERVICE
+##
+##
+
+    - name: "1 - Device with required information needs to add new service"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "FOR_SERVICE"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+
+    - name: "NETBOX_SERVICE: Create new service"
+      netbox_service:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: "FOR_SERVICE"
+          name: "node-exporter"
+          port: 9100
+          protocol: 6
+        state: present
+
+    - name: "NETBOX_SERVICE: Delete service"
+      netbox_service:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: "FOR_SERVICE"
+          name: "node-exporter"
+          port: 9100
+          protocol: 6
+        state: absent
+
