@@ -158,7 +158,7 @@ def main():
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     port=dict(required=True, type="int"),
-                    protocol=dict(required=True, type="str"),
+                    protocol=dict(required=True, type="int"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     custom_fields=dict(required=False, type=dict),
