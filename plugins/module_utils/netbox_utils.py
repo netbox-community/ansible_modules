@@ -312,7 +312,7 @@ ALLOWED_QUERY_PARAMS = {
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
     "provider": set(["slug"]),
-    "protocol":set(["name"]),
+    "protocol": set(["name"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
@@ -394,7 +394,6 @@ SLUG_REQUIRED = {
     "providers",
     "vlan_groups",
 }
-
 
 
 NETBOX_ARG_SPEC = dict(
