@@ -32,6 +32,7 @@ NB_RIRS = "rirs"
 NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
+NB_SERVICES = "services"
 
 
 class NetboxIpamModule(NetboxModule):
