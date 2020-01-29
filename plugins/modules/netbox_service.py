@@ -42,63 +42,31 @@ options:
     description:
       - Defines the service configuration
     suboptions:
-      family:
+      device:
         description:
-          - Specifies which address family the prefix prefix belongs to
-        choices:
-          - 4
-          - 6
+          - Specifies on which device the service is running
+        type: raw
+      virtual_machine:
+        description:
+        type: str
+      port:
+        description:
+          - Specifies which port used by service
         type: int
-      prefix:
+      protocol:
         description:
-          - Required if state is C(present) and first_available is False. Will allocate or free this prefix.
-        type: str
-      parent:
-        description:
-          - Required if state is C(present) and first_available is C(yes). Will get a new available prefix in this parent prefix.
-        type: str
-      prefix_length:
-        description:
-          - |
-            Required ONLY if state is C(present) and first_available is C(yes).
-            Will get a new available prefix of the given prefix_length in this parent prefix.
+          - Specifies which protocol used by service
         type: int
-      site:
-        description:
-          - Site that prefix is associated with
-        type: str
-      vrf:
+        choises:
+            - 6 TCP
+            - 17 UDP
+      ipaddress:
         description:
           - VRF that prefix is associated with
         type: str
-      tenant:
-        description:
-          - The tenant that the prefix will be assigned to
-        type: str
-      vlan:
-        description:
-          - The VLAN the prefix will be assigned to
-        type: dict
-      status:
-        description:
-          - The status of the prefix
-        choices:
-          - Active
-          - Container
-          - Deprecated
-          - Reserved
-        type: str
-      prefix_role:
-        description:
-          - The role of the prefix
-        type: str
-      is_pool:
-        description:
-          - All IP Addresses within this prefix are considered usable
-        type: bool
       description:
         description:
-          - The description of the prefix
+          - Service description
         type: str
       tags:
         description:
