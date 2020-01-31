@@ -165,7 +165,7 @@ def main():
                 required=True,
                 options=dict(
                     manufacturer=dict(required=False, type="raw"),
-                    model=dict(required=False, type="raw"),
+                    model=dict(required=True, type="raw"),
                     slug=dict(required=False, type="str"),
                     part_number=dict(required=False, type="str"),
                     u_height=dict(required=False, type="int"),
@@ -181,7 +181,7 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["slug"]), ("state", "absent", ["slug"])]
+    required_if = [("state", "present", ["model"]), ("state", "absent", ["model"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if

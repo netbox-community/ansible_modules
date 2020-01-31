@@ -1878,7 +1878,7 @@
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          slug: test-device-type
+          model: test-device-type
         state: absent
       register: test_four
 
@@ -1895,7 +1895,7 @@
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          slug: test-device-type
+          model: test-device-type
         state: absent
       register: test_five
 
