@@ -1919,13 +1919,13 @@
     - name: "DEVICE_TYPE 6: ASSERT - Without Slug"
       assert:
         that:
-          - test_one is changed
-          - test_one['diff']['before']['state'] == "absent"
-          - test_one['diff']['after']['state'] == "present"
-          - test_one['device_type']['slug'] == "ws-test-3850"
-          - test_one['device_type']['model'] == "ws-test-3850"
-          - test_one['device_type']['manufacturer'] == 3
-          - test_one['msg'] == "device_type ws-test-3850 created"
+          - test_six is changed
+          - test_six['diff']['before']['state'] == "absent"
+          - test_six['diff']['after']['state'] == "present"
+          - test_six['device_type']['slug'] == "ws-test-3850"
+          - test_six['device_type']['model'] == "ws-test-3850"
+          - test_six['device_type']['manufacturer'] == 3
+          - test_six['msg'] == "device_type ws-test-3850 created"
 
 ##
 ##
