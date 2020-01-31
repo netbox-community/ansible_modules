@@ -22,11 +22,10 @@ description:
 notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Mikhail Yohman (@FragmentedPacket)
   - Kulakov Ilya (@TawR1024)
 requirements:
   - pynetbox
-version_added: '2.8'
+version_added: '0.1.5'
 options:
   netbox_url:
     description:
@@ -48,7 +47,7 @@ options:
         type: raw
       virtual_machine:
         description:
-        type: str
+        type: raw
       port:
         description:
           - Specifies which port used by service
@@ -57,7 +56,7 @@ options:
         description:
           - Specifies which protocol used by service
         type: int
-        choises:
+        choices:
             - 6 TCP
             - 17 UDP
       ipaddress:
@@ -68,10 +67,6 @@ options:
         description:
           - Service description
         type: str
-      tags:
-        description:
-          - Any tags that the prefix may need to be associated with
-        type: list
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
@@ -82,14 +77,6 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
-  first_available:
-    description:
-      - If C(yes) and state C(present), if an parent is given, it will get the
-        first available prefix of the given prefix_length inside the given parent (and
-        vrf, if given).
-        Unused with state C(absent).
-    default: 'no'
-    type: bool
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -158,7 +145,7 @@ def main():
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     port=dict(required=True, type="int"),
-                    protocol=dict(required=True, type="int"),
+                    protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     custom_fields=dict(required=False, type=dict),
