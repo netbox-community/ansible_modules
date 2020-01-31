@@ -432,7 +432,7 @@
         netbox_url: http://localhost.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          address: 192.168.1.10
+          address: 192.168.1.10/30
         state: absent
       register: test_three
 
@@ -442,7 +442,7 @@
           - test_three is changed
           - test_three['diff']['before']['state'] == "present"
           - test_three['diff']['after']['state'] == "absent"
-          - test_three['msg'] == "ip_address 192.168.1.10 deleted"
+          - test_three['msg'] == "ip_address 192.168.1.10/30 deleted"
 
     - name: "4 - Create IP in global VRF - 192.168.1.20/30 - State: Present"
       netbox_ip_address:
@@ -687,6 +687,25 @@
           - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
           - test_fourteen['ip_address']['family'] == 4
           - test_fourteen['ip_address']['interface'] == 3
+
+    - name: "15 - Create IP address with no mask - State: Present"
+      netbox_ip_address:
+        netbox_url: http://localhost.org:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          address: 10.120.10.1
+        state: present
+      register: test_fifteen
+
+    - name: "15 - ASSERT"
+      assert:
+        that:
+          - test_fifteen is changed
+          - test_fifteen['diff']['before']['state'] == "absent"
+          - test_fifteen['diff']['after']['state'] == "present"
+          - test_fifteen['msg'] == "ip_address 10.120.10.1/32 created"
+          - test_fifteen['ip_address']['address'] == "10.120.10.1/32"
+
 ##
 ##
 ### NETBOX_PREFIX
