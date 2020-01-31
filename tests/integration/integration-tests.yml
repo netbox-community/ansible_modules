@@ -4117,16 +4117,16 @@
           - test_service is changed
 
     - name: "NETBOX_SERVICE: Test idempotence"
-        netbox_service:
-          netbox_url: "http://localhost:32768"
-          netbox_token: "0123456789abcdef0123456789abcdef01234567"
-          data:
-            device: "FOR_SERVICE"
-            name: "node-exporter"
-            port: 9100
-            protocol: 6
-          state: present
-        register: test_service_idempotence
+      netbox_service:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: "FOR_SERVICE"
+          name: "node-exporter"
+          port: 9100
+          protocol: 6
+        state: present
+      register: test_service_idempotence
 
     - name: "NETBOX_SERVICE ASSERT - Not changed"
       assert:
@@ -4134,16 +4134,16 @@
           - test_service_idempotence['msg'] == "services node-exporter already exists"a
 
     - name: "NETBOX_SERVICE: Test update"
-        netbox_service:
-          netbox_url: "http://localhost:32768"
-          netbox_token: "0123456789abcdef0123456789abcdef01234567"
-          data:
-            device: "FOR_SERVICE"
-            name: "node-exporter"
-            port: 9100
-            protocol: 17
-          state: present
-        register: test_service_update
+      netbox_service:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: "FOR_SERVICE"
+          name: "node-exporter"
+          port: 9100
+          protocol: 17
+        state: present
+      register: test_service_update
 
     - name: "NETBOX_SERVICE ASSERT - Service has been updated"
         assert:
