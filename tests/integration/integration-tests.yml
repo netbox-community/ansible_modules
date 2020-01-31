@@ -1663,7 +1663,7 @@
           - test_three['changed']
           - test_three['manufacturer']['name'] == "test manufacturer two"
           - test_three['manufacturer']['slug'] == "test-manufacturer-two"
-          - test_three['msg'] == "manufacturer test manufacturer two already exists"
+          - test_three['msg'] == "manufacturer test manufacturer two updated"
 
     - name: "MANUFACTURER 4: ASSERT - Delete"
       netbox_manufacturer:
