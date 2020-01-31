@@ -146,10 +146,11 @@ class NetboxIpamModule(NetboxModule):
         data = self.data
 
         if self.endpoint == "ip_addresses":
-            try:
-                data["address"] = to_text(ipaddress.ip_network(data["address"]))
-            except ValueError:
-                pass
+            if data.key("address"):
+                try:
+                    data["address"] = to_text(ipaddress.ip_network(data["address"]))
+                except ValueError:
+                    pass
             name = data.get("address")
         elif self.endpoint in ["aggregates", "prefixes"]:
             name = data.get("prefix")
