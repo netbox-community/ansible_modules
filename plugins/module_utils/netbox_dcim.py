@@ -74,6 +74,8 @@ class NetboxDcimModule(NetboxModule):
         # Used for msg output
         if data.get("name"):
             name = data["name"]
+        elif data.get("model") and not data.get("slug"):
+            name = data["model"]
         elif data.get("slug"):
             name = data["slug"]
 

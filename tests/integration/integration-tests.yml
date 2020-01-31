@@ -1906,6 +1906,27 @@
           - test_five['device_type'] == None
           - test_five['msg'] == "device_type test-device-type already absent"
 
+    - name: "DEVICE_TYPE 6: Without Slug"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          model: ws-test-3850
+          manufacturer: Test Manufacturer
+        state: present
+      register: test_six
+
+    - name: "DEVICE_TYPE 6: ASSERT - Without Slug"
+      assert:
+        that:
+          - test_one is changed
+          - test_one['diff']['before']['state'] == "absent"
+          - test_one['diff']['after']['state'] == "present"
+          - test_one['device_type']['slug'] == "ws-test-3850"
+          - test_one['device_type']['model'] == "ws-test-3850"
+          - test_one['device_type']['manufacturer'] == 3
+          - test_one['msg'] == "device_type ws-test-3850 created"
+
 ##
 ##
 ### NETBOX_DEVICE_ROLE

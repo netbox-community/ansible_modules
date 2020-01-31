@@ -380,6 +380,7 @@ SLUG_REQUIRED = {
     "cluster_groups",
     "cluster_types",
     "device_roles",
+    "device_types",
     "ipam_roles",
     "rack_groups",
     "rack_roles",

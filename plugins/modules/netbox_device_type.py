@@ -51,8 +51,9 @@ options:
       slug:
         description:
           - The slug of the device type. Must follow slug formatting (URL friendly)
+          - If not specified, it will slugify the model
           - ex. test-device-type
-        required: true
+        required: false
       part_number:
         description:
           - The part number of the device type
@@ -165,7 +166,7 @@ def main():
                 options=dict(
                     manufacturer=dict(required=False, type="raw"),
                     model=dict(required=False, type="raw"),
-                    slug=dict(required=True, type="str"),
+                    slug=dict(required=False, type="str"),
                     part_number=dict(required=False, type="str"),
                     u_height=dict(required=False, type="int"),
                     is_full_depth=dict(required=False, type="bool"),
