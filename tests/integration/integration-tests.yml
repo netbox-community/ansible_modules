@@ -4146,9 +4146,27 @@
       register: test_service_update
 
     - name: "NETBOX_SERVICE ASSERT - Service has been updated"
-        assert:
-          that:
-            - test_service_update is changed
+      assert:
+        that:
+          - test_service_update is changed
+
+
+    - name: "NETBOX_SERVICE: Test service deletion"
+      netbox_service:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: "FOR_SERVICE"
+          name: "node-exporter"
+          port: 9100
+          protocol: 17
+        state: absent
+      register: test_service_delete
+
+    - name: "NETBOX_SERVICE ASSERT - Service has been deleted"
+      assert:
+        that:
+          - test_service_delete is changed
 
 
 ##
