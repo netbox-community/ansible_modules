@@ -4131,7 +4131,7 @@
     - name: "NETBOX_SERVICE ASSERT - Not changed"
       assert:
         that:
-          - test_service_idempotence['msg'] == "services node-exporter already exists"a
+          - test_service_idempotence['msg'] == "services node-exporter already exists"
 
     - name: "NETBOX_SERVICE: Test update"
       netbox_service:
