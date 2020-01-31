@@ -4107,7 +4107,7 @@
           device: "FOR_SERVICE"
           name: "node-exporter"
           port: 9100
-          protocol: 6
+          protocol: TCP
         state: present
       register: test_service
 
@@ -4124,7 +4124,7 @@
           device: "FOR_SERVICE"
           name: "node-exporter"
           port: 9100
-          protocol: 6
+          protocol: TCP
         state: present
       register: test_service_idempotence
 
@@ -4141,7 +4141,7 @@
           device: "FOR_SERVICE"
           name: "node-exporter"
           port: 9100
-          protocol: 17
+          protocol: UDP
         state: present
       register: test_service_update
 
@@ -4159,7 +4159,7 @@
           device: "FOR_SERVICE"
           name: "node-exporter"
           port: 9100
-          protocol: 17
+          protocol: UDP
         state: absent
       register: test_service_delete
 
