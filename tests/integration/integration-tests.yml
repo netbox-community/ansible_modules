@@ -4117,8 +4117,8 @@
           - test_service_create['services']['name'] == "node-exporter"
           - test_service_create['services']['port'] == 9100
           - test_service_create['services']['protocol'] == 6
-          - test_service_create['diff']['after']['state'] == "absent"
-          - test_service_create['diff']['before']['state'] == "present"
+          - test_service_create['diff']['after']['state'] == "present"
+          - test_service_create['diff']['before']['state'] == "absent"
           - test_service_create['msg'] == "services node-exporter created"
 
     - name: "NETBOX_SERVICE: Test idempotence"
