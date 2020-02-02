@@ -4117,7 +4117,7 @@
           - test_service['services']['name'] == "node-exporter"
           - test_service['services']['port'] == 9100
           - test_service['services']['protocol'] == 6
-          - test_service['msg'] == "service node-exporter created"
+          - test_service['msg'] == "services node-exporter created"
 
     - name: "NETBOX_SERVICE: Test idempotence"
       netbox_service:
