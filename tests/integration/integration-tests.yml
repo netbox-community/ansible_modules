@@ -4154,8 +4154,8 @@
       assert:
         that:
           - test_service_update is changed
-          - test_service_update['diff']['after']['protocol'] == 17
           - test_service_update['diff']['after']['protocol'] == 6
+          - test_service_update['diff']['after']['protocol'] == 17
           - test_service_update['msg'] == "services node-exporter updated"
 
 
