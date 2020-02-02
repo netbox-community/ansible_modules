@@ -4086,7 +4086,6 @@
 ### NETBOX_SERVICE
 ##
 ##
-
     - name: "1 - Device with required information needs to add new service"
       netbox_device:
         netbox_url: "http://localhost:32768"
@@ -4115,6 +4114,10 @@
       assert:
         that:
           - test_service is changed
+          - test_service['service']['name'] == "node-exporter"
+          - test_service['service']['port'] == 9100
+          - test_service['service']['protocol'] == 6
+          - test_service['msg'] == "service node-exporter created"
 
     - name: "NETBOX_SERVICE: Test idempotence"
       netbox_service:
