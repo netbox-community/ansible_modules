@@ -4155,7 +4155,7 @@
         that:
           - test_service_update is changed
           - test_service_update['diff']['after']['protocol'] == 17
-          - test_service_update['diff']['after']['before'] == 6
+          - test_service_update['diff']['after']['protocol'] == 6
           - test_service_update['msg'] == "services node-exporter updated"
 
 
@@ -4177,6 +4177,7 @@
           - test_service_delete is changed
           - test_service_delete['diff']['after'] == "absent"
           - test_service_delete['diff']['before'] == "present"
+          - test_service_delete['msg'] == "services node-exporter deleted"
 
 
 ##
