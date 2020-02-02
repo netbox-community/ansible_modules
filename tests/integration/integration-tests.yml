@@ -4018,7 +4018,7 @@
       assert:
         that:
           - test_three is changed
-          - test_three['diff']['after']['upstream_speed'] == 1000
+
           - test_three['diff']['after']['xconnect_id'] == "10X100"
           - test_three['diff']['after']['pp_info'] == "PP10-24"
           - test_three['diff']['after']['description'] == "Test description"
@@ -4114,9 +4114,9 @@
       assert:
         that:
           - test_service is changed
-          - test_service['service']['name'] == "node-exporter"
-          - test_service['service']['port'] == 9100
-          - test_service['service']['protocol'] == 6
+          - test_service['services']['name'] == "node-exporter"
+          - test_service['services']['port'] == 9100
+          - test_service['services']['protocol'] == 6
           - test_service['msg'] == "service node-exporter created"
 
     - name: "NETBOX_SERVICE: Test idempotence"
@@ -4134,8 +4134,10 @@
     - name: "NETBOX_SERVICE ASSERT - Not changed"
       assert:
         that:
+          - test_service_idempotence['services']['name'] == "node-exporter"
+          - test_service_idempotence['services']['port'] == 9100
+          - test_service_idempotence['services']['protocol'] == 6
           - test_service_idempotence['msg'] == "services node-exporter already exists"
-
     - name: "NETBOX_SERVICE: Test update"
       netbox_service:
         netbox_url: "http://localhost:32768"
@@ -4152,6 +4154,9 @@
       assert:
         that:
           - test_service_update is changed
+          - test_service_update['diff']['after']['protocol'] == 17
+          - test_service_update['diff']['after']['before'] == 6
+          - test_service_update['msg'] == "services node-exporter updated"
 
 
     - name: "NETBOX_SERVICE: Test service deletion"
@@ -4170,6 +4175,8 @@
       assert:
         that:
           - test_service_delete is changed
+          - test_service_delete['diff']['after'] == "absent"
+          - test_service_delete['diff']['before'] == "present"
 
 
 ##
