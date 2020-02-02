@@ -4108,16 +4108,18 @@
           port: 9100
           protocol: TCP
         state: present
-      register: test_service
+      register: test_service_create
 
     - name: "NETBOX_SERVICE ASSERT - Create"
       assert:
         that:
-          - test_service is changed
-          - test_service['services']['name'] == "node-exporter"
-          - test_service['services']['port'] == 9100
-          - test_service['services']['protocol'] == 6
-          - test_service['msg'] == "services node-exporter created"
+          - test_service_create is changed
+          - test_service_create['services']['name'] == "node-exporter"
+          - test_service_create['services']['port'] == 9100
+          - test_service_create['services']['protocol'] == 6
+          - test_service_create['diff']['after']['state'] == "absent"
+          - test_service_create['diff']['before']['state'] == "present"
+          - test_service_create['msg'] == "services node-exporter created"
 
     - name: "NETBOX_SERVICE: Test idempotence"
       netbox_service:
@@ -4154,7 +4156,7 @@
       assert:
         that:
           - test_service_update is changed
-          - test_service_update['diff']['after']['protocol'] == 6
+          - test_service_update['diff']['before']['protocol'] == 6
           - test_service_update['diff']['after']['protocol'] == 17
           - test_service_update['msg'] == "services node-exporter updated"
 
@@ -4175,8 +4177,8 @@
       assert:
         that:
           - test_service_delete is changed
-          - test_service_delete['diff']['after'] == "absent"
-          - test_service_delete['diff']['before'] == "present"
+          - test_service_delete['diff']['after']['state'] == "absent"
+          - test_service_delete['diff']['before']['state'] == "present"
           - test_service_delete['msg'] == "services node-exporter deleted"
 
 
