@@ -4018,7 +4018,7 @@
       assert:
         that:
           - test_three is changed
-
+          - test_three['diff']['after']['upstream_speed'] == 1000
           - test_three['diff']['after']['xconnect_id'] == "10X100"
           - test_three['diff']['after']['pp_info'] == "PP10-24"
           - test_three['diff']['after']['description'] == "Test description"
