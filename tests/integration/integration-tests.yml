@@ -1829,7 +1829,7 @@
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           slug: test-device-type
-          model: "WS Test 3750"
+          model: "ws-test-3750"
           manufacturer: Test Manufacturer
         state: present
       register: test_two
@@ -1839,7 +1839,7 @@
         that:
           - not test_two['changed']
           - test_one['device_type']['slug'] == "test-device-type"
-          - test_one['device_type']['model'] == "WS Test 3750"
+          - test_one['device_type']['model'] == "ws-test-3750"
           - test_one['device_type']['manufacturer'] == 3
           - test_two['msg'] == "device_type test-device-type already exists"
 
