@@ -53,6 +53,7 @@ API_APPS_ENDPOINTS = dict(
         "vlans",
         "vlan_groups",
         "vrfs",
+        "services",
     ],
     secrets=[],
     tenancy=["tenants", "tenant_groups"],
@@ -391,6 +392,7 @@ SLUG_REQUIRED = {
     "providers",
     "vlan_groups",
 }
+
 
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
