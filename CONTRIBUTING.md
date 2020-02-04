@@ -271,4 +271,5 @@ Copying an existing module that has close to the same options is typically the p
 
 - Please add or update an existing play to test the new Netbox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
 - Run `black .` within the base directory for black formatting as it's required for tests to pass
+- Run `ansible-lint integration-tests.yml` it's required for tests to pass
 - Check necessary dependencies defined within `.travis.yml` for now if you're wanting to test locally
