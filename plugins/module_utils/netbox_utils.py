@@ -459,8 +459,7 @@ class NetboxModule(object):
             self._handle_errors(msg=e.error)
         except ValueError:
             self._handle_errors(
-                msg="Multiple results found while searching for: %s"
-                % (search_item)
+                msg="Multiple results found while searching for %s" % (search_item)
             )
 
         return response
@@ -630,7 +629,7 @@ class NetboxModule(object):
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, v)
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
-    
+
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
