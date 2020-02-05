@@ -452,6 +452,19 @@ class NetboxModule(object):
         except Exception:
             self.module.fail_json(msg="Failed to establish connection to Netbox API")
 
+    def _nb_endpoint_get(self, nb_endpoint, query_params, search_item):
+        try:
+            response = nb_endpoint.get(**query_params)
+        except pynetbox.RequestError as e:
+            self._handle_errors(msg=e.error)
+        except ValueError:
+            self._handle_errors(
+                msg="Multiple results found while searching for: %s"
+                % (search_item)
+            )
+
+        return response
+
     def _handle_errors(self, msg):
         """
         Returns message and changed = False
@@ -504,7 +517,10 @@ class NetboxModule(object):
             app = self._find_app(endpoint)
             nb_app = getattr(self.nb, app)
             nb_endpoint = getattr(nb_app, endpoint)
-            result = nb_endpoint.get(**{QUERY_TYPES.get(match): data[match]})
+
+            query_params = {QUERY_TYPES.get(match): data[match]}
+            result = self._nb_endpoint_get(nb_endpoint, query_params, match)
+
             if result:
                 return result.id
             else:
@@ -613,27 +629,22 @@ class NetboxModule(object):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, v)
-                    query_id = nb_endpoint.get(**query_params)
-
+                    query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
+    
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
                         norm_data = self._normalize_data(list_item)
                         temp_dict = self._build_query_params(k, data, norm_data)
-                        query_id = nb_endpoint.get(**temp_dict)
+                        query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
 
                 else:
-                    try:
-                        query_id = nb_endpoint.get(**{QUERY_TYPES.get(k, "q"): search})
-                    except ValueError:
-                        self._handle_errors(
-                            msg="Multiple results found while searching for key: %s"
-                            % (k)
-                        )
+                    query_params = {QUERY_TYPES.get(k, "q"): search}
+                    query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 if isinstance(v, list):
                     data[k] = id_list
