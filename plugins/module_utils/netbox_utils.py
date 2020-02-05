@@ -459,7 +459,7 @@ class NetboxModule(object):
             self._handle_errors(msg=e.error)
         except ValueError:
             self._handle_errors(
-                msg="Multiple results found while searching for %s" % (search_item)
+                msg="More than one result returned for %s" % (search_item)
             )
 
         return response
