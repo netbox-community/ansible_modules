@@ -303,7 +303,7 @@ ALLOWED_QUERY_PARAMS = {
     "ip_address": set(["address", "vrf"]),
     "ip_addresses": set(["address", "vrf", "device"]),
     "lag": set(["name"]),
-    "manufacturer": set(["name", "slug"]),
+    "manufacturer": set(["slug"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
