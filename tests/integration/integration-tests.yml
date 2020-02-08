@@ -1846,7 +1846,7 @@
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           slug: test-device-type
-          model: ws-test-3750
+          model: "ws-test-3750"
           manufacturer: Test Manufacturer
         state: present
       register: test_two
@@ -1895,7 +1895,7 @@
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          slug: test-device-type
+          model: test-device-type
         state: absent
       register: test_four
 
@@ -1912,7 +1912,7 @@
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          slug: test-device-type
+          model: "Test Device Type"
         state: absent
       register: test_five
 
@@ -1921,7 +1921,28 @@
         that:
           - not test_five['changed']
           - test_five['device_type'] == None
-          - test_five['msg'] == "device_type test-device-type already absent"
+          - test_five['msg'] == "device_type Test Device Type already absent"
+
+    - name: "DEVICE_TYPE 6: Without Slug"
+      netbox_device_type:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          model: "WS Test 3850"
+          manufacturer: Test Manufacturer
+        state: present
+      register: test_six
+
+    - name: "DEVICE_TYPE 6: ASSERT - Without Slug"
+      assert:
+        that:
+          - test_six is changed
+          - test_six['diff']['before']['state'] == "absent"
+          - test_six['diff']['after']['state'] == "present"
+          - test_six['device_type']['slug'] == "ws-test-3850"
+          - test_six['device_type']['model'] == "WS Test 3850"
+          - test_six['device_type']['manufacturer'] == 3
+          - test_six['msg'] == "device_type WS Test 3850 created"
 
 ##
 ##
