@@ -561,6 +561,8 @@ class NetboxModule(object):
                 query_dict.update({match: value})
 
         if parent == "lag":
+            if not child:
+                query_dict["name"] = module_data["lag"]
             query_dict.update({"form_factor": 200})
             if isinstance(module_data["device"], int):
                 query_dict.update({"device_id": module_data["device"]})
