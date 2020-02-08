@@ -1648,38 +1648,55 @@
           - test_two['manufacturer']['slug'] == "test-manufacturer-two"
           - test_two['msg'] == "manufacturer Test Manufacturer Two already exists"
 
-    - name: "MANUFACTURER 3: ASSERT - Delete"
+    - name: "MANUFACTURER 3: Update"
       netbox_manufacturer:
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          name: Test Manufacturer Two
-        state: absent
+          name: test manufacturer two
+        state: present
       register: test_three
 
-    - name: "MANUFACTURER 3: ASSERT - Delete"
+    - name: "MANUFACTURER 3: ASSERT - Update"
       assert:
         that:
-          - test_three is changed
-          - test_three['diff']['before']['state'] == "present"
-          - test_three['diff']['after']['state'] == "absent"
-          - test_three['msg'] == "manufacturer Test Manufacturer Two deleted"
+          - test_three['changed']
+          - test_three['manufacturer']['name'] == "test manufacturer two"
+          - test_three['manufacturer']['slug'] == "test-manufacturer-two"
+          - test_three['msg'] == "manufacturer test manufacturer two updated"
 
-    - name: "MANUFACTURER 4: ASSERT - Delete non existing"
+    - name: "MANUFACTURER 4: ASSERT - Delete"
       netbox_manufacturer:
         netbox_url: http://localhost:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
-          name: Test Manufacturer Two
+          name: test manufacturer two
         state: absent
       register: test_four
 
-    - name: "MANUFACTURER 4: ASSERT - Delete non existing"
+    - name: "MANUFACTURER 3: ASSERT - Delete"
       assert:
         that:
-          - not test_four['changed']
-          - test_four['manufacturer'] == None
-          - test_four['msg'] == "manufacturer Test Manufacturer Two already absent"
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "present"
+          - test_four['diff']['after']['state'] == "absent"
+          - test_four['msg'] == "manufacturer test manufacturer two deleted"
+
+    - name: "MANUFACTURER 5: ASSERT - Delete non existing"
+      netbox_manufacturer:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: Test Manufacturer Two
+        state: absent
+      register: test_five
+
+    - name: "MANUFACTURER 5: ASSERT - Delete non existing"
+      assert:
+        that:
+          - not test_five['changed']
+          - test_five['manufacturer'] == None
+          - test_five['msg'] == "manufacturer Test Manufacturer Two already absent"
 
 ##
 ##
