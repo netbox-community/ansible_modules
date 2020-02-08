@@ -81,7 +81,7 @@ class NetboxIpamModule(NetboxModule):
 
     def _get_new_available_ip_address(self, nb_app, data, endpoint_name):
         prefix_query = self._build_query_params("prefix", data)
-        prefix = nb_app.prefixes.get(**prefix_query)
+        prefix = self._nb_endpoint_get(nb_app.prefixes, prefix_query, data["prefix"])
         if not prefix:
             self.result["changed"] = False
             self.result["msg"] = "%s does not exist - please create first" % (
@@ -170,15 +170,13 @@ class NetboxIpamModule(NetboxModule):
         object_query_params = self._build_query_params(endpoint_name, data)
         if data.get("prefix") and self.endpoint == "ip_addresses":
             object_query_params = self._build_query_params("prefix", data)
-            try:
-                self.nb_object = nb_app.prefixes.get(**object_query_params)
-            except ValueError:
-                self._handle_errors(msg="More than one result returned for %s" % (name))
+            self.nb_object = self._nb_endpoint_get(
+                nb_app.prefixes, object_query_params, name
+            )
         else:
-            try:
-                self.nb_object = nb_endpoint.get(**object_query_params)
-            except ValueError:
-                self._handle_errors(msg="More than one result returned for %s" % (name))
+            self.nb_object = self._nb_endpoint_get(
+                nb_endpoint, object_query_params, name
+            )
 
         if self.state in ("new", "present") and endpoint_name == "ip_address":
             self._handle_state_new_present(
