@@ -37,6 +37,7 @@
 - netbox_region
 - netbox_rir
 - netbox_site
+- netbox_service
 - netbox_tenant_group
 - netbox_tenant
 - netbox_virtual_machine
