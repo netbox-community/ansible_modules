@@ -6,7 +6,7 @@
 ## Requirements
 
 - Netbox 2.5+
-- pynetbox 4.0.6+
+- **pynetbox 4.1.0+**
 - Python 3.6+
 - Ansible 2.9+
 
