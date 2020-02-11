@@ -100,6 +100,9 @@ options:
       nat_inside:
         description:
           - The inside IP address this IP is assigned to
+      dns_name:
+        description:
+          - Hostname or FQDN
       tags:
         description:
           - Any tags that the IP address may need to be associated with
@@ -276,6 +279,7 @@ def main():
                     interface=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
+                    dns_name=dict(required=False, type="str"),
                     tags=dict(required=False, type=list),
                     custom_fields=dict(required=False, type=dict),
                 ),
