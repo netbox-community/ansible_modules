@@ -444,7 +444,6 @@
         data:
           address: 192.168.1.10/30
           description: "Updated ip address"
-          dns_name: "example.netbox.com"
           tags:
             - Updated
         state: present
@@ -456,12 +455,10 @@
           - test_two is changed
           - test_two['diff']['after']['description'] == "Updated ip address"
           - test_two['diff']['after']['tags'][0] == "Updated"
-          - test_two['diff']['after']['dns_name'] == "example.netbox.com"
           - test_two['msg'] == "ip_address 192.168.1.10/30 updated"
           - test_two['ip_address']['address'] == "192.168.1.10/30"
           - test_two['ip_address']['tags'][0] == "Updated"
           - test_two['ip_address']['description'] == "Updated ip address"
-          - test_two['ip_address']['dns_name'] == "example.netbox.com"
 
     - name: "3 - Delete IP - 192.168.1.10 - State: Absent"
       netbox_ip_address:
