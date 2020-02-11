@@ -542,8 +542,10 @@ class NetboxModule(object):
         query_params = ALLOWED_QUERY_PARAMS.get(parent)
 
         if child:
+            child = self._convert_identical_keys(child)
             matches = query_params.intersection(set(child.keys()))
         else:
+            module_data = self._convert_identical_keys(module_data)
             matches = query_params.intersection(set(module_data.keys()))
 
         for match in matches:
