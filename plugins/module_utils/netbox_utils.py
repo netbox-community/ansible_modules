@@ -431,6 +431,7 @@ class NetboxModule(object):
         self.state = self.module.params["state"]
         self.check_mode = self.module.check_mode
         self.endpoint = endpoint
+        self.version = None
 
         if not HAS_PYNETBOX:
             self.module.fail_json(
@@ -501,7 +502,7 @@ class NetboxModule(object):
         Returns data
         :params data (dict): Data dictionary after _find_ids method ran
         """
-        if self.version >= 2.7:
+        if self.version and self.version >= 2.7:
             if data.get("form_factor"):
                 data["type"] = data.pop("form_factor")
         for key in data:
