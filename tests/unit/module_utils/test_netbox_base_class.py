@@ -118,11 +118,6 @@ def on_deletion_diff(mock_netbox_module):
 def mock_netbox_module(mocker, mock_ansible_module, find_ids_return):
     find_ids = mocker.patch("%s%s" % (MOCKER_PATCH_PATH, "._find_ids"))
     find_ids.return_value = find_ids_return
-    # The follow is just mocking the object so it doesn't try to make live calls and our nb_client is a boolean instead
-    # of an actual pynetbox.api object
-    get_application_choices = mocker.patch(
-        "%s%s" % (MOCKER_PATCH_PATH, "._get_application_choices")
-    )
     netbox = NetboxModule(mock_ansible_module, NB_DEVICES, nb_client=True)
 
     return netbox
