@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.6`
+
+### New Features
+- [#84](https://github.com/netbox-community/ansible_modules/issues/84) - Add dns_name to netbox_ip_address
+- [#83](https://github.com/netbox-community/ansible_modules/issues/83) - Add region and region_id to query_filter for Netbox Inventory plugin
+
+### Bug Fixes
+- [#85](https://github.com/netbox-community/ansible_modules/issues/85) - Fixed vlan searching with vlan_group for netbox_prefix
+- [#67](https://github.com/netbox-community/ansible_modules/issues/67) - Removed static choices from netbox_utils and now pulls the choices for each endpoint from the Netbox API at call time
+
+### Thanks to following contributors!
+@vsvetlov
+@pugnacity
+@DavidRobbNZ
+@ThomasADavis
+
 ## v0.1.5
 
 ### Bug Fixes
