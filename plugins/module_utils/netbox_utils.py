@@ -324,7 +324,7 @@ ALLOWED_QUERY_PARAMS = {
     "tenant_group": set(["name"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
     "virtual_machine": set(["name", "cluster"]),
-    "vlan": set(["name", "site", "tenant"]),
+    "vlan": set(["name", "site", "tenant", "group", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
     "vrf": set(["name", "tenant"]),
 }
