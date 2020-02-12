@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.6`
+## v0.1.6
 
 ### New Features
 - [#84](https://github.com/netbox-community/ansible_modules/issues/84) - Add dns_name to netbox_ip_address
