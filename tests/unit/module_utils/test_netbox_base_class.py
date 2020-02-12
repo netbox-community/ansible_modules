@@ -803,7 +803,7 @@ def test_build_query_params_no_child(
                 "name": "Test VLAN",
                 "site_id": 1,
                 "tenant_id": 1,
-                "group": "test-vlan-group",
+                "group": "Test VLAN group",
             },
         ),
         (

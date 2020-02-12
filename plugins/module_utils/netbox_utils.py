@@ -577,7 +577,6 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
-        query_dict = self._normalize_data(query_dict)
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
 
