@@ -799,7 +799,12 @@ def test_build_query_params_no_child(
                 "tenant": "Test Tenant",
                 "vlan_group": "Test VLAN group",
             },
-            {"name": "Test VLAN", "site_id": 1, "tenant_id": 1, "group_id": 1},
+            {
+                "name": "Test VLAN",
+                "site_id": 1,
+                "tenant_id": 1,
+                "group": "test-vlan-group",
+            },
         ),
         (
             "vlan_group",
