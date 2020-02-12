@@ -5,7 +5,7 @@
 ##
 ##
 - name: "TEST NETBOX_DEVICE"
-  hosts: localhosthost
+  hosts: localhost
   connection: local
   gather_facts: no
   collections:
@@ -189,7 +189,7 @@
 ##
 - name: "TEST NETBOX_DEVICE_INTERFACE"
   hosts: localhost
-  connection: localhost
+  connection: local
   gather_facts: no
   collections:
     - netbox_community.ansible_modules
@@ -412,7 +412,7 @@
 ##
 ##
 - name: "TEST NETBOX_IP_ADDRESS"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -745,7 +745,7 @@
 ##
 ##
 - name: "TEST NETBOX_PREFIX"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -998,7 +998,7 @@
 ##
 ##
 - name: "TEST NETBOX_SITE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -1137,7 +1137,7 @@
 ##
 - name: "TEST NETBOX_TENANT"
   hosts: localhost
-  connection: localhost
+  connection: local
   gather_facts: no
   collections:
     - netbox_community.ansible_modules
@@ -1250,7 +1250,7 @@
 ##
 - name: "TEST NETBOX_TENANT_GROUP"
   hosts: localhost
-  connection: localhost
+  connection: local
   gather_facts: no
   collections:
     - netbox_community.ansible_modules
@@ -1314,7 +1314,7 @@
 ##
 - name: "TEST NETBOX_RACK"
   hosts: localhost
-  connection: localhost
+  connection: local
   gather_facts: no
   collections:
     - netbox_community.ansible_modules
@@ -1498,7 +1498,7 @@
 ##
 ##
 - name: "TEST NETBOX_RACK_ROLE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -1587,7 +1587,7 @@
 ##
 ##
 - name: "TEST NETBOX_RACK_GROUP"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -1657,7 +1657,7 @@
 ##
 ##
 - name: "TEST NETBOX_MANUFACTURER"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -1756,7 +1756,7 @@
 ##
 ##
 - name: "TEST NETBOX_PLATFORM"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -1863,7 +1863,7 @@
 ##
 ##
 - name: "TEST NETBOX_DEVICE_TYPE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2002,7 +2002,7 @@
 ##
 ##
 - name: "TEST NETBOX_DEVICE_ROLE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2111,7 +2111,7 @@
 ##
 ##
 - name: "TEST NETBOX_IPAM_ROLE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2213,7 +2213,7 @@
 ##
 ##
 - name: "TEST NETBOX_VLAN_GROUP"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2339,7 +2339,7 @@
 ##
 ##
 - name: "TEST NETBOX_VLAN"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2490,7 +2490,7 @@
 ##
 ##
 - name: "TEST NETBOX_VRF"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2626,7 +2626,7 @@
 ##
 ##
 - name: "TEST NETBOX_RIR"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2713,7 +2713,7 @@
 ##
 ##
 - name: "TEST NETBOX_AGGREGATE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2836,7 +2836,7 @@
 ##
 ##
 - name: "TEST NETBOX_REGION"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -2923,7 +2923,7 @@
 ##
 ##
 - name: "TEST NETBOX_DEVICE_BAY"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3018,7 +3018,7 @@
 ##
 ##
 - name: "TEST NETBOX_INVENTORY_ITEM"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3130,7 +3130,7 @@
 ##
 ##
 - name: "TEST NETBOX_VIRTUAL_MACHINES"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3237,7 +3237,7 @@
 ##
 ##
 - name: "TEST NETBOX_CLUSTER"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3340,7 +3340,7 @@
 ##
 ##
 - name: "TEST NETBOX_CLUSTER_GROUP"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3444,7 +3444,7 @@
 ##
 ##
 - name: "TEST NETBOX_CLUSTER_TYPE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3548,7 +3548,7 @@
 ##
 ##
 - name: "TEST NETBOX_VM_INTERFACE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3714,7 +3714,7 @@
 ##
 ##
 - name: "TEST NETBOX_PROVIDER"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3820,7 +3820,7 @@
 ##
 ##
 - name: "TEST NETBOX_CIRCUIT_TYPE"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -3923,7 +3923,7 @@
 ##
 ##
 - name: "TEST NETBOX_CIRCUIT"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -4039,7 +4039,7 @@
 ##
 ##
 - name: "TEST NETBOX_CIRCUIT_TERMINATION"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
   collections:
@@ -4276,7 +4276,7 @@
 ##
 ##
 - name: "TEST NETBOX_LOOKUP"
-  connection: localhost
+  connection: local
   hosts: localhost
   gather_facts: False
 
