@@ -1,0 +1,20 @@
+{
+    "status": [
+        {
+            "value": "container",
+            "display_name": "Container"
+        },
+        {
+            "value": "active",
+            "display_name": "Active"
+        },
+        {
+            "value": "reserved",
+            "display_name": "Reserved"
+        },
+        {
+            "value": "deprecated",
+            "display_name": "Deprecated"
+        }
+    ]
+}

@@ -45,6 +45,13 @@ def fixture_arg_spec():
 
 
 @pytest.fixture
+def choices_data(choice):
+    with open(f"{choice}.json", "r") as f:
+        choice_data = f.read()
+    return choice_data
+
+
+@pytest.fixture
 def normalized_data():
     return {
         "name": "Test Device1",
@@ -363,178 +370,53 @@ def test_update_netbox_object_with_changes_check_mode_true(
 @pytest.mark.parametrize(
     "endpoint, data, expected",
     [
-        (
-            "circuits",
-            {
-                "status": "Active",
-                "status": "Offline",
-                "status": "Planned",
-                "status": "Provisioning",
-                "status": "Deprovisioning",
-                "status": "Decommissioned",
-                "status": 1,
-            },
-            {
-                "status": 1,
-                "status": 4,
-                "status": 2,
-                "status": 3,
-                "status": 0,
-                "status": 5,
-                "status": 1,
-            },
-        ),
+        ("circuits", {"status": "Active"}, {"status": "temp"},),
+        ("circuits", {"status": 1}, {"status": 1},),
         (
             "devices",
-            {
-                "status": "Active",
-                "status": "Offline",
-                "status": "Planned",
-                "status": "Staged",
-                "status": "Failed",
-                "status": "Inventory",
-                "status": 5,
-                "face": "Front",
-                "face": "Rear",
-                "face": 1,
-            },
-            {
-                "status": 1,
-                "status": 0,
-                "status": 2,
-                "status": 3,
-                "status": 4,
-                "status": 5,
-                "face": 0,
-                "face": 1,
-                "face": 1,
-            },
+            {"status": "Active", "face": "Front"},
+            {"status": "temp", "face": "temp"},
         ),
-        (
-            "device_types",
-            {"subdevice_role": "Parent", "subdevice_role": "Child"},
-            {"subdevice_role": True, "subdevice_role": False},
-        ),
+        ("devices", {"status": 5, "face": 1}, {"status": 5, "face": 1},),
+        ("device_types", {"subdevice_role": "Parent"}, {"subdevice_role": "temp"},),
+        ("device_types", {"subdevice_role": "Child"}, {"subdevice_role": "temp"},),
         (
             "interfaces",
-            {
-                "form_factor": "1000base-t (1ge)",
-                "mode": "Access",
-                "mode": "Tagged",
-                "mode": "Tagged all",
-                "mode": 100,
-            },
-            {"form_factor": 1000, "mode": 100, "mode": 200, "mode": 300, "mode": 100},
+            {"form_factor": "1000base-t (1ge)", "mode": "Access"},
+            {"form_factor": "temp", "mode": "temp"},
         ),
+        ("interfaces", {"mode": 100}, {"mode": 100},),
         (
             "ip_addresses",
-            {
-                "status": "Active",
-                "status": "Reserved",
-                "status": "Deprecated",
-                "status": "DHCP",
-                "status": 1,
-                "role": "Loopback",
-                "role": "Secondary",
-                "role": "Anycast",
-                "role": "VIP",
-                "role": "VRRP",
-                "role": "HSRP",
-                "role": "GLBP",
-                "role": "CARP",
-                "role": 30,
-            },
-            {
-                "status": 1,
-                "status": 2,
-                "status": 3,
-                "status": 5,
-                "status": 1,
-                "role": 10,
-                "role": 20,
-                "role": 30,
-                "role": 40,
-                "role": 41,
-                "role": 42,
-                "role": 43,
-                "role": 44,
-                "role": 30,
-            },
+            {"status": "Active", "role": "Loopback"},
+            {"status": "temp", "role": "temp"},
         ),
-        (
-            "prefixes",
-            {
-                "status": "Active",
-                "status": "Container",
-                "status": "Reserved",
-                "status": "Deprecated",
-                "status": 2,
-            },
-            {"status": 1, "status": 0, "status": 2, "status": 3, "status": 2},
-        ),
+        ("ip_addresses", {"status": 1, "role": 30}, {"status": 1, "role": 30},),
+        ("prefixes", {"status": "Active"}, {"status": "temp"},),
+        ("prefixes", {"status": 2}, {"status": 2},),
         (
             "racks",
-            {
-                "status": "Active",
-                "status": "Planned",
-                "status": "Reserved",
-                "status": "Available",
-                "status": "Deprecated",
-                "outer_unit": "Inches",
-                "outer_unit": "Millimeters",
-                "type": "2-post Frame",
-                "type": "4-post Frame",
-                "type": "4-post Cabinet",
-                "type": "Wall-mounted Frame",
-                "type": "Wall-mounted Cabinet",
-                "type": 1100,
-            },
-            {
-                "status": 3,
-                "status": 2,
-                "status": 0,
-                "status": 1,
-                "status": 4,
-                "outer_unit": 2000,
-                "outer_unit": 1000,
-                "type": 100,
-                "type": 200,
-                "type": 300,
-                "type": 1000,
-                "type": 1100,
-                "type": 1100,
-            },
+            {"status": "Active", "outer_unit": "Inches", "type": "2-post Frame",},
+            {"status": "temp", "outer_unit": "temp", "type": "temp",},
         ),
-        (
-            "sites",
-            {"status": "Active", "status": "Planned", "status": "Retired", "status": 2},
-            {"status": 1, "status": 2, "status": 4, "status": 2},
-        ),
+        ("racks", {"status": 0, "type": 1100,}, {"status": 0, "type": 1100,},),
+        ("sites", {"status": "Active"}, {"status": "temp"}),
+        ("sites", {"status": 2}, {"status": 2}),
         (
             "virtual_machines",
-            {
-                "status": "Offline",
-                "status": "Active",
-                "status": "Staged",
-                "face": "Front",
-                "face": "Rear",
-                "face": 0,
-            },
-            {"status": 0, "status": 1, "status": 3, "face": 0, "face": 1, "face": 0},
+            {"status": "Offline", "face": "Front"},
+            {"status": "temp", "face": "temp"},
         ),
-        (
-            "vlans",
-            {
-                "status": "Active",
-                "status": "Reserved",
-                "status": "Deprecated",
-                "status": 2,
-            },
-            {"status": 1, "status": 2, "status": 3, "status": 2},
-        ),
+        ("virtual_machines", {"status": 1, "face": 0}, {"status": 1, "face": 0},),
+        ("vlans", {"status": "Active"}, {"status": "temp"}),
+        ("vlans", {"status": 2}, {"status": 2}),
     ],
 )
-def test_change_choices_id(mock_netbox_module, endpoint, data, expected):
+def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected):
+    fetch_choice_value = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
+    )
+    fetch_choice_value.return_value = "temp"
     new_data = mock_netbox_module._change_choices_id(endpoint, data)
     assert new_data == expected
 

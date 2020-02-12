@@ -292,7 +292,7 @@
           device: test100
           name: GigabitEthernet3
           enabled: false
-          form_factor: 1000Base-t (1GE)
+          form_factor: 1000Base-T (1GE)
           lag:
             name: port-channel1
           mtu: 1600
@@ -325,7 +325,7 @@
           device: test100
           name: GigabitEthernet21
           enabled: false
-          form_factor: 1000Base-t (1GE)
+          form_factor: 1000Base-T (1GE)
           untagged_vlan:
             name: Wireless
             site: Test Site
@@ -382,7 +382,7 @@
           device: test100
           name: GigabitEthernet4
           enabled: false
-          form_factor: 1000Base-t (1GE)
+          form_factor: 1000Base-T (1GE)
           lag: "port-channel1"
           mtu: 1600
           mgmt_only: false
@@ -4171,11 +4171,11 @@
           - test_five['msg'] == "circuit_termination test_circuit_a deleted"
           -
 
-##
-##
-### NETBOX_SERVICE
-##
-##
+    ##
+    ##
+    ### NETBOX_SERVICE
+    ##
+    ##
     - name: "1 - Device with required information needs to add new service"
       netbox_device:
         netbox_url: "http://localhost:32768"
@@ -4250,7 +4250,6 @@
           - test_service_update['diff']['after']['protocol'] == 17
           - test_service_update['msg'] == "services node-exporter updated"
 
-
     - name: "NETBOX_SERVICE: Test service deletion"
       netbox_service:
         netbox_url: "http://localhost:32768"
@@ -4270,7 +4269,6 @@
           - test_service_delete['diff']['after']['state'] == "absent"
           - test_service_delete['diff']['before']['state'] == "present"
           - test_service_delete['msg'] == "services node-exporter deleted"
-
 
 ##
 ##
@@ -4317,7 +4315,7 @@
           device_role: "Core Switch"
           site: "Test Site"
           status: "Staged"
-          tags: 
+          tags:
             - "nolookup"
         state: present
 
@@ -4331,7 +4329,7 @@
           device_role: "Core Switch"
           site: "Test Site"
           status: "Staged"
-          tags: 
+          tags:
             - "lookup"
         state: present
 
@@ -4339,7 +4337,4 @@
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
-          query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
-
-
-
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
