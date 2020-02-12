@@ -324,7 +324,7 @@ ALLOWED_QUERY_PARAMS = {
     "tenant_group": set(["name"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
     "virtual_machine": set(["name", "cluster"]),
-    "vlan": set(["name", "site", "tenant"]),
+    "vlan": set(["name", "site", "tenant", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
     "vrf": set(["name", "tenant"]),
 }
@@ -340,7 +340,6 @@ QUERY_PARAMS_IDS = set(
         "site",
         "tenant",
         "type",
-        "vlan_group",
         "virtual_machine",
     ]
 )
@@ -578,6 +577,7 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
+        query_dict = self._convert_identical_keys(query_dict)
         return query_dict
 
     def _change_choices_id(self, endpoint, data):

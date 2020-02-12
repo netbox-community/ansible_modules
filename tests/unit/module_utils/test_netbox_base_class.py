@@ -3,10 +3,6 @@
 # Copyright: (c) 2019, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-# import unittest
-# from units.compat import unittest
-# from units.compat.mock import patch, MagicMock, Mock
-
 import pytest
 from unittest.mock import patch, MagicMock, Mock
 from ansible.module_utils.basic import AnsibleModule
@@ -803,7 +799,12 @@ def test_build_query_params_no_child(
                 "tenant": "Test Tenant",
                 "vlan_group": "Test VLAN group",
             },
-            {"name": "Test VLAN", "site_id": 1, "tenant_id": 1},
+            {
+                "name": "Test VLAN",
+                "site_id": 1,
+                "tenant_id": 1,
+                "group": "Test VLAN group",
+            },
         ),
         (
             "vlan_group",
