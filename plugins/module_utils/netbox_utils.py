@@ -508,7 +508,7 @@ class NetboxModule(object):
             for choice in required_choices:
                 if data.get(choice):
                     if isinstance(data[choice], int):
-                        break
+                        continue
                     choice_value = self._fetch_choice_value(data[choice], endpoint)
                     data[choice] = choice_value
 

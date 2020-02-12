@@ -14,7 +14,7 @@
   tasks:
     - name: "1 - Device with required information"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "R1"
@@ -41,7 +41,7 @@
 
     - name: "2 - Duplicate device"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "R1"
@@ -65,7 +65,7 @@
 
     - name: "3 - Update device"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "R1"
@@ -88,7 +88,7 @@
 
     - name: "4 - Create device with tags and assign to rack"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "TestR1"
@@ -124,7 +124,7 @@
 
     - name: "5 - Delete previous device"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "TestR1"
@@ -141,7 +141,7 @@
 
     - name: "6 - Delete R1"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "R1"
@@ -158,7 +158,7 @@
 
     - name: "7 - Add primary_ip4/6 to test100"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "test100"
@@ -188,7 +188,7 @@
 ##
 ##
 - name: "TEST NETBOX_DEVICE_INTERFACE"
-  hosts: netbox-demo.org
+  hosts: local
   connection: local
   gather_facts: no
   collections:
@@ -197,7 +197,7 @@
   tasks:
     - name: "1 - Interface with required information"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -216,7 +216,7 @@
 
     - name: "2 - Update test100 - GigabitEthernet3"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -239,7 +239,7 @@
 
     - name: "3 - Delete interface test100 - GigabitEthernet3"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -257,7 +257,7 @@
 
     - name: "4 - Create LAG with several specified options"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -286,7 +286,7 @@
 
     - name: "5 - Create interface and assign it to parent LAG"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -319,7 +319,7 @@
 
     - name: "6 - Create interface as trunk port"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -359,7 +359,7 @@
 
     - name: "7 - Duplicate Interface"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -376,7 +376,7 @@
 
     - name: "8 - Create interface and assign it to parent LAG - non dict"
       netbox_device_interface:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: test100
@@ -413,7 +413,7 @@
 ##
 - name: "TEST NETBOX_IP_ADDRESS"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -421,7 +421,7 @@
   tasks:
     - name: "1 - Create IP address within Netbox with only required information - State: Present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.1.10/30
@@ -439,7 +439,7 @@
 
     - name: "2 - Update 192.168.1.10/30"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.1.10/30
@@ -462,7 +462,7 @@
 
     - name: "3 - Delete IP - 192.168.1.10 - State: Absent"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.1.10/30
@@ -479,7 +479,7 @@
 
     - name: "4 - Create IP in global VRF - 192.168.1.20/30 - State: Present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.1.20/30
@@ -497,7 +497,7 @@
 
     - name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.1.20/30
@@ -515,7 +515,7 @@
 
     - name: "6 - Create new address with only prefix specified - State: new"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 192.168.100.0/24
@@ -533,7 +533,7 @@
 
     - name: "7 - Create IP address with several specified"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -566,7 +566,7 @@
 
     - name: "8 - Create IP address and assign a nat_inside IP"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -595,7 +595,7 @@
 
     - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -618,7 +618,7 @@
 
     - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -642,7 +642,7 @@
 
     - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -664,7 +664,7 @@
 
     - name: "12 - Duplicate - 192.168.100.2/24 on interface"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.100.2/24
@@ -684,7 +684,7 @@
 
     - name: "13 - Duplicate - 192.168.100.2/24"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 192.168.100.2/24
@@ -700,7 +700,7 @@
 
     - name: "14 - Create IP address on Eth0 - test100-vm - State: present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -723,7 +723,7 @@
 
     - name: "15 - Create IP address with no mask - State: Present"
       netbox_ip_address:
-        netbox_url: http://netbox-demo.org.org:32768
+        netbox_url: http://local.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           address: 10.120.10.1
@@ -746,7 +746,7 @@
 ##
 - name: "TEST NETBOX_PREFIX"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -754,7 +754,7 @@
   tasks:
     - name: "1 - Create prefix within Netbox with only required information"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.156.0.0/19
@@ -772,7 +772,7 @@
 
     - name: "2 - Duplicate"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.156.0.0/19
@@ -788,7 +788,7 @@
 
     - name: "3 - Update 10.156.0.0/19"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.156.0.0/19
@@ -813,7 +813,7 @@
 
     - name: "4 - Delete prefix within netbox"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.156.0.0/19
@@ -830,7 +830,7 @@
 
     - name: "5 - Create prefix with several specified options"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           family: 4
@@ -873,7 +873,7 @@
 
     - name: "6 - Get a new /24 inside 10.156.0.0/19 within Netbox - Parent doesn't exist"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           parent: 10.156.0.0/19
@@ -890,7 +890,7 @@
 
     - name: "7 - Create prefix within Netbox with only required information"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.156.0.0/19
@@ -908,7 +908,7 @@
 
     - name: "8 - Get a new /24 inside 10.156.0.0/19 within Netbox"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           parent: 10.156.0.0/19
@@ -928,7 +928,7 @@
 
     - name: "9 - Create 10.157.0.0/19"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: 10.157.0.0/19
@@ -950,7 +950,7 @@
 
     - name: "10 - Get a new /24 inside 10.157.0.0/19 within Netbox with additional values"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           parent: 10.157.0.0/19
@@ -974,7 +974,7 @@
 
     - name: "11 - Get a new /24 inside 10.156.0.0/19 within Netbox"
       netbox_prefix:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           parent: 10.156.0.0/19
@@ -999,7 +999,7 @@
 ##
 - name: "TEST NETBOX_SITE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1007,7 +1007,7 @@
   tasks:
     - name: "1 - Create site within Netbox with only required information"
       netbox_site:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test - Colorado
@@ -1025,7 +1025,7 @@
 
     - name: "2 - Duplicate"
       netbox_site:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test - Colorado
@@ -1041,7 +1041,7 @@
 
     - name: "3 - Update Test - Colorado"
       netbox_site:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test - Colorado
@@ -1066,7 +1066,7 @@
 
     - name: "4 - Create site with all parameters"
       netbox_site:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test - California
@@ -1114,7 +1114,7 @@
 
     - name: "5 - Delete site within netbox"
       netbox_site:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test - Colorado
@@ -1136,7 +1136,7 @@
 ##
 ##
 - name: "TEST NETBOX_TENANT"
-  hosts: netbox-demo.org
+  hosts: local
   connection: local
   gather_facts: no
   collections:
@@ -1145,7 +1145,7 @@
   tasks:
     - name: "1 - Test tenant creation"
       netbox_tenant:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Tenant ABC"
@@ -1163,7 +1163,7 @@
 
     - name: "Test duplicate tenant"
       netbox_tenant:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Tenant ABC"
@@ -1179,7 +1179,7 @@
 
     - name: "3 - Test update"
       netbox_tenant:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Tenant ABC"
@@ -1198,7 +1198,7 @@
 
     - name: "4 - Test delete"
       netbox_tenant:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Tenant ABC"
@@ -1215,7 +1215,7 @@
 
     - name: "5 - Create tenant with all parameters"
       netbox_tenant:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Tenant ABC"
@@ -1249,7 +1249,7 @@
 ##
 ##
 - name: "TEST NETBOX_TENANT_GROUP"
-  hosts: netbox-demo.org
+  hosts: local
   connection: local
   gather_facts: no
   collections:
@@ -1258,7 +1258,7 @@
   tasks:
     - name: "1 - Test tenant group creation"
       netbox_tenant_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Tenant Group Two"
@@ -1276,7 +1276,7 @@
 
     - name: "Test duplicate tenant group"
       netbox_tenant_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Tenant Group Two"
@@ -1292,7 +1292,7 @@
 
     - name: "3 - Test delete"
       netbox_tenant_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Tenant Group Two"
@@ -1313,7 +1313,7 @@
 ##
 ##
 - name: "TEST NETBOX_RACK"
-  hosts: netbox-demo.org
+  hosts: local
   connection: local
   gather_facts: no
   collections:
@@ -1322,7 +1322,7 @@
   tasks:
     - name: "1 - Test rack creation"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test rack one"
@@ -1340,7 +1340,7 @@
 
     - name: "Test duplicate rack"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test rack one"
@@ -1356,7 +1356,7 @@
 
     - name: "3 - Create new rack with similar name"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test rack - Test Site
@@ -1376,7 +1376,7 @@
 
     - name: "4 - Attempt to create Test rack one again"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test rack one
@@ -1394,7 +1394,7 @@
 
     - name: "5 - Update Test rack one with more options"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test rack one
@@ -1458,7 +1458,7 @@
 
     - name: "6 - Create rack with same asset tag and serial number"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test rack two
@@ -1477,7 +1477,7 @@
 
     - name: "7 - Test delete"
       netbox_rack:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test rack one"
@@ -1499,7 +1499,7 @@
 ##
 - name: "TEST NETBOX_RACK_ROLE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1507,7 +1507,7 @@
   tasks:
     - name: "RACK_ROLE 1: Necessary info creation"
       netbox_rack_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Role
@@ -1528,7 +1528,7 @@
 
     - name: "RACK_ROLE 2: Create duplicate"
       netbox_rack_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Role
@@ -1546,7 +1546,7 @@
 
     - name: "RACK_ROLE 3: Update"
       netbox_rack_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Role
@@ -1566,7 +1566,7 @@
 
     - name: "RACK_ROLE 4: Delete"
       netbox_rack_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Role
@@ -1588,7 +1588,7 @@
 ##
 - name: "TEST NETBOX_RACK_GROUP"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1596,7 +1596,7 @@
   tasks:
     - name: "RACK_GROUP 1: Necessary info creation"
       netbox_rack_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Group
@@ -1617,7 +1617,7 @@
 
     - name: "RACK_GROUP 2: Create duplicate"
       netbox_rack_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Group
@@ -1636,7 +1636,7 @@
 
     - name: "RACK_GROUP 3: ASSERT - Delete"
       netbox_rack_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Rack Group
@@ -1658,7 +1658,7 @@
 ##
 - name: "TEST NETBOX_MANUFACTURER"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1666,7 +1666,7 @@
   tasks:
     - name: "MANUFACTURER 1: Necessary info creation"
       netbox_manufacturer:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Manufacturer Two
@@ -1685,7 +1685,7 @@
 
     - name: "MANUFACTURER 2: Create duplicate"
       netbox_manufacturer:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Manufacturer Two
@@ -1702,7 +1702,7 @@
 
     - name: "MANUFACTURER 3: Update"
       netbox_manufacturer:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: test manufacturer two
@@ -1719,7 +1719,7 @@
 
     - name: "MANUFACTURER 4: ASSERT - Delete"
       netbox_manufacturer:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: test manufacturer two
@@ -1736,7 +1736,7 @@
 
     - name: "MANUFACTURER 5: ASSERT - Delete non existing"
       netbox_manufacturer:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Manufacturer Two
@@ -1757,7 +1757,7 @@
 ##
 - name: "TEST NETBOX_PLATFORM"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1765,7 +1765,7 @@
   tasks:
     - name: "PLATFORM 1: Necessary info creation"
       netbox_platform:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Platform
@@ -1784,7 +1784,7 @@
 
     - name: "PLATFORM 2: Create duplicate"
       netbox_platform:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Platform
@@ -1801,7 +1801,7 @@
 
     - name: "PLATFORM 3: ASSERT - Update"
       netbox_platform:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Platform
@@ -1826,7 +1826,7 @@
 
     - name: "PLATFORM 4: ASSERT - Delete"
       netbox_platform:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Platform
@@ -1843,7 +1843,7 @@
 
     - name: "PLATFORM 5: ASSERT - Delete non existing"
       netbox_platform:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Platform
@@ -1864,7 +1864,7 @@
 ##
 - name: "TEST NETBOX_DEVICE_TYPE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -1872,7 +1872,7 @@
   tasks:
     - name: "DEVICE_TYPE 1: Necessary info creation"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           slug: test-device-type
@@ -1894,7 +1894,7 @@
 
     - name: "DEVICE_TYPE 2: Create duplicate"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           slug: test-device-type
@@ -1914,7 +1914,7 @@
 
     - name: "DEVICE_TYPE 3: ASSERT - Update"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           slug: test-device-type
@@ -1944,7 +1944,7 @@
 
     - name: "DEVICE_TYPE 4: ASSERT - Delete"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           model: test-device-type
@@ -1961,7 +1961,7 @@
 
     - name: "DEVICE_TYPE 5: ASSERT - Delete non existing"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           model: "Test Device Type"
@@ -1977,7 +1977,7 @@
 
     - name: "DEVICE_TYPE 6: Without Slug"
       netbox_device_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           model: "WS Test 3850"
@@ -2003,7 +2003,7 @@
 ##
 - name: "TEST NETBOX_DEVICE_ROLE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2011,7 +2011,7 @@
   tasks:
     - name: "DEVICE_ROLE 1: Necessary info creation"
       netbox_device_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Device Role"
@@ -2032,7 +2032,7 @@
 
     - name: "DEVICE_ROLE 2: Create duplicate"
       netbox_device_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Device Role"
@@ -2051,7 +2051,7 @@
 
     - name: "DEVICE_ROLE 3: ASSERT - Update"
       netbox_device_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Device Role"
@@ -2074,7 +2074,7 @@
 
     - name: "DEVICE_ROLE 4: ASSERT - Delete"
       netbox_device_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Device Role
@@ -2091,7 +2091,7 @@
 
     - name: "DEVICE_ROLE 5: ASSERT - Delete non existing"
       netbox_device_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Device Role
@@ -2112,7 +2112,7 @@
 ##
 - name: "TEST NETBOX_IPAM_ROLE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2120,7 +2120,7 @@
   tasks:
     - name: "IPAM_ROLE 1: Necessary info creation"
       netbox_ipam_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test IPAM Role"
@@ -2139,7 +2139,7 @@
 
     - name: "IPAM_ROLE 2: Create duplicate"
       netbox_ipam_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test IPAM Role"
@@ -2156,7 +2156,7 @@
 
     - name: "IPAM_ROLE 3: ASSERT - Update"
       netbox_ipam_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test IPAM Role"
@@ -2176,7 +2176,7 @@
 
     - name: "IPAM_ROLE 4: ASSERT - Delete"
       netbox_ipam_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test IPAM Role
@@ -2193,7 +2193,7 @@
 
     - name: "IPAM_ROLE 5: ASSERT - Delete non existing"
       netbox_ipam_role:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test IPAM Role
@@ -2214,7 +2214,7 @@
 ##
 - name: "TEST NETBOX_VLAN_GROUP"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2222,7 +2222,7 @@
   tasks:
     - name: "VLAN_GROUP 1: Necessary info creation"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "VLAN Group One"
@@ -2243,7 +2243,7 @@
 
     - name: "VLAN_GROUP 2: Create duplicate"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "VLAN Group One"
@@ -2262,7 +2262,7 @@
 
     - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "VLAN Group One"
@@ -2281,7 +2281,7 @@
 
     - name: "VLAN_GROUP 4: ASSERT - Create vlan group, no site"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "VLAN Group One"
@@ -2297,7 +2297,7 @@
 
     - name: "VLAN_GROUP 5: ASSERT - Delete"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: VLAN Group One
@@ -2318,7 +2318,7 @@
 
     - name: "VLAN_GROUP 6: ASSERT - Delete non existing"
       netbox_vlan_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: VLAN Group One
@@ -2340,7 +2340,7 @@
 ##
 - name: "TEST NETBOX_VLAN"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2348,7 +2348,7 @@
   tasks:
     - name: "VLAN 1: Necessary info creation"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VLAN 500
@@ -2368,7 +2368,7 @@
 
     - name: "VLAN 2: Create duplicate"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VLAN 500
@@ -2386,7 +2386,7 @@
 
     - name: "VLAN 3: Create VLAN with same name, but different site"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VLAN 500
@@ -2409,7 +2409,7 @@
 
     - name: "VLAN 4: ASSERT - Update"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VLAN 500"
@@ -2446,7 +2446,7 @@
 
     - name: "VLAN 5: ASSERT - Delete more than one result"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VLAN 500"
@@ -2462,7 +2462,7 @@
 
     - name: "VLAN 6: ASSERT - Delete"
       netbox_vlan:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VLAN 500"
@@ -2491,7 +2491,7 @@
 ##
 - name: "TEST NETBOX_VRF"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2499,7 +2499,7 @@
   tasks:
     - name: "VRF 1: Necessary info creation"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VRF One
@@ -2517,7 +2517,7 @@
 
     - name: "VRF 2: Create duplicate"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VRF One
@@ -2533,7 +2533,7 @@
 
     - name: "VRF 3: Create VRF with same name, but different tenant"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test VRF One
@@ -2553,7 +2553,7 @@
 
     - name: "VRF 4: ASSERT - Update"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VRF One"
@@ -2584,7 +2584,7 @@
 
     - name: "VRF 5: ASSERT - Delete more than one result"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VRF One"
@@ -2600,7 +2600,7 @@
 
     - name: "VRF 6: ASSERT - Delete"
       netbox_vrf:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VRF One"
@@ -2627,7 +2627,7 @@
 ##
 - name: "TEST NETBOX_RIR"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2635,7 +2635,7 @@
   tasks:
     - name: "RIR 1: Necessary info creation"
       netbox_rir:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test RIR One
@@ -2654,7 +2654,7 @@
 
     - name: "RIR 2: Create duplicate"
       netbox_rir:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test RIR One
@@ -2671,7 +2671,7 @@
 
     - name: "RIR 3: ASSERT - Update"
       netbox_rir:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test RIR One"
@@ -2691,7 +2691,7 @@
 
     - name: "RIR 4: ASSERT - Delete"
       netbox_rir:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test RIR One"
@@ -2714,7 +2714,7 @@
 ##
 - name: "TEST NETBOX_AGGREGATE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2722,7 +2722,7 @@
   tasks:
     - name: "AGGREGATE 1: Necessary info creation"
       netbox_aggregate:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: "10.0.0.0/8"
@@ -2743,7 +2743,7 @@
 
     - name: "AGGREGATE 2: Create duplicate"
       netbox_aggregate:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: "10.0.0.0/8"
@@ -2761,7 +2761,7 @@
 
     - name: "AGGREGATE 3: ASSERT - Update"
       netbox_aggregate:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: "10.0.0.0/8"
@@ -2790,7 +2790,7 @@
 
     - name: "AGGREGATE 4: ASSERT - Delete"
       netbox_aggregate:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: "10.0.0.0/8"
@@ -2811,7 +2811,7 @@
 
     - name: "AGGREGATE 5: Necessary info creation"
       netbox_aggregate:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           prefix: "2001::/32"
@@ -2837,7 +2837,7 @@
 ##
 - name: "TEST NETBOX_REGION"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2845,7 +2845,7 @@
   tasks:
     - name: "REGION 1: Necessary info creation"
       netbox_region:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Region One"
@@ -2864,7 +2864,7 @@
 
     - name: "REGION 2: Create duplicate"
       netbox_region:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Region One"
@@ -2881,7 +2881,7 @@
 
     - name: "REGION 3: ASSERT - Update"
       netbox_region:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Region One"
@@ -2901,7 +2901,7 @@
 
     - name: "REGION 4: ASSERT - Delete"
       netbox_region:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Region One"
@@ -2924,7 +2924,7 @@
 ##
 - name: "TEST NETBOX_DEVICE_BAY"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -2932,7 +2932,7 @@
   tasks:
     - name: "DEVICE_BAY 1: Necessary info creation"
       netbox_device_bay:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "Test Nexus One"
@@ -2952,7 +2952,7 @@
 
     - name: "DEVICE_BAY 2: Create duplicate"
       netbox_device_bay:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "Test Nexus One"
@@ -2970,7 +2970,7 @@
 
     - name: "DEVICE_BAY 3: ASSERT - Update"
       netbox_device_bay:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "Test Nexus One"
@@ -2995,7 +2995,7 @@
 
     - name: "DEVICE_BAY 4: ASSERT - Delete"
       netbox_device_bay:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Device Bay One"
@@ -3019,7 +3019,7 @@
 ##
 - name: "TEST NETBOX_INVENTORY_ITEM"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3027,7 +3027,7 @@
   tasks:
     - name: "INVENTORY_ITEM 1: Necessary info creation"
       netbox_inventory_item:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "test100"
@@ -3047,7 +3047,7 @@
 
     - name: "INVENTORY_ITEM 2: Create duplicate"
       netbox_inventory_item:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "test100"
@@ -3065,7 +3065,7 @@
 
     - name: "INVENTORY_ITEM 3: ASSERT - Update"
       netbox_inventory_item:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "test100"
@@ -3102,7 +3102,7 @@
 
     - name: "INVENTORY_ITEM 4: ASSERT - Delete"
       netbox_inventory_item:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           device: "test100"
@@ -3131,7 +3131,7 @@
 ##
 - name: "TEST NETBOX_VIRTUAL_MACHINES"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3139,7 +3139,7 @@
   tasks:
     - name: "VIRTUAL_MACHINE 1: Necessary info creation"
       netbox_virtual_machine:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VM One"
@@ -3159,7 +3159,7 @@
 
     - name: "VIRTUAL_MACHINE 2: Create duplicate"
       netbox_virtual_machine:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VM One"
@@ -3177,7 +3177,7 @@
 
     - name: "VIRTUAL_MACHINE 3: Update"
       netbox_virtual_machine:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VM One"
@@ -3211,7 +3211,7 @@
 
     - name: "VIRTUAL_MACHINE 4: ASSERT - Delete"
       netbox_virtual_machine:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test VM One"
@@ -3238,7 +3238,7 @@
 ##
 - name: "TEST NETBOX_CLUSTER"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3246,7 +3246,7 @@
   tasks:
     - name: "CLUSTER 1: Necessary info creation"
       netbox_cluster:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster One"
@@ -3266,7 +3266,7 @@
 
     - name: "CLUSTER 2: Create duplicate"
       netbox_cluster:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster One"
@@ -3284,7 +3284,7 @@
 
     - name: "CLUSTER 3: Update"
       netbox_cluster:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster One"
@@ -3315,7 +3315,7 @@
 
     - name: "CLUSTER 4: ASSERT - Delete"
       netbox_cluster:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster One"
@@ -3341,7 +3341,7 @@
 ##
 - name: "TEST NETBOX_CLUSTER_GROUP"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3349,7 +3349,7 @@
   tasks:
     - name: "CLUSTER_GROUP 1: Necessary info creation"
       netbox_cluster_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Group One"
@@ -3368,7 +3368,7 @@
 
     - name: "CLUSTER_GROUP 2: Create duplicate"
       netbox_cluster_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Group One"
@@ -3385,7 +3385,7 @@
 
     - name: "CLUSTER_GROUP 3: User specified slug"
       netbox_cluster_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Group Two"
@@ -3405,7 +3405,7 @@
 
     - name: "CLUSTER_GROUP 4: ASSERT - Delete"
       netbox_cluster_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Group One"
@@ -3422,7 +3422,7 @@
 
     - name: "CLUSTER_GROUP 5: ASSERT - Delete"
       netbox_cluster_group:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Group Two"
@@ -3445,7 +3445,7 @@
 ##
 - name: "TEST NETBOX_CLUSTER_TYPE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3453,7 +3453,7 @@
   tasks:
     - name: "CLUSTER_TYPE 1: Necessary info creation"
       netbox_cluster_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Type One"
@@ -3472,7 +3472,7 @@
 
     - name: "CLUSTER_TYPE 2: Create duplicate"
       netbox_cluster_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Type One"
@@ -3489,7 +3489,7 @@
 
     - name: "CLUSTER_TYPE 3: User specified slug"
       netbox_cluster_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Type Two"
@@ -3509,7 +3509,7 @@
 
     - name: "CLUSTER_TYPE 4: ASSERT - Delete"
       netbox_cluster_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Type One"
@@ -3526,7 +3526,7 @@
 
     - name: "CLUSTER_TYPE 5: ASSERT - Delete"
       netbox_cluster_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Cluster Type Two"
@@ -3549,7 +3549,7 @@
 ##
 - name: "TEST NETBOX_VM_INTERFACE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3557,7 +3557,7 @@
   tasks:
     - name: "NETBOX_VM_INTERFACE 1: Necessary info creation"
       netbox_vm_interface:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           virtual_machine: "test100-vm"
@@ -3577,7 +3577,7 @@
 
     - name: "NETBOX_VM_INTERFACE 2: Create duplicate"
       netbox_vm_interface:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           virtual_machine: "test100-vm"
@@ -3595,7 +3595,7 @@
 
     - name: "NETBOX_VM_INTERFACE 3: Updated"
       netbox_vm_interface:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           virtual_machine: "test100-vm"
@@ -3644,7 +3644,7 @@
 
     - name: "NETBOX_VM_INTERFACE 4: ASSERT - Delete"
       netbox_vm_interface:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Eth10"
@@ -3662,7 +3662,7 @@
 
     - name: "NETBOX_VM_INTERFACE 5: Attempt to update interface with same name on other VMs"
       netbox_vm_interface:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           virtual_machine: "test100-vm"
@@ -3715,7 +3715,7 @@
 ##
 - name: "TEST NETBOX_PROVIDER"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3723,7 +3723,7 @@
   tasks:
     - name: "NETBOX_PROVIDER 1: Create provider within Netbox with only required information"
       netbox_provider:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Provider One
@@ -3742,7 +3742,7 @@
 
     - name: "NETBOX_PROVIDER 2: Duplicate"
       netbox_provider:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Provider One
@@ -3759,7 +3759,7 @@
 
     - name: "NETBOX_PROVIDER 3: Update provider with other fields"
       netbox_provider:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Provider One
@@ -3794,7 +3794,7 @@
 
     - name: "NETBOX_PROVIDER 4: Delete provider within netbox"
       netbox_provider:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: Test Provider One
@@ -3821,7 +3821,7 @@
 ##
 - name: "TEST NETBOX_CIRCUIT_TYPE"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3829,7 +3829,7 @@
   tasks:
     - name: "CIRCUIT_TYPE 1: Necessary info creation"
       netbox_circuit_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Circuit Type One"
@@ -3848,7 +3848,7 @@
 
     - name: "CIRCUIT_TYPE 2: Create duplicate"
       netbox_circuit_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Circuit Type One"
@@ -3865,7 +3865,7 @@
 
     - name: "CIRCUIT_TYPE 3: User specified slug"
       netbox_circuit_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Circuit Type Two"
@@ -3885,7 +3885,7 @@
 
     - name: "CIRCUIT_TYPE 4: ASSERT - Delete"
       netbox_circuit_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Circuit Type One"
@@ -3902,7 +3902,7 @@
 
     - name: "CIRCUIT_TYPE 5: ASSERT - Delete"
       netbox_circuit_type:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           name: "Test Circuit Type Two"
@@ -3924,7 +3924,7 @@
 ##
 - name: "TEST NETBOX_CIRCUIT"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -3932,7 +3932,7 @@
   tasks:
     - name: "NETBOX_CIRCUIT 1: Create provider within Netbox with only required information"
       netbox_circuit:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           cid: Test Circuit One
@@ -3954,7 +3954,7 @@
 
     - name: "NETBOX_CIRCUIT 2: Duplicate"
       netbox_circuit:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           cid: Test Circuit One
@@ -3974,7 +3974,7 @@
 
     - name: "NETBOX_CIRCUIT 3: Update provider with other fields"
       netbox_circuit:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           cid: Test Circuit One
@@ -4012,7 +4012,7 @@
 
     - name: "NETBOX_CIRCUIT 4: Delete provider within netbox"
       netbox_circuit:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           cid: Test Circuit One
@@ -4040,7 +4040,7 @@
 ##
 - name: "TEST NETBOX_CIRCUIT_TERMINATION"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
   collections:
     - netbox_community.ansible_modules
@@ -4048,7 +4048,7 @@
   tasks:
     - name: "NETBOX_CIRCUIT_TERMINATION 1: Create provider within Netbox with only required information"
       netbox_circuit_termination:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           circuit: Test Circuit
@@ -4072,7 +4072,7 @@
 
     - name: "NETBOX_CIRCUIT_TERMINATION 2: Duplicate"
       netbox_circuit_termination:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           circuit: Test Circuit
@@ -4092,7 +4092,7 @@
 
     - name: "NETBOX_CIRCUIT_TERMINATION 3: Update provider with other fields"
       netbox_circuit_termination:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           circuit: Test Circuit
@@ -4124,7 +4124,7 @@
 
     - name: "NETBOX_CIRCUIT_TERMINATION 4: Create Z Side"
       netbox_circuit_termination:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           circuit: Test Circuit
@@ -4148,7 +4148,7 @@
 
     - name: "NETBOX_CIRCUIT_TERMINATION 5: Delete provider within netbox"
       netbox_circuit_termination:
-        netbox_url: http://netbox-demo.org:32768
+        netbox_url: http://local:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
           circuit: Test Circuit
@@ -4178,7 +4178,7 @@
     ##
     - name: "1 - Device with required information needs to add new service"
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "FOR_SERVICE"
@@ -4190,7 +4190,7 @@
 
     - name: "NETBOX_SERVICE: Create new service"
       netbox_service:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: "FOR_SERVICE"
@@ -4213,7 +4213,7 @@
 
     - name: "NETBOX_SERVICE: Test idempotence"
       netbox_service:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: "FOR_SERVICE"
@@ -4232,7 +4232,7 @@
           - test_service_idempotence['msg'] == "services node-exporter already exists"
     - name: "NETBOX_SERVICE: Test update"
       netbox_service:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: "FOR_SERVICE"
@@ -4252,7 +4252,7 @@
 
     - name: "NETBOX_SERVICE: Test service deletion"
       netbox_service:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: "FOR_SERVICE"
@@ -4277,7 +4277,7 @@
 ##
 - name: "TEST NETBOX_LOOKUP"
   connection: local
-  hosts: netbox-demo.org
+  hosts: local
   gather_facts: False
 
   tasks:
@@ -4285,29 +4285,29 @@
       assert:
         that: "{{ query_result|count }} == 3"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'sites', api_endpoint='http://netbox-demo.org:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'sites', api_endpoint='http://local:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 2: Query doesn't return Wibble (sanity check json_query)"
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`Wibble`]')|count }} == 0"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://netbox-demo.org:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://local:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 3: Device query returns exactly one TestDeviceR1"
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`TestDeviceR1`]')|count }} == 1"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://netbox-demo.org:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_endpoint='http://local:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 4: VLAN ID 400 can be queried and is named 'Test VLAN'"
       assert:
         that: "{{ (query_result|json_query('[?value.vid==`400`].value.name'))[0] == 'Test VLAN' }}"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'vlans', api_endpoint='http://netbox-demo.org:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'vlans', api_endpoint='http://local:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
     - name: "NETBOX_LOOKUP 5: Add one of two devices for lookup filter test."
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "L1"
@@ -4321,7 +4321,7 @@
 
     - name: "NETBOX_LOOKUP 6: Add two of two devices for lookup filter test."
       netbox_device:
-        netbox_url: "http://netbox-demo.org:32768"
+        netbox_url: "http://local:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           name: "L2"
@@ -4337,4 +4337,4 @@
       assert:
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://netbox-demo.org:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://local:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
