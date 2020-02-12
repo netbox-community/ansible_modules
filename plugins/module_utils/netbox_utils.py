@@ -181,111 +181,6 @@ ENDPOINT_NAME_MAPPING = {
     "vrfs": "vrf",
 }
 
-# FACE_ID = dict(front=0, rear=1)
-#
-# DEVICE_STATUS = dict(offline=0, active=1, planned=2, staged=3, failed=4, inventory=5)
-#
-# IP_ADDRESS_STATUS = dict(active=1, reserved=2, deprecated=3, dhcp=5)
-#
-# IP_ADDRESS_ROLE = dict(
-#    loopback=10, secondary=20, anycast=30, vip=40, vrrp=41, hsrp=42, glbp=43, carp=44
-# )
-#
-# PREFIX_STATUS = dict(container=0, active=1, reserved=2, deprecated=3)
-#
-# SITE_STATUS = dict(active=1, planned=2, retired=4)
-#
-# RACK_STATUS = dict(active=3, planned=2, reserved=0, available=1, deprecated=4)
-#
-# RACK_UNIT = dict(millimeters=1000, inches=2000)
-#
-# SUBDEVICE_ROLES = dict(parent=True, child=False)
-#
-# VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
-#
-# SERVICE_PROTOCOL = dict(tcp=6, udp=17)
-#
-# RACK_TYPE = {
-#    "2-post frame": 100,
-#    "4-post frame": 200,
-#    "4-post cabinet": 300,
-#    "wall-mounted frame": 1000,
-#    "wall-mounted cabinet": 1100,
-# }
-#
-# INTF_FORM_FACTOR = {
-#    "virtual": 0,
-#    "link aggregation group (lag)": 200,
-#    "100base-tx (10/100me)": 800,
-#    "1000base-t (1ge)": 1000,
-#    "10gbase-t (10ge)": 1150,
-#    "10gbase-cx4 (10ge)": 1170,
-#    "gbic (1ge)": 1050,
-#    "sfp (1ge)": 1100,
-#    "2.5gbase-t (2.5ge)": 1120,
-#    "5gbase-t (5ge)": 1130,
-#    "sfp+ (10ge)": 1200,
-#    "xfp (10ge)": 1300,
-#    "xenpak (10ge)": 1310,
-#    "x2 (10ge)": 1320,
-#    "sfp28 (25ge)": 1350,
-#    "qsfp+ (40ge)": 1400,
-#    "qsfp28 (50ge)": 1420,
-#    "cfp (100ge)": 1500,
-#    "cfp2 (100ge)": 1510,
-#    "cfp2 (200ge)": 1650,
-#    "cfp4 (100ge)": 1520,
-#    "cisco cpak (100ge)": 1550,
-#    "qsfp28 (100ge)": 1600,
-#    "qsfp56 (200ge)": 1700,
-#    "qsfp-dd (400ge)": 1750,
-#    "ieee 802.11a": 2600,
-#    "ieee 802.11b/g": 2610,
-#    "ieee 802.11n": 2620,
-#    "ieee 802.11ac": 2630,
-#    "ieee 802.11ad": 2640,
-#    "gsm": 2810,
-#    "cdma": 2820,
-#    "lte": 2830,
-#    "oc-3/stm-1": 6100,
-#    "oc-12/stm-4": 6200,
-#    "oc-48/stm-16": 6300,
-#    "oc-192/stm-64": 6400,
-#    "oc-768/stm-256": 6500,
-#    "oc-1920/stm-640": 6600,
-#    "oc-3840/stm-1234": 6700,
-#    "sfp (1gfc)": 3010,
-#    "sfp (2gfc)": 3020,
-#    "sfp (4gfc)": 3040,
-#    "sfp+ (8gfc)": 3080,
-#    "sfp+ (16gfc)": 3160,
-#    "sfp28 (32gfc)": 3320,
-#    "qsfp28 (128gfc)": 3400,
-#    "t1 (1.544 mbps)": 4000,
-#    "e1 (2.048 mbps)": 4010,
-#    "t3 (45 mbps)": 4040,
-#    "e3 (34 mbps)": 4050,
-#    "cisco stackwise": 5000,
-#    "cisco stackwise plus": 5050,
-#    "cisco flexstack": 5100,
-#    "cisco flexstack plus": 5150,
-#    "juniper vcp": 5200,
-#    "extreme summitstack": 5300,
-#    "extreme summitstack-128": 5310,
-#    "extreme summitstack-256": 5320,
-#    "extreme summitstack-512": 5330,
-#    "other": 32767,
-# }
-#
-# INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
-#
-# VIRTUAL_MACHINE_STATUS = dict(offline=0, active=1, staged=3)
-#
-# CIRCUIT_STATUS = dict(
-#    deprovisioning=0, active=1, planned=2, provisioning=3, offline=4, decommissioned=5,
-# )
-
-# This is used when attempting to search for existing endpoints
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
     "circuit": set(["cid"]),
@@ -346,20 +241,6 @@ QUERY_PARAMS_IDS = set(
     ]
 )
 
-# This is used when converting static choices to an ID value acceptable to Netbox API
-# REQUIRED_ID_FIND = {
-#    "circuits": [{"status": CIRCUIT_STATUS}],
-#    "devices": [{"status": DEVICE_STATUS, "face": FACE_ID}],
-#    "device_types": [{"subdevice_role": SUBDEVICE_ROLES}],
-#    "interfaces": [{"form_factor": INTF_FORM_FACTOR, "mode": INTF_MODE}],
-#    "ip_addresses": [{"status": IP_ADDRESS_STATUS, "role": IP_ADDRESS_ROLE}],
-#    "prefixes": [{"status": PREFIX_STATUS}],
-#    "racks": [{"status": RACK_STATUS, "outer_unit": RACK_UNIT, "type": RACK_TYPE}],
-#    "services": [{"protocol": SERVICE_PROTOCOL}],
-#    "sites": [{"status": SITE_STATUS}],
-#    "virtual_machines": [{"status": VIRTUAL_MACHINE_STATUS, "face": FACE_ID}],
-#    "vlans": [{"status": VLAN_STATUS}],
-# }
 REQUIRED_ID_FIND = {
     "circuits": set(["status"]),
     "devices": set(["status", "face"]),
