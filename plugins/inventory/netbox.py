@@ -147,6 +147,8 @@ ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "position",
     "rack_group_id",
     "rack_id",
+    "region",
+    "region_id",
     "role",
     "role_id",
     "serial",
