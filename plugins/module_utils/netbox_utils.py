@@ -7,6 +7,7 @@ __metaclass__ = type
 
 # Import necessary packages
 import traceback
+import re
 from itertools import chain
 from ansible.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
@@ -580,11 +581,10 @@ class NetboxModule(object):
             return value
         elif isinstance(value, int):
             return value
-        elif " " in value:
-            slug = value.replace(" ", "-").lower()
         else:
-            slug = value.lower()
-        return slug
+            removed_chars = re.sub(r"[^\-\.\w\s]", "", value)
+            convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
+            return convert_chars.strip().lower()
 
     def _normalize_data(self, data):
         """
