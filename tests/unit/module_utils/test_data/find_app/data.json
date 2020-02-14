@@ -1,0 +1,122 @@
+[
+    {
+        "endpoint": "providers",
+        "app": "circuits"
+    },
+    {
+        "endpoint": "circuits",
+        "app": "circuits"
+    },
+    {
+        "endpoint": "circuit_types",
+        "app": "circuits"
+    },
+    {
+        "endpoint": "circuit_terminations",
+        "app": "circuits"
+    },
+    {
+        "endpoint": "device_roles",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "device_types",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "devices",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "interfaces",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "manufacturers",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "platforms",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "racks",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "rack_groups",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "rack_roles",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "regions",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "sites",
+        "app": "dcim"
+    },
+    {
+        "endpoint": "aggregates",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "ip_addresses",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "prefixes",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "roles",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "rirs",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "services",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "vlans",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "vlan_groups",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "vrfs",
+        "app": "ipam"
+    },
+    {
+        "endpoint": "tenants",
+        "app": "tenancy"
+    },
+    {
+        "endpoint": "tenant_groups",
+        "app": "tenancy"
+    },
+    {
+        "endpoint": "clusters",
+        "app": "virtualization"
+    },
+    {
+        "endpoint": "cluster_groups",
+        "app": "virtualization"
+    },
+    {
+        "endpoint": "cluster_types",
+        "app": "virtualization"
+    },
+    {
+        "endpoint": "virtual_machines",
+        "app": "virtualization"
+    }
+]
