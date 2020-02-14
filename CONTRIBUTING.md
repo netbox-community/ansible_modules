@@ -132,36 +132,57 @@ ALLOWED_QUERY_PARAMS = {
 }
 ```
 
-If the endpoint has a key that uses an **Array**, you will need to check the **_choices** of the application the endpoint is in and build those into **netbox_utils** module util.
+If the endpoint has a key that uses an **Array**, you will need to add the endpoint to **REQUIRED_ID_FIND** and the key that will need to be converted. The lookup is done from the endpoint and pulls the choices from the API.
 
 ```python
-SUBDEVICE_ROLES = dict(parent=True, child=False)
-
 REQUIRED_ID_FIND = {
-    "device_types": [{"subdevice_role": SUBDEVICE_ROLES}],
+    "circuits": set(["status"]),
+    "devices": set(["status", "face"]),
+    "device_types": set(["subdevice_role"]),
+    "interfaces": set(["form_factor", "mode"]),
+    "ip_addresses": set(["status", "role"]),
+    "prefixes": set(["status"]),
+    "racks": set(["status", "outer_unit", "type"]),
+    "services": set(["protocol"]),
+    "sites": set(["status"]),
+    "virtual_machines": set(["status", "face"]),
+    "vlans": set(["status"]),
 }
 # This is the method that uses the REQUIRED_ID_FIND variable (no change should be required within the method)
-def _change_choices_id(self, endpoint, data):
-    """Used to change data that is static and under _choices for the application.
-    e.g. DEVICE_STATUS
-    :returns data (dict): Returns the user defined data back with updated fields for _choices
-    :params endpoint (str): The endpoint that will be used for mapping to required _choices
-    :params data (dict): User defined data passed into the module
-    """
-    if REQUIRED_ID_FIND.get(endpoint):
-        required_choices = REQUIRED_ID_FIND[endpoint]
-        for choice in required_choices:
-            for key, value in choice.items():
-                if data.get(key):
-                    try:
-                        data[key] = value[data[key].lower()]
-                    except KeyError:
-                        self._handle_errors(
-                            msg="%s may not be a valid choice. If it is valid, please submit bug report."
-                            % (key)
-                        )
+    def _fetch_choice_value(self, search, endpoint):
+        app = self._find_app(endpoint)
+        nb_app = getattr(self.nb, app)
+        nb_endpoint = getattr(nb_app, endpoint)
+        endpoint_choices = nb_endpoint.choices()
 
-    return data
+        choices = [x for x in chain.from_iterable(endpoint_choices.values())]
+
+        for item in choices:
+            if item["display_name"].lower() == search.lower():
+                return item["value"]
+            elif item["value"] == search.lower():
+                return item["value"]
+        self._handle_errors(
+            msg="%s was not found as a valid choice for %s" % (search, endpoint)
+        )
+
+    def _change_choices_id(self, endpoint, data):
+        """Used to change data that is static and under _choices for the application.
+        ex. DEVICE_STATUS
+        :returns data (dict): Returns the user defined data back with updated fields for _choices
+        :params endpoint (str): The endpoint that will be used for mapping to required _choices
+        :params data (dict): User defined data passed into the module
+        """
+        if REQUIRED_ID_FIND.get(endpoint):
+            required_choices = REQUIRED_ID_FIND[endpoint]
+            for choice in required_choices:
+                if data.get(choice):
+                    if isinstance(data[choice], int):
+                        continue
+                    choice_value = self._fetch_choice_value(data[choice], endpoint)
+                    data[choice] = choice_value
+
+        return data
 ```
 
 If the key is something that pertains to a different endpoint such as **manufacturer** it will need to be added to a few variables within **netbox_utils**.
@@ -259,7 +280,7 @@ Copying an existing module that has close to the same options is typically the p
 
 #### Testing
 
-- Please update `tests/unit/module_utils/test_netbox_base_class.py` if editing anything within the base class that needs to be tested. This will most likely be needed as there are a few unit tests that test the data of **ALLOWED_QUERY_PARAMS**, etc.
+- Please update any associated data within the `tests/unit/module_utils/test_data/` folders for the specified tests. This will most likely be needed as there are a few unit tests that test the data of **ALLOWED_QUERY_PARAMS**, etc.
 
   ```python
   def test_normalize_data_returns_correct_data()
@@ -269,7 +290,9 @@ Copying an existing module that has close to the same options is typically the p
   def test_build_query_params_child()
   ```
 
+- Check each test above to see which `test_data` it uses and edit the corresponding data.json file
 - Please add or update an existing play to test the new Netbox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
+- Run `pytest -vv` to make sure all unit tests pass
 - Run `black .` within the base directory for black formatting as it's required for tests to pass
 - Run `ansible-lint integration-tests.yml` it's required for tests to pass
 - Check necessary dependencies defined within `.travis.yml` for now if you're wanting to test locally
