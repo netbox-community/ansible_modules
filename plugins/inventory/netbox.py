@@ -351,23 +351,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
         self.platforms_lookup = dict(
-            (platform["id"], platform["name"]) for platform in platforms
+            (platform["id"], platform["slug"]) for platform in platforms
         )
 
     def refresh_sites_lookup(self):
         url = self.api_endpoint + "/api/dcim/sites/?limit=0"
         sites = self.get_resource_list(api_url=url)
-        self.sites_lookup = dict((site["id"], site["name"]) for site in sites)
+        self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
         regions = self.get_resource_list(api_url=url)
-        self.regions_lookup = dict((region["id"], region["name"]) for region in regions)
+        self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
 
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
         tenants = self.get_resource_list(api_url=url)
-        self.tenants_lookup = dict((tenant["id"], tenant["name"]) for tenant in tenants)
+        self.tenants_lookup = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
 
     def refresh_racks_lookup(self):
         url = self.api_endpoint + "/api/dcim/racks/?limit=0"
@@ -378,21 +378,21 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         url = self.api_endpoint + "/api/dcim/device-roles/?limit=0"
         device_roles = self.get_resource_list(api_url=url)
         self.device_roles_lookup = dict(
-            (device_role["id"], device_role["name"]) for device_role in device_roles
+            (device_role["id"], device_role["slug"]) for device_role in device_roles
         )
 
     def refresh_device_types_lookup(self):
         url = self.api_endpoint + "/api/dcim/device-types/?limit=0"
         device_types = self.get_resource_list(api_url=url)
         self.device_types_lookup = dict(
-            (device_type["id"], device_type["model"]) for device_type in device_types
+            (device_type["id"], device_type["slug"]) for device_type in device_types
         )
 
     def refresh_manufacturers_lookup(self):
         url = self.api_endpoint + "/api/dcim/manufacturers/?limit=0"
         manufacturers = self.get_resource_list(api_url=url)
         self.manufacturers_lookup = dict(
-            (manufacturer["id"], manufacturer["name"]) for manufacturer in manufacturers
+            (manufacturer["id"], manufacturer["slug"]) for manufacturer in manufacturers
         )
 
     def refresh_lookups(self):
