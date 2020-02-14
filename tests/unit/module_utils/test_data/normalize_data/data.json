@@ -1,0 +1,290 @@
+[
+    {
+        "before": {
+            "circuit": "Test-Circuit-1000"
+        },
+        "after": {
+            "circuit": "Test-Circuit-1000"
+        }
+    },
+    {
+        "before": {
+            "circuit_termination": "Test Circuit"
+        },
+        "after": {
+            "circuit_termination": "Test Circuit"
+        }
+    },
+    {
+        "before": {
+            "circuit_termination": "Test Circuit"
+        },
+        "after": {
+            "circuit_termination": "Test Circuit"
+        }
+    },
+    {
+        "before": {
+            "circuit_type": "Test Circuit Type"
+        },
+        "after": {
+            "circuit_type": "test-circuit-type"
+        }
+    },
+    {
+        "before": {
+            "cluster": "Test Cluster"
+        },
+        "after": {
+            "cluster": "Test Cluster"
+        }
+    },
+    {
+        "before": {
+            "cluster_group": "Test Cluster_group"
+        },
+        "after": {
+            "cluster_group": "test-cluster_group"
+        }
+    },
+    {
+        "before": {
+            "cluster_type": "Test Cluster Type"
+        },
+        "after": {
+            "cluster_type": "test-cluster-type"
+        }
+    },
+    {
+        "before": {
+            "device": "Test Device"
+        },
+        "after": {
+            "device": "Test Device"
+        }
+    },
+    {
+        "before": {
+            "device_role": "Core Switch"
+        },
+        "after": {
+            "device_role": "core-switch"
+        }
+    },
+    {
+        "before": {
+            "device_type": "Cisco Switch"
+        },
+        "after": {
+            "device_type": "cisco-switch"
+        }
+    },
+    {
+        "before": {
+            "group": "Test Group1"
+        },
+        "after": {
+            "group": "test-group1"
+        }
+    },
+    {
+        "before": {
+            "installed_device": "Test Device"
+        },
+        "after": {
+            "installed_device": "Test Device"
+        }
+    },
+    {
+        "before": {
+            "manufacturer": "Cisco"
+        },
+        "after": {
+            "manufacturer": "cisco"
+        }
+    },
+    {
+        "before": {
+            "nat_inside": "192.168.1.1/24"
+        },
+        "after": {
+            "nat_inside": "192.168.1.1/24"
+        }
+    },
+    {
+        "before": {
+            "nat_outside": "192.168.10.1/24"
+        },
+        "after": {
+            "nat_outside": "192.168.10.1/24"
+        }
+    },
+    {
+        "before": {
+            "platform": "Cisco IOS"
+        },
+        "after": {
+            "platform": "cisco-ios"
+        }
+    },
+    {
+        "before": {
+            "prefix_role": "TEst Role-1"
+        },
+        "after": {
+            "prefix_role": "test-role-1"
+        }
+    },
+    {
+        "before": {
+            "primary_ip": "192.168.1.1/24"
+        },
+        "after": {
+            "primary_ip": "192.168.1.1/24"
+        }
+    },
+    {
+        "before": {
+            "primary_ip4": "192.168.1.1/24"
+        },
+        "after": {
+            "primary_ip4": "192.168.1.1/24"
+        }
+    },
+    {
+        "before": {
+            "primary_ip6": "2001::1/128"
+        },
+        "after": {
+            "primary_ip6": "2001::1/128"
+        }
+    },
+    {
+        "before": {
+            "provider": "Test Provider"
+        },
+        "after": {
+            "provider": "test-provider"
+        }
+    },
+    {
+        "before": {
+            "rack": "Test Rack"
+        },
+        "after": {
+            "rack": "Test Rack"
+        }
+    },
+    {
+        "before": {
+            "rack_group": "RacK_group"
+        },
+        "after": {
+            "rack_group": "rack_group"
+        }
+    },
+    {
+        "before": {
+            "rack_role": "Test Rack Role"
+        },
+        "after": {
+            "rack_role": "test-rack-role"
+        }
+    },
+    {
+        "before": {
+            "region": "Test Region_1"
+        },
+        "after": {
+            "region": "test-region_1"
+        }
+    },
+    {
+        "before": {
+            "rir": "Test RIR_One"
+        },
+        "after": {
+            "rir": "test-rir_one"
+        }
+    },
+    {
+        "before": {
+            "prefix_role": "TEst Role-1"
+        },
+        "after": {
+            "prefix_role": "test-role-1"
+        }
+    },
+    {
+        "before": {
+            "slug": "Test to_slug"
+        },
+        "after": {
+            "slug": "test-to_slug"
+        }
+    },
+    {
+        "before": {
+            "tenant": "Test Tenant"
+        },
+        "after": {
+            "tenant": "Test Tenant"
+        }
+    },
+    {
+        "before": {
+            "tenant_group": "Test Tenant Group"
+        },
+        "after": {
+            "tenant_group": "test-tenant-group"
+        }
+    },
+    {
+        "before": {
+            "time_zone": "America/Los Angeles"
+        },
+        "after": {
+            "time_zone": "America/Los_Angeles"
+        }
+    },
+    {
+        "before": {
+            "virtual_machine": "Test VM 100"
+        },
+        "after": {
+            "virtual_machine": "Test VM 100"
+        }
+    },
+    {
+        "before": {
+            "vlan": "Test VLAN"
+        },
+        "after": {
+            "vlan": "Test VLAN"
+        }
+    },
+    {
+        "before": {
+            "vlan_group": "Test VLAN Group"
+        },
+        "after": {
+            "vlan_group": "test-vlan-group"
+        }
+    },
+    {
+        "before": {
+            "vlan_role": "Access Role"
+        },
+        "after": {
+            "vlan_role": "Access Role"
+        }
+    },
+    {
+        "before": {
+            "vrf": "Test VRF"
+        },
+        "after": {
+            "vrf": "Test VRF"
+        }
+    }
+]

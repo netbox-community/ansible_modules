@@ -4,6 +4,8 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 import pytest
+import json
+import os
 from unittest.mock import patch, MagicMock, Mock
 from ansible.module_utils.basic import AnsibleModule
 
@@ -146,137 +148,82 @@ def test_init(mock_netbox_module, find_ids_return):
     assert mock_netbox_module.data == find_ids_return
 
 
-@pytest.mark.parametrize(
-    "before, after",
-    [
-        ({"circuit": "Test-Circuit-1000"}, {"circuit": "Test-Circuit-1000"}),
-        (
-            {"circuit_termination": "Test Circuit"},
-            {"circuit_termination": "Test Circuit"},
-        ),
-        ({"circuit_type": "Test Circuit Type"}, {"circuit_type": "test-circuit-type"}),
-        ({"cluster": "Test Cluster"}, {"cluster": "Test Cluster"}),
-        (
-            {"cluster_group": "Test Cluster_group"},
-            {"cluster_group": "test-cluster_group"},
-        ),
-        ({"cluster_type": "Test Cluster Type"}, {"cluster_type": "test-cluster-type"}),
-        ({"device": "Test Device"}, {"device": "Test Device"}),
-        ({"device_role": "Core Switch"}, {"device_role": "core-switch"}),
-        ({"device_type": "Cisco Switch"}, {"device_type": "cisco-switch"}),
-        ({"group": "Test Group1"}, {"group": "test-group1"}),
-        ({"installed_device": "Test Device"}, {"installed_device": "Test Device"}),
-        ({"manufacturer": "Cisco"}, {"manufacturer": "cisco"}),
-        ({"nat_inside": "192.168.1.1/24"}, {"nat_inside": "192.168.1.1/24"}),
-        ({"nat_outside": "192.168.10.1/24"}, {"nat_outside": "192.168.10.1/24"}),
-        ({"platform": "Cisco IOS"}, {"platform": "cisco-ios"}),
-        ({"prefix_role": "TEst Role-1"}, {"prefix_role": "test-role-1"}),
-        ({"primary_ip": "192.168.1.1/24"}, {"primary_ip": "192.168.1.1/24"}),
-        ({"primary_ip4": "192.168.1.1/24"}, {"primary_ip4": "192.168.1.1/24"}),
-        ({"primary_ip6": "2001::1/128"}, {"primary_ip6": "2001::1/128"}),
-        ({"provider": "Test Provider"}, {"provider": "test-provider"}),
-        ({"rack": "Test Rack"}, {"rack": "Test Rack"}),
-        ({"rack_group": "RacK_group"}, {"rack_group": "rack_group"}),
-        ({"rack_role": "Test Rack Role"}, {"rack_role": "test-rack-role"}),
-        ({"region": "Test Region_1"}, {"region": "test-region_1"}),
-        ({"rir": "Test RIR_One"}, {"rir": "test-rir_one"}),
-        ({"prefix_role": "TEst Role-1"}, {"prefix_role": "test-role-1"}),
-        ({"slug": "Test to_slug"}, {"slug": "test-to_slug"}),
-        ({"site": "Test Site"}, {"site": "test-site"}),
-        ({"tenant": "Test Tenant"}, {"tenant": "Test Tenant"}),
-        ({"tenant_group": "Test Tenant Group"}, {"tenant_group": "test-tenant-group"}),
-        ({"time_zone": "America/Los Angeles"}, {"time_zone": "America/Los_Angeles"}),
-        ({"virtual_machine": "Test VM 100"}, {"virtual_machine": "Test VM 100"}),
-        ({"vlan": "Test VLAN"}, {"vlan": "Test VLAN"}),
-        ({"vlan_group": "Test VLAN Group"}, {"vlan_group": "test-vlan-group"}),
-        ({"vlan_role": "Access Role"}, {"vlan_role": "Access Role"}),
-        ({"vrf": "Test VRF"}, {"vrf": "Test VRF"}),
-    ],
-)
+def load_test_data(test_path):
+    path = os.path.dirname(os.path.abspath(__file__))
+    with open(f"{path}/test_data/{test_path}/data.json", "r") as f:
+        data = json.loads(f.read())
+    tests = []
+    for test in data:
+        tuple_data = tuple(test.values())
+        tests.append(tuple_data)
+    return tests
+
+
+@pytest.mark.parametrize("before, after", load_test_data("normalize_data"))
 def test_normalize_data_returns_correct_data(mock_netbox_module, before, after):
     norm_data = mock_netbox_module._normalize_data(before)
 
     assert norm_data == after
 
 
-@pytest.mark.parametrize(
-    "data, expected",
-    [
-        (
-            {
-                "name": "Test Device",
-                "enabled": True,
-                "site": None,
-                "description": None,
-                "platform": None,
-                "status": 0,
-            },
-            {"name": "Test Device", "enabled": True, "status": 0},
-        ),
-    ],
-)
+@pytest.mark.parametrize("data, expected", load_test_data("arg_spec_default"))
 def test_remove_arg_spec_defaults(mock_netbox_module, data, expected):
     new_data = mock_netbox_module._remove_arg_spec_default(data)
 
     assert new_data == expected
 
 
-@pytest.mark.parametrize(
-    "got, expected",
-    [
-        ("Test device-1_2", "test-device-1_2"),
-        ("TEST_DEVICE_1_2", "test_device_1_2"),
-        ("TEST DEVICE 1 2", "test-device-1-2"),
-        (1, 1),
-        (None, None),
-    ],
-)
-def test_to_slug_returns_valid_slug(mock_netbox_module, got, expected):
-    got_slug = mock_netbox_module._to_slug(got)
+@pytest.mark.parametrize("non_slug, expected", load_test_data("slug"))
+def test_to_slug_returns_valid_slug(mock_netbox_module, non_slug, expected):
+    got_slug = mock_netbox_module._to_slug(non_slug)
 
     assert got_slug == expected
 
 
-@pytest.mark.parametrize(
-    "endpoint, app",
-    [
-        ("providers", "circuits"),
-        ("circuits", "circuits"),
-        ("circuit_types", "circuits"),
-        ("circuit_terminations", "circuits"),
-        ("device_roles", "dcim"),
-        ("device_types", "dcim"),
-        ("devices", "dcim"),
-        ("interfaces", "dcim"),
-        ("manufacturers", "dcim"),
-        ("platforms", "dcim"),
-        ("racks", "dcim"),
-        ("rack_groups", "dcim"),
-        ("rack_roles", "dcim"),
-        ("regions", "dcim"),
-        ("sites", "dcim"),
-        ("aggregates", "ipam"),
-        ("ip_addresses", "ipam"),
-        ("prefixes", "ipam"),
-        ("roles", "ipam"),
-        ("rirs", "ipam"),
-        ("services", "ipam"),
-        ("vlans", "ipam"),
-        ("vlan_groups", "ipam"),
-        ("vrfs", "ipam"),
-        ("tenants", "tenancy"),
-        ("tenant_groups", "tenancy"),
-        ("clusters", "virtualization"),
-        ("cluster_groups", "virtualization"),
-        ("cluster_types", "virtualization"),
-        ("virtual_machines", "virtualization"),
-    ],
-)
+@pytest.mark.parametrize("endpoint, app", load_test_data("find_app"))
 def test_find_app_returns_valid_app(mock_netbox_module, endpoint, app):
     assert app == mock_netbox_module._find_app(endpoint), "app: %s, endpoint: %s" % (
         app,
         endpoint,
     )
+
+
+@pytest.mark.parametrize("endpoint, data, expected", load_test_data("choices_id"))
+def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected):
+    fetch_choice_value = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
+    )
+    fetch_choice_value.return_value = "temp"
+    new_data = mock_netbox_module._change_choices_id(endpoint, data)
+    assert new_data == expected
+
+
+@pytest.mark.parametrize(
+    "parent, module_data, expected", load_test_data("build_query_params_no_child")
+)
+def test_build_query_params_no_child(
+    mock_netbox_module, mocker, parent, module_data, expected
+):
+    get_query_param_id = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
+    )
+    get_query_param_id.return_value = 1
+    query_params = mock_netbox_module._build_query_params(parent, module_data)
+    assert query_params == expected
+
+
+@pytest.mark.parametrize(
+    "parent, module_data, child, expected", load_test_data("build_query_params_child")
+)
+def test_build_query_params_child(
+    mock_netbox_module, mocker, parent, module_data, child, expected
+):
+    get_query_param_id = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
+    )
+    get_query_param_id.return_value = 1
+    query_params = mock_netbox_module._build_query_params(parent, module_data, child)
+    assert query_params == expected
 
 
 def test_build_diff_returns_valid_diff(mock_netbox_module):
@@ -365,371 +312,3 @@ def test_update_netbox_object_with_changes_check_mode_true(
     assert nb_obj_mock.update.not_called()
     assert serialized_obj == updated_serialized_obj
     assert diff == on_update_diff
-
-
-@pytest.mark.parametrize(
-    "endpoint, data, expected",
-    [
-        ("circuits", {"status": "Active"}, {"status": "temp"},),
-        ("circuits", {"status": 1}, {"status": 1},),
-        (
-            "devices",
-            {"status": "Active", "face": "Front"},
-            {"status": "temp", "face": "temp"},
-        ),
-        ("devices", {"status": 5, "face": 1}, {"status": 5, "face": 1},),
-        ("device_types", {"subdevice_role": "Parent"}, {"subdevice_role": "temp"},),
-        ("device_types", {"subdevice_role": "Child"}, {"subdevice_role": "temp"},),
-        (
-            "interfaces",
-            {"form_factor": "1000base-t (1ge)", "mode": "Access"},
-            {"form_factor": "temp", "mode": "temp"},
-        ),
-        ("interfaces", {"mode": 100}, {"mode": 100},),
-        (
-            "ip_addresses",
-            {"status": "Active", "role": "Loopback"},
-            {"status": "temp", "role": "temp"},
-        ),
-        ("ip_addresses", {"status": 1, "role": 30}, {"status": 1, "role": 30},),
-        ("prefixes", {"status": "Active"}, {"status": "temp"},),
-        ("prefixes", {"status": 2}, {"status": 2},),
-        (
-            "racks",
-            {"status": "Active", "outer_unit": "Inches", "type": "2-post Frame",},
-            {"status": "temp", "outer_unit": "temp", "type": "temp",},
-        ),
-        ("racks", {"status": 0, "type": 1100,}, {"status": 0, "type": 1100,},),
-        ("sites", {"status": "Active"}, {"status": "temp"}),
-        ("sites", {"status": 2}, {"status": 2}),
-        (
-            "virtual_machines",
-            {"status": "Offline", "face": "Front"},
-            {"status": "temp", "face": "temp"},
-        ),
-        ("virtual_machines", {"status": 1, "face": 0}, {"status": 1, "face": 0},),
-        ("vlans", {"status": "Active"}, {"status": "temp"}),
-        ("vlans", {"status": 2}, {"status": 2}),
-    ],
-)
-def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected):
-    fetch_choice_value = mocker.patch(
-        "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
-    )
-    fetch_choice_value.return_value = "temp"
-    new_data = mock_netbox_module._change_choices_id(endpoint, data)
-    assert new_data == expected
-
-
-@pytest.mark.parametrize(
-    "parent, module_data, expected",
-    [
-        (
-            "circuit",
-            {
-                "cid": "Test-Circuit-1000",
-                "cluster_type": "Test Circuit Type",
-                "provider": "Test Provider",
-            },
-            {"cid": "Test-Circuit-1000"},
-        ),
-        (
-            "circuit_termination",
-            {
-                "circuit": "Test Circuit",
-                "term_side": "A",
-                "site": "Test Site",
-                "port_speed": 10000,
-            },
-            {"circuit_id": 1, "term_side": "A"},
-        ),
-        (
-            "circuit_type",
-            {"name": "Test Circuit Type", "slug": "test-circuit-type"},
-            {"slug": "test-circuit-type"},
-        ),
-        (
-            "aggregate",
-            {
-                "prefix": "192.168.0.0/16",
-                "rir": "Example RIR",
-                "date_added": "2019-01-18",
-            },
-            {"prefix": "192.168.0.0/16", "rir_id": 1},
-        ),
-        (
-            "cluster",
-            {"name": "Test Cluster", "type": "Test Cluster Type", "site": "Test Site"},
-            {"name": "Test Cluster", "type_id": 1},
-        ),
-        (
-            "cluster_group",
-            {"name": "Test Cluster Group", "slug": "test-cluster-group"},
-            {"slug": "test-cluster-group"},
-        ),
-        (
-            "cluster_type",
-            {"name": "Test Cluster Type", "slug": "test-cluster-type"},
-            {"slug": "test-cluster-type"},
-        ),
-        (
-            "device",
-            {"name": "Test Device", "status": "Active"},
-            {"name": "Test Device"},
-        ),
-        (
-            "device_bay",
-            {"name": "Device Bay #1", "device": "test100"},
-            {"name": "Device Bay #1", "device_id": 1},
-        ),
-        (
-            "device_role",
-            {
-                "name": "Test Device Role",
-                "slug": "test-device-role",
-                "status": "Active",
-            },
-            {"slug": "test-device-role"},
-        ),
-        (
-            "device_type",
-            {
-                "name": "Test Device Type",
-                "slug": "test-device-type",
-                "status": "Active",
-            },
-            {"slug": "test-device-type"},
-        ),
-        (
-            "installed_device",
-            {"name": "Test Device", "status": "Active"},
-            {"name": "Test Device"},
-        ),
-        (
-            "interface",
-            {"name": "GigabitEthernet1", "device": "Test Device", "form_factor": 1000},
-            {"name": "GigabitEthernet1", "device_id": 1},
-        ),
-        (
-            "interface",
-            {"name": "Eth0", "virtual_machine": "Test Device", "type": 0},
-            {"name": "Eth0", "virtual_machine_id": 1},
-        ),
-        (
-            "inventory_item",
-            {
-                "name": "10G-SFP+",
-                "device": "test100",
-                "serial": "1234",
-                "asset_tag": "1234",
-            },
-            {"name": "10G-SFP+", "device_id": 1},
-        ),
-        (
-            "ip_address",
-            {
-                "address": "192.168.1.1/24",
-                "vrf": "Test VRF",
-                "description": "Test description",
-            },
-            {"address": "192.168.1.1/24", "vrf_id": 1},
-        ),
-        (
-            "prefix",
-            {"prefix": "10.10.10.0/24", "vrf": "Test VRF", "status": "Reserved"},
-            {"prefix": "10.10.10.0/24", "vrf_id": 1},
-        ),
-        ("prefix", {"parent": "10.10.0.0/16"}, {"prefix": "10.10.0.0/16"}),
-        (
-            "provider",
-            {"name": "Test Provider", "slug": "test-provider", "asn": 65001,},
-            {"slug": "test-provider"},
-        ),
-        (
-            "rack",
-            {"name": "Test Rack", "slug": "test-rack", "site": "Test Site"},
-            {"name": "Test Rack", "site_id": 1},
-        ),
-        (
-            "rack_group",
-            {"name": "Test Rack Group", "slug": "test-rack-group"},
-            {"slug": "test-rack-group"},
-        ),
-        (
-            "rack_role",
-            {"name": "Test Rack Role", "slug": "test-rack-role"},
-            {"slug": "test-rack-role"},
-        ),
-        (
-            "region",
-            {"name": "Test Region", "slug": "test-region"},
-            {"slug": "test-region"},
-        ),
-        (
-            "parent_region",
-            {"name": "Parent Region", "slug": "parent-region"},
-            {"slug": "parent-region"},
-        ),
-        (
-            "rir",
-            {"name": "Test RIR One", "slug": "test-rir-one"},
-            {"slug": "test-rir-one"},
-        ),
-        (
-            "site",
-            {
-                "name": "Test Site",
-                "slug": "test-site",
-                "asn": 65000,
-                "contact_name": "John Smith",
-            },
-            {"slug": "test-site"},
-        ),
-        (
-            "tenant",
-            {"name": "Test Tenant", "description": "Test Description"},
-            {"name": "Test Tenant"},
-        ),
-        (
-            "tenant_group",
-            {"name": "Test Tenant Group", "description": "Test Description"},
-            {"name": "Test Tenant Group"},
-        ),
-        (
-            "virtual_machine",
-            {"name": "Test VM 100", "cluster": "Test Cluster"},
-            {"name": "Test VM 100", "cluster_id": 1},
-        ),
-    ],
-)
-def test_build_query_params_no_child(
-    mock_netbox_module, mocker, parent, module_data, expected
-):
-    get_query_param_id = mocker.patch(
-        "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
-    )
-    get_query_param_id.return_value = 1
-    query_params = mock_netbox_module._build_query_params(parent, module_data)
-    assert query_params == expected
-
-
-@pytest.mark.parametrize(
-    "parent, module_data, child, expected",
-    [
-        (
-            "primary_ip4",
-            {
-                "name": "test100",
-                "serial": "FXS1001",
-                "comments": "Temp device",
-                "primary_ip4": {"address": "172.16.180.1/24", "vrf": "Test VRF"},
-            },
-            {"address": "172.16.180.1/24", "vrf": "Test VRF"},
-            {"address": "172.16.180.1/24", "vrf_id": 1},
-        ),
-        (
-            "primary_ip6",
-            {
-                "name": "test100",
-                "serial": "FXS1001",
-                "comments": "Temp device",
-                "primary_ip4": {"address": "2001::1:1/64", "vrf": "Test VRF"},
-            },
-            {"address": "2001::1:1/64", "vrf": "Test VRF"},
-            {"address": "2001::1:1/64", "vrf_id": 1},
-        ),
-        (
-            "lag",
-            {"name": "GigabitEthernet1", "device": 1, "lag": {"name": "port-channel1"}},
-            {"name": "port-channel1"},
-            {"device_id": 1, "form_factor": 200, "name": "port-channel1"},
-        ),
-        (
-            "lag",
-            {
-                "name": "GigabitEthernet1",
-                "device": "Test Device",
-                "lag": {"name": "port-channel1"},
-            },
-            {"name": "port-channel1"},
-            {"device": "Test Device", "form_factor": 200, "name": "port-channel1"},
-        ),
-        (
-            "nat_inside",
-            {
-                "address": "10.10.10.1/24",
-                "nat_inside": {"address": "192.168.1.1/24", "vrf": "Test VRF"},
-            },
-            {"address": "192.168.1.1/24", "vrf": "Test VRF"},
-            {"address": "192.168.1.1/24", "vrf_id": 1},
-        ),
-        (
-            "vlan",
-            {
-                "prefix": "10.10.10.0/24",
-                "description": "Test Prefix",
-                "vlan": {
-                    "name": "Test VLAN",
-                    "site": "Test Site",
-                    "tenant": "Test Tenant",
-                    "vlan_group": "Test VLAN group",
-                },
-            },
-            {
-                "name": "Test VLAN",
-                "site": "Test Site",
-                "tenant": "Test Tenant",
-                "vlan_group": "Test VLAN group",
-            },
-            {
-                "name": "Test VLAN",
-                "site_id": 1,
-                "tenant_id": 1,
-                "group": "Test VLAN group",
-            },
-        ),
-        (
-            "vlan_group",
-            {
-                "prefix": "10.10.10.0/24",
-                "description": "Test Prefix",
-                "vlan_group": {
-                    "name": "Test VLAN Group",
-                    "slug": "test-vlan-group",
-                    "site": "Test Site",
-                },
-            },
-            {"name": "Test VLAN Group", "slug": "test-vlan-group", "site": "Test Site"},
-            {"slug": "test-vlan-group", "site_id": 1},
-        ),
-        (
-            "untagged_vlan",
-            {
-                "prefix": "10.10.10.0/24",
-                "description": "Test Prefix",
-                "untagged_vlan": {"name": "Test VLAN", "site": "Test Site"},
-            },
-            {"name": "Test VLAN", "site": "Test Site"},
-            {"name": "Test VLAN", "site_id": 1},
-        ),
-        (
-            "vrf",
-            {
-                "prefix": "10.10.10.0/24",
-                "description": "Test Prefix",
-                "vrf": {"name": "Test VRF", "tenant": "Test Tenant"},
-            },
-            {"name": "Test VRF", "tenant": "Test Tenant"},
-            {"name": "Test VRF", "tenant_id": 1},
-        ),
-    ],
-)
-def test_build_query_params_child(
-    mock_netbox_module, mocker, parent, module_data, child, expected
-):
-    get_query_param_id = mocker.patch(
-        "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
-    )
-    get_query_param_id.return_value = 1
-    query_params = mock_netbox_module._build_query_params(parent, module_data, child)
-    assert query_params == expected
