@@ -18,5 +18,9 @@
     {
         "non_slug": null,
         "expected": null
+    },
+    {
+        "non_slug": "test1.example.com",
+        "expected": "test1-example-com"
     }
 ]
