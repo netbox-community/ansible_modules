@@ -395,8 +395,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             (manufacturer["id"], manufacturer["slug"]) for manufacturer in manufacturers
         )
 
-    def refresh_lookups(self):
-        lookup_processes = (
+    @property
+    def lookup_processes(self):
+        return [
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
             self.refresh_tenants_lookup,
@@ -405,10 +406,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,
             self.refresh_manufacturers_lookup,
-        )
+        ]
 
+    def refresh_lookups(self):
         thread_list = []
-        for p in lookup_processes:
+        for p in self.lookup_processes:
             t = Thread(target=p)
             thread_list.append(t)
             t.start()
