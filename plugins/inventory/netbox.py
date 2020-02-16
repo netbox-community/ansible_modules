@@ -116,6 +116,7 @@ compose:
 
 import json
 import uuid
+from functools import partial
 from sys import version as python_version
 from threading import Thread
 from itertools import chain
@@ -159,6 +160,34 @@ ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "tenant",
     "tenant_id",
     "virtual_chassis_id",
+)
+
+ALLOWED_VM_QUERY_PARAMETERS = (
+    "cluster",
+    "cluster_id",
+    "cluster_group",
+    "cluster_group_id",
+    "cluster_type",
+    "cluster_type_id",
+    "disk",
+    "mac_address",
+    "memory",
+    "name",
+    "platform",
+    "platform_id",
+    "region",
+    "region_id",
+    "role",
+    "role_id",
+    "site",
+    "site_id",
+    "status",
+    "tag",
+    "tenant",
+    "tenant_id",
+    "tenant_group",
+    "tenant_group_id",
+    "vcpus",
 )
 
 
@@ -418,7 +447,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for thread in thread_list:
             thread.join()
 
-    def validate_query_parameters(self, x):
+    def validate_query_parameters(self, x, allowed_query_parameters):
         if not (isinstance(x, dict) and len(x) == 1):
             self.display.warning(
                 "Warning query parameters %s not a dict with a single key." % x
@@ -428,51 +457,74 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         k = tuple(x.keys())[0]
         v = tuple(x.values())[0]
 
-        if not (k in ALLOWED_DEVICE_QUERY_PARAMETERS or k.startswith("cf_")):
+        if not (k in allowed_query_parameters or k.startswith("cf_")):
             msg = "Warning: %s not in %s or starting with cf (Custom field)" % (
                 k,
-                ALLOWED_DEVICE_QUERY_PARAMETERS,
+                allowed_query_parameters,
             )
             self.display.warning(msg=msg)
             return
         return k, v
 
     def refresh_url(self):
-        query_parameters = [("limit", 0)]
+        dev_query_parameters = [("limit", 0)]
+        vm_query_parameters = [("limit", 0)]
+        device_url = self.api_endpoint + "/api/dcim/devices/?"
+        vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
         if self.query_filters:
-            query_parameters.extend(
+            dev_query_parameters.extend(
                 filter(
-                    lambda x: x, map(self.validate_query_parameters, self.query_filters)
+                    lambda x: x,
+                    map(
+                        partial(
+                            self.validate_query_parameters,
+                            allowed_query_parameters=ALLOWED_DEVICE_QUERY_PARAMETERS,
+                        ),
+                        self.query_filters,
+                    ),
                 )
             )
-        if self.config_context:
-            self.device_url = (
-                self.api_endpoint + "/api/dcim/devices/?" + urlencode(query_parameters)
+            vm_query_parameters.extend(
+                filter(
+                    lambda x: x,
+                    map(
+                        partial(
+                            self.validate_query_parameters,
+                            allowed_query_parameters=ALLOWED_VM_QUERY_PARAMETERS,
+                        ),
+                        self.query_filters,
+                    ),
+                )
             )
-            self.virtual_machines_url = (
-                self.api_endpoint
-                + "/api/virtualization/virtual-machines/?"
-                + urlencode(query_parameters)
-            )
-        else:
-            self.device_url = (
-                self.api_endpoint
-                + "/api/dcim/devices/?"
-                + urlencode(query_parameters)
-                + "&exclude=config_context"
-            )
-            self.virtual_machines_url = (
-                self.api_endpoint
-                + "/api/virtualization/virtual-machines/?"
-                + urlencode(query_parameters)
-                + "&exclude=config_context"
-            )
+            if len(dev_query_parameters) <= 1:
+                device_url = None
+
+            if len(vm_query_parameters) <= 1:
+                vm_url = None
+
+        if device_url:
+            device_url = device_url + urlencode(dev_query_parameters)
+        if vm_url:
+            vm_url = vm_url + urlencode(vm_query_parameters)
+
+        if not self.config_context:
+            if device_url:
+                device_url = device_url + "&exclude=config_context"
+            if vm_url:
+                vm_url = vm_url + "&exclude=config_context"
+
+        return device_url, vm_url
 
     def fetch_hosts(self):
-        return chain(
-            self.get_resource_list(self.device_url),
-            self.get_resource_list(self.virtual_machines_url),
-        )
+        device_url, vm_url = self.refresh_url()
+        if device_url and vm_url:
+            return chain(
+                self.get_resource_list(device_url), self.get_resource_list(vm_url),
+            )
+        elif device_url:
+            return self.get_resource_list(device_url)
+        elif vm_url:
+            return self.get_resource_list(vm_url)
 
     def extract_name(self, host):
         # An host in an Ansible inventory requires an hostname.
@@ -515,7 +567,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def main(self):
         self.refresh_lookups()
-        self.refresh_url()
         hosts_list = self.fetch_hosts()
 
         for host in hosts_list:
