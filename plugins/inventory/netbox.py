@@ -48,6 +48,12 @@ DOCUMENTATION = """
                 # in order of precedence
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_KEY
+        interfaces:
+            description:
+                - If True, it adds the device or virtual machine interface information in host vars.
+            default: False
+            type: boolean
+            version_added: "0.1.7"
         group_by:
             description: Keys used to create groups.
             type: list
@@ -251,6 +257,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "services": self.extract_services,
             "config_context": self.extract_config_context,
             "manufacturers": self.extract_manufacturer,
+            "interfaces": self.extract_interfaces,
         }
 
     def extract_disk(self, host):
@@ -346,6 +353,60 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_tags(self, host):
         return host["tags"]
+
+    def extract_ipaddresses(self, host):
+        try:
+            if self.interfaces:
+                if "device_role" in host:
+                    url = (
+                        self.api_endpoint
+                        + "/api/ipam/ip-addresses/?limit=0&device_id=%s"
+                        % (to_text(host["id"]))
+                    )
+                elif "role" in host:
+                    url = (
+                        self.api_endpoint
+                        + "/api/ipam/ip-addresses/?limit=0&virtual_machine_id=%s"
+                        % (to_text(host["id"]))
+                    )
+                ipaddress_lookup = self.get_resource_list(api_url=url)
+
+                return ipaddress_lookup
+        except Exception:
+            return
+
+    def extract_interfaces(self, host):
+        try:
+            if self.interfaces:
+                if "device_role" in host:
+                    url = (
+                        self.api_endpoint
+                        + "/api/dcim/interfaces/?limit=0&device_id=%s"
+                        % (to_text(host["id"]))
+                    )
+                elif "role" in host:
+                    url = (
+                        self.api_endpoint
+                        + "/api/virtualization/interfaces/?limit=0&virtual_machine_id=%s"
+                        % (to_text(host["id"]))
+                    )
+                interface_lookup = self.get_resource_list(api_url=url)
+
+                # Collect all IP Addresses associated with the device
+                device_ipaddresses = self.extract_ipaddresses(host)
+
+                # Attach the found IP Addresses record to the interface
+                for interface in interface_lookup:
+                    interface_ip = [
+                        ipaddress
+                        for ipaddress in device_ipaddresses
+                        if ipaddress["interface"]["id"] == interface["id"]
+                    ]
+                    interface["ip-addresses"] = interface_ip
+
+                return interface_lookup
+        except Exception:
+            return
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
@@ -553,6 +614,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
+        self.interfaces = self.get_option("interfaces")
         self.headers = {
             "Authorization": "Token %s" % token,
             "User-Agent": "ansible %s Python %s"
