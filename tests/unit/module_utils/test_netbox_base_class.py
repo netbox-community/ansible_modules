@@ -222,6 +222,12 @@ def test_build_query_params_child(
         "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
     )
     get_query_param_id.return_value = 1
+    # This will need to be updated, but attempting to fix issue quickly
+    fetch_choice_value = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
+    )
+    fetch_choice_value.return_value = 200
+
     query_params = mock_netbox_module._build_query_params(parent, module_data, child)
     assert query_params == expected
 
