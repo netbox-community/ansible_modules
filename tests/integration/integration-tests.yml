@@ -182,6 +182,32 @@
           - test_seven['device']['primary_ip6'] == 2
           - test_seven['msg'] == "device test100 updated"
 
+    - name: "8 - Device with empty string name"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: ""
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+      register: test_eight
+
+    - name: "8 - ASSERT"
+      assert:
+        that:
+          - test_eight is changed
+          - test_eight['diff']['before']['state'] == 'absent'
+          - test_eight['diff']['after']['state'] == 'present'
+          - test_eight['device']['device_role'] == 1
+          - test_eight['device']['device_type'] == 1
+          - test_eight['device']['site'] == 1
+          - test_eight['device']['status'] == 3
+          - "'-' in test_eight['device']['name']"
+          - "test_eight['device']['name'] | length == 36"
+
 ##
 ##
 ### NETBOX_DEVICE_INTERFACE
