@@ -189,6 +189,13 @@ created_devices = nb.dcim.devices.create(devices)
 ### Device variables to be used later on
 test100 = nb.dcim.devices.get(name="test100")
 
+# Create VC, assign member, create initial interface
+created_vcs = nb.dcim.virtual_chassis.create({"master": 4})
+nexus_child = nb.dcim.devices.get(5)
+nexus_child.update({"virtual_chassis": 1, "vc_position": 1})
+nexus = nb.dcim.devices.get(4)
+nexus.update({"vc_position": 0})
+nb.dcim.interfaces.create({"device": 4, "name": "Ethernet1/1", "type": 1000})
 
 ## Create Interfaces
 dev_interfaces = [

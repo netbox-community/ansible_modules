@@ -90,6 +90,17 @@ class NetboxDcimModule(NetboxModule):
         object_query_params = self._build_query_params(endpoint_name, data)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
+        # This is logic to handle interfaces on a VC
+        if self.endpoint == "interfaces":
+            if self.nb_object:
+                if self.nb_object.device:
+                    device = nb_endpoint.get(self.nb_object.device.id)
+                    if (
+                        device["virtual_chassis"]
+                        and self.nb_object.device.id != self.data["device"]
+                    ):
+                        self.object = None
+
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
 
