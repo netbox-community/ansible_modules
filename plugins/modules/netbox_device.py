@@ -135,6 +135,17 @@ EXAMPLES = r"""
           site: Main
         state: present
 
+    - name: Create device within Netbox with empty string name to generate UUID
+      netbox_device:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: ""
+          device_type: C9410R
+          device_role: Core Switch
+          site: Main
+        state: present
+
     - name: Delete device within netbox
       netbox_device:
         netbox_url: http://netbox.local
@@ -187,6 +198,7 @@ from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.n
     NetboxDcimModule,
     NB_DEVICES,
 )
+import uuid
 
 
 def main():
@@ -244,6 +256,8 @@ def main():
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
+    if module.params["data"]["name"] == "":
+        module.params["data"]["name"] = str(uuid.uuid4())
 
     netbox_device = NetboxDcimModule(module, NB_DEVICES)
     netbox_device.run()

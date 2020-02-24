@@ -182,6 +182,32 @@
           - test_seven['device']['primary_ip6'] == 2
           - test_seven['msg'] == "device test100 updated"
 
+    - name: "8 - Device with empty string name"
+      netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: ""
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+        state: present
+      register: test_eight
+
+    - name: "8 - ASSERT"
+      assert:
+        that:
+          - test_eight is changed
+          - test_eight['diff']['before']['state'] == 'absent'
+          - test_eight['diff']['after']['state'] == 'present'
+          - test_eight['device']['device_role'] == 1
+          - test_eight['device']['device_type'] == 1
+          - test_eight['device']['site'] == 1
+          - test_eight['device']['status'] == 3
+          - "'-' in test_eight['device']['name']"
+          - "test_eight['device']['name'] | length == 36"
+
 ##
 ##
 ### NETBOX_DEVICE_INTERFACE
@@ -313,7 +339,7 @@
           - test_five['interface']['enabled'] == false
           - test_five['interface']['form_factor'] == 1000
           - test_five['interface']['mgmt_only'] == false
-          - test_five['interface']['lag'] == 14
+          - test_five['interface']['lag'] == 15
           - test_five['interface']['mode'] == 100
           - test_five['interface']['mtu'] == 1600
 
@@ -402,9 +428,32 @@
           - test_eight['interface']['enabled'] == false
           - test_eight['interface']['form_factor'] == 1000
           - test_eight['interface']['mgmt_only'] == false
-          - test_eight['interface']['lag'] == 14
+          - test_eight['interface']['lag'] == 15
           - test_eight['interface']['mode'] == 100
           - test_eight['interface']['mtu'] == 1600
+
+    - name: "9 - Create interface on VC child"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: Test Nexus Child One
+          name: Ethernet1/1
+          form_factor: 1000Base-T (1GE)
+        state: present
+      register: test_nine
+
+    - name: "9 - ASSERT"
+      assert:
+        that:
+          - test_nine is changed
+          - test_nine['msg'] == "interface Ethernet1/1 created"
+          - test_nine['diff']['before']['state'] == 'absent'
+          - test_nine['diff']['after']['state'] == 'present'
+          - test_nine['interface']['name'] == "Ethernet1/1"
+          - test_nine['interface']['device'] == 5
+          - test_nine['interface']['enabled'] == true
+          - test_nine['interface']['form_factor'] == 1000
 
 ##
 ##
@@ -589,7 +638,7 @@
           - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
           - test_eight['ip_address']['address'] == "10.10.1.30/16"
           - test_eight['ip_address']['family'] == 4
-          - test_eight['ip_address']['interface'] == 1
+          - test_eight['ip_address']['interface'] == 2
           - test_eight['ip_address']['nat_inside'] == 7
           - test_eight['ip_address']['vrf'] == 1
 
@@ -614,7 +663,7 @@
           - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
           - test_nine['ip_address']['address'] == "10.10.200.30/16"
           - test_nine['ip_address']['family'] == 4
-          - test_nine['ip_address']['interface'] == 2
+          - test_nine['ip_address']['interface'] == 3
 
     - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
       netbox_ip_address:
@@ -638,7 +687,7 @@
           - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
           - test_ten['ip_address']['address'] == "10.10.0.1/16"
           - test_ten['ip_address']['family']['value'] == 4
-          - test_ten['ip_address']['interface']['id'] == 2
+          - test_ten['ip_address']['interface']['id'] == 3
 
     - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
       netbox_ip_address:
@@ -680,7 +729,7 @@
           - not test_twelve['changed']
           - test_twelve['msg'] == "ip_address 192.168.100.2/24 already exists"
           - test_twelve['ip_address']['address'] == "192.168.100.2/24"
-          - test_twelve['ip_address']['interface'] == 2
+          - test_twelve['ip_address']['interface'] == 3
 
     - name: "13 - Duplicate - 192.168.100.2/24"
       netbox_ip_address:
@@ -719,7 +768,7 @@
           - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
           - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
           - test_fourteen['ip_address']['family'] == 4
-          - test_fourteen['ip_address']['interface'] == 3
+          - test_fourteen['ip_address']['interface'] == 4
 
     - name: "15 - Create IP address with no mask - State: Present"
       netbox_ip_address:
