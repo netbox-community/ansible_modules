@@ -15,17 +15,17 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_service
+module: netbox_cables
 short_description: Creates or removes service from Netbox
 description:
-  - Creates or removes service from Netbox
+  - Creates or removes cables from Netbox
 notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Kulakov Ilya (@TawR1024)
 requirements:
   - pynetbox
-version_added: '0.1.5'
+version_added: '0.1.7'
 options:
   netbox_url:
     description:
@@ -85,39 +85,7 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Create netbox service"
-  connection: local
-  hosts: all
-  gather_facts: False
 
-  tasks:
-    - name: Create service
-      netbox_service:
-        netbox_url: netbox_url
-        netbox_token: netbox_token
-        data:
-          device: Test666
-          name: node-exporter
-          port: 9100
-          protocol: 6
-        state: present
-
-- name: "Delete netbox service"
-  connection: local
-  hosts: all
-  gather_facts: False
-
-  tasks:
-    - name: Delete service
-      netbox_service:
-        netbox_url: netbox_url  
-        netbox_token: netbox_token
-        data:
-          device: Test666
-          name: node-exporter
-          port: 9100
-          protocol: 6
-        state: absent
 """
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
@@ -126,7 +94,7 @@ from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.n
 )
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
-    NB_SERVICES,
+    NB_CABLES,
 )
 
 
@@ -141,14 +109,19 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    device=dict(required=True, type="raw"),
-                    virtual_machine=dict(required=False, type="raw"),
-                    name=dict(required=True, type="str"),
-                    port=dict(required=True, type="int"),
-                    protocol=dict(required=True, type="raw"),
-                    ipaddresses=dict(required=False, type="raw"),
-                    description=dict(required=False, type="str"),
-                    custom_fields=dict(required=False, type=dict),
+                    # id=dict(required=False, type="int"),
+                    termination_a_type=dict(required=True, type="str"),
+                    termination_a_name=dict(required=True, type="str"),
+                    termination_a_port=dict(required=True, type="str"),
+                    termination_b_type=dict(required=True, type="str"),
+                    termination_b_name=dict(required=True, type="int"),
+                    termination_b_port=dict(required=True, type="int"),
+                    type=dict(required=False, type="int"),
+                    status=dict(required=False, type="bool"),
+                    label=dict(required=False, type="str"),
+                    color=dict(required=False, type="str"),
+                    length=dict(required=False, type="int"),
+                    length_unit=dict(required=False, type="raw"),
                 ),
             ),
         )
