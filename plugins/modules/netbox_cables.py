@@ -92,8 +92,8 @@ from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.n
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
 )
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_ipam import (
-    NetboxIpamModule,
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_dcim import (
+    NetboxDcimModule,
     NB_CABLES,
 )
 
@@ -127,14 +127,26 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [
+        (
+            "state",
+            "present",
+            [
+                "termination_a_name",
+                "termination_a_port",
+                "termination_b_name",
+                "termination_b_port",
+            ],
+        ),
+        ("state", "absent", ["name"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_service = NetboxIpamModule(module, NB_SERVICES)
-    netbox_service.run()
+    netbox_cable = NetboxDcimModule(module, NB_CABLES)
+    netbox_cable.run()
 
 
 if __name__ == "__main__":
