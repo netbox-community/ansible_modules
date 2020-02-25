@@ -1,5 +1,11 @@
 # Changelog
 
+## v.1.8
+
+### Bug Fixes
+
+- [#114](https://github.com/netbox-community/ansible_modules/issues/114) - If interface existed already, caused traceback and crashed playbook
+
 ## v.1.7
 
 ### New Features
