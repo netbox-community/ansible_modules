@@ -94,7 +94,7 @@ class NetboxDcimModule(NetboxModule):
         if self.endpoint == "interfaces":
             if self.nb_object:
                 if self.nb_object.device:
-                    device = nb_endpoint.get(self.nb_object.device.id)
+                    device = self.nb.dcim.devices.get(self.nb_object.device.id)
                     if (
                         device["virtual_chassis"]
                         and self.nb_object.device.id != self.data["device"]
