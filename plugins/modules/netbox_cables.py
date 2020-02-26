@@ -109,7 +109,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    # id=dict(required=False, type="int"),
+                    id=dict(required=False, type="int"),
                     termination_a_type=dict(required=True, type="str"),
                     termination_a_name=dict(required=True, type="str"),
                     termination_a_port=dict(required=True, type="str"),
@@ -138,14 +138,14 @@ def main():
                 "termination_b_port",
             ],
         ),
-        ("state", "absent", ["name"]),
+        ("state", "absent", ["id"]),
     ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_cable = NetboxDcimModule(module, NB_CABLES)
+    netbox_cable = NetboxCablesModule(module, NB_CABLES)
     netbox_cable.run()
 
 
