@@ -228,7 +228,7 @@
             "tenant": "Test Tenant"
         },
         "after": {
-            "tenant": "Test Tenant"
+            "tenant": "test-tenant"
         }
     },
     {
