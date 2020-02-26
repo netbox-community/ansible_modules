@@ -46,6 +46,8 @@ class NetboxCablesModule(NetboxModule):
         nb_endpoint = getattr(nb_app, self.endpoint)
 
         data = self.data #todo: replace user data with netbox data with ids
+        '''side_a_name + side_a_port -- convert to termination_a_id'''
+        '''side_b_name + side_b_port -- convert to termination_b_id'''
 
         object_query_params = self._build_query_params(endpoint_name, data)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
