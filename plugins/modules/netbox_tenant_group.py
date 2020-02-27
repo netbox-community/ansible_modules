@@ -48,6 +48,10 @@ options:
           - Name of the tenant group to be created
         required: true
         type: str
+      slug:
+        description:
+          - URL-friendly unique shorthand
+        type: str
     required: true
   state:
     description:
@@ -75,7 +79,8 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant Group ABC 
+          name: Tenant Group ABC
+          slug: "tenant_group_abc"
         state: present
 
     - name: Delete tenant within netbox

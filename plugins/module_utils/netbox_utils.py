@@ -92,7 +92,7 @@ QUERY_TYPES = dict(
     rir="slug",
     slug="slug",
     site="slug",
-    tenant="name",
+    tenant="slug",
     tenant_group="slug",
     time_zone="timezone",
     virtual_machine="name",
@@ -217,8 +217,8 @@ ALLOWED_QUERY_PARAMS = {
     "services": set(["device", "virtual_machine", "name"]),
     "site": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
-    "tenant": set(["name"]),
-    "tenant_group": set(["name"]),
+    "tenant": set(["slug"]),
+    "tenant_group": set(["slug"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["name", "site", "tenant", "vlan_group"]),
@@ -283,6 +283,9 @@ SLUG_REQUIRED = {
     "regions",
     "rirs",
     "roles",
+    "sites",
+    "tenants",
+    "tenant_groups",
     "manufacturers",
     "platforms",
     "providers",
@@ -609,9 +612,6 @@ class NetboxModule(object):
                 elif data_type == "timezone":
                     if " " in v:
                         data[k] = v.replace(" ", "_")
-        if self.endpoint == "sites":
-            site_slug = self._to_slug(data["name"])
-            data["slug"] = site_slug
 
         return data
 
