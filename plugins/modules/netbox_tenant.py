@@ -60,6 +60,10 @@ options:
         description:
           - Comments for the tenant. This can be markdown syntax
         type: str
+      slug:
+        description:
+          - URL-friendly unique shorthand
+        type: str
       tags:
         description:
           - Any tags that the tenant may need to be associated with
@@ -115,6 +119,7 @@ EXAMPLES = r"""
           group: Very Special Tenants
           description: ABC Incorporated
           comments: '### This tenant is super cool'
+          slug: tenant_abc
           tags:
             - tagA
             - tagB
@@ -158,6 +163,7 @@ def main():
                     tenant_group=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    slug=dict(required=False, type="str"),
                     tags=dict(required=False, type=list),
                     custom_fields=dict(required=False, type=dict),
                 ),

@@ -112,6 +112,10 @@ options:
         description:
           - Comments for the site. This can be markdown syntax
         type: str
+      slug:
+        description:
+          - URL-friendly unique shorthand
+        type: str
       tags:
         description:
           - Any tags that the prefix may need to be associated with
@@ -178,6 +182,7 @@ EXAMPLES = r"""
           contact_name: Jenny
           contact_phone: 867-5309
           contact_email: jenny@changednumber.com
+          slug: test-california
           comments: ### Placeholder
         state: present
 """
@@ -237,6 +242,7 @@ def main():
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type=list),
                     custom_fields=dict(required=False, type=dict),
+                    slug=dict(required=False, type="str"),
                 ),
             ),
         )

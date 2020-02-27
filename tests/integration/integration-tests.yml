@@ -1134,6 +1134,7 @@
           contact_phone: 867-5309
           contact_email: jenny@changednumber.com
           comments: "### Placeholder"
+          slug: "test_california"
         state: present
       register: test_four
 
@@ -1160,6 +1161,7 @@
           - test_four['site']['contact_phone'] == "867-5309"
           - test_four['site']['contact_email'] == "jenny@changednumber.com"
           - test_four['site']['comments'] == "### Placeholder"
+          - test_four['site']['slug'] == "test_california"
 
     - name: "5 - Delete site within netbox"
       netbox_site:
@@ -1271,6 +1273,7 @@
           description: "ABC Incorporated"
           comments: "### This tenant is super cool"
           tenant_group: "Test Tenant Group"
+          slug: "tenant_abc"
           tags:
             - tagA
             - tagB
@@ -1285,7 +1288,7 @@
           - test_five['diff']['before']['state'] == "absent"
           - test_five['diff']['after']['state'] == "present"
           - test_five['tenant']['name'] == "Tenant ABC"
-          - test_five['tenant']['slug'] == "tenant-abc"
+          - test_five['tenant']['slug'] == "tenant_abc"
           - test_five['tenant']['description'] == "ABC Incorporated"
           - test_five['tenant']['comments'] == "### This tenant is super cool"
           - test_five['tenant']['group'] == 1
@@ -1355,6 +1358,25 @@
           - test_three['diff']['before']['state'] == "present"
           - test_three['diff']['after']['state'] == "absent"
           - test_three['msg'] == "tenant_group Test Tenant Group Two deleted"
+
+    - name: "4 - Test another tenant group creation"
+      netbox_tenant_group:
+        netbox_url: http://localhost:32768
+        netbox_token: 0123456789abcdef0123456789abcdef01234567
+        data:
+          name: "Test Tenant Group ABC"
+          slug: "test_tenant_group_four"
+      register: test_four
+
+    - name: "4 - ASSERT"
+      assert:
+        that:
+          - test_four is changed
+          - test_four['diff']['before']['state'] == "absent"
+          - test_four['diff']['after']['state'] == "present"
+          - test_four['tenant_group']['name'] == "Test Tenant Group ABC"
+          - test_four['tenant_group']['slug'] == "test_tenant_group_four"
+          - test_four['msg'] == "tenant_group Test Tenant Group ABC created"
 
 ##
 ##

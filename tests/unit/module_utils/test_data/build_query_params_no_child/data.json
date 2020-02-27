@@ -289,20 +289,22 @@
         "parent": "tenant",
         "module_data": {
             "name": "Test Tenant",
-            "description": "Test Description"
+            "description": "Test Description",
+            "slug": "test-tenant"
         },
         "expected": {
-            "name": "Test Tenant"
+            "slug": "test-tenant"
         }
     },
     {
         "parent": "tenant_group",
         "module_data": {
             "name": "Test Tenant Group",
-            "description": "Test Description"
+            "description": "Test Description",
+            "slug": "test-tenant-group"
         },
         "expected": {
-            "name": "Test Tenant Group"
+            "slug": "test-tenant-group"
         }
     },
     {

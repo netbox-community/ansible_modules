@@ -10,12 +10,13 @@ try:
     from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
+        SLUG_REQUIRED,
     )
 except ImportError:
     import sys
 
     sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
+    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
 
 
 NB_TENANTS = "tenants"
@@ -46,9 +47,14 @@ class NetboxTenancyModule(NetboxModule):
         data = self.data
 
         # Used for msg output
-        name = data.get("name")
+        if data.get("name"):
+            name = data["name"]
+        elif data.get("slug"):
+            name = data["slug"]
 
-        data["slug"] = self._to_slug(name)
+        if self.endpoint in SLUG_REQUIRED:
+            if not data.get("slug"):
+                data["slug"] = self._to_slug(name)
 
         object_query_params = self._build_query_params(endpoint_name, data)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
