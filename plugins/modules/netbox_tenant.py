@@ -133,11 +133,11 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
 )
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_tenancy import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_tenancy import (
     NetboxTenancyModule,
     NB_TENANTS,
 )

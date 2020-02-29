@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-    name: netbox
+    name: nb_inventory
     plugin_type: inventory
     author:
         - Remy Leone (@sieben)
@@ -23,7 +23,7 @@ DOCUMENTATION = """
         plugin:
             description: token that ensures this is a source file for the 'netbox' plugin.
             required: True
-            choices: ['netbox_community.ansible_modules.netbox']
+            choices: ['netbox.netbox.nb_inventory']
         api_endpoint:
             description: Endpoint of the NetBox API
             required: True
@@ -85,7 +85,7 @@ EXAMPLES = """
 # netbox_inventory.yml file in YAML format
 # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
 
-plugin: netbox_community.ansible_modules.netbox
+plugin: netbox.netbox.nb_inventory
 api_endpoint: http://localhost:8000
 validate_certs: True
 config_context: False
@@ -113,7 +113,7 @@ query_filters:
 # NetBox inventory plugin also supports Constructable semantics
 # You can fill your hosts vars using the compose option:
 
-plugin: netbox_community.ansible_modules.netbox
+plugin: netbox.netbox.nb_inventory
 compose:
   foo: last_updated
   bar: display_name
@@ -198,7 +198,7 @@ ALLOWED_VM_QUERY_PARAMETERS = (
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
-    NAME = "netbox_community.ansible_modules.netbox"
+    NAME = "netbox.netbox.netbox"
 
     def _fetch_information(self, url):
         results = None
