@@ -50,7 +50,7 @@ matrix:
 
 before_script:
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-  - cp -R $COLLECTION_NAME ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+  - cp -R ansible_modules ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
   - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
   - ansible-galaxy collection build .
   - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
@@ -63,12 +63,13 @@ script:
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/integration-tests.yml -vvvv
 
+before_deploy:
+  - pip install ansible
+  - ansible-galaxy collection build .
+
 deploy:
   provider: script
   skip_cleanup: true
-  script:
-    - pip install ansible
-    - ansible-galaxy collection build .
-    - ansible-galaxy collection publish $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz --api-key="$GALAXY_API_TOKEN"
+  script: ansible-galaxy collection publish $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz --api-key="$GALAXY_API_TOKEN"
   on:
     tags: true
