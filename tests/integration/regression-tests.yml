@@ -9,7 +9,7 @@
   connection: local
   gather_facts: no
   collections:
-    - netbox_community.ansible_modules
+    - netbox.netbox
   vars:
     netbox_url: "http://localhost:32768"
 

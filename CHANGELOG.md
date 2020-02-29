@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.1.9
+
+### Overview
+
+This version has a few breaking changes due to new namespace and collection name. I felt it necessary to change the name of the lookup plugin and inventory plugin just not to have a non descriptive namespace call to use them. Below is an example:
+`netbox.netbox.netbox` would be used for both inventory plugin and lookup plugin, but in different contexts so no collision will arise, but confusion will.
+
+I renamed the lookup plugin to `nb_lookup` so it will be used with the FQCN `netbox.netbox.nb_lookup`.
+
+The inventory plugin will now be called within an inventory file by `netbox.netbox.nb_inventory`
+
+### Bug Fixes
+
+- [#120](https://github.com/netbox-community/ansible_modules/pull/120) - Update netbox_tenant and netbox_tenant_group to use slugs for searching (available since NetBox 2.6). Added slug options to netbox_site, netbox_tenant, netbox_tenant_group
+
 ## v.1.8
 
 ### Bug Fixes
@@ -13,7 +28,6 @@
 - [#58](https://github.com/netbox-community/ansible_modules/issues/58) - Added fetching services for devices in Netbox Inventory Plugin
 - [#62](https://github.com/netbox-community/ansible_modules/issues/62) - Change lookups to property for subclassing of inventory plugin
 - [#60](https://github.com/netbox-community/ansible_modules/issues/60) - Added option for interfaces and IP addresses of interfaces to be fetched via inventory plugin
-
 
 ### Bug Fixes
 

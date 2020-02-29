@@ -120,11 +120,11 @@ EXAMPLES = r"""
         state: absent
 """
 
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
 )
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_ipam import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_SERVICES,
 )

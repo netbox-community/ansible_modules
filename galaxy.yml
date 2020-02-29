@@ -3,13 +3,13 @@
 # The namespace of the collection. This can be a company/brand/organization or product namespace under which all
 # content lives. May only contain alphanumeric characters and underscores. Additionally namespaces cannot start with
 # underscores or numbers and cannot contain consecutive underscores
-namespace: netbox_community
+namespace: netbox
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: ansible_modules
+name: netbox
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 0.1.8
+version: 0.1.9
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
