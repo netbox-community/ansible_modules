@@ -4,9 +4,13 @@
 
 # Netbox modules for Ansible using Ansible Collections
 
+We have moved this collection to a different namespace and collection name on Ansible Galaxy. The new versions will be at `netbox.netbox`.
+
+To keep the code simple, we only officially support the two latesst releases of Netbox and don't guarantee backwards compatibility beyond that. We do try and keep these breaking changes to a minimum, but sometimes changes to NetBox's API cause us to have to make breaking changes.
+
 ## Requirements
 
-- Netbox 2.5+
+- NetBox 2.5+ or the two latest NetBox releases
 - **pynetbox 4.2.5+**
 - Python 3.6+
 - Ansible 2.9+
@@ -55,12 +59,12 @@
 ## How to Use
 
 - Install via Galaxy
-  - `ansible-galaxy collection install netbox_community.ansible_modules`
+  - `ansible-galaxy collection install netbox.netbox`
 - Install via source
   - `git clone git@github.com:netbox-community/ansible_modules.git`
   - `cd ansible_modules`
   - `ansible-galaxy collection build .`
-  - `ansible-galaxy collection install netbox_community-ansible_modules-X.X.X.tar.gz`
+  - `ansible-galaxy collection install netbox-netbox-X.X.X.tar.gz`
     - Can add `-p` to provide a different path other than the default path, but it must be within your `ansible.cfg` or provided via an environment variable.
 
 ### Example playbooks
@@ -73,7 +77,7 @@ Using the **collections** at the play level
   hosts: localhost
   gather_facts: False
   collections:
-    - netbox_community.ansible_modules
+    - netbox.netbox
 
   tasks:
     - name: Create device within Netbox with only required information
@@ -99,7 +103,7 @@ Using the **collections** at the task level
 
   tasks:
     - name: Create device within Netbox with only required information
-      netbox_community.ansible_modules.netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox-demo.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
         data:
@@ -116,7 +120,7 @@ Using the **collections** in a role's task files
 ```yaml
 ---
 - name: Create device within Netbox with only required information
-  netbox_community.ansible_modules.netbox_device:
+  netbox.netbox.netbox_device:
     netbox_url: http://netbox-demo.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -132,7 +136,7 @@ OR
 ---
 - name: Create device within Netbox with only required information
   collections:
-    - netbox_community.ansible_modules:
+    - netbox.netbox
   netbox_device:
     netbox_url: http://netbox-demo.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -158,7 +162,7 @@ Using the **collections** lookup plugin at the task level
       assert:
         that: "{{ query_result|count }} == 3"
       vars:
-        query_result: "{{ query('netbox_community.ansible_modules.netbox', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 ```
 
 ## How to Contribute

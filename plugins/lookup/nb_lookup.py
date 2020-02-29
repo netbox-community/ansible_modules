@@ -23,7 +23,7 @@ import pynetbox
 __metaclass__ = type
 
 DOCUMENTATION = """
-    lookup: netbox
+    lookup: nb_lookup
     author: Chris Mills (@cpmills1975)
     version_added: "2.9"
     short_description: Queries and returns elements from Netbox
@@ -64,7 +64,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('netbox', 'devices',
+    loop: "{{ query('nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
@@ -77,7 +77,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('netbox', 'devices',
+    loop: "{{ query('nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
@@ -86,7 +86,7 @@ tasks:
 tasks:
   - name: "Obtain secrets for R1-Device"
     debug:
-      msg: "{{ query('netbox', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+      msg: "{{ query('nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
