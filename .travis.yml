@@ -63,10 +63,6 @@ script:
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/integration-tests.yml -vvvv
 
-before_deploy:
-  - pip install ansible
-  - ansible-galaxy collection build .
-
 deploy:
   provider: script
   skip_cleanup: true
