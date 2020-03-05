@@ -62,8 +62,7 @@ script:
   - python tests/integration/netbox-deploy.py
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/integration-tests.yml -vvvv
-  - cd tests/integration
-  - ansible-inventory -i test-inventory.yml --list
+  - ansible-inventory -i tests/integration/test-inventory.yml --list
 
 deploy:
   provider: script
