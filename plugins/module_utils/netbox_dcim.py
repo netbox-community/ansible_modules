@@ -99,7 +99,7 @@ class NetboxDcimModule(NetboxModule):
                         device["virtual_chassis"]
                         and self.nb_object.device.id != self.data["device"]
                     ):
-                        self.object = None
+                        self.nb_object = None
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
