@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.10
+
+### Bug Fixes
+
+- [#129](https://github.com/netbox-community/ansible_modules/pull/129) - Updated inventory plugin name from netbox.netbox.netbox to netbox.netbox.nb_inventory
+
+### Thanks to the following contributors!
+
+@smolz
+
 ## v0.1.9
 
 ### Overview
