@@ -2,11 +2,11 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![Release](https://img.shields.io/github/v/release/netbox-community/ansible_modules)
 
-# Netbox modules for Ansible using Ansible Collections
+# NetBox modules for Ansible using Ansible Collections
 
 We have moved this collection to a different namespace and collection name on Ansible Galaxy. The new versions will be at `netbox.netbox`.
 
-To keep the code simple, we only officially support the two latesst releases of Netbox and don't guarantee backwards compatibility beyond that. We do try and keep these breaking changes to a minimum, but sometimes changes to NetBox's API cause us to have to make breaking changes.
+To keep the code simple, we only officially support the two latest releases of NetBox and don't guarantee backwards compatibility beyond that. We do try and keep these breaking changes to a minimum, but sometimes changes to NetBox's API cause us to have to make breaking changes.
 
 ## Requirements
 
@@ -51,7 +51,7 @@ To keep the code simple, we only officially support the two latesst releases of 
 - netbox_vlan
 - netbox_vrf
 
-## Netbox Plugins
+## NetBox Plugins
 
 - netbox lookup plugin
 - netbox inventory plugin (0.1.5)
@@ -72,7 +72,7 @@ To keep the code simple, we only officially support the two latesst releases of 
 Using the **collections** at the play level
 
 ```yaml
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
@@ -80,7 +80,7 @@ Using the **collections** at the play level
     - netbox.netbox
 
   tasks:
-    - name: Create device within Netbox with only required information
+    - name: Create device within NetBox with only required information
       netbox_device:
         netbox_url: http://netbox-demo.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -96,13 +96,13 @@ Using the **collections** at the play level
 Using the **collections** at the task level
 
 ```yaml
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create device within Netbox with only required information
+    - name: Create device within NetBox with only required information
       netbox.netbox.netbox_device:
         netbox_url: http://netbox-demo.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -119,7 +119,7 @@ Using the **collections** in a role's task files
 
 ```yaml
 ---
-- name: Create device within Netbox with only required information
+- name: Create device within NetBox with only required information
   netbox.netbox.netbox_device:
     netbox_url: http://netbox-demo.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -134,7 +134,7 @@ Using the **collections** in a role's task files
 OR
 
 ---
-- name: Create device within Netbox with only required information
+- name: Create device within NetBox with only required information
   collections:
     - netbox.netbox
   netbox_device:
