@@ -51,7 +51,7 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_vlan
 - netbox_vrf
 
-## Netbox Plugins
+## NetBox Plugins
 
 - netbox lookup plugin
 - netbox inventory plugin (0.1.5)
@@ -80,7 +80,7 @@ Using the **collections** at the play level
     - netbox.netbox
 
   tasks:
-    - name: Create device within Netbox with only required information
+    - name: Create device within NetBox with only required information
       netbox_device:
         netbox_url: http://netbox-demo.org:32768
         netbox_token: 0123456789abcdef0123456789abcdef01234567
