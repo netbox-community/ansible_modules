@@ -199,8 +199,8 @@ nb.dcim.interfaces.create({"device": 4, "name": "Ethernet1/1", "type": 1000})
 
 ## Create Interfaces
 dev_interfaces = [
-    {"name": "GigabitEthernet1", "device": test100.id, "form_factor": 1000},
-    {"name": "GigabitEthernet2", "device": test100.id, "form_factor": 1000},
+    {"name": "GigabitEthernet1", "device": test100.id, "type": 1000},
+    {"name": "GigabitEthernet2", "device": test100.id, "type": 1000},
 ]
 created_interfaces = nb.dcim.interfaces.create(dev_interfaces)
 ## Interface variables to be used later on
