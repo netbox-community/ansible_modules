@@ -198,7 +198,7 @@ ALLOWED_VM_QUERY_PARAMETERS = (
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
-    NAME = "netbox.netbox.netbox"
+    NAME = "netbox.netbox.nb_inventory"
 
     def _fetch_information(self, url):
         results = None
