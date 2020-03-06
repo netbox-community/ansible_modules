@@ -569,6 +569,11 @@ class NetboxModule(object):
 
                 if isinstance(v, list):
                     data[k] = id_list
+                elif isinstance(v, str):
+                    try:
+                        int(v)
+                    except ValueError:
+                        pass
                 elif isinstance(v, int):
                     pass
                 elif query_id:
