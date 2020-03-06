@@ -570,10 +570,11 @@ class NetboxModule(object):
                 # Code to work around Ansible templating converting all values to strings
                 # This should allow users to pass in IDs obtained from previous tasks
                 # without causing the module to fail
-                try:
-                    v = int(v)
-                except ValueError:
-                    pass
+                if isinstance(v, str):
+                    try:
+                        v = int(v)
+                    except ValueError:
+                        pass
 
                 if isinstance(v, list):
                     data[k] = id_list
