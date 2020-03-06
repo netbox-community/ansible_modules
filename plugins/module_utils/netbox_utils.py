@@ -567,13 +567,16 @@ class NetboxModule(object):
                     query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
+                # Code to work around Ansible templating converting all values to strings
+                # This should allow users to pass in IDs obtained from previous tasks
+                # without causing the module to fail
+                try:
+                    v = int(v)
+                except ValueError:
+                    pass
+
                 if isinstance(v, list):
                     data[k] = id_list
-                elif isinstance(v, str):
-                    try:
-                        int(v)
-                    except ValueError:
-                        pass
                 elif isinstance(v, int):
                     pass
                 elif query_id:
