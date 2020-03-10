@@ -85,7 +85,23 @@ options:
 """
 
 EXAMPLES = r"""
-
+- name: "Create cable"
+  connection: local
+  hosts: localhost
+  collections:
+   - netbox_community.ansible_modules
+  gather_facts: False
+  tasks:
+    - name: Create vrf within Netbox with only required information
+      netbox_cables:
+        netbox_url: 
+        netbox_token: 
+        data:
+          termination_a_name: comp1
+          termination_a_port: eth0
+          termination_b_name: sw01
+          termination_b_port: GE 0/0/13
+        state: present
 """
 
 from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
