@@ -43,6 +43,7 @@ API_APPS_ENDPOINTS = dict(
         "rack_roles",
         "regions",
         "sites",
+        "cables",
     ],
     extras=[],
     ipam=[
@@ -149,6 +150,7 @@ CONVERT_TO_ID = dict(
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "cables":"cables",
     "circuit_terminations": "circuit_termination",
     "circuit_types": "circuit_type",
     "circuits": "circuit",
@@ -288,7 +290,6 @@ SLUG_REQUIRED = {
     "providers",
     "vlan_groups",
 }
-
 
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
@@ -575,6 +576,16 @@ class NetboxModule(object):
 
         return data
 
+    def _temination_id(self, device_name, interface_name):
+        """Will find the IDs of interface
+            :returns data (int): Returns id of of interface
+            :params device_name (str): User defined device name
+            :params port_name (str): User defined interface name
+        """
+        self._nb_endpoint_get("interfaces", {"device": device_name, "name": interface_name})
+        response = nb_endpoint.get(**query_params)
+        return response[0]['id']
+
     def _to_slug(self, value):
         """
         :returns slug (str): Slugified value
@@ -664,7 +675,7 @@ class NetboxModule(object):
                 except KeyError:
                     self._handle_errors(
                         msg="%s does not exist on existing object. Check to make sure valid field."
-                        % (key)
+                            % (key)
                     )
 
             if not self.check_mode:
@@ -733,17 +744,17 @@ class NetboxAnsibleModule(AnsibleModule):
     """
 
     def __init__(
-        self,
-        argument_spec,
-        bypass_checks=False,
-        no_log=False,
-        mutually_exclusive=None,
-        required_together=None,
-        required_one_of=None,
-        add_file_common_args=False,
-        supports_check_mode=False,
-        required_if=None,
-        required_by=None,
+            self,
+            argument_spec,
+            bypass_checks=False,
+            no_log=False,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
+            add_file_common_args=False,
+            supports_check_mode=False,
+            required_if=None,
+            required_by=None,
     ):
         super().__init__(
             argument_spec,

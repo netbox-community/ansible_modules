@@ -35,7 +35,6 @@ NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
 NB_REGIONS = "regions"
 NB_SITES = "sites"
-NB_CABLES = "cables"
 
 
 class NetboxDcimModule(NetboxModule):
@@ -60,7 +59,6 @@ class NetboxDcimModule(NetboxModule):
         - rack_roles
         - rack_groups
         - regions
-        - cables
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]

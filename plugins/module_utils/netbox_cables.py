@@ -46,6 +46,16 @@ class NetboxCablesModule(NetboxModule):
         nb_endpoint = getattr(nb_app, self.endpoint)
 
         data = self.data #todo: replace user data with netbox data with ids
+
+        sida_a_id = NetboxModule._temination_id(data['side_a_name'], data["side_a_port"])
+        sida_b_id = NetboxModule._temination_id(data['side_b_name'], data["side_b_port"]) #todo fix termination id method
+
+        del data["side_a_name"]
+        del data["side_a_port"]
+        del data["side_b_name"]
+        del data["side_b_port"]
+        data.apend({"termination_a_id":sida_a_id})
+        data.apend({"termination_b_id":sida_b_id})
         '''side_a_name + side_a_port -- convert to termination_a_id'''
         '''side_b_name + side_b_port -- convert to termination_b_id'''
 
