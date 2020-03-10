@@ -150,7 +150,7 @@ CONVERT_TO_ID = dict(
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
-    "cables":"cables",
+    "cables": "cables",
     "circuit_terminations": "circuit_termination",
     "circuit_types": "circuit_type",
     "circuits": "circuit",
@@ -186,6 +186,7 @@ ENDPOINT_NAME_MAPPING = {
 
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "cables": set(["termination_a_id", "termination_b_id"]),
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
@@ -480,6 +481,11 @@ class NetboxModule(object):
                 query_dict.update({"device_id": module_data["device"]})
             else:
                 query_dict.update({"device": module_data["device"]})
+        elif parent == "termination_a_name":
+            query_dict.apend(
+                {"termination_a_id": self._temination_id(module_data['side_b_name'], module_data["side_b_port"])})
+            query_dict.apend(
+                {"termination_b_id": self._temination_id(module_data['side_b_name'], module_data["side_b_port"])})
 
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict

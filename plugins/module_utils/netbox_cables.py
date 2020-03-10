@@ -13,14 +13,12 @@ try:
     from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
     )
 except ImportError:
     import sys
 
     sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
-
+    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
 
 NB_CABLES = "cables"
 
@@ -45,20 +43,7 @@ class NetboxCablesModule(NetboxModule):
         nb_app = getattr(self.nb, application)
         nb_endpoint = getattr(nb_app, self.endpoint)
 
-        data = self.data #todo: replace user data with netbox data with ids
-
-        sida_a_id = NetboxModule._temination_id(data['side_a_name'], data["side_a_port"])
-        sida_b_id = NetboxModule._temination_id(data['side_b_name'], data["side_b_port"]) #todo fix termination id method
-
-        del data["side_a_name"]
-        del data["side_a_port"]
-        del data["side_b_name"]
-        del data["side_b_port"]
-        data.apend({"termination_a_id":sida_a_id})
-        data.apend({"termination_b_id":sida_b_id})
-        '''side_a_name + side_a_port -- convert to termination_a_id'''
-        '''side_b_name + side_b_port -- convert to termination_b_id'''
-
+        data = self.data
         object_query_params = self._build_query_params(endpoint_name, data)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
