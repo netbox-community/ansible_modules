@@ -108,10 +108,11 @@ from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.n
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
 )
-from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_cables import (
-    NetboxCablesModule,
+from ansible_collections.netbox_community.ansible_modules.plugins.module_utils.netbox_dcim import (
+    NetboxDcimModule,
     NB_CABLES,
 )
+
 
 
 def main():
@@ -127,11 +128,11 @@ def main():
                 options=dict(
                     id=dict(required=False, type="int"),
                     termination_a_type=dict(required=False, type="str"),
-                    termination_a_name=dict(required=True, type="str"), #device name
-                    termination_a_port=dict(required=True, type="str"), #device port
+                    termination_a_name=dict(required=True, type="str"),  # device name
+                    termination_a_port=dict(required=True, type="str"),  # device port
                     termination_b_type=dict(required=False, type="str"),
-                    termination_b_name=dict(required=True, type="str"), #device name
-                    termination_b_port=dict(required=True, type="str"), #device port
+                    termination_b_name=dict(required=True, type="str"),  # device name
+                    termination_b_port=dict(required=True, type="str"),  # device port
                     type=dict(required=False, type="int"),
                     status=dict(required=False, type="bool"),
                     label=dict(required=False, type="str"),
@@ -161,7 +162,7 @@ def main():
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_cable = NetboxCablesModule(module, NB_CABLES)
+    netbox_cable = NetboxDcimModule(module, NB_CABLES)
     netbox_cable.run()
 
 
