@@ -438,7 +438,7 @@
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           device: Test Nexus Child One
-          name: Ethernet1/1
+          name: Ethernet2/1
           form_factor: 1000Base-T (1GE)
         state: present
       register: test_nine
@@ -447,13 +447,55 @@
       assert:
         that:
           - test_nine is changed
-          - test_nine['msg'] == "interface Ethernet1/1 created"
+          - test_nine['msg'] == "interface Ethernet2/1 created"
           - test_nine['diff']['before']['state'] == 'absent'
           - test_nine['diff']['after']['state'] == 'present'
-          - test_nine['interface']['name'] == "Ethernet1/1"
+          - test_nine['interface']['name'] == "Ethernet2/1"
           - test_nine['interface']['device'] == 5
           - test_nine['interface']['enabled'] == true
           - test_nine['interface']['form_factor'] == 1000
+
+    - name: "10 - Update interface on VC child"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: Test Nexus One
+          name: Ethernet2/1
+          description: "Updated child interface from parent device"
+        update_vc_child: True
+        state: present
+      register: test_ten
+
+    - name: "10 - ASSERT"
+      assert:
+        that:
+          - test_ten is changed
+          - test_ten['msg'] == "interface Ethernet2/1 updated"
+          - test_ten['diff']['after']['description'] == 'Updated child interface from parent device'
+          - test_ten['interface']['name'] == "Ethernet2/1"
+          - test_ten['interface']['device'] == 5
+          - test_ten['interface']['enabled'] == true
+          - test_ten['interface']['form_factor'] == 1000
+          - test_ten['interface']['description'] == 'Updated child interface from parent device'
+
+    - name: "11 - Update interface on VC child w/o update_vc_child"
+      netbox_device_interface:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          device: Test Nexus One
+          name: Ethernet2/1
+          description: "Updated child interface from parent device - test"
+        state: present
+      ignore_errors: yes
+      register: test_eleven
+
+    - name: "11 - ASSERT"
+      assert:
+        that:
+          - test_eleven is failed
+          - test_eleven['msg'] == "Must set update_vc_child to True to allow child device interface modification"
 
 ##
 ##
