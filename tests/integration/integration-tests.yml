@@ -473,7 +473,7 @@
           - test_ten is changed
           - test_ten['msg'] == "interface Ethernet2/1 updated"
           - test_ten['diff']['after']['description'] == 'Updated child interface from parent device'
-          - test_ten['interface']['name'] == "Ethernet1/1"
+          - test_ten['interface']['name'] == "Ethernet2/1"
           - test_ten['interface']['device'] == 5
           - test_ten['interface']['enabled'] == true
           - test_ten['interface']['form_factor'] == 1000
