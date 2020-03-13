@@ -105,6 +105,13 @@ options:
           - Any tags that the prefix may need to be associated with
         type: list
     required: true
+  update_vc_child:
+    type: boolean
+    default: False
+    description:
+      - |
+        Use when master device is specified for C(device) and the specified interface exists on a child device
+        and needs updated
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -190,6 +197,15 @@ EXAMPLES = r"""
           mgmt_only: true
           mode: Tagged
         state: present
+    - name: Update interface on child device on virtual chassis
+      netbox_device_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          device: test100
+          name: GigabitEthernet2/0/1
+          enabled: false
+        update_vc_child: True
 """
 
 RETURN = r"""
@@ -220,6 +236,7 @@ def main():
     argument_spec = NETBOX_ARG_SPEC
     argument_spec.update(
         dict(
+            update_vc_child=dict(type="bool", required=False, default=False),
             data=dict(
                 type="dict",
                 required=True,
@@ -238,7 +255,7 @@ def main():
                     ),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type=list),
+                    tags=dict(required=False, type="list"),
                 ),
             ),
         )
@@ -247,6 +264,7 @@ def main():
     required_if = [
         ("state", "present", ["device", "name"]),
         ("state", "absent", ["device", "name"]),
+        ("update_vc_child", True, ["device"]),
     ]
 
     module = NetboxAnsibleModule(
