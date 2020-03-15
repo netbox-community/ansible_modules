@@ -52,6 +52,10 @@ DOCUMENTATION = """
             description:
                 - The location of the private key tied to user account.
             required: False
+        raw_data:
+            description:
+                - Whether to return raw API data with the lookup/query or whether to return a key/value dict
+            required: False
     requirements:
         - pynetbox
 """
@@ -187,6 +191,7 @@ class LookupModule(LookupBase):
         netbox_api_endpoint = kwargs.get("api_endpoint")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
+        netbox_raw_return = kwargs.get("raw_data")
 
         if not isinstance(terms, list):
             terms = [terms]
@@ -225,19 +230,25 @@ class LookupModule(LookupBase):
 
                     Display().vvvvv(pformat(dict(res)))
 
-                    key = dict(res)["id"]
-                    result = {key: dict(res)}
+                    if netbox_raw_return:
+                        results.append(dict(res))
 
-                    results.extend(self._flatten_hash_to_list(result))
+                    else: 
+                        key = dict(res)["id"]
+                        result = {key: dict(res)}
+                        results.extend(self._flatten_hash_to_list(result))
 
             else:
                 for res in endpoint.all():
 
                     Display().vvvvv(pformat(dict(res)))
 
-                    key = dict(res)["id"]
-                    result = {key: dict(res)}
+                    if netbox_raw_return:
+                        results.append(dict(res))
 
-                    results.extend(self._flatten_hash_to_list(result))
+                    else:
+                        key = dict(res)["id"]
+                        result = {key: dict(res)}
+                        results.extend(self._flatten_hash_to_list(result))
 
         return results
