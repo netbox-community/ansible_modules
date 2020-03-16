@@ -233,7 +233,7 @@ class LookupModule(LookupBase):
                     if netbox_raw_return:
                         results.append(dict(res))
 
-                    else: 
+                    else:
                         key = dict(res)["id"]
                         result = {key: dict(res)}
                         results.extend(self._flatten_hash_to_list(result))
