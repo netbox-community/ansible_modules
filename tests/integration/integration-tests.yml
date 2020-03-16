@@ -4451,3 +4451,9 @@
         that: "{{ query_result|json_query('[?value.display_name==`L2`]')|count }} == 1"
       vars:
         query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+
+    - name: "NETBOX_LOOKUP 8: Device query specifying raw data returns payload without key/value dict"
+      assert:
+        that: "{{ query_result|json_query('[?display_name==`L2`]')|count }} == 1"
+      vars:
+        query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
