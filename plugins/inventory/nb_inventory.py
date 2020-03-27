@@ -133,7 +133,7 @@ from ansible.errors import AnsibleError
 from ansible.module_utils._text import to_text
 from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib.parse import urlencode
-from ansible.module_utils.compat.ipaddress import ip_interface
+from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress import ip_interface
 
 ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "asset_tag",

@@ -222,7 +222,7 @@ from ansible.module_utils.net_tools.netbox.netbox_utils import (
     INTF_FORM_FACTOR,
     INTF_MODE,
 )
-from ansible.module_utils.compat import ipaddress
+from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
 
 
