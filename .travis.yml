@@ -57,8 +57,13 @@ before_script:
   - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
 
 script:
-  - ansible-test units --python $PYTHON_VER -v
-  - black . --check
+  # Perform tests on collection from within the installed directory, not the source directory
+  # Required for imports of other collections (ie. ansible.netcommon) to work correctly
+  - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test units --python $PYTHON_VER -v)
+
+  # Check python syntax
+  - black . --check --diff
+
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
   - python tests/integration/netbox-deploy.py
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
