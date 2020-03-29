@@ -67,6 +67,11 @@ DOCUMENTATION = """
                 - manufacturers
                 - platforms
             default: []
+        group_names_raw:
+            description: Will not add the group_by choice name to the group names
+            default: False
+            type: boolean
+            version_added: "0.2.0"
         query_filters:
             description: List of parameters passed to the query string (Multiple values may be separated by commas)
             type: list
@@ -601,7 +606,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 continue
 
             for sub_group in sub_groups:
-                group_name = "_".join([group, sub_group])
+                if self.group_names_raw:
+                    group_name = sub_group
+                else:
+                    group_name = "_".join([group, sub_group])
                 self.inventory.add_group(group=group_name)
                 self.inventory.add_host(group=group_name, host=hostname)
 
@@ -675,5 +683,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
+        self.group_names_raw = self.get_option("group_names_raw")
         self.query_filters = self.get_option("query_filters")
         self.main()
