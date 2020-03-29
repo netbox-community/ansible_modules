@@ -606,7 +606,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 continue
 
             for sub_group in sub_groups:
-                sub_group = sub_group.replace('-', '_')
+                sub_group = sub_group.replace("-", "_")
                 if self.group_names_raw:
                     group_name = sub_group
                 else:
