@@ -47,7 +47,9 @@ jobs:
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
         - pip install pynetbox cryptography codecov jmespath ansible
 
-    # Latest development versions of Netbox and Ansible, newest Python - may be broken sometimes
+    # Latest development versions of Netbox and Ansible, newest Python
+    # This may be broken sometimes by changes in the netbox & ansible projects
+    # Failures will be allowed in this build
     - name: "Python 3.8 - Netbox develop-2.8 - Ansible Devel"
       python: 3.8
       env: PYTHON_VER=3.8 VERSION=develop-2.8
@@ -66,6 +68,9 @@ jobs:
         - cd ansible
         - source hacking/env-setup
         - cd  ..
+  allow_failures:
+    # When testing against dev netbox and dev ansible, allow failures
+    - env: PYTHON_VER=3.8 VERSION=develop-2.8
 
 before_script:
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
