@@ -15,9 +15,26 @@ env:
 
 jobs:
   include:
+    # Previous release of Netbox, latest release of Ansible
     - name: "Python 3.6 - Netbox 2.6 - Latest PyPi Ansible"
       python: 3.6
       env: PYTHON_VER=3.6 VERSION=v2.6
+      install:
+        - cd ..
+        # Setup netbox container for integration testing
+        - git clone https://github.com/FragmentedPacket/netbox-docker.git
+        - cd netbox-docker
+        - docker-compose pull
+        - docker-compose up -d
+        - cd ..
+        - pip install -U pip
+        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
+        - pip install pynetbox cryptography codecov jmespath ansible
+
+    # Latest release of Netbox and Ansible
+    - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
+      python: 3.6
+      env: PYTHON_VER=3.6 VERSION=v2.7
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -30,9 +47,10 @@ jobs:
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
         - pip install pynetbox cryptography codecov jmespath ansible
 
-    - name: "Python 3.6 - Netbox 2.7 - Ansible Devel"
-      python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.7
+    # Latest development versions of Netbox and Ansible, newest Python - may be broken sometimes
+    - name: "Python 3.8 - Netbox develop-2.8 - Ansible Devel"
+      python: 3.8
+      env: PYTHON_VER=3.8 VERSION=develop-2.8
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -57,15 +75,20 @@ before_script:
   - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
 
 script:
-  # Perform tests on collection from within the installed directory, not the source directory
+  # Perform unit tests on collection from within the installed directory, not the source directory
   # Required for imports of other collections (ie. ansible.netcommon) to work correctly
   - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test units --python $PYTHON_VER -v)
 
   # Check python syntax
   - black . --check --diff
 
+  # Wait for Netbox containers to be running
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
+
+  # Prepare data in Netbox
   - python tests/integration/netbox-deploy.py
+
+  # Run regression and integration tests
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/integration-tests.yml -vvvv
   - ansible-inventory -i tests/integration/test-inventory.yml --list
