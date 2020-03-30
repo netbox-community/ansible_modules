@@ -95,6 +95,7 @@ script:
 
 deploy:
   provider: script
+  skip_cleanup: true
   script: ansible-galaxy collection publish $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz --api-key="$GALAXY_API_TOKEN"
   on:
     tags: true
