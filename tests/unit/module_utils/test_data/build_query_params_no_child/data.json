@@ -1,0 +1,321 @@
+[
+    {
+        "parent": "circuit",
+        "module_data": {
+            "cid": "Test-Circuit-1000",
+            "cluster_type": "Test Circuit Type",
+            "provider": "Test Provider"
+        },
+        "expected": {
+            "cid": "Test-Circuit-1000"
+        }
+    },
+    {
+        "parent": "circuit_termination",
+        "module_data": {
+            "circuit": "Test Circuit",
+            "term_side": "A",
+            "site": "Test Site",
+            "port_speed": 10000
+        },
+        "expected": {
+            "circuit_id": 1,
+            "term_side": "A"
+        }
+    },
+    {
+        "parent": "circuit_type",
+        "module_data": {
+            "name": "Test Circuit Type",
+            "slug": "test-circuit-type"
+        },
+        "expected": {
+            "slug": "test-circuit-type"
+        }
+    },
+    {
+        "parent": "aggregate",
+        "module_data": {
+            "prefix": "192.168.0.0/16",
+            "rir": "Example RIR",
+            "date_added": "2019-01-18"
+        },
+        "expected": {
+            "prefix": "192.168.0.0/16",
+            "rir_id": 1
+        }
+    },
+    {
+        "parent": "cluster",
+        "module_data": {
+            "name": "Test Cluster",
+            "type": "Test Cluster Type",
+            "site": "Test Site"
+        },
+        "expected": {
+            "name": "Test Cluster",
+            "type_id": 1
+        }
+    },
+    {
+        "parent": "cluster_group",
+        "module_data": {
+            "name": "Test Cluster Group",
+            "slug": "test-cluster-group"
+        },
+        "expected": {
+            "slug": "test-cluster-group"
+        }
+    },
+    {
+        "parent": "cluster_type",
+        "module_data": {
+            "name": "Test Cluster Type",
+            "slug": "test-cluster-type"
+        },
+        "expected": {
+            "slug": "test-cluster-type"
+        }
+    },
+    {
+        "parent": "device",
+        "module_data": {
+            "name": "Test Device",
+            "status": "Active"
+        },
+        "expected": {
+            "name": "Test Device"
+        }
+    },
+    {
+        "parent": "device_bay",
+        "module_data": {
+            "name": "Device Bay #1",
+            "device": "test100"
+        },
+        "expected": {
+            "name": "Device Bay #1",
+            "device_id": 1
+        }
+    },
+    {
+        "parent": "device_role",
+        "module_data": {
+            "name": "Test Device Role",
+            "slug": "test-device-role",
+            "status": "Active"
+        },
+        "expected": {
+            "slug": "test-device-role"
+        }
+    },
+    {
+        "parent": "device_type",
+        "module_data": {
+            "name": "Test Device Type",
+            "slug": "test-device-type",
+            "status": "Active"
+        },
+        "expected": {
+            "slug": "test-device-type"
+        }
+    },
+    {
+        "parent": "installed_device",
+        "module_data": {
+            "name": "Test Device",
+            "status": "Active"
+        },
+        "expected": {
+            "name": "Test Device"
+        }
+    },
+    {
+        "parent": "interface",
+        "module_data": {
+            "name": "GigabitEthernet1",
+            "device": "Test Device",
+            "form_factor": 1000
+        },
+        "expected": {
+            "name": "GigabitEthernet1",
+            "device_id": 1
+        }
+    },
+    {
+        "parent": "interface",
+        "module_data": {
+            "name": "Eth0",
+            "virtual_machine": "Test Device",
+            "type": 0
+        },
+        "expected": {
+            "name": "Eth0",
+            "virtual_machine_id": 1
+        }
+    },
+    {
+        "parent": "inventory_item",
+        "module_data": {
+            "name": "10G-SFP+",
+            "device": "test100",
+            "serial": "1234",
+            "asset_tag": "1234"
+        },
+        "expected": {
+            "name": "10G-SFP+",
+            "device_id": 1
+        }
+    },
+    {
+        "parent": "ip_address",
+        "module_data": {
+            "address": "192.168.1.1/24",
+            "vrf": "Test VRF",
+            "description": "Test description"
+        },
+        "expected": {
+            "address": "192.168.1.1/24",
+            "vrf_id": 1
+        }
+    },
+    {
+        "parent": "prefix",
+        "module_data": {
+            "prefix": "10.10.10.0/24",
+            "vrf": "Test VRF",
+            "status": "Reserved"
+        },
+        "expected": {
+            "prefix": "10.10.10.0/24",
+            "vrf_id": 1
+        }
+    },
+    {
+        "parent": "prefix",
+        "module_data": {
+            "parent": "10.10.0.0/16"
+        },
+        "expected": {
+            "prefix": "10.10.0.0/16"
+        }
+    },
+    {
+        "parent": "provider",
+        "module_data": {
+            "name": "Test Provider",
+            "slug": "test-provider",
+            "asn": 65001
+        },
+        "expected": {
+            "slug": "test-provider"
+        }
+    },
+    {
+        "parent": "rack",
+        "module_data": {
+            "name": "Test Rack",
+            "slug": "test-rack",
+            "site": "Test Site"
+        },
+        "expected": {
+            "name": "Test Rack",
+            "site_id": 1
+        }
+    },
+    {
+        "parent": "rack_group",
+        "module_data": {
+            "name": "Test Rack Group",
+            "slug": "test-rack-group"
+        },
+        "expected": {
+            "slug": "test-rack-group"
+        }
+    },
+    {
+        "parent": "rack_role",
+        "module_data": {
+            "name": "Test Rack Role",
+            "slug": "test-rack-role"
+        },
+        "expected": {
+            "slug": "test-rack-role"
+        }
+    },
+    {
+        "parent": "region",
+        "module_data": {
+            "name": "Test Region",
+            "slug": "test-region"
+        },
+        "expected": {
+            "slug": "test-region"
+        }
+    },
+    {
+        "parent": "parent_region",
+        "module_data": {
+            "name": "Parent Region",
+            "slug": "parent-region"
+        },
+        "expected": {
+            "slug": "parent-region"
+        }
+    },
+    {
+        "parent": "rir",
+        "module_data": {
+            "name": "Test RIR One",
+            "slug": "test-rir-one"
+        },
+        "expected": {
+            "slug": "test-rir-one"
+        }
+    },
+    {
+        "parent": "site",
+        "module_data": {
+            "name": "Test Site",
+            "slug": "test-site",
+            "asn": 65000,
+            "contact_name": "John Smith"
+        },
+        "expected": {
+            "slug": "test-site"
+        }
+    },
+    {
+        "parent": "tenant",
+        "module_data": {
+            "name": "Test Tenant",
+            "description": "Test Description",
+            "slug": "test-tenant"
+        },
+        "expected": {
+            "slug": "test-tenant"
+        }
+    },
+    {
+        "parent": "tenant_group",
+        "module_data": {
+            "name": "Test Tenant Group",
+            "description": "Test Description",
+            "slug": "test-tenant-group"
+        },
+        "expected": {
+            "slug": "test-tenant-group"
+        }
+    },
+    {
+        "parent": "virtual_machine",
+        "module_data": {
+            "name": "Test VM 100",
+            "cluster": "Test Cluster"
+        },
+        "expected": {
+            "name": "Test VM 100",
+            "cluster_id": 1
+        }
+    }
+]

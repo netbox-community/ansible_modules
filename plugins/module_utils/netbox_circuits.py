@@ -7,15 +7,22 @@ __metaclass__ = type
 
 # This should just be temporary once 2.9 is relased and tested we can remove this
 try:
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
+        SLUG_REQUIRED,
     )
 except ImportError:
     import sys
 
     sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
+    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+
+
+NB_PROVIDERS = "providers"
+NB_CIRCUIT_TYPES = "circuit_types"
+NB_CIRCUIT_TERMINATIONS = "circuit_terminations"
+NB_CIRCUITS = "circuits"
 
 
 class NetboxCircuitsModule(NetboxModule):
@@ -27,6 +34,10 @@ class NetboxCircuitsModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - circuit_types
+        - circuit_terminations
+        - circuits
+        - providers
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -40,15 +51,24 @@ class NetboxCircuitsModule(NetboxModule):
         data = self.data
 
         # Used for msg output
-        name = data.get("name")
+        if data.get("name"):
+            name = data["name"]
+        elif data.get("slug"):
+            name = data["slug"]
+        elif data.get("cid"):
+            name = data["cid"]
+        elif data.get("circuit") and data.get("term_side"):
+            circuit = self.nb.circuits.circuits.get(data["circuit"]).serialize()
+            name = "{0}_{1}".format(
+                circuit["cid"].replace(" ", "_"), data["term_side"]
+            ).lower()
 
-        data["slug"] = self._to_slug(name)
+        if self.endpoint in SLUG_REQUIRED:
+            if not data.get("slug"):
+                data["slug"] = self._to_slug(name)
 
         object_query_params = self._build_query_params(endpoint_name, data)
-        try:
-            self.nb_object = nb_endpoint.get(**object_query_params)
-        except ValueError:
-            self._handle_errors(msg="More than one result returned for %s" % (name))
+        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)

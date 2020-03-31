@@ -10,7 +10,7 @@ import traceback
 from ansible.module_utils.basic import missing_required_lib
 
 try:
-    from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
         NetboxModule,
         ENDPOINT_NAME_MAPPING,
         SLUG_REQUIRED,
@@ -74,6 +74,8 @@ class NetboxDcimModule(NetboxModule):
         # Used for msg output
         if data.get("name"):
             name = data["name"]
+        elif data.get("model") and not data.get("slug"):
+            name = data["model"]
         elif data.get("slug"):
             name = data["slug"]
 
@@ -86,10 +88,22 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         object_query_params = self._build_query_params(endpoint_name, data)
-        try:
-            self.nb_object = nb_endpoint.get(**object_query_params)
-        except ValueError:
-            self._handle_errors(msg="More than one result returned for %s" % (name))
+        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
+
+        # This is logic to handle interfaces on a VC
+        if self.endpoint == "interfaces":
+            if self.nb_object:
+                device = self.nb.dcim.devices.get(self.nb_object.device.id)
+                if (
+                    device["virtual_chassis"]
+                    and self.nb_object.device.id != self.data["device"]
+                ):
+                    if self.module.params.get("update_vc_child"):
+                        data["device"] = self.nb_object.device.id
+                    else:
+                        self._handle_errors(
+                            msg="Must set update_vc_child to True to allow child device interface modification"
+                        )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)

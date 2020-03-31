@@ -7,6 +7,8 @@ __metaclass__ = type
 
 # Import necessary packages
 import traceback
+import re
+from itertools import chain
 from ansible.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
 
@@ -26,7 +28,7 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=[],
+    circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
     dcim=[
         "device_bays",
         "devices",
@@ -53,15 +55,21 @@ API_APPS_ENDPOINTS = dict(
         "vlans",
         "vlan_groups",
         "vrfs",
+        "services",
     ],
     secrets=[],
     tenancy=["tenants", "tenant_groups"],
-    virtualization=["clusters"],
+    virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
 )
 
 # Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
+    circuit="cid",
+    circuit_termination="circuit",
+    circuit_type="slug",
     cluster="name",
+    cluster_group="slug",
+    cluster_type="slug",
     device="name",
     device_role="slug",
     device_type="slug",
@@ -76,6 +84,7 @@ QUERY_TYPES = dict(
     primary_ip="address",
     primary_ip4="address",
     primary_ip6="address",
+    provider="slug",
     rack="name",
     rack_group="slug",
     rack_role="slug",
@@ -83,7 +92,7 @@ QUERY_TYPES = dict(
     rir="slug",
     slug="slug",
     site="slug",
-    tenant="name",
+    tenant="slug",
     tenant_group="slug",
     time_zone="timezone",
     virtual_machine="name",
@@ -95,7 +104,12 @@ QUERY_TYPES = dict(
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = dict(
+    circuit="circuits",
+    circuit_type="circuit_types",
+    circuit_termination="circuit_terminations",
     cluster="clusters",
+    cluster_group="cluster_groups",
+    cluster_type="cluster_types",
     device="devices",
     device_role="device_roles",
     device_type="device_types",
@@ -113,6 +127,7 @@ CONVERT_TO_ID = dict(
     primary_ip="ip_addresses",
     primary_ip4="ip_addresses",
     primary_ip6="ip_addresses",
+    provider="providers",
     rack="racks",
     rack_group="rack_groups",
     rack_role="rack_roles",
@@ -125,6 +140,7 @@ CONVERT_TO_ID = dict(
     tenant_group="tenant_groups",
     untagged_vlan="vlans",
     virtual_machine="virtual_machines",
+    virtual_machine_role="device_roles",
     vlan="vlans",
     vlan_group="vlan_groups",
     vlan_role="roles",
@@ -133,6 +149,12 @@ CONVERT_TO_ID = dict(
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "circuit_terminations": "circuit_termination",
+    "circuit_types": "circuit_type",
+    "circuits": "circuit",
+    "clusters": "cluster",
+    "cluster_groups": "cluster_group",
+    "cluster_types": "cluster_type",
     "device_bays": "device_bay",
     "devices": "device",
     "device_roles": "device_role",
@@ -143,6 +165,7 @@ ENDPOINT_NAME_MAPPING = {
     "manufacturers": "manufacturer",
     "platforms": "platform",
     "prefixes": "prefix",
+    "providers": "provider",
     "racks": "rack",
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
@@ -153,128 +176,38 @@ ENDPOINT_NAME_MAPPING = {
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
+    "virtual_machines": "virtual_machine",
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
 }
 
-FACE_ID = dict(front=0, rear=1)
-
-DEVICE_STATUS = dict(offline=0, active=1, planned=2, staged=3, failed=4, inventory=5)
-
-IP_ADDRESS_STATUS = dict(active=1, reserved=2, deprecated=3, dhcp=5)
-
-IP_ADDRESS_ROLE = dict(
-    loopback=10, secondary=20, anycast=30, vip=40, vrrp=41, hsrp=42, glbp=43, carp=44
-)
-
-PREFIX_STATUS = dict(container=0, active=1, reserved=2, deprecated=3)
-
-SITE_STATUS = dict(active=1, planned=2, retired=4)
-
-RACK_STATUS = dict(active=3, planned=2, reserved=0, available=1, deprecated=4)
-
-RACK_UNIT = dict(millimeters=1000, inches=2000)
-
-SUBDEVICE_ROLES = dict(parent=True, child=False)
-
-VLAN_STATUS = dict(active=1, reserved=2, deprecated=3)
-
-SERVICE_PROTOCOL = dict(tcp=6, udp=17)
-
-RACK_TYPE = {
-    "2-post frame": 100,
-    "4-post frame": 200,
-    "4-post cabinet": 300,
-    "wall-mounted frame": 1000,
-    "wall-mounted cabinet": 1100,
-}
-
-INTF_FORM_FACTOR = {
-    "virtual": 0,
-    "link aggregation group (lag)": 200,
-    "100base-tx (10/100me)": 800,
-    "1000base-t (1ge)": 1000,
-    "10gbase-t (10ge)": 1150,
-    "10gbase-cx4 (10ge)": 1170,
-    "gbic (1ge)": 1050,
-    "sfp (1ge)": 1100,
-    "2.5gbase-t (2.5ge)": 1120,
-    "5gbase-t (5ge)": 1130,
-    "sfp+ (10ge)": 1200,
-    "xfp (10ge)": 1300,
-    "xenpak (10ge)": 1310,
-    "x2 (10ge)": 1320,
-    "sfp28 (25ge)": 1350,
-    "qsfp+ (40ge)": 1400,
-    "qsfp28 (50ge)": 1420,
-    "cfp (100ge)": 1500,
-    "cfp2 (100ge)": 1510,
-    "cfp2 (200ge)": 1650,
-    "cfp4 (100ge)": 1520,
-    "cisco cpak (100ge)": 1550,
-    "qsfp28 (100ge)": 1600,
-    "qsfp56 (200ge)": 1700,
-    "qsfp-dd (400ge)": 1750,
-    "ieee 802.11a": 2600,
-    "ieee 802.11b/g": 2610,
-    "ieee 802.11n": 2620,
-    "ieee 802.11ac": 2630,
-    "ieee 802.11ad": 2640,
-    "gsm": 2810,
-    "cdma": 2820,
-    "lte": 2830,
-    "oc-3/stm-1": 6100,
-    "oc-12/stm-4": 6200,
-    "oc-48/stm-16": 6300,
-    "oc-192/stm-64": 6400,
-    "oc-768/stm-256": 6500,
-    "oc-1920/stm-640": 6600,
-    "oc-3840/stm-1234": 6700,
-    "sfp (1gfc)": 3010,
-    "sfp (2gfc)": 3020,
-    "sfp (4gfc)": 3040,
-    "sfp+ (8gfc)": 3080,
-    "sfp+ (16gfc)": 3160,
-    "sfp28 (32gfc)": 3320,
-    "qsfp28 (128gfc)": 3400,
-    "t1 (1.544 mbps)": 4000,
-    "e1 (2.048 mbps)": 4010,
-    "t3 (45 mbps)": 4040,
-    "e3 (34 mbps)": 4050,
-    "cisco stackwise": 5000,
-    "cisco stackwise plus": 5050,
-    "cisco flexstack": 5100,
-    "cisco flexstack plus": 5150,
-    "juniper vcp": 5200,
-    "extreme summitstack": 5300,
-    "extreme summitstack-128": 5310,
-    "extreme summitstack-256": 5320,
-    "extreme summitstack-512": 5330,
-    "other": 32767,
-}
-
-INTF_MODE = {"access": 100, "tagged": 200, "tagged all": 300}
-
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "circuit": set(["cid"]),
+    "circuit_type": set(["slug"]),
+    "circuit_termination": set(["circuit", "term_side"]),
+    "cluster": set(["name", "type"]),
+    "cluster_group": set(["slug"]),
+    "cluster_type": set(["slug"]),
     "device_bay": set(["name", "device"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "installed_device": set(["name"]),
-    "interface": set(["name", "device"]),
+    "interface": set(["name", "device", "virtual_machine"]),
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf"]),
     "ip_addresses": set(["address", "vrf", "device"]),
     "lag": set(["name"]),
-    "manufacturer": set(["name", "slug"]),
+    "manufacturer": set(["slug"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
     "prefix": set(["prefix", "vrf"]),
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
+    "provider": set(["slug"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
@@ -284,55 +217,88 @@ ALLOWED_QUERY_PARAMS = {
     "services": set(["device", "virtual_machine", "name"]),
     "site": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
-    "tenant": set(["name"]),
-    "tenant_group": set(["name"]),
+    "tenant": set(["slug"]),
+    "tenant_group": set(["slug"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
-    "vlan": set(["name", "site", "tenant"]),
+    "virtual_machine": set(["name", "cluster"]),
+    "vlan": set(["name", "site", "tenant", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
     "vrf": set(["name", "tenant"]),
 }
 
 QUERY_PARAMS_IDS = set(
-    ["device", "group", "rir", "vrf", "site", "vlan_group", "tenant"]
+    [
+        "circuit",
+        "cluster",
+        "device",
+        "group",
+        "rir",
+        "vrf",
+        "site",
+        "tenant",
+        "type",
+        "virtual_machine",
+    ]
 )
 
-# This is used when converting static choices to an ID value acceptable to Netbox API
 REQUIRED_ID_FIND = {
-    "devices": [{"status": DEVICE_STATUS, "face": FACE_ID}],
-    "device_types": [{"subdevice_role": SUBDEVICE_ROLES}],
-    "interfaces": [{"form_factor": INTF_FORM_FACTOR, "mode": INTF_MODE}],
-    "ip_addresses": [{"status": IP_ADDRESS_STATUS, "role": IP_ADDRESS_ROLE}],
-    "prefixes": [{"status": PREFIX_STATUS}],
-    "racks": [{"status": RACK_STATUS, "outer_unit": RACK_UNIT, "type": RACK_TYPE}],
-    "services": [{"protocol": SERVICE_PROTOCOL}],
-    "sites": [{"status": SITE_STATUS}],
-    "vlans": [{"status": VLAN_STATUS}],
+    "circuits": set(["status"]),
+    "devices": set(["status", "face"]),
+    "device_types": set(["subdevice_role"]),
+    "interfaces": set(["form_factor", "mode"]),
+    "ip_addresses": set(["status", "role"]),
+    "prefixes": set(["status"]),
+    "racks": set(["status", "outer_unit", "type"]),
+    "services": set(["protocol"]),
+    "sites": set(["status"]),
+    "virtual_machines": set(["status", "face"]),
+    "vlans": set(["status"]),
 }
 
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
+    "circuit_type": "type",
+    "cluster_type": "type",
+    "cluster_group": "group",
     "parent_region": "parent",
     "prefix_role": "role",
     "rack_group": "group",
     "rack_role": "role",
     "tenant_group": "group",
+    "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
 }
 
 # This is used to dynamically conver name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
+    "circuit_types",
+    "cluster_groups",
+    "cluster_types",
     "device_roles",
+    "device_types",
     "ipam_roles",
     "rack_groups",
     "rack_roles",
     "regions",
     "rirs",
     "roles",
+    "sites",
+    "tenants",
+    "tenant_groups",
     "manufacturers",
     "platforms",
+    "providers",
     "vlan_groups",
 }
+
+
+NETBOX_ARG_SPEC = dict(
+    netbox_url=dict(type="str", required=True),
+    netbox_token=dict(type="str", required=True, no_log=True),
+    state=dict(required=False, default="present", choices=["present", "absent"]),
+    validate_certs=dict(type="bool", default=True),
+)
 
 
 class NetboxModule(object):
@@ -349,6 +315,7 @@ class NetboxModule(object):
         self.state = self.module.params["state"]
         self.check_mode = self.module.check_mode
         self.endpoint = endpoint
+        self.version = None
 
         if not HAS_PYNETBOX:
             self.module.fail_json(
@@ -366,16 +333,38 @@ class NetboxModule(object):
             self.nb = nb_client
 
         # These methods will normalize the regular data
-        norm_data = self._normalize_data(module.params["data"])
+        cleaned_data = self._remove_arg_spec_default(module.params["data"])
+        norm_data = self._normalize_data(cleaned_data)
         choices_data = self._change_choices_id(self.endpoint, norm_data)
         data = self._find_ids(choices_data)
         self.data = self._convert_identical_keys(data)
 
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
-            return pynetbox.api(url, token=token, ssl_verify=ssl_verify)
+            nb = pynetbox.api(url, token=token, ssl_verify=ssl_verify)
+            try:
+                self.version = float(nb.version)
+            except AttributeError:
+                self.module.fail_json(msg="Must have pynetbox >=4.1.0")
+            except Exception:
+                self.module.fail_json(
+                    msg="Failed to establish connection to Netbox API"
+                )
+            return nb
         except Exception:
             self.module.fail_json(msg="Failed to establish connection to Netbox API")
+
+    def _nb_endpoint_get(self, nb_endpoint, query_params, search_item):
+        try:
+            response = nb_endpoint.get(**query_params)
+        except pynetbox.RequestError as e:
+            self._handle_errors(msg=e.error)
+        except ValueError:
+            self._handle_errors(
+                msg="More than one result returned for %s" % (search_item)
+            )
+
+        return response
 
     def _handle_errors(self, msg):
         """
@@ -397,6 +386,9 @@ class NetboxModule(object):
         Returns data
         :params data (dict): Data dictionary after _find_ids method ran
         """
+        if self.version and self.version >= 2.7:
+            if data.get("form_factor"):
+                data["type"] = data.pop("form_factor")
         for key in data:
             if key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
@@ -404,6 +396,17 @@ class NetboxModule(object):
                 data[new_key] = value
 
         return data
+
+    def _remove_arg_spec_default(self, data):
+        """Used to remove any data keys that were not provided by user, but has the arg spec
+        default values
+        """
+        new_dict = dict()
+        for k, v in data.items():
+            if v is not None:
+                new_dict[k] = v
+
+        return new_dict
 
     def _get_query_param_id(self, match, data):
         """Used to find IDs of necessary searches when required under _build_query_params
@@ -418,7 +421,10 @@ class NetboxModule(object):
             app = self._find_app(endpoint)
             nb_app = getattr(self.nb, app)
             nb_endpoint = getattr(nb_app, endpoint)
-            result = nb_endpoint.get(**{QUERY_TYPES.get(match): data[match]})
+
+            query_params = {QUERY_TYPES.get(match): data[match]}
+            result = self._nb_endpoint_get(nb_endpoint, query_params, match)
+
             if result:
                 return result.id
             else:
@@ -457,7 +463,12 @@ class NetboxModule(object):
                 query_dict.update({match: value})
 
         if parent == "lag":
-            query_dict.update({"form_factor": 200})
+            if not child:
+                query_dict["name"] = module_data["lag"]
+            intf_type = self._fetch_choice_value(
+                "Link Aggregation Group (LAG)", "interfaces"
+            )
+            query_dict.update({"form_factor": intf_type})
             if isinstance(module_data["device"], int):
                 query_dict.update({"device_id": module_data["device"]})
             else:
@@ -472,7 +483,25 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
+        query_dict = self._convert_identical_keys(query_dict)
         return query_dict
+
+    def _fetch_choice_value(self, search, endpoint):
+        app = self._find_app(endpoint)
+        nb_app = getattr(self.nb, app)
+        nb_endpoint = getattr(nb_app, endpoint)
+        endpoint_choices = nb_endpoint.choices()
+
+        choices = [x for x in chain.from_iterable(endpoint_choices.values())]
+
+        for item in choices:
+            if item["display_name"].lower() == search.lower():
+                return item["value"]
+            elif item["value"] == search.lower():
+                return item["value"]
+        self._handle_errors(
+            msg="%s was not found as a valid choice for %s" % (search, endpoint)
+        )
 
     def _change_choices_id(self, endpoint, data):
         """Used to change data that is static and under _choices for the application.
@@ -484,15 +513,11 @@ class NetboxModule(object):
         if REQUIRED_ID_FIND.get(endpoint):
             required_choices = REQUIRED_ID_FIND[endpoint]
             for choice in required_choices:
-                for key, value in choice.items():
-                    if data.get(key):
-                        try:
-                            data[key] = value[data[key].lower()]
-                        except KeyError:
-                            self._handle_errors(
-                                msg="%s may not be a valid choice. If it is valid, please submit bug report."
-                                % (key)
-                            )
+                if data.get(choice):
+                    if isinstance(data[choice], int):
+                        continue
+                    choice_value = self._fetch_choice_value(data[choice], endpoint)
+                    data[choice] = choice_value
 
         return data
 
@@ -521,28 +546,35 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
+                    if k == "interface" and v.get("virtual_machine"):
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, v)
-                    query_id = nb_endpoint.get(**query_params)
+                    query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
                         norm_data = self._normalize_data(list_item)
                         temp_dict = self._build_query_params(k, data, norm_data)
-                        query_id = nb_endpoint.get(**temp_dict)
+                        query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
 
                 else:
+                    query_params = {QUERY_TYPES.get(k, "q"): search}
+                    query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
+
+                # Code to work around Ansible templating converting all values to strings
+                # This should allow users to pass in IDs obtained from previous tasks
+                # without causing the module to fail
+                if isinstance(v, str):
                     try:
-                        query_id = nb_endpoint.get(**{QUERY_TYPES.get(k, "q"): search})
+                        v = int(v)
                     except ValueError:
-                        self._handle_errors(
-                            msg="Multiple results found while searching for key: %s"
-                            % (k)
-                        )
+                        pass
 
                 if isinstance(v, list):
                     data[k] = id_list
@@ -560,11 +592,14 @@ class NetboxModule(object):
         :returns slug (str): Slugified value
         :params value (str): Value that needs to be changed to slug format
         """
-        if " " in value:
-            slug = value.replace(" ", "-").lower()
+        if value is None:
+            return value
+        elif isinstance(value, int):
+            return value
         else:
-            slug = value.lower()
-        return slug
+            removed_chars = re.sub(r"[^\-\.\w\s]", "", value)
+            convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
+            return convert_chars.strip().lower()
 
     def _normalize_data(self, data):
         """
@@ -586,9 +621,6 @@ class NetboxModule(object):
                 elif data_type == "timezone":
                     if " " in v:
                         data[k] = v.replace(" ", "_")
-        if self.endpoint == "sites":
-            site_slug = self._to_slug(data["name"])
-            data["slug"] = site_slug
 
         return data
 
@@ -714,7 +746,6 @@ class NetboxAnsibleModule(AnsibleModule):
         argument_spec,
         bypass_checks=False,
         no_log=False,
-        check_invalid_arguments=None,
         mutually_exclusive=None,
         required_together=None,
         required_one_of=None,
@@ -725,22 +756,22 @@ class NetboxAnsibleModule(AnsibleModule):
     ):
         super().__init__(
             argument_spec,
-            bypass_checks,
-            no_log,
-            check_invalid_arguments,
-            mutually_exclusive,
-            required_together,
-            required_one_of,
-            add_file_common_args,
-            supports_check_mode,
-            required_if,
-            required_by,
+            bypass_checks=False,
+            no_log=False,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
+            add_file_common_args=False,
+            supports_check_mode=supports_check_mode,
+            required_if=required_if,
+            required_by=None,
         )
 
     def _check_required_if(self, spec, param=None):
         """ ensure that parameters which conditionally required are present """
         if spec is None:
             return
+
         if param is None:
             param = self.params
 

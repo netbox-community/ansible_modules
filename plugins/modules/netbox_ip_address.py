@@ -100,6 +100,9 @@ options:
       nat_inside:
         description:
           - The inside IP address this IP is assigned to
+      dns_name:
+        description:
+          - Hostname or FQDN
       tags:
         description:
           - Any tags that the IP address may need to be associated with
@@ -222,10 +225,11 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_IP_ADDRESSES,
 )
@@ -235,15 +239,54 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(
-            required=False, default="present", choices=["present", "absent", "new"]
-        ),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    # state choices present, absent, new
+    argument_spec["state"] = dict(
+        required=False, default="present", choices=["present", "absent", "new"]
     )
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    family=dict(required=False, type="int"),
+                    address=dict(required=False, type="str"),
+                    prefix=dict(required=False, type="raw"),
+                    vrf=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(
+                    #    required=False,
+                    #    type="str",
+                    #    choices=["Active", "Reserved", "Deprecated", "DHCP"],
+                    # ),
+                    role=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "Loopback",
+                            "Secondary",
+                            "Anycast",
+                            "VIP",
+                            "VRRP",
+                            "HSRP",
+                            "GLBP",
+                            "CARP",
+                        ],
+                    ),
+                    interface=dict(required=False, type="raw"),
+                    description=dict(required=False, type="str"),
+                    nat_inside=dict(required=False, type="raw"),
+                    dns_name=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+        )
+    )
+
     required_if = [
         ("state", "present", ["address", "prefix"], True),
         ("state", "absent", ["address"]),

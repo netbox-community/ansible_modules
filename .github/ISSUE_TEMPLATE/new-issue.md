@@ -20,6 +20,17 @@ Also test if the latest release, and master branch are affected too.
  - Module creation help
  - Documentation update
 
+##### SOFTWARE VERSIONS
+
+###### Ansible:
+<!--- Ansible Version ansible --version -->
+
+###### Netbox:
+<!--- Netbox Version -->
+
+###### Collection:
+<!--- Netbox Ansible Module Collection Version -->
+
 ##### SUMMARY
 <!--- Explain the problem briefly -->
 

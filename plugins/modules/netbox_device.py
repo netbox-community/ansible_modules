@@ -135,6 +135,17 @@ EXAMPLES = r"""
           site: Main
         state: present
 
+    - name: Create device within Netbox with empty string name to generate UUID
+      netbox_device:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: ""
+          device_type: C9410R
+          device_role: Core Switch
+          site: Main
+        state: present
+
     - name: Delete device within netbox
       netbox_device:
         netbox_url: http://netbox.local
@@ -179,31 +190,74 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICES,
 )
+import uuid
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    name=dict(required=True, type="str"),
+                    device_type=dict(required=False, type="raw"),
+                    device_role=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
+                    platform=dict(required=False, type="raw"),
+                    serial=dict(required=False, type="str"),
+                    asset_tag=dict(required=False, type="str"),
+                    site=dict(required=False, type="raw"),
+                    rack=dict(required=False, type="raw"),
+                    position=dict(required=False, type="int"),
+                    face=dict(
+                        required=False,
+                        type="str",
+                        choices=["Front", "front", "Rear", "rear"],
+                    ),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(
+                    #    required=False,
+                    #    choices=[
+                    #        "Active",
+                    #        "Offline",
+                    #        "Planned",
+                    #        "Staged",
+                    #        "Failed",
+                    #        "Inventory",
+                    #    ],
+                    # ),
+                    primary_ip4=dict(required=False, type="raw"),
+                    primary_ip6=dict(required=False, type="raw"),
+                    cluster=dict(required=False, type="raw"),
+                    comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+        )
     )
+
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
+    if module.params["data"]["name"] == "":
+        module.params["data"]["name"] = str(uuid.uuid4())
 
     netbox_device = NetboxDcimModule(module, NB_DEVICES)
     netbox_device.run()

@@ -64,7 +64,7 @@ options:
           - |
             Required ONLY if state is C(present) and first_available is C(yes).
             Will get a new available prefix of the given prefix_length in this parent prefix.
-        type: str
+        type: int
       site:
         description:
           - Site that prefix is associated with
@@ -230,10 +230,11 @@ msg:
 """
 
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_ipam import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_PREFIXES,
 )
@@ -243,14 +244,39 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        first_available=dict(type="bool", required=False, default=False),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    family=dict(required=False, type="int"),
+                    prefix=dict(required=False, type="raw"),
+                    parent=dict(required=False, type="raw"),
+                    prefix_length=dict(required=False, type="int"),
+                    site=dict(required=False, type="str"),
+                    vrf=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
+                    vlan=dict(required=False, type="raw"),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(
+                    #    required=False,
+                    #    type="str",
+                    #    choices=["Active", "Container", "Deprecated", "Reserved"],
+                    # ),
+                    prefix_role=dict(required=False, type="raw"),
+                    is_pool=dict(required=False, type="bool"),
+                    description=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+            first_available=dict(required=False, type="bool"),
+        )
     )
+
     required_if = [
         ("state", "present", ["prefix", "parent"], True),
         ("state", "absent", ["prefix"]),

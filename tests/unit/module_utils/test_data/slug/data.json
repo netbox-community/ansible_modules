@@ -1,0 +1,26 @@
+[
+    {
+        "non_slug": "Test device-1_2",
+        "expected": "test-device-1_2"
+    },
+    {
+        "non_slug": "TEST_DEVICE_1_2",
+        "expected": "test_device_1_2"
+    },
+    {
+        "non_slug": "TEST DEVICE 1 2",
+        "expected": "test-device-1-2"
+    },
+    {
+        "non_slug": 1,
+        "expected": 1
+    },
+    {
+        "non_slug": null,
+        "expected": null
+    },
+    {
+        "non_slug": "test1.example.com",
+        "expected": "test1-example-com"
+    }
+]

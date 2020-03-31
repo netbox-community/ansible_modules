@@ -122,7 +122,13 @@ nexus_child = nb.dcim.device_types.get(slug="nexus-child")
 
 ## Create Device Roles
 device_roles = [
-    {"name": "Core Switch", "slug": "core-switch", "color": "aa1409", "vm_role": False}
+    {"name": "Core Switch", "slug": "core-switch", "color": "aa1409", "vm_role": False},
+    {
+        "name": "Test VM Role",
+        "slug": "test-vm-role",
+        "color": "e91e63",
+        "vm_role": True,
+    },
 ]
 created_device_roles = nb.dcim.device_roles.create(device_roles)
 ### Device role variables to be used later on
@@ -183,13 +189,20 @@ created_devices = nb.dcim.devices.create(devices)
 ### Device variables to be used later on
 test100 = nb.dcim.devices.get(name="test100")
 
+# Create VC, assign member, create initial interface
+created_vcs = nb.dcim.virtual_chassis.create({"master": 4})
+nexus_child = nb.dcim.devices.get(5)
+nexus_child.update({"virtual_chassis": 1, "vc_position": 1})
+nexus = nb.dcim.devices.get(4)
+nexus.update({"vc_position": 0})
+nb.dcim.interfaces.create({"device": 4, "name": "Ethernet1/1", "type": 1000})
 
 ## Create Interfaces
-interfaces = [
-    {"name": "GigabitEthernet1", "device": test100.id, "form_factor": 1000},
-    {"name": "GigabitEthernet2", "device": test100.id, "form_factor": 1000},
+dev_interfaces = [
+    {"name": "GigabitEthernet1", "device": test100.id, "type": 1000},
+    {"name": "GigabitEthernet2", "device": test100.id, "type": 1000},
 ]
-created_interfaces = nb.dcim.interfaces.create(interfaces)
+created_interfaces = nb.dcim.interfaces.create(dev_interfaces)
 ## Interface variables to be used later on
 test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
 test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
@@ -202,7 +215,69 @@ ip_addresses = [
 ]
 created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
 
-
 ## Create RIRs
 rirs = [{"name": "Example RIR", "slug": "example-rir"}]
 created_rirs = nb.ipam.rirs.create(rirs)
+
+## Create Cluster Group
+cluster_groups = [{"name": "Test Cluster Group", "slug": "test-cluster-group"}]
+created_cluster_groups = nb.virtualization.cluster_groups.create(cluster_groups)
+
+## Create Cluster Type
+cluster_types = [{"name": "Test Cluster Type", "slug": "test-cluster-type"}]
+created_cluster_types = nb.virtualization.cluster_types.create(cluster_types)
+test_cluster_type = nb.virtualization.cluster_types.get(slug="test-cluster-type")
+
+## Create Cluster
+clusters = [
+    {"name": "Test Cluster", "type": test_cluster_type.id, "site": test_site.id}
+]
+created_clusters = nb.virtualization.clusters.create(clusters)
+test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
+
+## Create Virtual Machine
+virtual_machines = [
+    {"name": "test100-vm", "cluster": test_cluster.id},
+    {"name": "test101-vm", "cluster": test_cluster.id},
+    {"name": "test102-vm", "cluster": test_cluster.id},
+    {"name": "test103-vm", "cluster": test_cluster.id},
+    {"name": "test104-vm", "cluster": test_cluster.id},
+]
+created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
+test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
+test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
+
+## Create Virtual Machine Interfaces
+virtual_machines_intfs = [
+    # Create test100-vm intfs
+    {"name": "Eth0", "virtual_machine": test100_vm.id},
+    {"name": "Eth1", "virtual_machine": test100_vm.id},
+    {"name": "Eth2", "virtual_machine": test100_vm.id},
+    {"name": "Eth3", "virtual_machine": test100_vm.id},
+    {"name": "Eth4", "virtual_machine": test100_vm.id},
+    # Create test101-vm intfs
+    {"name": "Eth0", "virtual_machine": test101_vm.id},
+    {"name": "Eth1", "virtual_machine": test101_vm.id},
+    {"name": "Eth2", "virtual_machine": test101_vm.id},
+    {"name": "Eth3", "virtual_machine": test101_vm.id},
+    {"name": "Eth4", "virtual_machine": test101_vm.id},
+]
+created_virtual_machines_intfs = nb.virtualization.interfaces.create(
+    virtual_machines_intfs
+)
+
+## Create Circuit Provider
+providers = [{"name": "Test Provider", "slug": "test-provider"}]
+created_providers = nb.circuits.providers.create(providers)
+test_provider = nb.circuits.providers.get(slug="test-provider")
+
+## Create Circuit Type
+circuit_types = [{"name": "Test Circuit Type", "slug": "test-circuit-type"}]
+created_circuit_types = nb.circuits.circuit_types.create(circuit_types)
+test_circuit_type = nb.circuits.circuit_types.get(slug="test-circuit-type")
+
+## Create Circuit
+circuits = [
+    {"cid": "Test Circuit", "provider": test_provider.id, "type": test_circuit_type.id}
+]
+created_circuits = nb.circuits.circuits.create(circuits)

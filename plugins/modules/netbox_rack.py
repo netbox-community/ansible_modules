@@ -166,10 +166,11 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_RACKS,
 )
@@ -179,13 +180,61 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    name=dict(required=True, type="str"),
+                    facility_id=dict(required=False, type="str"),
+                    site=dict(required=False, type="raw"),
+                    rack_group=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
+                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
+                    status=dict(required=False, type="raw"),
+                    # status=dict(
+                    #    required=False,
+                    #    type="str",
+                    #    choices=[
+                    #        "Active",
+                    #        "Planned",
+                    #        "Reserved",
+                    #        "Available",
+                    #        "Deprecated",
+                    #    ],
+                    # ),
+                    rack_role=dict(required=False, type="raw"),
+                    serial=dict(required=False, type="str"),
+                    asset_tag=dict(required=False, type="str"),
+                    type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "2-post frame",
+                            "4-post frame",
+                            "4-post cabinet",
+                            "Wall-mounted frame",
+                            "Wall-mounted cabinet",
+                        ],
+                    ),
+                    width=dict(required=False, type="str", choices=["19", "23",],),
+                    u_height=dict(required=False, type="int"),
+                    desc_units=dict(required=False, type="bool"),
+                    outer_width=dict(required=False, type="int"),
+                    outer_depth=dict(required=False, type="int"),
+                    outer_unit=dict(
+                        required=False, type="str", choices=["Millimeters", "Inches",],
+                    ),
+                    comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+        )
     )
+
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(

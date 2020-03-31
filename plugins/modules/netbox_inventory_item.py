@@ -136,10 +136,11 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_INVENTORY_ITEMS,
 )
@@ -149,13 +150,26 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    device=dict(required=False, type="raw"),
+                    name=dict(required=True, type="str"),
+                    manufacturer=dict(required=False, type="raw"),
+                    part_id=dict(required=False, type="str"),
+                    serial=dict(required=False, type="str"),
+                    asset_tag=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                ),
+            ),
+        )
     )
+
     required_if = [
         ("state", "present", ["device", "name"]),
         ("state", "absent", ["device", "name"]),

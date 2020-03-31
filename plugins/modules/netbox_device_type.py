@@ -51,8 +51,9 @@ options:
       slug:
         description:
           - The slug of the device type. Must follow slug formatting (URL friendly)
+          - If not specified, it will slugify the model
           - ex. test-device-type
-        required: true
+        required: false
       part_number:
         description:
           - The part number of the device type
@@ -142,10 +143,11 @@ msg:
   type: str
 """
 
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_utils import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
-from ansible_collections.fragmentedpacket.netbox_modules.plugins.module_utils.netbox_dcim import (
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICE_TYPES,
 )
@@ -155,14 +157,31 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = NETBOX_ARG_SPEC
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    manufacturer=dict(required=False, type="raw"),
+                    model=dict(required=True, type="raw"),
+                    slug=dict(required=False, type="str"),
+                    part_number=dict(required=False, type="str"),
+                    u_height=dict(required=False, type="int"),
+                    is_full_depth=dict(required=False, type="bool"),
+                    subdevice_role=dict(
+                        required=False, choices=["Parent", "parent", "Child", "child"]
+                    ),
+                    comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
+                ),
+            ),
+        )
     )
-    required_if = [("state", "present", ["slug"]), ("state", "absent", ["slug"])]
+
+    required_if = [("state", "present", ["model"]), ("state", "absent", ["model"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if

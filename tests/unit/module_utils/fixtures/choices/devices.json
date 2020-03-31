@@ -1,0 +1,42 @@
+{
+    "face": [
+        {
+            "value": "front",
+            "display_name": "Front"
+        },
+        {
+            "value": "rear",
+            "display_name": "Rear"
+        }
+    ],
+    "status": [
+        {
+            "value": "offline",
+            "display_name": "Offline"
+        },
+        {
+            "value": "active",
+            "display_name": "Active"
+        },
+        {
+            "value": "planned",
+            "display_name": "Planned"
+        },
+        {
+            "value": "staged",
+            "display_name": "Staged"
+        },
+        {
+            "value": "failed",
+            "display_name": "Failed"
+        },
+        {
+            "value": "inventory",
+            "display_name": "Inventory"
+        },
+        {
+            "value": "decommissioning",
+            "display_name": "Decommissioning"
+        }
+    ]
+}

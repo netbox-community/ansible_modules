@@ -23,15 +23,14 @@ import pynetbox
 __metaclass__ = type
 
 DOCUMENTATION = """
-    lookup: netbox
+    lookup: nb_lookup
     author: Chris Mills (@cpmills1975)
     version_added: "2.9"
     short_description: Queries and returns elements from Netbox
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - While secrets can be queried, the plugin doesn't yet support
-          decrypting them.
+        - If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
     options:
         _terms:
             description:
@@ -49,6 +48,14 @@ DOCUMENTATION = """
             description:
                 - The API token created through Netbox
             required: True
+        key_file:
+            description:
+                - The location of the private key tied to user account.
+            required: False
+        raw_data:
+            description:
+                - Whether to return raw API data with the lookup/query or whether to return a key/value dict
+            required: False
     requirements:
         - pynetbox
 """
@@ -61,7 +68,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('netbox', 'devices',
+    loop: "{{ query('nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
@@ -74,10 +81,16 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('netbox', 'devices',
+    loop: "{{ query('nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
+
+# Obtain a secret for R1-device
+tasks:
+  - name: "Obtain secrets for R1-Device"
+    debug:
+      msg: "{{ query('nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
@@ -149,9 +162,6 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
-        # Note: Currently unable to decrypt secrets as key wizardry needs to
-        # take place first but term will return unencrypted elements of secrets
-        # i.e. that they exist etc.
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
         "sites": {"endpoint": netbox.dcim.sites},
@@ -160,7 +170,7 @@ def get_endpoint(netbox, term):
         "tenants": {"endpoint": netbox.tenancy.tenants},
         "topology-maps": {"endpoint": netbox.extras.topology_maps},
         "virtual-chassis": {"endpoint": netbox.dcim.virtual_chassis},
-        "virtual-machines": {"endpoint": netbox.dcim.virtual_machines},
+        "virtual-machines": {"endpoint": netbox.virtualization.virtual_machines},
         "virtualization-interfaces": {"endpoint": netbox.virtualization.interfaces},
         "vlan-groups": {"endpoint": netbox.ipam.vlan_groups},
         "vlans": {"endpoint": netbox.ipam.vlans},
@@ -181,15 +191,22 @@ class LookupModule(LookupBase):
         netbox_api_endpoint = kwargs.get("api_endpoint")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
+        netbox_raw_return = kwargs.get("raw_data")
 
         if not isinstance(terms, list):
             terms = [terms]
 
-        netbox = pynetbox.api(
-            netbox_api_endpoint,
-            token=netbox_api_token,
-            private_key_file=netbox_private_key_file,
-        )
+        try:
+            netbox = pynetbox.api(
+                netbox_api_endpoint,
+                token=netbox_api_token,
+                private_key_file=netbox_private_key_file,
+            )
+        except FileNotFoundError:
+            raise AnsibleError(
+                "%s cannot be found. Please make sure file exists."
+                % netbox_private_key_file
+            )
 
         results = []
         for term in terms:
@@ -213,19 +230,25 @@ class LookupModule(LookupBase):
 
                     Display().vvvvv(pformat(dict(res)))
 
-                    key = dict(res)["id"]
-                    result = {key: dict(res)}
+                    if netbox_raw_return:
+                        results.append(dict(res))
 
-                    results.extend(self._flatten_hash_to_list(result))
+                    else:
+                        key = dict(res)["id"]
+                        result = {key: dict(res)}
+                        results.extend(self._flatten_hash_to_list(result))
 
             else:
                 for res in endpoint.all():
 
                     Display().vvvvv(pformat(dict(res)))
 
-                    key = dict(res)["id"]
-                    result = {key: dict(res)}
+                    if netbox_raw_return:
+                        results.append(dict(res))
 
-                    results.extend(self._flatten_hash_to_list(result))
+                    else:
+                        key = dict(res)["id"]
+                        result = {key: dict(res)}
+                        results.extend(self._flatten_hash_to_list(result))
 
         return results
