@@ -55,18 +55,21 @@ options:
       protocol:
         description:
           - Specifies which protocol used by service
-        type: int
-        choices:
-            - 6 TCP
-            - 17 UDP
-      ipaddress:
-        description:
-          - VRF that prefix is associated with
         type: str
+        choices:
+            - TCP
+            - UDP
+      ipaddresses:
+        description:
+          - Specifies which IPaddresses to associate with service.
+        type: dict
       description:
         description:
           - Service description
         type: str
+      tags:
+        description:
+          - What tags to add/update 
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
@@ -99,7 +102,11 @@ EXAMPLES = r"""
           device: Test666
           name: node-exporter
           port: 9100
-          protocol: 6
+          protocol: TCP
+          ipaddresses:
+            - address: 127.0.0.1
+          tags:
+            - prometheus
         state: present
 
 - name: "Delete netbox service"
@@ -116,7 +123,7 @@ EXAMPLES = r"""
           device: Test666
           name: node-exporter
           port: 9100
-          protocol: 6
+          protocol: TCP
         state: absent
 """
 
@@ -149,6 +156,7 @@ def main():
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type=list),
                 ),
             ),
         )
