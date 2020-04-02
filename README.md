@@ -10,7 +10,7 @@ To keep the code simple, we only officially support the two latest releases of N
 
 ## Requirements
 
-- NetBox 2.5+ or the two latest NetBox releases
+- NetBox 2.6+ or the two latest NetBox releases
 - **pynetbox 4.2.5+**
 - Python 3.6+
 - Ansible 2.9+
