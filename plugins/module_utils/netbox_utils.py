@@ -9,7 +9,7 @@ __metaclass__ = type
 import traceback
 import re
 from itertools import chain
-from ansible.module_utils.compat import ipaddress
+from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
 
 # from ._text import to_native
