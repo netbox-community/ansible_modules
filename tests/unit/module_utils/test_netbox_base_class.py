@@ -54,13 +54,6 @@ def fixture_arg_spec():
 
 
 @pytest.fixture
-def choices_data(choice):
-    with open(f"{choice}.json", "r") as f:
-        choice_data = f.read()
-    return choice_data
-
-
-@pytest.fixture
 def normalized_data():
     return {
         "name": "Test Device1",
