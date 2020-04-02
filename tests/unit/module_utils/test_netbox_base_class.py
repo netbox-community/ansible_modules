@@ -33,7 +33,10 @@ except ImportError:
 
     MOCKER_PATCH_PATH = "netbox_utils.NetboxModule"
 
-load_relative_test_data = partial(load_test_data, os.path.dirname(os.path.abspath(__file__)))
+load_relative_test_data = partial(
+    load_test_data, os.path.dirname(os.path.abspath(__file__))
+)
+
 
 @pytest.fixture
 def fixture_arg_spec():
@@ -177,7 +180,9 @@ def test_find_app_returns_valid_app(mock_netbox_module, endpoint, app):
     )
 
 
-@pytest.mark.parametrize("endpoint, data, expected", load_relative_test_data("choices_id"))
+@pytest.mark.parametrize(
+    "endpoint, data, expected", load_relative_test_data("choices_id")
+)
 def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected):
     fetch_choice_value = mocker.patch(
         "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
@@ -188,7 +193,8 @@ def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected)
 
 
 @pytest.mark.parametrize(
-    "parent, module_data, expected", load_relative_test_data("build_query_params_no_child")
+    "parent, module_data, expected",
+    load_relative_test_data("build_query_params_no_child"),
 )
 def test_build_query_params_no_child(
     mock_netbox_module, mocker, parent, module_data, expected
@@ -202,7 +208,8 @@ def test_build_query_params_no_child(
 
 
 @pytest.mark.parametrize(
-    "parent, module_data, child, expected", load_relative_test_data("build_query_params_child")
+    "parent, module_data, child, expected",
+    load_relative_test_data("build_query_params_child"),
 )
 def test_build_query_params_child(
     mock_netbox_module, mocker, parent, module_data, child, expected

@@ -8,15 +8,15 @@ import urllib.request
 
 
 def get_parameters(data, path):
-	output = list()
+    output = list()
 
-	parameters = data["paths"][path]["get"]["parameters"]
-	for p in parameters:
-		output.append(p["name"])
+    parameters = data["paths"][path]["get"]["parameters"]
+    for p in parameters:
+        output.append(p["name"])
 
-	# Sort, so git diffs are nice and consistent when parameters are updated
-	output.sort()
-	return output
+    # Sort, so git diffs are nice and consistent when parameters are updated
+    output.sort()
+    return output
 
 
 url = sys.argv[1]
@@ -28,11 +28,11 @@ data = json.load(response)
 
 print("ALLOWED_DEVICE_QUERY_PARAMETERS = (")
 for p in get_parameters(data, "/dcim/devices/"):
-	print("    \"%s\"," % p)
+    print('    "%s",' % p)
 print(")")
 print()
 print("ALLOWED_VM_QUERY_PARAMETERS = (")
 for p in get_parameters(data, "/virtualization/virtual-machines/"):
-	print("    \"%s\"," % p)
+    print('    "%s",' % p)
 print(")")
 print()

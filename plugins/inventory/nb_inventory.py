@@ -736,8 +736,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     self.validate_query_parameter,
                     allowed_query_parameters=allowed_query_parameters,
                 ),
-                parameters
-            )
+                parameters,
+            ),
         )
 
     def refresh_url(self):
@@ -749,18 +749,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Add query_filtes to both devices and vms query, if they're valid
         if isinstance(self.query_filters, Iterable):
             device_query_parameters.extend(
-                self.filter_query_parameters(self.query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS))
+                self.filter_query_parameters(
+                    self.query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
+                )
+            )
 
             vm_query_parameters.extend(
-                self.filter_query_parameters(self.query_filters, ALLOWED_VM_QUERY_PARAMETERS))
+                self.filter_query_parameters(
+                    self.query_filters, ALLOWED_VM_QUERY_PARAMETERS
+                )
+            )
 
         if isinstance(self.device_query_filters, Iterable):
             device_query_parameters.extend(
-                self.filter_query_parameters(self.device_query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS))
+                self.filter_query_parameters(
+                    self.device_query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
+                )
+            )
 
         if isinstance(self.vm_query_filters, Iterable):
             vm_query_parameters.extend(
-                self.filter_query_parameters(self.vm_query_filters, ALLOWED_VM_QUERY_PARAMETERS))
+                self.filter_query_parameters(
+                    self.vm_query_filters, ALLOWED_VM_QUERY_PARAMETERS
+                )
+            )
 
         # When query_filters is Iterable, and is not empty:
         # - If none of the filters are valid for devices, do not fetch any devices
@@ -899,12 +911,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Basic type checking of options
         if self.query_filters != None and not isinstance(self.query_filters, Iterable):
-            raise AnsibleError("query_filters is set, but is not a list of dictionaries", obj=self.query_filters, show_content=True)
+            raise AnsibleError(
+                "query_filters is set, but is not a list of dictionaries",
+                obj=self.query_filters,
+                show_content=True,
+            )
 
-        if self.device_query_filters != None and not isinstance(self.device_query_filters, Iterable):
-            raise AnsibleError("device_query_filters is set, but is not a list of dictionaries", obj=self.device_query_filters, show_content=True)
+        if self.device_query_filters != None and not isinstance(
+            self.device_query_filters, Iterable
+        ):
+            raise AnsibleError(
+                "device_query_filters is set, but is not a list of dictionaries",
+                obj=self.device_query_filters,
+                show_content=True,
+            )
 
-        if self.vm_query_filters != None and not isinstance(self.vm_query_filters, Iterable):
-            raise AnsibleError("vm_query_filters is set, but is not a list of dictionaries", obj=self.vm_query_filters, show_content=True)
+        if self.vm_query_filters != None and not isinstance(
+            self.vm_query_filters, Iterable
+        ):
+            raise AnsibleError(
+                "vm_query_filters is set, but is not a list of dictionaries",
+                obj=self.vm_query_filters,
+                show_content=True,
+            )
 
         self.main()

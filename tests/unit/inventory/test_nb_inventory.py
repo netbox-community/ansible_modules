@@ -24,7 +24,9 @@ except ImportError:
     from nb_inventory import InventoryModule
     from test_data import load_test_data
 
-load_relative_test_data = partial(load_test_data, os.path.dirname(os.path.abspath(__file__)))
+load_relative_test_data = partial(
+    load_test_data, os.path.dirname(os.path.abspath(__file__))
+)
 
 
 @pytest.fixture
@@ -40,24 +42,30 @@ def allowed_query_parameters_fixture():
     return ["a", "b", "c"]
 
 
-@pytest.mark.parametrize("parameter, expected", load_relative_test_data("validate_query_parameter"))
+@pytest.mark.parametrize(
+    "parameter, expected", load_relative_test_data("validate_query_parameter")
+)
 def test_validate_query_parameter(
-    inventory_fixture,
-    allowed_query_parameters_fixture,
-    parameter, expected):
+    inventory_fixture, allowed_query_parameters_fixture, parameter, expected
+):
 
     value = "some value, doesn't matter"
-    result = inventory_fixture.validate_query_parameter({parameter: value}, allowed_query_parameters_fixture)
+    result = inventory_fixture.validate_query_parameter(
+        {parameter: value}, allowed_query_parameters_fixture
+    )
     assert (result == (parameter, value)) == expected
 
 
-@pytest.mark.parametrize("parameters, expected", load_relative_test_data("filter_query_parameters"))
+@pytest.mark.parametrize(
+    "parameters, expected", load_relative_test_data("filter_query_parameters")
+)
 def test_filter_query_parameters(
-    inventory_fixture,
-    allowed_query_parameters_fixture,
-    parameters, expected):
+    inventory_fixture, allowed_query_parameters_fixture, parameters, expected
+):
 
-    result = inventory_fixture.filter_query_parameters(parameters, allowed_query_parameters_fixture)
+    result = inventory_fixture.filter_query_parameters(
+        parameters, allowed_query_parameters_fixture
+    )
 
     # Result is iterators of tuples
     # expected from json file is an array of dicts

@@ -14,4 +14,3 @@ def load_test_data(path, test_path):
         tuple_data = tuple(test.values())
         tests.append(tuple_data)
     return tests
-
