@@ -79,7 +79,15 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         query_filters:
-            description: List of parameters passed to the query string (Multiple values may be separated by commas)
+            description: List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
+            type: list
+            default: []
+        device_query_filters:
+            description: List of parameters passed to the query string for devices (Multiple values may be separated by commas)
+            type: list
+            default: []
+        vm_query_filters:
+            description: List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
             type: list
             default: []
         timeout:
@@ -136,6 +144,7 @@ import uuid
 from functools import partial
 from sys import version as python_version
 from threading import Thread
+from typing import Iterable
 from itertools import chain
 
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
@@ -533,15 +542,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for thread in thread_list:
             thread.join()
 
-    def validate_query_parameters(self, x, allowed_query_parameters):
-        if not (isinstance(x, dict) and len(x) == 1):
+    def validate_query_parameter(self, parameter, allowed_query_parameters):
+        if not (isinstance(parameter, dict) and len(parameter) == 1):
             self.display.warning(
-                "Warning query parameters %s not a dict with a single key." % x
+                "Warning query parameters %s not a dict with a single key." % parameter
             )
-            return
+            return None
 
-        k = tuple(x.keys())[0]
-        v = tuple(x.values())[0]
+        k = tuple(parameter.keys())[0]
+        v = tuple(parameter.values())[0]
 
         if not (k in allowed_query_parameters or k.startswith("cf_")):
             msg = "Warning: %s not in %s or starting with cf (Custom field)" % (
@@ -549,50 +558,64 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 allowed_query_parameters,
             )
             self.display.warning(msg=msg)
-            return
+            return None
         return k, v
 
+    def filter_query_parameters(self, parameters, allowed_query_parameters):
+        return filter(
+            lambda parameter: parameter is not None,
+            # For each element of query_filters, test if it's allowed
+            map(
+                # Create a partial function with the device-specific list of query parameters
+                partial(
+                    self.validate_query_parameter,
+                    allowed_query_parameters=allowed_query_parameters,
+                ),
+                parameters
+            )
+        )
+
     def refresh_url(self):
-        dev_query_parameters = [("limit", 0)]
+        device_query_parameters = [("limit", 0)]
         vm_query_parameters = [("limit", 0)]
         device_url = self.api_endpoint + "/api/dcim/devices/?"
         vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
-        if self.query_filters:
-            dev_query_parameters.extend(
-                filter(
-                    lambda x: x,
-                    map(
-                        partial(
-                            self.validate_query_parameters,
-                            allowed_query_parameters=ALLOWED_DEVICE_QUERY_PARAMETERS,
-                        ),
-                        self.query_filters,
-                    ),
-                )
-            )
+
+        # Add query_filtes to both devices and vms query, if they're valid
+        if isinstance(self.query_filters, Iterable):
+            device_query_parameters.extend(
+                self.filter_query_parameters(self.query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS))
+
             vm_query_parameters.extend(
-                filter(
-                    lambda x: x,
-                    map(
-                        partial(
-                            self.validate_query_parameters,
-                            allowed_query_parameters=ALLOWED_VM_QUERY_PARAMETERS,
-                        ),
-                        self.query_filters,
-                    ),
-                )
-            )
-            if len(dev_query_parameters) <= 1:
+                self.filter_query_parameters(self.query_filters, ALLOWED_VM_QUERY_PARAMETERS))
+
+        if isinstance(self.device_query_filters, Iterable):
+            device_query_parameters.extend(
+                self.filter_query_parameters(self.device_query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS))
+
+        if isinstance(self.vm_query_filters, Iterable):
+            vm_query_parameters.extend(
+                self.filter_query_parameters(self.vm_query_filters, ALLOWED_VM_QUERY_PARAMETERS))
+
+        # When query_filters is Iterable, and is not empty:
+        # - If none of the filters are valid for devices, do not fetch any devices
+        # - If none of the filters are valid for VMs, do not fetch any VMs
+        # If either device_query_filters or vm_query_filters are set,
+        # device_query_parameters and vm_query_parameters will have > 1 element so will continue to be requested
+        if self.query_filters and isinstance(self.query_filters, Iterable):
+            if len(device_query_parameters) <= 1:
                 device_url = None
 
             if len(vm_query_parameters) <= 1:
                 vm_url = None
 
+        # Append the parameters to the URLs
         if device_url:
-            device_url = device_url + urlencode(dev_query_parameters)
+            device_url = device_url + urlencode(device_query_parameters)
         if vm_url:
             vm_url = vm_url + urlencode(vm_query_parameters)
 
+        # Exclude config_context if not required
         if not self.config_context:
             if device_url:
                 device_url = device_url + "&exclude=config_context"
@@ -706,4 +729,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.group_by = self.get_option("group_by")
         self.group_names_raw = self.get_option("group_names_raw")
         self.query_filters = self.get_option("query_filters")
+        self.device_query_filters = self.get_option("device_query_filters")
+        self.vm_query_filters = self.get_option("vm_query_filters")
         self.main()
