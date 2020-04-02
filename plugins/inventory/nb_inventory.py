@@ -731,4 +731,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.query_filters = self.get_option("query_filters")
         self.device_query_filters = self.get_option("device_query_filters")
         self.vm_query_filters = self.get_option("vm_query_filters")
+
+        # Basic type checking of options
+        if self.query_filters != None and not isinstance(self.query_filters, Iterable):
+            raise AnsibleError("query_filters is set, but is not a list of dictionaries", obj=self.query_filters, show_content=True)
+
+        if self.device_query_filters != None and not isinstance(self.device_query_filters, Iterable):
+            raise AnsibleError("device_query_filters is set, but is not a list of dictionaries", obj=self.device_query_filters, show_content=True)
+
+        if self.vm_query_filters != None and not isinstance(self.vm_query_filters, Iterable):
+            raise AnsibleError("vm_query_filters is set, but is not a list of dictionaries", obj=self.vm_query_filters, show_content=True)
+
         self.main()
