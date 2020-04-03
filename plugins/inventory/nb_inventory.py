@@ -50,6 +50,12 @@ DOCUMENTATION = """
                 # in order of precedence
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_KEY
+        plurals:
+            description:
+                - If True, all host vars are contained inside single-element arrays for legacy compatibility. Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
+            default: True
+            type: boolean
+            version_added: "0.1.11"
         interfaces:
             description:
                 - If True, it adds the device or virtual machine interface information in host vars.
@@ -63,17 +69,25 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         group_by:
-            description: Keys used to create groups.
+            description: Keys used to create groups. The 'plurals' option controls which of these are valid.
             type: list
             choices:
                 - sites
+                - site
                 - tenants
+                - tenant
                 - racks
+                - rack
                 - tags
+                - tag
                 - device_roles
+                - device_role
                 - device_types
+                - device_type
                 - manufacturers
+                - manufacturer
                 - platforms
+                - platform
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -461,23 +475,50 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     @property
     def group_extractors(self):
-        return {
-            "sites": self.extract_site,
-            "tenants": self.extract_tenant,
-            "racks": self.extract_rack,
-            "tags": self.extract_tags,
-            "disk": self.extract_disk,
-            "memory": self.extract_memory,
-            "vcpus": self.extract_vcpus,
-            "device_roles": self.extract_device_role,
-            "platforms": self.extract_platform,
-            "device_types": self.extract_device_type,
-            "services": self.extract_services,
-            "config_context": self.extract_config_context,
-            "manufacturers": self.extract_manufacturer,
-            "interfaces": self.extract_interfaces,
-            "custom_fields": self.extract_custom_fields,
-        }
+
+        if self.plurals:
+            return {
+                "sites": self.extract_site,
+                "tenants": self.extract_tenant,
+                "racks": self.extract_rack,
+                "tags": self.extract_tags,
+                "disk": self.extract_disk,
+                "memory": self.extract_memory,
+                "vcpus": self.extract_vcpus,
+                "device_roles": self.extract_device_role,
+                "platforms": self.extract_platform,
+                "device_types": self.extract_device_type,
+                "services": self.extract_services,
+                "config_context": self.extract_config_context,
+                "manufacturers": self.extract_manufacturer,
+                "interfaces": self.extract_interfaces,
+                "custom_fields": self.extract_custom_fields,
+            }
+        else:
+            return {
+                "site": self.extract_site,
+                "tenant": self.extract_tenant,
+                "rack": self.extract_rack,
+                "tag": self.extract_tags,
+                "disk": self.extract_disk,
+                "memory": self.extract_memory,
+                "vcpus": self.extract_vcpus,
+                "device_role": self.extract_device_role,
+                "platform": self.extract_platform,
+                "device_type": self.extract_device_type,
+                "services": self.extract_services,
+                "config_context": self.extract_config_context,
+                "manufacturer": self.extract_manufacturer,
+                "interfaces": self.extract_interfaces,
+                "custom_fields": self.extract_custom_fields,
+            }
+
+    def _pluralize(self, something):
+        # If plurals is enabled, wrap in a single-element list for backwards compatibility
+        if self.plurals:
+            return [something]
+        else:
+            return something
 
     def extract_disk(self, host):
         return host.get("disk")
@@ -490,7 +531,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_platform(self, host):
         try:
-            return [self.platforms_lookup[host["platform"]["id"]]]
+            return self._pluralize(self.platforms_lookup[host["platform"]["id"]])
         except Exception:
             return
 
@@ -509,48 +550,50 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_device_type(self, host):
         try:
-            return [self.device_types_lookup[host["device_type"]["id"]]]
+            return self._pluralize(self.device_types_lookup[host["device_type"]["id"]])
         except Exception:
             return
 
     def extract_rack(self, host):
         try:
-            return [self.racks_lookup[host["rack"]["id"]]]
+            return self._pluralize(self.racks_lookup[host["rack"]["id"]])
         except Exception:
             return
 
     def extract_site(self, host):
         try:
-            return [self.sites_lookup[host["site"]["id"]]]
+            return self._pluralize(self.sites_lookup[host["site"]["id"]])
         except Exception:
             return
 
     def extract_tenant(self, host):
         try:
-            return [self.tenants_lookup[host["tenant"]["id"]]]
+            return self._pluralize(self.tenants_lookup[host["tenant"]["id"]])
         except Exception:
             return
 
     def extract_device_role(self, host):
         try:
             if "device_role" in host:
-                return [self.device_roles_lookup[host["device_role"]["id"]]]
+                return self._pluralize(
+                    self.device_roles_lookup[host["device_role"]["id"]]
+                )
             elif "role" in host:
-                return [self.device_roles_lookup[host["role"]["id"]]]
+                return self._pluralize(self.device_roles_lookup[host["role"]["id"]])
         except Exception:
             return
 
     def extract_config_context(self, host):
         try:
-            return [host["config_context"]]
+            return self._pluralize(host["config_context"])
         except Exception:
             return
 
     def extract_manufacturer(self, host):
         try:
-            return [
+            return self._pluralize(
                 self.manufacturers_lookup[host["device_type"]["manufacturer"]["id"]]
-            ]
+            )
         except Exception:
             return
 
@@ -821,17 +864,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host["name"] or str(uuid.uuid4())
 
     def add_host_to_groups(self, host, hostname):
-        for group in self.group_by:
-            sub_groups = self.group_extractors[group](host)
+        for grouping in self.group_by:
+            groups_for_host = self.group_extractors[grouping](host)
 
-            if not sub_groups:
+            if not groups_for_host:
                 continue
 
-            for sub_group in sub_groups:
+            for group_for_host in groups_for_host:
                 if self.group_names_raw:
-                    group_name = sub_group
+                    group_name = group_for_host
                 else:
-                    group_name = "_".join([group, sub_group])
+                    group_name = "_".join([grouping, group_for_host])
+
                 self.inventory.add_group(group=group_name)
                 self.inventory.add_host(group=group_name, host=hostname)
 
@@ -895,6 +939,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
+        self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.headers = {
