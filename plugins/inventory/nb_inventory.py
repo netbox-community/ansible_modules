@@ -54,6 +54,12 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "0.1.7"
+        services:
+            description:
+                - If True, it adds the device or virtual machine services information in host vars.
+            default: True
+            type: boolean
+            version_added: "0.1.11"
         group_by:
             description: Keys used to create groups.
             type: list
@@ -308,9 +314,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_services(self, host):
         try:
-            url = self.api_endpoint + "/api/ipam/services/?device=" + str(host["name"])
-            device_lookup = self._fetch_information(url)
-            return device_lookup["results"]
+            if self.services:
+                url = (
+                    self.api_endpoint
+                    + "/api/ipam/services/?device="
+                    + str(host["name"])
+                )
+                device_lookup = self._fetch_information(url)
+                return device_lookup["results"]
         except Exception:
             return
 
@@ -668,6 +679,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
         self.interfaces = self.get_option("interfaces")
+        self.services = self.get_option("services")
         self.headers = {
             "Authorization": "Token %s" % token,
             "User-Agent": "ansible %s Python %s"
