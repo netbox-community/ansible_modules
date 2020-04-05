@@ -433,7 +433,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                         for ipaddress in device_ipaddresses
                         if ipaddress["interface"]["id"] == interface["id"]
                     ]
-                    interface["ip-addresses"] = interface_ip
+                    interface["ip_addresses"] = interface_ip
 
                 return interface_lookup
         except Exception:
