@@ -394,7 +394,7 @@ class NetboxModule(object):
         for key in data:
             if key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
-                data[new_key] = data[key]
+                temp_dict[new_key] = data[key]
             else:
                 temp_dict[key] = data[key]
 
