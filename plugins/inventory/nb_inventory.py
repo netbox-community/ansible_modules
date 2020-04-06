@@ -59,7 +59,7 @@ DOCUMENTATION = """
                 - If True, it adds the device or virtual machine services information in host vars.
             default: True
             type: boolean
-            version_added: "0.1.11"
+            version_added: "2.0"
         group_by:
             description: Keys used to create groups.
             type: list
