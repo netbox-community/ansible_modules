@@ -300,6 +300,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "config_context": self.extract_config_context,
             "manufacturers": self.extract_manufacturer,
             "interfaces": self.extract_interfaces,
+            "custom_fields": self.extract_custom_fields,
         }
 
     def extract_disk(self, host):
@@ -452,6 +453,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     interface["ip_addresses"] = interface_ip
 
                 return interface_lookup
+        except Exception:
+            return
+
+    def extract_custom_fields(self, host):
+        try:
+            return host["custom_fields"]
         except Exception:
             return
 
