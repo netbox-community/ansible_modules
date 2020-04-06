@@ -95,7 +95,7 @@ script:
 
   # Run regression and integration tests
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
-  - ansible-playbook tests/integration/integration-tests.yml -vvvv
+  - ansible-playbook tests/integration/$VERSION/main.yml -vvvv
   - ansible-inventory -i tests/integration/test-inventory.yml --list
 
 deploy:
