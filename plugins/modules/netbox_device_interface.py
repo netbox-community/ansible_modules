@@ -90,7 +90,7 @@ options:
         choices:
           - Access
           - Tagged
-          - Tagged All
+          - Tagged (All)
         type: str
       untagged_vlan:
         description:
@@ -250,9 +250,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     mgmt_only=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
-                    mode=dict(
-                        required=False, choices=["Access", "Tagged", "Tagged All"],
-                    ),
+                    mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list"),
