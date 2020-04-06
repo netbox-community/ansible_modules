@@ -81,7 +81,7 @@ DOCUMENTATION = """
                 - tags
                 - tag
                 - device_roles
-                - device_role
+                - role
                 - device_types
                 - device_type
                 - manufacturers
@@ -503,7 +503,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "disk": self.extract_disk,
                 "memory": self.extract_memory,
                 "vcpus": self.extract_vcpus,
-                "device_role": self.extract_device_role,
+                "role": self.extract_device_role,
                 "platform": self.extract_platform,
                 "device_type": self.extract_device_type,
                 "services": self.extract_services,
