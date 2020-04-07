@@ -885,24 +885,22 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def _fill_host_variables(self, host, hostname):
         for attribute, extractor in self.group_extractors.items():
-            if not extractor(host):
+            extracted_value = extractor(host)
+            if not extracted_value:
                 continue
-            self.inventory.set_variable(hostname, attribute, extractor(host))
+            self.inventory.set_variable(hostname, attribute, extracted_value)
 
-        if self.extract_primary_ip(host):
-            self.inventory.set_variable(
-                hostname, "ansible_host", self.extract_primary_ip(host=host)
-            )
+        extracted_primary_ip = self.extract_primary_ip(host=host)
+        if extracted_primary_ip:
+            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
 
-        if self.extract_primary_ip4(host):
-            self.inventory.set_variable(
-                hostname, "primary_ip4", self.extract_primary_ip4(host=host)
-            )
+        extracted_primary_ip4 = self.extract_primary_ip4(host=host)
+        if extracted_primary_ip4:
+            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
 
-        if self.extract_primary_ip6(host):
-            self.inventory.set_variable(
-                hostname, "primary_ip6", self.extract_primary_ip6(host=host)
-            )
+        extracted_primary_ip6 = self.extract_primary_ip6(host=host)
+        if extracted_primary_ip6:
+            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
     def main(self):
         self.refresh_lookups()
