@@ -870,6 +870,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if not groups_for_host:
                 continue
 
+            # Make groups_for_host a list if it isn't already
+            if not isinstance(groups_for_host, list):
+                groups_for_host = [groups_for_host]
+
             for group_for_host in groups_for_host:
                 if self.group_names_raw:
                     group_name = group_for_host
