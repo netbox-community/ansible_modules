@@ -888,6 +888,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             extracted_value = extractor(host)
             if not extracted_value:
                 continue
+
+            # Special case - all group_by options are single strings, but tag is a list of tags
+            # Keep the groups named singular "tag_sometag", but host attribute should be "tags":["sometag"]
+            if attribute == "tag":
+                attribute = "tags"
+
             self.inventory.set_variable(hostname, attribute, extracted_value)
 
         extracted_primary_ip = self.extract_primary_ip(host=host)
