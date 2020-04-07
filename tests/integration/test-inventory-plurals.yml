@@ -1,7 +1,7 @@
 plugin: netbox.netbox.nb_inventory
 api_endpoint: "http://localhost:32768"
 token: "0123456789abcdef0123456789abcdef01234567"
-validate_certs: False
+validate_certs: false
 
 config_context: True
 plurals: False
@@ -9,12 +9,12 @@ interfaces: True
 services: True
 
 group_by:
-  - site
-  - tenant
-  - rack
-  - tag
-  - role
-  - device_type
-  - manufacturer
-  - platform
+  - sites
+  - tenants
+  - racks
+  - tags
+  - device_roles
+  - device_types
+  - manufacturers
+  - platforms
 
