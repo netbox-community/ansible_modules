@@ -1598,7 +1598,24 @@
     - name: "6 - ASSERT"
       assert:
         that:
-          - test_six is succeeded
+          - test_six is not changed
+          - test_six['rack']['name'] == "Test rack one"
+          - test_six['rack']['site'] == 1
+          - test_six['rack']['asset_tag'] == "1234"
+          - test_six['rack']['comments'] == "Just testing rack module"
+          - test_six['rack']['facility_id'] == "EQUI10291"
+          - test_six['rack']['group'] == 1
+          - test_six['rack']['outer_depth'] == 24
+          - test_six['rack']['outer_unit'] == 2000
+          - test_six['rack']['outer_width'] == 32
+          - test_six['rack']['role'] == 1
+          - test_six['rack']['serial'] == "FXS10001"
+          - test_six['rack']['status'] == 1
+          - test_six['rack']['tenant'] == 1
+          - test_six['rack']['tags'][0] == "Schnozzberry"
+          - test_six['rack']['type'] == 100
+          - test_six['rack']['u_height'] == 48
+          - test_six['rack']['width'] == 23
 
     - name: "7 - Create rack with same asset tag and serial number"
       netbox_rack:
