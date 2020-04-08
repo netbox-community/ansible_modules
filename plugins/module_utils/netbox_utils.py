@@ -387,16 +387,18 @@ class NetboxModule(object):
         Returns data
         :params data (dict): Data dictionary after _find_ids method ran
         """
+        temp_dict = dict()
         if self.version and self.version >= 2.7:
             if data.get("form_factor"):
-                data["type"] = data.pop("form_factor")
+                temp_dict["type"] = data["form_factor"]
         for key in data:
             if key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
-                value = data.pop(key)
-                data[new_key] = value
+                temp_dict[new_key] = data[key]
+            else:
+                temp_dict[key] = data[key]
 
-        return data
+        return temp_dict
 
     def _remove_arg_spec_default(self, data):
         """Used to remove any data keys that were not provided by user, but has the arg spec
