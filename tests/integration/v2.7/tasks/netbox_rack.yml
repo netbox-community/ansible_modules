@@ -120,7 +120,7 @@
       - test_five['diff']['after']['tags'][0] == "Schnozzberry"
       - test_five['diff']['after']['type'] == "2-post-frame"
       - test_five['diff']['after']['u_height'] == 48
-      - test_five['diff']['after']['width'] == "23"
+      - test_five['diff']['after']['width'] == 23
       - test_five['rack']['name'] == "Test rack one"
       - test_five['rack']['site'] == 1
       - test_five['rack']['asset_tag'] == "1234"
@@ -137,7 +137,7 @@
       - test_five['rack']['tags'][0] == "Schnozzberry"
       - test_five['rack']['type'] == "2-post-frame"
       - test_five['rack']['u_height'] == 48
-      - test_five['rack']['width'] == "23"
+      - test_five['rack']['width'] == 23
       - test_five['msg'] == "rack Test rack one updated"
 
 - name: "6 - Create rack with same asset tag and serial number"
