@@ -120,7 +120,7 @@
       - test_five['diff']['after']['tags'][0] == "Schnozzberry"
       - test_five['diff']['after']['type'] == 100
       - test_five['diff']['after']['u_height'] == 48
-      - test_five['diff']['after']['width'] == "23"
+      - test_five['diff']['after']['width'] == 23
       - test_five['rack']['name'] == "Test rack one"
       - test_five['rack']['site'] == 1
       - test_five['rack']['asset_tag'] == "1234"
@@ -137,10 +137,58 @@
       - test_five['rack']['tags'][0] == "Schnozzberry"
       - test_five['rack']['type'] == 100
       - test_five['rack']['u_height'] == 48
-      - test_five['rack']['width'] == "23"
+      - test_five['rack']['width'] == 23
       - test_five['msg'] == "rack Test rack one updated"
 
-- name: "6 - Create rack with same asset tag and serial number"
+- name: "6 - Update Test rack one with same options"
+  netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test rack one
+      site: Test Site
+      rack_role: "Test Rack Role"
+      rack_group: "Test Rack Group"
+      facility_id: "EQUI10291"
+      tenant: "Test Tenant"
+      status: Available
+      serial: "FXS10001"
+      asset_tag: "1234"
+      width: 23
+      u_height: 48
+      type: "2-post frame"
+      outer_width: 32
+      outer_depth: 24
+      outer_unit: "Inches"
+      comments: "Just testing rack module"
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_six
+
+- name: "6 - ASSERT"
+  assert:
+    that:
+      - test_six is not changed
+      - test_six['rack']['name'] == "Test rack one"
+      - test_six['rack']['site'] == 1
+      - test_six['rack']['asset_tag'] == "1234"
+      - test_six['rack']['comments'] == "Just testing rack module"
+      - test_six['rack']['facility_id'] == "EQUI10291"
+      - test_six['rack']['group'] == 1
+      - test_six['rack']['outer_depth'] == 24
+      - test_six['rack']['outer_unit'] == 2000
+      - test_six['rack']['outer_width'] == 32
+      - test_six['rack']['role'] == 1
+      - test_six['rack']['serial'] == "FXS10001"
+      - test_six['rack']['status'] == 1
+      - test_six['rack']['tenant'] == 1
+      - test_six['rack']['tags'][0] == "Schnozzberry"
+      - test_six['rack']['type'] == 100
+      - test_six['rack']['u_height'] == 48
+      - test_six['rack']['width'] == 23
+
+- name: "7 - Create rack with same asset tag and serial number"
   netbox_rack:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -151,27 +199,27 @@
       asset_tag: "1234"
     state: present
   ignore_errors: yes
-  register: test_six
+  register: test_seven
 
-- name: "6 - ASSERT"
+- name: "7 - ASSERT"
   assert:
     that:
-      - test_six is failed
-      - "'Asset tag already exists' in test_six['msg']"
+      - test_seven is failed
+      - "'Asset tag already exists' in test_seven['msg']"
 
-- name: "7 - Test delete"
+- name: "8 - Test delete"
   netbox_rack:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "Test rack one"
     state: "absent"
-  register: test_seven
+  register: test_eight
 
-- name: "7 - ASSERT"
+- name: "8 - ASSERT"
   assert:
     that:
-      - test_seven is changed
-      - test_seven['diff']['before']['state'] == "present"
-      - test_seven['diff']['after']['state'] == "absent"
-      - test_seven['msg'] == "rack Test rack one deleted"
+      - test_eight is changed
+      - test_eight['diff']['before']['state'] == "present"
+      - test_eight['diff']['after']['state'] == "absent"
+      - test_eight['msg'] == "rack Test rack one deleted"
