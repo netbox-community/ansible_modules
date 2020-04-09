@@ -565,9 +565,11 @@ class NetboxModule(object):
                             id_list.append(query_id.id)
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
-
                 else:
-                    query_params = {QUERY_TYPES.get(k, "q"): search}
+                    if k in ["lag"]:
+                        query_params = self._build_query_params(k, data)
+                    else:
+                        query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 # Code to work around Ansible templating converting all values to strings

@@ -183,6 +183,15 @@
       - test_seven['interface']['name'] == "GigabitEthernet1"
       - test_seven['interface']['device'] == 1
 
+- name: "Add port-channel1 to R1 to test finding proper port-channel1"
+  netbox_device_interface:
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      device: "R1-Device"
+      name: "port-channel1"
+      form_factor: "Link Aggregation Group (LAG)"
+
 - name: "8 - Create interface and assign it to parent LAG - non dict"
   netbox_device_interface:
     netbox_url: "http://localhost:32768"
