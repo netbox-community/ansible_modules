@@ -88,6 +88,10 @@ options:
       tags:
         description:
           - Any tags that the virtual machine may need to be associated with
+      custom_fields:
+        description:
+          - Must exist in Netbox
+        type: dict
     required: true
   state:
     description:
@@ -193,10 +197,9 @@ def main():
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
                     rack=dict(required=False, type="raw"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(required=False, type="str", choices=["Active", "Offline", "Staged"]),
                     tags=dict(required=False, type=list),
+                    custom_fields=dict(required=False, type=dict),
                 ),
             ),
         )
