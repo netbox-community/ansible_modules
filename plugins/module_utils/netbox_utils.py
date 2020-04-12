@@ -215,7 +215,7 @@ ALLOWED_QUERY_PARAMS = {
     "region": set(["slug"]),
     "rir": set(["slug"]),
     "role": set(["slug"]),
-    "services": set(["device", "virtual_machine", "name", "port"]),
+    "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
     "site": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
     "tenant": set(["slug"]),
