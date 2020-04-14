@@ -1,21 +1,21 @@
 [
     {
         "parameters": [
-            {"a": "value1"},
-            {"b": "value2"}
+            {"name": "value1"},
+            {"platform": "value2"}
         ],
         "expected": [
-            {"a": "value1"},
-            {"b": "value2"}
+            {"name": "value1"},
+            {"platform": "value2"}
         ]
     },
     {
         "parameters": [
             {"z": "value1"},
-            {"b": "value2"}
+            {"platform": "value2"}
         ],
         "expected": [
-            {"b": "value2"}
+            {"platform": "value2"}
         ]
     },
     {

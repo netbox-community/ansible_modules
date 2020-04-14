@@ -9,7 +9,7 @@ from unittest.mock import patch, MagicMock, Mock
 
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
-        InventoryModule,
+        InventoryModule, ALLOWED_DEVICE_QUERY_PARAMETERS
     )
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
@@ -21,7 +21,7 @@ except ImportError:
 
     sys.path.append("plugins/inventory")
     sys.path.append("tests")
-    from nb_inventory import InventoryModule
+    from nb_inventory import InventoryModule, ALLOWED_DEVICE_QUERY_PARAMETERS
     from test_data import load_test_data
 
 load_relative_test_data = partial(
@@ -38,20 +38,20 @@ def inventory_fixture():
 
 
 @pytest.fixture
-def allowed_query_parameters_fixture():
-    return ["a", "b", "c"]
+def allowed_device_query_parameters_fixture():
+    return ALLOWED_DEVICE_QUERY_PARAMETERS
 
 
 @pytest.mark.parametrize(
     "parameter, expected", load_relative_test_data("validate_query_parameter")
 )
 def test_validate_query_parameter(
-    inventory_fixture, allowed_query_parameters_fixture, parameter, expected
+    inventory_fixture, allowed_device_query_parameters_fixture, parameter, expected
 ):
 
     value = "some value, doesn't matter"
     result = inventory_fixture.validate_query_parameter(
-        {parameter: value}, allowed_query_parameters_fixture
+        {parameter: value}, allowed_device_query_parameters_fixture
     )
     assert (result == (parameter, value)) == expected
 
@@ -60,11 +60,11 @@ def test_validate_query_parameter(
     "parameters, expected", load_relative_test_data("filter_query_parameters")
 )
 def test_filter_query_parameters(
-    inventory_fixture, allowed_query_parameters_fixture, parameters, expected
+    inventory_fixture, allowed_device_query_parameters_fixture, parameters, expected
 ):
 
     result = inventory_fixture.filter_query_parameters(
-        parameters, allowed_query_parameters_fixture
+        parameters, allowed_device_query_parameters_fixture
     )
 
     # Result is iterators of tuples

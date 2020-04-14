@@ -1,14 +1,14 @@
 [
     {
-        "parameter": "a",
+        "parameter": "name",
         "expected": true
     },
     {
-        "parameter": "b",
+        "parameter": "platform",
         "expected": true
     },
     {
-        "parameter": "c",
+        "parameter": "region",
         "expected": true
     },
     {
