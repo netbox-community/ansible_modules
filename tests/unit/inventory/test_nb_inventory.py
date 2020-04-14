@@ -9,7 +9,8 @@ from unittest.mock import patch, MagicMock, Mock
 
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
-        InventoryModule, ALLOWED_DEVICE_QUERY_PARAMETERS
+        InventoryModule,
+        ALLOWED_DEVICE_QUERY_PARAMETERS,
     )
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
