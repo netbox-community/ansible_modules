@@ -4,8 +4,8 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 import pytest
-import json
 import os
+from functools import partial
 from unittest.mock import patch, MagicMock, Mock
 from ansible.module_utils.basic import AnsibleModule
 
@@ -16,16 +16,26 @@ try:
     from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
         NB_DEVICES,
     )
+    from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
     MOCKER_PATCH_PATH = "ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils.NetboxModule"
 except ImportError:
     import sys
 
+    # Not installed as a collection
+    # Try importing relative to root directory of this ansible_modules project
+
     sys.path.append("plugins/module_utils")
+    sys.path.append("tests")
     from netbox_utils import NetboxModule
     from netbox_dcim import NB_DEVICES
+    from test_data import load_test_data
 
     MOCKER_PATCH_PATH = "netbox_utils.NetboxModule"
+
+load_relative_test_data = partial(
+    load_test_data, os.path.dirname(os.path.abspath(__file__))
+)
 
 
 @pytest.fixture
@@ -44,13 +54,6 @@ def fixture_arg_spec():
         "state": "present",
         "validate_certs": False,
     }
-
-
-@pytest.fixture
-def choices_data(choice):
-    with open(f"{choice}.json", "r") as f:
-        choice_data = f.read()
-    return choice_data
 
 
 @pytest.fixture
@@ -148,39 +151,28 @@ def test_init(mock_netbox_module, find_ids_return):
     assert mock_netbox_module.data == find_ids_return
 
 
-def load_test_data(test_path):
-    path = os.path.dirname(os.path.abspath(__file__))
-    with open(f"{path}/test_data/{test_path}/data.json", "r") as f:
-        data = json.loads(f.read())
-    tests = []
-    for test in data:
-        tuple_data = tuple(test.values())
-        tests.append(tuple_data)
-    return tests
-
-
-@pytest.mark.parametrize("before, after", load_test_data("normalize_data"))
+@pytest.mark.parametrize("before, after", load_relative_test_data("normalize_data"))
 def test_normalize_data_returns_correct_data(mock_netbox_module, before, after):
     norm_data = mock_netbox_module._normalize_data(before)
 
     assert norm_data == after
 
 
-@pytest.mark.parametrize("data, expected", load_test_data("arg_spec_default"))
+@pytest.mark.parametrize("data, expected", load_relative_test_data("arg_spec_default"))
 def test_remove_arg_spec_defaults(mock_netbox_module, data, expected):
     new_data = mock_netbox_module._remove_arg_spec_default(data)
 
     assert new_data == expected
 
 
-@pytest.mark.parametrize("non_slug, expected", load_test_data("slug"))
+@pytest.mark.parametrize("non_slug, expected", load_relative_test_data("slug"))
 def test_to_slug_returns_valid_slug(mock_netbox_module, non_slug, expected):
     got_slug = mock_netbox_module._to_slug(non_slug)
 
     assert got_slug == expected
 
 
-@pytest.mark.parametrize("endpoint, app", load_test_data("find_app"))
+@pytest.mark.parametrize("endpoint, app", load_relative_test_data("find_app"))
 def test_find_app_returns_valid_app(mock_netbox_module, endpoint, app):
     assert app == mock_netbox_module._find_app(endpoint), "app: %s, endpoint: %s" % (
         app,
@@ -188,7 +180,9 @@ def test_find_app_returns_valid_app(mock_netbox_module, endpoint, app):
     )
 
 
-@pytest.mark.parametrize("endpoint, data, expected", load_test_data("choices_id"))
+@pytest.mark.parametrize(
+    "endpoint, data, expected", load_relative_test_data("choices_id")
+)
 def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected):
     fetch_choice_value = mocker.patch(
         "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
@@ -199,7 +193,8 @@ def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected)
 
 
 @pytest.mark.parametrize(
-    "parent, module_data, expected", load_test_data("build_query_params_no_child")
+    "parent, module_data, expected",
+    load_relative_test_data("build_query_params_no_child"),
 )
 def test_build_query_params_no_child(
     mock_netbox_module, mocker, parent, module_data, expected
@@ -213,7 +208,8 @@ def test_build_query_params_no_child(
 
 
 @pytest.mark.parametrize(
-    "parent, module_data, child, expected", load_test_data("build_query_params_child")
+    "parent, module_data, child, expected",
+    load_relative_test_data("build_query_params_child"),
 )
 def test_build_query_params_child(
     mock_netbox_module, mocker, parent, module_data, child, expected
