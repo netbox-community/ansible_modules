@@ -1,0 +1,35 @@
+[
+    {
+        "parameters": [
+            {"name": "value1"},
+            {"platform": "value2"}
+        ],
+        "expected": [
+            {"name": "value1"},
+            {"platform": "value2"}
+        ]
+    },
+    {
+        "parameters": [
+            {"z": "value1"},
+            {"platform": "value2"}
+        ],
+        "expected": [
+            {"platform": "value2"}
+        ]
+    },
+    {
+        "parameters": [
+            {"x": "value1"},
+            {"y": "value2"}
+        ],
+        "expected": [
+        ]
+    },
+    {
+        "parameters": {
+        },
+        "expected": [
+        ]
+    }
+]

@@ -1,0 +1,167 @@
+[
+    {
+        "options": {
+            "query_filters": [
+            ],
+            "device_query_filters": {
+            },
+            "vm_query_filters": {
+            },
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": 12345,
+            "device_query_filters": 6543,
+            "vm_query_filters": null,
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+            ],
+            "device_query_filters": {
+            },
+            "vm_query_filters": {
+            },
+            "config_context": false
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&exclude=config_context",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&exclude=config_context"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"name": "name value"},
+                {"region": "region value"}
+            ],
+            "device_query_filters": {
+            },
+            "vm_query_filters": {
+            },
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&name=name+value&region=region+value",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&name=name+value&region=region+value"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"name": "name value"}
+            ],
+            "device_query_filters": [
+                {"region": "device"}
+            ],
+            "vm_query_filters": [
+                {"region": "vm"}
+            ],
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&name=name+value&region=device",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&name=name+value&region=vm"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"name": "name value"},
+                {"invalid query filter": "nope"}
+            ],
+            "device_query_filters": [
+                {"has_primary_ip": "true"},
+                {"invalid device filter": "nope"}
+            ],
+            "vm_query_filters": [
+                {"disk": 42},
+                {"invalid vm filter": "nope"}
+            ],
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&name=name+value&has_primary_ip=true",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&name=name+value&disk=42"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"disk": "3"}
+            ],
+            "device_query_filters": [
+            ],
+            "vm_query_filters": [
+            ],
+            "config_context": true
+        },
+        "expected": [
+            null,
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&disk=3"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"has_primary_ip": "true"}
+            ],
+            "device_query_filters": [
+            ],
+            "vm_query_filters": [
+            ],
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&has_primary_ip=true",
+            null
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"disk": "3"}
+            ],
+            "device_query_filters": [
+                {"name": "name value"}
+            ],
+            "vm_query_filters": [
+            ],
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&name=name+value",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&disk=3"
+        ]
+    },
+    {
+        "options": {
+            "query_filters": [
+                {"has_primary_ip": "true"}
+            ],
+            "device_query_filters": [
+            ],
+            "vm_query_filters": [
+                {"name": "name value"}
+            ],
+            "config_context": true
+        },
+        "expected": [
+            "https://netbox.test.endpoint:1234/api/dcim/devices/?limit=0&has_primary_ip=true",
+            "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&name=name+value"
+        ]
+    }
+    
+]

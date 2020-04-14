@@ -28,7 +28,8 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
+        # coverage 5.0 is not compatible with ansible-test https://github.com/ansible/ansible/issues/65907
+        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography codecov jmespath ansible
 
     # Latest release of Netbox and Ansible
@@ -44,7 +45,7 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
+        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography codecov jmespath ansible
 
     # Latest development versions of Netbox and Ansible, newest Python
@@ -62,7 +63,7 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0
+        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography jmespath
         - git clone https://github.com/ansible/ansible.git
         - cd ansible
@@ -82,7 +83,7 @@ before_script:
 script:
   # Perform unit tests on collection from within the installed directory, not the source directory
   # Required for imports of other collections (ie. ansible.netcommon) to work correctly
-  - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test units --python $PYTHON_VER -v)
+  - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test units --coverage --python $PYTHON_VER -v)
 
   # Check python syntax
   - black . --check --diff
@@ -97,6 +98,9 @@ script:
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/$VERSION/main.yml -vvvv
   - ansible-inventory -i tests/integration/test-inventory.yml --list
+
+  # Report code coverage
+  - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test coverage report)
 
 deploy:
   provider: script

@@ -79,7 +79,15 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         query_filters:
-            description: List of parameters passed to the query string (Multiple values may be separated by commas)
+            description: List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
+            type: list
+            default: []
+        device_query_filters:
+            description: List of parameters passed to the query string for devices (Multiple values may be separated by commas)
+            type: list
+            default: []
+        vm_query_filters:
+            description: List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
             type: list
             default: []
         timeout:
@@ -136,6 +144,7 @@ import uuid
 from functools import partial
 from sys import version as python_version
 from threading import Thread
+from typing import Iterable
 from itertools import chain
 
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
@@ -148,65 +157,230 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress
     ip_interface,
 )
 
+# List of parameters fetched from /api/docs/?format=openapi
+# Use scripts/get_inventory_query_parameters.py to update this
+
 ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "asset_tag",
+    "asset_tag__ic",
+    "asset_tag__ie",
+    "asset_tag__iew",
+    "asset_tag__isw",
+    "asset_tag__n",
+    "asset_tag__nic",
+    "asset_tag__nie",
+    "asset_tag__niew",
+    "asset_tag__nisw",
     "cluster_id",
+    "cluster_id__n",
+    "console_ports",
+    "console_server_ports",
+    "created",
+    "created__gte",
+    "created__lte",
+    "device_bays",
     "device_type_id",
+    "device_type_id__n",
+    "face",
+    "face__n",
     "has_primary_ip",
-    "is_console_server",
+    "id",
+    "id__gt",
+    "id__gte",
+    "id__in",
+    "id__lt",
+    "id__lte",
+    "id__n",
+    "interfaces",
     "is_full_depth",
-    "is_network_device",
-    "is_pdu",
+    "last_updated",
+    "last_updated__gte",
+    "last_updated__lte",
+    "limit",
+    "local_context_data",
     "mac_address",
+    "mac_address__ic",
+    "mac_address__ie",
+    "mac_address__iew",
+    "mac_address__isw",
+    "mac_address__n",
+    "mac_address__nic",
+    "mac_address__nie",
+    "mac_address__niew",
+    "mac_address__nisw",
     "manufacturer",
+    "manufacturer__n",
     "manufacturer_id",
+    "manufacturer_id__n",
     "model",
+    "model__n",
     "name",
+    "name__ic",
+    "name__ie",
+    "name__iew",
+    "name__isw",
+    "name__n",
+    "name__nic",
+    "name__nie",
+    "name__niew",
+    "name__nisw",
+    "offset",
+    "pass_through_ports",
     "platform",
+    "platform__n",
     "platform_id",
+    "platform_id__n",
     "position",
+    "position__gt",
+    "position__gte",
+    "position__lt",
+    "position__lte",
+    "position__n",
+    "power_outlets",
+    "power_ports",
+    "q",
     "rack_group_id",
+    "rack_group_id__n",
     "rack_id",
+    "rack_id__n",
     "region",
+    "region__n",
     "region_id",
+    "region_id__n",
     "role",
+    "role__n",
     "role_id",
+    "role_id__n",
     "serial",
     "site",
+    "site__n",
     "site_id",
+    "site_id__n",
     "status",
+    "status__n",
     "tag",
+    "tag__n",
     "tenant",
+    "tenant__n",
+    "tenant_group",
+    "tenant_group__n",
+    "tenant_group_id",
+    "tenant_group_id__n",
     "tenant_id",
+    "tenant_id__n",
+    "vc_position",
+    "vc_position__gt",
+    "vc_position__gte",
+    "vc_position__lt",
+    "vc_position__lte",
+    "vc_position__n",
+    "vc_priority",
+    "vc_priority__gt",
+    "vc_priority__gte",
+    "vc_priority__lt",
+    "vc_priority__lte",
+    "vc_priority__n",
     "virtual_chassis_id",
+    "virtual_chassis_id__n",
+    "virtual_chassis_member",
 )
 
 ALLOWED_VM_QUERY_PARAMETERS = (
     "cluster",
-    "cluster_id",
+    "cluster__n",
     "cluster_group",
+    "cluster_group__n",
     "cluster_group_id",
+    "cluster_group_id__n",
+    "cluster_id",
+    "cluster_id__n",
     "cluster_type",
+    "cluster_type__n",
     "cluster_type_id",
+    "cluster_type_id__n",
+    "created",
+    "created__gte",
+    "created__lte",
     "disk",
+    "disk__gt",
+    "disk__gte",
+    "disk__lt",
+    "disk__lte",
+    "disk__n",
+    "id",
+    "id__gt",
+    "id__gte",
+    "id__in",
+    "id__lt",
+    "id__lte",
+    "id__n",
+    "last_updated",
+    "last_updated__gte",
+    "last_updated__lte",
+    "limit",
+    "local_context_data",
     "mac_address",
+    "mac_address__ic",
+    "mac_address__ie",
+    "mac_address__iew",
+    "mac_address__isw",
+    "mac_address__n",
+    "mac_address__nic",
+    "mac_address__nie",
+    "mac_address__niew",
+    "mac_address__nisw",
     "memory",
+    "memory__gt",
+    "memory__gte",
+    "memory__lt",
+    "memory__lte",
+    "memory__n",
     "name",
+    "name__ic",
+    "name__ie",
+    "name__iew",
+    "name__isw",
+    "name__n",
+    "name__nic",
+    "name__nie",
+    "name__niew",
+    "name__nisw",
+    "offset",
     "platform",
+    "platform__n",
     "platform_id",
+    "platform_id__n",
+    "q",
     "region",
+    "region__n",
     "region_id",
+    "region_id__n",
     "role",
+    "role__n",
     "role_id",
+    "role_id__n",
     "site",
+    "site__n",
     "site_id",
+    "site_id__n",
     "status",
+    "status__n",
     "tag",
+    "tag__n",
     "tenant",
-    "tenant_id",
+    "tenant__n",
     "tenant_group",
+    "tenant_group__n",
     "tenant_group_id",
+    "tenant_group_id__n",
+    "tenant_id",
+    "tenant_id__n",
     "vcpus",
+    "vcpus__gt",
+    "vcpus__gte",
+    "vcpus__lt",
+    "vcpus__lte",
+    "vcpus__n",
 )
 
 
@@ -533,15 +707,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for thread in thread_list:
             thread.join()
 
-    def validate_query_parameters(self, x, allowed_query_parameters):
-        if not (isinstance(x, dict) and len(x) == 1):
+    def validate_query_parameter(self, parameter, allowed_query_parameters):
+        if not (isinstance(parameter, dict) and len(parameter) == 1):
             self.display.warning(
-                "Warning query parameters %s not a dict with a single key." % x
+                "Warning query parameters %s not a dict with a single key." % parameter
             )
-            return
+            return None
 
-        k = tuple(x.keys())[0]
-        v = tuple(x.values())[0]
+        k = tuple(parameter.keys())[0]
+        v = tuple(parameter.values())[0]
 
         if not (k in allowed_query_parameters or k.startswith("cf_")):
             msg = "Warning: %s not in %s or starting with cf (Custom field)" % (
@@ -549,50 +723,76 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 allowed_query_parameters,
             )
             self.display.warning(msg=msg)
-            return
+            return None
         return k, v
 
+    def filter_query_parameters(self, parameters, allowed_query_parameters):
+        return filter(
+            lambda parameter: parameter is not None,
+            # For each element of query_filters, test if it's allowed
+            map(
+                # Create a partial function with the device-specific list of query parameters
+                partial(
+                    self.validate_query_parameter,
+                    allowed_query_parameters=allowed_query_parameters,
+                ),
+                parameters,
+            ),
+        )
+
     def refresh_url(self):
-        dev_query_parameters = [("limit", 0)]
+        device_query_parameters = [("limit", 0)]
         vm_query_parameters = [("limit", 0)]
         device_url = self.api_endpoint + "/api/dcim/devices/?"
         vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
-        if self.query_filters:
-            dev_query_parameters.extend(
-                filter(
-                    lambda x: x,
-                    map(
-                        partial(
-                            self.validate_query_parameters,
-                            allowed_query_parameters=ALLOWED_DEVICE_QUERY_PARAMETERS,
-                        ),
-                        self.query_filters,
-                    ),
+
+        # Add query_filtes to both devices and vms query, if they're valid
+        if isinstance(self.query_filters, Iterable):
+            device_query_parameters.extend(
+                self.filter_query_parameters(
+                    self.query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
                 )
             )
+
             vm_query_parameters.extend(
-                filter(
-                    lambda x: x,
-                    map(
-                        partial(
-                            self.validate_query_parameters,
-                            allowed_query_parameters=ALLOWED_VM_QUERY_PARAMETERS,
-                        ),
-                        self.query_filters,
-                    ),
+                self.filter_query_parameters(
+                    self.query_filters, ALLOWED_VM_QUERY_PARAMETERS
                 )
             )
-            if len(dev_query_parameters) <= 1:
+
+        if isinstance(self.device_query_filters, Iterable):
+            device_query_parameters.extend(
+                self.filter_query_parameters(
+                    self.device_query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
+                )
+            )
+
+        if isinstance(self.vm_query_filters, Iterable):
+            vm_query_parameters.extend(
+                self.filter_query_parameters(
+                    self.vm_query_filters, ALLOWED_VM_QUERY_PARAMETERS
+                )
+            )
+
+        # When query_filters is Iterable, and is not empty:
+        # - If none of the filters are valid for devices, do not fetch any devices
+        # - If none of the filters are valid for VMs, do not fetch any VMs
+        # If either device_query_filters or vm_query_filters are set,
+        # device_query_parameters and vm_query_parameters will have > 1 element so will continue to be requested
+        if self.query_filters and isinstance(self.query_filters, Iterable):
+            if len(device_query_parameters) <= 1:
                 device_url = None
 
             if len(vm_query_parameters) <= 1:
                 vm_url = None
 
+        # Append the parameters to the URLs
         if device_url:
-            device_url = device_url + urlencode(dev_query_parameters)
+            device_url = device_url + urlencode(device_query_parameters)
         if vm_url:
             vm_url = vm_url + urlencode(vm_query_parameters)
 
+        # Exclude config_context if not required
         if not self.config_context:
             if device_url:
                 device_url = device_url + "&exclude=config_context"
@@ -706,4 +906,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.group_by = self.get_option("group_by")
         self.group_names_raw = self.get_option("group_names_raw")
         self.query_filters = self.get_option("query_filters")
+        self.device_query_filters = self.get_option("device_query_filters")
+        self.vm_query_filters = self.get_option("vm_query_filters")
+
         self.main()
