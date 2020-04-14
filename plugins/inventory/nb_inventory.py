@@ -880,8 +880,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 else:
                     group_name = "_".join([grouping, group_for_host])
 
-                self.inventory.add_group(group=group_name)
-                self.inventory.add_host(group=group_name, host=hostname)
+                # Group names may be transformed by the ansible TRANSFORM_INVALID_GROUP_CHARS setting
+                # add_group returns the actual group name used
+                transformed_group_name = self.inventory.add_group(group=group_name)
+                self.inventory.add_host(group=transformed_group_name, host=hostname)
 
     def _fill_host_variables(self, host, hostname):
         for attribute, extractor in self.group_extractors.items():
