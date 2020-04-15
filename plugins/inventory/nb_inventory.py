@@ -88,6 +88,7 @@ DOCUMENTATION = """
                 - manufacturer
                 - platforms
                 - platform
+                - region
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -493,6 +494,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "manufacturers": self.extract_manufacturer,
                 "interfaces": self.extract_interfaces,
                 "custom_fields": self.extract_custom_fields,
+                "region": self.extract_regions,
             }
         else:
             return {
@@ -511,6 +513,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "manufacturer": self.extract_manufacturer,
                 "interfaces": self.extract_interfaces,
                 "custom_fields": self.extract_custom_fields,
+                "region": self.extract_regions,
             }
 
     def _pluralize(self, something):
@@ -681,6 +684,39 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             return
 
+    def extract_regions(self, host):
+        # A host may have a site. A site may have a region. A region may have a parent region.
+        # Produce a list of regions:
+        # - it will be empty if the device has no site, or the site has no region set
+        # - it will have 1 element if the site's region has no parent
+        # - it will have multiple elements if the site's region has a parent region
+
+        site = host.get("site", None)
+        if not isinstance(site, dict):
+            # Device has no site
+            return []
+
+        site_id = site.get("id", None)
+        if site_id == None:
+            # Device has no site
+            return []
+
+        regions = []
+        region_id = self.sites_region_lookup[site_id]
+
+        # Keep looping until the region has no parent
+        while region_id != None:
+            region_slug = self.regions_lookup[region_id]
+            if region_slug in regions:
+                # Somehow we've got an infinite loop? (Shouldn't ever happen)
+                break
+            regions.append(region_slug)
+
+            # Get the parent of this region
+            region_id = self.regions_parent_lookup[region_id]
+
+        return regions
+
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
@@ -693,10 +729,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         sites = self.get_resource_list(api_url=url)
         self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
 
+        def get_region_for_site(site):
+            # Will fail if site does not have a region defined in Netbox
+            try:
+                return (site["id"], site["region"]["id"])
+            except Exception:
+                return (site["id"], None)
+
+        # Diction of site id to region id
+        self.sites_region_lookup = dict(
+            filter(lambda x: x is not None, map(get_region_for_site, sites))
+        )
+
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
         regions = self.get_resource_list(api_url=url)
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
+        self.regions_parent_lookup = dict(
+            (region["id"], region["parent"]) for region in regions
+        )
 
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
@@ -863,8 +914,31 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # We default to an UUID for hostname in case the name is not set in NetBox
         return host["name"] or str(uuid.uuid4())
 
+    def generate_group_name(self, grouping, group):
+        if self.group_names_raw:
+            return group
+        else:
+            return "_".join([grouping, group])
+
     def add_host_to_groups(self, host, hostname):
+
+        # If we're grouping by regions, hosts are not added to region groups
+        # - the site groups are added as sub-groups of regions
+        # So, we need to make sure we're also grouping by sites if regions are enabled
+
+        if "region" in self.group_by:
+            # Make sure "site" or "sites" grouping also exists, depending on plurals options
+            if self.plurals and "sites" not in self.group_by:
+                self.group_by.append("sites")
+            elif not self.plurals and "site" not in self.group_by:
+                self.group_by.append("site")
+
         for grouping in self.group_by:
+
+            # Don't handle regions here - that will happen in main()
+            if grouping == "region":
+                continue
+
             groups_for_host = self.group_extractors[grouping](host)
 
             if not groups_for_host:
@@ -875,15 +949,59 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 groups_for_host = [groups_for_host]
 
             for group_for_host in groups_for_host:
-                if self.group_names_raw:
-                    group_name = group_for_host
-                else:
-                    group_name = "_".join([grouping, group_for_host])
+                group_name = self.generate_group_name(grouping, group_for_host)
 
                 # Group names may be transformed by the ansible TRANSFORM_INVALID_GROUP_CHARS setting
                 # add_group returns the actual group name used
                 transformed_group_name = self.inventory.add_group(group=group_name)
                 self.inventory.add_host(group=transformed_group_name, host=hostname)
+
+    def _add_region_groups(self):
+
+        # Mapping of region id to group name
+        region_transformed_group_names = dict()
+
+        # Create groups for each region
+        for region_id in self.regions_lookup:
+            region_group_name = self.generate_group_name(
+                "region", self.regions_lookup[region_id]
+            )
+            region_transformed_group_names[region_id] = self.inventory.add_group(
+                group=region_group_name
+            )
+
+        # Now that all region groups exist, add relationships between them
+        for region_id in self.regions_lookup:
+            region_group_name = region_transformed_group_names[region_id]
+            parent_region_id = self.regions_parent_lookup.get(region_id, None)
+            if (
+                parent_region_id != None
+                and parent_region_id in region_transformed_group_names
+            ):
+                parent_region_name = region_transformed_group_names[parent_region_id]
+                self.inventory.add_child(parent_region_name, region_group_name)
+
+        # Add site groups as children of region groups
+        for site_id in self.sites_lookup:
+            region_id = self.sites_region_lookup.get(site_id, None)
+            if region_id == None:
+                continue
+
+            region_transformed_group_name = region_transformed_group_names[region_id]
+
+            site_name = self.sites_lookup[site_id]
+            site_group_name = self.generate_group_name(
+                "sites" if self.plurals else "site", site_name
+            )
+            # Add the site group to get its transformed name
+            # Will already be created by add_host_to_groups - it's ok to call add_group again just to get its name
+            site_transformed_group_name = self.inventory.add_group(
+                group=site_group_name
+            )
+
+            self.inventory.add_child(
+                region_transformed_group_name, site_transformed_group_name
+            )
 
     def _fill_host_variables(self, host, hostname):
         for attribute, extractor in self.group_extractors.items():
@@ -895,6 +1013,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Keep the groups named singular "tag_sometag", but host attribute should be "tags":["sometag"]
             if attribute == "tag":
                 attribute = "tags"
+
+            if attribute == "region":
+                attribute = "regions"
 
             self.inventory.set_variable(hostname, attribute, extracted_value)
 
@@ -936,6 +1057,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 self.get_option("keyed_groups"), host, hostname, strict=strict
             )
             self.add_host_to_groups(host=host, hostname=hostname)
+
+        # Create groups for regions, containing the site groups
+        if "region" in self.group_by:
+            self._add_region_groups()
 
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)

@@ -17,4 +17,4 @@ group_by:
   - device_type
   - manufacturer
   - platform
-
+  - region
