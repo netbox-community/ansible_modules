@@ -97,8 +97,8 @@ script:
   # Run regression and integration tests
   - ansible-playbook tests/integration/regression-tests.yml -vvvv
   - ansible-playbook tests/integration/$VERSION/main.yml -vvvv
-  - ansible-inventory -i tests/integration/test-inventory.yml --list
-  - ansible-inventory -i tests/integration/test-inventory-plurals.yml --list
+  - ansible-inventory -vvvv -i tests/integration/test-inventory.yml --list
+  - ansible-inventory -vvvv -i tests/integration/test-inventory-plurals.yml --list
 
   # Report code coverage
   - (cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME && ansible-test coverage report)

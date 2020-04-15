@@ -736,7 +736,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except Exception:
                 return (site["id"], None)
 
-        # Diction of site id to region id
+        # Dictionary of site id to region id
         self.sites_region_lookup = dict(
             filter(lambda x: x is not None, map(get_region_for_site, sites))
         )
@@ -745,8 +745,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
         regions = self.get_resource_list(api_url=url)
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
+
+        def get_region_parent(region):
+            # Will fail if site does not have a region defined in Netbox
+            try:
+                return (region["id"], region["parent"]["id"])
+            except Exception:
+                return (region["id"], None)
+
+        # Diction of region id to parent region id
         self.regions_parent_lookup = dict(
-            (region["id"], region["parent"]) for region in regions
+            filter(lambda x: x is not None, map(get_region_parent, regions))
         )
 
     def refresh_tenants_lookup(self):
@@ -937,6 +946,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             # Don't handle regions here - that will happen in main()
             if grouping == "region":
+                continue
+
+            if grouping not in self.group_extractors:
+                raise AnsibleError(
+                    'group_by option "%s" is not valid. (Maybe check the plurals option? It can determine what group_by options are valid)'
+                    % grouping
+                )
                 continue
 
             groups_for_host = self.group_extractors[grouping](host)
