@@ -3,6 +3,10 @@
 # Inspired by community.aws collection script_inventory_ec2 test
 # https://github.com/ansible-collections/community.aws/blob/master/tests/integration/targets/script_inventory_ec2/inventory_diff.py
 
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
 import sys
 import json
 from jsondiff import diff

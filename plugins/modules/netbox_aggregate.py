@@ -47,7 +47,7 @@ options:
       rir:
         description:
           - The RIR the aggregate will be assigned to
-        required:true
+        required: true
       date_added:
         description:
           - Date added, format: YYYY-MM-DD

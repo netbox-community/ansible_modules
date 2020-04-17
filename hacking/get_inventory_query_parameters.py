@@ -1,10 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Usage: ./get_inventory_query_filters.py https://netbox/api/docs/?format=openapi
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
 
 import sys
 import json
 import urllib.request
+from ansible.module_utils.urls import open_url
 
 
 def get_parameters(data, path):
@@ -23,7 +28,7 @@ url = sys.argv[1]
 
 print("Getting from %s" % url, file=sys.stderr)
 
-response = urllib.request.urlopen(url)
+response = open_url(url)
 data = json.load(response)
 
 print("ALLOWED_DEVICE_QUERY_PARAMETERS = (")

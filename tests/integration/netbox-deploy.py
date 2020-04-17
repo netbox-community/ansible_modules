@@ -1,3 +1,7 @@
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
 import pynetbox
 
 # Set nb variable to connec to Netbox and use the veriable in future calls

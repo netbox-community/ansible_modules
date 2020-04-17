@@ -697,7 +697,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return []
 
         site_id = site.get("id", None)
-        if site_id == None:
+        if site_id is None:
             # Device has no site
             return []
 
@@ -705,7 +705,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         region_id = self.sites_region_lookup[site_id]
 
         # Keep looping until the region has no parent
-        while region_id != None:
+        while region_id is not None:
             region_slug = self.regions_lookup[region_id]
             if region_slug in regions:
                 # Somehow we've got an infinite loop? (Shouldn't ever happen)
@@ -953,7 +953,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     'group_by option "%s" is not valid. (Maybe check the plurals option? It can determine what group_by options are valid)'
                     % grouping
                 )
-                continue
 
             groups_for_host = self.group_extractors[grouping](host)
 
@@ -991,7 +990,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             region_group_name = region_transformed_group_names[region_id]
             parent_region_id = self.regions_parent_lookup.get(region_id, None)
             if (
-                parent_region_id != None
+                parent_region_id is not None
                 and parent_region_id in region_transformed_group_names
             ):
                 parent_region_name = region_transformed_group_names[parent_region_id]
@@ -1000,7 +999,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Add site groups as children of region groups
         for site_id in self.sites_lookup:
             region_id = self.sites_region_lookup.get(site_id, None)
-            if region_id == None:
+            if region_id is None:
                 continue
 
             region_transformed_group_name = region_transformed_group_names[region_id]
