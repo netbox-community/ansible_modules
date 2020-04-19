@@ -165,6 +165,19 @@ Using the **collections** lookup plugin at the task level
         query_result: "{{ query('nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 ```
 
+### Using **nb_inventory** Within AWX/Tower
+
+This will cover the basic usage of the NetBox inventory plugin within this collection.
+
+1. Define `collections/requirements.yml` within a Git project.
+    1. AWX/Tower will download the collection on each run. This can be handled differently or excluded if storing Ansible Collections on the AWX/Tower box.
+    2. Define `inventory.yml` in Git project that adheres to inventory plugin structure.
+2. Add Git project to AWX/Tower as a project.
+3. Create inventory and select `source from project`.
+    1. Select the AWX/Tower project from Step 2
+    2. Select the `inventory.yml` file in the project from Step 1.1
+    3. Click `Save` and sync source.
+
 ## How to Contribute
 
 Please read ![Contributing](CONTRIBUTING.md)
