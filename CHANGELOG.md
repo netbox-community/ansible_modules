@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.2.0
+
+### Breaking Changes
+
+- [#139](https://github.com/netbox-community/ansible_modules/issues/139) - Change `ip-addresses` key in netbox inventory plugin to `ip_addresses`.
+
+### Bug Fixes
+- [#45](https://github.com/netbox-community/ansible_modules/issues/45) - Allow integers to be passed in via Jinja string to properly convert back to integer
+- [#158](https://github.com/netbox-community/ansible_modules/issues/158) - Removed choices within argument_spec for `mode` in `netbox_device_interface` and `netbox_vm_interface`. This allows the API to return any error if an invalid choice is selected for `mode`.
+- [#151](https://github.com/netbox-community/ansible_modules/issues/151) - Fixed dict iteration error for Python3.8
+- [#167](https://github.com/netbox-community/ansible_modules/issues/167) - Updated rack width choices for latest NetBox version
+- [#166](https://github.com/netbox-community/ansible_modules/issues/166) - Properly find LAG if defined just as a string rather than dictionary with the relevant data
+- [#174](https://github.com/netbox-community/ansible_modules/issues/174) - Allow services to be created with a different protocol
+
+### Enhancements
+
+- [#136](https://github.com/netbox-community/ansible_modules/pull/136) - Added `raw_output` option to netbox lookup plugin to return the exact output from the API with no doctoring
+- [#105](https://github.com/netbox-community/ansible_modules/issues/105) - Added `update_vc_child` option to netbox_device_interface to allow child interfaces to be updated if device specified is the master device within the virtual chassis
+- [#143](https://github.com/netbox-community/ansible_modules/pull/143) - Added `services` option to the netbox inventory to allow users to toggle whether services are included or not
+- [#138](https://github.com/netbox-community/ansible_modules/issues/138) - Added `group_names_raw` option to the netbox inventory to allow users have the group names be the slug rather than prepending the group name with the type
+- [#170](https://github.com/netbox-community/ansible_modules/issues/170) - Add `custom_fields` to `netbox_virtual_machine`
+- [#140](https://github.com/netbox-community/ansible_modules/issues/140) - Add `device_query_filters` and `vm_query_filters` to allow users to specify query filters for the specific type
+
+### Ansible Core Related Changes
+
+- [#124](https://github.com/netbox-community/ansible_modules/issues/124) - Added netbox_interface from Ansible core, but the module is deprecated in favor of netbox_device_interface and netbox_vm_interface
+
+### Thanks for the following contributors!
+
+- @DouglasHeriot
+- @toerb
+- @malbertus
+- @ThomasADavis
+- @Duck-dave
+- @Jamboon-beurre
+- @smolz
+- @Yannis100
+- @jqueuniet
+- @ignatenkobrain
+- @pugnacity
+
 ## v0.1.10
 
 ### Bug Fixes
