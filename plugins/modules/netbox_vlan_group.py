@@ -81,7 +81,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test vlan group 
+          name: Test vlan group
         state: absent
 """
 
@@ -135,5 +135,5 @@ def main():
     netbox_vlan_group.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

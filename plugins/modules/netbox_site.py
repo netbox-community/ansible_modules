@@ -258,5 +258,5 @@ def main():
     netbox_site.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

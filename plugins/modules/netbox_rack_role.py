@@ -82,7 +82,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Rack role 
+          name: Test Rack role
         state: absent
 """
 
@@ -136,5 +136,5 @@ def main():
     netbox_rack_role.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
