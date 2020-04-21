@@ -18,7 +18,7 @@ jobs:
     # Previous release of Netbox, latest release of Ansible
     - name: "Python 3.6 - Netbox 2.6 - Latest PyPi Ansible"
       python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.6
+      env: PYTHON_VER=3.6 VERSION=v2.6 INTEGRATION_TESTS=v2.6
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -36,7 +36,7 @@ jobs:
     - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
       python: 3.6
       env:
-      - PYTHON_VER=3.6 VERSION=v2.7
+      - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -54,7 +54,7 @@ jobs:
     - name: "Python 3.7 - Netbox 2.8 - Latest PyPi Ansible"
       python: 3.7
       env:
-      - PYTHON_VER=3.7 VERSION=v2.8
+      - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -72,7 +72,7 @@ jobs:
     # Failures will be allowed in this build
     - name: "Python 3.8 - Netbox develop branch (snapshot) - Ansible Devel"
       python: 3.8
-      env: PYTHON_VER=3.8 VERSION=snapshot
+      env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -90,7 +90,7 @@ jobs:
         - cd  ..
   allow_failures:
     # When testing against dev netbox and dev ansible, allow failures
-    - env: PYTHON_VER=3.8 VERSION=snapshot
+    - env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
 
 before_script:
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
@@ -129,17 +129,14 @@ script:
   - python tests/integration/netbox-deploy.py
 
   # Run regression and integration tests
-
   # Run the inventory test first, in case any of the other tests modify the data.
   # -vvvv is too much for integration tests
-  # Only run on Netbox > 2.6 - test data is different with API 2.6, haven't yet worked out a difference
-  - if [ "$VERSION" != "v2.6" ] ; then ansible-test integration -vv --coverage --python $PYTHON_VER inventory; fi
-
-  - ansible-playbook tests/integration/regression-tests.yml -vvvv
-  - ansible-playbook tests/integration/$VERSION/main.yml -vvvv
+  - ansible-test integration -vv --coverage --python $PYTHON_VER inventory
+  - ansible-test integration -vvv --coverage --python $PYTHON_VER regression
+  - ansible-test integration -vvv --coverage --python $PYTHON_VER $INTEGRATION_TESTS
 
   # Report code coverage
-  - ansible-test coverage report
+  - ansible-test coverage report --all --omit "tests/*,hacking/*" --show-missing
 
 deploy:
   provider: script

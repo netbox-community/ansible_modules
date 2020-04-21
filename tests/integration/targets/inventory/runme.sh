@@ -3,7 +3,10 @@
 # Print commands as they're run
 set -x
 
-PATH_TO_INVENTORIES="$( dirname "${BASH_SOURCE[0]}" )/files"
+# Directory of this script
+SCRIPT_DIR="$( dirname "${BASH_SOURCE[0]}" )"
+
+INVENTORIES_DIR="$SCRIPT_DIR/files"
 
 # OUTPUT_DIR is set by ansible-test
 # OUTPUT_INVENTORY_JSON is only set if running hacking/update_test_inventories.sh to update the test diff data
@@ -16,7 +19,7 @@ echo OUTPUT_DIR="$OUTPUT_DIR"
 
 RESULT=0
 
-for INVENTORY in "$PATH_TO_INVENTORIES"/*.yml
+for INVENTORY in "$INVENTORIES_DIR"/*.yml
 do
     NAME="$(basename "$INVENTORY")"
     NAME_WITHOUT_EXTENSION="${NAME%.yml}"
@@ -27,7 +30,7 @@ do
     python.py "$(command -v ansible-inventory)" -vvvv --list --inventory "$INVENTORY" --output="$OUTPUT_JSON"
 
     # Compare the output
-    if ! ./compare_inventory_json.py "$PATH_TO_INVENTORIES/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
+    if ! ./compare_inventory_json.py "$INVENTORIES_DIR/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
     then
         # Returned non-zero status
         RESULT=1

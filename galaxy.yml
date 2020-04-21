@@ -46,7 +46,11 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
+  # Required for ipaddress python library
   ansible.netcommon: "*"
+
+  # Required for json_query used in lookup plugin integration tests
+  community.general: "*"
 
 # The URL of the originating SCM repository
 repository: https://github.com/netbox-community/ansible_modules

@@ -15,7 +15,8 @@ from typing import Iterable
 # Netbox includes created and last_updated times on objects.
 # These end up in the interfaces objects that are included verbatim from the Netbox API.
 # Ignore these when performing diffs as they will be different for each test run
-ignored_keys = set(["created", "last_updated"])
+ignored_keys = set(["created", "last_updated", "form_factor", "type", "status"])
+# interface "form_factor", "type" and ip_addresses "status" are differnt in Netbox 2.6 vs 2.7 APIs
 
 
 # Assume the object will not be recursive, as it originally came from JSON
