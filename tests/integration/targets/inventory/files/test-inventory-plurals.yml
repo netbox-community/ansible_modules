@@ -3,6 +3,11 @@ api_endpoint: "http://localhost:32768"
 token: "0123456789abcdef0123456789abcdef01234567"
 validate_certs: false
 
+cache: True
+cache_timeout: 3600
+cache_plugin: jsonfile
+cache_connection: /tmp/inventory_netbox
+
 config_context: True
 plurals: True
 interfaces: True

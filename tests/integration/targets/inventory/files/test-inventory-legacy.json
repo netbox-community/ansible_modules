@@ -1,0 +1,183 @@
+{
+    "_meta": {
+        "hostvars": {
+            "R1-Device": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "racks": [
+                    "Test Rack"
+                ],
+                "regions": [],
+                "services": [],
+                "sites": [
+                    "test-site2"
+                ],
+                "tags": []
+            },
+            "Test Nexus Child One": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "nexus-child"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "Test Nexus One": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "nexus-parent"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "TestDeviceR1": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test100": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test100-vm": {
+                "custom_fields": {},
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test101-vm": {
+                "custom_fields": {},
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test102-vm": {
+                "custom_fields": {},
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test103-vm": {
+                "custom_fields": {},
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            },
+            "test104-vm": {
+                "custom_fields": {},
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
+                "tags": []
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped"
+        ]
+    },
+    "ungrouped": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus Child One",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    }
+}

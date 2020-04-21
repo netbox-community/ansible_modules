@@ -16,13 +16,13 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
+                "racks": [
+                    "Test Rack"
                 ],
+                "regions": [],
                 "services": [],
                 "sites": [
-                    "test-site"
+                    "test-site2"
                 ],
                 "tags": []
             },
@@ -165,7 +165,7 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.1/24",
-                                "created": "2020-04-15",
+                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -186,7 +186,7 @@
                                     "url": "http://localhost:32768/api/dcim/interfaces/2/",
                                     "virtual_machine": null
                                 },
-                                "last_updated": "2020-04-15T12:20:32.688030Z",
+                                "last_updated": "2020-04-21T14:01:20.151503Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -233,7 +233,7 @@
                         "ip_addresses": [
                             {
                                 "address": "2001::1:1/64",
-                                "created": "2020-04-15",
+                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -254,7 +254,7 @@
                                     "url": "http://localhost:32768/api/dcim/interfaces/3/",
                                     "virtual_machine": null
                                 },
-                                "last_updated": "2020-04-15T12:20:32.692595Z",
+                                "last_updated": "2020-04-21T14:01:20.156802Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -603,8 +603,10 @@
             "device_types_nexus_child",
             "device_types_nexus_parent",
             "manufacturers_cisco",
+            "racks_Test_Rack",
             "region_other_region",
             "region_parent_region",
+            "sites_test_site2",
             "ungrouped"
         ]
     },
@@ -643,6 +645,11 @@
             "test100"
         ]
     },
+    "racks_Test_Rack": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
     "region_parent_region": {
         "children": [
             "region_test_region"
@@ -655,7 +662,6 @@
     },
     "sites_test_site": {
         "hosts": [
-            "R1-Device",
             "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
@@ -665,6 +671,11 @@
             "test102-vm",
             "test103-vm",
             "test104-vm"
+        ]
+    },
+    "sites_test_site2": {
+        "hosts": [
+            "R1-Device"
         ]
     }
 }

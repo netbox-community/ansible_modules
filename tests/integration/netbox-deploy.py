@@ -160,6 +160,7 @@ core_switch = nb.dcim.device_roles.get(slug="core-switch")
 ## Create Racks
 racks = [{"name": "Test Rack", "slug": "test-rack", "site": test_site2.id}]
 created_racks = nb.dcim.racks.create(racks)
+test_rack = nb.dcim.racks.get(slug="test-rack")
 
 
 ## Create Rack Groups
@@ -193,7 +194,8 @@ devices = [
         "name": "R1-Device",
         "device_type": cisco_test.id,
         "device_role": core_switch.id,
-        "site": test_site.id,
+        "site": test_site2.id,
+        "rack": test_rack.id,
     },
     {
         "name": "Test Nexus One",
