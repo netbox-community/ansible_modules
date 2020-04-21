@@ -5,40 +5,50 @@
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
                 "device_types": [
                     "cisco-test"
                 ],
+                "interfaces": [],
                 "manufacturers": [
                     "cisco"
                 ],
+                "regions": [],
+                "services": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "Test Nexus Child One": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
                 "device_types": [
                     "nexus-child"
                 ],
+                "interfaces": [],
                 "manufacturers": [
                     "cisco"
                 ],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "Test Nexus One": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -81,31 +91,39 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "TestDeviceR1": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
                 "device_types": [
                     "cisco-test"
                 ],
+                "interfaces": [],
                 "manufacturers": [
                     "cisco"
                 ],
+                "regions": [],
+                "services": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test100": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -253,14 +271,18 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "regions": [],
+                "services": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test100-vm": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
@@ -373,14 +395,17 @@
                         }
                     }
                 ],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test101-vm": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
@@ -493,33 +518,47 @@
                         }
                     }
                 ],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test102-vm": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test103-vm": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             },
             "test104-vm": {
                 "config_context": [
                     {}
                 ],
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
                 "sites": [
                     "test-site"
-                ]
+                ],
+                "tags": []
             }
         }
     },

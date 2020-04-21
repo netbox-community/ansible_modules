@@ -2,18 +2,31 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "cisco-test",
+                "interfaces": [],
                 "manufacturer": "cisco",
+                "regions": [],
                 "role": "core-switch",
-                "site": "test-site"
+                "services": [],
+                "site": "test-site",
+                "tags": []
             },
             "Test Nexus Child One": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "nexus-child",
+                "interfaces": [],
                 "manufacturer": "cisco",
+                "regions": [],
                 "role": "core-switch",
-                "site": "test-site"
+                "site": "test-site",
+                "tags": []
             },
             "Test Nexus One": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "nexus-parent",
                 "interfaces": [
                     {
@@ -49,16 +62,26 @@
                     }
                 ],
                 "manufacturer": "cisco",
+                "regions": [],
                 "role": "core-switch",
-                "site": "test-site"
+                "site": "test-site",
+                "tags": []
             },
             "TestDeviceR1": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "cisco-test",
+                "interfaces": [],
                 "manufacturer": "cisco",
+                "regions": [],
                 "role": "core-switch",
-                "site": "test-site"
+                "services": [],
+                "site": "test-site",
+                "tags": []
             },
             "test100": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "cisco-test",
                 "interfaces": [
                     {
@@ -199,10 +222,15 @@
                     }
                 ],
                 "manufacturer": "cisco",
+                "regions": [],
                 "role": "core-switch",
-                "site": "test-site"
+                "services": [],
+                "site": "test-site",
+                "tags": []
             },
             "test100-vm": {
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
@@ -315,9 +343,13 @@
                         }
                     }
                 ],
-                "site": "test-site"
+                "regions": [],
+                "site": "test-site",
+                "tags": []
             },
             "test101-vm": {
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
@@ -430,16 +462,33 @@
                         }
                     }
                 ],
-                "site": "test-site"
+                "regions": [],
+                "site": "test-site",
+                "tags": []
             },
             "test102-vm": {
-                "site": "test-site"
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
+                "site": "test-site",
+                "tags": []
             },
             "test103-vm": {
-                "site": "test-site"
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
+                "site": "test-site",
+                "tags": []
             },
             "test104-vm": {
-                "site": "test-site"
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [],
+                "regions": [],
+                "site": "test-site",
+                "tags": []
             }
         }
     },

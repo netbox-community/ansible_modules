@@ -1021,11 +1021,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def _fill_host_variables(self, host, hostname):
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
-            if not extracted_value:
+
+            # Compare with None, not just check for a truth comparison - allow empty arrays, etc to be host vars
+            if extracted_value is None:
                 continue
 
             # Special case - all group_by options are single strings, but tag is a list of tags
-            # Keep the groups named singular "tag_sometag", but host attribute should be "tags":["sometag"]
+            # Keep the groups named singular "tag_sometag", but host attribute should be "tags":["sometag", "someothertag"]
             if attribute == "tag":
                 attribute = "tags"
 
