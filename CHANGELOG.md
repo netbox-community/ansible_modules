@@ -22,6 +22,8 @@
 - [#138](https://github.com/netbox-community/ansible_modules/issues/138) - Added `group_names_raw` option to the netbox inventory to allow users have the group names be the slug rather than prepending the group name with the type
 - [#170](https://github.com/netbox-community/ansible_modules/issues/170) - Add `custom_fields` to `netbox_virtual_machine`
 - [#140](https://github.com/netbox-community/ansible_modules/issues/140) - Add `device_query_filters` and `vm_query_filters` to allow users to specify query filters for the specific type
+- [#183](https://github.com/netbox-community/ansible_modules/issues/183) - Remove token from being required for nb_lookup as some NetBox setups don't require authorization for GET functions
+- [#177](https://github.com/netbox-community/ansible_modules/issues/177) - Remove token from being required for nb_inventory as some NetBox setups don't require authorization for GET functions
 
 ### Ansible Core Related Changes
 
@@ -40,6 +42,7 @@
 - @jqueuniet
 - @ignatenkobrain
 - @pugnacity
+- @martink2
 
 ## v0.1.10
 
