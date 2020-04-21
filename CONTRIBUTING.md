@@ -1,5 +1,7 @@
 # Contributing
 
+## Modules
+
 The structure of the Netbox modules attempts to follow the layout of the Netbox API by having a module_util for each application (`dcim, ipam, tenancy, etc`) that inherits from a base module (`NetboxModule - netbox_utils.py`) and then implements the specific endpoints within the correct application module.
 
 e.g. Add logic for adding devices under netbox_dcim.py or ip addresses under netbox_ipam.py
@@ -257,7 +259,7 @@ Copying an existing module that has close to the same options is typically the p
 - Change the author: `Copyright: (c) 2018, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>`
 - Update the **DOCUMENTATION**/**EXAMPLES**/**RETURN** string with the necessary information
   - Main things are module, descriptions, author, version and the sub options under data
-  - The **RETURN** should return the singluar of the endpoint name (done dynamically, but needs to be documented correctly)
+  - The **RETURN** should return the singular of the endpoint name (done dynamically, but needs to be documented correctly)
 - Update the module_util, module, and endpoint variable for the endpoint
 
   ```python
@@ -296,3 +298,50 @@ Copying an existing module that has close to the same options is typically the p
 - Run `black .` within the base directory for black formatting as it's required for tests to pass
 - Run `ansible-lint integration-tests.yml` it's required for tests to pass
 - Check necessary dependencies defined within `.travis.yml` for now if you're wanting to test locally
+
+
+## Inventory
+
+Integration tests are run by comparing `ansible-inventory --list` against known output, for a few different inventory files with different options.
+
+When the inventory plugin is updated in a way that changes this output (or `netbox-deploy.py` is changed), the test data used for comparison will need to be updated. There is a script `./hacking/update_test_inventories.sh` to do this.
+
+Run from the root project working directory, and make sure you have a clean test instance of Netbox set up with test data loaded into it from `./tests/integration/netbox-deploy.py`
+
+```
+./hacking/update_test_inventories.sh
+```
+
+After running the script, to prevent introducing a regression you'll need to manually read through the diff to verify it looks correct.
+
+
+# Setting up a local dev/test environment
+
+You can see the specific details of what happens in CI in  `.travis.yml`. An overview of what you need to do is:
+
+* Run a test instance of Netbox on port 32768. The `netbox-docker` project makes this easy.
+
+```
+git clone git@github.com:netbox-community/netbox-docker.git
+cd netbox-docker
+export VERSION=snapshot
+docker-compose pull
+docker-compose up -d
+```
+
+* Check out this repo to a directory named `netbox` in a directory tree `ansible_collections/netbox/netbox` - running some `ansible-test` commands will complain if there's no `ansible_collections` in the current directory path, so you'd have to build/install the collection every time you want to run tests.
+
+```
+git clone git@github.com:netbox-community/ansible_modules.git ansible_collections/netbox/netbox
+```
+
+* Recommended - set up a Python virtualenv, in a directory above the collection. If you create a virtualenv inside the `ansible_modules` working directory `ansible-galaxy collection build` will include it as part of the build (until Ansible 2.10 where `build_ignore` is supported)
+
+```
+cd ../../..
+python3 -m venv venv
+source venv/bin/activate
+cd ansible_collections/netbox/netbox
+```
+
+* Install required python packages - see `.travis.yml` for the latest `pip install` list in different environments.

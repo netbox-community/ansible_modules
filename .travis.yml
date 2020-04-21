@@ -128,7 +128,7 @@ script:
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
 
   # Prepare data in Netbox
-  - python tests/integration/netbox-deploy.py
+  - ./tests/integration/netbox-deploy.py
 
   # Run regression and integration tests
   # Run the inventory test first, in case any of the other tests modify the data.
@@ -143,6 +143,6 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ansible-galaxy collection publish $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz --api-key="$GALAXY_API_TOKEN"
+  script: ansible-galaxy collection publish ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME/$COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz --api-key="$GALAXY_API_TOKEN"
   on:
     tags: true

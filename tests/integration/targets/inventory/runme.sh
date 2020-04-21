@@ -17,6 +17,18 @@ fi
 
 echo OUTPUT_DIR="$OUTPUT_DIR"
 
+inventory () {
+    if [ -n "$OUTPUT_INVENTORY_JSON" ]
+    then
+        # Running for the purpose of updating test data
+        ansible-inventory "$@"
+    else
+        # Running inside ansible-test
+        python.py "$(command -v ansible-inventory)" "$@"
+    fi
+}
+
+
 RESULT=0
 
 for INVENTORY in "$INVENTORIES_DIR"/*.yml
@@ -27,10 +39,10 @@ do
     # Run through python.py just to make sure we've definitely got the coverage environment set up
     # Just running ansible-inventory directly may not actually find the right one in PATH
     OUTPUT_JSON="$OUTPUT_DIR/$NAME_WITHOUT_EXTENSION.json"
-    python.py "$(command -v ansible-inventory)" -vvvv --list --inventory "$INVENTORY" --output="$OUTPUT_JSON"
+    inventory -vvvv --list --inventory "$INVENTORY" --output="$OUTPUT_JSON"
 
     # Compare the output
-    if ! ./compare_inventory_json.py "$INVENTORIES_DIR/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
+    if ! "$SCRIPT_DIR/compare_inventory_json.py" "$INVENTORIES_DIR/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
     then
         # Returned non-zero status
         RESULT=1
