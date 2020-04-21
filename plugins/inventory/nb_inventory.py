@@ -42,8 +42,10 @@ DOCUMENTATION = """
             default: False
             type: boolean
         token:
-            required: True
-            description: NetBox token.
+            required: False
+            description:
+              - NetBox API token to be able to read against NetBox.
+              - This may not be required depending on the NetBox setup.
             env:
                 # in order of precedence
                 - name: NETBOX_TOKEN
@@ -59,7 +61,7 @@ DOCUMENTATION = """
                 - If True, it adds the device or virtual machine services information in host vars.
             default: True
             type: boolean
-            version_added: "2.0"
+            version_added: "0.2.0"
         group_by:
             description: Keys used to create groups.
             type: list
@@ -896,11 +898,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.headers = {
-            "Authorization": "Token %s" % token,
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ")[0]),
             "Content-type": "application/json",
         }
+        if token:
+            self.headers.update({"Authorization": "Token %s" % token})
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
