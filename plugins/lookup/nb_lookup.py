@@ -47,7 +47,8 @@ DOCUMENTATION = """
         token:
             description:
                 - The API token created through Netbox
-            required: True
+                - This may not be required depending on the Netbox setup.
+            required: False
         key_file:
             description:
                 - The location of the private key tied to user account.
@@ -199,7 +200,7 @@ class LookupModule(LookupBase):
         try:
             netbox = pynetbox.api(
                 netbox_api_endpoint,
-                token=netbox_api_token,
+                token=netbox_api_token if netbox_api_token else None,
                 private_key_file=netbox_private_key_file,
             )
         except FileNotFoundError:
