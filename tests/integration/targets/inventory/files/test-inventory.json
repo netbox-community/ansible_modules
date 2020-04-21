@@ -7,7 +7,10 @@
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "manufacturer": "cisco",
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site",
@@ -19,7 +22,10 @@
                 "device_type": "nexus-child",
                 "interfaces": [],
                 "manufacturer": "cisco",
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "role": "core-switch",
                 "site": "test-site",
                 "tags": []
@@ -62,7 +68,10 @@
                     }
                 ],
                 "manufacturer": "cisco",
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "role": "core-switch",
                 "site": "test-site",
                 "tags": []
@@ -73,14 +82,21 @@
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "manufacturer": "cisco",
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site",
                 "tags": []
             },
             "test100": {
-                "config_context": {},
+                "config_context": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "interfaces": [
@@ -222,7 +238,10 @@
                     }
                 ],
                 "manufacturer": "cisco",
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site",
@@ -343,7 +362,10 @@
                         }
                     }
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "site": "test-site",
                 "tags": []
             },
@@ -462,7 +484,10 @@
                         }
                     }
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "site": "test-site",
                 "tags": []
             },
@@ -470,7 +495,10 @@
                 "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "site": "test-site",
                 "tags": []
             },
@@ -478,7 +506,10 @@
                 "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "site": "test-site",
                 "tags": []
             },
@@ -486,7 +517,10 @@
                 "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "site": "test-site",
                 "tags": []
             }
@@ -498,9 +532,9 @@
             "device_type_nexus_child",
             "device_type_nexus_parent",
             "manufacturer_cisco",
-            "region_test_region",
+            "region_other_region",
+            "region_parent_region",
             "role_core_switch",
-            "site_test_site",
             "ungrouped"
         ]
     },
@@ -528,6 +562,16 @@
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
+        ]
+    },
+    "region_parent_region": {
+        "children": [
+            "region_test_region"
+        ]
+    },
+    "region_test_region": {
+        "children": [
+            "site_test_site"
         ]
     },
     "role_core_switch": {

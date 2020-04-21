@@ -16,7 +16,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
                 "sites": [
                     "test-site"
@@ -38,7 +41,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -91,7 +97,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -112,7 +121,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
                 "sites": [
                     "test-site"
@@ -121,7 +133,11 @@
             },
             "test100": {
                 "config_context": [
-                    {}
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
                 ],
                 "custom_fields": {},
                 "device_roles": [
@@ -271,7 +287,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
                 "sites": [
                     "test-site"
@@ -395,7 +414,10 @@
                         }
                     }
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -518,7 +540,10 @@
                         }
                     }
                 ],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -530,7 +555,10 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -542,7 +570,10 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -554,7 +585,10 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -569,8 +603,8 @@
             "device_types_nexus_child",
             "device_types_nexus_parent",
             "manufacturers_cisco",
-            "region_test_region",
-            "sites_test_site",
+            "region_other_region",
+            "region_parent_region",
             "ungrouped"
         ]
     },
@@ -607,6 +641,16 @@
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
+        ]
+    },
+    "region_parent_region": {
+        "children": [
+            "region_test_region"
+        ]
+    },
+    "region_test_region": {
+        "children": [
+            "sites_test_site"
         ]
     },
     "sites_test_site": {
