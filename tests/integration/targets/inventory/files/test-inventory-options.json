@@ -1,4 +1,17 @@
 {
+    "Test_Cluster": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "Test_Cluster_2": {
+        "hosts": [
+            "test104-vm"
+        ]
+    },
     "Test_Rack": {
         "hosts": [
             "R1-Device"
@@ -71,6 +84,9 @@
                 "tags": []
             },
             "test100-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -80,6 +96,9 @@
                 "tags": []
             },
             "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -89,6 +108,9 @@
                 "tags": []
             },
             "test102-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -98,6 +120,9 @@
                 "tags": []
             },
             "test103-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -107,18 +132,18 @@
                 "tags": []
             },
             "test104-vm": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "site": "test-site",
+                "regions": [],
                 "tags": []
             }
         }
     },
     "all": {
         "children": [
+            "Test_Cluster",
+            "Test_Cluster_2",
             "Test_Rack",
             "cisco",
             "cisco_test",
@@ -128,6 +153,8 @@
             "nexus_parent",
             "other_region",
             "parent_region",
+            "test_cluster_group",
+            "test_cluster_type",
             "test_site2",
             "ungrouped"
         ]
@@ -179,6 +206,23 @@
             "test_region"
         ]
     },
+    "test_cluster_group": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "test_cluster_type": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "test_region": {
         "children": [
             "test_site"
@@ -193,8 +237,7 @@
             "test100-vm",
             "test101-vm",
             "test102-vm",
-            "test103-vm",
-            "test104-vm"
+            "test103-vm"
         ]
     },
     "test_site2": {

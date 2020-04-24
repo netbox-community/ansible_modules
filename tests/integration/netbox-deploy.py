@@ -247,6 +247,7 @@ created_rirs = nb.ipam.rirs.create(rirs)
 ## Create Cluster Group
 cluster_groups = [{"name": "Test Cluster Group", "slug": "test-cluster-group"}]
 created_cluster_groups = nb.virtualization.cluster_groups.create(cluster_groups)
+test_cluster_group = nb.virtualization.cluster_groups.get(slug="test-cluster-group")
 
 ## Create Cluster Type
 cluster_types = [{"name": "Test Cluster Type", "slug": "test-cluster-type"}]
@@ -255,10 +256,17 @@ test_cluster_type = nb.virtualization.cluster_types.get(slug="test-cluster-type"
 
 ## Create Cluster
 clusters = [
-    {"name": "Test Cluster", "type": test_cluster_type.id, "site": test_site.id}
+    {
+        "name": "Test Cluster",
+        "type": test_cluster_type.id,
+        "group": test_cluster_group.id,
+        "site": test_site.id,
+    },
+    {"name": "Test Cluster 2", "type": test_cluster_type.id,},
 ]
 created_clusters = nb.virtualization.clusters.create(clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
+test_cluster2 = nb.virtualization.clusters.get(name="Test Cluster 2")
 
 ## Create Virtual Machine
 virtual_machines = [
@@ -266,7 +274,7 @@ virtual_machines = [
     {"name": "test101-vm", "cluster": test_cluster.id},
     {"name": "test102-vm", "cluster": test_cluster.id},
     {"name": "test103-vm", "cluster": test_cluster.id},
-    {"name": "test104-vm", "cluster": test_cluster.id},
+    {"name": "test104-vm", "cluster": test_cluster2.id},
 ]
 created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
 test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")

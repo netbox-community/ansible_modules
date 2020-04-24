@@ -105,6 +105,9 @@
                 "tags": []
             },
             "test100-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -116,6 +119,9 @@
                 "tags": []
             },
             "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -127,6 +133,9 @@
                 "tags": []
             },
             "test102-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -138,6 +147,9 @@
                 "tags": []
             },
             "test103-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "regions": [
                     "test-region",
@@ -149,14 +161,10 @@
                 "tags": []
             },
             "test104-vm": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "sites": [
-                    "test-site"
-                ],
+                "regions": [],
                 "tags": []
             }
         }
