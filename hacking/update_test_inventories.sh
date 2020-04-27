@@ -13,6 +13,9 @@ set -e
 export ANSIBLE_COLLECTIONS_PATHS=.
 export OUTPUT_INVENTORY_JSON=tests/integration/targets/inventory/files
 
+# Remove local cache
+rm -rf /tmp/inventory_netbox/
+
 # Clean and install the built collection
 ./hacking/local-test.sh
 

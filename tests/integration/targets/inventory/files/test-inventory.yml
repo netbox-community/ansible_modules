@@ -18,3 +18,6 @@ group_by:
   - manufacturer
   - platform
   - region
+  - cluster
+  - cluster_group
+  - cluster_type

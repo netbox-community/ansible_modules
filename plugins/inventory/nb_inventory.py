@@ -89,6 +89,9 @@ DOCUMENTATION = """
                 - platforms
                 - platform
                 - region
+                - cluster
+                - cluster_type
+                - cluster_group
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -497,6 +500,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "interfaces": self.extract_interfaces,
                 "custom_fields": self.extract_custom_fields,
                 "region": self.extract_regions,
+                "cluster": self.extract_cluster,
+                "cluster_group": self.extract_cluster_group,
+                "cluster_type": self.extract_cluster_type,
             }
         else:
             return {
@@ -516,6 +522,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "interfaces": self.extract_interfaces,
                 "custom_fields": self.extract_custom_fields,
                 "region": self.extract_regions,
+                "cluster": self.extract_cluster,
+                "cluster_group": self.extract_cluster_group,
+                "cluster_type": self.extract_cluster_type,
             }
 
     def _pluralize(self, extracted_value):
@@ -719,6 +728,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return regions
 
+    def extract_cluster(self, host):
+        try:
+            # cluster does not have a slug
+            return host["cluster"]["name"]
+        except Exception:
+            return
+
+    def extract_cluster_group(self, host):
+        try:
+            return self.clusters_group_lookup[host["cluster"]["id"]]
+        except Exception:
+            return
+
+    def extract_cluster_type(self, host):
+        try:
+            return self.clusters_type_lookup[host["cluster"]["id"]]
+        except Exception:
+            return
+
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
@@ -791,6 +819,32 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             (manufacturer["id"], manufacturer["slug"]) for manufacturer in manufacturers
         )
 
+    def refresh_clusters_lookup(self):
+        url = self.api_endpoint + "/api/virtualization/clusters/?limit=0"
+        clusters = self.get_resource_list(api_url=url)
+
+        def get_cluster_type(cluster):
+            # Will fail if cluster does not have a type (required property so should always be true)
+            try:
+                return (cluster["id"], cluster["type"]["slug"])
+            except Exception:
+                return (cluster["id"], None)
+
+        def get_cluster_group(cluster):
+            # Will fail if cluster does not have a group (group is optional)
+            try:
+                return (cluster["id"], cluster["group"]["slug"])
+            except Exception:
+                return (cluster["id"], None)
+
+        self.clusters_type_lookup = dict(
+            filter(lambda x: x is not None, map(get_cluster_type, clusters))
+        )
+
+        self.clusters_group_lookup = dict(
+            filter(lambda x: x is not None, map(get_cluster_group, clusters))
+        )
+
     @property
     def lookup_processes(self):
         return [
@@ -802,6 +856,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,
             self.refresh_manufacturers_lookup,
+            self.refresh_clusters_lookup,
         ]
 
     def refresh_lookups(self):
