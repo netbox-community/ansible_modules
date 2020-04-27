@@ -69,7 +69,7 @@ options:
         type: str
       tags:
         description:
-          - What tags to add/update 
+          - What tags to add/update
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
@@ -117,7 +117,7 @@ EXAMPLES = r"""
   tasks:
     - name: Delete service
       netbox_service:
-        netbox_url: netbox_url  
+        netbox_url: netbox_url
         netbox_token: netbox_token
         data:
           device: Test666
@@ -172,5 +172,5 @@ def main():
     netbox_service.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

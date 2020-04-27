@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
 import pynetbox
 
 # Set nb variable to connec to Netbox and use the veriable in future calls
@@ -18,9 +24,30 @@ tenant_groups = [{"name": "Test Tenant Group", "slug": "test-tenant-group"}]
 created_tenant_groups = nb.tenancy.tenant_groups.create(tenant_groups)
 
 
+## Create Regions
+regions = [
+    {"name": "Test Region", "slug": "test-region"},
+    {"name": "Parent Region", "slug": "parent-region"},
+    {"name": "Other Region", "slug": "other-region"},
+]
+created_regions = nb.dcim.regions.create(regions)
+### Region variables to be used later on
+parent_region = nb.dcim.regions.get(slug="parent-region")
+test_region = nb.dcim.regions.get(slug="test-region")
+
+### Create relationship between regions
+test_region.parent = parent_region
+test_region.save()
+
+
 ## Create SITES and register variables
 sites = [
-    {"name": "Test Site", "slug": "test-site", "tenant": test_tenant.id},
+    {
+        "name": "Test Site",
+        "slug": "test-site",
+        "tenant": test_tenant.id,
+        "region": test_region.id,
+    },
     {"name": "Test Site2", "slug": "test-site2"},
 ]
 created_sites = nb.dcim.sites.create(sites)
@@ -40,11 +67,6 @@ prefixes = [
     {"prefix": "10.10.0.0/16"},
 ]
 created_prefixes = nb.ipam.prefixes.create(prefixes)
-
-
-## Create Regions
-regions = [{"name": "Test Region", "slug": "test-region"}]
-created_regions = nb.dcim.regions.create(regions)
 
 
 ## Create VLAN GROUPS
@@ -138,6 +160,7 @@ core_switch = nb.dcim.device_roles.get(slug="core-switch")
 ## Create Racks
 racks = [{"name": "Test Rack", "slug": "test-rack", "site": test_site2.id}]
 created_racks = nb.dcim.racks.create(racks)
+test_rack = nb.dcim.racks.get(slug="test-rack")
 
 
 ## Create Rack Groups
@@ -159,6 +182,7 @@ devices = [
         "device_type": cisco_test.id,
         "device_role": core_switch.id,
         "site": test_site.id,
+        "local_context_data": {"ntp_servers": ["pool.ntp.org"]},
     },
     {
         "name": "TestDeviceR1",
@@ -170,7 +194,8 @@ devices = [
         "name": "R1-Device",
         "device_type": cisco_test.id,
         "device_role": core_switch.id,
-        "site": test_site.id,
+        "site": test_site2.id,
+        "rack": test_rack.id,
     },
     {
         "name": "Test Nexus One",

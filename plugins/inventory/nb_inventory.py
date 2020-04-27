@@ -50,6 +50,12 @@ DOCUMENTATION = """
                 # in order of precedence
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_KEY
+        plurals:
+            description:
+                - If True, all host vars are contained inside single-element arrays for legacy compatibility. Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
+            default: True
+            type: boolean
+            version_added: "0.2.1"
         interfaces:
             description:
                 - If True, it adds the device or virtual machine interface information in host vars.
@@ -63,17 +69,26 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         group_by:
-            description: Keys used to create groups.
+            description: Keys used to create groups. The 'plurals' option controls which of these are valid.
             type: list
             choices:
                 - sites
+                - site
                 - tenants
+                - tenant
                 - racks
+                - rack
                 - tags
+                - tag
                 - device_roles
+                - role
                 - device_types
+                - device_type
                 - manufacturers
+                - manufacturer
                 - platforms
+                - platform
+                - region
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -160,7 +175,7 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress
 )
 
 # List of parameters fetched from /api/docs/?format=openapi
-# Use scripts/get_inventory_query_parameters.py to update this
+# Use hacking/get_inventory_query_parameters.py to update this
 
 ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "asset_tag",
@@ -461,23 +476,54 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     @property
     def group_extractors(self):
-        return {
-            "sites": self.extract_site,
-            "tenants": self.extract_tenant,
-            "racks": self.extract_rack,
-            "tags": self.extract_tags,
-            "disk": self.extract_disk,
-            "memory": self.extract_memory,
-            "vcpus": self.extract_vcpus,
-            "device_roles": self.extract_device_role,
-            "platforms": self.extract_platform,
-            "device_types": self.extract_device_type,
-            "services": self.extract_services,
-            "config_context": self.extract_config_context,
-            "manufacturers": self.extract_manufacturer,
-            "interfaces": self.extract_interfaces,
-            "custom_fields": self.extract_custom_fields,
-        }
+
+        # List of group_by options and hostvars to extract
+        # Keys are different depending on plurals option
+        if self.plurals:
+            return {
+                "sites": self.extract_site,
+                "tenants": self.extract_tenant,
+                "racks": self.extract_rack,
+                "tags": self.extract_tags,
+                "disk": self.extract_disk,
+                "memory": self.extract_memory,
+                "vcpus": self.extract_vcpus,
+                "device_roles": self.extract_device_role,
+                "platforms": self.extract_platform,
+                "device_types": self.extract_device_type,
+                "services": self.extract_services,
+                "config_context": self.extract_config_context,
+                "manufacturers": self.extract_manufacturer,
+                "interfaces": self.extract_interfaces,
+                "custom_fields": self.extract_custom_fields,
+                "region": self.extract_regions,
+            }
+        else:
+            return {
+                "site": self.extract_site,
+                "tenant": self.extract_tenant,
+                "rack": self.extract_rack,
+                "tag": self.extract_tags,
+                "disk": self.extract_disk,
+                "memory": self.extract_memory,
+                "vcpus": self.extract_vcpus,
+                "role": self.extract_device_role,
+                "platform": self.extract_platform,
+                "device_type": self.extract_device_type,
+                "services": self.extract_services,
+                "config_context": self.extract_config_context,
+                "manufacturer": self.extract_manufacturer,
+                "interfaces": self.extract_interfaces,
+                "custom_fields": self.extract_custom_fields,
+                "region": self.extract_regions,
+            }
+
+    def _pluralize(self, extracted_value):
+        # If plurals is enabled, wrap in a single-element list for backwards compatibility
+        if self.plurals:
+            return [extracted_value]
+        else:
+            return extracted_value
 
     def extract_disk(self, host):
         return host.get("disk")
@@ -490,7 +536,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_platform(self, host):
         try:
-            return [self.platforms_lookup[host["platform"]["id"]]]
+            return self._pluralize(self.platforms_lookup[host["platform"]["id"]])
         except Exception:
             return
 
@@ -509,48 +555,50 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_device_type(self, host):
         try:
-            return [self.device_types_lookup[host["device_type"]["id"]]]
+            return self._pluralize(self.device_types_lookup[host["device_type"]["id"]])
         except Exception:
             return
 
     def extract_rack(self, host):
         try:
-            return [self.racks_lookup[host["rack"]["id"]]]
+            return self._pluralize(self.racks_lookup[host["rack"]["id"]])
         except Exception:
             return
 
     def extract_site(self, host):
         try:
-            return [self.sites_lookup[host["site"]["id"]]]
+            return self._pluralize(self.sites_lookup[host["site"]["id"]])
         except Exception:
             return
 
     def extract_tenant(self, host):
         try:
-            return [self.tenants_lookup[host["tenant"]["id"]]]
+            return self._pluralize(self.tenants_lookup[host["tenant"]["id"]])
         except Exception:
             return
 
     def extract_device_role(self, host):
         try:
             if "device_role" in host:
-                return [self.device_roles_lookup[host["device_role"]["id"]]]
+                return self._pluralize(
+                    self.device_roles_lookup[host["device_role"]["id"]]
+                )
             elif "role" in host:
-                return [self.device_roles_lookup[host["role"]["id"]]]
+                return self._pluralize(self.device_roles_lookup[host["role"]["id"]])
         except Exception:
             return
 
     def extract_config_context(self, host):
         try:
-            return [host["config_context"]]
+            return self._pluralize(host["config_context"])
         except Exception:
             return
 
     def extract_manufacturer(self, host):
         try:
-            return [
+            return self._pluralize(
                 self.manufacturers_lookup[host["device_type"]["manufacturer"]["id"]]
-            ]
+            )
         except Exception:
             return
 
@@ -638,6 +686,39 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             return
 
+    def extract_regions(self, host):
+        # A host may have a site. A site may have a region. A region may have a parent region.
+        # Produce a list of regions:
+        # - it will be empty if the device has no site, or the site has no region set
+        # - it will have 1 element if the site's region has no parent
+        # - it will have multiple elements if the site's region has a parent region
+
+        site = host.get("site", None)
+        if not isinstance(site, dict):
+            # Device has no site
+            return []
+
+        site_id = site.get("id", None)
+        if site_id is None:
+            # Device has no site
+            return []
+
+        regions = []
+        region_id = self.sites_region_lookup[site_id]
+
+        # Keep looping until the region has no parent
+        while region_id is not None:
+            region_slug = self.regions_lookup[region_id]
+            if region_slug in regions:
+                # Won't ever happen - defensively guard against infinite loop
+                break
+            regions.append(region_slug)
+
+            # Get the parent of this region
+            region_id = self.regions_parent_lookup[region_id]
+
+        return regions
+
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
@@ -650,10 +731,34 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         sites = self.get_resource_list(api_url=url)
         self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
 
+        def get_region_for_site(site):
+            # Will fail if site does not have a region defined in Netbox
+            try:
+                return (site["id"], site["region"]["id"])
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to region id
+        self.sites_region_lookup = dict(
+            filter(lambda x: x is not None, map(get_region_for_site, sites))
+        )
+
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
         regions = self.get_resource_list(api_url=url)
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
+
+        def get_region_parent(region):
+            # Will fail if region does not have a parent region
+            try:
+                return (region["id"], region["parent"]["id"])
+            except Exception:
+                return (region["id"], None)
+
+        # Dictionary of region id to parent region id
+        self.regions_parent_lookup = dict(
+            filter(lambda x: x is not None, map(get_region_parent, regions))
+        )
 
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
@@ -820,41 +925,130 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # We default to an UUID for hostname in case the name is not set in NetBox
         return host["name"] or str(uuid.uuid4())
 
-    def add_host_to_groups(self, host, hostname):
-        for group in self.group_by:
-            sub_groups = self.group_extractors[group](host)
+    def generate_group_name(self, grouping, group):
+        if self.group_names_raw:
+            return group
+        else:
+            return "_".join([grouping, group])
 
-            if not sub_groups:
+    def add_host_to_groups(self, host, hostname):
+
+        # If we're grouping by regions, hosts are not added to region groups
+        # - the site groups are added as sub-groups of regions
+        # So, we need to make sure we're also grouping by sites if regions are enabled
+
+        if "region" in self.group_by:
+            # Make sure "site" or "sites" grouping also exists, depending on plurals options
+            if self.plurals and "sites" not in self.group_by:
+                self.group_by.append("sites")
+            elif not self.plurals and "site" not in self.group_by:
+                self.group_by.append("site")
+
+        for grouping in self.group_by:
+
+            # Don't handle regions here - that will happen in main()
+            if grouping == "region":
                 continue
 
-            for sub_group in sub_groups:
-                if self.group_names_raw:
-                    group_name = sub_group
-                else:
-                    group_name = "_".join([group, sub_group])
-                self.inventory.add_group(group=group_name)
-                self.inventory.add_host(group=group_name, host=hostname)
+            if grouping not in self.group_extractors:
+                raise AnsibleError(
+                    'group_by option "%s" is not valid. (Maybe check the plurals option? It can determine what group_by options are valid)'
+                    % grouping
+                )
+
+            groups_for_host = self.group_extractors[grouping](host)
+
+            if not groups_for_host:
+                continue
+
+            # Make groups_for_host a list if it isn't already
+            if not isinstance(groups_for_host, list):
+                groups_for_host = [groups_for_host]
+
+            for group_for_host in groups_for_host:
+                group_name = self.generate_group_name(grouping, group_for_host)
+
+                # Group names may be transformed by the ansible TRANSFORM_INVALID_GROUP_CHARS setting
+                # add_group returns the actual group name used
+                transformed_group_name = self.inventory.add_group(group=group_name)
+                self.inventory.add_host(group=transformed_group_name, host=hostname)
+
+    def _add_region_groups(self):
+
+        # Mapping of region id to group name
+        region_transformed_group_names = dict()
+
+        # Create groups for each region
+        for region_id in self.regions_lookup:
+            region_group_name = self.generate_group_name(
+                "region", self.regions_lookup[region_id]
+            )
+            region_transformed_group_names[region_id] = self.inventory.add_group(
+                group=region_group_name
+            )
+
+        # Now that all region groups exist, add relationships between them
+        for region_id in self.regions_lookup:
+            region_group_name = region_transformed_group_names[region_id]
+            parent_region_id = self.regions_parent_lookup.get(region_id, None)
+            if (
+                parent_region_id is not None
+                and parent_region_id in region_transformed_group_names
+            ):
+                parent_region_name = region_transformed_group_names[parent_region_id]
+                self.inventory.add_child(parent_region_name, region_group_name)
+
+        # Add site groups as children of region groups
+        for site_id in self.sites_lookup:
+            region_id = self.sites_region_lookup.get(site_id, None)
+            if region_id is None:
+                continue
+
+            region_transformed_group_name = region_transformed_group_names[region_id]
+
+            site_name = self.sites_lookup[site_id]
+            site_group_name = self.generate_group_name(
+                "sites" if self.plurals else "site", site_name
+            )
+            # Add the site group to get its transformed name
+            # Will already be created by add_host_to_groups - it's ok to call add_group again just to get its name
+            site_transformed_group_name = self.inventory.add_group(
+                group=site_group_name
+            )
+
+            self.inventory.add_child(
+                region_transformed_group_name, site_transformed_group_name
+            )
 
     def _fill_host_variables(self, host, hostname):
         for attribute, extractor in self.group_extractors.items():
-            if not extractor(host):
+            extracted_value = extractor(host)
+
+            # Compare with None, not just check for a truth comparison - allow empty arrays, etc to be host vars
+            if extracted_value is None:
                 continue
-            self.inventory.set_variable(hostname, attribute, extractor(host))
 
-        if self.extract_primary_ip(host):
-            self.inventory.set_variable(
-                hostname, "ansible_host", self.extract_primary_ip(host=host)
-            )
+            # Special case - all group_by options are single strings, but tag is a list of tags
+            # Keep the groups named singular "tag_sometag", but host attribute should be "tags":["sometag", "someothertag"]
+            if attribute == "tag":
+                attribute = "tags"
 
-        if self.extract_primary_ip4(host):
-            self.inventory.set_variable(
-                hostname, "primary_ip4", self.extract_primary_ip4(host=host)
-            )
+            if attribute == "region":
+                attribute = "regions"
 
-        if self.extract_primary_ip6(host):
-            self.inventory.set_variable(
-                hostname, "primary_ip6", self.extract_primary_ip6(host=host)
-            )
+            self.inventory.set_variable(hostname, attribute, extracted_value)
+
+        extracted_primary_ip = self.extract_primary_ip(host=host)
+        if extracted_primary_ip:
+            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
+
+        extracted_primary_ip4 = self.extract_primary_ip4(host=host)
+        if extracted_primary_ip4:
+            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
+
+        extracted_primary_ip6 = self.extract_primary_ip6(host=host)
+        if extracted_primary_ip6:
+            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
     def main(self):
         self.refresh_lookups()
@@ -883,6 +1077,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
             self.add_host_to_groups(host=host, hostname=hostname)
 
+        # Create groups for regions, containing the site groups
+        if "region" in self.group_by:
+            self._add_region_groups()
+
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
         self._read_config_data(path=path)
@@ -895,6 +1093,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
+        self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.headers = {

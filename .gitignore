@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 tests/output/*
+venv/
+.vscode/
+
+# https://github.com/ansible/ansible/issues/68499
+# ansible_collections/

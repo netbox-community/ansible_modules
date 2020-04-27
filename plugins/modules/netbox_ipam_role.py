@@ -79,7 +79,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test IPAM Role 
+          name: Test IPAM Role
         state: present
 
     - name: Delete ipam role within netbox
@@ -141,5 +141,5 @@ def main():
     netbox_ipam_role.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

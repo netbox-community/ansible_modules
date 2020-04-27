@@ -182,5 +182,5 @@ def main():
     netbox_circuit_termination.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
