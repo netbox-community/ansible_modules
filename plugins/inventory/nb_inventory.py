@@ -55,7 +55,7 @@ DOCUMENTATION = """
                 - If True, all host vars are contained inside single-element arrays for legacy compatibility. Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
             default: True
             type: boolean
-            version_added: "0.1.11"
+            version_added: "0.2.1"
         interfaces:
             description:
                 - If True, it adds the device or virtual machine interface information in host vars.
@@ -175,7 +175,7 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress
 )
 
 # List of parameters fetched from /api/docs/?format=openapi
-# Use scripts/get_inventory_query_parameters.py to update this
+# Use hacking/get_inventory_query_parameters.py to update this
 
 ALLOWED_DEVICE_QUERY_PARAMETERS = (
     "asset_tag",
@@ -477,6 +477,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     @property
     def group_extractors(self):
 
+        # List of group_by options and hostvars to extract
+        # Keys are different depending on plurals option
         if self.plurals:
             return {
                 "sites": self.extract_site,
@@ -516,12 +518,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "region": self.extract_regions,
             }
 
-    def _pluralize(self, something):
+    def _pluralize(self, extracted_value):
         # If plurals is enabled, wrap in a single-element list for backwards compatibility
         if self.plurals:
-            return [something]
+            return [extracted_value]
         else:
-            return something
+            return extracted_value
 
     def extract_disk(self, host):
         return host.get("disk")
@@ -708,7 +710,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         while region_id is not None:
             region_slug = self.regions_lookup[region_id]
             if region_slug in regions:
-                # Somehow we've got an infinite loop? (Shouldn't ever happen)
+                # Won't ever happen - defensively guard against infinite loop
                 break
             regions.append(region_slug)
 
@@ -747,13 +749,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
 
         def get_region_parent(region):
-            # Will fail if site does not have a region defined in Netbox
+            # Will fail if region does not have a parent region
             try:
                 return (region["id"], region["parent"]["id"])
             except Exception:
                 return (region["id"], None)
 
-        # Diction of region id to parent region id
+        # Dictionary of region id to parent region id
         self.regions_parent_lookup = dict(
             filter(lambda x: x is not None, map(get_region_parent, regions))
         )
