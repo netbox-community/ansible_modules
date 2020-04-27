@@ -52,11 +52,10 @@ jobs:
     # Stick to python 3.7 instead of 3.8, as ansible-test sanity is not compatible with 3.7
     # https://github.com/ansible/ansible/issues/67118
 
-    # Use "snapshot" docker image until netbox-community/netbox#4496 is in a release build of 2.8
-    - name: "Python 3.7 - Netbox 2.8 (snapshot) - Latest PyPi Ansible"
+    - name: "Python 3.7 - Netbox 2.8 - Latest PyPi Ansible"
       python: 3.7
       env:
-      - PYTHON_VER=3.7 VERSION=snapshot INTEGRATION_TESTS=latest
+      - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
