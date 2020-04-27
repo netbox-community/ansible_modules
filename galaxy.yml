@@ -46,7 +46,11 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
+  # Required for ipaddress python library
   ansible.netcommon: "*"
+
+  # Required for json_query used in lookup plugin integration tests
+  community.general: "*"
 
 # The URL of the originating SCM repository
 repository: https://github.com/netbox-community/ansible_modules
@@ -59,3 +63,13 @@ homepage:
 
 # The URL to the collection issue tracker
 issues: https://github.com/netbox-community/ansible_modules/issues
+
+# Files to ignore when building collection. Only supported when building with Ansible 2.10
+# https://github.com/ansible/ansible/issues/67543
+# https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#ignoring-files-and-folders
+build_ignore:
+- venv
+- ansible_collections
+- tests/output
+- .pytest_cache
+- .vscode

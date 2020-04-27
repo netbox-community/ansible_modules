@@ -1,0 +1,96 @@
+---
+##
+##
+### NETBOX_CIRCUIT_TYPE
+##
+##
+- name: "CIRCUIT_TYPE 1: Necessary info creation"
+  netbox.netbox.netbox_circuit_type:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Circuit Type One"
+    state: present
+  register: test_one
+
+- name: "CIRCUIT_TYPE 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['circuit_type']['name'] == "Test Circuit Type One"
+      - test_one['circuit_type']['slug'] == "test-circuit-type-one"
+      - test_one['msg'] == "circuit_type Test Circuit Type One created"
+
+- name: "CIRCUIT_TYPE 2: Create duplicate"
+  netbox.netbox.netbox_circuit_type:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Circuit Type One"
+    state: present
+  register: test_two
+
+- name: "CIRCUIT_TYPE 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['circuit_type']['name'] == "Test Circuit Type One"
+      - test_two['circuit_type']['slug'] == "test-circuit-type-one"
+      - test_two['msg'] == "circuit_type Test Circuit Type One already exists"
+
+- name: "CIRCUIT_TYPE 3: User specified slug"
+  netbox.netbox.netbox_circuit_type:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Circuit Type Two"
+      slug: "test-circuit-type-2"
+    state: present
+  register: test_three
+
+- name: "CIRCUIT_TYPE 3: ASSERT - User specified slug"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "absent"
+      - test_three['diff']['after']['state'] == "present"
+      - test_three['circuit_type']['name'] == "Test Circuit Type Two"
+      - test_three['circuit_type']['slug'] == "test-circuit-type-2"
+      - test_three['msg'] == "circuit_type Test Circuit Type Two created"
+
+- name: "CIRCUIT_TYPE 4: ASSERT - Delete"
+  netbox.netbox.netbox_circuit_type:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Circuit Type One"
+    state: absent
+  register: test_four
+
+- name: "CIRCUIT_TYPE 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['circuit_type']['name'] == "Test Circuit Type One"
+      - test_four['circuit_type']['slug'] == "test-circuit-type-one"
+      - test_four['msg'] == "circuit_type Test Circuit Type One deleted"
+
+- name: "CIRCUIT_TYPE 5: ASSERT - Delete"
+  netbox.netbox.netbox_circuit_type:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Circuit Type Two"
+      slug: "test-circuit-type-2"
+    state: absent
+  register: test_five
+
+- name: "CIRCUIT_TYPE 5: ASSERT - Delete"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['circuit_type']['name'] == "Test Circuit Type Two"
+      - test_five['circuit_type']['slug'] == "test-circuit-type-2"
+      - test_five['msg'] == "circuit_type Test Circuit Type Two deleted"

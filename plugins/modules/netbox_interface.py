@@ -358,5 +358,5 @@ def ensure_interface_absent(nb, nb_endpoint, data):
     return result
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

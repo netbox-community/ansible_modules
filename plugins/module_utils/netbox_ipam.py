@@ -7,7 +7,7 @@ __metaclass__ = type
 
 # Import necessary packages
 import traceback
-from ansible.module_utils.compat import ipaddress
+from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
 

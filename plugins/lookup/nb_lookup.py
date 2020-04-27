@@ -73,7 +73,7 @@ tasks:
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
-This example uses an API Filter
+# This example uses an API Filter
 
 tasks:
   # query a list of devices

@@ -86,7 +86,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant Group ABC 
+          name: Tenant Group ABC
         state: absent
 """
 
@@ -140,5 +140,5 @@ def main():
     netbox_region.run()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()
