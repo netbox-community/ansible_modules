@@ -36,11 +36,25 @@ DOCUMENTATION = """
             type: boolean
         config_context:
             description:
-                - If True, it adds config-context in host vars.
+                - If True, it adds config_context in host vars.
                 - Config-context enables the association of arbitrary data to devices and virtual machines grouped by
                   region, site, role, platform, and/or tenant. Please check official netbox docs for more info.
             default: False
             type: boolean
+        flatten_config_context:
+            description:
+                - If config_context is enabled, by default it's added as a host var named config_context.
+                - If flatten_config_context is set to True, the config context variables will be added directly to the host instead.
+            default: False
+            type: boolean
+            version_added: "0.2.1"
+        flatten_custom_fields:
+            description:
+                - By default, host custom fields are added as a dictionary host var named custom_fields.
+                - If flatten_custom_fields is set to True, the fields will be added directly to the host instead.
+            default: False
+            type: boolean
+            version_added: "0.2.1"
         token:
             required: False
             description:
@@ -599,7 +613,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_config_context(self, host):
         try:
-            return self._pluralize(host["config_context"])
+            if self.flatten_config_context:
+                # Don't wrap in an array if we're about to flatten it to separate host vars
+                return host["config_context"]
+            else:
+                return self._pluralize(host["config_context"])
         except Exception:
             return
 
@@ -1091,7 +1109,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if attribute == "region":
                 attribute = "regions"
 
-            self.inventory.set_variable(hostname, attribute, extracted_value)
+            # Flatten the dict into separate host vars, if enabled
+            if isinstance(extracted_value, dict) and (
+                (attribute == "config_context" and self.flatten_config_context)
+                or (attribute == "custom_fields" and self.flatten_custom_fields)
+            ):
+                for key, value in extracted_value.items():
+                    self.inventory.set_variable(hostname, key, value)
+            else:
+                self.inventory.set_variable(hostname, attribute, extracted_value)
 
         extracted_primary_ip = self.extract_primary_ip(host=host)
         if extracted_primary_ip:
@@ -1148,6 +1174,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
+        self.flatten_config_context = self.get_option("flatten_config_context")
+        self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
