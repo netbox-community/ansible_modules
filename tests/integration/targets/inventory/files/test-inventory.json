@@ -25,6 +25,7 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -71,6 +72,7 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -241,7 +243,67 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
-                "services": [],
+                "services": [
+                    {
+                        "created": "2020-05-04",
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                        },
+                        "id": 1,
+                        "ipaddresses": [],
+                        "last_updated": "2020-05-04T07:24:07.945347Z",
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    },
+                    {
+                        "created": "2020-05-04",
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                        },
+                        "id": 2,
+                        "ipaddresses": [
+                            {
+                                "address": "172.16.180.1/24",
+                                "family": 4,
+                                "id": 1,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
+                            },
+                            {
+                                "address": "2001::1:1/64",
+                                "family": 6,
+                                "id": 2,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
+                            }
+                        ],
+                        "last_updated": "2020-05-04T07:24:07.955155Z",
+                        "name": "http",
+                        "port": 80,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "site": "test-site",
                 "tags": []
             },
@@ -367,6 +429,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -492,6 +555,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -506,6 +570,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -520,6 +585,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "site": "test-site",
                 "tags": []
             },
@@ -530,6 +596,7 @@
                 "custom_fields": {},
                 "interfaces": [],
                 "regions": [],
+                "services": [],
                 "tags": []
             }
         }

@@ -541,6 +541,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "cluster_type": self.extract_cluster_type,
             }
 
+    def _host_is_vm(self, host):
+        # Determine whether a host is a vm, or a "device"
+        return "device_role" not in host
+
     def _pluralize(self, extracted_value):
         # If plurals is enabled, wrap in a single-element list for backwards compatibility
         if self.plurals:
@@ -566,13 +570,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_services(self, host):
         try:
             if self.services:
-                url = (
-                    self.api_endpoint
-                    + "/api/ipam/services/?device="
-                    + str(host["name"])
+                path = (
+                    "/api/ipam/services/?limit=0&virtual_machine_id=%s"
+                    if self._host_is_vm(host)
+                    else "/api/ipam/services/?limit=0&device_id=%s"
                 )
-                device_lookup = self._fetch_information(url)
-                return device_lookup["results"]
+
+                url = self.api_endpoint + path % (to_text(host["id"]))
+
+                service_lookup = self._fetch_information(url)
+                return service_lookup["results"]
         except Exception:
             return
 
@@ -656,18 +663,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_ipaddresses(self, host):
         try:
             if self.interfaces:
-                if "device_role" in host:
-                    url = (
-                        self.api_endpoint
-                        + "/api/ipam/ip-addresses/?limit=0&device_id=%s"
-                        % (to_text(host["id"]))
-                    )
-                elif "role" in host:
-                    url = (
-                        self.api_endpoint
-                        + "/api/ipam/ip-addresses/?limit=0&virtual_machine_id=%s"
-                        % (to_text(host["id"]))
-                    )
+                path = (
+                    "/api/ipam/ip-addresses/?limit=0&virtual_machine_id=%s"
+                    if self._host_is_vm(host)
+                    else "/api/ipam/ip-addresses/?limit=0&device_id=%s"
+                )
+
+                url = self.api_endpoint + path % (to_text(host["id"]))
+
                 ipaddress_lookup = self.get_resource_list(api_url=url)
 
                 return ipaddress_lookup
@@ -677,18 +680,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_interfaces(self, host):
         try:
             if self.interfaces:
-                if "device_role" in host:
-                    url = (
-                        self.api_endpoint
-                        + "/api/dcim/interfaces/?limit=0&device_id=%s"
-                        % (to_text(host["id"]))
-                    )
-                elif "role" in host:
-                    url = (
-                        self.api_endpoint
-                        + "/api/virtualization/interfaces/?limit=0&virtual_machine_id=%s"
-                        % (to_text(host["id"]))
-                    )
+                path = (
+                    "/api/virtualization/interfaces/?limit=0&virtual_machine_id=%s"
+                    if self._host_is_vm(host)
+                    else "/api/dcim/interfaces/?limit=0&device_id=%s"
+                )
+
+                url = self.api_endpoint + path % (to_text(host["id"]))
+
                 interface_lookup = self.get_resource_list(api_url=url)
 
                 # Collect all IP Addresses associated with the device

@@ -4,6 +4,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import os
 import pynetbox
 
 # Set nb variable to connec to Netbox and use the veriable in future calls
@@ -239,6 +240,25 @@ ip_addresses = [
     {"address": "2001::1:1/64", "interface": test100_gi2.id},
 ]
 created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
+
+
+## Create Services
+
+### Netbox 2.6 uses id int instead of string
+protocol_tcp = "tcp" if os.environ["INTEGRATION_TESTS"] == "latest" else 6
+
+services = [
+    {"device": test100.id, "name": "ssh", "port": 22, "protocol": protocol_tcp},
+    {
+        "device": test100.id,
+        "name": "http",
+        "port": 80,
+        "protocol": protocol_tcp,
+        "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
+    },
+]
+created_services = nb.ipam.services.create(services)
+
 
 ## Create RIRs
 rirs = [{"name": "Example RIR", "slug": "example-rir"}]
