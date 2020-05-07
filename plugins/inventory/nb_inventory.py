@@ -82,6 +82,12 @@ DOCUMENTATION = """
             default: True
             type: boolean
             version_added: "0.2.0"
+        fetch_all:
+            description:
+                - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
+                - When set to False, a separate request will be made
+            default: True
+            version_added: "0.2.1"
         group_by:
             description: Keys used to create groups. The 'plurals' option controls which of these are valid.
             type: list
@@ -180,6 +186,7 @@ from sys import version as python_version
 from threading import Thread
 from typing import Iterable
 from itertools import chain
+from collections import defaultdict
 
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
@@ -438,12 +445,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # occurs if the cache_key is not in the cache or if the cache_key expired
                 # we need to fetch the URL now
                 need_to_fetch = True
+                self.display.v("Not cached, opening url: " + url)
         else:
             # not reading from cache so do fetch
             need_to_fetch = True
 
         if need_to_fetch:
-            self.display.v("Fetching: " + url)
             response = open_url(
                 url,
                 headers=self.headers,
@@ -489,59 +496,78 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Get hosts list.
         return hosts_list
 
+    def get_resource_list_chunked(
+        self, api_url, query_key, query_values, chunk_size=50
+    ):
+        # Make an API call for multiple specific IDs, like /api/ipam/ip-addresses?limit=0&device_id=1&device_id=2&device_id=3
+        # Drastically cuts down required HTTP requests in the case where we don't want to fetch all data
+
+        # chunk_size is an arbitrary guess at reasonable number, for total URL length to stay under 1000 characters
+        # Not clear what limit most servers will accept - could be > 10k even. 1000 is pretty conservative.
+
+        # Make sure query_values is subscriptable
+        if not isinstance(query_values, list):
+            query_values = list(query_values)
+
+        resources = []
+
+        # TODO: write unit tests, with get_resource_list mocked out
+        # TODO: remove chunk_size, replace with max GET URL length
+
+        for i in range(0, len(query_values), chunk_size):
+            chunk = query_values[i : i + chunk_size]
+            # process chunk of size <= chunk_size
+            url = api_url
+            for value in chunk:
+                separator = "&" if "?" in url else "?"
+                url += separator + query_key + "=" + str(value)
+
+            resources += self.get_resource_list(url)
+
+        return resources
+
     @property
     def group_extractors(self):
 
         # List of group_by options and hostvars to extract
-        # Keys are different depending on plurals option
-        if self.plurals:
-            return {
-                "sites": self.extract_site,
-                "tenants": self.extract_tenant,
-                "racks": self.extract_rack,
-                "tags": self.extract_tags,
-                "disk": self.extract_disk,
-                "memory": self.extract_memory,
-                "vcpus": self.extract_vcpus,
-                "device_roles": self.extract_device_role,
-                "platforms": self.extract_platform,
-                "device_types": self.extract_device_type,
-                "services": self.extract_services,
-                "config_context": self.extract_config_context,
-                "manufacturers": self.extract_manufacturer,
-                "interfaces": self.extract_interfaces,
-                "custom_fields": self.extract_custom_fields,
-                "region": self.extract_regions,
-                "cluster": self.extract_cluster,
-                "cluster_group": self.extract_cluster_group,
-                "cluster_type": self.extract_cluster_type,
-            }
-        else:
-            return {
-                "site": self.extract_site,
-                "tenant": self.extract_tenant,
-                "rack": self.extract_rack,
-                "tag": self.extract_tags,
-                "disk": self.extract_disk,
-                "memory": self.extract_memory,
-                "vcpus": self.extract_vcpus,
-                "role": self.extract_device_role,
-                "platform": self.extract_platform,
-                "device_type": self.extract_device_type,
-                "services": self.extract_services,
-                "config_context": self.extract_config_context,
-                "manufacturer": self.extract_manufacturer,
-                "interfaces": self.extract_interfaces,
-                "custom_fields": self.extract_custom_fields,
-                "region": self.extract_regions,
-                "cluster": self.extract_cluster,
-                "cluster_group": self.extract_cluster_group,
-                "cluster_type": self.extract_cluster_type,
-            }
 
-    def _host_is_vm(self, host):
-        # Determine whether a host is a vm, or a "device"
-        return "device_role" not in host
+        # Some keys are different depending on plurals option
+        extractors = {
+            "disk": self.extract_disk,
+            "memory": self.extract_memory,
+            "vcpus": self.extract_vcpus,
+            "config_context": self.extract_config_context,
+            "custom_fields": self.extract_custom_fields,
+            "region": self.extract_regions,
+            "cluster": self.extract_cluster,
+            "cluster_group": self.extract_cluster_group,
+            "cluster_type": self.extract_cluster_type,
+            "is_virtual": self.extract_is_virtual,
+            ("sites" if self.plurals else "site"): self.extract_site,
+            ("tenants" if self.plurals else "tenant"): self.extract_tenant,
+            ("racks" if self.plurals else "rack"): self.extract_rack,
+            ("tags" if self.plurals else "tag"): self.extract_tags,
+            ("device_roles" if self.plurals else "role"): self.extract_device_role,
+            ("platforms" if self.plurals else "platform"): self.extract_platform,
+            (
+                "device_types" if self.plurals else "device_type"
+            ): self.extract_device_type,
+            (
+                "manufacturers" if self.plurals else "manufacturer"
+            ): self.extract_manufacturer,
+        }
+
+        if self.services:
+            extractors.update(
+                {"services": self.extract_services,}
+            )
+
+        if self.interfaces:
+            extractors.update(
+                {"interfaces": self.extract_interfaces,}
+            )
+
+        return extractors
 
     def _pluralize(self, extracted_value):
         # If plurals is enabled, wrap in a single-element list for backwards compatibility
@@ -567,17 +593,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_services(self, host):
         try:
-            if self.services:
-                path = (
-                    "/api/ipam/services/?limit=0&virtual_machine_id=%s"
-                    if self._host_is_vm(host)
-                    else "/api/ipam/services/?limit=0&device_id=%s"
-                )
+            return (
+                self.vm_services_lookup
+                if host["is_virtual"]
+                else self.device_services_lookup
+            )[host["id"]]
 
-                url = self.api_endpoint + path % (to_text(host["id"]))
-
-                service_lookup = self._fetch_information(url)
-                return service_lookup["results"]
         except Exception:
             return
 
@@ -658,49 +679,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_tags(self, host):
         return host["tags"]
 
-    def extract_ipaddresses(self, host):
-        try:
-            if self.interfaces:
-                path = (
-                    "/api/ipam/ip-addresses/?limit=0&virtual_machine_id=%s"
-                    if self._host_is_vm(host)
-                    else "/api/ipam/ip-addresses/?limit=0&device_id=%s"
-                )
-
-                url = self.api_endpoint + path % (to_text(host["id"]))
-
-                ipaddress_lookup = self.get_resource_list(api_url=url)
-
-                return ipaddress_lookup
-        except Exception:
-            return
-
     def extract_interfaces(self, host):
         try:
-            if self.interfaces:
-                path = (
-                    "/api/virtualization/interfaces/?limit=0&virtual_machine_id=%s"
-                    if self._host_is_vm(host)
-                    else "/api/dcim/interfaces/?limit=0&device_id=%s"
-                )
+            interfaces = (
+                self.vm_interfaces_lookup
+                if host["is_virtual"]
+                else self.device_interfaces_lookup
+            )[host["id"]]
 
-                url = self.api_endpoint + path % (to_text(host["id"]))
+            # Attach IP Addresses to their interface
+            for interface in interfaces:
+                interface["ip_addresses"] = self.ipaddresses_lookup[interface["id"]]
 
-                interface_lookup = self.get_resource_list(api_url=url)
-
-                # Collect all IP Addresses associated with the device
-                device_ipaddresses = self.extract_ipaddresses(host)
-
-                # Attach the found IP Addresses record to the interface
-                for interface in interface_lookup:
-                    interface_ip = [
-                        ipaddress
-                        for ipaddress in device_ipaddresses
-                        if ipaddress["interface"]["id"] == interface["id"]
-                    ]
-                    interface["ip_addresses"] = interface_ip
-
-                return interface_lookup
+            return interfaces
         except Exception:
             return
 
@@ -761,6 +752,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return self.clusters_type_lookup[host["cluster"]["id"]]
         except Exception:
             return
+
+    def extract_is_virtual(self, host):
+        return host.get("is_virtual")
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
@@ -860,9 +854,134 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             filter(lambda x: x is not None, map(get_cluster_group, clusters))
         )
 
+    def refresh_services(self):
+        url = self.api_endpoint + "/api/ipam/services/?limit=0"
+        services = []
+
+        if self.fetch_all:
+            services = self.get_resource_list(url)
+        else:
+            device_services = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="device_id",
+                query_values=self.devices_lookup.keys(),
+            )
+            vm_services = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+            services = chain(device_services, vm_services)
+
+        # Construct a dictionary of lists, separately for devices and vms.
+        # Allows looking up a list of services by device id or vm id
+        self.device_services_lookup = defaultdict(list)
+        self.vm_services_lookup = defaultdict(list)
+
+        for service in services:
+            if service["device"]:
+                self.device_services_lookup[service["device"]["id"]].append(service)
+            if service["virtual_machine"]:
+                self.vm_services_lookup[service["virtual_machine"]["id"]].append(
+                    service
+                )
+
+    def refresh_interfaces(self):
+
+        url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
+        url_vm_interfaces = (
+            self.api_endpoint + "/api/virtualization/interfaces/?limit=0"
+        )
+
+        device_interfaces = []
+        vm_interfaces = []
+
+        if self.fetch_all:
+            device_interfaces = self.get_resource_list(url_device_interfaces)
+            vm_interfaces = self.get_resource_list(url_vm_interfaces)
+        else:
+            device_interfaces = self.get_resource_list_chunked(
+                api_url=url_device_interfaces,
+                query_key="device_id",
+                query_values=self.devices_lookup.keys(),
+            )
+            vm_interfaces = self.get_resource_list_chunked(
+                api_url=url_vm_interfaces,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+
+        # Construct a dictionary of lists, separately for devices and vms.
+        # Allows looking up a list of interfaces by device id or vm id
+        self.device_interfaces_lookup = defaultdict(list)
+        self.vm_interfaces_lookup = defaultdict(list)
+        # /dcim/interfaces gives count_ipaddresses per interface. /virtualization/interfaces does not
+        self.devices_with_ips = set()
+
+        for interface in device_interfaces:
+
+            # TODO: Also test how IP address lookups are handled on VC - an IP on an interface of a virtual chasis - is that set correctly?
+            device_id = interface["device"]["id"]
+
+            # Check if device_id is actually a device we've fetched, and was not filtered out by query_filters
+            if device_id not in self.devices_lookup:
+                continue
+
+            # Check if device_id is part of a virtual chasis
+            # If so, treat its interfaces as actually part of the master
+            device = self.devices_lookup[device_id]
+            virtual_chassis_master = self._get_host_virtual_chassis_master(device)
+            if virtual_chassis_master is not None:
+               device_id = virtual_chassis_master
+
+            self.device_interfaces_lookup[device_id].append(interface)
+
+            # Keep track of what devices have interfaces with IPs, so if fetch_all is False we can avoid unnecessary queries
+            if interface["count_ipaddresses"] > 0:
+                self.devices_with_ips.add(device_id)
+
+        for interface in vm_interfaces:
+            self.vm_interfaces_lookup[interface["virtual_machine"]["id"]].append(
+                interface
+            )
+
+    # Note: depends on the result of refresh_interfaces for self.devices_with_ips
+    def refresh_ipaddresses(self):
+        url = (
+            self.api_endpoint
+            + "/api/ipam/ip-addresses/?limit=0&assigned_to_interface=true"
+        )
+        ipaddresses = []
+
+        if self.fetch_all:
+            ipaddresses = self.get_resource_list(url)
+        else:
+            device_ips = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="device_id",
+                query_values=list(self.devices_with_ips),
+            )
+            vm_ips = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+
+            ipaddresses = chain(device_ips, vm_ips)
+
+        # Construct a dictionary of lists, to allow looking up ip addresses by interface id
+        # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
+        self.ipaddresses_lookup = defaultdict(list)
+        for ipaddress in ipaddresses:
+            # TODO: write test with IPs that are not assigned to an interface
+            self.ipaddresses_lookup[ipaddress["interface"]["id"]].append(ipaddress)
+
+            # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
+            del ipaddress["interface"]
+
     @property
     def lookup_processes(self):
-        return [
+        lookups = [
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
             self.refresh_tenants_lookup,
@@ -874,9 +993,26 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_clusters_lookup,
         ]
 
-    def refresh_lookups(self):
+        if self.interfaces:
+            lookups.append(self.refresh_interfaces)
+
+        if self.services:
+            lookups.append(self.refresh_services)
+
+        return lookups
+
+    @property
+    def lookup_processes_secondary(self):
+        lookups = []
+
+        if self.interfaces:
+            lookups.append(self.refresh_ipaddresses)
+
+        return lookups
+
+    def refresh_lookups(self, lookups):
         thread_list = []
-        for p in self.lookup_processes:
+        for p in lookups:
             t = Thread(target=p)
             thread_list.append(t)
             t.start()
@@ -980,14 +1116,26 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def fetch_hosts(self):
         device_url, vm_url = self.refresh_url()
-        if device_url and vm_url:
-            return chain(
-                self.get_resource_list(device_url), self.get_resource_list(vm_url),
-            )
-        elif device_url:
-            return self.get_resource_list(device_url)
-        elif vm_url:
-            return self.get_resource_list(vm_url)
+
+        self.devices_list = []
+        self.vms_list = []
+
+        if device_url:
+            self.devices_list = self.get_resource_list(device_url)
+
+        if vm_url:
+            self.vms_list = self.get_resource_list(vm_url)
+
+        # Allow looking up devices/vms by their ids
+        self.devices_lookup = {device["id"]: device for device in self.devices_list}
+        self.vms_lookup = {vm["id"]: vm for vm in self.vms_list}
+
+        # There's nothing that explicitly says if a host is virtual or not - add in a new field
+        for host in self.devices_list:
+            host["is_virtual"] = False
+
+        for host in self.vms_list:
+            host["is_virtual"] = True
 
     def extract_name(self, host):
         # An host in an Ansible inventory requires an hostname.
@@ -1027,6 +1175,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
             groups_for_host = self.group_extractors[grouping](host)
+
+            # TODO: handle special case of is_virtual, which is a True/False value
 
             if not groups_for_host:
                 continue
@@ -1128,11 +1278,39 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if extracted_primary_ip6:
             self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
-    def main(self):
-        self.refresh_lookups()
-        hosts_list = self.fetch_hosts()
+    def _get_host_virtual_chassis_master(self, host):
+        virtual_chassis = host.get("virtual_chassis", None)
 
-        for host in hosts_list:
+        if not virtual_chassis:
+            return None
+
+        master = virtual_chassis.get("master", None)
+
+        if not master:
+            return None
+
+        return master.get("id", None)
+
+    def main(self):
+        self.fetch_hosts()
+
+        # Interface, and Service lookup will depend on hosts, if option fetch_all is false
+        self.refresh_lookups(self.lookup_processes)
+
+        # Looking up IP Addresses depends on the result of interfaces count_ipaddresses field
+        # - can skip any device/vm without any IPs
+        self.refresh_lookups(self.lookup_processes_secondary)
+
+        for host in chain(self.devices_list, self.vms_list):
+
+            virtual_chassis_master = self._get_host_virtual_chassis_master(host)
+            if (
+                virtual_chassis_master is not None
+                and virtual_chassis_master != host["id"]
+            ):
+                # Device is part of a virtual chassis, but is not the master
+                continue
+
             hostname = self.extract_name(host=host)
             self.inventory.add_host(host=hostname)
             self._fill_host_variables(host=host, hostname=hostname)
@@ -1176,6 +1354,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
+        self.fetch_all = self.get_option("fetch_all")
         self.headers = {
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ")[0]),
