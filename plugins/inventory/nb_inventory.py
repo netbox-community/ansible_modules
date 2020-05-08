@@ -85,8 +85,12 @@ DOCUMENTATION = """
         fetch_all:
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
-                - When set to False, a separate request will be made
+                - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
+                - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
+                - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
+                - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
             default: True
+            type: boolean
             version_added: "0.2.1"
         group_by:
             description: Keys used to create groups. The 'plurals' option controls which of these are valid.
@@ -134,6 +138,13 @@ DOCUMENTATION = """
             description: Timeout for Netbox requests in seconds
             type: int
             default: 60
+        max_uri_length:
+            description:
+                - When fetch_all is False, GET requests to NetBox may become quite long and return a HTTP 414 (URI Too Long).
+                - You can adjust this option to be smaller to avoid 414 errors, or larger for a reduced number of requests.
+            type: int
+            default: 8000
+            version_added: "0.2.1"
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -181,6 +192,7 @@ compose:
 
 import json
 import uuid
+import math
 from functools import partial
 from sys import version as python_version
 from threading import Thread
@@ -484,45 +496,47 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if not api_url:
             raise AnsibleError("Please check API URL in script configuration file.")
 
-        hosts_list = []
-        # Pagination.
+        resources = []
+
+        # Handle pagination
         while api_url:
             self.display.v("Fetching: " + api_url)
-            # Get hosts list.
             api_output = self._fetch_information(api_url)
-            hosts_list += api_output["results"]
+            resources.extend(api_output["results"])
             api_url = api_output["next"]
 
-        # Get hosts list.
-        return hosts_list
+        return resources
 
-    def get_resource_list_chunked(
-        self, api_url, query_key, query_values, chunk_size=50
-    ):
+    def get_resource_list_chunked(self, api_url, query_key, query_values):
         # Make an API call for multiple specific IDs, like /api/ipam/ip-addresses?limit=0&device_id=1&device_id=2&device_id=3
-        # Drastically cuts down required HTTP requests in the case where we don't want to fetch all data
-
-        # chunk_size is an arbitrary guess at reasonable number, for total URL length to stay under 1000 characters
-        # Not clear what limit most servers will accept - could be > 10k even. 1000 is pretty conservative.
+        # Drastically cuts down HTTP requests comnpared to 1 request per host, in the case where we don't want to fetch_all
 
         # Make sure query_values is subscriptable
         if not isinstance(query_values, list):
             query_values = list(query_values)
 
-        resources = []
+        def query_string(value, separator="&"):
+            return separator + query_key + "=" + str(value)
 
-        # TODO: write unit tests, with get_resource_list mocked out
-        # TODO: remove chunk_size, replace with max GET URL length
+        # Calculate how many queries we can do per API call to stay within max_url_length
+        largest_value = str(max(query_values))  # values are always id ints
+        length_per_value = len(query_string(largest_value))
+        chunk_size = math.floor((self.max_uri_length - len(api_url)) / length_per_value)
+
+        # Sanity check, for case where max_uri_length < (api_url + length_per_value)
+        if chunk_size < 1:
+            chunk_size = 1
+
+        resources = []
 
         for i in range(0, len(query_values), chunk_size):
             chunk = query_values[i : i + chunk_size]
             # process chunk of size <= chunk_size
             url = api_url
             for value in chunk:
-                separator = "&" if "?" in url else "?"
-                url += separator + query_key + "=" + str(value)
+                url += query_string(value, "&" if "?" in url else "?")
 
-            resources += self.get_resource_list(url)
+            resources.extend(self.get_resource_list(url))
 
         return resources
 
@@ -932,7 +946,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             device = self.devices_lookup[device_id]
             virtual_chassis_master = self._get_host_virtual_chassis_master(device)
             if virtual_chassis_master is not None:
-               device_id = virtual_chassis_master
+                device_id = virtual_chassis_master
 
             self.device_interfaces_lookup[device_id].append(interface)
 
@@ -1011,14 +1025,42 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return lookups
 
     def refresh_lookups(self, lookups):
-        thread_list = []
-        for p in lookups:
-            t = Thread(target=p)
-            thread_list.append(t)
-            t.start()
 
-        for thread in thread_list:
-            thread.join()
+        # Exceptions that occur in threads by default are printed to stderr, and ignored by the main thread
+        # They need to be caught, and raised in the main thread to prevent further execution of this plugin
+
+        thread_exceptions = []
+
+        def handle_thread_exceptions(lookup):
+            def wrapper():
+                try:
+                    lookup()
+                except Exception as e:
+                    # Save for the main-thread to re-raise
+                    # Also continue to raise on this thread, so the default handler can run to print to stderr
+                    thread_exceptions.append(e)
+                    raise e
+
+            return wrapper
+
+        thread_list = []
+
+        try:
+            for lookup in lookups:
+                thread = Thread(target=handle_thread_exceptions(lookup))
+                thread_list.append(thread)
+                thread.start()
+
+            for thread in thread_list:
+                thread.join()
+
+            # Wait till we've joined all threads before raising any exceptions
+            for e in thread_exceptions:
+                raise e
+
+        finally:
+            # Avoid retain cycles
+            thread_exceptions = None
 
     def validate_query_parameter(self, parameter, allowed_query_parameters):
         if not (isinstance(parameter, dict) and len(parameter) == 1):
@@ -1347,6 +1389,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
         self.timeout = self.get_option("timeout")
+        self.max_uri_length = self.get_option("max_uri_length")
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
         self.flatten_config_context = self.get_option("flatten_config_context")
