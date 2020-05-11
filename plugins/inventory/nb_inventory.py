@@ -43,7 +43,7 @@ DOCUMENTATION = """
             type: boolean
         flatten_config_context:
             description:
-                - If config_context is enabled, by default it's added as a host var named config_context.
+                - If I(config_context) is enabled, by default it's added as a host var named config_context.
                 - If flatten_config_context is set to True, the config context variables will be added directly to the host instead.
             default: False
             type: boolean
@@ -66,7 +66,9 @@ DOCUMENTATION = """
                 - name: NETBOX_API_KEY
         plurals:
             description:
-                - If True, all host vars are contained inside single-element arrays for legacy compatibility. Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
+                - If True, all host vars are contained inside single-element arrays for legacy compatibility with old versions of this plugin.
+                - Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
+                - The choices of I(group_by) will be changed by this option.
             default: True
             type: boolean
             version_added: "0.2.1"
@@ -93,7 +95,7 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.1"
         group_by:
-            description: Keys used to create groups. The 'plurals' option controls which of these are valid.
+            description: Keys used to create groups. The I(plurals) option controls which of these are valid.
             type: list
             choices:
                 - sites
@@ -164,6 +166,10 @@ group_by:
   - device_roles
 query_filters:
   - role: network-edge-router
+device_query_filters:
+  - has_primary_ip: 'true'
+
+# has_primary_ip is a useful way to filter out patch panels and other passive devices
 
 # Query filters are passed directly as an argument to the fetching queries.
 # You can repeat tags in the query string.
