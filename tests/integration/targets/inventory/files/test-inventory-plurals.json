@@ -13,6 +13,7 @@
                     "cisco-test"
                 ],
                 "interfaces": [],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -23,31 +24,6 @@
                 "services": [],
                 "sites": [
                     "test-site2"
-                ],
-                "tags": []
-            },
-            "Test Nexus Child One": {
-                "config_context": [
-                    {}
-                ],
-                "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-child"
-                ],
-                "interfaces": [],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "services": [],
-                "sites": [
-                    "test-site"
                 ],
                 "tags": []
             },
@@ -73,8 +49,7 @@
                         "device": {
                             "display_name": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:32768/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "enabled": true,
                         "id": 1,
@@ -95,6 +70,7 @@
                         "untagged_vlan": null
                     }
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -120,6 +96,7 @@
                     "cisco-test"
                 ],
                 "interfaces": [],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -159,15 +136,13 @@
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.1/24",
-                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -176,19 +151,6 @@
                                     "value": 4
                                 },
                                 "id": 1,
-                                "interface": {
-                                    "device": {
-                                        "display_name": "test100",
-                                        "id": 1,
-                                        "name": "test100",
-                                        "url": "http://localhost:32768/api/dcim/devices/1/"
-                                    },
-                                    "id": 2,
-                                    "name": "GigabitEthernet1",
-                                    "url": "http://localhost:32768/api/dcim/interfaces/2/",
-                                    "virtual_machine": null
-                                },
-                                "last_updated": "2020-04-21T14:01:20.151503Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -227,15 +189,13 @@
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [
                             {
                                 "address": "2001::1:1/64",
-                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -244,19 +204,6 @@
                                     "value": 6
                                 },
                                 "id": 2,
-                                "interface": {
-                                    "device": {
-                                        "display_name": "test100",
-                                        "id": 1,
-                                        "name": "test100",
-                                        "url": "http://localhost:32768/api/dcim/devices/1/"
-                                    },
-                                    "id": 3,
-                                    "name": "GigabitEthernet2",
-                                    "url": "http://localhost:32768/api/dcim/interfaces/3/",
-                                    "virtual_machine": null
-                                },
-                                "last_updated": "2020-04-21T14:01:20.156802Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -286,6 +233,7 @@
                         "untagged_vlan": null
                     }
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -295,18 +243,15 @@
                 ],
                 "services": [
                     {
-                        "created": "2020-05-04",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "id": 1,
                         "ipaddresses": [],
-                        "last_updated": "2020-05-04T07:24:07.945347Z",
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
@@ -318,31 +263,26 @@
                         "virtual_machine": null
                     },
                     {
-                        "created": "2020-05-04",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "id": 2,
                         "ipaddresses": [
                             {
                                 "address": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
+                                "id": 1
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
+                                "id": 2
                             }
                         ],
-                        "last_updated": "2020-05-04T07:24:07.955155Z",
                         "name": "http",
                         "port": 80,
                         "protocol": {
@@ -386,8 +326,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
@@ -408,8 +347,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
@@ -430,8 +368,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
@@ -452,8 +389,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
@@ -474,11 +410,11 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     }
                 ],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -516,8 +452,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -538,8 +473,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -560,8 +494,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -582,8 +515,7 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -604,11 +536,11 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     }
                 ],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -628,6 +560,7 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -647,6 +580,7 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -665,6 +599,7 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [],
                 "services": [],
                 "tags": []
@@ -679,8 +614,8 @@
             "cluster_type_test_cluster_type",
             "device_roles_core_switch",
             "device_types_cisco_test",
-            "device_types_nexus_child",
             "device_types_nexus_parent",
+            "is_virtual",
             "manufacturers_cisco",
             "racks_Test_Rack",
             "region_other_region",
@@ -722,7 +657,6 @@
     "device_roles_core_switch": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -735,20 +669,23 @@
             "test100"
         ]
     },
-    "device_types_nexus_child": {
-        "hosts": [
-            "Test Nexus Child One"
-        ]
-    },
     "device_types_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
     },
+    "is_virtual": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "manufacturers_cisco": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -771,7 +708,6 @@
     },
     "sites_test_site": {
         "hosts": [
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100",

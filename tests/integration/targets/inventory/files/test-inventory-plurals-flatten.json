@@ -26,6 +26,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -38,25 +39,6 @@
                 ],
                 "tags": []
             },
-            "Test Nexus Child One": {
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-child"
-                ],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "sites": [
-                    "test-site"
-                ],
-                "tags": []
-            },
             "Test Nexus One": {
                 "device_roles": [
                     "core-switch"
@@ -64,6 +46,7 @@
                 "device_types": [
                     "nexus-parent"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -83,6 +66,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -102,6 +86,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -121,6 +106,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -134,6 +120,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -147,6 +134,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -160,6 +148,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -172,6 +161,7 @@
             "test104-vm": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
+                "is_virtual": true,
                 "regions": [],
                 "tags": []
             }
@@ -185,7 +175,7 @@
             "cisco",
             "cisco_test",
             "core_switch",
-            "nexus_child",
+            "is_virtual",
             "nexus_parent",
             "other_region",
             "parent_region",
@@ -198,7 +188,6 @@
     "cisco": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -214,15 +203,18 @@
     "core_switch": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "nexus_child": {
+    "is_virtual": {
         "hosts": [
-            "Test Nexus Child One"
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
         ]
     },
     "nexus_parent": {
@@ -259,7 +251,6 @@
     },
     "test_site": {
         "hosts": [
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100",

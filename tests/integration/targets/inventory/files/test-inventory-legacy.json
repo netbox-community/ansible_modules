@@ -9,6 +9,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -22,27 +23,6 @@
                 ],
                 "tags": []
             },
-            "Test Nexus Child One": {
-                "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-child"
-                ],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "services": [],
-                "sites": [
-                    "test-site"
-                ],
-                "tags": []
-            },
             "Test Nexus One": {
                 "custom_fields": {},
                 "device_roles": [
@@ -51,6 +31,7 @@
                 "device_types": [
                     "nexus-parent"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -72,6 +53,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -93,6 +75,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -102,18 +85,15 @@
                 ],
                 "services": [
                     {
-                        "created": "2020-05-04",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "id": 1,
                         "ipaddresses": [],
-                        "last_updated": "2020-05-04T07:24:07.945347Z",
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
@@ -125,31 +105,26 @@
                         "virtual_machine": null
                     },
                     {
-                        "created": "2020-05-04",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "id": 2,
                         "ipaddresses": [
                             {
                                 "address": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
+                                "id": 1
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
+                                "id": 2
                             }
                         ],
-                        "last_updated": "2020-05-04T07:24:07.955155Z",
                         "name": "http",
                         "port": 80,
                         "protocol": {
@@ -171,6 +146,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -186,6 +162,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -201,6 +178,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -216,6 +194,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -230,6 +209,7 @@
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [],
                 "services": [],
                 "tags": []
@@ -244,7 +224,6 @@
     "ungrouped": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100",
