@@ -13,6 +13,7 @@ DOCUMENTATION = """
         - Anthony Ruhier (@Anthony25)
         - Nikhil Singh Baliyan (@nikkytub)
         - Sander Steffann (@steffann)
+        - Douglas Heriot (@DouglasHeriot)
     short_description: NetBox inventory source
     description:
         - Get inventory hosts from NetBox
