@@ -39,9 +39,59 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
+                        },
+                        "id": 3,
+                        "ipaddresses": [],
+                        "name": "telnet",
+                        "port": 23,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "sites": [
                     "test-site"
+                ],
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "regions": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": null,
+                        "id": 4,
+                        "ipaddresses": [],
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": {
+                            "id": 6,
+                            "name": "Test VM With Spaces"
+                        }
+                    }
                 ],
                 "tags": []
             },
@@ -225,6 +275,7 @@
         "hosts": [
             "R1-Device",
             "Test Nexus One",
+            "Test VM With Spaces",
             "TestDeviceR1",
             "test100",
             "test100-vm",

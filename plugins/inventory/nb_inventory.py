@@ -900,9 +900,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.vm_services_lookup = defaultdict(list)
 
         for service in services:
-            if service["device"]:
+            if service.get("device"):
                 self.device_services_lookup[service["device"]["id"]].append(service)
-            if service["virtual_machine"]:
+            if service.get("virtual_machine"):
                 self.vm_services_lookup[service["virtual_machine"]["id"]].append(
                     service
                 )
@@ -940,8 +940,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.devices_with_ips = set()
 
         for interface in device_interfaces:
-
-            # TODO: Also test how IP address lookups are handled on VC - an IP on an interface of a virtual chasis - is that set correctly?
             device_id = interface["device"]["id"]
 
             # Check if device_id is actually a device we've fetched, and was not filtered out by query_filters
@@ -994,7 +992,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
         self.ipaddresses_lookup = defaultdict(list)
         for ipaddress in ipaddresses:
-            # TODO: write test with IPs that are not assigned to an interface
+
+            if not ipaddress.get("interface"):
+                continue
+
             self.ipaddresses_lookup[ipaddress["interface"]["id"]].append(ipaddress)
 
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface

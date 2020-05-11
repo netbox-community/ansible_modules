@@ -221,7 +221,11 @@ nexus_child = nb.dcim.devices.get(5)
 nexus_child.update({"virtual_chassis": 1, "vc_position": 1})
 nexus = nb.dcim.devices.get(4)
 nexus.update({"vc_position": 0})
-nb.dcim.interfaces.create({"device": 4, "name": "Ethernet1/1", "type": 1000})
+nexus_interfaces = [
+    {"device": nexus.id, "name": "Ethernet1/1", "type": 1000},
+    {"device": nexus_child.id, "name": "Ethernet2/1", "type": 1000}
+]
+created_nexus_interfaces = nb.dcim.interfaces.create(nexus_interfaces)
 
 ## Create Interfaces
 dev_interfaces = [
@@ -238,26 +242,11 @@ test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
 ip_addresses = [
     {"address": "172.16.180.1/24", "interface": test100_gi1.id},
     {"address": "2001::1:1/64", "interface": test100_gi2.id},
+    {"address": "172.16.180.11/24", "interface": created_nexus_interfaces[0].id},
+    {"address": "172.16.180.12/24", "interface": created_nexus_interfaces[1].id},
+    {"address": "172.16.180.254/24"},
 ]
 created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
-
-
-## Create Services
-
-### Netbox 2.6 uses id int instead of string
-protocol_tcp = "tcp" if os.environ["INTEGRATION_TESTS"] == "latest" else 6
-
-services = [
-    {"device": test100.id, "name": "ssh", "port": 22, "protocol": protocol_tcp},
-    {
-        "device": test100.id,
-        "name": "http",
-        "port": 80,
-        "protocol": protocol_tcp,
-        "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
-    },
-]
-created_services = nb.ipam.services.create(services)
 
 
 ## Create RIRs
@@ -295,10 +284,12 @@ virtual_machines = [
     {"name": "test102-vm", "cluster": test_cluster.id},
     {"name": "test103-vm", "cluster": test_cluster.id},
     {"name": "test104-vm", "cluster": test_cluster2.id},
+    {"name": "Test VM With Spaces", "cluster": test_cluster2.id},
 ]
 created_virtual_machines = nb.virtualization.virtual_machines.create(virtual_machines)
 test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
+test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
 
 ## Create Virtual Machine Interfaces
 virtual_machines_intfs = [
@@ -314,10 +305,44 @@ virtual_machines_intfs = [
     {"name": "Eth2", "virtual_machine": test101_vm.id},
     {"name": "Eth3", "virtual_machine": test101_vm.id},
     {"name": "Eth4", "virtual_machine": test101_vm.id},
+    # Create Test VM With Spaces intfs
+    {"name": "Eth0", "virtual_machine": test_spaces_vm.id},
+    {"name": "Eth1", "virtual_machine": test_spaces_vm.id},
 ]
 created_virtual_machines_intfs = nb.virtualization.interfaces.create(
     virtual_machines_intfs
 )
+
+
+## Create Services
+
+### Netbox 2.6 uses id int instead of string
+protocol_tcp = "tcp" if os.environ["INTEGRATION_TESTS"] == "latest" else 6
+
+services = [
+    {"device": test100.id, "name": "ssh", "port": 22, "protocol": protocol_tcp},
+    {
+        "device": test100.id,
+        "name": "http",
+        "port": 80,
+        "protocol": protocol_tcp,
+        "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
+    },
+    {
+        "device": nexus.id,
+        "name": "telnet",
+        "port": 23,
+        "protocol": protocol_tcp
+    },
+    {
+        "virtual_machine": test_spaces_vm.id,
+        "name": "ssh",
+        "port": 22,
+        "protocol": protocol_tcp
+    },
+]
+created_services = nb.ipam.services.create(services)
+
 
 ## Create Circuit Provider
 providers = [{"name": "Test Provider", "slug": "test-provider"}]

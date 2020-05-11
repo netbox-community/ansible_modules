@@ -9,6 +9,7 @@
     },
     "Test_Cluster_2": {
         "hosts": [
+            "Test VM With Spaces",
             "test104-vm"
         ]
     },
@@ -57,6 +58,13 @@
                 "sites": [
                     "test-site"
                 ],
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "is_virtual": true,
+                "regions": [],
                 "tags": []
             },
             "TestDeviceR1": {
@@ -210,6 +218,7 @@
     },
     "is_virtual": {
         "hosts": [
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -237,6 +246,7 @@
     },
     "test_cluster_type": {
         "hosts": [
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
