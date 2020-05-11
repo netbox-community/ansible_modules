@@ -147,7 +147,7 @@ DOCUMENTATION = """
                 - When fetch_all is False, GET requests to NetBox may become quite long and return a HTTP 414 (URI Too Long).
                 - You can adjust this option to be smaller to avoid 414 errors, or larger for a reduced number of requests.
             type: int
-            default: 8000
+            default: 4000
             version_added: "0.2.1"
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
