@@ -116,6 +116,7 @@ DOCUMENTATION = """
                 - cluster
                 - cluster_type
                 - cluster_group
+                - is_virtual
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -1186,6 +1187,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
+
+        # Check for special case - if group is a boolean, just return grouping name instead
+        # eg. "is_virtual" - returns true for VMs, should put them in a group named "is_virtual", not "is_virtual_True"
+        if isinstance(group, bool):
+            if group == True:
+                return grouping
+            else:
+                # Don't create the inverse group
+                return None
+
         if self.group_names_raw:
             return group
         else:
@@ -1218,8 +1229,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             groups_for_host = self.group_extractors[grouping](host)
 
-            # TODO: handle special case of is_virtual, which is a True/False value
-
             if not groups_for_host:
                 continue
 
@@ -1229,6 +1238,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             for group_for_host in groups_for_host:
                 group_name = self.generate_group_name(grouping, group_for_host)
+
+                if not group_name:
+                    continue
 
                 # Group names may be transformed by the ansible TRANSFORM_INVALID_GROUP_CHARS setting
                 # add_group returns the actual group name used
