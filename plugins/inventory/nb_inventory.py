@@ -1064,8 +1064,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 thread.join()
 
             # Wait till we've joined all threads before raising any exceptions
-            for e in thread_exceptions:
-                raise e
+            for exception in thread_exceptions:
+                raise exception
 
         finally:
             # Avoid retain cycles
@@ -1199,7 +1199,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Check for special case - if group is a boolean, just return grouping name instead
         # eg. "is_virtual" - returns true for VMs, should put them in a group named "is_virtual", not "is_virtual_True"
         if isinstance(group, bool):
-            if group == True:
+            if group:
                 return grouping
             else:
                 # Don't create the inverse group

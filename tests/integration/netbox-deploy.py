@@ -223,7 +223,7 @@ nexus = nb.dcim.devices.get(4)
 nexus.update({"vc_position": 0})
 nexus_interfaces = [
     {"device": nexus.id, "name": "Ethernet1/1", "type": 1000},
-    {"device": nexus_child.id, "name": "Ethernet2/1", "type": 1000}
+    {"device": nexus_child.id, "name": "Ethernet2/1", "type": 1000},
 ]
 created_nexus_interfaces = nb.dcim.interfaces.create(nexus_interfaces)
 
@@ -328,17 +328,12 @@ services = [
         "protocol": protocol_tcp,
         "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
     },
-    {
-        "device": nexus.id,
-        "name": "telnet",
-        "port": 23,
-        "protocol": protocol_tcp
-    },
+    {"device": nexus.id, "name": "telnet", "port": 23, "protocol": protocol_tcp},
     {
         "virtual_machine": test_spaces_vm.id,
         "name": "ssh",
         "port": 22,
-        "protocol": protocol_tcp
+        "protocol": protocol_tcp,
     },
 ]
 created_services = nb.ipam.services.create(services)
