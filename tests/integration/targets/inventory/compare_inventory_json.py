@@ -12,6 +12,7 @@ import json
 import argparse
 from jsondiff import diff
 from typing import Iterable
+from operator import itemgetter
 
 # Netbox includes "created" and "last_updated" times on objects. These end up in the interfaces objects that are included verbatim from the Netbox API.
 # "url" may be different if local tests use a different host/port
@@ -40,16 +41,42 @@ def remove_keys(obj, keys):
 
 
 def remove_specifics(obj):
-    try:
-        # Netbox 2.6 doesn't output "tags" for services
-        # I don't just want to ignore the "tags" key everywhere, as it's a host var that users care about
-        hostvars = obj["_meta"]["hostvars"]
-        for host in hostvars:
-            services = host["services"]
-            for item in services:
-                item.pop("tags", None)
-    except Exception:
-        pass
+    # Netbox 2.6 doesn't output "tags" for services
+    # I don't just want to ignore the "tags" key everywhere, as it's a host var that users care about
+    meta = obj.get("_meta")
+    if not meta:
+        return
+
+    hostvars = meta.get("hostvars")
+    if not hostvars:
+        return
+
+    for hostname, host in hostvars.items():
+        services = host.get("services")
+        if not services:
+            continue
+
+        for item in services:
+            item.pop("tags", None)
+
+
+def sort_hostvar_arrays(obj):
+    meta = obj.get("_meta")
+    if not meta:
+        return
+
+    hostvars = meta.get("hostvars")
+    if not hostvars:
+        return
+
+    for hostname, host in hostvars.items():
+        interfaces = host.get("interfaces")
+        if interfaces:
+            host["interfaces"] = sorted(interfaces, key=itemgetter("id"))
+
+        services = host.get("services")
+        if services:
+            host["services"] = sorted(services, key=itemgetter("id"))
 
 
 def read_json(filename):
@@ -94,6 +121,7 @@ def main():
         # When writing test data, only remove "remove_keys" that will change on every git commit.
         # This makes diffs more easily readable to ensure changes to test data look correct.
         remove_keys(data_a, KEYS_REMOVE)
+        sort_hostvar_arrays(data_a)
         write_json(args.filename_b, data_a)
 
     else:
@@ -104,6 +132,8 @@ def main():
         remove_keys(data_b, KEYS_REMOVE.union(KEYS_IGNORE))
         remove_specifics(data_a)
         remove_specifics(data_b)
+        sort_hostvar_arrays(data_a)
+        sort_hostvar_arrays(data_b)
 
         # Perform the diff
         # syntax='symmetric' will produce output that prints both the before and after as "$insert" and "$delete"

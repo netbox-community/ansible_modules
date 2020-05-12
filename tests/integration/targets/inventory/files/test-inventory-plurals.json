@@ -47,59 +47,6 @@
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
-                            "display_name": "Test Nexus Child One",
-                            "id": 5,
-                            "name": "Test Nexus Child One"
-                        },
-                        "enabled": true,
-                        "id": 2,
-                        "ip_addresses": [
-                            {
-                                "address": "172.16.180.12/24",
-                                "custom_fields": {},
-                                "description": "",
-                                "dns_name": "",
-                                "family": {
-                                    "label": "IPv4",
-                                    "value": 4
-                                },
-                                "id": 4,
-                                "nat_inside": null,
-                                "nat_outside": null,
-                                "role": null,
-                                "status": {
-                                    "id": 1,
-                                    "label": "Active",
-                                    "value": "active"
-                                },
-                                "tags": [],
-                                "tenant": null,
-                                "vrf": null
-                            }
-                        ],
-                        "lag": null,
-                        "mac_address": null,
-                        "mgmt_only": false,
-                        "mode": null,
-                        "mtu": null,
-                        "name": "Ethernet2/1",
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "id": 1000,
-                            "label": "1000BASE-T (1GE)",
-                            "value": "1000base-t"
-                        },
-                        "untagged_vlan": null
-                    },
-                    {
-                        "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_type": null,
-                        "connection_status": null,
-                        "count_ipaddresses": 1,
-                        "description": "",
-                        "device": {
                             "display_name": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One"
@@ -136,6 +83,59 @@
                         "mode": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "type": {
+                            "id": 1000,
+                            "label": "1000BASE-T (1GE)",
+                            "value": "1000base-t"
+                        },
+                        "untagged_vlan": null
+                    },
+                    {
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_type": null,
+                        "connection_status": null,
+                        "count_ipaddresses": 1,
+                        "description": "",
+                        "device": {
+                            "display_name": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
+                        },
+                        "enabled": true,
+                        "id": 2,
+                        "ip_addresses": [
+                            {
+                                "address": "172.16.180.12/24",
+                                "custom_fields": {},
+                                "description": "",
+                                "dns_name": "",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 4,
+                                "nat_inside": null,
+                                "nat_outside": null,
+                                "role": null,
+                                "status": {
+                                    "id": 1,
+                                    "label": "Active",
+                                    "value": "active"
+                                },
+                                "tags": [],
+                                "tenant": null,
+                                "vrf": null
+                            }
+                        ],
+                        "lag": null,
+                        "mac_address": null,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Ethernet2/1",
                         "tagged_vlans": [],
                         "tags": [],
                         "type": {
