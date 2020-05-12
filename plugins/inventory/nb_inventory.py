@@ -397,11 +397,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_services(self, host):
         try:
-            return (
+            services_lookup = (
                 self.vm_services_lookup
                 if host["is_virtual"]
                 else self.device_services_lookup
-            )[host["id"]]
+            )
+
+            return list(services_lookup[host["id"]].values())
 
         except Exception:
             return
@@ -485,15 +487,20 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_interfaces(self, host):
         try:
-            interfaces = (
+
+            interfaces_lookup = (
                 self.vm_interfaces_lookup
                 if host["is_virtual"]
                 else self.device_interfaces_lookup
-            )[host["id"]]
+            )
+
+            interfaces = list(interfaces_lookup[host["id"]].values())
 
             # Attach IP Addresses to their interface
             for interface in interfaces:
-                interface["ip_addresses"] = self.ipaddresses_lookup[interface["id"]]
+                interface["ip_addresses"] = list(
+                    self.ipaddresses_lookup[interface["id"]].values()
+                )
 
             return interfaces
         except Exception:
@@ -677,18 +684,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
             services = chain(device_services, vm_services)
 
-        # Construct a dictionary of lists, separately for devices and vms.
-        # Allows looking up a list of services by device id or vm id
-        self.device_services_lookup = defaultdict(list)
-        self.vm_services_lookup = defaultdict(list)
+        # Construct a dictionary of dictionaries, separately for devices and vms.
+        # Allows looking up services by device id or vm id
+        self.device_services_lookup = defaultdict(dict)
+        self.vm_services_lookup = defaultdict(dict)
 
         for service in services:
+            service_id = service["id"]
+
             if service.get("device"):
-                self.device_services_lookup[service["device"]["id"]].append(service)
+                self.device_services_lookup[service["device"]["id"]][
+                    service_id
+                ] = service
+
             if service.get("virtual_machine"):
-                self.vm_services_lookup[service["virtual_machine"]["id"]].append(
-                    service
-                )
+                self.vm_services_lookup[service["virtual_machine"]["id"]][
+                    service_id
+                ] = service
 
     def refresh_interfaces(self):
 
@@ -715,14 +727,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 query_values=self.vms_lookup.keys(),
             )
 
-        # Construct a dictionary of lists, separately for devices and vms.
-        # Allows looking up a list of interfaces by device id or vm id
-        self.device_interfaces_lookup = defaultdict(list)
-        self.vm_interfaces_lookup = defaultdict(list)
+        # Construct a dictionary of dictionaries, separately for devices and vms.
+        # For a given device id or vm id, get a lookup of interface id to interface
+        # This is because interfaces may be returned multiple times when querying for virtual chassis parent and child in separate queries
+        self.device_interfaces_lookup = defaultdict(dict)
+        self.vm_interfaces_lookup = defaultdict(dict)
+
         # /dcim/interfaces gives count_ipaddresses per interface. /virtualization/interfaces does not
         self.devices_with_ips = set()
 
         for interface in device_interfaces:
+            interface_id = interface["id"]
             device_id = interface["device"]["id"]
 
             # Check if device_id is actually a device we've fetched, and was not filtered out by query_filters
@@ -736,16 +751,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if virtual_chassis_master is not None:
                 device_id = virtual_chassis_master
 
-            self.device_interfaces_lookup[device_id].append(interface)
+            self.device_interfaces_lookup[device_id][interface_id] = interface
 
             # Keep track of what devices have interfaces with IPs, so if fetch_all is False we can avoid unnecessary queries
             if interface["count_ipaddresses"] > 0:
                 self.devices_with_ips.add(device_id)
 
         for interface in vm_interfaces:
-            self.vm_interfaces_lookup[interface["virtual_machine"]["id"]].append(
-                interface
-            )
+            interface_id = interface["id"]
+            vm_id = interface["virtual_machine"]["id"]
+
+            self.vm_interfaces_lookup[vm_id][interface_id] = interface
 
     # Note: depends on the result of refresh_interfaces for self.devices_with_ips
     def refresh_ipaddresses(self):
@@ -773,13 +789,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Construct a dictionary of lists, to allow looking up ip addresses by interface id
         # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
-        self.ipaddresses_lookup = defaultdict(list)
+        self.ipaddresses_lookup = defaultdict(dict)
+
         for ipaddress in ipaddresses:
 
             if not ipaddress.get("interface"):
                 continue
 
-            self.ipaddresses_lookup[ipaddress["interface"]["id"]].append(ipaddress)
+            interface_id = ipaddress["interface"]["id"]
+            ip_id = ipaddress["id"]
+
+            self.ipaddresses_lookup[interface_id][ip_id] = ipaddress
 
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
             del ipaddress["interface"]

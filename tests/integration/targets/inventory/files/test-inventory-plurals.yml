@@ -11,8 +11,11 @@ cache_connection: /tmp/inventory_netbox
 config_context: True
 plurals: True
 interfaces: True
-fetch_all: False
 services: True
+
+# Enough to fit only 2 devices, so tests chunking logic
+max_uri_length: 80
+fetch_all: False
 
 group_by:
   - sites
