@@ -14,7 +14,6 @@ from unittest.mock import patch, MagicMock, Mock, call
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
         InventoryModule,
-        ALLOWED_DEVICE_QUERY_PARAMETERS,
     )
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
@@ -26,7 +25,6 @@ except ImportError:
 
     sys.path.append("plugins/inventory")
     sys.path.append("tests")
-    from nb_inventory import InventoryModule, ALLOWED_DEVICE_QUERY_PARAMETERS
     from test_data import load_test_data
 
 load_relative_test_data = partial(
@@ -35,27 +33,61 @@ load_relative_test_data = partial(
 
 
 @pytest.fixture
-def inventory_fixture():
+def inventory_fixture(
+    allowed_device_query_parameters_fixture, allowed_vm_query_parameters_fixture
+):
     inventory = InventoryModule()
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
+
+    # Fill in data that is fetched dynamically
+    inventory.api_version = None
+    inventory.allowed_device_query_parameters = allowed_device_query_parameters_fixture
+    inventory.allowed_vm_query_parameters = allowed_vm_query_parameters_fixture
+
     return inventory
 
 
 @pytest.fixture
 def allowed_device_query_parameters_fixture():
-    return ALLOWED_DEVICE_QUERY_PARAMETERS
+    # Subset of parameters - real list is fetched dynamically from NetBox openapi endpoint
+    return [
+        "id",
+        "interfaces",
+        "has_primary_ip",
+        "mac_address",
+        "name",
+        "platform",
+        "rack_id",
+        "region",
+        "role",
+        "tag",
+    ]
+
+
+@pytest.fixture
+def allowed_vm_query_parameters_fixture():
+    # Subset of parameters - real list is fetched dynamically from NetBox openapi endpoint
+    return [
+        "id",
+        "interfaces",
+        "disk",
+        "mac_address",
+        "name",
+        "platform",
+        "region",
+        "role",
+        "tag",
+    ]
 
 
 @pytest.mark.parametrize(
     "parameter, expected", load_relative_test_data("validate_query_parameter")
 )
-def test_validate_query_parameter(
-    inventory_fixture, allowed_device_query_parameters_fixture, parameter, expected
-):
+def test_validate_query_parameter(inventory_fixture, parameter, expected):
 
     value = "some value, doesn't matter"
     result = inventory_fixture.validate_query_parameter(
-        {parameter: value}, allowed_device_query_parameters_fixture
+        {parameter: value}, inventory_fixture.allowed_device_query_parameters
     )
     assert (result == (parameter, value)) == expected
 
@@ -63,12 +95,10 @@ def test_validate_query_parameter(
 @pytest.mark.parametrize(
     "parameters, expected", load_relative_test_data("filter_query_parameters")
 )
-def test_filter_query_parameters(
-    inventory_fixture, allowed_device_query_parameters_fixture, parameters, expected
-):
+def test_filter_query_parameters(inventory_fixture, parameters, expected):
 
     result = inventory_fixture.filter_query_parameters(
-        parameters, allowed_device_query_parameters_fixture
+        parameters, inventory_fixture.allowed_device_query_parameters
     )
 
     # Result is iterators of tuples

@@ -218,230 +218,6 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress
     ip_interface,
 )
 
-# List of parameters fetched from /api/docs/?format=openapi
-# Use hacking/get_inventory_query_parameters.py to update this
-
-ALLOWED_DEVICE_QUERY_PARAMETERS = (
-    "asset_tag",
-    "asset_tag__ic",
-    "asset_tag__ie",
-    "asset_tag__iew",
-    "asset_tag__isw",
-    "asset_tag__n",
-    "asset_tag__nic",
-    "asset_tag__nie",
-    "asset_tag__niew",
-    "asset_tag__nisw",
-    "cluster_id",
-    "cluster_id__n",
-    "console_ports",
-    "console_server_ports",
-    "created",
-    "created__gte",
-    "created__lte",
-    "device_bays",
-    "device_type_id",
-    "device_type_id__n",
-    "face",
-    "face__n",
-    "has_primary_ip",
-    "id",
-    "id__gt",
-    "id__gte",
-    "id__lt",
-    "id__lte",
-    "id__n",
-    "interfaces",
-    "is_full_depth",
-    "last_updated",
-    "last_updated__gte",
-    "last_updated__lte",
-    "limit",
-    "local_context_data",
-    "mac_address",
-    "mac_address__ic",
-    "mac_address__ie",
-    "mac_address__iew",
-    "mac_address__isw",
-    "mac_address__n",
-    "mac_address__nic",
-    "mac_address__nie",
-    "mac_address__niew",
-    "mac_address__nisw",
-    "manufacturer",
-    "manufacturer__n",
-    "manufacturer_id",
-    "manufacturer_id__n",
-    "model",
-    "model__n",
-    "name",
-    "name__ic",
-    "name__ie",
-    "name__iew",
-    "name__isw",
-    "name__n",
-    "name__nic",
-    "name__nie",
-    "name__niew",
-    "name__nisw",
-    "offset",
-    "pass_through_ports",
-    "platform",
-    "platform__n",
-    "platform_id",
-    "platform_id__n",
-    "position",
-    "position__gt",
-    "position__gte",
-    "position__lt",
-    "position__lte",
-    "position__n",
-    "power_outlets",
-    "power_ports",
-    "q",
-    "rack_group_id",
-    "rack_group_id__n",
-    "rack_id",
-    "rack_id__n",
-    "region",
-    "region__n",
-    "region_id",
-    "region_id__n",
-    "role",
-    "role__n",
-    "role_id",
-    "role_id__n",
-    "serial",
-    "site",
-    "site__n",
-    "site_id",
-    "site_id__n",
-    "status",
-    "status__n",
-    "tag",
-    "tag__n",
-    "tenant",
-    "tenant__n",
-    "tenant_group",
-    "tenant_group__n",
-    "tenant_group_id",
-    "tenant_group_id__n",
-    "tenant_id",
-    "tenant_id__n",
-    "vc_position",
-    "vc_position__gt",
-    "vc_position__gte",
-    "vc_position__lt",
-    "vc_position__lte",
-    "vc_position__n",
-    "vc_priority",
-    "vc_priority__gt",
-    "vc_priority__gte",
-    "vc_priority__lt",
-    "vc_priority__lte",
-    "vc_priority__n",
-    "virtual_chassis_id",
-    "virtual_chassis_id__n",
-    "virtual_chassis_member",
-)
-
-ALLOWED_VM_QUERY_PARAMETERS = (
-    "cluster",
-    "cluster__n",
-    "cluster_group",
-    "cluster_group__n",
-    "cluster_group_id",
-    "cluster_group_id__n",
-    "cluster_id",
-    "cluster_id__n",
-    "cluster_type",
-    "cluster_type__n",
-    "cluster_type_id",
-    "cluster_type_id__n",
-    "created",
-    "created__gte",
-    "created__lte",
-    "disk",
-    "disk__gt",
-    "disk__gte",
-    "disk__lt",
-    "disk__lte",
-    "disk__n",
-    "id",
-    "id__gt",
-    "id__gte",
-    "id__lt",
-    "id__lte",
-    "id__n",
-    "last_updated",
-    "last_updated__gte",
-    "last_updated__lte",
-    "limit",
-    "local_context_data",
-    "mac_address",
-    "mac_address__ic",
-    "mac_address__ie",
-    "mac_address__iew",
-    "mac_address__isw",
-    "mac_address__n",
-    "mac_address__nic",
-    "mac_address__nie",
-    "mac_address__niew",
-    "mac_address__nisw",
-    "memory",
-    "memory__gt",
-    "memory__gte",
-    "memory__lt",
-    "memory__lte",
-    "memory__n",
-    "name",
-    "name__ic",
-    "name__ie",
-    "name__iew",
-    "name__isw",
-    "name__n",
-    "name__nic",
-    "name__nie",
-    "name__niew",
-    "name__nisw",
-    "offset",
-    "platform",
-    "platform__n",
-    "platform_id",
-    "platform_id__n",
-    "q",
-    "region",
-    "region__n",
-    "region_id",
-    "region_id__n",
-    "role",
-    "role__n",
-    "role_id",
-    "role_id__n",
-    "site",
-    "site__n",
-    "site_id",
-    "site_id__n",
-    "status",
-    "status__n",
-    "tag",
-    "tag__n",
-    "tenant",
-    "tenant__n",
-    "tenant_group",
-    "tenant_group__n",
-    "tenant_group_id",
-    "tenant_group_id__n",
-    "tenant_id",
-    "tenant_id__n",
-    "vcpus",
-    "vcpus__gt",
-    "vcpus__gte",
-    "vcpus__lt",
-    "vcpus__lte",
-    "vcpus__n",
-)
-
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
@@ -465,12 +241,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # occurs if the cache_key is not in the cache or if the cache_key expired
                 # we need to fetch the URL now
                 need_to_fetch = True
-                self.display.v("Not cached, opening url: " + url)
         else:
             # not reading from cache so do fetch
             need_to_fetch = True
 
         if need_to_fetch:
+            self.display.v("Fetching: " + url)
             response = open_url(
                 url,
                 headers=self.headers,
@@ -508,7 +284,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Handle pagination
         while api_url:
-            self.display.v("Fetching: " + api_url)
             api_output = self._fetch_information(api_url)
             resources.extend(api_output["results"])
             api_url = api_output["next"]
@@ -533,6 +308,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Sanity check, for case where max_uri_length < (api_url + length_per_value)
         if chunk_size < 1:
+            chunk_size = 1
+
+        if self.api_version == "2.6":
+            # Issue netbox-community/netbox#3507 was fixed in v2.7.5
+            # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
+            # but it's probably faster to keep fetch_all: True
+            # (You should really just upgrade your Netbox install)
             chunk_size = 1
 
         resources = []
@@ -1071,6 +853,22 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Avoid retain cycles
             thread_exceptions = None
 
+    def fetch_api_docs(self):
+        openapi = self._fetch_information(
+            self.api_endpoint + "/api/docs/?format=openapi"
+        )
+
+        self.api_version = openapi["info"]["version"]
+        self.allowed_device_query_parameters = [
+            p["name"] for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
+        ]
+        self.allowed_vm_query_parameters = [
+            p["name"]
+            for p in openapi["paths"]["/virtualization/virtual-machines/"]["get"][
+                "parameters"
+            ]
+        ]
+
     def validate_query_parameter(self, parameter, allowed_query_parameters):
         if not (isinstance(parameter, dict) and len(parameter) == 1):
             self.display.warning(
@@ -1114,27 +912,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if isinstance(self.query_filters, Iterable):
             device_query_parameters.extend(
                 self.filter_query_parameters(
-                    self.query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
+                    self.query_filters, self.allowed_device_query_parameters
                 )
             )
 
             vm_query_parameters.extend(
                 self.filter_query_parameters(
-                    self.query_filters, ALLOWED_VM_QUERY_PARAMETERS
+                    self.query_filters, self.allowed_vm_query_parameters
                 )
             )
 
         if isinstance(self.device_query_filters, Iterable):
             device_query_parameters.extend(
                 self.filter_query_parameters(
-                    self.device_query_filters, ALLOWED_DEVICE_QUERY_PARAMETERS
+                    self.device_query_filters, self.allowed_device_query_parameters
                 )
             )
 
         if isinstance(self.vm_query_filters, Iterable):
             vm_query_parameters.extend(
                 self.filter_query_parameters(
-                    self.vm_query_filters, ALLOWED_VM_QUERY_PARAMETERS
+                    self.vm_query_filters, self.allowed_vm_query_parameters
                 )
             )
 
@@ -1354,6 +1152,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return master.get("id", None)
 
     def main(self):
+        # Get info about the API - version, allowed query parameters
+        self.fetch_api_docs()
+
         self.fetch_hosts()
 
         # Interface, and Service lookup will depend on hosts, if option fetch_all is false
