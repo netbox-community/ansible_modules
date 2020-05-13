@@ -112,6 +112,8 @@ DOCUMENTATION = """
                 - tenant
                 - racks
                 - rack
+                - rack_groups
+                - rack_role
                 - tags
                 - tag
                 - device_roles
@@ -358,6 +360,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("rack"): self.extract_rack,
+            "rack_groups": self.extract_rack_groups,
+            "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
             self._pluralize_group_by("platform"): self.extract_platform,
@@ -402,6 +406,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         else:
             return extracted_value
 
+    def _objects_array_following_parents(
+        self, initial_object_id, object_lookup, object_parent_lookup
+    ):
+        objects = []
+
+        object_id = initial_object_id
+
+        # Keep looping until the object has no parent
+        while object_id is not None:
+            object_slug = object_lookup[object_id]
+
+            if object_slug in objects:
+                # Won't ever happen - defensively guard against infinite loop
+                break
+
+            objects.append(object_slug)
+
+            # Get the parent of this object
+            object_id = object_parent_lookup[object_id]
+
+        return objects
+
     def extract_disk(self, host):
         return host.get("disk")
 
@@ -439,6 +465,35 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_rack(self, host):
         try:
             return self._pluralize(self.racks_lookup[host["rack"]["id"]])
+        except Exception:
+            return
+
+    def extract_rack_groups(self, host):
+        # A host may have a rack. A rack may have a rack_group. A rack_group may have a parent rack_group.
+        # Produce a list of rack_groups:
+        # - it will be empty if the device has no rack, or the rack has no rack_group
+        # - it will have 1 element if the rack's group has no parent
+        # - it will have multiple elements if the rack's group has a parent group
+
+        rack = host.get("rack", None)
+        if not isinstance(rack, dict):
+            # Device has no rack
+            return None
+
+        rack_id = rack.get("id", None)
+        if rack_id is None:
+            # Device has no rack
+            return None
+
+        return self._objects_array_following_parents(
+            initial_object_id=self.racks_group_lookup[rack_id],
+            object_lookup=self.rack_groups_lookup,
+            object_parent_lookup=self.rack_group_parent_lookup,
+        )
+
+    def extract_rack_role(self, host):
+        try:
+            return self.racks_role_lookup[host["rack"]["id"]]
         except Exception:
             return
 
@@ -561,21 +616,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Device has no site
             return []
 
-        regions = []
-        region_id = self.sites_region_lookup[site_id]
-
-        # Keep looping until the region has no parent
-        while region_id is not None:
-            region_slug = self.regions_lookup[region_id]
-            if region_slug in regions:
-                # Won't ever happen - defensively guard against infinite loop
-                break
-            regions.append(region_slug)
-
-            # Get the parent of this region
-            region_id = self.regions_parent_lookup[region_id]
-
-        return regions
+        return self._objects_array_following_parents(
+            initial_object_id=self.sites_region_lookup[site_id],
+            object_lookup=self.regions_lookup,
+            object_parent_lookup=self.regions_parent_lookup,
+        )
 
     def extract_cluster(self, host):
         try:
@@ -619,9 +664,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return (site["id"], None)
 
         # Dictionary of site id to region id
-        self.sites_region_lookup = dict(
-            filter(lambda x: x is not None, map(get_region_for_site, sites))
-        )
+        self.sites_region_lookup = dict(map(get_region_for_site, sites))
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
@@ -649,6 +692,37 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         url = self.api_endpoint + "/api/dcim/racks/?limit=0"
         racks = self.get_resource_list(api_url=url)
         self.racks_lookup = dict((rack["id"], rack["name"]) for rack in racks)
+
+        def get_group_for_rack(rack):
+            try:
+                return (rack["id"], rack["group"]["id"])
+            except Exception:
+                return (rack["id"], None)
+
+        def get_role_for_rack(rack):
+            try:
+                return (rack["id"], rack["role"]["slug"])
+            except Exception:
+                return (rack["id"], None)
+
+        self.racks_group_lookup = dict(map(get_group_for_rack, racks))
+        self.racks_role_lookup = dict(map(get_role_for_rack, racks))
+
+    def refresh_rack_groups_lookup(self):
+        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
+        rack_groups = self.get_resource_list(api_url=url)
+        self.rack_groups_lookup = dict(
+            (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
+        )
+
+        def get_rack_group_parent(rack_group):
+            try:
+                return (rack_group["id"], rack_group["parent"]["id"])
+            except Exception:
+                return (rack_group["id"], None)
+
+        # Dictionary of rack group id to parent rack group id
+        self.rack_group_parent_lookup = dict(map(get_rack_group_parent, rack_groups))
 
     def refresh_device_roles_lookup(self):
         url = self.api_endpoint + "/api/dcim/device-roles/?limit=0"
@@ -689,13 +763,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except Exception:
                 return (cluster["id"], None)
 
-        self.clusters_type_lookup = dict(
-            filter(lambda x: x is not None, map(get_cluster_type, clusters))
-        )
-
-        self.clusters_group_lookup = dict(
-            filter(lambda x: x is not None, map(get_cluster_group, clusters))
-        )
+        self.clusters_type_lookup = dict(map(get_cluster_type, clusters))
+        self.clusters_group_lookup = dict(map(get_cluster_group, clusters))
 
     def refresh_services(self):
         url = self.api_endpoint + "/api/ipam/services/?limit=0"
@@ -846,6 +915,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_regions_lookup,
             self.refresh_tenants_lookup,
             self.refresh_racks_lookup,
+            self.refresh_rack_groups_lookup,
             self.refresh_device_roles_lookup,
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,

@@ -159,22 +159,33 @@ created_device_roles = nb.dcim.device_roles.create(device_roles)
 core_switch = nb.dcim.device_roles.get(slug="core-switch")
 
 
-## Create Racks
-racks = [{"name": "Test Rack", "slug": "test-rack", "site": test_site2.id}]
-created_racks = nb.dcim.racks.create(racks)
-test_rack = nb.dcim.racks.get(slug="test-rack")
-
-
 ## Create Rack Groups
 rack_groups = [
-    {"name": "Test Rack Group", "slug": "test-rack-group", "site": test_site.id}
+    {"name": "Test Rack Group", "slug": "test-rack-group", "site": test_site.id},
+    {"name": "Parent Rack Group", "slug": "parent-rack-group", "site": test_site.id},
 ]
 created_rack_groups = nb.dcim.rack_groups.create(rack_groups)
 
+### Create Rack Group Parent relationship
+created_rack_groups[0].parent = created_rack_groups[1]
+created_rack_groups[0].save()
 
 ## Create Rack Roles
 rack_roles = [{"name": "Test Rack Role", "slug": "test-rack-role", "color": "4287f5"}]
 created_rack_roles = nb.dcim.rack_roles.create(rack_roles)
+
+## Create Racks
+racks = [
+    {
+        "name": "Test Rack Site 2",
+        "site": test_site2.id,
+        "role": created_rack_roles[0].id,
+    },
+    {"name": "Test Rack", "site": test_site.id, "group": created_rack_groups[0].id},
+]
+created_racks = nb.dcim.racks.create(racks)
+test_rack = nb.dcim.racks.get(name="Test Rack")  # racks don't have slugs
+test_rack_site2 = nb.dcim.racks.get(name="Test Rack Site 2")
 
 
 ## Create Devices
@@ -191,13 +202,14 @@ devices = [
         "device_type": cisco_test.id,
         "device_role": core_switch.id,
         "site": test_site.id,
+        "rack": test_rack.id,
     },
     {
         "name": "R1-Device",
         "device_type": cisco_test.id,
         "device_role": core_switch.id,
         "site": test_site2.id,
-        "rack": test_rack.id,
+        "rack": test_rack_site2.id,
     },
     {
         "name": "Test Nexus One",

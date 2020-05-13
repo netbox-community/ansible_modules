@@ -25,6 +25,8 @@ group_by:
   - site
   - tenant
   - rack
+  - rack_groups
+  - rack_role
   - tag
   - role
   - device_type
