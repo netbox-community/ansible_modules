@@ -833,8 +833,8 @@
             "device_types_nexus_parent",
             "is_virtual",
             "manufacturers_cisco",
-            "rack_groups_parent_rack_group",
-            "rack_groups_test_rack_group",
+            "rack_group_parent_rack_group",
+            "rack_group_test_rack_group",
             "rack_role_test_rack_role",
             "racks_Test_Rack",
             "racks_Test_Rack_Site_2",
@@ -914,12 +914,12 @@
             "test100"
         ]
     },
-    "rack_groups_parent_rack_group": {
+    "rack_group_parent_rack_group": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "rack_groups_test_rack_group": {
+    "rack_group_test_rack_group": {
         "hosts": [
             "TestDeviceR1"
         ]

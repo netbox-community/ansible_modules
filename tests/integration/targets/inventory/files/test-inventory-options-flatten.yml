@@ -25,7 +25,7 @@ group_by:
   - site
   - tenant
   - rack
-  - rack_groups
+  - rack_group
   - rack_role
   - tag
   - role

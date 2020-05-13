@@ -112,7 +112,7 @@ DOCUMENTATION = """
                 - tenant
                 - racks
                 - rack
-                - rack_groups
+                - rack_group
                 - rack_role
                 - tags
                 - tag
@@ -360,7 +360,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("rack"): self.extract_rack,
-            "rack_groups": self.extract_rack_groups,
+            "rack_group": self.extract_rack_group,
             "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
@@ -468,7 +468,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             return
 
-    def extract_rack_groups(self, host):
+    def extract_rack_group(self, host):
         # A host may have a rack. A rack may have a rack_group. A rack_group may have a parent rack_group.
         # Produce a list of rack_groups:
         # - it will be empty if the device has no rack, or the rack has no rack_group
@@ -1239,6 +1239,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             if attribute == "region":
                 attribute = "regions"
+
+            if attribute == "rack_group":
+                attribute = "rack_groups"
 
             # Flatten the dict into separate host vars, if enabled
             if isinstance(extracted_value, dict) and (

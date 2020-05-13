@@ -741,8 +741,8 @@
             "manufacturer_cisco",
             "rack_Test_Rack",
             "rack_Test_Rack_Site_2",
-            "rack_groups_parent_rack_group",
-            "rack_groups_test_rack_group",
+            "rack_group_parent_rack_group",
+            "rack_group_test_rack_group",
             "rack_role_test_rack_role",
             "region_other_region",
             "region_parent_region",
@@ -823,12 +823,12 @@
             "R1-Device"
         ]
     },
-    "rack_groups_parent_rack_group": {
+    "rack_group_parent_rack_group": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "rack_groups_test_rack_group": {
+    "rack_group_test_rack_group": {
         "hosts": [
             "TestDeviceR1"
         ]
