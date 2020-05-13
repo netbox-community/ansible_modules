@@ -347,18 +347,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
-            ("sites" if self.plurals else "site"): self.extract_site,
-            ("tenants" if self.plurals else "tenant"): self.extract_tenant,
-            ("racks" if self.plurals else "rack"): self.extract_rack,
-            ("tags" if self.plurals else "tag"): self.extract_tags,
-            ("device_roles" if self.plurals else "role"): self.extract_device_role,
-            ("platforms" if self.plurals else "platform"): self.extract_platform,
-            (
-                "device_types" if self.plurals else "device_type"
-            ): self.extract_device_type,
-            (
-                "manufacturers" if self.plurals else "manufacturer"
-            ): self.extract_manufacturer,
+            self._pluralize_group_by("site"): self.extract_site,
+            self._pluralize_group_by("tenant"): self.extract_tenant,
+            self._pluralize_group_by("rack"): self.extract_rack,
+            self._pluralize_group_by("tag"): self.extract_tags,
+            self._pluralize_group_by("role"): self.extract_device_role,
+            self._pluralize_group_by("platform"): self.extract_platform,
+            self._pluralize_group_by("device_type"): self.extract_device_type,
+            self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
 
         if self.services:
@@ -372,6 +368,24 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
 
         return extractors
+
+    def _pluralize_group_by(self, group_by):
+        mapping = {
+            "site": "sites",
+            "tenant": "tenants",
+            "rack": "racks",
+            "tag": "tags",
+            "role": "device_roles",
+            "platform": "platforms",
+            "device_type": "device_types",
+            "manufacturer": "manufacturers",
+        }
+
+        if self.plurals:
+            mapped = mapping.get(group_by)
+            return mapped or group_by
+        else:
+            return group_by
 
     def _pluralize(self, extracted_value):
         # If plurals is enabled, wrap in a single-element list for backwards compatibility
@@ -1036,10 +1050,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if "region" in self.group_by:
             # Make sure "site" or "sites" grouping also exists, depending on plurals options
-            if self.plurals and "sites" not in self.group_by:
-                self.group_by.append("sites")
-            elif not self.plurals and "site" not in self.group_by:
-                self.group_by.append("site")
+            site_group_by = self._pluralize_group_by("site")
+            if site_group_by not in self.group_by:
+                self.group_by.append(site_group_by)
 
         for grouping in self.group_by:
 
@@ -1108,7 +1121,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             site_name = self.sites_lookup[site_id]
             site_group_name = self.generate_group_name(
-                "sites" if self.plurals else "site", site_name
+                self._pluralize_group_by("site"), site_name
             )
             # Add the site group to get its transformed name
             # Will already be created by add_host_to_groups - it's ok to call add_group again just to get its name
