@@ -13,6 +13,7 @@
                     "cisco-test"
                 ],
                 "interfaces": [],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -23,30 +24,6 @@
                 "services": [],
                 "sites": [
                     "test-site2"
-                ],
-                "tags": []
-            },
-            "Test Nexus Child One": {
-                "config_context": [
-                    {}
-                ],
-                "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-child"
-                ],
-                "interfaces": [],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "sites": [
-                    "test-site"
                 ],
                 "tags": []
             },
@@ -67,17 +44,39 @@
                         "connected_endpoint": null,
                         "connected_endpoint_type": null,
                         "connection_status": null,
-                        "count_ipaddresses": 0,
+                        "count_ipaddresses": 1,
                         "description": "",
                         "device": {
                             "display_name": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:32768/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "enabled": true,
                         "id": 1,
-                        "ip_addresses": [],
+                        "ip_addresses": [
+                            {
+                                "address": "172.16.180.11/24",
+                                "custom_fields": {},
+                                "description": "",
+                                "dns_name": "",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 3,
+                                "nat_inside": null,
+                                "nat_outside": null,
+                                "role": null,
+                                "status": {
+                                    "id": 1,
+                                    "label": "Active",
+                                    "value": "active"
+                                },
+                                "tags": [],
+                                "tenant": null,
+                                "vrf": null
+                            }
+                        ],
                         "lag": null,
                         "mac_address": null,
                         "mgmt_only": false,
@@ -92,8 +91,62 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null
+                    },
+                    {
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_type": null,
+                        "connection_status": null,
+                        "count_ipaddresses": 1,
+                        "description": "",
+                        "device": {
+                            "display_name": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
+                        },
+                        "enabled": true,
+                        "id": 2,
+                        "ip_addresses": [
+                            {
+                                "address": "172.16.180.12/24",
+                                "custom_fields": {},
+                                "description": "",
+                                "dns_name": "",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 4,
+                                "nat_inside": null,
+                                "nat_outside": null,
+                                "role": null,
+                                "status": {
+                                    "id": 1,
+                                    "label": "Active",
+                                    "value": "active"
+                                },
+                                "tags": [],
+                                "tenant": null,
+                                "vrf": null
+                            }
+                        ],
+                        "lag": null,
+                        "mac_address": null,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Ethernet2/1",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "type": {
+                            "id": 1000,
+                            "label": "1000BASE-T (1GE)",
+                            "value": "1000base-t"
+                        },
+                        "untagged_vlan": null
                     }
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -101,8 +154,106 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
+                        },
+                        "id": 3,
+                        "ipaddresses": [],
+                        "name": "telnet",
+                        "port": 23,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "sites": [
                     "test-site"
+                ],
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "config_context": [
+                    {}
+                ],
+                "custom_fields": {},
+                "interfaces": [
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 15,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth0",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "type": {
+                            "label": "Virtual",
+                            "value": "virtual"
+                        },
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 6,
+                            "name": "Test VM With Spaces"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 16,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth1",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "type": {
+                            "label": "Virtual",
+                            "value": "virtual"
+                        },
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 6,
+                            "name": "Test VM With Spaces"
+                        }
+                    }
+                ],
+                "is_virtual": true,
+                "regions": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": null,
+                        "id": 4,
+                        "ipaddresses": [],
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": {
+                            "id": 6,
+                            "name": "Test VM With Spaces"
+                        }
+                    }
                 ],
                 "tags": []
             },
@@ -118,6 +269,7 @@
                     "cisco-test"
                 ],
                 "interfaces": [],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -157,15 +309,13 @@
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "enabled": true,
-                        "id": 2,
+                        "id": 3,
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.1/24",
-                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -174,19 +324,6 @@
                                     "value": 4
                                 },
                                 "id": 1,
-                                "interface": {
-                                    "device": {
-                                        "display_name": "test100",
-                                        "id": 1,
-                                        "name": "test100",
-                                        "url": "http://localhost:32768/api/dcim/devices/1/"
-                                    },
-                                    "id": 2,
-                                    "name": "GigabitEthernet1",
-                                    "url": "http://localhost:32768/api/dcim/interfaces/2/",
-                                    "virtual_machine": null
-                                },
-                                "last_updated": "2020-04-21T14:01:20.151503Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -225,15 +362,13 @@
                         "device": {
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "enabled": true,
-                        "id": 3,
+                        "id": 4,
                         "ip_addresses": [
                             {
                                 "address": "2001::1:1/64",
-                                "created": "2020-04-21",
                                 "custom_fields": {},
                                 "description": "",
                                 "dns_name": "",
@@ -242,19 +377,6 @@
                                     "value": 6
                                 },
                                 "id": 2,
-                                "interface": {
-                                    "device": {
-                                        "display_name": "test100",
-                                        "id": 1,
-                                        "name": "test100",
-                                        "url": "http://localhost:32768/api/dcim/devices/1/"
-                                    },
-                                    "id": 3,
-                                    "name": "GigabitEthernet2",
-                                    "url": "http://localhost:32768/api/dcim/interfaces/3/",
-                                    "virtual_machine": null
-                                },
-                                "last_updated": "2020-04-21T14:01:20.156802Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -284,6 +406,7 @@
                         "untagged_vlan": null
                     }
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -291,7 +414,59 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "id": 1,
+                        "ipaddresses": [],
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    },
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "id": 2,
+                        "ipaddresses": [
+                            {
+                                "address": "172.16.180.1/24",
+                                "family": 4,
+                                "id": 1
+                            },
+                            {
+                                "address": "2001::1:1/64",
+                                "family": 6,
+                                "id": 2
+                            }
+                        ],
+                        "name": "http",
+                        "port": 80,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -309,7 +484,7 @@
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 4,
+                        "id": 5,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -324,14 +499,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 5,
+                        "id": 6,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -346,14 +520,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 6,
+                        "id": 7,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -368,14 +541,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 7,
+                        "id": 8,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -390,14 +562,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 8,
+                        "id": 9,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -412,15 +583,16 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     }
                 ],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -438,7 +610,7 @@
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 9,
+                        "id": 10,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -453,14 +625,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 10,
+                        "id": 11,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -475,14 +646,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 11,
+                        "id": 12,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -497,14 +667,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 12,
+                        "id": 13,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -519,14 +688,13 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 13,
+                        "id": 14,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -541,15 +709,16 @@
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     }
                 ],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -564,10 +733,12 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -582,10 +753,12 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -599,7 +772,9 @@
                 ],
                 "custom_fields": {},
                 "interfaces": [],
+                "is_virtual": true,
                 "regions": [],
+                "services": [],
                 "tags": []
             }
         }
@@ -612,8 +787,8 @@
             "cluster_type_test_cluster_type",
             "device_roles_core_switch",
             "device_types_cisco_test",
-            "device_types_nexus_child",
             "device_types_nexus_parent",
+            "is_virtual",
             "manufacturers_cisco",
             "racks_Test_Rack",
             "region_other_region",
@@ -632,6 +807,7 @@
     },
     "cluster_Test_Cluster_2": {
         "hosts": [
+            "Test VM With Spaces",
             "test104-vm"
         ]
     },
@@ -645,6 +821,7 @@
     },
     "cluster_type_test_cluster_type": {
         "hosts": [
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -655,7 +832,6 @@
     "device_roles_core_switch": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -668,20 +844,24 @@
             "test100"
         ]
     },
-    "device_types_nexus_child": {
-        "hosts": [
-            "Test Nexus Child One"
-        ]
-    },
     "device_types_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
     },
+    "is_virtual": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "manufacturers_cisco": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -704,7 +884,6 @@
     },
     "sites_test_site": {
         "hosts": [
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100",

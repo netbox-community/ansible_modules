@@ -122,7 +122,7 @@
       - test_five['interface']['enabled'] == false
       - test_five['interface']['form_factor'] == 1000
       - test_five['interface']['mgmt_only'] == false
-      - test_five['interface']['lag'] == 15
+      - test_five['interface']['lag'] == 18
       - test_five['interface']['mode'] == 100
       - test_five['interface']['mtu'] == 1600
 
@@ -220,7 +220,7 @@
       - test_eight['interface']['enabled'] == false
       - test_eight['interface']['form_factor'] == 1000
       - test_eight['interface']['mgmt_only'] == false
-      - test_eight['interface']['lag'] == 15
+      - test_eight['interface']['lag'] == 18
       - test_eight['interface']['mode'] == 100
       - test_eight['interface']['mtu'] == 1600
 
@@ -230,7 +230,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: Test Nexus Child One
-      name: Ethernet2/1
+      name: Ethernet2/2
       form_factor: 1000Base-T (1GE)
     state: present
   register: test_nine
@@ -239,10 +239,10 @@
   assert:
     that:
       - test_nine is changed
-      - test_nine['msg'] == "interface Ethernet2/1 created"
+      - test_nine['msg'] == "interface Ethernet2/2 created"
       - test_nine['diff']['before']['state'] == 'absent'
       - test_nine['diff']['after']['state'] == 'present'
-      - test_nine['interface']['name'] == "Ethernet2/1"
+      - test_nine['interface']['name'] == "Ethernet2/2"
       - test_nine['interface']['device'] == 5
       - test_nine['interface']['enabled'] == true
       - test_nine['interface']['form_factor'] == 1000
@@ -253,7 +253,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: Test Nexus One
-      name: Ethernet2/1
+      name: Ethernet2/2
       description: "Updated child interface from parent device"
     update_vc_child: True
     state: present
@@ -263,9 +263,9 @@
   assert:
     that:
       - test_ten is changed
-      - test_ten['msg'] == "interface Ethernet2/1 updated"
+      - test_ten['msg'] == "interface Ethernet2/2 updated"
       - test_ten['diff']['after']['description'] == 'Updated child interface from parent device'
-      - test_ten['interface']['name'] == "Ethernet2/1"
+      - test_ten['interface']['name'] == "Ethernet2/2"
       - test_ten['interface']['device'] == 5
       - test_ten['interface']['enabled'] == true
       - test_ten['interface']['form_factor'] == 1000
@@ -277,7 +277,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: Test Nexus One
-      name: Ethernet2/1
+      name: Ethernet2/2
       description: "Updated child interface from parent device - test"
     state: present
   ignore_errors: yes

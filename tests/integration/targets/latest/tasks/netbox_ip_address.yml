@@ -174,8 +174,8 @@
       - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
       - test_eight['ip_address']['address'] == "10.10.1.30/16"
       - test_eight['ip_address']['family'] == 4
-      - test_eight['ip_address']['interface'] == 2
-      - test_eight['ip_address']['nat_inside'] == 7
+      - test_eight['ip_address']['interface'] == 3
+      - test_eight['ip_address']['nat_inside'] == 10
       - test_eight['ip_address']['vrf'] == 1
 
 - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
@@ -199,7 +199,7 @@
       - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
       - test_nine['ip_address']['address'] == "10.10.200.30/16"
       - test_nine['ip_address']['family'] == 4
-      - test_nine['ip_address']['interface'] == 3
+      - test_nine['ip_address']['interface'] == 4
 
 - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
   netbox.netbox.netbox_ip_address:
@@ -223,7 +223,7 @@
       - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
       - test_ten['ip_address']['address'] == "10.10.0.1/16"
       - test_ten['ip_address']['family']['value'] == 4
-      - test_ten['ip_address']['interface']['id'] == 3
+      - test_ten['ip_address']['interface']['id'] == 4
 
 - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
   netbox.netbox.netbox_ip_address:
@@ -265,7 +265,7 @@
       - not test_twelve['changed']
       - test_twelve['msg'] == "ip_address 192.168.100.2/24 already exists"
       - test_twelve['ip_address']['address'] == "192.168.100.2/24"
-      - test_twelve['ip_address']['interface'] == 3
+      - test_twelve['ip_address']['interface'] == 4
 
 - name: "13 - Duplicate - 192.168.100.2/24"
   netbox.netbox.netbox_ip_address:
@@ -304,7 +304,7 @@
       - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
       - test_fourteen['ip_address']['family'] == 4
-      - test_fourteen['ip_address']['interface'] == 4
+      - test_fourteen['ip_address']['interface'] == 5
 
 - name: "15 - Create IP address with no mask - State: Present"
   netbox.netbox.netbox_ip_address:
