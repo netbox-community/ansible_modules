@@ -9,6 +9,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -22,26 +23,6 @@
                 ],
                 "tags": []
             },
-            "Test Nexus Child One": {
-                "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-child"
-                ],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "sites": [
-                    "test-site"
-                ],
-                "tags": []
-            },
             "Test Nexus One": {
                 "custom_fields": {},
                 "device_roles": [
@@ -50,6 +31,7 @@
                 "device_types": [
                     "nexus-parent"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -57,8 +39,59 @@
                     "test-region",
                     "parent-region"
                 ],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
+                        },
+                        "id": 3,
+                        "ipaddresses": [],
+                        "name": "telnet",
+                        "port": 23,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "sites": [
                     "test-site"
+                ],
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "regions": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": null,
+                        "id": 4,
+                        "ipaddresses": [],
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": {
+                            "id": 6,
+                            "name": "Test VM With Spaces"
+                        }
+                    }
                 ],
                 "tags": []
             },
@@ -70,6 +103,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -91,6 +125,7 @@
                 "device_types": [
                     "cisco-test"
                 ],
+                "is_virtual": false,
                 "manufacturers": [
                     "cisco"
                 ],
@@ -98,7 +133,59 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "id": 1,
+                        "ipaddresses": [],
+                        "name": "ssh",
+                        "port": 22,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    },
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display_name": "test100",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "id": 2,
+                        "ipaddresses": [
+                            {
+                                "address": "172.16.180.1/24",
+                                "family": 4,
+                                "id": 1
+                            },
+                            {
+                                "address": "2001::1:1/64",
+                                "family": 6,
+                                "id": 2
+                            }
+                        ],
+                        "name": "http",
+                        "port": 80,
+                        "protocol": {
+                            "id": 6,
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [],
+                        "virtual_machine": null
+                    }
+                ],
                 "sites": [
                     "test-site"
                 ],
@@ -109,10 +196,12 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -123,10 +212,12 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -137,10 +228,12 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -151,10 +244,12 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -164,7 +259,9 @@
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [],
+                "services": [],
                 "tags": []
             }
         }
@@ -177,8 +274,8 @@
     "ungrouped": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
+            "Test VM With Spaces",
             "TestDeviceR1",
             "test100",
             "test100-vm",

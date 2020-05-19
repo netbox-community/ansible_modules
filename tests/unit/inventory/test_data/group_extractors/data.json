@@ -1,0 +1,76 @@
+[
+    {
+        "plurals": false,
+        "interfaces": false,
+        "services": false,
+        "expected": [
+            "disk",
+            "memory",
+            "vcpus",
+            "config_context",
+            "custom_fields",
+            "region",
+            "cluster",
+            "cluster_group",
+            "cluster_type",
+            "is_virtual",
+            "site",
+            "tenant",
+            "rack",
+            "tag",
+            "role",
+            "platform",
+            "device_type",
+            "manufacturer"
+        ],
+        "not_expected": [
+            "sites",
+            "tenants",
+            "racks",
+            "tags",
+            "device_roles",
+            "platforms",
+            "device_types",
+            "manufacturers",
+            "services",
+            "interfaces"
+        ]
+    },
+    {
+        "plurals": true,
+        "interfaces": true,
+        "services": true,
+        "expected": [
+            "disk",
+            "memory",
+            "vcpus",
+            "config_context",
+            "custom_fields",
+            "region",
+            "cluster",
+            "cluster_group",
+            "cluster_type",
+            "is_virtual",
+            "sites",
+            "tenants",
+            "racks",
+            "tags",
+            "device_roles",
+            "platforms",
+            "device_types",
+            "manufacturers",
+            "services",
+            "interfaces"
+        ],
+        "not_expected": [
+            "site",
+            "tenant",
+            "rack",
+            "tag",
+            "role",
+            "platform",
+            "device_type",
+            "manufacturer"
+        ]
+    }
+]

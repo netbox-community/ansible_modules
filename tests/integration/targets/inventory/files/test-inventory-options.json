@@ -9,6 +9,7 @@
     },
     "Test_Cluster_2": {
         "hosts": [
+            "Test VM With Spaces",
             "test104-vm"
         ]
     },
@@ -23,6 +24,7 @@
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "display": "R1-Device",
+                "is_virtual": false,
                 "manufacturer": "cisco",
                 "rack": "Test Rack",
                 "rack_id": "1",
@@ -31,10 +33,11 @@
                 "site": "test-site2",
                 "tags": []
             },
-            "Test Nexus Child One": {
+            "Test Nexus One": {
                 "custom_fields": {},
-                "device_type": "nexus-child",
-                "display": "Test Nexus Child One",
+                "device_type": "nexus-parent",
+                "display": "Test Nexus One",
+                "is_virtual": false,
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",
@@ -44,23 +47,19 @@
                 "site": "test-site",
                 "tags": []
             },
-            "Test Nexus One": {
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
-                "device_type": "nexus-parent",
-                "display": "Test Nexus One",
-                "manufacturer": "cisco",
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "role": "core-switch",
-                "site": "test-site",
+                "is_virtual": true,
+                "regions": [],
                 "tags": []
             },
             "TestDeviceR1": {
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "display": "TestDeviceR1",
+                "is_virtual": false,
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",
@@ -74,6 +73,7 @@
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "display": "test100",
+                "is_virtual": false,
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",
@@ -88,6 +88,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -100,6 +101,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -112,6 +114,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -124,6 +127,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -135,6 +139,7 @@
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "is_virtual": true,
                 "regions": [],
                 "tags": []
             }
@@ -148,8 +153,8 @@
             "cisco",
             "cisco_test",
             "core_switch",
+            "is_virtual",
             "jinja_test_group",
-            "nexus_child",
             "nexus_parent",
             "other_region",
             "parent_region",
@@ -162,7 +167,6 @@
     "cisco": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
@@ -178,22 +182,26 @@
     "core_switch": {
         "hosts": [
             "R1-Device",
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "jinja_test_group": {
+    "is_virtual": {
         "hosts": [
-            "Test Nexus Child One",
-            "Test Nexus One",
-            "TestDeviceR1"
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
         ]
     },
-    "nexus_child": {
+    "jinja_test_group": {
         "hosts": [
-            "Test Nexus Child One"
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1"
         ]
     },
     "nexus_parent": {
@@ -216,6 +224,7 @@
     },
     "test_cluster_type": {
         "hosts": [
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -230,7 +239,6 @@
     },
     "test_site": {
         "hosts": [
-            "Test Nexus Child One",
             "Test Nexus One",
             "TestDeviceR1",
             "test100",

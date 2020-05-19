@@ -9,12 +9,11 @@ __metaclass__ = type
 import pytest
 import os
 from functools import partial
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch, MagicMock, Mock, call
 
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
         InventoryModule,
-        ALLOWED_DEVICE_QUERY_PARAMETERS,
     )
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
@@ -26,7 +25,6 @@ except ImportError:
 
     sys.path.append("plugins/inventory")
     sys.path.append("tests")
-    from nb_inventory import InventoryModule, ALLOWED_DEVICE_QUERY_PARAMETERS
     from test_data import load_test_data
 
 load_relative_test_data = partial(
@@ -35,28 +33,61 @@ load_relative_test_data = partial(
 
 
 @pytest.fixture
-def inventory_fixture():
-    # TODO: Mock _fetch_information() to return static HTTP responses
+def inventory_fixture(
+    allowed_device_query_parameters_fixture, allowed_vm_query_parameters_fixture
+):
     inventory = InventoryModule()
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
+
+    # Fill in data that is fetched dynamically
+    inventory.api_version = None
+    inventory.allowed_device_query_parameters = allowed_device_query_parameters_fixture
+    inventory.allowed_vm_query_parameters = allowed_vm_query_parameters_fixture
+
     return inventory
 
 
 @pytest.fixture
 def allowed_device_query_parameters_fixture():
-    return ALLOWED_DEVICE_QUERY_PARAMETERS
+    # Subset of parameters - real list is fetched dynamically from NetBox openapi endpoint
+    return [
+        "id",
+        "interfaces",
+        "has_primary_ip",
+        "mac_address",
+        "name",
+        "platform",
+        "rack_id",
+        "region",
+        "role",
+        "tag",
+    ]
+
+
+@pytest.fixture
+def allowed_vm_query_parameters_fixture():
+    # Subset of parameters - real list is fetched dynamically from NetBox openapi endpoint
+    return [
+        "id",
+        "interfaces",
+        "disk",
+        "mac_address",
+        "name",
+        "platform",
+        "region",
+        "role",
+        "tag",
+    ]
 
 
 @pytest.mark.parametrize(
     "parameter, expected", load_relative_test_data("validate_query_parameter")
 )
-def test_validate_query_parameter(
-    inventory_fixture, allowed_device_query_parameters_fixture, parameter, expected
-):
+def test_validate_query_parameter(inventory_fixture, parameter, expected):
 
     value = "some value, doesn't matter"
     result = inventory_fixture.validate_query_parameter(
-        {parameter: value}, allowed_device_query_parameters_fixture
+        {parameter: value}, inventory_fixture.allowed_device_query_parameters
     )
     assert (result == (parameter, value)) == expected
 
@@ -64,12 +95,10 @@ def test_validate_query_parameter(
 @pytest.mark.parametrize(
     "parameters, expected", load_relative_test_data("filter_query_parameters")
 )
-def test_filter_query_parameters(
-    inventory_fixture, allowed_device_query_parameters_fixture, parameters, expected
-):
+def test_filter_query_parameters(inventory_fixture, parameters, expected):
 
     result = inventory_fixture.filter_query_parameters(
-        parameters, allowed_device_query_parameters_fixture
+        parameters, inventory_fixture.allowed_device_query_parameters
     )
 
     # Result is iterators of tuples
@@ -96,3 +125,58 @@ def test_refresh_url(inventory_fixture, options, expected):
     result = inventory_fixture.refresh_url()
 
     assert result == tuple(expected)
+
+
+def test_refresh_lookups(inventory_fixture):
+    def raises_exception():
+        raise Exception("Error from within a thread")
+
+    def does_not_raise():
+        pass
+
+    with pytest.raises(Exception) as e:
+        inventory_fixture.refresh_lookups([does_not_raise, raises_exception])
+    assert "Error from within a thread" in str(e)
+
+    inventory_fixture.refresh_lookups([does_not_raise, does_not_raise])
+
+
+@pytest.mark.parametrize(
+    "plurals, services, interfaces, expected, not_expected",
+    load_relative_test_data("group_extractors"),
+)
+def test_group_extractors(
+    inventory_fixture, plurals, services, interfaces, expected, not_expected
+):
+    inventory_fixture.plurals = plurals
+    inventory_fixture.services = services
+    inventory_fixture.interfaces = interfaces
+    extractors = inventory_fixture.group_extractors
+
+    for key in expected:
+        assert key in extractors
+
+    for key in not_expected:
+        assert key not in expected
+
+
+@pytest.mark.parametrize(
+    "api_url, max_uri_length, query_key, query_values, expected",
+    load_relative_test_data("get_resource_list_chunked"),
+)
+def test_get_resource_list_chunked(
+    inventory_fixture, api_url, max_uri_length, query_key, query_values, expected
+):
+    mock_get_resource_list = Mock()
+    mock_get_resource_list.return_value = ["resource"]
+
+    inventory_fixture.get_resource_list = mock_get_resource_list
+    inventory_fixture.max_uri_length = max_uri_length
+
+    resources = inventory_fixture.get_resource_list_chunked(
+        api_url, query_key, query_values
+    )
+
+    mock_get_resource_list.assert_has_calls(map(call, expected))
+    assert mock_get_resource_list.call_count == len(expected)
+    assert resources == mock_get_resource_list.return_value * len(expected)
