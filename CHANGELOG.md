@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.1
+
+### Enhancements
+
+- [#141](https://github.com/netbox-community/ansible_modules/issues/141) - Added option to change host_vars to singular rather than having single element lists
+- [#190](https://github.com/netbox-community/ansible_modules/pull/190) - Added 21" width to netbox_rack
+- [#188](https://github.com/netbox-community/ansible_modules/issues/188) - Added cluster, cluster_type, and cluster_group to group_by option in inventory plugin
+- [#193](https://github.com/netbox-community/ansible_modules/issues/193) - Added option to flatten `config_context` and `custom_fields` 
+
+### Bug Fixes
+
+- [#193](https://github.com/netbox-community/ansible_modules/issues/193) - Added `type` to `netbox_device_interface` and deprecation notice for `form_factor`
+- [#202](https://github.com/netbox-community/ansible_modules/pull/202) - Fixes inventory performance issues, properly shows virtual chassis masters. Also fixes the following #142, #143, #199, #200
+
 ## v0.2.0
 
 ### Breaking Changes
