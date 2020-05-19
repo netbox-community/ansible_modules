@@ -678,10 +678,15 @@ class NetboxModule(object):
                         data_before[key] = serialized_nb_obj[key]
                         data_after[key] = updated_obj[key]
                 except KeyError:
-                    self._handle_errors(
-                        msg="%s does not exist on existing object. Check to make sure valid field."
-                        % (key)
-                    )
+                    if key == "form_factor":
+                        msg = "form_factor is not valid for NetBox 2.7 onword. Please use the type key instead."
+                    else:
+                        msg = (
+                            "%s does not exist on existing object. Check to make sure valid field."
+                            % (key)
+                        )
+
+                    self._handle_errors(msg=msg)
 
             if not self.check_mode:
                 self.nb_object.update(data)

@@ -60,6 +60,16 @@ options:
             ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
             This has to be specified exactly as what is found within UI
         type: str
+        deprecated:
+          removed_in: "0.3.0"
+          why: "NetBox now uses Type instead of Form Factor from 2.7 on."
+      type:
+        description:
+          - |
+            Form factor of the interface:
+            ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+            This has to be specified exactly as what is found within UI
+        type: str
       enabled:
         description:
           - Sets whether interface shows enabled or disabled
@@ -156,7 +166,7 @@ EXAMPLES = r"""
         data:
           device: test100
           name: port-channel1
-          form_factor: Link Aggregation Group (LAG)
+          type: Link Aggregation Group (LAG)
           mtu: 1600
           mgmt_only: false
           mode: Access
@@ -169,7 +179,7 @@ EXAMPLES = r"""
           device: test100
           name: GigabitEthernet1
           enabled: false
-          form_factor: 1000Base-t (1GE)
+          type: 1000Base-t (1GE)
           lag:
             name: port-channel1
           mtu: 1600
@@ -184,7 +194,7 @@ EXAMPLES = r"""
           device: test100
           name: GigabitEthernet25
           enabled: false
-          form_factor: 1000Base-t (1GE)
+          type: 1000Base-t (1GE)
           untagged_vlan:
             name: Wireless
             site: Test Site
@@ -243,7 +253,10 @@ def main():
                 options=dict(
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
-                    form_factor=dict(required=False, type="raw"),
+                    form_factor=dict(
+                        required=False, type="raw", removed_in_version="2.10"
+                    ),
+                    type=dict(required=False, type="str"),
                     enabled=dict(required=False, type="bool"),
                     lag=dict(required=False, type="raw"),
                     mtu=dict(required=False, type="int"),
