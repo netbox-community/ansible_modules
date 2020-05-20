@@ -316,6 +316,7 @@
       interface:
         name: Eth0
         virtual_machine: test101-vm
+    state: "new"
   register: test_fifteen
 
 - name: "15 - ASSERT"
