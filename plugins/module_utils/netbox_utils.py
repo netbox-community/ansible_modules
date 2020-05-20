@@ -248,7 +248,7 @@ REQUIRED_ID_FIND = {
     "circuits": set(["status"]),
     "devices": set(["status", "face"]),
     "device_types": set(["subdevice_role"]),
-    "interfaces": set(["form_factor", "mode"]),
+    "interfaces": set(["form_factor", "mode", "type"]),
     "ip_addresses": set(["status", "role"]),
     "prefixes": set(["status"]),
     "racks": set(["status", "outer_unit", "type"]),
