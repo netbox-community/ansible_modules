@@ -328,7 +328,7 @@
       - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
       - test_fifteen['ip_address']['family'] == 4
-      - test_fifteen['ip_address']['interface'] == 9
+      - test_fifteen['ip_address']['interface'] == 10
 
 - name: "16 - Create IP address with no mask - State: Present"
   netbox.netbox.netbox_ip_address:
