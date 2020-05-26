@@ -300,7 +300,7 @@ NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
     state=dict(required=False, default="present", choices=["present", "absent"]),
-    validate_certs=dict(type="bool", default=True),
+    validate_certs=dict(type="raw", default=True),
 )
 
 
