@@ -306,13 +306,17 @@
       - test_fourteen['ip_address']['family'] == 4
       - test_fourteen['ip_address']['interface'] == 5
 
-- name: "15 - Create IP address with no mask - State: Present"
+- name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
   netbox.netbox.netbox_ip_address:
     netbox_url: http://localhost.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      address: 10.120.10.1
-    state: present
+      family: 4
+      address: 10.188.1.100/24
+      interface:
+        name: Eth0
+        virtual_machine: test101-vm
+    state: "present"
   register: test_fifteen
 
 - name: "15 - ASSERT"
@@ -321,5 +325,25 @@
       - test_fifteen is changed
       - test_fifteen['diff']['before']['state'] == "absent"
       - test_fifteen['diff']['after']['state'] == "present"
-      - test_fifteen['msg'] == "ip_address 10.120.10.1/32 created"
-      - test_fifteen['ip_address']['address'] == "10.120.10.1/32"
+      - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
+      - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
+      - test_fifteen['ip_address']['family'] == 4
+      - test_fifteen['ip_address']['interface'] == 10
+
+- name: "16 - Create IP address with no mask - State: Present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.120.10.1
+    state: present
+  register: test_sixteen
+
+- name: "16 - ASSERT"
+  assert:
+    that:
+      - test_sixteen is changed
+      - test_sixteen['diff']['before']['state'] == "absent"
+      - test_sixteen['diff']['after']['state'] == "present"
+      - test_sixteen['msg'] == "ip_address 10.120.10.1/32 created"
+      - test_sixteen['ip_address']['address'] == "10.120.10.1/32"
