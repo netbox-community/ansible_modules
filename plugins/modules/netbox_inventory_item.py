@@ -67,6 +67,9 @@ options:
       description:
         description:
           - The description of the inventory item
+      discovered:
+        description:
+          - Set the discovery flag for the inventory item
       tags:
         description:
           - Any tags that the device may need to be associated with
@@ -164,6 +167,7 @@ def main():
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
+                    discovered=dict(required=False, type="bool", default=False),
                     tags=dict(required=False, type=list),
                 ),
             ),
