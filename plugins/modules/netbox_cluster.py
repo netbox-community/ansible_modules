@@ -162,7 +162,7 @@ def main():
                     cluster_type=dict(required=False, type="raw"),
                     cluster_group=dict(required=False, type="raw"),
                     site=dict(required=False, type="raw"),
-                    tenant=dict(required=False,type='str'),
+                    tenant=dict(required=False,type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type=list),
                     custom_fields=dict(required=False, type=dict),
