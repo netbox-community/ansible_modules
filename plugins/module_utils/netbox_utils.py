@@ -189,7 +189,7 @@ ALLOWED_QUERY_PARAMS = {
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
-    "cluster": set(["name", "type"]),
+    "cluster": set(["name", "type", "tenant"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
     "device_bay": set(["name", "device"]),
