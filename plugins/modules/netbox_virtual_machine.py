@@ -75,9 +75,6 @@ options:
       disk:
         description:
           - Disk of the virtual machine (GB)
-      rack:
-        description:
-          - The name of the rack to assign the virtual machine to
       status:
         description:
           - The status of the virtual machine
@@ -196,7 +193,6 @@ def main():
                     primary_ip6=dict(required=False, type="raw"),
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
-                    rack=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     tags=dict(required=False, type=list),
                     custom_fields=dict(required=False, type=dict),
