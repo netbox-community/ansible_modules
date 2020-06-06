@@ -110,6 +110,13 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -227,19 +234,7 @@ def main():
                         type="str",
                         choices=["Front", "front", "Rear", "rear"],
                     ),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    choices=[
-                    #        "Active",
-                    #        "Offline",
-                    #        "Planned",
-                    #        "Staged",
-                    #        "Failed",
-                    #        "Inventory",
-                    #    ],
-                    # ),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),

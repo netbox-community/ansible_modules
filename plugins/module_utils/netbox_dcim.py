@@ -68,6 +68,7 @@ class NetboxDcimModule(NetboxModule):
         application = self._find_app(self.endpoint)
         nb_app = getattr(self.nb, application)
         nb_endpoint = getattr(nb_app, self.endpoint)
+        user_query_params = self.module.params.get("query_params")
 
         data = self.data
 
@@ -87,7 +88,9 @@ class NetboxDcimModule(NetboxModule):
         if data.get("color"):
             data["color"] = data["color"].lower()
 
-        object_query_params = self._build_query_params(endpoint_name, data)
+        object_query_params = self._build_query_params(
+            endpoint_name, data, user_query_params
+        )
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         # This is logic to handle interfaces on a VC

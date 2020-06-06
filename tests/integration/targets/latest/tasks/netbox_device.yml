@@ -78,6 +78,30 @@
       - test_three['device']['serial'] == "FXS1001"
       - test_three['msg'] == "device R1 updated"
 
+- name: "3.1 - Update device name using query_params"
+  netbox.netbox.netbox_device:
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: "R1-changed-name"
+      serial: "FXS1001"
+    query_params:
+      - serial
+    state: present
+  register: test_three_dot_one
+
+- name: "3.1 - ASSERT"
+  assert:
+    that:
+      - test_three_dot_one is changed
+      - test_three_dot_one['diff']['after']['name'] == "R1-changed-name"
+      - test_three_dot_one['device']['device_role'] == 1
+      - test_three_dot_one['device']['device_type'] == 1
+      - test_three_dot_one['device']['site'] == 1
+      - test_three_dot_one['device']['status'] == "staged"
+      - test_three_dot_one['device']['serial'] == "FXS1001"
+      - test_three_dot_one['msg'] == "device R1-changed-name updated"
+
 - name: "4 - Create device with tags and assign to rack"
   netbox.netbox.netbox_device:
     netbox_url: "http://localhost:32768"
@@ -136,7 +160,7 @@
     netbox_url: "http://localhost:32768"
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "R1"
+      name: "R1-changed-name"
     state: absent
   register: test_six
 
@@ -146,7 +170,7 @@
       - test_six is changed
       - test_six['diff']['before']['state'] == "present"
       - test_six['diff']['after']['state'] == "absent"
-      - test_six['msg'] == "device R1 deleted"
+      - test_six['msg'] == "device R1-changed-name deleted"
 
 - name: "7 - Add primary_ip4/6 to test100"
   netbox.netbox.netbox_device:

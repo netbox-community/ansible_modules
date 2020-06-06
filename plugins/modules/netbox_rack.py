@@ -125,6 +125,13 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

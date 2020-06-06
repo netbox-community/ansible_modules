@@ -36,6 +36,7 @@ class NetboxSecretsModule(NetboxModule):
         application = self._find_app(self.endpoint)
         nb_app = getattr(self.nb, application)
         nb_endpoint = getattr(nb_app, self.endpoint)
+        user_query_params = self.module.params.get("query_params")
 
         data = self.data
 
@@ -44,7 +45,9 @@ class NetboxSecretsModule(NetboxModule):
 
         data["slug"] = self._to_slug(name)
 
-        object_query_params = self._build_query_params(endpoint_name, data)
+        object_query_params = self._build_query_params(
+            endpoint_name, data, user_query_params
+        )
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":

@@ -10,14 +10,18 @@ __metaclass__ = type
 # Import necessary packages
 import traceback
 import re
+import json
 from itertools import chain
+
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
 from ansible.module_utils._text import to_text
+from ansible.errors import AnsibleError
 
 # from ._text import to_native
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+from ansible.module_utils.urls import open_url
 
 PYNETBOX_IMP_ERR = None
 try:
@@ -301,6 +305,7 @@ NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
     state=dict(required=False, default="present", choices=["present", "absent"]),
+    query_params=dict(required=False, type="list"),
     validate_certs=dict(type="raw", default=True),
 )
 
@@ -336,11 +341,14 @@ class NetboxModule(object):
         else:
             self.nb = nb_client
 
+        # if self.module.params.get("query_params"):
+        #    self._validate_query_params(self.module.params["query_params"])
+
         # These methods will normalize the regular data
         cleaned_data = self._remove_arg_spec_default(module.params["data"])
         norm_data = self._normalize_data(cleaned_data)
         choices_data = self._change_choices_id(self.endpoint, norm_data)
-        data = self._find_ids(choices_data)
+        data = self._find_ids(choices_data, self.module.params["query_params"])
         self.data = self._convert_identical_keys(data)
 
     def _connect_netbox_api(self, url, token, ssl_verify):
@@ -369,6 +377,44 @@ class NetboxModule(object):
             )
 
         return response
+
+    def _validate_query_params(self, query_params):
+        """
+        Validate query_params that are passed in by users to make sure
+        they're valid and return error if they're not valid.
+        """
+        invalid_query_params = []
+
+        app = self._find_app(self.endpoint)
+        nb_app = getattr(self.nb, app)
+        nb_endpoint = getattr(nb_app, self.endpoint)
+        # Fetch the OpenAPI spec to perform validation against
+        base_url = self.nb.base_url
+        junk, endpoint_url = nb_endpoint.url.split(base_url)
+        response = open_url(base_url + "/docs/?format=openapi")
+        try:
+            raw_data = to_text(response.read(), errors="surrogate_or_strict")
+        except UnicodeError:
+            raise AnsibleError("Incorrect encoding of fetched payload from NetBox API.")
+
+        try:
+            openapi = json.loads(raw_data)
+        except ValueError:
+            raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
+
+        valid_query_params = openapi["paths"][endpoint_url + "/"]["get"]["parameters"]
+
+        # Loop over passed in params and add to invalid_query_params and then fail if non-empty
+        for param in query_params:
+            if param not in valid_query_params:
+                invalid_query_params.append(param)
+
+        if invalid_query_params:
+            self._handle_errors(
+                "The following query_params are invalid: {0}".format(
+                    ", ".join(invalid_query_params)
+                )
+            )
 
     def _handle_errors(self, msg):
         """
@@ -436,7 +482,9 @@ class NetboxModule(object):
             else:
                 return data
 
-    def _build_query_params(self, parent, module_data, child=None):
+    def _build_query_params(
+        self, parent, module_data, user_query_params=None, child=None
+    ):
         """
         :returns dict(query_dict): Returns a query dictionary built using mappings to dynamically
         build available query params for Netbox endpoints
@@ -447,7 +495,10 @@ class NetboxModule(object):
         to build the appropriate `query_dict` for the parent
         """
         query_dict = dict()
-        query_params = ALLOWED_QUERY_PARAMS.get(parent)
+        if user_query_params:
+            query_params = set(user_query_params)
+        else:
+            query_params = ALLOWED_QUERY_PARAMS.get(parent)
 
         if child:
             matches = query_params.intersection(set(child.keys()))
@@ -538,7 +589,7 @@ class NetboxModule(object):
                 nb_app = k
         return nb_app
 
-    def _find_ids(self, data):
+    def _find_ids(self, data, user_query_params):
         """Will find the IDs of all user specified data if resolvable
         :returns data (dict): Returns the updated dict with the IDs of user specified data
         :params data (dict): User defined data passed into the module
@@ -555,14 +606,14 @@ class NetboxModule(object):
                     if k == "interface" and v.get("virtual_machine"):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
-                    query_params = self._build_query_params(k, data, v)
+                    query_params = self._build_query_params(k, data, child=v)
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
                         norm_data = self._normalize_data(list_item)
-                        temp_dict = self._build_query_params(k, data, norm_data)
+                        temp_dict = self._build_query_params(k, data, child=norm_data)
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
@@ -570,7 +621,9 @@ class NetboxModule(object):
                             self._handle_errors(msg="%s not found" % (list_item))
                 else:
                     if k in ["lag"]:
-                        query_params = self._build_query_params(k, data)
+                        query_params = self._build_query_params(
+                            k, data, user_query_params
+                        )
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
