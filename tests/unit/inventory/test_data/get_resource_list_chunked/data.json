@@ -65,12 +65,9 @@
     },
     {
         "api_url": "https://netbox:1234?limit=0",
-        "max_uri_length": 50,
+        "max_uri_length": 4000,
         "query_key": "key",
         "query_values": [],
-        "expected": [
-            "https://netbox:1234?limit=0",
-            "https://netbox:1234?limit=0"
-        ]
+        "expected": []
     }
 ]

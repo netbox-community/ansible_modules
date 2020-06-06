@@ -302,7 +302,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return separator + query_key + "=" + str(value)
 
         # Calculate how many queries we can do per API call to stay within max_url_length
-        largest_value = str(max(query_values, default=1))  # values are always id ints
+        largest_value = str(max(query_values, default=0))  # values are always id ints
         length_per_value = len(query_string(largest_value))
         chunk_size = math.floor((self.max_uri_length - len(api_url)) / length_per_value)
 
