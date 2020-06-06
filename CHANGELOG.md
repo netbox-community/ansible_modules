@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.2
+
+### Enhancements
+
+- [#211](https://github.com/netbox-community/ansible_modules/issues/211) - Changed `validate_certs` to `raw` to allow private keys to be passed in
+
+### Bug Fixes
+
+- [#208](https://github.com/netbox-community/ansible_modules/issues/208) - Added `type` to `ALLOWED_QUERY_PARAMS` for interface searches
+- [#201](https://github.com/netbox-community/ansible_modules/issues/201) - Added `interfaces` to `ALLOWED_QUERY_PARAMS` for ip addresses searches
+- [#221](https://github.com/netbox-community/ansible_modules/pull/221) - Remove `rack` as a choice when createing virtual machines
+
 ## v0.2.1
 
 ### Enhancements
