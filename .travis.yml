@@ -36,7 +36,7 @@ jobs:
     - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
       python: 3.6
       env:
-      - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -55,7 +55,7 @@ jobs:
     - name: "Python 3.7 - Netbox 2.8 - Latest PyPi Ansible"
       python: 3.7
       env:
-      - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -110,7 +110,6 @@ before_script:
   - chmod +x tests/integration/targets/inventory/compare_inventory_json.py
 
 script:
-
   # Check python syntax
   - black . --check --diff
 
@@ -118,7 +117,7 @@ script:
   # --requirements - install pip packages as necessary
   # Skip pep8 as we use black instead
   # Skip validate-modules until the issues can be resolved #180
-  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 --skip-test validate-modules
+  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 --skip-test validate-modules --skip-test pylint
 
   # Unit tests, with code coverage
   - ansible-test units -v --coverage --python $PYTHON_VER

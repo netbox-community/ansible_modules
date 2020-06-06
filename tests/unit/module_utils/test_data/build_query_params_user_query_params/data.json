@@ -36,7 +36,7 @@
         "expected": {
             "name": "test100",
             "serial": "FXS1001",
-            "comments": "Temp device",
+            "comments": "Temp device"
         }
     }
 ]

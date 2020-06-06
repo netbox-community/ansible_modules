@@ -325,6 +325,7 @@ class NetboxModule(object):
         self.check_mode = self.module.check_mode
         self.endpoint = endpoint
         self.version = None
+        query_params = self.module.params.get("query_params")
 
         if not HAS_PYNETBOX:
             self.module.fail_json(
@@ -348,7 +349,7 @@ class NetboxModule(object):
         cleaned_data = self._remove_arg_spec_default(module.params["data"])
         norm_data = self._normalize_data(cleaned_data)
         choices_data = self._change_choices_id(self.endpoint, norm_data)
-        data = self._find_ids(choices_data, self.module.params["query_params"])
+        data = self._find_ids(choices_data, query_params)
         self.data = self._convert_identical_keys(data)
 
     def _connect_netbox_api(self, url, token, ssl_verify):
