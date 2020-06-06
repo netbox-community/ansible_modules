@@ -15,24 +15,6 @@ env:
 
 jobs:
   include:
-    # Previous release of Netbox, latest release of Ansible
-    - name: "Python 3.6 - Netbox 2.6 - Latest PyPi Ansible"
-      python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.6 INTEGRATION_TESTS=v2.6
-      install:
-        - cd ..
-        # Setup netbox container for integration testing
-        - git clone https://github.com/FragmentedPacket/netbox-docker.git
-        - cd netbox-docker
-        - docker-compose pull
-        - docker-compose up -d
-        - cd ..
-        # setuptools <46.1.3 has issues with ansible-test executables https://github.com/ansible/ansible/issues/68963
-        - pip install -U pip "setuptools>=46.1.3"
-        # coverage 5.0 is not compatible with ansible-test https://github.com/ansible/ansible/issues/65907
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
-        - pip install pynetbox cryptography codecov jmespath jsondiff ansible
-
     - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
       python: 3.6
       env:
@@ -42,6 +24,7 @@ jobs:
         # Setup netbox container for integration testing
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
+        - sed -i 's/SKIP_STARTUP_SCRIPTS=false/SKIP_STARTUP_SCRIPTS=true/' env/netbox.env
         - docker-compose pull
         - docker-compose up -d
         - cd ..
