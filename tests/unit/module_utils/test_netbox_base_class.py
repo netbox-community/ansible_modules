@@ -228,7 +228,9 @@ def test_build_query_params_child(
     )
     fetch_choice_value.return_value = 200
 
-    query_params = mock_netbox_module._build_query_params(parent, module_data, child)
+    query_params = mock_netbox_module._build_query_params(
+        parent, module_data, child=child
+    )
     assert query_params == expected
 
 

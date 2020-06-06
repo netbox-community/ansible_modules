@@ -117,7 +117,7 @@ script:
   # --requirements - install pip packages as necessary
   # Skip pep8 as we use black instead
   # Skip validate-modules until the issues can be resolved #180
-  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 --skip-test validate-modules --skip-test pylint
+  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 --skip-test validate-modules --skip-test pylint --skip-test import
 
   # Unit tests, with code coverage
   - ansible-test units -v --coverage --python $PYTHON_VER
