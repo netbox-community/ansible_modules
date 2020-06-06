@@ -32,10 +32,12 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
     description:
       - Defines the device role configuration
@@ -44,26 +46,35 @@ options:
         description:
           - The name of the device role
         required: true
+        type: str
       color:
         description:
           - Hexidecimal code for a color, ex. FFFFFF
         required: true
+        type: str
+      slug:
+        description:
+          - The slugified version of the name or custom slug.
+          - This is auto-generated following NetBox rules if not provided
+        required: false
+        type: str
       vm_role:
         description:
           - Whether the role is a VM role
         type: bool
-        default: true
     required: true
+    type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -109,13 +120,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICE_ROLES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(

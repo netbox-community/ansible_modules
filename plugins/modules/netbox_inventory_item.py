@@ -47,6 +47,7 @@ options:
         description:
           - Name of the device the inventory item belongs to
         required: true
+        type: raw
       name:
         description:
           - Name of the inventory item to be created
@@ -55,21 +56,33 @@ options:
       manufacturer:
         description:
           - The manufacturer of the inventory item
+        required: false
+        type: raw
       part_id:
         description:
           - The part ID of the inventory item
+        required: false
+        type: str
       serial:
         description:
           - The serial number of the inventory item
+        required: false
+        type: str
       asset_tag:
         description:
           - The asset tag of the inventory item
+        required: false
+        type: str
       description:
         description:
           - The description of the inventory item
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the device may need to be associated with
+        required: false
+        type: list
     required: true
   state:
     description:
@@ -82,8 +95,8 @@ options:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -144,13 +157,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_INVENTORY_ITEMS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -164,7 +178,7 @@ def main():
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
+                    tags=dict(required=False, type="list"),
                 ),
             ),
         )
