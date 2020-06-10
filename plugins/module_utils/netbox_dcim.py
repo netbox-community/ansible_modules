@@ -9,17 +9,11 @@ __metaclass__ = type
 import traceback
 from ansible.module_utils.basic import missing_required_lib
 
-try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-        ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
-    )
-except ImportError:
-    import sys
-
-    sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxModule,
+    ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
+)
 
 
 NB_DEVICE_BAYS = "device_bays"

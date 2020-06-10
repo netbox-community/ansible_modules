@@ -32,11 +32,14 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the RIR configuration
     suboptions:
@@ -44,9 +47,17 @@ options:
         description:
           - The name of the RIR
         required: true
+        type: str
+      slug:
+        description:
+          - The slugified version of the name or custom slug.
+          - This is auto-generated following NetBox rules if not provided
+        required: false
+        type: str
       is_private:
         description:
           - IP space managed by this RIR is considered private
+        required: false
         type: bool
     required: true
   state:
@@ -54,6 +65,7 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   query_params:
     description:
       - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
@@ -64,8 +76,8 @@ options:
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -120,13 +132,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_RIRS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(

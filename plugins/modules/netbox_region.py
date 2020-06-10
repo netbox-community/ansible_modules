@@ -48,9 +48,17 @@ options:
           - Name of the region to be created
         required: true
         type: str
+      slug:
+        description:
+          - The slugified version of the name or custom slug.
+          - This is auto-generated following NetBox rules if not provided
+        required: false
+        type: str
       parent_region:
         description:
           - The parent region this region should be tied to
+        required: false
+        type: raw
     required: true
   state:
     description:
@@ -70,8 +78,8 @@ options:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -116,13 +124,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_REGIONS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(

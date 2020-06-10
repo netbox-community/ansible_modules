@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright: (c) 2019, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
@@ -32,47 +33,68 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the provider configuration
     suboptions:
       name:
         description:
           - The name of the provider
-        required: true
+        required: false
+        type: str
       asn:
         description:
           - The provider ASN
+        required: false
+        type: int
       account:
         description:
           - The account number of the provider
+        required: false
+        type: str
       portal_url:
         description:
           - The URL of the provider
+        required: false
+        type: str
       noc_contact:
         description:
           - The NOC contact of the provider
+        required: false
+        type: str
       admin_contact:
         description:
           - The admin contact of the provider
+        required: false
+        type: str
       comments:
         description:
           - Comments related to the provider
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the device may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   query_params:
     description:
       - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
@@ -83,8 +105,8 @@ options:
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -138,23 +160,38 @@ msg:
 
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import (
     NetboxCircuitsModule,
     NB_PROVIDERS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = dict(
-        netbox_url=dict(type="str", required=True),
-        netbox_token=dict(type="str", required=True, no_log=True),
-        data=dict(type="dict", required=True),
-        state=dict(required=False, default="present", choices=["present", "absent"]),
-        validate_certs=dict(type="bool", default=True),
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    name=dict(required=False, type="str"),
+                    asn=dict(required=False, type="int"),
+                    account=dict(required=False, type="str"),
+                    portal_url=dict(required=False, type="str"),
+                    noc_contact=dict(required=False, type="str"),
+                    admin_contact=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
+                ),
+            ),
+        ),
     )
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]

@@ -45,8 +45,8 @@ options:
       virtual_machine:
         description:
           - Name of the virtual machine the interface will be associated with (case-sensitive)
-        required: true
-        type: str
+        required: false
+        type: raw
       name:
         description:
           - Name of the interface to be created
@@ -55,38 +55,42 @@ options:
       enabled:
         description:
           - Sets whether interface shows enabled or disabled
+        required: false
         type: bool
       mtu:
         description:
           - The MTU of the interface
-        type: str
+        required: false
+        type: int
       mac_address:
         description:
           - The MAC address of the interface
+        required: false
         type: str
       description:
         description:
           - The description of the interface
+        required: false
         type: str
       mode:
         description:
           - The mode of the interface
-        choices:
-          - Access
-          - Tagged
-          - Tagged (All)
-        type: str
+        required: false
+        type: raw
       untagged_vlan:
         description:
           - The untagged VLAN to be assigned to interface
-        type: dict
+        required: false
+        type: raw
       tagged_vlans:
         description:
           - A list of tagged VLANS to be assigned to interface. Mode must be set to either C(Tagged) or C(Tagged All)
-        type: list
+        required: false
+        type: raw
       tags:
         description:
           - Any tags that the prefix may need to be associated with
+        required: false
         type: list
     required: true
     type: dict
@@ -108,8 +112,8 @@ options:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -176,13 +180,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualizatio
     NetboxVirtualizationModule,
     NB_VM_INTERFACES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -198,7 +203,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type=list),
+                    tags=dict(required=False, type="list"),
                 ),
             ),
         )

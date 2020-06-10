@@ -32,10 +32,12 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
     description:
       - Defines the device bay configuration
@@ -44,25 +46,35 @@ options:
         description:
           - The device the device bay will be associated to. The device type must be "parent".
         required: true
+        type: raw
       name:
         description:
           - The name of the device bay
         required: true
+        type: str
       description:
         description:
           - The description of the device bay. This is supported on v2.6+ of Netbox
+        required: false
+        type: str
       installed_device:
         description:
           - The ddevice that will be installed into the bay. The device type must be "child".
+        required: false
+        type: raw
       tags:
         description:
           - Any tags that the device bay may need to be associated with
+        required: false
+        type: list
+    type: dict
     required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   query_params:
     description:
       - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
@@ -73,8 +85,8 @@ options:
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -133,13 +145,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICE_BAYS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -150,7 +163,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     installed_device=dict(required=False, type="raw"),
-                    tags=dict(required=False, type=list),
+                    tags=dict(required=False, type="list"),
                 ),
             ),
         )

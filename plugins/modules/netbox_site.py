@@ -40,6 +40,7 @@ options:
     required: true
     type: str
   data:
+    type: dict
     description:
       - Defines the site configuration
     suboptions:
@@ -51,78 +52,92 @@ options:
       status:
         description:
           - Status of the site
-        choices:
-          - Active
-          - Planned
-          - Retired
-        type: str
+        required: false
+        type: raw
       region:
         description:
           - The region that the site should be associated with
-        type: str
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant the site will be assigned to
-        type: str
+        required: false
+        type: raw
       facility:
         description:
           - Data center provider or facility, ex. Equinix NY7
+        required: false
         type: str
       asn:
         description:
           - The ASN associated with the site
+        required: false
         type: int
       time_zone:
         description:
           - Timezone associated with the site, ex. America/Denver
+        required: false
         type: str
       description:
         description:
           - The description of the prefix
+        required: false
         type: str
       physical_address:
         description:
           - Physical address of site
+        required: false
         type: str
       shipping_address:
         description:
           - Shipping address of site
+        required: false
         type: str
       latitude:
         description:
           - Latitude in decimal format
-        type: int
+        required: false
+        type: float
       longitude:
         description:
           - Longitude in decimal format
-        type: int
+        required: false
+        type: float
       contact_name:
         description:
           - Name of contact for site
+        required: false
         type: str
       contact_phone:
         description:
           - Contact phone number for site
+        required: false
         type: str
       contact_email:
         description:
           - Contact email for site
+        required: false
         type: str
       comments:
         description:
           - Comments for the site. This can be markdown syntax
+        required: false
         type: str
       slug:
         description:
           - URL-friendly unique shorthand
+        required: false
         type: str
       tags:
         description:
           - Any tags that the prefix may need to be associated with
+        required: false
         type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
         type: dict
     required: true
   state:
@@ -143,8 +158,8 @@ options:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -213,13 +228,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_SITES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -227,14 +243,9 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False, choices=["Active", "Planned", "Retired"],
-                    # ),
                     region=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
-                    vlan_role=dict(required=False, type="raw"),
                     facility=dict(required=False, type="str"),
                     asn=dict(required=False, type="int"),
                     time_zone=dict(required=False, type="str"),
@@ -247,9 +258,9 @@ def main():
                     contact_phone=dict(required=False, type="str"),
                     contact_email=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
                     slug=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

@@ -90,7 +90,7 @@ Using the **collections** at the play level
           device_role: Core Switch
           site: Test Site
           status: Staged
-          state: present
+        state: present
 ```
 
 Using the **collections** at the task level
@@ -112,7 +112,7 @@ Using the **collections** at the task level
           device_role: Core Switch
           site: Test Site
           status: Staged
-          state: present
+        state: present
 ```
 
 Using the **collections** in a role's task files
@@ -129,7 +129,7 @@ Using the **collections** in a role's task files
       device_role: Core Switch
       site: Test Site
       status: Staged
-      state: present
+    state: present
 
 OR
 
@@ -146,7 +146,7 @@ OR
       device_role: Core Switch
       site: Test Site
       status: Staged
-      state: present
+    state: present
 ```
 
 Using the **collections** lookup plugin at the task level

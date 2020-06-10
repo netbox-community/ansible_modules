@@ -32,10 +32,12 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
     description:
       - Defines the device type configuration
@@ -44,47 +46,67 @@ options:
         description:
           - The manufacturer of the device type
         required: true
+        type: raw
       model:
         description:
           - The model of the device type
         required: true
+        type: raw
       slug:
         description:
           - The slug of the device type. Must follow slug formatting (URL friendly)
           - If not specified, it will slugify the model
           - ex. test-device-type
         required: false
+        type: str
       part_number:
         description:
           - The part number of the device type
+        required: false
+        type: str
       u_height:
         description:
           - The height of the device type in rack units
+        required: false
+        type: int
       is_full_depth:
         description:
           - Whether or not the device consumes both front and rear rack faces
+        required: false
         type: bool
       subdevice_role:
         description:
           - Whether the device type is parent, child, or neither
         choices:
           - Parent
+          - parent
           - Child
+          - child
+        required: false
+        type: str
       comments:
         description:
           - Comments that may include additional information in regards to the device_type
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the device type may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
     required: true
+    type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   query_params:
     description:
       - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
@@ -95,8 +117,8 @@ options:
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -158,13 +180,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICE_TYPES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -178,11 +201,13 @@ def main():
                     u_height=dict(required=False, type="int"),
                     is_full_depth=dict(required=False, type="bool"),
                     subdevice_role=dict(
-                        required=False, choices=["Parent", "parent", "Child", "child"]
+                        required=False,
+                        choices=["Parent", "parent", "Child", "child"],
+                        type="str",
                     ),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
