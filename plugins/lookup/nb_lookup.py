@@ -49,6 +49,11 @@ DOCUMENTATION = """
                 - The API token created through Netbox
                 - This may not be required depending on the Netbox setup.
             required: False
+        validate_certs:
+            description:
+                - Whether or not to validate SSL of the NetBox instance
+            required: False
+            default: True
         key_file:
             description:
                 - The location of the private key tied to user account.
@@ -97,7 +102,7 @@ tasks:
 RETURN = """
   _list:
     description:
-      - list of composed dictonaries with key and value
+      - list of composed dictionaries with key and value
     type: list
 """
 
@@ -190,6 +195,7 @@ class LookupModule(LookupBase):
 
         netbox_api_token = kwargs.get("token")
         netbox_api_endpoint = kwargs.get("api_endpoint")
+        netbox_ssl_verify = kwargs.get("validate_certs")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
@@ -201,6 +207,7 @@ class LookupModule(LookupBase):
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
+                ssl_verify=netbox_ssl_verify,
                 private_key_file=netbox_private_key_file,
             )
         except FileNotFoundError:
