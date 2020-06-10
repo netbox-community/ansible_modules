@@ -200,7 +200,7 @@ ALLOWED_QUERY_PARAMS = {
     "device_type": set(["slug"]),
     "installed_device": set(["name"]),
     "interface": set(["name", "device", "virtual_machine"]),
-    "inventory_item": set(["name", "device", "serial"]),
+    "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf", "interface"]),
     "ip_addresses": set(["address", "vrf", "device", "interface"]),
     "ipaddresses": set(["address", "vrf", "device", "interface"]),
