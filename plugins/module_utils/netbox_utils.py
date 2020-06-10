@@ -23,6 +23,7 @@ from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
 from ansible.module_utils.urls import open_url
+from ansible.errors import AnsibleError
 
 PYNETBOX_IMP_ERR = None
 try:
