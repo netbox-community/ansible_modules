@@ -41,74 +41,81 @@ options:
     required: true
     type: str
   data:
+    type: dict
     description:
       - Defines the prefix configuration
     suboptions:
       family:
         description:
           - Specifies which address family the prefix prefix belongs to
-        choices:
-          - 4
-          - 6
+        required: false
         type: int
       prefix:
         description:
           - Required if state is C(present) and first_available is False. Will allocate or free this prefix.
-        type: str
+        required: false
+        type: raw
       parent:
         description:
           - Required if state is C(present) and first_available is C(yes). Will get a new available prefix in this parent prefix.
-        type: str
+        required: false
+        type: raw
       prefix_length:
         description:
           - |
             Required ONLY if state is C(present) and first_available is C(yes).
             Will get a new available prefix of the given prefix_length in this parent prefix.
+        required: false
         type: int
       site:
         description:
           - Site that prefix is associated with
-        type: str
+        required: false
+        type: raw
       vrf:
         description:
           - VRF that prefix is associated with
-        type: str
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant that the prefix will be assigned to
-        type: str
+        required: false
+        type: raw
       vlan:
         description:
           - The VLAN the prefix will be assigned to
-        type: dict
+        required: false
+        type: raw
       status:
         description:
           - The status of the prefix
-        choices:
-          - Active
-          - Container
-          - Deprecated
-          - Reserved
-        type: str
+        required: false
+        type: raw
       prefix_role:
         description:
           - The role of the prefix
-        type: str
+        required: false
+        type: raw
       is_pool:
         description:
           - All IP Addresses within this prefix are considered usable
+        required: false
         type: bool
       description:
         description:
           - The description of the prefix
+        required: false
         type: str
       tags:
         description:
           - Any tags that the prefix may need to be associated with
+        required: false
         type: list
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
+        required: false
         type: dict
     required: true
   state:
@@ -116,19 +123,20 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   first_available:
     description:
       - If C(yes) and state C(present), if an parent is given, it will get the
         first available prefix of the given prefix_length inside the given parent (and
         vrf, if given).
         Unused with state C(absent).
-    default: 'no'
+    default: false
     type: bool
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -238,13 +246,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_PREFIXES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -255,25 +264,19 @@ def main():
                     prefix=dict(required=False, type="raw"),
                     parent=dict(required=False, type="raw"),
                     prefix_length=dict(required=False, type="int"),
-                    site=dict(required=False, type="str"),
+                    site=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     vlan=dict(required=False, type="raw"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    type="str",
-                    #    choices=["Active", "Container", "Deprecated", "Reserved"],
-                    # ),
                     prefix_role=dict(required=False, type="raw"),
                     is_pool=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
-            first_available=dict(required=False, type="bool"),
+            first_available=dict(required=False, type="bool", default=False),
         )
     )
 
