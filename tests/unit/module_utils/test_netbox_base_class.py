@@ -228,7 +228,32 @@ def test_build_query_params_child(
     )
     fetch_choice_value.return_value = 200
 
-    query_params = mock_netbox_module._build_query_params(parent, module_data, child)
+    query_params = mock_netbox_module._build_query_params(
+        parent, module_data, child=child
+    )
+    assert query_params == expected
+
+
+@pytest.mark.parametrize(
+    "parent, module_data, user_query_params, expected",
+    load_relative_test_data("build_query_params_user_query_params"),
+)
+def test_build_query_params_user_query_params(
+    mock_netbox_module, mocker, parent, module_data, user_query_params, expected
+):
+    get_query_param_id = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
+    )
+    get_query_param_id.return_value = 1
+    # This will need to be updated, but attempting to fix issue quickly
+    fetch_choice_value = mocker.patch(
+        "%s%s" % (MOCKER_PATCH_PATH, "._fetch_choice_value")
+    )
+    fetch_choice_value.return_value = 200
+
+    query_params = mock_netbox_module._build_query_params(
+        parent, module_data, user_query_params
+    )
     assert query_params == expected
 
 
