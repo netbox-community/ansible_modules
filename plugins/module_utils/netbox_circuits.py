@@ -5,18 +5,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-# This should just be temporary once 2.9 is relased and tested we can remove this
-try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-        ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
-    )
-except ImportError:
-    import sys
-
-    sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxModule,
+    ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
+)
 
 
 NB_PROVIDERS = "providers"

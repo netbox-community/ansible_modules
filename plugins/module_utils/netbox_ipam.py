@@ -11,17 +11,11 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ip
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
 
-try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-        ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
-    )
-except ImportError:
-    import sys
-
-    sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxModule,
+    ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
+)
 
 
 NB_AGGREGATES = "aggregates"
