@@ -1,0 +1,42 @@
+[
+    {
+        "parent": "primary_ip4",
+        "module_data": {
+            "name": "test100",
+            "serial": "FXS1001",
+            "comments": "Temp device",
+            "primary_ip4": {
+                "address": "172.16.180.1/24",
+                "vrf": "Test VRF"
+            }
+        },
+        "user_query_params": [
+            "serial"
+        ],
+        "expected": {
+            "serial": "FXS1001"
+        }
+    },
+    {
+        "parent": "primary_ip6",
+        "module_data": {
+            "name": "test100",
+            "serial": "FXS1001",
+            "comments": "Temp device",
+            "primary_ip4": {
+                "address": "2001::1:1/64",
+                "vrf": "Test VRF"
+            }
+        },
+        "user_query_params": [
+            "name",
+            "serial",
+            "comments"
+        ],
+        "expected": {
+            "name": "test100",
+            "serial": "FXS1001",
+            "comments": "Temp device"
+        }
+    }
+]
