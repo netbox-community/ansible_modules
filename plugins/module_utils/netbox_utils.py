@@ -395,12 +395,14 @@ class NetboxModule(object):
         try:
             raw_data = to_text(response.read(), errors="surrogate_or_strict")
         except UnicodeError:
-            raise AnsibleError("Incorrect encoding of fetched payload from NetBox API.")
+            self.module.fail_json(
+                msg="Incorrect encoding of fetched payload from NetBox API."
+            )
 
         try:
             openapi = json.loads(raw_data)
         except ValueError:
-            raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
+            self.module.fail_json(msg="Incorrect JSON payload returned: %s" % raw_data)
 
         valid_query_params = openapi["paths"][endpoint_url + "/"]["get"]["parameters"]
 
