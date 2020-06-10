@@ -12,7 +12,9 @@ import traceback
 import re
 from itertools import chain
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
-from ansible.module_utils._text import to_text
+
+# from ansible.module_utils._text import to_text
+from ansible.module_utils.common.text.converters import to_text
 
 # from ._text import to_native
 from ansible.module_utils._text import to_native
@@ -777,7 +779,6 @@ class NetboxAnsibleModule(AnsibleModule):
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
             required_if=required_if,
-            required_by=None,
         )
 
     def _check_required_if(self, spec, param=None):

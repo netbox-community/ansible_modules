@@ -34,11 +34,14 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the IP address configuration
     suboptions:
@@ -48,9 +51,13 @@ options:
         choices:
           - 4
           - 6
+        required: false
+        type: int
       address:
         description:
           - Required if state is C(present)
+        required: false
+        type: str
       prefix:
         description:
           - |
@@ -63,20 +70,23 @@ options:
             it.
             Required if state is C(present) or C(new) when no address is given.
             Unused if an address is specified.
+        required: false
+        type: raw
       vrf:
         description:
           - VRF that IP address is associated with
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant that the device will be assigned to
+        required: false
+        type: raw
       status:
         description:
           - The status of the IP address
-        choices:
-          - Active
-          - Reserved
-          - Deprecated
-          - DHCP
+        required: false
+        type: raw
       role:
         description:
           - The role of the IP address
@@ -89,26 +99,40 @@ options:
           - HSRP
           - GLBP
           - CARP
+        required: false
+        type: str
       interface:
         description:
           - |
             The name and device of the interface that the IP address should be assigned to
             Required if state is C(present) and a prefix specified.
+        required: false
+        type: raw
       description:
         description:
           - The description of the interface
+        required: false
+        type: str
       nat_inside:
         description:
           - The inside IP address this IP is assigned to
+        required: false
+        type: raw
       dns_name:
         description:
           - Hostname or FQDN
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the IP address may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
     required: true
   state:
     description:
@@ -119,11 +143,12 @@ options:
         example).
     choices: [ absent, new, present ]
     default: present
+    type: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -233,13 +258,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_IP_ADDRESSES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     # state choices present, absent, new
     argument_spec["state"] = dict(
         required=False, default="present", choices=["present", "absent", "new"]
@@ -250,18 +276,17 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    family=dict(required=False, type="int"),
+                    family=dict(
+                        required=False,
+                        type="int",
+                        choices=[4, 6],
+                        removed_in_version="0.3.0",
+                    ),
                     address=dict(required=False, type="str"),
                     prefix=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    type="str",
-                    #    choices=["Active", "Reserved", "Deprecated", "DHCP"],
-                    # ),
                     role=dict(
                         required=False,
                         type="str",
@@ -280,8 +305,8 @@ def main():
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
                     dns_name=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

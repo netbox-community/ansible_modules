@@ -32,11 +32,14 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the virtual machine configuration
     suboptions:
@@ -44,53 +47,71 @@ options:
         description:
           - The name of the virtual machine
         required: true
+        type: str
       site:
         description:
           - The name of the site attach to the virtual machine
+        required: false
+        type: raw
       cluster:
         description:
           - The name of the cluster attach to the virtual machine
-        required: true
+        required: false
+        type: raw
       virtual_machine_role:
         description:
           - The role of the virtual machine
+        required: false
+        type: raw
       vcpus:
         description:
           - Number of vcpus of the virtual machine
+        required: false
+        type: int
       tenant:
         description:
           - The tenant that the virtual machine will be assigned to
+        required: false
+        type: raw
       platform:
         description:
           - The platform of the virtual machine
+        required: false
+        type: raw
       primary_ip4:
         description:
           - Primary IPv4 address assigned to the virtual machine
+        required: false
+        type: raw
       primary_ip6:
         description:
           - Primary IPv6 address assigned to the virtual machine
+        required: false
+        type: raw
       memory:
         description:
           - Memory of the virtual machine (MB)
+        required: false
+        type: int
       disk:
         description:
           - Disk of the virtual machine (GB)
-      rack:
-        description:
-          - The name of the rack to assign the virtual machine to
+        required: false
+        type: int
       status:
         description:
           - The status of the virtual machine
-        choices:
-          - Active
-          - Offline
-          - Staged
+        required: false
+        type: raw
       tags:
         description:
           - Any tags that the virtual machine may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - Must exist in Netbox
+        required: false
         type: dict
     required: true
   state:
@@ -98,11 +119,12 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -172,13 +194,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualizatio
     NetboxVirtualizationModule,
     NB_VIRTUAL_MACHINES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -196,10 +219,9 @@ def main():
                     primary_ip6=dict(required=False, type="raw"),
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
-                    rack=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

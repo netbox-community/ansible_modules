@@ -32,11 +32,15 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
+    required: true
     description:
       - Defines the circuit configuration
     suboptions:
@@ -44,54 +48,68 @@ options:
         description:
           - The circuit id of the circuit
         required: true
+        type: str
       provider:
         description:
           - The provider of the circuit
         required: true
+        type: raw
       circuit_type:
         description:
           - The circuit type of the circuit
+        required: false
+        type: raw
       status:
         description:
           - The status of the circuit
-        choices:
-          - Active
-          - Offline
-          - Planned
-          - Provisioning
-          - Deprovisioning
-          - Decommissioned
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant assigned to the circuit
+        required: false
+        type: raw
       install_date:
         description:
           - The date the circuit was installed. e.g. YYYY-MM-DD
+        required: false
+        type: str
       commit_rate:
         description:
           - Commit rate of the circuit (Kbps)
+        required: false
+        type: int
       description:
         description:
           - Description of the circuit
+        required: false
+        type: str
       comments:
         description:
           - Comments related to circuit
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the device may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -155,13 +173,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits impo
     NetboxCircuitsModule,
     NB_CIRCUITS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -171,26 +190,14 @@ def main():
                     cid=dict(required=True, type="str"),
                     provider=dict(required=False, type="raw"),
                     circuit_type=dict(required=False, type="raw"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    choices=[
-                    #        "Active",
-                    #        "Offline",
-                    #        "Planned",
-                    #        "Provisioning",
-                    #        "Deprovisioning",
-                    #        "Decommissioned",
-                    #    ],
-                    # ),
                     tenant=dict(required=False, type="raw"),
                     install_date=dict(required=False, type="str"),
                     commit_rate=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
