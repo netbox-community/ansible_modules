@@ -164,7 +164,8 @@
         },
         "expected": {
             "name": "10G-SFP+",
-            "device_id": 1
+            "device_id": 1,
+            "serial": "1234",
         }
     },
     {
