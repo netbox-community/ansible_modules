@@ -52,6 +52,7 @@
       cluster_group: "Test Cluster Group"
       site: "Test Site"
       comments: "Updated cluster"
+      tenant: "Test Tenant"
       tags:
         - Schnozzberry
     state: present
@@ -65,12 +66,14 @@
       - test_three['diff']['after']['site'] == 1
       - test_three['diff']['after']['comments'] == "Updated cluster"
       - test_three['diff']['after']['tags'][0] == "Schnozzberry"
+      - test_three['diff']['after']['tenant'] == 1
       - test_three['cluster']['name'] == "Test Cluster One"
       - test_three['cluster']['type'] == 1
       - test_three['cluster']['group'] == 1
       - test_three['cluster']['site'] == 1
       - test_three['cluster']['comments'] == "Updated cluster"
       - test_three['cluster']['tags'][0] == "Schnozzberry"
+      - test_three['cluster']['tenant'] == 1
       - test_three['msg'] == "cluster Test Cluster One updated"
 
 - name: "CLUSTER 4: ASSERT - Delete"
