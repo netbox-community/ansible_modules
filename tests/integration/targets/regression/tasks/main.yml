@@ -26,3 +26,21 @@
         that:
           - test_one is failed
           - test_one['msg'] == "Failed to establish connection to Netbox API"
+
+    - name: "2 - Check to see if netbox_prefix with parent defined will pass via check-mode"
+      netbox.netbox.netbox_prefix:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          parent: "10.10.0.0/16"
+          prefix_length: 24
+        first_available: yes
+        state: present
+      register: test_two
+      check_mode: yes
+
+    - name: "2 - ASSERT"
+      assert:
+        that:
+          - test_two is changed
+          - test_two['msg'] == "New prefix created within 10.10.0.0/16"
