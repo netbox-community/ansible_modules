@@ -29,7 +29,7 @@
 
     - name: "2 - Check to see if netbox_prefix with parent defined will pass via check-mode"
       netbox.netbox.netbox_prefix:
-        netbox_url: "http://some-random-invalid-URL"
+        netbox_url: "http://localhost:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
         data:
           parent: "10.10.0.0/16"
