@@ -102,6 +102,11 @@ class NetboxIpamModule(NetboxModule):
             self.result["changed"] = False
             self.result["msg"] = "Parent prefix does not exist - %s" % (data["parent"])
         elif self.nb_object.available_prefixes.list():
+            if self.check_mode:
+                self.result["changed"] = True
+                self.result["msg"] = "New prefix created within %s" % (data["parent"])
+                self.module.exit_json(**self.result)
+
             self.nb_object, diff = self._create_netbox_object(
                 self.nb_object.available_prefixes, data
             )
