@@ -1,0 +1,29 @@
+[
+    {
+        "data": [
+            "site",
+            "test-site"
+        ],
+        "expected": "test-site"
+    },
+    {
+        "data": [
+            "interface",
+            1
+        ],
+        "expected": 1
+    },
+    {
+        "data": [
+            "interface",
+            {
+                "name": "ethernet1",
+                "device": "test100"
+            }
+        ],
+        "expected": {
+            "name": "ethernet1",
+            "device": "test100"
+        }
+    }
+]

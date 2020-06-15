@@ -160,9 +160,7 @@
       nat_inside:
         address: 172.16.1.20
         vrf: Test VRF
-      interface:
-        name: GigabitEthernet1
-        device: test100
+      interface: 3
   register: test_eight
 
 - name: "8 - ASSERT"
