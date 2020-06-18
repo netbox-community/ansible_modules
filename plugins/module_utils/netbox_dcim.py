@@ -27,6 +27,7 @@ NB_PLATFORMS = "platforms"
 NB_POWER_FEEDS = "power_feeds"
 NB_POWER_PANELS = "power_panels"
 NB_POWER_PORTS = "power_ports"
+NB_POWER_PORT_TEMPLATES = "power_port_templates"
 NB_RACKS = "racks"
 NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
@@ -54,6 +55,7 @@ class NetboxDcimModule(NetboxModule):
         - power_feeds
         - power_panels
         - power_ports
+        - power_port_templates
         - sites
         - racks
         - rack_roles
