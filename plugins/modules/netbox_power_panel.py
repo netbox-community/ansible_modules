@@ -111,6 +111,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Power Panel
+          site: Test Site
         state: absent
 """
 

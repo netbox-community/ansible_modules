@@ -183,6 +183,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Power Feed
+          power_panel: Test Power Panel
         state: absent
 """
 
