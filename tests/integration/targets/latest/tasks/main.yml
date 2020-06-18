@@ -107,6 +107,12 @@
 - name: "NETBOX_POWER_PORT_TEMPLATE TESTS"
   include_tasks: "netbox_power_port_template.yml"
 
+- name: "NETBOX_POWER_OUTLET TESTS"
+  include_tasks: "netbox_power_outlet.yml"
+
+- name: "NETBOX_POWER_OUTLET_TEMPLATE TESTS"
+  include_tasks: "netbox_power_outlet_template.yml"
+
 - name: "NETBOX_SERVICE TESTS"
   include_tasks: "netbox_service.yml"
 
