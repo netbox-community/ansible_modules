@@ -54,7 +54,7 @@
       - test_two['power_port_template']['device_type'] == 7
       - test_two['msg'] == "power_port_template Power Port Template already exists"
 
-- name: "POWER_FEED 3: Update power_port_template with other fields"
+- name: "POWER_PORT_TEMPLATE 3: Update power_port_template with other fields"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -67,7 +67,7 @@
     state: present
   register: test_three
 
-- name: "POWER_FEED 3: ASSERT - Update power_port_template with other fields"
+- name: "POWER_PORT_TEMPLATE 3: ASSERT - Update power_port_template with other fields"
   assert:
     that:
       - test_three is changed
