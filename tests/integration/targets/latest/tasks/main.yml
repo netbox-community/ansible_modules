@@ -101,6 +101,9 @@
 - name: "NETBOX_POWER_FEED TESTS"
   include_tasks: "netbox_power_feed.yml"
 
+- name: "NETBOX_POWER_PORT TESTS"
+  include_tasks: "netbox_power_port.yml"
+
 - name: "NETBOX_SERVICE TESTS"
   include_tasks: "netbox_service.yml"
 
