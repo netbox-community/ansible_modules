@@ -29,6 +29,8 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_device_role
 - netbox_device_type
 - netbox_device
+- netbox_front_port
+- netbox_front_port_template
 - netbox_inventory_item
 - netbox_ip_address
 - netbox_ipam_role
@@ -39,6 +41,8 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_rack_group
 - netbox_rack_role
 - netbox_rack
+- netbox_rear_port
+- netbox_rear_port_template
 - netbox_region
 - netbox_rir
 - netbox_site
