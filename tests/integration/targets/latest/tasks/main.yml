@@ -95,6 +95,12 @@
 - name: "NETBOX_CIRCUIT_TERMINATION TESTS"
   include_tasks: "netbox_circuit_termination.yml"
 
+- name: "NETBOX_REAR_PORT TESTS"
+  include_tasks: "netbox_rear_port.yml"
+
+- name: "NETBOX_REAR_PORT_TEMPLATE TESTS"
+  include_tasks: "netbox_rear_port_template.yml"
+
 - name: "NETBOX_SERVICE TESTS"
   include_tasks: "netbox_service.yml"
 
