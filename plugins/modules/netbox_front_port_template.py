@@ -54,8 +54,8 @@ options:
         description:
           - The name of the front port template
         required: true
-      type: str
-            type:
+        type: str
+      type:
         description:
           - The type of the front port
         choices:

@@ -54,8 +54,8 @@ options:
         description:
           - The name of the rear port template
         required: true
-      type: str
-            type:
+        type: str
+      type:
         description:
           - The type of the rear port
         choices:
