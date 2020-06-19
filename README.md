@@ -14,6 +14,7 @@ To keep the code simple, we only officially support the two latest releases of N
 - **pynetbox 4.2.5+**
 - Python 3.6+
 - Ansible 2.9+
+- NetBox write-enabled token
 
 ## Existing Modules
 
