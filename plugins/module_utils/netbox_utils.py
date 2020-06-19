@@ -35,6 +35,8 @@ except ImportError:
 API_APPS_ENDPOINTS = dict(
     circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
     dcim=[
+        "console_ports",
+        "console_port_templates",
         "device_bays",
         "devices",
         "device_roles",
@@ -160,6 +162,8 @@ ENDPOINT_NAME_MAPPING = {
     "clusters": "cluster",
     "cluster_groups": "cluster_group",
     "cluster_types": "cluster_type",
+    "console_ports": "console_port",
+    "console_port_templates": "console_port_template",
     "device_bays": "device_bay",
     "devices": "device",
     "device_roles": "device_role",
@@ -195,6 +199,8 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
+    "console_port": set(["slug"]),
+    "console_port_template": set(["slug"]),
     "device_bay": set(["name", "device"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
@@ -250,6 +256,8 @@ QUERY_PARAMS_IDS = set(
 
 REQUIRED_ID_FIND = {
     "circuits": set(["status"]),
+    "console_ports": set(["type"]),
+    "console_port_templates": set(["type"]),
     "devices": set(["status", "face"]),
     "device_types": set(["subdevice_role"]),
     "interfaces": set(["form_factor", "mode", "type"]),
