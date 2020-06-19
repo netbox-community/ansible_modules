@@ -45,7 +45,7 @@
       - test_two['power_outlet']['device'] == 9
       - test_two['msg'] == "power_outlet Power Outlet already exists"
 
-- name: "POWER_FEED 3: Update power_outlet with other fields"
+- name: "POWER_OUTLET 3: Update power_outlet with other fields"
   netbox.netbox.netbox_power_outlet:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -59,7 +59,7 @@
     state: present
   register: test_three
 
-- name: "POWER_FEED 3: ASSERT - Update power_outlet with other fields"
+- name: "POWER_OUTLET 3: ASSERT - Update power_outlet with other fields"
   assert:
     that:
       - test_three is changed
