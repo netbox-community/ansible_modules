@@ -18,6 +18,8 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 NB_CONSOLE_PORTS = "console_ports"
 NB_CONSOLE_PORT_TEMPLATES = "console_port_templates"
+NB_CONSOLE_SERVER_PORTS = "console_server_ports"
+NB_CONSOLE_SERVER_PORT_TEMPLATES = "console_server_port_templates"
 NB_DEVICE_BAYS = "device_bays"
 NB_DEVICES = "devices"
 NB_DEVICE_ROLES = "device_roles"
@@ -44,6 +46,8 @@ class NetboxDcimModule(NetboxModule):
         Supported endpoints:
         - console_ports
         - console_port_templates
+        - console_server_ports
+        - console_server_port_templates
         - device_bays
         - devices
         - device_roles
