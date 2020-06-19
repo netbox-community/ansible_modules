@@ -142,7 +142,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-power_outlet:
+console_port:
   description: Serialized object as created or already existent within Netbox
   returned: success (when I(state=present))
   type: dict

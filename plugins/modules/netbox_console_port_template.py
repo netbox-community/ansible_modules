@@ -101,7 +101,7 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create power port within Netbox with only required information
+    - name: Create console port template within Netbox with only required information
       netbox_console_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -110,7 +110,7 @@ EXAMPLES = r"""
           device_type: Test Device Type
         state: present
 
-    - name: Update power port with other fields
+    - name: Update console port template with other fields
       netbox_console_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -120,7 +120,7 @@ EXAMPLES = r"""
           type: iec-60320-c6
         state: present
 
-    - name: Delete power port within netbox
+    - name: Delete console port template within netbox
       netbox_console_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
