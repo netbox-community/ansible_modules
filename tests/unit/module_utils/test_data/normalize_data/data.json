@@ -286,5 +286,37 @@
         "after": {
             "vrf": "Test VRF"
         }
+    },
+    {
+        "before": {
+            "interface": 1
+        },
+        "after": {
+            "interface": 1
+        }
+    },
+    {
+        "before": {
+            "interface": {
+                "vrf": "Test VRF"
+            }
+        },
+        "after": {
+            "interface": {
+                "vrf": "Test VRF"
+            }
+        }
+    },
+    {
+        "before": {
+            "vlan": {
+                "vlan_group": "Test VLAN Group"
+            }
+        },
+        "after": {
+            "vlan": {
+                "vlan_group": "test-vlan-group"
+            }
+        }
     }
 ]

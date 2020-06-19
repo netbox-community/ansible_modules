@@ -635,15 +635,6 @@ class NetboxModule(object):
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
-                # Code to work around Ansible templating converting all values to strings
-                # This should allow users to pass in IDs obtained from previous tasks
-                # without causing the module to fail
-                if isinstance(v, str):
-                    try:
-                        v = int(v)
-                    except ValueError:
-                        pass
-
                 if isinstance(v, list):
                     data[k] = id_list
                 elif isinstance(v, int):
@@ -669,6 +660,27 @@ class NetboxModule(object):
             convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
             return convert_chars.strip().lower()
 
+    def _normalize_to_integer(self, key, value):
+        """
+        :returns value (str/int): Returns either the original value or the
+        converted value (int) if able to make the conversion.
+
+        :params (str/int): Value that needs to be tested whether or not it
+        needs to be converted to an integer.
+        """
+        DO_NOT_CONVERT_TO_INT = {"asset_tag"}
+        if key in DO_NOT_CONVERT_TO_INT:
+            return value
+        elif isinstance(value, int):
+            return value
+
+        try:
+            value = int(value)
+        except ValueError:
+            return value
+        except TypeError:
+            return value
+
     def _normalize_data(self, data):
         """
         :returns data (dict): Normalized module data to formats accepted by Netbox searches
@@ -682,6 +694,7 @@ class NetboxModule(object):
                     sub_data_type = QUERY_TYPES.get(subk, "q")
                     if sub_data_type == "slug":
                         data[k][subk] = self._to_slug(subv)
+                    data[k][subk] = self._normalize_to_integer(subk, data[k].get(subk))
             else:
                 data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
@@ -689,6 +702,7 @@ class NetboxModule(object):
                 elif data_type == "timezone":
                     if " " in v:
                         data[k] = v.replace(" ", "_")
+                    data[k] = self._normalize_to_integer(k, data.get(k))
 
         return data
 
