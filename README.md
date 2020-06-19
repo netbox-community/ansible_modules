@@ -24,6 +24,10 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_cluster
 - netbox_cluster_group
 - netbox_cluster_type
+- netbox_console_port
+- netbox_console_port_template
+- netbox_console_server_port
+- netbox_console_server_port_template
 - netbox_device_bay
 - netbox_device_interface
 - netbox_device_role
