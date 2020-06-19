@@ -280,6 +280,8 @@ REQUIRED_ID_FIND = {
     "power_feeds": set(["status", "type", "supply", "phase"]),
     "power_outlets": set(["type", "feed_leg"]),
     "power_outlet_templates": set(["type", "feed_leg"]),
+    "power_ports": set(["type"]),
+    "power_port_templates": set(["type"]),
     "racks": set(["status", "outer_unit", "type"]),
     "services": set(["protocol"]),
     "sites": set(["status"]),
