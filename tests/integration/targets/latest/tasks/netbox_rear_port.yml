@@ -26,7 +26,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['rear_port']['name'] == "Rear Port"
       - test_one['rear_port']['device'] == 1
-      - test_one['rear_port']['name'] == "bnc"
+      - test_one['rear_port']['type'] == "bnc"
       - test_one['msg'] == "rear_port Rear Port created"
 
 - name: "REAR_PORT 2: Create duplicate"
@@ -57,6 +57,7 @@
       name: Rear Port
       device: test100
       type: bnc
+      positions: 5
       description: test description
     state: present
   register: test_three
