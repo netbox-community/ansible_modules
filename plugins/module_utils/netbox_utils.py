@@ -549,7 +549,12 @@ class NetboxModule(object):
         app = self._find_app(endpoint)
         nb_app = getattr(self.nb, app)
         nb_endpoint = getattr(nb_app, endpoint)
-        endpoint_choices = nb_endpoint.choices()
+        try:
+            endpoint_choices = nb_endpoint.choices()
+        except ValueError:
+            self._handle_errors(
+                msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
+            )
 
         choices = [x for x in chain.from_iterable(endpoint_choices.values())]
 
