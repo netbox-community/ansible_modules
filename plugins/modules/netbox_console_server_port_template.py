@@ -198,7 +198,9 @@ def main():
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_console_server_port_template = NetboxDcimModule(module, NB_CONSOLE_SERVER_PORT_TEMPLATES)
+    netbox_console_server_port_template = NetboxDcimModule(
+        module, NB_CONSOLE_SERVER_PORT_TEMPLATES
+    )
     netbox_console_server_port_template.run()
 
 
