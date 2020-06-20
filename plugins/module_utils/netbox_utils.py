@@ -470,7 +470,7 @@ class NetboxModule(object):
             if data.get("form_factor"):
                 temp_dict["type"] = data["form_factor"]
         for key in data:
-            if self.endpoint == 'power_panels' and key == 'rack_group':
+            if self.endpoint == "power_panels" and key == "rack_group":
                 temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
