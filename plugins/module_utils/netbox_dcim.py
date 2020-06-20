@@ -24,6 +24,12 @@ NB_INTERFACES = "interfaces"
 NB_INVENTORY_ITEMS = "inventory_items"
 NB_MANUFACTURERS = "manufacturers"
 NB_PLATFORMS = "platforms"
+NB_POWER_FEEDS = "power_feeds"
+NB_POWER_OUTLETS = "power_outlets"
+NB_POWER_OUTLET_TEMPLATES = "power_outlet_templates"
+NB_POWER_PANELS = "power_panels"
+NB_POWER_PORTS = "power_ports"
+NB_POWER_PORT_TEMPLATES = "power_port_templates"
 NB_RACKS = "racks"
 NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
@@ -48,6 +54,12 @@ class NetboxDcimModule(NetboxModule):
         - inventory_items
         - manufacturers
         - platforms
+        - power_feeds
+        - power_outlets
+        - power_outlet_templates
+        - power_panels
+        - power_ports
+        - power_port_templates
         - sites
         - racks
         - rack_roles
