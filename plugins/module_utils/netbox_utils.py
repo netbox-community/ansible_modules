@@ -43,6 +43,12 @@ API_APPS_ENDPOINTS = dict(
         "inventory_items",
         "manufacturers",
         "platforms",
+        "power_feeds",
+        "power_outlets",
+        "power_outlet_templates",
+        "power_panels",
+        "power_ports",
+        "power_port_templates",
         "racks",
         "rack_groups",
         "rack_roles",
@@ -83,6 +89,8 @@ QUERY_TYPES = dict(
     nat_inside="address",
     nat_outside="address",
     parent_region="slug",
+    power_panel="name",
+    power_port="name",
     platform="slug",
     prefix_role="slug",
     primary_ip="address",
@@ -128,6 +136,8 @@ CONVERT_TO_ID = dict(
     nat_outside="ip_addresses",
     platform="platforms",
     parent_region="regions",
+    power_panel="power_panels",
+    power_port="power_ports",
     prefix_role="roles",
     primary_ip="ip_addresses",
     primary_ip4="ip_addresses",
@@ -169,6 +179,12 @@ ENDPOINT_NAME_MAPPING = {
     "ip_addresses": "ip_address",
     "manufacturers": "manufacturer",
     "platforms": "platform",
+    "power_feeds": "power_feed",
+    "power_outlets": "power_outlet",
+    "power_outlet_templates": "power_outlet_template",
+    "power_panels": "power_panel",
+    "power_ports": "power_port",
+    "power_port_templates": "power_port_template",
     "prefixes": "prefix",
     "providers": "provider",
     "racks": "rack",
@@ -210,6 +226,12 @@ ALLOWED_QUERY_PARAMS = {
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
+    "power_feed": set(["name", "power_panel"]),
+    "power_outlet": set(["name", "device"]),
+    "power_outlet_template": set(["name", "device_type"]),
+    "power_panel": set(["name", "site"]),
+    "power_port": set(["name", "device"]),
+    "power_port_template": set(["name", "device_type"]),
     "prefix": set(["prefix", "vrf"]),
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
@@ -255,6 +277,11 @@ REQUIRED_ID_FIND = {
     "interfaces": set(["form_factor", "mode", "type"]),
     "ip_addresses": set(["status", "role"]),
     "prefixes": set(["status"]),
+    "power_feeds": set(["status", "type", "supply", "phase"]),
+    "power_outlets": set(["type", "feed_leg"]),
+    "power_outlet_templates": set(["type", "feed_leg"]),
+    "power_ports": set(["type"]),
+    "power_port_templates": set(["type"]),
     "racks": set(["status", "outer_unit", "type"]),
     "services": set(["protocol"]),
     "sites": set(["status"]),
@@ -443,7 +470,9 @@ class NetboxModule(object):
             if data.get("form_factor"):
                 temp_dict["type"] = data["form_factor"]
         for key in data:
-            if key in CONVERT_KEYS:
+            if self.endpoint == "power_panels" and key == "rack_group":
+                temp_dict[key] = data[key]
+            elif key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
             else:
