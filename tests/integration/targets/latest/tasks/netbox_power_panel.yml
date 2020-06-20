@@ -45,7 +45,28 @@
       - test_two['power_panel']['site'] == 1
       - test_two['msg'] == "power_panel Power Panel already exists"
 
-- name: "POWER_PANEL 3: Create Power Panel for Delete Test"
+- name: "POWER_PANEL 3: Update power_panel with other fields"
+  netbox.netbox.netbox_power_panel:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Power Panel
+      site: Test Site
+      rack_group: Test Rack Group
+    state: present
+  register: test_three
+
+- name: "POWER_PANEL 3: ASSERT - Update power_panel with other fields"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['rack_group'] == 1
+      - test_three['power_panel']['name'] == "Power Panel"
+      - test_three['power_panel']['site'] == 1
+      - test_three['power_panel']['rack_group'] == 1
+      - test_three['msg'] == "power_panel Power Panel updated"
+
+- name: "POWER_PANEL 4: Create Power Panel for Delete Test"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -53,20 +74,20 @@
       name: Power Panel 2
       site: Test Site
     state: present
-  register: test_three
+  register: test_four
 
-- name: "POWER_PANEL 3: ASSERT - Create Power Panel for Delete Test"
+- name: "POWER_PANEL 4: ASSERT - Create Power Panel for Delete Test"
   assert:
     that:
-      - test_three is changed
-      - test_three['diff']['before']['state'] == "absent"
-      - test_three['diff']['after']['state'] == "present"
-      - test_three['power_panel']['name'] == "Power Panel 2"
-      - test_three['power_panel']['site'] == 1
-      - test_three['msg'] == "power_panel Power Panel 2 created"
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['power_panel']['name'] == "Power Panel 2"
+      - test_four['power_panel']['site'] == 1
+      - test_four['msg'] == "power_panel Power Panel 2 created"
 
 
-- name: "POWER_PANEL 4: Delete Power Panel"
+- name: "POWER_PANEL 5: Delete Power Panel"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -74,12 +95,12 @@
       name: Power Panel 2
       site: Test Site
     state: absent
-  register: test_four
+  register: test_five
 
-- name: "POWER_PANEL 4: ASSERT - Delete Power Panel"
+- name: "POWER_PANEL 5: ASSERT - Delete Power Panel"
   assert:
     that:
-      - test_four is changed
-      - test_four['diff']['before']['state'] == "present"
-      - test_four['diff']['after']['state'] == "absent"
-      - test_four['msg'] == "power_panel Power Panel 2 deleted"
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "power_panel Power Panel 2 deleted"
