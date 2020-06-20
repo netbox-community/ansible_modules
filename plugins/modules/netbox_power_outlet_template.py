@@ -17,9 +17,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_power_outlet_template
-short_description: Create, update or delete power outlets within Netbox
+short_description: Create, update or delete power outlet templates within Netbox
 description:
-  - Creates, updates or removes power outlets from Netbox
+  - Creates, updates or removes power outlet templates from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -27,7 +27,7 @@ author:
   - Tobias Groß (@toerb)
 requirements:
   - pynetbox
-version_added: '0.2.2'
+version_added: '0.2.3'
 options:
   netbox_url:
     description:
