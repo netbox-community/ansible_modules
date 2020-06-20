@@ -14,6 +14,7 @@ To keep the code simple, we only officially support the two latest releases of N
 - **pynetbox 4.2.5+**
 - Python 3.6+
 - Ansible 2.9+
+- NetBox write-enabled token
 
 ## Existing Modules
 
@@ -38,6 +39,12 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_ipam_role
 - netbox_manufacturer
 - netbox_platform
+- netbox_power_feed
+- netbox_power_outlet
+- netbox_power_outlet_template
+- netbox_power_panel
+- netbox_power_port
+- netbox_power_port_template
 - netbox_prefix
 - netbox_provider
 - netbox_rack_group
