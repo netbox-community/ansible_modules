@@ -35,6 +35,10 @@ except ImportError:
 API_APPS_ENDPOINTS = dict(
     circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
     dcim=[
+        "console_ports",
+        "console_port_templates",
+        "console_server_ports",
+        "console_server_port_templates",
         "device_bays",
         "devices",
         "device_roles",
@@ -45,6 +49,12 @@ API_APPS_ENDPOINTS = dict(
         "inventory_items",
         "manufacturers",
         "platforms",
+        "power_feeds",
+        "power_outlets",
+        "power_outlet_templates",
+        "power_panels",
+        "power_ports",
+        "power_port_templates",
         "racks",
         "rack_groups",
         "rack_roles",
@@ -87,6 +97,8 @@ QUERY_TYPES = dict(
     nat_inside="address",
     nat_outside="address",
     parent_region="slug",
+    power_panel="name",
+    power_port="name",
     platform="slug",
     prefix_role="slug",
     primary_ip="address",
@@ -133,6 +145,8 @@ CONVERT_TO_ID = dict(
     nat_outside="ip_addresses",
     platform="platforms",
     parent_region="regions",
+    power_panel="power_panels",
+    power_port="power_ports",
     prefix_role="roles",
     primary_ip="ip_addresses",
     primary_ip4="ip_addresses",
@@ -166,17 +180,27 @@ ENDPOINT_NAME_MAPPING = {
     "clusters": "cluster",
     "cluster_groups": "cluster_group",
     "cluster_types": "cluster_type",
-    "front_ports": "front_port",
-    "front_port_templates": "front_port_template",
+    "console_ports": "console_port",
+    "console_port_templates": "console_port_template",
+    "console_server_ports": "console_server_port",
+    "console_server_port_templates": "console_server_port_template",
     "device_bays": "device_bay",
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
+    "front_ports": "front_port",
+    "front_port_templates": "front_port_template",
     "interfaces": "interface",
     "inventory_items": "inventory_item",
     "ip_addresses": "ip_address",
     "manufacturers": "manufacturer",
     "platforms": "platform",
+    "power_feeds": "power_feed",
+    "power_outlets": "power_outlet",
+    "power_outlet_templates": "power_outlet_template",
+    "power_panels": "power_panel",
+    "power_ports": "power_port",
+    "power_port_templates": "power_port_template",
     "prefixes": "prefix",
     "providers": "provider",
     "racks": "rack",
@@ -205,6 +229,10 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
+    "console_port": set(["name", "device"]),
+    "console_port_template": set(["name", "device_type"]),
+    "console_server_port": set(["name", "device"]),
+    "console_server_port_template": set(["name", "device_type"]),
     "device_bay": set(["name", "device"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
@@ -222,6 +250,12 @@ ALLOWED_QUERY_PARAMS = {
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
+    "power_feed": set(["name", "power_panel"]),
+    "power_outlet": set(["name", "device"]),
+    "power_outlet_template": set(["name", "device_type"]),
+    "power_panel": set(["name", "site"]),
+    "power_port": set(["name", "device"]),
+    "power_port_template": set(["name", "device_type"]),
     "prefix": set(["prefix", "vrf"]),
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
@@ -264,6 +298,10 @@ QUERY_PARAMS_IDS = set(
 
 REQUIRED_ID_FIND = {
     "circuits": set(["status"]),
+    "console_ports": set(["type"]),
+    "console_port_templates": set(["type"]),
+    "console_server_ports": set(["type"]),
+    "console_server_port_templates": set(["type"]),
     "devices": set(["status", "face"]),
     "device_types": set(["subdevice_role"]),
     "front_ports": set(["type"]),
@@ -271,6 +309,11 @@ REQUIRED_ID_FIND = {
     "interfaces": set(["form_factor", "mode", "type"]),
     "ip_addresses": set(["status", "role"]),
     "prefixes": set(["status"]),
+    "power_feeds": set(["status", "type", "supply", "phase"]),
+    "power_outlets": set(["type", "feed_leg"]),
+    "power_outlet_templates": set(["type", "feed_leg"]),
+    "power_ports": set(["type"]),
+    "power_port_templates": set(["type"]),
     "racks": set(["status", "outer_unit", "type"]),
     "rear_ports": set(["type"]),
     "rear_port_templates": set(["type"]),
@@ -461,7 +504,9 @@ class NetboxModule(object):
             if data.get("form_factor"):
                 temp_dict["type"] = data["form_factor"]
         for key in data:
-            if key in CONVERT_KEYS:
+            if self.endpoint == "power_panels" and key == "rack_group":
+                temp_dict[key] = data[key]
+            elif key in CONVERT_KEYS:
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
             else:
@@ -567,7 +612,12 @@ class NetboxModule(object):
         app = self._find_app(endpoint)
         nb_app = getattr(self.nb, app)
         nb_endpoint = getattr(nb_app, endpoint)
-        endpoint_choices = nb_endpoint.choices()
+        try:
+            endpoint_choices = nb_endpoint.choices()
+        except ValueError:
+            self._handle_errors(
+                msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
+            )
 
         choices = [x for x in chain.from_iterable(endpoint_choices.values())]
 
@@ -648,15 +698,6 @@ class NetboxModule(object):
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
-                # Code to work around Ansible templating converting all values to strings
-                # This should allow users to pass in IDs obtained from previous tasks
-                # without causing the module to fail
-                if isinstance(v, str):
-                    try:
-                        v = int(v)
-                    except ValueError:
-                        pass
-
                 if isinstance(v, list):
                     data[k] = id_list
                 elif isinstance(v, int):
@@ -682,6 +723,27 @@ class NetboxModule(object):
             convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
             return convert_chars.strip().lower()
 
+    def _normalize_to_integer(self, key, value):
+        """
+        :returns value (str/int): Returns either the original value or the
+        converted value (int) if able to make the conversion.
+
+        :params (str/int): Value that needs to be tested whether or not it
+        needs to be converted to an integer.
+        """
+        DO_NOT_CONVERT_TO_INT = {"asset_tag"}
+        if key in DO_NOT_CONVERT_TO_INT:
+            return value
+        elif isinstance(value, int):
+            return value
+
+        try:
+            value = int(value)
+        except ValueError:
+            return value
+        except TypeError:
+            return value
+
     def _normalize_data(self, data):
         """
         :returns data (dict): Normalized module data to formats accepted by Netbox searches
@@ -695,6 +757,7 @@ class NetboxModule(object):
                     sub_data_type = QUERY_TYPES.get(subk, "q")
                     if sub_data_type == "slug":
                         data[k][subk] = self._to_slug(subv)
+                    data[k][subk] = self._normalize_to_integer(subk, data[k].get(subk))
             else:
                 data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
@@ -702,6 +765,7 @@ class NetboxModule(object):
                 elif data_type == "timezone":
                     if " " in v:
                         data[k] = v.replace(" ", "_")
+                    data[k] = self._normalize_to_integer(k, data.get(k))
 
         return data
 
