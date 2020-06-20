@@ -24,6 +24,8 @@ NB_DEVICE_BAYS = "device_bays"
 NB_DEVICES = "devices"
 NB_DEVICE_ROLES = "device_roles"
 NB_DEVICE_TYPES = "device_types"
+NB_FRONT_PORTS = "front_ports"
+NB_FRONT_PORT_TEMPLATES = "front_port_templates"
 NB_INTERFACES = "interfaces"
 NB_INVENTORY_ITEMS = "inventory_items"
 NB_MANUFACTURERS = "manufacturers"
@@ -37,6 +39,8 @@ NB_POWER_PORT_TEMPLATES = "power_port_templates"
 NB_RACKS = "racks"
 NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
+NB_REAR_PORTS = "rear_ports"
+NB_REAR_PORT_TEMPLATES = "rear_port_templates"
 NB_REGIONS = "regions"
 NB_SITES = "sites"
 
@@ -58,6 +62,8 @@ class NetboxDcimModule(NetboxModule):
         - devices
         - device_roles
         - device_types
+        - front_ports
+        - front_port_templates
         - interfaces
         - inventory_items
         - manufacturers
@@ -72,6 +78,8 @@ class NetboxDcimModule(NetboxModule):
         - racks
         - rack_roles
         - rack_groups
+        - rear_ports
+        - rear_port_templates
         - regions
         """
         # Used to dynamically set key when returning results
