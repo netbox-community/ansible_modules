@@ -102,6 +102,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Power Panel
+          site: Test Site
           rack_group: Test Rack Group
         state: present
 
