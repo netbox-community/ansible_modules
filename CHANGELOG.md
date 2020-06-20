@@ -1,6 +1,42 @@
 # Changelog
 
-## v0.2.2
+## v0.2.3
+
+### Documentation
+
+- [#226](https://github.com/netbox-community/ansible_modules/issues/226) - Fix indentation in README to prevent syntax error
+- [#180](https://github.com/netbox-community/ansible_modules/issues/180) - Fix documentation errors when using ansible-lint `validate-modules`
+
+### Enchancements
+- [#216](https://github.com/netbox-community/ansible_modules/issues/216) - Allows private key to be passed in to `validate_certs` within modules
+- [#187](https://github.com/netbox-community/ansible_modules/issues/187) - Adds `discovered` field to `netbox_inventory_item`
+- [#219](https://github.com/netbox-community/ansible_modules/pull/219) - Adds `tenant` field to `netbox_cluster`
+- [#215](https://github.com/netbox-community/ansible_modules/issues/215) - Adds `query_params` to all modules to allow users to define the `query_params`
+- [#238](https://github.com/netbox-community/ansible_modules/pull/238) - Better error handling if read-only token is provided for modules. Updated README as well to say that a `write-enabled` token is required
+
+### Bug Fixes
+- [#214](https://github.com/netbox-community/ansible_modules/issues/214) - Fixes bug in inventory plugin that fails if there are either no virtual machines, but devices defined in NetBox or vice versa from failing when `fetch_all` is set to `False`
+- [#228](https://github.com/netbox-community/ansible_modules/issues/228) - Fixes bug in `netbox_prefix` failing when using `check_mode`
+- [#231](https://github.com/netbox-community/ansible_modules/issues/231) - Normalize any string values that are passed in via Jinja into an integer within the `_normalize_data` method
+
+### New Modules
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_feed`
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_outlet`
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_outlet_template`
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_panel`
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_port`
+- [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_port_template`
+- [#236](https://github.com/netbox-community/ansible_modules/pull/236) - `netbox_console_port`
+- [#236](https://github.com/netbox-community/ansible_modules/pull/236) - `netbox_console_port_template`
+- [#236](https://github.com/netbox-community/ansible_modules/pull/236) - `netbox_console_server_port`
+- [#236](https://github.com/netbox-community/ansible_modules/pull/236) - `netbox_console_server_port_template`
+- [#237](https://github.com/netbox-community/ansible_modules/pull/237) - `netbox_front_port`
+- [#237](https://github.com/netbox-community/ansible_modules/pull/237) - `netbox_front_port_template`
+- [#237](https://github.com/netbox-community/ansible_modules/pull/237) - `netbox_rear_port`
+- [#237](https://github.com/netbox-community/ansible_modules/pull/237) - `netbox_rear_port_template`
+
+
+## V0.2.2
 
 ### Enhancements
 
