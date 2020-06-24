@@ -139,6 +139,11 @@ options:
           - must exist in Netbox
         required: false
         type: dict
+      config_context:
+        description:
+          - JSON data that defines device configuration
+        required: false
+        type: dict
     required: true
     type: dict
   state:
@@ -278,6 +283,7 @@ def main():
                     cluster=dict(required=False, type="raw"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
+                    local_context_data=dict(required=False, type="dict"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
