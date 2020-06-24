@@ -139,9 +139,9 @@ options:
           - must exist in Netbox
         required: false
         type: dict
-      config_context:
+      local_context_data:
         description:
-          - JSON data that defines device configuration
+          - Arbitrary JSON data to define the devices configuration variables.
         required: false
         type: dict
     required: true
