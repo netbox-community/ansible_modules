@@ -101,5 +101,5 @@
       assert:
         that:
           - test_five is changed
-          - test_five["diff"]["after"]["tags"] == ["first", "second", "third"]
-          - test_five["device"]["tags"] == ["first", "second", "third"]
+          - test_five["diff"]["after"]["tags"] is defined
+          - test_five["device"]["tags"] is defined
