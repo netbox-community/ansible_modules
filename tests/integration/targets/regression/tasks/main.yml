@@ -80,7 +80,7 @@
         that:
           - not test_four["changed"]
 
-    - name: "5 - Add device with extra tag and description - Tests #242/243 is fixed"
+    - name: "5 - Add device with extra tag - Tests #242 is fixed"
       netbox.netbox.netbox_device:
         netbox_url: "http://localhost:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
