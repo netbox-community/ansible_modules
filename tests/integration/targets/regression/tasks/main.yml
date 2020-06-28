@@ -45,7 +45,7 @@
           - test_two is changed
           - test_two['msg'] == "New prefix created within 10.10.0.0/16"
 
-    - name: "3 - Add device with tags - Tests #242 is fixed"
+    - name: "3 - Add device with tags - Setup device to test #242"
       netbox.netbox.netbox_device:
         netbox_url: "http://localhost:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
