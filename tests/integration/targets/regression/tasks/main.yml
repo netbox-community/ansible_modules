@@ -73,6 +73,7 @@
             - second
             - first
       register: test_four
+      diff: yes
 
     - name: "4 - Assert not changed - Tests #242 is fixed"
       assert:
