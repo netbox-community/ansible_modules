@@ -805,19 +805,18 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
-        updated_obj.update(data)
+        if serialized_nb_obj.get("tags") and updated_obj.get("tags"):
+            serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
+            updated_obj["tags"] = set(updated_obj["tags"])
+        else:
+            updated_obj.update(data)
+
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
         else:
             data_before, data_after = {}, {}
             for key in data:
                 try:
-                    if key == "tags":
-                        nb_obj_tags = set(serialized_nb_obj[key])
-                        updated_obj_tags = set(updated_obj[key])
-                        if nb_obj_tags != updated_obj_tags:
-                            data_before[key] = serialized_nb_obj[key]
-                            data_after[key] = updated_obj[key]
                     if serialized_nb_obj[key] != updated_obj[key]:
                         data_before[key] = serialized_nb_obj[key]
                         data_after[key] = updated_obj[key]
