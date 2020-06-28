@@ -80,7 +80,7 @@
         that:
           - not test_four["changed"]
 
-    - name: "5 - Add device with extra tag - Tests #242 is fixed"
+    - name: "5 - Add device with extra tag and description - Tests #242/243 is fixed"
       netbox.netbox.netbox_device:
         netbox_url: "http://localhost:32768"
         netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -90,6 +90,7 @@
           device_role: "Core Switch"
           site: "Test Site"
           status: "Staged"
+          description: "Test description with extra white space          "
           tags:
             - second
             - third
@@ -102,4 +103,6 @@
         that:
           - test_five is changed
           - test_five["diff"]["after"]["tags"] is defined
+          - test_five["diff"]["after"]["description"] == "Test description with extra white space"
           - test_five["device"]["tags"] is defined
+          - test_five["device"]["description"] == "Test description with extra white space"

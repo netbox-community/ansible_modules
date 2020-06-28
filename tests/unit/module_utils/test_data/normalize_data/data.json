@@ -318,5 +318,13 @@
                 "vlan_group": "test-vlan-group"
             }
         }
+    },
+    {
+        "before": {
+            "description": "White space       "
+        },
+        "after": {
+            "description": "White space"
+        }
     }
 ]
