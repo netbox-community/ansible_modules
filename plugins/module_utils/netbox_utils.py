@@ -766,6 +766,8 @@ class NetboxModule(object):
                     if " " in v:
                         data[k] = v.replace(" ", "_")
                     data[k] = self._normalize_to_integer(k, data.get(k))
+            if k == "description":
+                data[k] = v.strip()
 
         return data
 
