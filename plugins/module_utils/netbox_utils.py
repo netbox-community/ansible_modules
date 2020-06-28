@@ -805,9 +805,9 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
-        if serialized_nb_obj.get("tags") and updated_obj.get("tags"):
+        if serialized_nb_obj.get("tags") and data.get("tags"):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
-            updated_obj["tags"] = set(updated_obj["tags"])
+            updated_obj["tags"] = set(data["tags"])
         else:
             updated_obj.update(data)
 

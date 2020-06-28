@@ -79,3 +79,27 @@
       assert:
         that:
           - not test_four["changed"]
+
+    - name: "5 - Add device with extra tag - Tests #242 is fixed"
+      netbox.netbox.netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "issue-242"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+          tags:
+            - second
+            - third
+            - first
+      register: test_five
+      diff: yes
+
+    - name: "5 - Assert added tag - Tests #242 is fixed"
+      assert:
+        that:
+          - test_five is changed
+          - test_five["diff"]["after"]["tags"] == ["second", "third", "first"]
+          - test_five["device"]["tags"] == ["second", "third", "first"]
