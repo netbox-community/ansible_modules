@@ -812,6 +812,12 @@ class NetboxModule(object):
             data_before, data_after = {}, {}
             for key in data:
                 try:
+                    if key == "tags":
+                        nb_obj_tags = set(serialized_nb_obj[key])
+                        updated_obj_tags = set(updated_obj[key])
+                        if nb_obj_tags != updated_obj_tags:
+                            data_before[key] = serialized_nb_obj[key]
+                            data_after[key] = updated_obj[key]
                     if serialized_nb_obj[key] != updated_obj[key]:
                         data_before[key] = serialized_nb_obj[key]
                         data_after[key] = updated_obj[key]
