@@ -43,6 +43,7 @@ NB_REAR_PORTS = "rear_ports"
 NB_REAR_PORT_TEMPLATES = "rear_port_templates"
 NB_REGIONS = "regions"
 NB_SITES = "sites"
+NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
 
 class NetboxDcimModule(NetboxModule):
@@ -81,6 +82,7 @@ class NetboxDcimModule(NetboxModule):
         - rear_ports
         - rear_port_templates
         - regions
+        - virtual_chassis
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -99,6 +101,8 @@ class NetboxDcimModule(NetboxModule):
             name = data["name"]
         elif data.get("model") and not data.get("slug"):
             name = data["model"]
+        elif data.get("q"):
+            name = data["q"]
         elif data.get("slug"):
             name = data["slug"]
 

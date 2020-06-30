@@ -62,6 +62,7 @@ API_APPS_ENDPOINTS = dict(
         "rear_port_templates",
         "regions",
         "sites",
+        "virtual_chassis",
     ],
     extras=[],
     ipam=[
@@ -141,6 +142,7 @@ CONVERT_TO_ID = dict(
     ipaddresses="ip_addresses",
     lag="interfaces",
     manufacturer="manufacturers",
+    master="devices",
     nat_inside="ip_addresses",
     nat_outside="ip_addresses",
     platform="platforms",
@@ -164,6 +166,7 @@ CONVERT_TO_ID = dict(
     tenant="tenants",
     tenant_group="tenant_groups",
     untagged_vlan="vlans",
+    virtual_chassis="virtual_chassis",
     virtual_machine="virtual_machines",
     virtual_machine_role="device_roles",
     vlan="vlans",
@@ -215,6 +218,7 @@ ENDPOINT_NAME_MAPPING = {
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
+    "virtual_chassis": "virtual_chassis",
     "virtual_machines": "virtual_machine",
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
@@ -274,6 +278,7 @@ ALLOWED_QUERY_PARAMS = {
     "tenant": set(["slug"]),
     "tenant_group": set(["slug"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
+    "virtual_chassis": set(["master"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["name", "site", "tenant", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
@@ -605,6 +610,9 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
+        elif parent == "virtual_chassis":
+            query_dict = {"q": module_data["q"]}
+
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
 
@@ -664,6 +672,9 @@ class NetboxModule(object):
         :returns data (dict): Returns the updated dict with the IDs of user specified data
         :params data (dict): User defined data passed into the module
         """
+        if "master" in data.keys():
+            data["q"] = data["master"]
+
         for k, v in data.items():
             if k in CONVERT_TO_ID:
                 endpoint = CONVERT_TO_ID[k]
@@ -848,6 +859,8 @@ class NetboxModule(object):
             self.result["changed"] = True
             self.result["diff"] = diff
         else:
+            if endpoint_name == "virtual_chassis":
+                data.pop("q", None)
             self.nb_object, diff = self._update_netbox_object(data)
             if self.nb_object is False:
                 self._handle_errors(

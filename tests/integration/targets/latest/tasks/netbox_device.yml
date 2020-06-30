@@ -62,6 +62,9 @@
     data:
       name: "R1"
       serial: "FXS1001"
+      virtual_chassis: "Test Nexus One"
+      vc_position: 2
+      vc_priority: 15
     state: present
   register: test_three
 
@@ -70,12 +73,18 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['serial'] == "FXS1001"
+      - test_three['diff']['after']['virtual_chassis'] == 1
+      - test_three['diff']['after']['vc_position'] == 2
+      - test_three['diff']['after']['vc_priority'] == 15
       - test_three['device']['name'] == "R1"
       - test_three['device']['device_role'] == 1
       - test_three['device']['device_type'] == 1
       - test_three['device']['site'] == 1
       - test_three['device']['status'] == "staged"
       - test_three['device']['serial'] == "FXS1001"
+      - test_three['device']['virtual_chassis'] == 1
+      - test_three['device']['vc_position'] == 2
+      - test_three['device']['vc_priority'] == 15
       - test_three['msg'] == "device R1 updated"
 
 - name: "3.1 - Update device name using query_params"
