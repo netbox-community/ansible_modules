@@ -15,7 +15,7 @@ from pprint import pformat
 
 from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
-from ansible.parsing.splitter import parse_kv
+from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
 
 import pynetbox
@@ -230,7 +230,16 @@ class LookupModule(LookupBase):
             )
 
             if netbox_api_filter:
-                filter = parse_kv(netbox_api_filter)
+                args_split = split_args(netbox_api_filter)
+                args = [parse_kv(x) for x in args_split]
+                filter = {}
+                for arg in args:
+                    for k, v in arg.items():
+                        if k not in filter:
+                            filter[k] = list()
+                            filter[k].append(v)
+                        else:
+                            filter[k].append(v)
 
                 Display().vvvv("filter is %s" % filter)
 

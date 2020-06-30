@@ -778,6 +778,8 @@ class NetboxModule(object):
                     if " " in v:
                         data[k] = v.replace(" ", "_")
                     data[k] = self._normalize_to_integer(k, data.get(k))
+            if k == "description":
+                data[k] = v.strip()
 
         return data
 
@@ -817,7 +819,12 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
-        updated_obj.update(data)
+        if serialized_nb_obj.get("tags") and data.get("tags"):
+            serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
+            updated_obj["tags"] = set(data["tags"])
+        else:
+            updated_obj.update(data)
+
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
         else:

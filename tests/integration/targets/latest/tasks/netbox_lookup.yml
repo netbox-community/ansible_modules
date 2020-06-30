@@ -50,7 +50,7 @@
       name: "L2"
       device_type: "Cisco Test"
       device_role: "Core Switch"
-      site: "Test Site"
+      site: "Test Site2"
       status: "Staged"
       tags:
         - "lookup"
@@ -67,3 +67,11 @@
     that: "{{ query_result|json_query('[?display_name==`L2`]')|count }} == 1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
+
+- name: "NETBOX_LOOKUP 9: Device query specifying multiple sites, Make sure L1 and L2 are in the results"
+  assert:
+    that:
+      - "'L1' in {{ query_result |json_query('[*].display_name') }}"
+      - "'L2' in {{ query_result |json_query('[*].display_name') }}"
+  vars:
+    query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch site=test-site site=test-site2', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
