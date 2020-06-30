@@ -223,3 +223,25 @@
       - test_eight['device']['status'] == "staged"
       - "'-' in test_eight['device']['name']"
       - "test_eight['device']['name'] | length == 36"
+
+- name: "9 - Create device with local config context"
+  netbox_device:
+    netbox_url: http://192.168.6.106
+    netbox_token: "8014e60fc5a061fbcfc470f6a20bfa1511a5ee40"
+    data:
+      name: "Router10"
+      local_context_data: {'bgp_as': '64512'}
+    state: present
+  delegate_to: localhost
+  register: test_nine
+  
+- name: "9 - ASSERT"
+  assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['before']['state'] == "absent"
+      - test_nine['diff']['after']['state'] == "present"
+      - test_nine['device']['name'] == "Router10"
+      - test_nine['device']['local_context_data']['bgp_as'] == "64512"
+      - test_nine['device']['status'] == "active"
+      - test_nine['msg'] == "Device Router10 created"
