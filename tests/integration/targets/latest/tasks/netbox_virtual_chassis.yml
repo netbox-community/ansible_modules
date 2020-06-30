@@ -35,7 +35,7 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['virtual_chassis']['master'] == 10
+      - test_one['virtual_chassis']['master'] == 11
       - test_one['msg'] == "virtual_chassis Device Virtual Chassis Tests created"
 
 - name: "VIRTUAL_CHASSIS 2: Create duplicate"
@@ -51,7 +51,7 @@
   assert:
     that:
       - not test_two['changed']
-      - test_two['virtual_chassis']['master'] == 10
+      - test_two['virtual_chassis']['master'] == 11
       - test_two['msg'] == "virtual_chassis Device Virtual Chassis Tests already exists"
 
 - name: "POWER_FEED 3: Update virtual_chassis with other fields"
@@ -69,7 +69,7 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['domain'] == "Domain Text"
-      - test_three['virtual_chassis']['master'] == 10
+      - test_three['virtual_chassis']['master'] == 11
       - test_three['virtual_chassis']['domain'] == "Domain Text"
       - test_three['msg'] == "virtual_chassis Device Virtual Chassis Tests updated"
 
@@ -101,7 +101,7 @@
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
-      - test_four['virtual_chassis']['master'] == 11
+      - test_four['virtual_chassis']['master'] == 12
       - test_four['msg'] == "virtual_chassis Device Virtual Chassis Tests 2 created"
 
 - name: "VIRTUAL_CHASSIS 5: Delete Virtual Chassis"
