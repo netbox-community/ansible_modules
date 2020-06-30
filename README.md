@@ -60,6 +60,7 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_service
 - netbox_tenant_group
 - netbox_tenant
+- netbox_virtual_chassis
 - netbox_virtual_machine
 - netbox_vm_interface
 - netbox_vlan_group
