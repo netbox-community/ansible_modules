@@ -231,6 +231,7 @@
     data:
       name: "Router10"
       device_type: "Cisco Test"
+      site: "Test Site"
       device_role: "Core Switch"
       local_context_data: {'bgp_as': '64512'}
     state: present
@@ -244,6 +245,7 @@
       - test_nine['diff']['before']['state'] == "absent"
       - test_nine['diff']['after']['state'] == "present"
       - test_nine['device']['name'] == "Router10"
+      - test_nine['device']['site'] == 1
       - test_nine['device']['device_role'] == 1
       - test_nine['device']['device_type'] == 1
       - test_nine['device']['local_context_data']['bgp_as'] == "64512"
