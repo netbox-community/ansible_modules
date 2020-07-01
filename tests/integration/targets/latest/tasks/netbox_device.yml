@@ -226,8 +226,8 @@
 
 - name: "9 - Create device with local config context"
   netbox_device:
-    netbox_url: http://192.168.6.106
-    netbox_token: "8014e60fc5a061fbcfc470f6a20bfa1511a5ee40"
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: "Router10"
       local_context_data: {'bgp_as': '64512'}
