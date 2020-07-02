@@ -17,11 +17,13 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 
 
+NB_CABLES = "cables"
 NB_CONSOLE_PORTS = "console_ports"
 NB_CONSOLE_PORT_TEMPLATES = "console_port_templates"
 NB_CONSOLE_SERVER_PORTS = "console_server_ports"
 NB_CONSOLE_SERVER_PORT_TEMPLATES = "console_server_port_templates"
 NB_DEVICE_BAYS = "device_bays"
+NB_DEVICE_BAY_TEMPLATES = "device_bay_templates"
 NB_DEVICES = "devices"
 NB_DEVICE_ROLES = "device_roles"
 NB_DEVICE_TYPES = "device_types"
@@ -56,11 +58,13 @@ class NetboxDcimModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - cables
         - console_ports
         - console_port_templates
         - console_server_ports
         - console_server_port_templates
         - device_bays
+        - device_bay_templates
         - devices
         - device_roles
         - device_types
@@ -106,6 +110,29 @@ class NetboxDcimModule(NetboxModule):
             name = data["q"]
         elif data.get("slug"):
             name = data["slug"]
+        elif endpoint_name == "cable":
+            if data["termination_a"]["name"]:
+                termination_a_name = data["termination_a"]["name"]
+            elif data["termination_a"]["slug"]:
+                termination_a_name = data["termination_a"]["slug"]
+            else:
+                termination_a_name = data["termination_a_id"]
+
+            if data["termination_b"]["name"]:
+                termination_b_name = data["termination_b"]["name"]
+            elif data["termination_b"]["slug"]:
+                termination_b_name = data["termination_b"]["slug"]
+            else:
+                termination_b_name = data["termination_b_id"]
+
+            name = "%s %s <> %s %s" % (
+                data["termination_a_type"],
+                termination_a_name,
+                data["termination_b_type"],
+                termination_b_name,
+            )
+            data.pop("termination_a")
+            data.pop("termination_b")
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
@@ -115,10 +142,29 @@ class NetboxDcimModule(NetboxModule):
         if data.get("color"):
             data["color"] = data["color"].lower()
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
-        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
+        if self.endpoint == "cables":
+            cables = [
+                cable
+                for cable in nb_endpoint.all()
+                if cable.termination_a_type == data["termination_a_type"]
+                and cable.termination_a_id == data["termination_a_id"]
+                and cable.termination_b_type == data["termination_b_type"]
+                and cable.termination_b_id == data["termination_b_id"]
+            ]
+            if len(cables) == 0:
+                self.nb_object = None
+            elif len(cables) == 1:
+                self.nb_object = cables[0]
+            else:
+                self._handle_errors(msg="More than one result returned for %s" % (name))
+
+        else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
+            self.nb_object = self._nb_endpoint_get(
+                nb_endpoint, object_query_params, name
+            )
 
         # This is logic to handle interfaces on a VC
         if self.endpoint == "interfaces":
