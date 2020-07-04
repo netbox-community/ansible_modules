@@ -769,6 +769,9 @@ class NetboxModule(object):
             if k == "description":
                 data[k] = v.strip()
 
+            if k == "mac_address":
+                data[k] = v.upper()
+
         return data
 
     def _create_netbox_object(self, nb_endpoint, data):
