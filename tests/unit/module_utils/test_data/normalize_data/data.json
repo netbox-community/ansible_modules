@@ -326,5 +326,13 @@
         "after": {
             "description": "White space"
         }
+    },
+    {
+        "before": {
+            "mac_address": "aa:bb:cc:dd:ee:ff"
+        },
+        "after": {
+            "mac_address": "AA:BB:CC:DD:EE:FF"
+        }
     }
 ]
