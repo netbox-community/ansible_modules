@@ -332,7 +332,7 @@
             "mac_address": "aa:bb:cc:dd:ee:ff"
         },
         "after": {
-            "description": "AA:BB:CC:DD:EE:FF"
+            "mac_address": "AA:BB:CC:DD:EE:FF"
         }
     }
 ]
