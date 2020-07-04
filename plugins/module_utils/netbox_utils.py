@@ -706,9 +706,9 @@ class NetboxModule(object):
         for k, v in data.items():
             if k in CONVERT_TO_ID:
                 if k == "termination_a":
-                    endpoint = CONVERT_TO_ID[self.data.get("termination_a_type")]
+                    endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
                 elif k == "termination_b":
-                    endpoint = CONVERT_TO_ID[self.data.get("termination_b_type")]
+                    endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
                 else:
                     endpoint = CONVERT_TO_ID[k]
                 search = v
