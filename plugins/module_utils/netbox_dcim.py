@@ -142,7 +142,6 @@ class NetboxDcimModule(NetboxModule):
 
         if self.endpoint == "cables":
             cable_filters = {
-                "device_id": [data.get("termination_a"), data.get("termination_b")],
                 "termination_a_type": data.get("termination_a_type"),
                 "termination_b_type": data.get("termination_b_type"),
             }
