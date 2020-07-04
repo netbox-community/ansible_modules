@@ -359,22 +359,6 @@ def main():
     )
 
     netbox_cable = NetboxDcimModule(module, NB_CABLES)
-    netbox_cable.data.update(
-        {
-            "termination_a_id": netbox_cable._get_termination_id(
-                netbox_cable.data.get("termination_a_type"),
-                netbox_cable.data.get("termination_a"),
-            )
-        }
-    )
-    netbox_cable.data.update(
-        {
-            "termination_b_id": netbox_cable._get_termination_id(
-                netbox_cable.data.get("termination_b_type"),
-                netbox_cable.data.get("termination_b"),
-            )
-        }
-    )
     netbox_cable.run()
 
 
