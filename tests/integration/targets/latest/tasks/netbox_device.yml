@@ -62,6 +62,8 @@
     data:
       name: "R1"
       serial: "FXS1001"
+      local_context_data:
+        bgp_as: "65412"
     state: present
   register: test_three
 
@@ -70,12 +72,14 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['serial'] == "FXS1001"
+      - test_three['diff']['after']['local_context_data']["bgp_as"] == "65412"
       - test_three['device']['name'] == "R1"
       - test_three['device']['device_role'] == 1
       - test_three['device']['device_type'] == 1
       - test_three['device']['site'] == 1
       - test_three['device']['status'] == "staged"
       - test_three['device']['serial'] == "FXS1001"
+      - test_three['device']['local_context_data']["bgp_as"] == "65412"
       - test_three['msg'] == "device R1 updated"
 
 - name: "3.1 - Update device name using query_params"
@@ -100,6 +104,7 @@
       - test_three_dot_one['device']['site'] == 1
       - test_three_dot_one['device']['status'] == "staged"
       - test_three_dot_one['device']['serial'] == "FXS1001"
+      - test_three_dot_one['device']['local_context_data']["bgp_as"] == "65412"
       - test_three_dot_one['msg'] == "device R1-changed-name updated"
 
 - name: "4 - Create device with tags and assign to rack"
@@ -223,31 +228,3 @@
       - test_eight['device']['status'] == "staged"
       - "'-' in test_eight['device']['name']"
       - "test_eight['device']['name'] | length == 36"
-
-- name: "9 - Create device with local config context"
-  netbox_device:
-    netbox_url: "http://localhost:32768"
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
-    data:
-      name: "Router10"
-      device_type: "Cisco Test"
-      site: "Test Site"
-      device_role: "Core Switch"
-      local_context_data: {'bgp_as': '64512'}
-    state: present
-  delegate_to: localhost
-  register: test_nine
-  
-- name: "9 - ASSERT"
-  assert:
-    that:
-      - test_nine is changed
-      - test_nine['diff']['before']['state'] == "absent"
-      - test_nine['diff']['after']['state'] == "present"
-      - test_nine['device']['name'] == "Router10"
-      - test_nine['device']['site'] == 1
-      - test_nine['device']['device_role'] == 1
-      - test_nine['device']['device_type'] == 1
-      - test_nine['device']['local_context_data']['bgp_as'] == "64512"
-      - test_nine['device']['status'] == "active"
-      - test_nine['msg'] == "Device Router10 created"

@@ -74,6 +74,11 @@
                 "device_type": "cisco-test",
                 "display": "test100",
                 "is_virtual": false,
+                "local_context_data": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",

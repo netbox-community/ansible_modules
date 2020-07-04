@@ -212,6 +212,8 @@ EXAMPLES = r"""
           device_type: C9410R
           device_role: Core Switch
           site: Main
+          local_context_data:
+            bgp: "65000"
           tags:
             - Schnozzberry
         state: present
