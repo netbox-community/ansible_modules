@@ -141,13 +141,9 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
-            cable_filters = {
-                "termination_a_type": data.get("termination_a_type"),
-                "termination_b_type": data.get("termination_b_type"),
-            }
             cables = [
                 cable
-                for cable in nb_endpoint.filter(**cable_filters)
+                for cable in nb_endpoint.all()
                 if cable.termination_a_type == data["termination_a_type"]
                 and cable.termination_a_id == data["termination_a_id"]
                 and cable.termination_b_type == data["termination_b_type"]
