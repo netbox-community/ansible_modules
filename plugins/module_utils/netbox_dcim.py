@@ -106,33 +106,31 @@ class NetboxDcimModule(NetboxModule):
             name = data["name"]
         elif data.get("model") and not data.get("slug"):
             name = data["model"]
-        elif data.get("q"):
-            name = data["q"]
+        elif data.get("master"):
+            name = self.module.params["data"]["master"]
         elif data.get("slug"):
             name = data["slug"]
         elif endpoint_name == "cable":
-            if data["termination_a"]["name"]:
-                termination_a_name = data["termination_a"]["name"]
-            elif data["termination_a"]["slug"]:
-                termination_a_name = data["termination_a"]["slug"]
+            if self.module.params["data"]["termination_a"].get("name"):
+                termination_a_name = self.module.params["data"]["termination_a"]["name"]
+            elif self.module.params["data"]["termination_a"].get("slug"):
+                termination_a_name = self.module.params["data"]["termination_a"]["slug"]
             else:
-                termination_a_name = data["termination_a_id"]
+                termination_a_name = data.get("termination_a_id")
 
-            if data["termination_b"]["name"]:
-                termination_b_name = data["termination_b"]["name"]
-            elif data["termination_b"]["slug"]:
-                termination_b_name = data["termination_b"]["slug"]
+            if self.module.params["data"]["termination_b"].get("name"):
+                termination_b_name = self.module.params["data"]["termination_b"]["name"]
+            elif self.module.params["data"]["termination_b"].get("slug"):
+                termination_b_name = self.module.params["data"]["termination_b"]["slug"]
             else:
-                termination_b_name = data["termination_b_id"]
+                termination_b_name = data.get("termination_b_id")
 
             name = "%s %s <> %s %s" % (
-                data["termination_a_type"],
+                data.get("termination_a_type"),
                 termination_a_name,
-                data["termination_b_type"],
+                data.get("termination_b_type"),
                 termination_b_name,
             )
-            data.pop("termination_a")
-            data.pop("termination_b")
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
@@ -143,9 +141,13 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
+            cable_filters = {
+                "termination_a_type": data.get("termination_a_type"),
+                "termination_b_type": data.get("termination_b_type"),
+            }
             cables = [
                 cable
-                for cable in nb_endpoint.all()
+                for cable in nb_endpoint.filter(**cable_filters)
                 if cable.termination_a_type == data["termination_a_type"]
                 and cable.termination_a_id == data["termination_a_id"]
                 and cable.termination_b_type == data["termination_b_type"]
@@ -157,7 +159,6 @@ class NetboxDcimModule(NetboxModule):
                 self.nb_object = cables[0]
             else:
                 self._handle_errors(msg="More than one result returned for %s" % (name))
-
         else:
             object_query_params = self._build_query_params(
                 endpoint_name, data, user_query_params

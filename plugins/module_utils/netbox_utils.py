@@ -177,6 +177,8 @@ CONVERT_TO_ID = {
     "tagged_vlans": "vlans",
     "tenant": "tenants",
     "tenant_group": "tenant_groups",
+    "termination_a": "interfaces",
+    "termination_b": "interfaces",
     "untagged_vlan": "vlans",
     "virtual_chassis": "virtual_chassis",
     "virtual_machine": "virtual_machines",
@@ -275,6 +277,7 @@ ALLOWED_QUERY_PARAMS = {
     "ipaddresses": set(["address", "vrf", "device", "interface"]),
     "lag": set(["name"]),
     "manufacturer": set(["slug"]),
+    "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
@@ -301,6 +304,8 @@ ALLOWED_QUERY_PARAMS = {
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
     "tenant": set(["slug"]),
     "tenant_group": set(["slug"]),
+    "termination_a": set(["name", "device", "virtual_machine"]),
+    "termination_b": set(["name", "device", "virtual_machine"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
     "virtual_chassis": set(["master"]),
     "virtual_machine": set(["name", "cluster"]),
@@ -363,6 +368,8 @@ CONVERT_KEYS = {
     "rack_group": "group",
     "rack_role": "role",
     "tenant_group": "group",
+    "termination_a": "termination_a_id",
+    "termination_b": "termination_b_id",
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
@@ -467,32 +474,6 @@ class NetboxModule(object):
             )
 
         return response
-
-    def _get_termination_id(self, termination_type, termination):
-        """
-        find the id of a termination object with the given termination_type.
-        :param termination_type: the type of the termination
-        :param termination: the required fields to find the termination object
-        :return: the id of the termination
-        """
-        if isinstance(termination, int):
-            return termination
-        else:
-            endpoint = CONVERT_TO_ID[termination_type]
-            app = self._find_app(endpoint)
-            nb_app = getattr(self.nb, app)
-            nb_endpoint = getattr(nb_app, endpoint)
-
-            query_params = self._build_query_params(termination_type, termination)
-            result = self._nb_endpoint_get(nb_endpoint, query_params, termination)
-
-            if result:
-                return result.id
-            else:
-                self._handle_errors(
-                    msg="No object found for termination_type %s and termination %s"
-                    % (termination_type, termination)
-                )
 
     def _validate_query_params(self, query_params):
         """
@@ -661,7 +642,7 @@ class NetboxModule(object):
                 query_dict.update({"device": module_data["device"]})
 
         elif parent == "virtual_chassis":
-            query_dict = {"q": module_data["q"]}
+            query_dict = {"q": self.module.params["data"].get("master")}
 
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
@@ -722,12 +703,14 @@ class NetboxModule(object):
         :returns data (dict): Returns the updated dict with the IDs of user specified data
         :params data (dict): User defined data passed into the module
         """
-        if "master" in data.keys():
-            data["q"] = data["master"]
-
         for k, v in data.items():
             if k in CONVERT_TO_ID:
-                endpoint = CONVERT_TO_ID[k]
+                if k == "termination_a":
+                    endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
+                elif k == "termination_b":
+                    endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
+                else:
+                    endpoint = CONVERT_TO_ID[k]
                 search = v
                 app = self._find_app(endpoint)
                 nb_app = getattr(self.nb, app)
@@ -916,8 +899,6 @@ class NetboxModule(object):
             self.result["changed"] = True
             self.result["diff"] = diff
         else:
-            if endpoint_name == "virtual_chassis":
-                data.pop("q", None)
             self.nb_object, diff = self._update_netbox_object(data)
             if self.nb_object is False:
                 self._handle_errors(
