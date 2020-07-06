@@ -124,6 +124,21 @@ options:
           - Cluster that the device will be assigned to
         required: false
         type: raw
+      virtual_chassis:
+        description:
+          - Virtual chassis the device will be assigned to
+        required: false
+        type: raw
+      vc_position:
+        description:
+          - Position in the assigned virtual chassis
+        required: false
+        type: int
+      vc_priority:
+        description:
+          - Priority in the assigned virtual chassis
+        required: false
+        type: int
       comments:
         description:
           - Comments that may include additional information in regards to the device
@@ -276,6 +291,9 @@ def main():
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),
+                    virtual_chassis=dict(required=False, type="raw"),
+                    vc_position=dict(required=False, type="int"),
+                    vc_priority=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
                     custom_fields=dict(required=False, type="dict"),
