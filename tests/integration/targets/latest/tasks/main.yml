@@ -65,6 +65,9 @@
 - name: "NETBOX_DEVICE_BAY TESTS"
   include_tasks: "netbox_device_bay.yml"
 
+- name: "NETBOX_DEVICE_BAY_TEMPLATE TESTS"
+  include_tasks: "netbox_device_bay_template.yml"
+
 - name: "NETBOX_INVENTORY_ITEM TESTS"
   include_tasks: "netbox_inventory_item.yml"
 
@@ -136,6 +139,12 @@
 
 - name: "NETBOX_POWER_OUTLET_TEMPLATE TESTS"
   include_tasks: "netbox_power_outlet_template.yml"
+
+- name: "NETBOX_VIRTUAL_CHASSIS TESTS"
+  include_tasks: "netbox_virtual_chassis.yml"
+
+- name: "NETBOX_CABLE TESTS"
+  include_tasks: "netbox_cable.yml"
 
 - name: "NETBOX_SERVICE TESTS"
   include_tasks: "netbox_service.yml"
