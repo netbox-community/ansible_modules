@@ -33,6 +33,7 @@ To keep the code simple, we only officially support the two latest releases of N
 - netbox_device_bay
 - netbox_device_bay_template
 - netbox_device_interface
+- netbox_device_interface_template
 - netbox_device_role
 - netbox_device_type
 - netbox_device
