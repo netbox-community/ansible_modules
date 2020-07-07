@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright: (c) 2018, Mikhail Yohman (@fragmentedpacket) <mikhail.yohman@gmail.com>
 # Copyright: (c) 2018, David Gomez (@amb1s1) <david.gomez@networktocode.com>
+# Copyright: (c) 2020, Nokia, Tobias Groß (@toerb) <tobias.gross@nokia.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -35,11 +36,13 @@ except ImportError:
 API_APPS_ENDPOINTS = dict(
     circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
     dcim=[
+        "cables",
         "console_ports",
         "console_port_templates",
         "console_server_ports",
         "console_server_port_templates",
         "device_bays",
+        "device_bay_templates",
         "devices",
         "device_roles",
         "device_types",
@@ -62,6 +65,7 @@ API_APPS_ENDPOINTS = dict(
         "rear_port_templates",
         "regions",
         "sites",
+        "virtual_chassis",
     ],
     extras=[],
     ipam=[
@@ -124,56 +128,70 @@ QUERY_TYPES = dict(
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
-CONVERT_TO_ID = dict(
-    circuit="circuits",
-    circuit_type="circuit_types",
-    circuit_termination="circuit_terminations",
-    cluster="clusters",
-    cluster_group="cluster_groups",
-    cluster_type="cluster_types",
-    device="devices",
-    device_role="device_roles",
-    device_type="device_types",
-    group="tenant_groups",
-    installed_device="devices",
-    interface="interfaces",
-    ip_addresses="ip_addresses",
-    ipaddresses="ip_addresses",
-    lag="interfaces",
-    manufacturer="manufacturers",
-    nat_inside="ip_addresses",
-    nat_outside="ip_addresses",
-    platform="platforms",
-    parent_region="regions",
-    power_panel="power_panels",
-    power_port="power_ports",
-    prefix_role="roles",
-    primary_ip="ip_addresses",
-    primary_ip4="ip_addresses",
-    primary_ip6="ip_addresses",
-    provider="providers",
-    rack="racks",
-    rack_group="rack_groups",
-    rack_role="rack_roles",
-    region="regions",
-    rear_port="rear_ports",
-    rir="rirs",
-    services="services",
-    site="sites",
-    tagged_vlans="vlans",
-    tenant="tenants",
-    tenant_group="tenant_groups",
-    untagged_vlan="vlans",
-    virtual_machine="virtual_machines",
-    virtual_machine_role="device_roles",
-    vlan="vlans",
-    vlan_group="vlan_groups",
-    vlan_role="roles",
-    vrf="vrfs",
-)
+CONVERT_TO_ID = {
+    "circuit": "circuits",
+    "circuit_type": "circuit_types",
+    "circuit_termination": "circuit_terminations",
+    "circuit.circuittermination": "circuit_terminations",
+    "cluster": "clusters",
+    "cluster_group": "cluster_groups",
+    "cluster_type": "cluster_types",
+    "dcim.consoleport": "console_ports",
+    "dcim.consoleserverport": "console_server_ports",
+    "dcim.frontport": "front_ports",
+    "dcim.interface": "interfaces",
+    "dcim.powerfeed": "power_feeds",
+    "dcim.poweroutlet": "power_outlet",
+    "dcim.powerport": "power_port",
+    "dcim.rearport": "rear_port",
+    "device": "devices",
+    "device_role": "device_roles",
+    "device_type": "device_types",
+    "group": "tenant_groups",
+    "installed_device": "devices",
+    "interface": "interfaces",
+    "ip_addresses": "ip_addresses",
+    "ipaddresses": "ip_addresses",
+    "lag": "interfaces",
+    "manufacturer": "manufacturers",
+    "master": "devices",
+    "nat_inside": "ip_addresses",
+    "nat_outside": "ip_addresses",
+    "platform": "platforms",
+    "parent_region": "regions",
+    "power_panel": "power_panels",
+    "power_port": "power_ports",
+    "prefix_role": "roles",
+    "primary_ip": "ip_addresses",
+    "primary_ip4": "ip_addresses",
+    "primary_ip6": "ip_addresses",
+    "provider": "providers",
+    "rack": "racks",
+    "rack_group": "rack_groups",
+    "rack_role": "rack_roles",
+    "region": "regions",
+    "rear_port": "rear_ports",
+    "rir": "rirs",
+    "services": "services",
+    "site": "sites",
+    "tagged_vlans": "vlans",
+    "tenant": "tenants",
+    "tenant_group": "tenant_groups",
+    "termination_a": "interfaces",
+    "termination_b": "interfaces",
+    "untagged_vlan": "vlans",
+    "virtual_chassis": "virtual_chassis",
+    "virtual_machine": "virtual_machines",
+    "virtual_machine_role": "device_roles",
+    "vlan": "vlans",
+    "vlan_group": "vlan_groups",
+    "vlan_role": "roles",
+    "vrf": "vrfs",
+}
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "cables": "cable",
     "circuit_terminations": "circuit_termination",
     "circuit_types": "circuit_type",
     "circuits": "circuit",
@@ -185,6 +203,7 @@ ENDPOINT_NAME_MAPPING = {
     "console_server_ports": "console_server_port",
     "console_server_port_templates": "console_server_port_template",
     "device_bays": "device_bay",
+    "device_bay_templates": "device_bay_template",
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
@@ -215,6 +234,7 @@ ENDPOINT_NAME_MAPPING = {
     "sites": "site",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
+    "virtual_chassis": "virtual_chassis",
     "virtual_machines": "virtual_machine",
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
@@ -226,6 +246,7 @@ ALLOWED_QUERY_PARAMS = {
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
+    "circuit.circuittermination": set(["circuit", "term_side"]),
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
@@ -233,7 +254,16 @@ ALLOWED_QUERY_PARAMS = {
     "console_port_template": set(["name", "device_type"]),
     "console_server_port": set(["name", "device"]),
     "console_server_port_template": set(["name", "device_type"]),
+    "dcim.consoleport": set(["name", "device"]),
+    "dcim.consoleserverport": set(["name", "device"]),
+    "dcim.frontport": set(["name", "device", "rear_port"]),
+    "dcim.interface": set(["name", "device", "virtual_machine"]),
+    "dcim.powerfeed": set(["name", "power_panel"]),
+    "dcim.poweroutlet": set(["name", "device"]),
+    "dcim.powerport": set(["name", "device"]),
+    "dcim.rearport": set(["name", "device"]),
     "device_bay": set(["name", "device"]),
+    "device_bay_template": set(["name", "device_type"]),
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
@@ -247,6 +277,7 @@ ALLOWED_QUERY_PARAMS = {
     "ipaddresses": set(["address", "vrf", "device", "interface"]),
     "lag": set(["name"]),
     "manufacturer": set(["slug"]),
+    "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
     "platform": set(["slug"]),
@@ -273,7 +304,10 @@ ALLOWED_QUERY_PARAMS = {
     "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
     "tenant": set(["slug"]),
     "tenant_group": set(["slug"]),
+    "termination_a": set(["name", "device", "virtual_machine"]),
+    "termination_b": set(["name", "device", "virtual_machine"]),
     "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
+    "virtual_chassis": set(["master"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["name", "site", "tenant", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
@@ -297,6 +331,7 @@ QUERY_PARAMS_IDS = set(
 )
 
 REQUIRED_ID_FIND = {
+    "cables": set(["status", "type", "length_unit"]),
     "circuits": set(["status"]),
     "console_ports": set(["type"]),
     "console_port_templates": set(["type"]),
@@ -333,6 +368,8 @@ CONVERT_KEYS = {
     "rack_group": "group",
     "rack_role": "role",
     "tenant_group": "group",
+    "termination_a": "termination_a_id",
+    "termination_b": "termination_b_id",
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
@@ -359,7 +396,6 @@ SLUG_REQUIRED = {
     "providers",
     "vlan_groups",
 }
-
 
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
@@ -605,6 +641,9 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
+        elif parent == "virtual_chassis":
+            query_dict = {"q": self.module.params["data"].get("master")}
+
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
 
@@ -666,7 +705,12 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
-                endpoint = CONVERT_TO_ID[k]
+                if k == "termination_a":
+                    endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
+                elif k == "termination_b":
+                    endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
+                else:
+                    endpoint = CONVERT_TO_ID[k]
                 search = v
                 app = self._find_app(endpoint)
                 nb_app = getattr(self.nb, app)
