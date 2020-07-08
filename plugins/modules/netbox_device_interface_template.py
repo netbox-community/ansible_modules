@@ -151,10 +151,7 @@ def main():
                 options=dict(
                     device_type=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
-                    type=dict(
-                        required=True,
-                        type="str",
-                    ),
+                    type=dict(required=True, type="str",),
                     mgmt_only=dict(required=False, type="bool"),
                 ),
             ),
