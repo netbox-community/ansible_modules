@@ -117,7 +117,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-interface:
+interface_template:
   description: Serialized object as created or already existent within Netbox
   returned: on creation
   type: dict
