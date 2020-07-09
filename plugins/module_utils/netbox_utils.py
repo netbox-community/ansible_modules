@@ -143,7 +143,7 @@ CONVERT_TO_ID = {
     "dcim.powerfeed": "power_feeds",
     "dcim.poweroutlet": "power_outlet",
     "dcim.powerport": "power_port",
-    "dcim.rearport": "rear_port",
+    "dcim.rearport": "rear_ports",
     "device": "devices",
     "device_role": "device_roles",
     "device_type": "device_types",
