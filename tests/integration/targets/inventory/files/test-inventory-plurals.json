@@ -14,6 +14,9 @@
                 ],
                 "interfaces": [],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -147,6 +150,9 @@
                     }
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -233,6 +239,9 @@
                     }
                 ],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [
                     {
@@ -270,6 +279,9 @@
                 ],
                 "interfaces": [],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -407,6 +419,13 @@
                     }
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -588,6 +607,9 @@
                     }
                 ],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -714,6 +736,9 @@
                     }
                 ],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -734,6 +759,9 @@
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -754,6 +782,9 @@
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -773,6 +804,9 @@
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [],
                 "tags": []

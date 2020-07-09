@@ -366,6 +366,11 @@
                     }
                 ],
                 "is_virtual": false,
+                "local_context_data": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",

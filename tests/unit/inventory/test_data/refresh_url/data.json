@@ -1,12 +1,9 @@
 [
     {
         "options": {
-            "query_filters": [
-            ],
-            "device_query_filters": {
-            },
-            "vm_query_filters": {
-            },
+            "query_filters": [],
+            "device_query_filters": {},
+            "vm_query_filters": {},
             "config_context": true
         },
         "expected": [
@@ -28,12 +25,9 @@
     },
     {
         "options": {
-            "query_filters": [
-            ],
-            "device_query_filters": {
-            },
-            "vm_query_filters": {
-            },
+            "query_filters": [],
+            "device_query_filters": {},
+            "vm_query_filters": {},
             "config_context": false
         },
         "expected": [
@@ -44,13 +38,15 @@
     {
         "options": {
             "query_filters": [
-                {"name": "name value"},
-                {"region": "region value"}
+                {
+                    "name": "name value"
+                },
+                {
+                    "region": "region value"
+                }
             ],
-            "device_query_filters": {
-            },
-            "vm_query_filters": {
-            },
+            "device_query_filters": {},
+            "vm_query_filters": {},
             "config_context": true
         },
         "expected": [
@@ -61,13 +57,19 @@
     {
         "options": {
             "query_filters": [
-                {"name": "name value"}
+                {
+                    "name": "name value"
+                }
             ],
             "device_query_filters": [
-                {"region": "device"}
+                {
+                    "region": "device"
+                }
             ],
             "vm_query_filters": [
-                {"region": "vm"}
+                {
+                    "region": "vm"
+                }
             ],
             "config_context": true
         },
@@ -79,16 +81,28 @@
     {
         "options": {
             "query_filters": [
-                {"name": "name value"},
-                {"invalid query filter": "nope"}
+                {
+                    "name": "name value"
+                },
+                {
+                    "invalid query filter": "nope"
+                }
             ],
             "device_query_filters": [
-                {"has_primary_ip": "true"},
-                {"invalid device filter": "nope"}
+                {
+                    "has_primary_ip": "true"
+                },
+                {
+                    "invalid device filter": "nope"
+                }
             ],
             "vm_query_filters": [
-                {"disk": 42},
-                {"invalid vm filter": "nope"}
+                {
+                    "disk": 42
+                },
+                {
+                    "invalid vm filter": "nope"
+                }
             ],
             "config_context": true
         },
@@ -100,12 +114,12 @@
     {
         "options": {
             "query_filters": [
-                {"disk": "3"}
+                {
+                    "disk": "3"
+                }
             ],
-            "device_query_filters": [
-            ],
-            "vm_query_filters": [
-            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
             "config_context": true
         },
         "expected": [
@@ -116,12 +130,12 @@
     {
         "options": {
             "query_filters": [
-                {"has_primary_ip": "true"}
+                {
+                    "has_primary_ip": "true"
+                }
             ],
-            "device_query_filters": [
-            ],
-            "vm_query_filters": [
-            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
             "config_context": true
         },
         "expected": [
@@ -132,13 +146,16 @@
     {
         "options": {
             "query_filters": [
-                {"disk": "3"}
+                {
+                    "disk": "3"
+                }
             ],
             "device_query_filters": [
-                {"name": "name value"}
+                {
+                    "name": "name value"
+                }
             ],
-            "vm_query_filters": [
-            ],
+            "vm_query_filters": [],
             "config_context": true
         },
         "expected": [
@@ -149,12 +166,15 @@
     {
         "options": {
             "query_filters": [
-                {"has_primary_ip": "true"}
+                {
+                    "has_primary_ip": "true"
+                }
             ],
-            "device_query_filters": [
-            ],
+            "device_query_filters": [],
             "vm_query_filters": [
-                {"name": "name value"}
+                {
+                    "name": "name value"
+                }
             ],
             "config_context": true
         },
@@ -163,5 +183,4 @@
             "https://netbox.test.endpoint:1234/api/virtualization/virtual-machines/?limit=0&name=name+value"
         ]
     }
-    
 ]
