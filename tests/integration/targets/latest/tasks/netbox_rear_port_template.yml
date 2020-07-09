@@ -112,3 +112,25 @@
       - test_five['diff']['before']['state'] == "present"
       - test_five['diff']['after']['state'] == "absent"
       - test_five['msg'] == "rear_port_template Rear Port Template 2 deleted"
+
+- name: "REAR_PORT_TEMPLATE 6: Create second Rear Port Template"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template 2
+      device_type: Arista Test
+      type: bnc
+    state: present
+  register: test_six
+
+- name: "REAR_PORT_TEMPLATE 6: ASSERT - Create second Rear Port Template"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['rear_port_template']['name'] == "Rear Port Template 2"
+      - test_six['rear_port_template']['device_type'] == 2
+      - test_six['rear_port_template']['type'] == "bnc"
+      - test_six['msg'] == "rear_port_template Rear Port Template 2 created"

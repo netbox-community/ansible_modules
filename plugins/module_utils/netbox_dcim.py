@@ -51,6 +51,23 @@ NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
+        # Front ports can only be connected to rear ports of the same device
+        # This will prepare the rear port dict if only a string is given
+        if endpoint == "front_ports":
+            if isinstance(module.params.get("data").get("rear_port"), str):
+                rear_port = {
+                    "device": module.params.get("data").get("device"),
+                    "name": module.params.get("data").get("rear_port"),
+                }
+                module.params["data"].update({"rear_port": rear_port})
+        elif endpoint == "front_port_templates":
+            if isinstance(module.params.get("data").get("rear_port_template"), str):
+                rear_port_template = {
+                    "device_type": module.params.get("data").get("device_type"),
+                    "name": module.params.get("data").get("rear_port_template"),
+                }
+                module.params["data"].update({"rear_port_template": rear_port_template})
+
         super().__init__(module, endpoint)
 
     def run(self):
