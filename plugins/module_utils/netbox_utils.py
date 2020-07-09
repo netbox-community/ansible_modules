@@ -796,7 +796,9 @@ class NetboxModule(object):
         :params data (dict): Original data from Netbox module
         """
         for k, v in data.items():
-            if isinstance(v, dict):
+            if k == "local_context_data":
+                pass
+            elif isinstance(v, dict):
                 for subk, subv in v.items():
                     sub_data_type = QUERY_TYPES.get(subk, "q")
                     if sub_data_type == "slug":

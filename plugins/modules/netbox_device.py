@@ -154,6 +154,11 @@ options:
           - must exist in Netbox
         required: false
         type: dict
+      local_context_data:
+        description:
+          - Arbitrary JSON data to define the devices configuration variables.
+        required: false
+        type: dict
     required: true
     type: dict
   state:
@@ -222,6 +227,8 @@ EXAMPLES = r"""
           device_type: C9410R
           device_role: Core Switch
           site: Main
+          local_context_data:
+            bgp: "65000"
           tags:
             - Schnozzberry
         state: present
@@ -296,6 +303,7 @@ def main():
                     vc_priority=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
+                    local_context_data=dict(required=False, type="dict"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
