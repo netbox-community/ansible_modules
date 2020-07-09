@@ -11,17 +11,11 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ip
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
 
-try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-        ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
-    )
-except ImportError:
-    import sys
-
-    sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING, SLUG_REQUIRED
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxModule,
+    ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
+)
 
 
 NB_AGGREGATES = "aggregates"
@@ -108,6 +102,11 @@ class NetboxIpamModule(NetboxModule):
             self.result["changed"] = False
             self.result["msg"] = "Parent prefix does not exist - %s" % (data["parent"])
         elif self.nb_object.available_prefixes.list():
+            if self.check_mode:
+                self.result["changed"] = True
+                self.result["msg"] = "New prefix created within %s" % (data["parent"])
+                self.module.exit_json(**self.result)
+
             self.nb_object, diff = self._create_netbox_object(
                 self.nb_object.available_prefixes, data
             )
@@ -143,6 +142,7 @@ class NetboxIpamModule(NetboxModule):
         application = self._find_app(self.endpoint)
         nb_app = getattr(self.nb, application)
         nb_endpoint = getattr(nb_app, self.endpoint)
+        user_query_params = self.module.params.get("query_params")
 
         data = self.data
 
@@ -167,7 +167,9 @@ class NetboxIpamModule(NetboxModule):
         else:
             first_available = False
 
-        object_query_params = self._build_query_params(endpoint_name, data)
+        object_query_params = self._build_query_params(
+            endpoint_name, data, user_query_params
+        )
         if data.get("prefix") and self.endpoint == "ip_addresses":
             object_query_params = self._build_query_params("prefix", data)
             self.nb_object = self._nb_endpoint_get(

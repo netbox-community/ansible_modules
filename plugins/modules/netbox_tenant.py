@@ -51,26 +51,32 @@ options:
       tenant_group:
         description:
           - Tenant group this tenant should be in
-        type: str
+        required: false
+        type: raw
       description:
         description:
           - The description of the tenant
+        required: false
         type: str
       comments:
         description:
           - Comments for the tenant. This can be markdown syntax
+        required: false
         type: str
       slug:
         description:
           - URL-friendly unique shorthand
+        required: false
         type: str
       tags:
         description:
           - Any tags that the tenant may need to be associated with
+        required: false
         type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
         type: dict
     required: true
   state:
@@ -79,13 +85,20 @@ options:
     choices: [ absent, present ]
     default: present
     type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -146,13 +159,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_tenancy impor
     NetboxTenancyModule,
     NB_TENANTS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -164,8 +178,8 @@ def main():
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

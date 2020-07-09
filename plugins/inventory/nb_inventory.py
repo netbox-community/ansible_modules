@@ -49,6 +49,13 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "0.2.1"
+        flatten_local_context_data:
+            description:
+                - If I(local_context_data) is enabled, by default it's added as a host var named local_context_data.
+                - If flatten_local_context_data is set to True, the config context variables will be added directly to the host instead.
+            default: False
+            type: boolean
+            version_added: "0.2.4"
         flatten_custom_fields:
             description:
                 - By default, host custom fields are added as a dictionary host var named custom_fields.
@@ -302,7 +309,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return separator + query_key + "=" + str(value)
 
         # Calculate how many queries we can do per API call to stay within max_url_length
-        largest_value = str(max(query_values))  # values are always id ints
+        largest_value = str(max(query_values, default=0))  # values are always id ints
         length_per_value = len(query_string(largest_value))
         chunk_size = math.floor((self.max_uri_length - len(api_url)) / length_per_value)
 
@@ -341,6 +348,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "memory": self.extract_memory,
             "vcpus": self.extract_vcpus,
             "config_context": self.extract_config_context,
+            "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
             "region": self.extract_regions,
             "cluster": self.extract_cluster,
@@ -464,6 +472,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return host["config_context"]
             else:
                 return self._pluralize(host["config_context"])
+        except Exception:
+            return
+
+    def extract_local_context_data(self, host):
+        try:
+            if self.flatten_local_context_data:
+                # Don't wrap in an array if we're about to flatten it to separate host vars
+                return host["local_context_data"]
+            else:
+                return self._pluralize(host["local_context_data"])
         except Exception:
             return
 
@@ -1153,6 +1171,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if isinstance(extracted_value, dict) and (
                 (attribute == "config_context" and self.flatten_config_context)
                 or (attribute == "custom_fields" and self.flatten_custom_fields)
+                or (
+                    attribute == "local_context_data"
+                    and self.flatten_local_context_data
+                )
             ):
                 for key, value in extracted_value.items():
                     self.inventory.set_variable(hostname, key, value)
@@ -1247,6 +1269,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.validate_certs = self.get_option("validate_certs")
         self.config_context = self.get_option("config_context")
         self.flatten_config_context = self.get_option("flatten_config_context")
+        self.flatten_local_context_data = self.get_option("flatten_local_context_data")
         self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")

@@ -38,41 +38,54 @@ options:
     required: true
     type: str
   data:
+    type: dict
     description:
       - Defines the service configuration
     suboptions:
       device:
         description:
           - Specifies on which device the service is running
+        required: true
         type: raw
       virtual_machine:
         description:
+          - Specifies on which virtual machine the service is running
+        required: false
         type: raw
+      name:
+        description:
+          - Name of the region to be created
+        required: true
+        type: str
       port:
         description:
           - Specifies which port used by service
+        required: true
         type: int
       protocol:
         description:
           - Specifies which protocol used by service
-        type: str
-        choices:
-            - TCP
-            - UDP
+        required: true
+        type: raw
       ipaddresses:
         description:
           - Specifies which IPaddresses to associate with service.
-        type: dict
+        required: false
+        type: raw
       description:
         description:
           - Service description
+        required: false
         type: str
       tags:
         description:
           - What tags to add/update
+        required: false
+        type: list
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
+        required: false
         type: dict
     required: true
   state:
@@ -80,11 +93,19 @@ options:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -135,13 +156,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_SERVICES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -155,8 +177,8 @@ def main():
                     protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    custom_fields=dict(required=False, type=dict),
-                    tags=dict(required=False, type=list),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

@@ -32,11 +32,15 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    required: true
+    type: dict
     description:
       - Defines the cluster configuration
     suboptions:
@@ -44,36 +48,60 @@ options:
         description:
           - The name of the cluster
         required: true
+        type: str
       cluster_type:
         description:
           - type of the cluster
         required: true
+        type: raw
       cluster_group:
         description:
           - group of the cluster
+        required: false
+        type: raw
       site:
         description:
           - Required if I(state=present) and the cluster does not exist yet
+        required: false
+        type: raw
       comments:
         description:
           - Comments that may include additional information in regards to the cluster
+        required: false
+        type: str
+      tenant:
+        description:
+          - Tenant the cluster will be assigned to.
+        required: false
+        type: raw
       tags:
         description:
           - Any tags that the cluster may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
-    required: true
+        required: false
+        type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -142,13 +170,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualizatio
     NetboxVirtualizationModule,
     NB_CLUSTERS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -159,9 +188,10 @@ def main():
                     cluster_type=dict(required=False, type="raw"),
                     cluster_group=dict(required=False, type="raw"),
                     site=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

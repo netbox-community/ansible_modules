@@ -32,11 +32,14 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the vrf configuration
     suboptions:
@@ -44,37 +47,56 @@ options:
         description:
           - The name of the vrf
         required: true
+        type: str
       rd:
         description:
           - The RD of the VRF. Must be quoted to pass as a string.
+        required: false
         type: str
       tenant:
         description:
           - The tenant that the vrf will be assigned to
+        required: false
+        type: raw
       enforce_unique:
         description:
           - Prevent duplicate prefixes/IP addresses within this VRF
+        required: false
         type: bool
       description:
         description:
           - The description of the vrf
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the vrf may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
     required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -134,13 +156,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_VRFS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -152,8 +175,8 @@ def main():
                     tenant=dict(required=False, type="raw"),
                     enforce_unique=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

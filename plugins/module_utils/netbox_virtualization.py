@@ -5,18 +5,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-# This should just be temporary once 2.9 is relased and tested we can remove this
-try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-        ENDPOINT_NAME_MAPPING,
-        SLUG_REQUIRED,
-    )
-except ImportError:
-    import sys
-
-    sys.path.append(".")
-    from netbox_utils import NetboxModule, ENDPOINT_NAME_MAPPING
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxModule,
+    ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
+)
 
 
 NB_VIRTUAL_MACHINES = "virtual_machines"
@@ -53,6 +46,7 @@ class NetboxVirtualizationModule(NetboxModule):
             application = self._find_app(self.endpoint)
         nb_app = getattr(self.nb, application)
         nb_endpoint = getattr(nb_app, self.endpoint)
+        user_query_params = self.module.params.get("query_params")
 
         data = self.data
 
@@ -66,7 +60,9 @@ class NetboxVirtualizationModule(NetboxModule):
             if not data.get("slug"):
                 data["slug"] = self._to_slug(name)
 
-        object_query_params = self._build_query_params(endpoint_name, data)
+        object_query_params = self._build_query_params(
+            endpoint_name, data, user_query_params
+        )
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":

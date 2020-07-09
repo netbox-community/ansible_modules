@@ -32,11 +32,15 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    required: true
+    type: dict
     description:
       - Defines the circuit termination configuration
     suboptions:
@@ -44,6 +48,7 @@ options:
         description:
           - The circuit to assign to circuit termination
         required: true
+        type: raw
       term_side:
         description:
           - The side of the circuit termination
@@ -51,36 +56,55 @@ options:
           - A
           - Z
         required: true
+        type: str
       site:
         description:
           - The site the circuit termination will be assigned to
-        required: true
+        required: false
+        type: raw
       port_speed:
         description:
           - The speed of the port (Kbps)
-        required: true
+        required: false
+        type: int
       upstream_speed:
         description:
           - The upstream speed of the circuit termination
+        required: false
+        type: int
       xconnect_id:
         description:
           - The cross connect ID of the circuit termination
+        required: false
+        type: str
       pp_info:
         description:
           - Patch panel information
+        required: false
+        type: str
       description:
         description:
           - Description of the circuit termination
+        required: false
+        type: str
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -143,13 +167,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits impo
     NetboxCircuitsModule,
     NB_CIRCUIT_TERMINATIONS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(

@@ -32,11 +32,14 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
+    type: dict
     description:
       - Defines the rack configuration
     suboptions:
@@ -44,36 +47,47 @@ options:
         description:
           - The name of the rack
         required: true
+        type: str
       facility_id:
         description:
           - The unique rack ID assigned by the facility
+        required: false
+        type: str
       site:
         description:
           - Required if I(state=present) and the rack does not exist yet
+        required: false
+        type: raw
       rack_group:
         description:
           - The rack group the rack will be associated to
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant that the device will be assigned to
+        required: false
+        type: raw
       status:
         description:
           - The status of the rack
-        choices:
-          - Active
-          - Planned
-          - Reserved
-          - Available
-          - Deprecated
+        required: false
+        type: raw
       rack_role:
         description:
           - The rack role the rack will be associated to
+        required: false
+        type: raw
       serial:
         description:
           - Serial number of the rack
+        required: false
+        type: str
       asset_tag:
         description:
           - Asset tag that is associated to the rack
+        required: false
+        type: str
       type:
         description:
           - The type of rack
@@ -83,6 +97,8 @@ options:
           - 4-post cabinet
           - Wall-mounted frame
           - Wall-mounted cabinet
+        required: false
+        type: str
       width:
         description:
           - The rail-to-rail width
@@ -91,45 +107,70 @@ options:
           - 19
           - 21
           - 23
+        required: false
+        type: int
       u_height:
         description:
           - The height of the rack in rack units
+        required: false
+        type: int
       desc_units:
         description:
           - Rack units will be numbered top-to-bottom
+        required: false
         type: bool
       outer_width:
         description:
           - The outer width of the rack
+        required: false
+        type: int
       outer_depth:
         description:
           - The outer depth of the rack
+        required: false
+        type: int
       outer_unit:
         description:
           - Whether the rack unit is in Millimeters or Inches and is I(required) if outer_width/outer_depth is specified
         choices:
           - Millimeters
           - Inches
+        required: false
+        type: str
       comments:
         description:
           - Comments that may include additional information in regards to the rack
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the rack may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
     required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -176,13 +217,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_RACKS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -194,19 +236,7 @@ def main():
                     site=dict(required=False, type="raw"),
                     rack_group=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    type="str",
-                    #    choices=[
-                    #        "Active",
-                    #        "Planned",
-                    #        "Reserved",
-                    #        "Available",
-                    #        "Deprecated",
-                    #    ],
-                    # ),
                     rack_role=dict(required=False, type="raw"),
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
@@ -230,8 +260,8 @@ def main():
                         required=False, type="str", choices=["Millimeters", "Inches",],
                     ),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

@@ -51,6 +51,7 @@ options:
       slug:
         description:
           - URL-friendly unique shorthand
+        required: false
         type: str
     required: true
   state:
@@ -59,13 +60,20 @@ options:
     choices: [ absent, present ]
     default: present
     type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - |
         If C(no), SSL certificates will not be validated.
         This should only be used on personally controlled sites using self-signed certificates.
-    default: "yes"
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -112,13 +120,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_tenancy impor
     NetboxTenancyModule,
     NB_TENANT_GROUPS,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(

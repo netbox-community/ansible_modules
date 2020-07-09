@@ -10,6 +10,9 @@
                     "cisco-test"
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -32,6 +35,9 @@
                     "nexus-parent"
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -71,6 +77,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [
                     {
@@ -104,6 +113,9 @@
                     "cisco-test"
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -126,6 +138,13 @@
                     "cisco-test"
                 ],
                 "is_virtual": false,
+                "local_context_data": [
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -197,6 +216,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -213,6 +235,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -229,6 +254,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -245,6 +273,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -260,6 +291,9 @@
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [],
                 "tags": []

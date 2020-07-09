@@ -14,37 +14,55 @@ To keep the code simple, we only officially support the two latest releases of N
 - Python 3.6+
 - Python modules: **pynetbox 5.0.3+**, requests
 - Ansible 2.9+
+- NetBox write-enabled token
 
 ## Existing Modules
 
 - netbox_aggregate
+- netbox_cable
 - netbox_circuit
 - netbox_circuit_termination
 - netbox_circuit_type
 - netbox_cluster
 - netbox_cluster_group
 - netbox_cluster_type
+- netbox_console_port
+- netbox_console_port_template
+- netbox_console_server_port
+- netbox_console_server_port_template
 - netbox_device_bay
+- netbox_device_bay_template
 - netbox_device_interface
 - netbox_device_role
 - netbox_device_type
 - netbox_device
+- netbox_front_port
+- netbox_front_port_template
 - netbox_inventory_item
 - netbox_ip_address
 - netbox_ipam_role
 - netbox_manufacturer
 - netbox_platform
+- netbox_power_feed
+- netbox_power_outlet
+- netbox_power_outlet_template
+- netbox_power_panel
+- netbox_power_port
+- netbox_power_port_template
 - netbox_prefix
 - netbox_provider
 - netbox_rack_group
 - netbox_rack_role
 - netbox_rack
+- netbox_rear_port
+- netbox_rear_port_template
 - netbox_region
 - netbox_rir
 - netbox_site
 - netbox_service
 - netbox_tenant_group
 - netbox_tenant
+- netbox_virtual_chassis
 - netbox_virtual_machine
 - netbox_vm_interface
 - netbox_vlan_group
@@ -90,7 +108,7 @@ Using the **collections** at the play level
           device_role: Core Switch
           site: Test Site
           status: Staged
-          state: present
+        state: present
 ```
 
 Using the **collections** at the task level
@@ -112,7 +130,7 @@ Using the **collections** at the task level
           device_role: Core Switch
           site: Test Site
           status: Staged
-          state: present
+        state: present
 ```
 
 Using the **collections** in a role's task files
@@ -129,7 +147,7 @@ Using the **collections** in a role's task files
       device_role: Core Switch
       site: Test Site
       status: Staged
-      state: present
+    state: present
 
 OR
 
@@ -146,7 +164,7 @@ OR
       device_role: Core Switch
       site: Test Site
       status: Staged
-      state: present
+    state: present
 ```
 
 Using the **collections** lookup plugin at the task level

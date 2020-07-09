@@ -34,10 +34,12 @@ options:
     description:
       - URL of the Netbox instance resolvable by Ansible control host
     required: true
+    type: str
   netbox_token:
     description:
       - The token created within Netbox to authorize API access
     required: true
+    type: str
   data:
     description:
       - Defines the device configuration
@@ -46,75 +48,137 @@ options:
         description:
           - The name of the device
         required: true
+        type: str
       device_type:
         description:
           - Required if I(state=present) and the device does not exist yet
+        required: false
+        type: raw
       device_role:
         description:
           - Required if I(state=present) and the device does not exist yet
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant that the device will be assigned to
+        required: false
+        type: raw
       platform:
         description:
           - The platform of the device
+        required: false
+        type: raw
       serial:
         description:
           - Serial number of the device
+        required: false
+        type: str
       asset_tag:
         description:
           - Asset tag that is associated to the device
+        required: false
+        type: str
       site:
         description:
           - Required if I(state=present) and the device does not exist yet
+        required: false
+        type: raw
       rack:
         description:
           - The name of the rack to assign the device to
+        required: false
+        type: raw
       position:
         description:
           - The position of the device in the rack defined above
+        required: false
+        type: int
       face:
         description:
           - Required if I(rack) is defined
+        choices:
+          - Front
+          - front
+          - Rear
+          - rear
+        required: false
+        type: str
       status:
         description:
           - The status of the device
-        choices:
-          - Active
-          - Offline
-          - Planned
-          - Staged
-          - Failed
-          - Inventory
+        required: false
+        type: raw
       primary_ip4:
         description:
           - Primary IPv4 address assigned to the device
+        required: false
+        type: raw
       primary_ip6:
         description:
           - Primary IPv6 address assigned to the device
+        required: false
+        type: raw
       cluster:
         description:
           - Cluster that the device will be assigned to
+        required: false
+        type: raw
+      virtual_chassis:
+        description:
+          - Virtual chassis the device will be assigned to
+        required: false
+        type: raw
+      vc_position:
+        description:
+          - Position in the assigned virtual chassis
+        required: false
+        type: int
+      vc_priority:
+        description:
+          - Priority in the assigned virtual chassis
+        required: false
+        type: int
       comments:
         description:
           - Comments that may include additional information in regards to the device
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the device may need to be associated with
+        required: false
+        type: list
       custom_fields:
         description:
           - must exist in Netbox
+        required: false
+        type: dict
+      local_context_data:
+        description:
+          - Arbitrary JSON data to define the devices configuration variables.
+        required: false
+        type: dict
     required: true
+    type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
     choices: [ absent, present ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -163,6 +227,8 @@ EXAMPLES = r"""
           device_type: C9410R
           device_role: Core Switch
           site: Main
+          local_context_data:
+            bgp: "65000"
           tags:
             - Schnozzberry
         state: present
@@ -198,6 +264,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
     NB_DEVICES,
 )
+from copy import deepcopy
 import uuid
 
 
@@ -205,7 +272,7 @@ def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -227,25 +294,17 @@ def main():
                         type="str",
                         choices=["Front", "front", "Rear", "rear"],
                     ),
-                    # Will uncomment other status dict once slugs are the only option (Netbox 2.8)
                     status=dict(required=False, type="raw"),
-                    # status=dict(
-                    #    required=False,
-                    #    choices=[
-                    #        "Active",
-                    #        "Offline",
-                    #        "Planned",
-                    #        "Staged",
-                    #        "Failed",
-                    #        "Inventory",
-                    #    ],
-                    # ),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),
+                    virtual_chassis=dict(required=False, type="raw"),
+                    vc_position=dict(required=False, type="int"),
+                    vc_priority=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    local_context_data=dict(required=False, type="dict"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

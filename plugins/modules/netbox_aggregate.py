@@ -30,47 +30,68 @@ version_added: '0.1.0'
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - "URL of the Netbox instance resolvable by Ansible control host"
     required: true
+    type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - "The token created within Netbox to authorize API access"
     required: true
+    type: str
   data:
     description:
-      - Defines the aggregate configuration
+      - "Defines the aggregate configuration"
+    type: dict
     suboptions:
       prefix:
         description:
-          - The aggregate prefix
+          - "The aggregate prefix"
         required: true
+        type: raw
       rir:
         description:
-          - The RIR the aggregate will be assigned to
+          - "The RIR the aggregate will be assigned to"
         required: true
+        type: raw
       date_added:
         description:
-          - Date added, format: YYYY-MM-DD
+          - "Date added, format: YYYY-MM-DD"
+        required: false
+        type: str
       description:
         description:
-          - The description of the aggregate
+          - "The description of the aggregate"
+        required: false
+        type: str
       tags:
         description:
-          - Any tags that the aggregate may need to be associated with
+          - "Any tags that the aggregate may need to be associated with"
+        required: false
+        type: list
       custom_fields:
         description:
-          - must exist in Netbox
+          - "must exist in Netbox"
+        required: false
+        type: dict
     required: true
   state:
     description:
-      - The state of the aggregate
+      - "The state of the aggregate"
     choices: [ present, absent ]
     default: present
+    type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
   validate_certs:
     description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: 'yes'
-    type: bool
+      - "If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates."
+    default: true
+    type: raw
 """
 
 EXAMPLES = r"""
@@ -130,13 +151,14 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
     NB_AGGREGATES,
 )
+from copy import deepcopy
 
 
 def main():
     """
     Main entry point for module execution
     """
-    argument_spec = NETBOX_ARG_SPEC
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
             data=dict(
@@ -147,8 +169,8 @@ def main():
                     rir=dict(required=False, type="raw"),
                     date_added=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type=list),
-                    custom_fields=dict(required=False, type=dict),
+                    tags=dict(required=False, type="list"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

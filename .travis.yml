@@ -10,38 +10,21 @@ env:
   global:
     - COLLECTION_NAMESPACE: netbox
     - COLLECTION_NAME: netbox
-    - COLLECTION_VERSION: 0.2.2
+    - COLLECTION_VERSION: 0.2.3
     - secure: "tE6GtwrRU+Kjobx/94xqR2MqM20pHCnrLcHgPzIHA3npdwuA+GjCBiBLTkEEQM4fUWIfzUTyjSr9bZErm1PTI1GcIRdniTgJ3ZzSSkE7tgeYALB/7xsusB57SlmbBQm2SGwU558uWZ3NHEsi0WTgD8GKZo77OpGX72FZKsVXOz6k2wve51sOtoSVjgCsvWTmZHx4ynGdiA5wFkZfaEcjXECahKtunW+MlB5kpJzkVeLRUEXFMhWlsIYiA5nj8OI/X3Nk9ugh1ribENX9LrjpgrqQ9YariZ8G6py1ONuKZIn2g7xs5kNQ3qL6HL6N7SoUxiwH16CfSyugFaYiMfaxQ4NUVGGRHS4vSGbNIf+gLHcYvP40miI1f/+pntCzqygZMhW73FX2o+KH2OGv09khOl8k1nDg2/XvW0kCc/FU6l+Jp5wCC8H9X2uiULtQpRqts5TzIonlPEzGIpfGFgJ5m54Emhv9gjG1Z5OOyL/qae1Wr+L/uhiFafcglZYh8NHEMWCUCkeqFqR2kDmUMtdgYLD7Q7NdwlL/PSVVs1l7UPiQHlnecQKEHN7CvR3eKByTEmkCKafRYh/JQ9rBt9sZc7aAPVu+w3wWUwbHS4o4vVnmyXvJb1PeJSiuynF7CBo4Qd6qj4YwX8gLK6PylGyaMOp169u6xw1mo5/CX0pJ3x4="
 
 jobs:
   include:
-    # Previous release of Netbox, latest release of Ansible
-    - name: "Python 3.6 - Netbox 2.6 - Latest PyPi Ansible"
-      python: 3.6
-      env: PYTHON_VER=3.6 VERSION=v2.6 INTEGRATION_TESTS=v2.6
-      install:
-        - cd ..
-        # Setup netbox container for integration testing
-        - git clone https://github.com/FragmentedPacket/netbox-docker.git
-        - cd netbox-docker
-        - docker-compose pull
-        - docker-compose up -d
-        - cd ..
-        # setuptools <46.1.3 has issues with ansible-test executables https://github.com/ansible/ansible/issues/68963
-        - pip install -U pip "setuptools>=46.1.3"
-        # coverage 5.0 is not compatible with ansible-test https://github.com/ansible/ansible/issues/65907
-        - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
-        - pip install requests pynetbox cryptography codecov jmespath jsondiff ansible
-
     - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
       python: 3.6
       env:
-      - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
         - git clone https://github.com/netbox-community/netbox-docker.git
         - cd netbox-docker
+        - sed -i 's/SKIP_STARTUP_SCRIPTS=false/SKIP_STARTUP_SCRIPTS=true/' env/netbox.env
         - docker-compose pull
         - docker-compose up -d
         - cd ..
@@ -55,7 +38,7 @@ jobs:
     - name: "Python 3.7 - Netbox 2.8 - Latest PyPi Ansible"
       python: 3.7
       env:
-      - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -110,15 +93,13 @@ before_script:
   - chmod +x tests/integration/targets/inventory/compare_inventory_json.py
 
 script:
-
   # Check python syntax
   - black . --check --diff
 
   # Sanity tests
   # --requirements - install pip packages as necessary
   # Skip pep8 as we use black instead
-  # Skip validate-modules until the issues can be resolved #180
-  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 --skip-test validate-modules
+  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8
 
   # Unit tests, with code coverage
   - ansible-test units -v --coverage --python $PYTHON_VER
