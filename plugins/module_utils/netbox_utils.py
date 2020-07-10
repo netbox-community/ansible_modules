@@ -11,6 +11,7 @@ __metaclass__ = type
 # Import necessary packages
 import traceback
 import re
+import json
 from itertools import chain
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
