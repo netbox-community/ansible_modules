@@ -11,7 +11,6 @@ __metaclass__ = type
 # Import necessary packages
 import traceback
 import re
-import requests
 from itertools import chain
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
@@ -26,6 +25,7 @@ from ansible.module_utils.urls import open_url
 PYNETBOX_IMP_ERR = None
 try:
     import pynetbox
+    import requests
 
     HAS_PYNETBOX = True
 except ImportError:
