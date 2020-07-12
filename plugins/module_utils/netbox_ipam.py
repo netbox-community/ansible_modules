@@ -85,6 +85,7 @@ class NetboxIpamModule(NetboxModule):
             self.nb_object, diff = self._create_netbox_object(
                 prefix.available_ips, data
             )
+            self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
                 endpoint_name,
@@ -110,6 +111,7 @@ class NetboxIpamModule(NetboxModule):
             self.nb_object, diff = self._create_netbox_object(
                 self.nb_object.available_prefixes, data
             )
+            self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
                 endpoint_name,

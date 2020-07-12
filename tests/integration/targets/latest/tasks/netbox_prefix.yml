@@ -221,8 +221,8 @@
       - test_ten['diff']['after']['state'] == "present"
       - test_ten['msg'] == "prefix 10.157.0.0/24 created"
       - test_ten['prefix']['prefix'] == "10.157.0.0/24"
-      - test_ten['prefix']['site']['id'] == 1
-      - test_ten['prefix']['vrf']['id'] == 1
+      - test_ten['prefix']['site'] == 1
+      - test_ten['prefix']['vrf'] == 1
 
 - name: "11 - Get a new /24 inside 10.156.0.0/19 within Netbox"
   netbox.netbox.netbox_prefix:

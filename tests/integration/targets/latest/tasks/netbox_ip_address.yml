@@ -220,8 +220,8 @@
       - test_ten['diff']['after']['state'] == "present"
       - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
       - test_ten['ip_address']['address'] == "10.10.0.1/16"
-      - test_ten['ip_address']['family']['value'] == 4
-      - test_ten['ip_address']['interface']['id'] == 4
+      - test_ten['ip_address']['family'] == 4
+      - test_ten['ip_address']['interface'] == 4
 
 - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
   netbox.netbox.netbox_ip_address:

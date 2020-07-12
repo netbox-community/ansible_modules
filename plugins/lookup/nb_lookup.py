@@ -19,6 +19,7 @@ from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
 
 import pynetbox
+import requests
 
 __metaclass__ = type
 
@@ -204,12 +205,15 @@ class LookupModule(LookupBase):
             terms = [terms]
 
         try:
+            session = requests.Session()
+            session.verify = netbox_ssl_verify
+
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
-                ssl_verify=netbox_ssl_verify,
                 private_key_file=netbox_private_key_file,
             )
+            netbox.http_session = session
         except FileNotFoundError:
             raise AnsibleError(
                 "%s cannot be found. Please make sure file exists."
