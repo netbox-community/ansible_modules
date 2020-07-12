@@ -21,7 +21,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['device_bay_template']['name'] == "Device Bay Template One"
-      - test_one['device_bay_template']['device_type'] == 6
+      - test_one['device_bay_template']['device_type'] == 7
       - test_one['msg'] == "device_bay_template Device Bay Template One created"
 
 - name: "DEVICE_BAY_TEMPLATE 2: Create duplicate"
@@ -39,7 +39,7 @@
     that:
       - not test_two['changed']
       - test_two['device_bay_template']['name'] == "Device Bay Template One"
-      - test_two['device_bay_template']['device_type'] == 6
+      - test_two['device_bay_template']['device_type'] == 7
       - test_two['msg'] == "device_bay_template Device Bay Template One already exists"
 
 - name: "DEVICE_BAY_TEMPLATE 3: ASSERT - Create Device Bay Template for Delete Test"
@@ -59,7 +59,7 @@
       - test_three['diff']['before']['state'] == "absent"
       - test_three['diff']['after']['state'] == "present"
       - test_three['device_bay_template']['name'] == "Device Bay Template Two"
-      - test_three['device_bay_template']['device_type'] == 6
+      - test_three['device_bay_template']['device_type'] == 7
       - test_three['msg'] == "device_bay_template Device Bay Template Two created"
 
 - name: "DEVICE_BAY_TEMPLATE 4: ASSERT - Delete"
@@ -77,5 +77,5 @@
     that:
       - test_four is changed
       - test_four['device_bay_template']['name'] == "Device Bay Template Two"
-      - test_four['device_bay_template']['device_type'] == 6
+      - test_four['device_bay_template']['device_type'] == 7
       - test_four['msg'] == "device_bay_template Device Bay Template Two deleted"

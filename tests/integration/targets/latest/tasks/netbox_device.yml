@@ -10,7 +10,8 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: "R1"
-      device_type: "Cisco Test"
+      device_type:
+        id: "1"
       device_role: "Core Switch"
       site: "Test Site"
       status: "Staged"
@@ -122,7 +123,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: "TestR1"
-      device_type: "Arista Test"
+      device_type: "1841"
       device_role: "Core Switch"
       site: "Test Site2"
       rack: "Test Rack"
@@ -143,7 +144,7 @@
       - test_four['diff']['after']['state'] == "present"
       - test_four['device']['name'] == "TestR1"
       - test_four['device']['device_role'] == 1
-      - test_four['device']['device_type'] == 2
+      - test_four['device']['device_type'] == 5
       - test_four['device']['site'] == 2
       - test_four['device']['status'] == "active"
       - test_four['device']['rack'] == 1
@@ -218,7 +219,8 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: ""
-      device_type: "Cisco Test"
+      device_type:
+        id: 1
       device_role: "Core Switch"
       site: "Test Site"
       status: "Staged"
