@@ -55,7 +55,7 @@ DOCUMENTATION = """
                 - If flatten_local_context_data is set to True, the config context variables will be added directly to the host instead.
             default: False
             type: boolean
-            version_added: "0.2.4"
+            version_added: "0.3.0"
         flatten_custom_fields:
             description:
                 - By default, host custom fields are added as a dictionary host var named custom_fields.
