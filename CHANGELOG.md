@@ -1,5 +1,55 @@
 # Changelog
 
+## v0.3.0
+
+### Breaking Changes
+
+- [#270](https://github.com/netbox-community/ansible_modules/pull/270) - To pass in integers via Ansible Jinja filters for a key in `data` that requires querying an endpoint is now done by making it a dictionary with an `id` key.
+    The previous behavior was to just pass in an integer and it was converted when normalizing the data, but some people may have names that are all integers and those were being converted erroneously so we made the decision to change
+    the method to convert to an integer for the NetBox API.
+
+    ```yaml
+    tasks:
+      - name: Create device within NetBox with only required information
+        netbox_device:
+          netbox_url: http://netbox-demo.org:32768
+          netbox_token: 0123456789abcdef0123456789abcdef01234567
+          data:
+            name: Test66
+            device_type:
+              id: "{{ some_jinja_variable }}"
+            device_role: Core Switch
+            site: Test Site
+            status: Staged
+          state: present
+    ```
+
+- [#269](https://github.com/netbox-community/ansible_modules/pull/269) - `pynetbox` changed to using `requests.Session()` to manage the HTTP session which broke passing in `ssl_verify` when building the NetBox API client.
+  This PR makes `pynetbox 5.0.4+` the new required version of `pynetbox` for the Ansible modules and lookup plugin.
+
+### Enhancements
+
+- [#251](https://github.com/netbox-community/ansible_modules/pull/251) - Add `virtual_chassis`, `vc_position`, `vc_priority` to `netbox_device` options
+- [#258](https://github.com/netbox-community/ansible_modules/pull/258) - Add `local_context_data` and `flatten_local_context_data` option to `nb_inventory`
+- [#258](https://github.com/netbox-community/ansible_modules/pull/258) - Add `local_context_data` option to `netbox_device`
+
+### Bugfix
+
+- [#242](https://github.com/netbox-community/ansible_modules/issues/242) - Compares tags as a set to prevent issues with order difference between user supplied tags and NetBox API
+- [#243](https://github.com/netbox-community/ansible_modules/issues/243) - Normalize descriptions to remove any extra whitespace
+- [#246](https://github.com/netbox-community/ansible_modules/issues/246) - Allows OR operations in API fitlers for `nb_lookup` plugin
+- [#254](https://github.com/netbox-community/ansible_modules/issues/254) - Normalize `mac_address` to upper case
+- [#261](https://github.com/netbox-community/ansible_modules/pull/261) - Fixes typo for `CONVERT_TO_ID` mapping in `netbox_utils` for `dcim.rearport`
+- [#265](https://github.com/netbox-community/ansible_modules/pull/265) - Fixes typo for `CONVERT_TO_ID` mapping in `netbox_utils` for `dcim.powerport` and `dcim.poweroutlet`
+- [#262](https://github.com/netbox-community/ansible_modules/issues/262) - Build the `rear_port` and `rear_port_template` query_params to properly find rear port
+
+### New Modules
+
+- [#251](https://github.com/netbox-community/ansible_modules/pull/251) - `netbox_cable`
+- [#251](https://github.com/netbox-community/ansible_modules/pull/251) - `netbox_device_bay_template`
+- [#251](https://github.com/netbox-community/ansible_modules/pull/251) - `netbox_virtual_chassis`
+- [#259](https://github.com/netbox-community/ansible_modules/pull/259) - `netbox_interface_template`
+
 ## v0.2.3
 
 ### Documentation
@@ -8,6 +58,7 @@
 - [#180](https://github.com/netbox-community/ansible_modules/issues/180) - Fix documentation errors when using ansible-lint `validate-modules`
 
 ### Enchancements
+
 - [#216](https://github.com/netbox-community/ansible_modules/issues/216) - Allows private key to be passed in to `validate_certs` within modules
 - [#187](https://github.com/netbox-community/ansible_modules/issues/187) - Adds `discovered` field to `netbox_inventory_item`
 - [#219](https://github.com/netbox-community/ansible_modules/pull/219) - Adds `tenant` field to `netbox_cluster`
@@ -15,11 +66,13 @@
 - [#238](https://github.com/netbox-community/ansible_modules/pull/238) - Better error handling if read-only token is provided for modules. Updated README as well to say that a `write-enabled` token is required
 
 ### Bug Fixes
+
 - [#214](https://github.com/netbox-community/ansible_modules/issues/214) - Fixes bug in inventory plugin that fails if there are either no virtual machines, but devices defined in NetBox or vice versa from failing when `fetch_all` is set to `False`
 - [#228](https://github.com/netbox-community/ansible_modules/issues/228) - Fixes bug in `netbox_prefix` failing when using `check_mode`
 - [#231](https://github.com/netbox-community/ansible_modules/issues/231) - Normalize any string values that are passed in via Jinja into an integer within the `_normalize_data` method
 
 ### New Modules
+
 - [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_feed`
 - [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_outlet`
 - [#235](https://github.com/netbox-community/ansible_modules/pull/235) - `netbox_power_outlet_template`
