@@ -115,3 +115,25 @@
       - test_five['diff']['before']['state'] == "present"
       - test_five['diff']['after']['state'] == "absent"
       - test_five['msg'] == "rear_port Rear Port 2 deleted"
+
+- name: "REAR_PORT 6: Create second Rear Port"
+  netbox.netbox.netbox_rear_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port
+      device: Test Nexus One
+      type: bnc
+    state: present
+  register: test_six
+
+- name: "REAR_PORT 6: ASSERT - Create second Rear Port"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['rear_port']['name'] == "Rear Port"
+      - test_six['rear_port']['device'] == 4
+      - test_six['rear_port']['type'] == "bnc"
+      - test_six['msg'] == "rear_port Rear Port created"

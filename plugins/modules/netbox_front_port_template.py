@@ -57,7 +57,7 @@ options:
         type: str
       type:
         description:
-          - The type of the front port
+          - The type of the front port template
         choices:
           - 8p8c
           - 110-punch
@@ -75,14 +75,14 @@ options:
           - st
         required: true
         type: str
-      rear_port:
+      rear_port_template:
         description:
-          - The rear_port the front port is attached to
+          - The rear_port_template the front port template is attached to
         required: true
         type: raw        
-      rear_port_position:
+      rear_port_template_position:
         description:
-          - The position of the rear port this front port is connected to
+          - The position of the rear port template this front port template is connected to
         required: false
         type: int
   state:
@@ -120,7 +120,7 @@ EXAMPLES = r"""
           name: Test Front Port Template
           device_type: Test Device Type
           type: bnc
-          rear_port: Test Rear Port
+          rear_port_template: Test Rear Port Template
         state: present
 
     - name: Update front port template with other fields
@@ -131,8 +131,8 @@ EXAMPLES = r"""
           name: Test Front Port Template
           device_type: Test Device Type
           type: bnc
-          rear_port: Test Rear Port
-          rear_port_position: 5
+          rear_port_template: Test Rear Port Template
+          rear_port_template_position: 5
         state: present
 
     - name: Delete front port template within netbox
@@ -143,7 +143,7 @@ EXAMPLES = r"""
           name: Test Front Port Template
           device_type: Test Device Type
           type: bnc
-          rear_port: Test Rear Port
+          rear_port_template: Test Rear Port Template
         state: absent
 """
 
@@ -202,16 +202,16 @@ def main():
                         ],
                         type="str",
                     ),
-                    rear_port=dict(required=True, type="raw"),
-                    rear_port_position=dict(required=False, type="int"),
+                    rear_port_template=dict(required=True, type="raw"),
+                    rear_port_template_position=dict(required=False, type="int"),
                 ),
             ),
         )
     )
 
     required_if = [
-        ("state", "present", ["device_type", "name", "type", "rear_port"]),
-        ("state", "absent", ["device_type", "name", "type", "rear_port"]),
+        ("state", "present", ["device_type", "name", "type", "rear_port_template"]),
+        ("state", "absent", ["device_type", "name", "type", "rear_port_template"]),
     ]
 
     module = NetboxAnsibleModule(
