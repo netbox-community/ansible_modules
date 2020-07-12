@@ -211,7 +211,6 @@ class LookupModule(LookupBase):
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
-                ssl_verify=netbox_ssl_verify,
                 private_key_file=netbox_private_key_file,
             )
             netbox.http_session = session
