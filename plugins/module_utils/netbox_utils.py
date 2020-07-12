@@ -780,27 +780,6 @@ class NetboxModule(object):
             convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
             return convert_chars.strip().lower()
 
-    def _normalize_to_integer(self, key, value):
-        """
-        :returns value (str/int): Returns either the original value or the
-        converted value (int) if able to make the conversion.
-
-        :params (str/int): Value that needs to be tested whether or not it
-        needs to be converted to an integer.
-        """
-        DO_NOT_CONVERT_TO_INT = {"asset_tag"}
-        if key in DO_NOT_CONVERT_TO_INT:
-            return value
-        elif isinstance(value, int):
-            return value
-
-        try:
-            value = int(value)
-        except ValueError:
-            return value
-        except TypeError:
-            return value
-
     def _normalize_data(self, data):
         """
         :returns data (dict): Normalized module data to formats accepted by Netbox searches
@@ -809,14 +788,17 @@ class NetboxModule(object):
         :params data (dict): Original data from Netbox module
         """
         for k, v in data.items():
-            if k == "local_context_data":
-                pass
-            elif isinstance(v, dict):
+            if isinstance(v, dict):
+                if v.get("id"):
+                    try:
+                        data[k] = int(v["id"])
+                    except (ValueError, TypeError):
+                        pass
+
                 for subk, subv in v.items():
                     sub_data_type = QUERY_TYPES.get(subk, "q")
                     if sub_data_type == "slug":
                         data[k][subk] = self._to_slug(subv)
-                    data[k][subk] = self._normalize_to_integer(subk, data[k].get(subk))
             else:
                 data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
@@ -824,7 +806,6 @@ class NetboxModule(object):
                 elif data_type == "timezone":
                     if " " in v:
                         data[k] = v.replace(" ", "_")
-                    data[k] = self._normalize_to_integer(k, data.get(k))
             if k == "description":
                 data[k] = v.strip()
 

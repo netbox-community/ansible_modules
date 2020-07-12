@@ -135,6 +135,7 @@ device_types = [
         "manufacturer": cisco_manu.id,
         "subdevice_role": False,
     },
+    {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
 ]
 created_device_types = nb.dcim.device_types.create(device_types)
 ### Device type variables to be used later on
