@@ -33,7 +33,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['power_port_template']['name'] == "Power Port Template"
-      - test_one['power_port_template']['device_type'] == 7
+      - test_one['power_port_template']['device_type'] == 8
       - test_one['msg'] == "power_port_template Power Port Template created"
 
 - name: "POWER_PORT_TEMPLATE 2: Create duplicate"
@@ -51,7 +51,7 @@
     that:
       - not test_two['changed']
       - test_two['power_port_template']['name'] == "Power Port Template"
-      - test_two['power_port_template']['device_type'] == 7
+      - test_two['power_port_template']['device_type'] == 8
       - test_two['msg'] == "power_port_template Power Port Template already exists"
 
 - name: "POWER_PORT_TEMPLATE 3: Update power_port_template with other fields"
@@ -75,7 +75,7 @@
       - test_three['diff']['after']['allocated_draw'] == 10
       - test_three['diff']['after']['maximum_draw'] == 20
       - test_three['power_port_template']['name'] == "Power Port Template"
-      - test_three['power_port_template']['device_type'] == 7
+      - test_three['power_port_template']['device_type'] == 8
       - test_three['power_port_template']['type'] == "ita-e"
       - test_three['power_port_template']['allocated_draw'] == 10
       - test_three['power_port_template']['maximum_draw'] == 20
@@ -98,7 +98,7 @@
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
       - test_four['power_port_template']['name'] == "Power Port Template 2"
-      - test_four['power_port_template']['device_type'] == 7
+      - test_four['power_port_template']['device_type'] == 8
       - test_four['msg'] == "power_port_template Power Port Template 2 created"
 
 - name: "POWER_PORT_TEMPLATE 5: Delete Power Port Template"

@@ -162,13 +162,6 @@ def test_normalize_data_returns_correct_data(mock_netbox_module, before, after):
     assert norm_data == after
 
 
-@pytest.mark.parametrize("data, expected", load_relative_test_data("normalize_integer"))
-def test_normalize_to_integer_returns_correct_data(mock_netbox_module, data, expected):
-    value = mock_netbox_module._normalize_to_integer(*data)
-
-    assert value == expected
-
-
 @pytest.mark.parametrize("data, expected", load_relative_test_data("arg_spec_default"))
 def test_remove_arg_spec_defaults(mock_netbox_module, data, expected):
     new_data = mock_netbox_module._remove_arg_spec_default(data)
