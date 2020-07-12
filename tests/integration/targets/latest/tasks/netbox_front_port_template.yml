@@ -15,7 +15,7 @@
       name: Front Port Template
       device_type: Cisco Test
       type: bnc
-      rear_port: Rear Port
+      rear_port_template: Rear Port Template
     state: present
   register: test_one
 
@@ -39,7 +39,7 @@
       name: Front Port Template
       device_type: Cisco Test
       type: bnc
-      rear_port: Rear Port
+      rear_port_template: Rear Port Template
     state: present
   register: test_two
 
@@ -61,8 +61,8 @@
       name: Front Port Template
       device_type: Cisco Test
       type: bnc
-      rear_port: Rear Port
-      rear_port_position: 5
+      rear_port_template: Rear Port Template
+      rear_port_template_position: 5
     state: present
   register: test_three
 
@@ -86,7 +86,7 @@
       name: Front Port Template 2
       device_type: Cisco Test
       type: bnc
-      rear_port: Rear Port
+      rear_port_template: Rear Port Template
     state: present
   register: test_four
 
@@ -110,7 +110,7 @@
       name: Front Port Template 2
       device_type: Cisco Test
       type: bnc
-      rear_port: Rear Port
+      rear_port_template: Rear Port Template
     state: absent
   register: test_five
 
@@ -121,3 +121,27 @@
       - test_five['diff']['before']['state'] == "present"
       - test_five['diff']['after']['state'] == "absent"
       - test_five['msg'] == "front_port_template Front Port Template 2 deleted"
+
+- name: "FRONT_PORT 6: Create duplicate with rear_port_template dictionary"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Front Port Template
+      device_type: Cisco Test
+      type: bnc
+      rear_port_template:
+        device: Cisco Test
+        name: Rear Port Template
+    state: present
+  register: test_six
+
+- name: "FRONT_PORT 6: ASSERT - Create duplicate with rear_port_template dictionary"
+  assert:
+    that:
+      - not test_six['changed']
+      - test_six['front_port_template']['name'] == "Front Port Template"
+      - test_six['front_port_template']['device_type'] == 1
+      - test_six['front_port_template']['type'] == "bnc"
+      - test_six['front_port_template']['rear_port'] == 1
+      - test_six['msg'] == "front_port_template Front Port Template already exists"
