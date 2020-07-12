@@ -27,7 +27,7 @@ author:
   - Tobias Groß (@toerb)
 requirements:
   - pynetbox
-version_added: '0.2.4'
+version_added: '0.3.0'
 options:
   netbox_url:
     description:
