@@ -50,6 +50,18 @@
 - [#251](https://github.com/netbox-community/ansible_modules/pull/251) - `netbox_virtual_chassis`
 - [#259](https://github.com/netbox-community/ansible_modules/pull/259) - `netbox_interface_template`
 
+### Thanks to the following contributors
+
+- @toerb
+- @ThomasADavis
+- @monkz
+- @jkuzma07
+- @AdamMack2007
+- @smutel
+- @pugnacity
+- @adamwoolhether
+- @ghost
+
 ## v0.2.3
 
 ### Documentation
