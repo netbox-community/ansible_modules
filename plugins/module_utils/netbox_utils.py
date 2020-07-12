@@ -26,6 +26,7 @@ from ansible.module_utils.urls import open_url
 PYNETBOX_IMP_ERR = None
 try:
     import pynetbox
+    import requests
 
     HAS_PYNETBOX = True
 except ImportError:
@@ -459,7 +460,10 @@ class NetboxModule(object):
 
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
-            nb = pynetbox.api(url, token=token, ssl_verify=ssl_verify)
+            session = requests.Session()
+            session.verify = ssl_verify
+            nb = pynetbox.api(url, token=token)
+            nb.http_session = session
             try:
                 self.version = float(nb.version)
             except AttributeError:
