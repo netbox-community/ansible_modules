@@ -794,11 +794,11 @@ class NetboxModule(object):
                         data[k] = int(v["id"])
                     except (ValueError, TypeError):
                         pass
-
-                for subk, subv in v.items():
-                    sub_data_type = QUERY_TYPES.get(subk, "q")
-                    if sub_data_type == "slug":
-                        data[k][subk] = self._to_slug(subv)
+                else:
+                    for subk, subv in v.items():
+                        sub_data_type = QUERY_TYPES.get(subk, "q")
+                        if sub_data_type == "slug":
+                            data[k][subk] = self._to_slug(subv)
             else:
                 data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
