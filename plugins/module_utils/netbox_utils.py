@@ -657,6 +657,22 @@ class NetboxModule(object):
         elif parent == "virtual_chassis":
             query_dict = {"q": self.module.params["data"].get("master")}
 
+        elif parent == "rear_port" and self.endpoint == "front_ports":
+            if isinstance(module_data.get("data").get("rear_port"), str):
+                rear_port = {
+                    "device_id": module_data.get("data").get("device"),
+                    "name": module_data.get("data").get("rear_port"),
+                }
+                query_dict.update(rear_port)
+
+        elif parent == "rear_port_template" and self.endpoint == "front_port_templates":
+            if isinstance(module_data.get("data").get("rear_port_template"), str):
+                rear_port_template = {
+                    "device_type_id": module_data.get("data").get("device_type"),
+                    "name": module_data.get("data").get("rear_port_template"),
+                }
+                query_dict.update(rear_port_template)
+
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
 
@@ -747,7 +763,7 @@ class NetboxModule(object):
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
                 else:
-                    if k in ["lag"]:
+                    if k in ["lag", "rear_port", "rear_port_template"]:
                         query_params = self._build_query_params(
                             k, data, user_query_params
                         )
