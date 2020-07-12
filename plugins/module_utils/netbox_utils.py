@@ -668,7 +668,7 @@ class NetboxModule(object):
         elif parent == "rear_port_template" and self.endpoint == "front_port_templates":
             if isinstance(module_data.get("data").get("rear_port_template"), str):
                 rear_port_template = {
-                    "device_type_id": module_data.get("data").get("device_type"),
+                    "devicetype_id": module_data.get("data").get("device_type"),
                     "name": module_data.get("data").get("rear_port_template"),
                 }
                 query_dict.update(rear_port_template)
