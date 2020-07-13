@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.1
+
+### Bugfix
+
+- [#273](https://github.com/netbox-community/ansible_modules/issues/273) - Default `validate_certs` to `True`
+
 ## v0.3.0
 
 ### Breaking Changes
