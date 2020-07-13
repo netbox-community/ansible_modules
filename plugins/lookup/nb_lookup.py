@@ -196,7 +196,7 @@ class LookupModule(LookupBase):
 
         netbox_api_token = kwargs.get("token")
         netbox_api_endpoint = kwargs.get("api_endpoint")
-        netbox_ssl_verify = kwargs.get("validate_certs")
+        netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
