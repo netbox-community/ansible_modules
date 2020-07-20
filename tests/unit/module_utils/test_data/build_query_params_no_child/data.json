@@ -316,7 +316,7 @@
         },
         "expected": {
             "name": "SFP+ (10GBE)",
-            "devicetype_id": 1
+            "devicetype_id": "Cisco Test"
         }
     },
     {
@@ -327,7 +327,7 @@
         },
         "expected": {
             "name": "Bay 1",
-            "devicetype_id": 1
+            "devicetype_id": "Cisco Test"
         }
     },
     {
