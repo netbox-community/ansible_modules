@@ -103,3 +103,34 @@
           - test_five is changed
           - test_five["diff"]["after"]["tags"] is defined
           - test_five["device"]["tags"] is defined
+
+    - name: "6 - Loop through and add interface templates to different device interface templates - Fixes #282"
+      netbox.netbox.netbox_device_interface_template:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "SFP+ (10GE)"
+          type: "SFP+ (10GE)"
+          device_type: "{{ item }}"
+      register: test_six
+      loop:
+        - "Cisco Test"
+        - "Arista Test"
+        - "Nexus Child"
+        - "Nexus Parent"
+
+    - name: "6 - Assert device type is correct - Fixes #282"
+      assert:
+        that:
+          - test_six.results[0]["diff"]["before"]["state"] == "absent"
+          - test_six.results[0]["diff"]["after"]["state"] == "present"
+          - test_six.results[0]["interface_template"]["device_type"] == 1
+          - test_six.results[1]["diff"]["before"]["state"] == "absent"
+          - test_six.results[1]["diff"]["after"]["state"] == "present"
+          - test_six.results[1]["interface_template"]["device_type"] == 2
+          - test_six.results[2]["diff"]["before"]["state"] == "absent"
+          - test_six.results[2]["diff"]["after"]["state"] == "present"
+          - test_six.results[2]["interface_template"]["device_type"] == 4
+          - test_six.results[3]["diff"]["before"]["state"] == "absent"
+          - test_six.results[3]["diff"]["after"]["state"] == "present"
+          - test_six.results[3]["interface_template"]["device_type"] == 3

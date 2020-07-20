@@ -123,7 +123,7 @@
       - test_five['interface']['enabled'] == false
       - test_five['interface']['type'] == "1000base-t"
       - test_five['interface']['mgmt_only'] == false
-      - test_five['interface']['lag'] == 18
+      - test_five['interface']['lag'] == 20
       - test_five['interface']['mode'] == "access"
       - test_five['interface']['mtu'] == 1600
 
@@ -221,7 +221,7 @@
       - test_eight['interface']['enabled'] == false
       - test_eight['interface']['type'] == "1000base-t"
       - test_eight['interface']['mgmt_only'] == false
-      - test_eight['interface']['lag'] == 18
+      - test_eight['interface']['lag'] == 20
       - test_eight['interface']['mode'] == "access"
       - test_eight['interface']['mtu'] == 1600
 
