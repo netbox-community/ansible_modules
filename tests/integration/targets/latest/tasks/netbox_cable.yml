@@ -30,7 +30,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['cable']['termination_a_type'] == "dcim.interface"
-      - test_one['cable']['termination_a_id'] == 23
+      - test_one['cable']['termination_a_id'] == 25
       - test_one['cable']['termination_b_type'] == "dcim.interface"
       - test_one['cable']['termination_b_id'] == 2
       - test_one['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 created"
@@ -56,7 +56,7 @@
     that:
       - not test_two['changed']
       - test_two['cable']['termination_a_type'] == "dcim.interface"
-      - test_two['cable']['termination_a_id'] == 23
+      - test_two['cable']['termination_a_id'] == 25
       - test_two['cable']['termination_b_type'] == "dcim.interface"
       - test_two['cable']['termination_b_id'] == 2
       - test_two['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 already exists"
@@ -94,7 +94,7 @@
       - test_three['diff']['after']['length'] == 30
       - test_three['diff']['after']['length_unit'] == "m"
       - test_three['cable']['termination_a_type'] == "dcim.interface"
-      - test_three['cable']['termination_a_id'] == 23
+      - test_three['cable']['termination_a_id'] == 25
       - test_three['cable']['termination_b_type'] == "dcim.interface"
       - test_three['cable']['termination_b_id'] == 2
       - test_three['cable']['type'] == "mmf-om4"
