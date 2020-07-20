@@ -124,13 +124,13 @@
         that:
           - test_six.results[0]["diff"]["before"]["state"] == "absent"
           - test_six.results[0]["diff"]["after"]["state"] == "present"
-          - test_six.results[0]["device_type"] == 1
+          - test_six.results[0]["interface_template"]["device_type"] == 1
           - test_six.results[1]["diff"]["before"]["state"] == "absent"
           - test_six.results[1]["diff"]["after"]["state"] == "present"
-          - test_six.results[1]["device_type"] == 2
+          - test_six.results[1]["interface_template"]["device_type"] == 2
           - test_six.results[2]["diff"]["before"]["state"] == "absent"
           - test_six.results[2]["diff"]["after"]["state"] == "present"
-          - test_six.results[2]["device_type"] == 4
+          - test_six.results[2]["interface_template"]["device_type"] == 4
           - test_six.results[3]["diff"]["before"]["state"] == "absent"
           - test_six.results[3]["diff"]["after"]["state"] == "present"
-          - test_six.results[3]["device_type"] == 3
+          - test_six.results[3]["interface_template"]["device_type"] == 3
