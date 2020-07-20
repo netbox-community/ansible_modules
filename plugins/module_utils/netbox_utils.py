@@ -665,6 +665,10 @@ class NetboxModule(object):
                 }
                 query_dict.update(rear_port)
 
+        elif parent == "interface_template" or parent == "device_bay_template":
+            if query_dict.get("device_type"):
+                query_dict["devicetype_id"] = query_dict.pop("device_type")
+
         elif parent == "rear_port_template" and self.endpoint == "front_port_templates":
             if isinstance(module_data.get("rear_port_template"), str):
                 rear_port_template = {
