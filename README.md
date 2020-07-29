@@ -86,6 +86,23 @@ To keep the code simple, we only officially support the two latest releases of N
   - `ansible-galaxy collection install netbox-netbox-X.X.X.tar.gz`
     - Can add `-p` to provide a different path other than the default path, but it must be within your `ansible.cfg` or provided via an environment variable.
 
+### Example inventory
+
+```yaml
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://netbox-demo.org:32768
+token: 0123456789abcdef0123456789abcdef01234567
+config_context: True
+interfaces: True
+group_by:
+  - device_roles
+
+compose:
+  ansible_network_os: platform.slug
+```
+
+More configuration options and examples can be found [here](plugins/inventory/nb_inventory.py)
+
 ### Example playbooks
 
 Using the **collections** at the play level
