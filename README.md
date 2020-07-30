@@ -192,13 +192,14 @@ Using the **collections** lookup plugin at the task level
   connection: local
   hosts: localhost
   gather_facts: False
-
+  collections:
+    - netbox.netbox
   tasks:
     - name: "NETBOX_LOOKUP 1: Lookup returns exactly two sites"
       assert:
         that: "{{ query_result|count }} == 3"
       vars:
-        query_result: "{{ query('nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
+        query_result: "{{ query('netbox.netbox.nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 ```
 
 ### Using **nb_inventory** Within AWX/Tower
