@@ -127,6 +127,7 @@ DOCUMENTATION = """
                 - cluster_type
                 - cluster_group
                 - is_virtual
+                - services
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -1054,6 +1055,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             else:
                 # Don't create the inverse group
                 return None
+
+        # Special case. Extract name from service, which is a hash.
+        if grouping == "services":
+            group = group["name"]
+            grouping = "service"
 
         if self.group_names_raw:
             return group
