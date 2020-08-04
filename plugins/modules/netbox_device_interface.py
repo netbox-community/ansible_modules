@@ -67,7 +67,7 @@ options:
             Form factor of the interface:
             ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
             This has to be specified exactly as what is found within UI
-        required: false
+        required: true
         type: str
       enabled:
         description:
@@ -163,6 +163,7 @@ EXAMPLES = r"""
         data:
           device: test100
           name: GigabitEthernet1
+          type: 10GBASE-T (10GE)
         state: present
     - name: Delete interface within netbox
       netbox_device_interface:
