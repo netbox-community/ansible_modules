@@ -201,6 +201,7 @@ Using the **collections** lookup plugin at the task level
       vars:
         query_result: "{{ query('netbox.netbox.nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 ```
+>Note that if you are on MacOS and are running into ```ERROR! A worker was found in a dead state``` errors, try running the playbook with a ```env no_proxy='*'``` tag in front of the playbook.  This is a known issue with MacOS as per this reference: https://github.com/ansible/ansible/issues/32554#issuecomment-642896861
 
 ### Using **nb_inventory** Within AWX/Tower
 
