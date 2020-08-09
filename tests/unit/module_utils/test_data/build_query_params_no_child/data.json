@@ -353,7 +353,7 @@
         }
     },
     {
-        "parent": "device_interface_template",
+        "parent": "interface_template",
         "module_data": {
             "name": "Dev Intf 1",
             "device_type": 1
