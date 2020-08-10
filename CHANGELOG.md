@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0
+
+This release is to provide patch level updates on each new release of Ansible and the colections must be 1.0.0 for that to happen.
+
+### Bugfix
+
+- [#282](https://github.com/netbox-community/ansible_modules/issues/282) - Fix query_dict for device_bay/interface_template to use `devicetype_id`
+- [#300](https://github.com/netbox-community/ansible_modules/pull/300) - This exapands the fix to all `_template` modules to use `devicetype_id` for the query_dict when attempting to resolve the search
+
+## Documentation
+
+- [#283](https://github.com/netbox-community/ansible_modules/issues/283) - Add documentation of using the inventory to the README
+- [#292](https://github.com/netbox-community/ansible_modules/issues/292) - Add documentation with correct path when using lookup plugin
+- [#296](https://github.com/netbox-community/ansible_modules/pull/296) - Document known issue for MacOS with `ERROR! A worker was found in dead state`
+
+
 ## v0.3.1
 
 ### Bugfix
