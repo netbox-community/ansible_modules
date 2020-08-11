@@ -20,6 +20,8 @@ from operator import itemgetter
 KEYS_REMOVE = frozenset(["created", "last_updated", "url"])
 
 # Ignore these when performing diffs as they will be different for each test run
+# (Was previously keys specific to NetBox 2.6)
+KEYS_IGNORE = frozenset()
 
 # Rack Groups became hierarchical in NetBox 2.8. Don't bother comparing against test data in NetBox 2.7
 KEYS_IGNORE_27 = frozenset(

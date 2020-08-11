@@ -7,7 +7,11 @@ __metaclass__ = type
 import os
 import pynetbox
 
-# Set nb variable to connec to Netbox and use the veriable in future calls
+# NOTE: If anything depends on specific versions of NetBox, can check INTEGRATION_TESTS in env
+# os.environ["INTEGRATION_TESTS"]
+
+
+# Set nb variable to connect to Netbox and use the veriable in future calls
 nb = pynetbox.api("http://localhost:32768", "0123456789abcdef0123456789abcdef01234567")
 
 
@@ -328,7 +332,6 @@ created_virtual_machines_intfs = nb.virtualization.interfaces.create(
 
 
 ## Create Services
-
 services = [
     {"device": test100.id, "name": "ssh", "port": 22, "protocol": "tcp"},
     {
