@@ -16,12 +16,12 @@ then
     source "$RUNME_CONFIG"
 fi
 
-COMPARE_OPTIONS=""
+declare -a COMPARE_OPTIONS # empty array
 
 # Check if NETBOX_VERSION has been set by runme_config, and if so, pass to compare_inventory_json.py
 if [[ "${NETBOX_VERSION:-}" == "v2.7" ]]
 then
-    COMPARE_OPTIONS="$COMPARE_OPTIONS --netbox-version $NETBOX_VERSION"
+    COMPARE_OPTIONS+=(--netbox-version "${NETBOX_VERSION}")
 fi
 
 # OUTPUT_DIR is set by ansible-test
@@ -31,7 +31,7 @@ then
     OUTPUT_DIR="$OUTPUT_INVENTORY_JSON"
 
     # Clean up JSON fields we don't want to store and compare against in tests (creation times, etc.)
-    COMPARE_OPTIONS="$COMPARE_OPTIONS --write"
+    COMPARE_OPTIONS+=(--write)
 fi
 
 echo OUTPUT_DIR="$OUTPUT_DIR"
@@ -61,7 +61,7 @@ do
     inventory -vvvv --list --inventory "$INVENTORY" --output="$OUTPUT_JSON"
 
     # Compare the output
-    if ! "$SCRIPT_DIR/compare_inventory_json.py" $COMPARE_OPTIONS "$INVENTORIES_DIR/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
+    if ! "$SCRIPT_DIR/compare_inventory_json.py" "${COMPARE_OPTIONS[@]}" "$INVENTORIES_DIR/$NAME_WITHOUT_EXTENSION.json" "$OUTPUT_JSON"
     then
         # Returned non-zero status
         RESULT=1
