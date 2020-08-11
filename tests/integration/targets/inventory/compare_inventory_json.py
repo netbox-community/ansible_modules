@@ -54,28 +54,13 @@ def remove_keys(obj, keys):
             remove_keys(value, keys)
 
     elif isinstance(obj, list):
-        for item in obj:
+        # Iterate over temporary copy, as we may remove items
+        for item in obj[:]:
+            if isinstance(item, str) and item in keys:
+                # List contains a string that we want to remove
+                # eg. a group name in list of groups
+                obj.remove(item)
             remove_keys(item, keys)
-
-
-def remove_specifics(obj):
-    # Netbox 2.6 doesn't output "tags" for services
-    # I don't just want to ignore the "tags" key everywhere, as it's a host var that users care about
-    meta = obj.get("_meta")
-    if not meta:
-        return
-
-    hostvars = meta.get("hostvars")
-    if not hostvars:
-        return
-
-    for hostname, host in hostvars.items():
-        services = host.get("services")
-        if not services:
-            continue
-
-        for item in services:
-            item.pop("tags", None)
 
 
 def sort_hostvar_arrays(obj):
@@ -160,8 +145,6 @@ def main():
         remove_keys(data_a, keys)
         remove_keys(data_b, keys)
 
-        remove_specifics(data_a)
-        remove_specifics(data_b)
         sort_hostvar_arrays(data_a)
         sort_hostvar_arrays(data_b)
 
