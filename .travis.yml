@@ -119,6 +119,11 @@ before_script:
   # https://github.com/ansible/ansible/issues/68415
   - chmod +x tests/integration/targets/inventory/runme.sh
   - chmod +x tests/integration/targets/inventory/compare_inventory_json.py
+  - chmod +x tests/integration/render_config.sh
+
+  # Run render_config.sh to pass environment variables to integration tests
+  # https://www.ansible.com/blog/adding-integration-tests-to-ansible-content-collections
+  - tests/integration/render_config.sh tests/integration/targets/inventory/runme_config.template > tests/integration/targets/inventory/runme_config
 
 script:
   # Check python syntax

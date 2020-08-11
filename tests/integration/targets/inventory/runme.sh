@@ -1,29 +1,43 @@
 #!/usr/bin/env bash
 
-# Print commands as they're run
-set -x
+set -o xtrace # Print commands as they're run
+set -o errexit # abort on nonzero exitstatus
+set -o nounset # abort on unbound variable
+set -o pipefail # don't hide errors within pipes
 
 # Directory of this script
 SCRIPT_DIR="$( dirname "${BASH_SOURCE[0]}" )"
-
+RUNME_CONFIG="$SCRIPT_DIR/runme_config"
 INVENTORIES_DIR="$SCRIPT_DIR/files"
+
+# Load runme_config, if exists - the only way to pass environment when run through ansible-test
+if [[ -f "$RUNME_CONFIG" ]]
+then
+    source "$RUNME_CONFIG"
+fi
 
 COMPARE_OPTIONS=""
 
+# Check if NETBOX_VERSION has been set by runme_config, and if so, pass to compare_inventory_json.py
+if [[ "${NETBOX_VERSION:-}" == "v2.7" ]]
+then
+    COMPARE_OPTIONS="$COMPARE_OPTIONS --netbox-version $NETBOX_VERSION"
+fi
+
 # OUTPUT_DIR is set by ansible-test
 # OUTPUT_INVENTORY_JSON is only set if running hacking/update_test_inventories.sh to update the test diff data
-if [ -n "$OUTPUT_INVENTORY_JSON" ]
+if [[ -n "${OUTPUT_INVENTORY_JSON:-}" ]]
 then
     OUTPUT_DIR="$OUTPUT_INVENTORY_JSON"
 
     # Clean up JSON fields we don't want to store and compare against in tests (creation times, etc.)
-    COMPARE_OPTIONS="--write"
+    COMPARE_OPTIONS="$COMPARE_OPTIONS --write"
 fi
 
 echo OUTPUT_DIR="$OUTPUT_DIR"
 
 inventory () {
-    if [ -n "$OUTPUT_INVENTORY_JSON" ]
+    if [[ -n "${OUTPUT_INVENTORY_JSON:-}" ]]
     then
         # Running for the purpose of updating test data
         ansible-inventory "$@"
