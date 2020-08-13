@@ -13,5 +13,6 @@ Contents
    :maxdepth: 1
 
    Home <self>
-   Examples <examples/index>
+   Getting Started <getting_started/index>
+   Advanced Usage <advanced/index>
    Plugins <plugins/index>
