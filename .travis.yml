@@ -75,19 +75,13 @@ jobs:
 
     - name: "Ansible 2.10 Preparation"
       python: 3.8
-      env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
+      env: INTEGRATION_TESTS=latest
       install:
-        - cd ..
-        # Setup netbox container for integration testing
-        - git clone https://github.com/netbox-community/netbox-docker.git
-        - cd netbox-docker
-        - docker-compose pull
-        - docker-compose up -d
-        - cd ..
         - pip install -U pip "setuptools>=46.1.3"
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography jmespath jsondiff ansible-base
       before_script:
+        - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
         - cp -R ansible_modules ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
         - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
         - ansible-galaxy collection build .
