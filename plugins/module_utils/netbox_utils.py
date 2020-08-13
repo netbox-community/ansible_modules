@@ -1053,7 +1053,7 @@ class NetboxAnsibleModule(AnsibleModule):
         :arg terms: String or iterable of values to check
         :arg module_parameters: Dictionary of module parameters
         :returns: An integer that is the number of occurrences of the terms values
-            in the provided dictionary.
+        in the provided dictionary.
         """
 
         if not is_iterable(terms):

@@ -317,24 +317,21 @@ created_virtual_machines_intfs = nb.virtualization.interfaces.create(
 
 ## Create Services
 
-### Netbox 2.6 uses id int instead of string
-protocol_tcp = "tcp" if os.environ["INTEGRATION_TESTS"] == "latest" else 6
-
 services = [
-    {"device": test100.id, "name": "ssh", "port": 22, "protocol": protocol_tcp},
+    {"device": test100.id, "name": "ssh", "port": 22, "protocol": "tcp"},
     {
         "device": test100.id,
         "name": "http",
         "port": 80,
-        "protocol": protocol_tcp,
+        "protocol": "tcp",
         "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
     },
-    {"device": nexus.id, "name": "telnet", "port": 23, "protocol": protocol_tcp},
+    {"device": nexus.id, "name": "telnet", "port": 23, "protocol": "tcp"},
     {
         "virtual_machine": test_spaces_vm.id,
         "name": "ssh",
         "port": 22,
-        "protocol": protocol_tcp,
+        "protocol": "tcp",
     },
 ]
 created_services = nb.ipam.services.create(services)
