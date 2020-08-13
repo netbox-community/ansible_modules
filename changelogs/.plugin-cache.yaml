@@ -1,0 +1,278 @@
+plugins:
+  become: {}
+  cache: {}
+  callback: {}
+  cliconf: {}
+  connection: {}
+  httpapi: {}
+  inventory:
+    nb_inventory:
+      description: NetBox inventory source
+      name: nb_inventory
+      version_added: null
+  lookup:
+    nb_lookup:
+      description: Queries and returns elements from Netbox
+      name: nb_lookup
+      version_added: '2.9'
+  module:
+    netbox_aggregate:
+      description: Creates or removes aggregates from Netbox
+      name: netbox_aggregate
+      namespace: ''
+      version_added: 0.1.0
+    netbox_cable:
+      description: Create, update or delete cables within Netbox
+      name: netbox_cable
+      namespace: ''
+      version_added: 0.3.0
+    netbox_circuit:
+      description: Create, update or delete circuits within Netbox
+      name: netbox_circuit
+      namespace: ''
+      version_added: 0.1.0
+    netbox_circuit_termination:
+      description: Create, update or delete circuit terminations within Netbox
+      name: netbox_circuit_termination
+      namespace: ''
+      version_added: 0.1.0
+    netbox_circuit_type:
+      description: Create, update or delete circuit types within Netbox
+      name: netbox_circuit_type
+      namespace: ''
+      version_added: 0.1.0
+    netbox_cluster:
+      description: Create, update or delete clusters within Netbox
+      name: netbox_cluster
+      namespace: ''
+      version_added: 0.1.0
+    netbox_cluster_group:
+      description: Create, update or delete cluster groups within Netbox
+      name: netbox_cluster_group
+      namespace: ''
+      version_added: 0.1.0
+    netbox_cluster_type:
+      description: Create, update or delete cluster types within Netbox
+      name: netbox_cluster_type
+      namespace: ''
+      version_added: 0.1.0
+    netbox_console_port:
+      description: Create, update or delete console ports within Netbox
+      name: netbox_console_port
+      namespace: ''
+      version_added: 0.2.3
+    netbox_console_port_template:
+      description: Create, update or delete console port templates within Netbox
+      name: netbox_console_port_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_console_server_port:
+      description: Create, update or delete console server ports within Netbox
+      name: netbox_console_server_port
+      namespace: ''
+      version_added: 0.2.3
+    netbox_console_server_port_template:
+      description: Create, update or delete console server port templates within Netbox
+      name: netbox_console_server_port_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_device:
+      description: Create, update or delete devices within Netbox
+      name: netbox_device
+      namespace: ''
+      version_added: '2.8'
+    netbox_device_bay:
+      description: Create, update or delete device bays within Netbox
+      name: netbox_device_bay
+      namespace: ''
+      version_added: 0.1.0
+    netbox_device_bay_template:
+      description: Create, update or delete device bay templates within Netbox
+      name: netbox_device_bay_template
+      namespace: ''
+      version_added: 0.3.0
+    netbox_device_interface:
+      description: Creates or removes interfaces on devices from Netbox
+      name: netbox_device_interface
+      namespace: ''
+      version_added: '2.8'
+    netbox_device_interface_template:
+      description: Creates or removes interfaces on devices from Netbox
+      name: netbox_device_interface_template
+      namespace: ''
+      version_added: 0.3.0
+    netbox_device_role:
+      description: Create, update or delete devices roles within Netbox
+      name: netbox_device_role
+      namespace: ''
+      version_added: 0.1.0
+    netbox_device_type:
+      description: Create, update or delete device types within Netbox
+      name: netbox_device_type
+      namespace: ''
+      version_added: 0.1.0
+    netbox_front_port:
+      description: Create, update or delete front ports within Netbox
+      name: netbox_front_port
+      namespace: ''
+      version_added: 0.2.3
+    netbox_front_port_template:
+      description: Create, update or delete front port templates within Netbox
+      name: netbox_front_port_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_inventory_item:
+      description: Creates or removes inventory items from Netbox
+      name: netbox_inventory_item
+      namespace: ''
+      version_added: 0.1.0
+    netbox_ip_address:
+      description: Creates or removes IP addresses from Netbox
+      name: netbox_ip_address
+      namespace: ''
+      version_added: '2.8'
+    netbox_ipam_role:
+      description: Creates or removes ipam roles from Netbox
+      name: netbox_ipam_role
+      namespace: ''
+      version_added: 0.1.0
+    netbox_manufacturer:
+      description: Create or delete manufacturers within Netbox
+      name: netbox_manufacturer
+      namespace: ''
+      version_added: 0.1.0
+    netbox_platform:
+      description: Create or delete platforms within Netbox
+      name: netbox_platform
+      namespace: ''
+      version_added: 0.1.0
+    netbox_power_feed:
+      description: Create, update or delete power feeds within Netbox
+      name: netbox_power_feed
+      namespace: ''
+      version_added: 0.2.3
+    netbox_power_outlet:
+      description: Create, update or delete power outlets within Netbox
+      name: netbox_power_outlet
+      namespace: ''
+      version_added: 0.2.3
+    netbox_power_outlet_template:
+      description: Create, update or delete power outlet templates within Netbox
+      name: netbox_power_outlet_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_power_panel:
+      description: Create, update or delete power panels within Netbox
+      name: netbox_power_panel
+      namespace: ''
+      version_added: 0.2.3
+    netbox_power_port:
+      description: Create, update or delete power ports within Netbox
+      name: netbox_power_port
+      namespace: ''
+      version_added: 0.2.3
+    netbox_power_port_template:
+      description: Create, update or delete power port templates within Netbox
+      name: netbox_power_port_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_prefix:
+      description: Creates or removes prefixes from Netbox
+      name: netbox_prefix
+      namespace: ''
+      version_added: '2.8'
+    netbox_provider:
+      description: Create, update or delete providers within Netbox
+      name: netbox_provider
+      namespace: ''
+      version_added: 0.1.0
+    netbox_rack:
+      description: Create, update or delete racks within Netbox
+      name: netbox_rack
+      namespace: ''
+      version_added: 0.1.0
+    netbox_rack_group:
+      description: Create, update or delete racks groups within Netbox
+      name: netbox_rack_group
+      namespace: ''
+      version_added: 0.1.0
+    netbox_rack_role:
+      description: Create, update or delete racks roles within Netbox
+      name: netbox_rack_role
+      namespace: ''
+      version_added: 0.1.0
+    netbox_rear_port:
+      description: Create, update or delete rear ports within Netbox
+      name: netbox_rear_port
+      namespace: ''
+      version_added: 0.2.3
+    netbox_rear_port_template:
+      description: Create, update or delete rear port templates within Netbox
+      name: netbox_rear_port_template
+      namespace: ''
+      version_added: 0.2.3
+    netbox_region:
+      description: Creates or removes regions from Netbox
+      name: netbox_region
+      namespace: ''
+      version_added: 0.1.0
+    netbox_rir:
+      description: Create, update or delete RIRs within Netbox
+      name: netbox_rir
+      namespace: ''
+      version_added: 0.1.0
+    netbox_service:
+      description: Creates or removes service from Netbox
+      name: netbox_service
+      namespace: ''
+      version_added: 0.1.5
+    netbox_site:
+      description: Creates or removes sites from Netbox
+      name: netbox_site
+      namespace: ''
+      version_added: '2.8'
+    netbox_tenant:
+      description: Creates or removes tenants from Netbox
+      name: netbox_tenant
+      namespace: ''
+      version_added: 0.1.0
+    netbox_tenant_group:
+      description: Creates or removes tenant groups from Netbox
+      name: netbox_tenant_group
+      namespace: ''
+      version_added: 0.1.0
+    netbox_virtual_chassis:
+      description: Create, update or delete virtual chassis within Netbox
+      name: netbox_virtual_chassis
+      namespace: ''
+      version_added: 0.3.0
+    netbox_virtual_machine:
+      description: Create, update or delete virtual_machines within Netbox
+      name: netbox_virtual_machine
+      namespace: ''
+      version_added: 0.1.0
+    netbox_vlan:
+      description: Create, update or delete vlans within Netbox
+      name: netbox_vlan
+      namespace: ''
+      version_added: 0.1.0
+    netbox_vlan_group:
+      description: Create, update or delete vlans groups within Netbox
+      name: netbox_vlan_group
+      namespace: ''
+      version_added: 0.1.0
+    netbox_vm_interface:
+      description: Creates or removes interfaces from virtual machines in Netbox
+      name: netbox_vm_interface
+      namespace: ''
+      version_added: 0.1.0
+    netbox_vrf:
+      description: Create, update or delete vrfs within Netbox
+      name: netbox_vrf
+      namespace: ''
+      version_added: 0.1.0
+  netconf: {}
+  shell: {}
+  strategy: {}
+  vars: {}
+version: 1.0.0
