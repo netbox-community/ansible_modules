@@ -93,7 +93,7 @@ jobs:
         # Required to resolve imports of other collections
         - cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
       script:
-        - ansible-test sanity --docker -v --exclude tests/
+        - ansible-test sanity --docker -v --exclude tests/ --exclude docs/ --skip-test pep8
   allow_failures:
     # When testing against dev netbox and dev ansible, allow failures
     - env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
