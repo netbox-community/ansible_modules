@@ -81,6 +81,8 @@ jobs:
         - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography jmespath jsondiff ansible-base
       before_script:
+        - ls
+        - cd ..
         - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
         - cp -R ansible_modules ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
         - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
