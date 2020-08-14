@@ -121,7 +121,7 @@ script:
   # Sanity tests
   # --requirements - install pip packages as necessary
   # Skip pep8 as we use black instead
-  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8
+  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 plugins/
 
   # Unit tests, with code coverage
   - ansible-test units -v --coverage --python $PYTHON_VER
