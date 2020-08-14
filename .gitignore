@@ -4,6 +4,7 @@ __pycache__/
 tests/output/*
 venv/
 .vscode/
+changelogs/.plugin-cache.yaml
 
 # https://github.com/ansible/ansible/issues/68499
 # ansible_collections/
