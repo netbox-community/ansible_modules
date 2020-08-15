@@ -28,7 +28,7 @@ netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbo
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

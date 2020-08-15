@@ -28,7 +28,7 @@ netbox.netbox.netbox_rack_role -- Create, update or delete racks roles within Ne
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

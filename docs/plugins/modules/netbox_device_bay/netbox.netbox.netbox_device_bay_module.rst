@@ -28,7 +28,7 @@ netbox.netbox.netbox_device_bay -- Create, update or delete device bays within N
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

@@ -28,7 +28,7 @@ netbox.netbox.netbox_site -- Creates or removes sites from Netbox
 
 .. version_added
 
-.. versionadded:: 2.8 of netbox.netbox
+.. versionadded:: 2.8 of 
 
 .. contents::
    :local:

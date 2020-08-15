@@ -78,3 +78,6 @@ This will cover the basic usage of the NetBox inventory plugin within this colle
 6. Select the AWX/Tower project from Step 2
 7. Select the ``inventory.yml`` file in the project from Step 3
 8. Click ``Save`` and sync source.
+
+.. toctree::
+   :maxdepth: 4

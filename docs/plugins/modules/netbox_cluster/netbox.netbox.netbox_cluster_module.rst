@@ -28,7 +28,7 @@ netbox.netbox.netbox_cluster -- Create, update or delete clusters within Netbox
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

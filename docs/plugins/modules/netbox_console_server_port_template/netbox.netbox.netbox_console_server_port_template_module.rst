@@ -28,7 +28,7 @@ netbox.netbox.netbox_console_server_port_template -- Create, update or delete co
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

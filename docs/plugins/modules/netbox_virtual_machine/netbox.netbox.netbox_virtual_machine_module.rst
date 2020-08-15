@@ -28,7 +28,7 @@ netbox.netbox.netbox_virtual_machine -- Create, update or delete virtual_machine
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

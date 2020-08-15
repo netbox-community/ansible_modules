@@ -28,7 +28,7 @@ netbox.netbox.netbox_service -- Creates or removes service from Netbox
 
 .. version_added
 
-.. versionadded:: 0.1.5 of netbox.netbox
+.. versionadded:: 0.1.5 of 
 
 .. contents::
    :local:
