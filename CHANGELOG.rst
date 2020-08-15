@@ -35,9 +35,16 @@ Minor Changes
 Breaking Changes / Porting Guide
 --------------------------------
 
-- To pass in integers via Ansible Jinja filters for a key in ``data`` that requires querying an endpoint is now done by making it a dictionary with an ``id`` key.
-  The previous behavior was to just pass in an integer and it was converted when normalizing the data, but some people may have names that are all integers and those were being converted erroneously so we made the decision to change
-  the method to convert to an integer for the NetBox API.
+- To pass in integers via Ansible Jinja filters for a key in ``data`` that
+  requires querying an endpoint is now done by making it a dictionary with
+  an ``id`` key. The previous behavior was to just pass in an integer and
+  it was converted when normalizing the data, but some people may have names
+  that are all integers and those were being converted erroneously so we made
+  the decision to change the method to convert to an integer for the NetBox
+  API.
+
+  ::
+
   tasks:
     - name: Create device within NetBox with only required information
       netbox_device:
@@ -51,8 +58,10 @@ Breaking Changes / Porting Guide
           site: Test Site
           status: Staged
         state: present
-- ``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session which broke passing in ``ssl_verify`` when building the NetBox API client.
-  This PR makes ``pynetbox 5.0.4+`` the new required version of `pynetbox` for the Ansible modules and lookup plugin. (https://github.com/netbox-community/ansible_modules/pull/269)
+- ``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session
+  which broke passing in ``ssl_verify`` when building the NetBox API client.
+  This PR makes ``pynetbox 5.0.4+`` the new required version of `pynetbox` for
+  the Ansible modules and lookup plugin. (https://github.com/netbox-community/ansible_modules/pull/269)
 
 Bugfixes
 --------

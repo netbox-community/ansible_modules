@@ -303,25 +303,36 @@ releases:
   0.3.0:
     changes:
       breaking_changes:
-        - "To pass in integers via Ansible Jinja filters for a key in ``data`` that\
-          \ requires querying an endpoint is now done by making it a dictionary with\
-          \ an ``id`` key.\nThe previous behavior was to just pass in an integer and\
-          \ it was converted when normalizing the data, but some people may have names\
-          \ that are all integers and those were being converted erroneously so we made\
-          \ the decision to change\nthe method to convert to an integer for the NetBox\
-          \ API.\ntasks:\n  - name: Create device within NetBox with only required information\n\
-          \    netbox_device:\n      netbox_url: http://netbox-demo.org:32768\n    \
-          \  netbox_token: 0123456789abcdef0123456789abcdef01234567\n      data:\n \
-          \       name: Test66\n        device_type:\n          id: \"{{ some_jinja_variable\
-          \ }}\"\n        device_role: Core Switch\n        site: Test Site\n      \
-          \  status: Staged\n      state: present\n"
-        - "``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session
-          which broke passing in ``ssl_verify`` when building the NetBox API client.
+        - |
+          To pass in integers via Ansible Jinja filters for a key in ``data`` that
+          requires querying an endpoint is now done by making it a dictionary with
+          an ``id`` key. The previous behavior was to just pass in an integer and
+          it was converted when normalizing the data, but some people may have names
+          that are all integers and those were being converted erroneously so we made
+          the decision to change the method to convert to an integer for the NetBox
+          API.
 
+          ::
+
+          tasks:
+            - name: Create device within NetBox with only required information
+              netbox_device:
+                netbox_url: http://netbox-demo.org:32768
+                netbox_token: 0123456789abcdef0123456789abcdef01234567
+                data:
+                  name: Test66
+                  device_type:
+                    id: "{{ some_jinja_variable }}"
+                  device_role: Core Switch
+                  site: Test Site
+                  status: Staged
+                state: present
+
+        - |
+          ``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session
+          which broke passing in ``ssl_verify`` when building the NetBox API client.
           This PR makes ``pynetbox 5.0.4+`` the new required version of `pynetbox` for
           the Ansible modules and lookup plugin. (https://github.com/netbox-community/ansible_modules/pull/269)
-
-          "
       bugfixes:
         - Allows OR operations in API fitlers for ``nb_lookup`` plugin (https://github.com/netbox-community/ansible_modules/issues/246)
         - Build the ``rear_port`` and ``rear_port_template`` query_params to properly
