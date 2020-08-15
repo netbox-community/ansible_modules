@@ -28,7 +28,7 @@ netbox.netbox.netbox_vrf -- Create, update or delete vrfs within Netbox
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

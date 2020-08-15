@@ -45,19 +45,19 @@ Breaking Changes / Porting Guide
 
   ::
 
-  tasks:
-    - name: Create device within NetBox with only required information
-      netbox_device:
-        netbox_url: http://netbox-demo.org:32768
-        netbox_token: 0123456789abcdef0123456789abcdef01234567
-        data:
-          name: Test66
-          device_type:
-            id: "{{ some_jinja_variable }}"
-          device_role: Core Switch
-          site: Test Site
-          status: Staged
-        state: present
+    tasks:
+      - name: Create device within NetBox with only required information
+        netbox_device:
+          netbox_url: http://netbox-demo.org:32768
+          netbox_token: 0123456789abcdef0123456789abcdef01234567
+          data:
+            name: Test66
+            device_type:
+              id: "{{ some_jinja_variable }}"
+            device_role: Core Switch
+            site: Test Site
+            status: Staged
+          state: present
 - ``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session
   which broke passing in ``ssl_verify`` when building the NetBox API client.
   This PR makes ``pynetbox 5.0.4+`` the new required version of `pynetbox` for
@@ -90,9 +90,9 @@ Minor Changes
 
 - Adds ``discovered`` field to ``netbox_inventory_item`` (https://github.com/netbox-community/ansible_modules/issues/187)
 - Adds ``query_params`` to all modules to allow users to define the ``query_params`` (https://github.com/netbox-community/ansible_modules/issues/215)
-- Adds ``tenant`` field to `netbox_cluster` (https://github.com/netbox-community/ansible_modules/pull/219)
+- Adds ``tenant`` field to ``netbox_cluster`` (https://github.com/netbox-community/ansible_modules/pull/219)
 - Allows private key to be passed in to ``validate_certs`` within modules (https://github.com/netbox-community/ansible_modules/issues/216)
-- Better error handling if read-only token is provided for modules. Updated README as well to say that a `write-enabled` token is required (https://github.com/netbox-community/ansible_modules/pull/238)
+- Better error handling if read-only token is provided for modules. Updated README as well to say that a ``write-enabled`` token is required (https://github.com/netbox-community/ansible_modules/pull/238)
 
 Bugfixes
 --------
@@ -125,14 +125,14 @@ v0.2.2
 Minor Changes
 -------------
 
-- Changed ``validate_certs`` to ``raw1` to allow private keys to be passed in (https://github.com/netbox-community/ansible_modules/issues/211)
+- Changed ``validate_certs`` to ``raw`` to allow private keys to be passed in (https://github.com/netbox-community/ansible_modules/issues/211)
 
 Bugfixes
 --------
 
+- Added ``interfaces`` to ``ALLOWED_QUERY_PARAMS`` for ip addresses searches (https://github.com/netbox-community/ansible_modules/issues/201)
 - Added ``type`` to ``ALLOWED_QUERY_PARAMS`` for interface searches (https://github.com/netbox-community/ansible_modules/issues/208)
-- Added `interfaces` to `ALLOWED_QUERY_PARAMS` for ip addresses searches (https://github.com/netbox-community/ansible_modules/issues/201)
-- Remove `rack` as a choice when createing virtual machines (https://github.com/netbox-community/ansible_modules/pull/221)
+- Remove ``rack`` as a choice when creating virtual machines (https://github.com/netbox-community/ansible_modules/pull/221)
 
 v0.2.1
 ======
@@ -196,13 +196,13 @@ Breaking Changes / Porting Guide
 
 - This version has a few breaking changes due to new namespace and collection name. I felt it necessary to change the name of the lookup plugin and inventory plugin just not to have a non descriptive namespace call to use them. Below is an example:
   ``netbox.netbox.netbox`` would be used for both inventory plugin and lookup plugin, but in different contexts so no collision will arise, but confusion will.
-  I renamed the lookup plugin to `nb_lookup` so it will be used with the FQCN ``netbox.netbox.nb_lookup``.
+  I renamed the lookup plugin to ``nb_lookup`` so it will be used with the FQCN ``netbox.netbox.nb_lookup``.
   The inventory plugin will now be called within an inventory file by ``netbox.netbox.nb_inventory``
 
 Bugfixes
 --------
 
-- Update netbox_tenant and netbox_tenant_group to use slugs for searching (available since NetBox 2.6). Added slug options to netbox_site, netbox_tenant, netbox_tenant_group (https://github.com/netbox-community/ansible_modules/pull/120)
+- Update ``netbox_tenant`` and ``netbox_tenant_group`` to use slugs for searching (available since NetBox 2.6). Added slug options to netbox_site, netbox_tenant, netbox_tenant_group (https://github.com/netbox-community/ansible_modules/pull/120)
 
 v0.1.8
 ======

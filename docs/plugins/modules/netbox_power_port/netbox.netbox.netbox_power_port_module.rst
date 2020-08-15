@@ -28,7 +28,7 @@ netbox.netbox.netbox_power_port -- Create, update or delete power ports within N
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

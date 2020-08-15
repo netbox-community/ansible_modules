@@ -28,7 +28,7 @@ netbox.netbox.netbox_power_outlet -- Create, update or delete power outlets with
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

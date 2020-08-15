@@ -28,7 +28,7 @@ netbox.netbox.netbox_circuit_type -- Create, update or delete circuit types with
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

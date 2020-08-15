@@ -28,7 +28,7 @@ netbox.netbox.netbox_power_feed -- Create, update or delete power feeds within N
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

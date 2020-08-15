@@ -28,7 +28,7 @@ netbox.netbox.netbox_prefix -- Creates or removes prefixes from Netbox
 
 .. version_added
 
-.. versionadded:: 2.8 of netbox.netbox
+.. versionadded:: 2.8 of 
 
 .. contents::
    :local:

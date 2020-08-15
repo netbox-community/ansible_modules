@@ -28,7 +28,7 @@ netbox.netbox.netbox_virtual_chassis -- Create, update or delete virtual chassis
 
 .. version_added
 
-.. versionadded:: 0.3.0 of netbox.netbox
+.. versionadded:: 0.3.0 of 
 
 .. contents::
    :local:

@@ -28,7 +28,7 @@ netbox.netbox.nb_lookup -- Queries and returns elements from Netbox
 
 .. version_added
 
-.. versionadded:: 2.9 of netbox.netbox
+.. versionadded:: 2.9 of 
 
 .. contents::
    :local:
