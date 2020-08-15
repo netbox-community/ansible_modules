@@ -29,6 +29,7 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
+        - pip install -U pytest
         - pip install -U pip "setuptools>=46.1.3"
         - pip install pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography codecov jmespath jsondiff ansible
@@ -49,6 +50,7 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
+        - pip install -U pytest
         - pip install -U pip "setuptools>=46.1.3"
         - pip install pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography codecov jmespath jsondiff ansible
@@ -68,6 +70,7 @@ jobs:
         - docker-compose up -d
         - cd ..
         - pip install -U pip
+        - pip install -U pytest
         - pip install -U pip "setuptools>=46.1.3"
         - pip install pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
         - pip install pynetbox cryptography jmespath jsondiff
