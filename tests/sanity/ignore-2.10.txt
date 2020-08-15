@@ -1,2 +1,4 @@
 plugins/modules/netbox_interface.py import-3.8!skip # Module is deprecated, so will not be updated for 2.10 compatibility
 plugins/modules/netbox_interface.py validate-modules!skip
+plugins/modules/* compile-2.6!skip # Collection supports Python 3.6+
+plugins/modules/* compile-2.7!skip # Collection supports Python 3.6+

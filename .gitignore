@@ -4,6 +4,7 @@ __pycache__/
 tests/output/*
 venv/
 .vscode/
+changelogs/.plugin-cache.yaml
 docs/_build/*
 
 # https://github.com/ansible/ansible/issues/68499
