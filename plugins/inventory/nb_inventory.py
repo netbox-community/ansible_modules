@@ -831,10 +831,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             interface_id = ipaddress["interface"]["id"]
             ip_id = ipaddress["id"]
 
-            self.ipaddresses_lookup[interface_id][ip_id] = ipaddress
+            # We need to copy the ipaddress entry to preserve the original in case caching is used.
+            ipaddress_copy = ipaddress.copy()
+
+            self.ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
 
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
-            del ipaddress["interface"]
+            del ipaddress_copy["interface"]
 
     @property
     def lookup_processes(self):
