@@ -28,7 +28,7 @@ netbox.netbox.netbox_rear_port -- Create, update or delete rear ports within Net
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

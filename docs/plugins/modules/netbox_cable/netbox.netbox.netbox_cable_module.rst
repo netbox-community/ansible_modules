@@ -28,7 +28,7 @@ netbox.netbox.netbox_cable -- Create, update or delete cables within Netbox
 
 .. version_added
 
-.. versionadded:: 0.3.0 of netbox.netbox
+.. versionadded:: 0.3.0 of 
 
 .. contents::
    :local:

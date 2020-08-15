@@ -28,7 +28,7 @@ netbox.netbox.netbox_device_interface_template -- Creates or removes interfaces 
 
 .. version_added
 
-.. versionadded:: 0.3.0 of netbox.netbox
+.. versionadded:: 0.3.0 of 
 
 .. contents::
    :local:

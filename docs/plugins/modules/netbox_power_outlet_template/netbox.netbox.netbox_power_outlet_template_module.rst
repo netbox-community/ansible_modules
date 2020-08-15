@@ -28,7 +28,7 @@ netbox.netbox.netbox_power_outlet_template -- Create, update or delete power out
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:

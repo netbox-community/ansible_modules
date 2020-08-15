@@ -28,7 +28,7 @@ netbox.netbox.netbox_front_port_template -- Create, update or delete front port 
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 0.2.3 of 
 
 .. contents::
    :local:
