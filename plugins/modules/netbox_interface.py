@@ -105,6 +105,7 @@ options:
           - Any tags that the prefix may need to be associated with
         type: list
     required: true
+    type: dict
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
