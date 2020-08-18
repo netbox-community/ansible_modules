@@ -736,6 +736,9 @@
             "region_other_region",
             "region_parent_region",
             "role_core_switch",
+            "service_http",
+            "service_ssh",
+            "service_telnet",
             "site_test_site2",
             "ungrouped"
         ]
@@ -823,6 +826,22 @@
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
+        ]
+    },
+    "service_ssh": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100"
+        ]
+    },
+    "service_http": {
+        "hosts": [
+            "test100"
+        ]
+    },
+    "service_telnet": {
+        "hosts": [
+            "Test Nexus One"
         ]
     },
     "site_test_site": {
