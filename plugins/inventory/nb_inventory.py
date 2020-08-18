@@ -218,8 +218,9 @@ from collections import defaultdict
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
-from ansible.module_utils._text import to_text
+from ansible.module_utils._text import to_text, to_native
 from ansible.module_utils.urls import open_url
+from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress import (
     ip_interface,
@@ -254,12 +255,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if need_to_fetch:
             self.display.v("Fetching: " + url)
-            response = open_url(
-                url,
-                headers=self.headers,
-                timeout=self.timeout,
-                validate_certs=self.validate_certs,
-            )
+            try:
+                response = open_url(
+                    url,
+                    headers=self.headers,
+                    timeout=self.timeout,
+                    validate_certs=self.validate_certs,
+                )
+            except urllib_error.HTTPError as e:
+                """This will return the response body when we encounter an error.
+                   This is to help determine what might be the issue when encountering an error.
+                   Please check issue #294 for more info.
+                """
+                raise AnsibleError(to_native(e.fp.read()))
 
             try:
                 raw_data = to_text(response.read(), errors="surrogate_or_strict")
