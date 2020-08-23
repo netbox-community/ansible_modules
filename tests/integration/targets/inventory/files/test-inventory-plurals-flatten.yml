@@ -16,6 +16,8 @@ group_by:
   - sites
   - tenants
   - racks
+  - rack_group
+  - rack_role
   - tags
   - device_roles
   - device_types

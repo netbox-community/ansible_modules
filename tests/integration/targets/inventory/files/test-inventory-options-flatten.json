@@ -15,6 +15,11 @@
     },
     "Test_Rack": {
         "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "Test_Rack_Site_2": {
+        "hosts": [
             "R1-Device"
         ]
     },
@@ -25,7 +30,9 @@
                 "interfaces": [],
                 "is_virtual": false,
                 "manufacturer": "cisco",
-                "rack": "Test Rack",
+                "rack": "Test Rack Site 2",
+                "rack_groups": [],
+                "rack_role": "test-rack-role",
                 "regions": [],
                 "role": "core-switch",
                 "services": [],
@@ -251,6 +258,11 @@
                 "interfaces": [],
                 "is_virtual": false,
                 "manufacturer": "cisco",
+                "rack": "Test Rack",
+                "rack_groups": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -720,15 +732,19 @@
             "Test_Cluster",
             "Test_Cluster_2",
             "Test_Rack",
+            "Test_Rack_Site_2",
             "cisco",
             "cisco_test",
             "core_switch",
             "is_virtual",
             "nexus_parent",
             "other_region",
+            "parent_rack_group",
             "parent_region",
             "test_cluster_group",
             "test_cluster_type",
+            "test_rack_group",
+            "test_rack_role",
             "test_site2",
             "ungrouped"
         ]
@@ -771,6 +787,11 @@
             "Test Nexus One"
         ]
     },
+    "parent_rack_group": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
     "parent_region": {
         "children": [
             "test_region"
@@ -792,6 +813,16 @@
             "test102-vm",
             "test103-vm",
             "test104-vm"
+        ]
+    },
+    "test_rack_group": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "test_rack_role": {
+        "hosts": [
+            "R1-Device"
         ]
     },
     "test_region": {
