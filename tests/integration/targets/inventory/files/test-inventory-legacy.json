@@ -16,8 +16,10 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "rack_groups": [],
+                "rack_role": "test-rack-role",
                 "racks": [
-                    "Test Rack"
+                    "Test Rack Site 2"
                 ],
                 "regions": [],
                 "services": [],
@@ -118,6 +120,13 @@
                 ],
                 "manufacturers": [
                     "cisco"
+                ],
+                "rack_groups": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "racks": [
+                    "Test Rack"
                 ],
                 "regions": [
                     "test-region",

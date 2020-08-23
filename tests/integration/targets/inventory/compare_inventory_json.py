@@ -20,8 +20,26 @@ from operator import itemgetter
 KEYS_REMOVE = frozenset(["created", "last_updated", "url"])
 
 # Ignore these when performing diffs as they will be different for each test run
-# interface "form_factor", "type", ip_addresses "status", and service "protocol" are differnt in Netbox 2.6 vs 2.7 APIs
-KEYS_IGNORE = frozenset(["form_factor", "type", "status", "protocol"])
+# (Was previously keys specific to NetBox 2.6)
+KEYS_IGNORE = frozenset()
+
+# Rack Groups became hierarchical in NetBox 2.8. Don't bother comparing against test data in NetBox 2.7
+KEYS_IGNORE_27 = frozenset(
+    [
+        "rack_groups",  # host var
+        "rack_group_parent_rack_group",  # group, group_names_raw = False
+        "parent_rack_group",  # group, group_names_raw = True
+    ]
+)
+
+
+def all_keys_to_ignore(netbox_version):
+    keys = KEYS_REMOVE.union(KEYS_IGNORE)
+
+    if netbox_version == "v2.7":
+        return keys.union(KEYS_IGNORE_27)
+    else:
+        return keys
 
 
 # Assume the object will not be recursive, as it originally came from JSON
@@ -36,28 +54,13 @@ def remove_keys(obj, keys):
             remove_keys(value, keys)
 
     elif isinstance(obj, list):
-        for item in obj:
+        # Iterate over temporary copy, as we may remove items
+        for item in obj[:]:
+            if isinstance(item, str) and item in keys:
+                # List contains a string that we want to remove
+                # eg. a group name in list of groups
+                obj.remove(item)
             remove_keys(item, keys)
-
-
-def remove_specifics(obj):
-    # Netbox 2.6 doesn't output "tags" for services
-    # I don't just want to ignore the "tags" key everywhere, as it's a host var that users care about
-    meta = obj.get("_meta")
-    if not meta:
-        return
-
-    hostvars = meta.get("hostvars")
-    if not hostvars:
-        return
-
-    for hostname, host in hostvars.items():
-        services = host.get("services")
-        if not services:
-            continue
-
-        for item in services:
-            item.pop("tags", None)
 
 
 def sort_hostvar_arrays(obj):
@@ -107,9 +110,19 @@ def main():
         "--write",
         action="store_true",
         help=(
-            "When comparing files, various keys are ignored. "
-            "This option will not compare the files, and instead writes ORIGINAL.json to NEW.json after removing ignored keys. "
-            "This is used to clean the test json files before saving to the git repo."
+            "When comparing files, various keys are removed. "
+            "This option will not compare the files, and instead writes ORIGINAL.json to NEW.json after removing these keys. "
+            "This is used to clean the test json files before saving to the git repo. "
+            "For example, this removes dates. "
+        ),
+    )
+    parser.add_argument(
+        "--netbox-version",
+        metavar="VERSION",
+        type=str,
+        help=(
+            "Apply comparison specific to NetBox version. "
+            "For example, rack_groups arrays will only contain a single item in v2.7, so are ignored in the comparison."
         ),
     )
 
@@ -128,10 +141,10 @@ def main():
         data_b = read_json(args.filename_b)
 
         # Ignore keys that we don't want to diff, in addition to the ones removed that change on every commit
-        remove_keys(data_a, KEYS_REMOVE.union(KEYS_IGNORE))
-        remove_keys(data_b, KEYS_REMOVE.union(KEYS_IGNORE))
-        remove_specifics(data_a)
-        remove_specifics(data_b)
+        keys = all_keys_to_ignore(args.netbox_version)
+        remove_keys(data_a, keys)
+        remove_keys(data_b, keys)
+
         sort_hostvar_arrays(data_a)
         sort_hostvar_arrays(data_b)
 

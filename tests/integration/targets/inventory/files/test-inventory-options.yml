@@ -20,6 +20,8 @@ group_by:
   - site
   - tenant
   - rack
+  - rack_group
+  - rack_role
   - tag
   - role
   - device_type
