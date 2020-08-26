@@ -5,6 +5,21 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v1.0.1
+======
+
+Minor Changes
+-------------
+
+- Inventory - Add group_by option ``rack_role`` and ``rack_group``
+- Inventory - Add group_by option ``services`` (https://github.com/netbox-community/ansible_modules/pull/286)
+
+Bugfixes
+--------
+
+- Fix ``nb_inventory`` cache for ip addresses (https://github.com/netbox-community/ansible_modules/issues/276)
+- Return HTTPError body output when encountering HTTP errors (https://github.com/netbox-community/ansible_modules/issues/294)
+
 v1.0.0
 ======
 

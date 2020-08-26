@@ -375,3 +375,11 @@ releases:
           (https://github.com/netbox-community/ansible_modules/issues/282)
         - This expands the fix to all `_template` modules to use `devicetype_id` for
           the query_dict when attempting to resolve the search (https://github.com/netbox-community/ansible_modules/pull/300)
+  1.0.1:
+    changes:
+      bugfixes:
+        - Fix ``nb_inventory`` cache for ip addresses (https://github.com/netbox-community/ansible_modules/issues/276)
+        - Return HTTPError body output when encountering HTTP errors (https://github.com/netbox-community/ansible_modules/issues/294)
+      minor_changes:
+        - Inventory - Add group_by option ``services`` (https://github.com/netbox-community/ansible_modules/pull/286)
+        - Inventory - Add group_by option ``rack_role`` and ``rack_group``

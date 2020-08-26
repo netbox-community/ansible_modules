@@ -432,6 +432,7 @@ Parameters
                                                                                                                                                                                                 <li>cluster_type</li>
                                                                                                                                                                                                 <li>cluster_group</li>
                                                                                                                                                                                                 <li>is_virtual</li>
+                                                                                                                                                                                                <li>services</li>
                                                                                     </ul>
                                                                                     <b>Default:</b><br/><div style="color: blue">[]</div>
                                     </td>
