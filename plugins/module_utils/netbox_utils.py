@@ -501,7 +501,10 @@ class NetboxModule(object):
         # Fetch the OpenAPI spec to perform validation against
         base_url = self.nb.base_url
         junk, endpoint_url = nb_endpoint.url.split(base_url)
-        response = open_url(base_url + "/docs/?format=openapi")
+        response = open_url(
+            base_url + "/docs/?format=openapi",
+            follow_redirect=True,
+        )
         try:
             raw_data = to_text(response.read(), errors="surrogate_or_strict")
         except UnicodeError:
