@@ -264,6 +264,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     headers=self.headers,
                     timeout=self.timeout,
                     validate_certs=self.validate_certs,
+                    follow_redirect=True,
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
