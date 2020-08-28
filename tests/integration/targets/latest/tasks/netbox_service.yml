@@ -160,6 +160,7 @@
       ipaddresses:
         - address: "172.16.180.1/24"
     state: present
+  ignore_errors: yes
   register: test_service_required_one_of
 
 - name: "NETBOX_SERVICE ASSERT - Failed due to missing arguments"
