@@ -157,6 +157,12 @@ device_roles = [
         "color": "e91e63",
         "vm_role": True,
     },
+    {
+        "name": "Test VM Role 1",
+        "slug": "test-vm-role-1",
+        "color": "e91e65",
+        "vm_role": True,
+    },
 ]
 created_device_roles = nb.dcim.device_roles.create(device_roles)
 ### Device role variables to be used later on
