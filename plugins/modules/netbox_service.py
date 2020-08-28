@@ -45,7 +45,7 @@ options:
       device:
         description:
           - Specifies on which device the service is running
-        required: true
+        required: false
         type: raw
       virtual_machine:
         description:
@@ -170,7 +170,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    device=dict(required=True, type="raw"),
+                    device=dict(required=False, type="raw"),
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     port=dict(required=True, type="int"),
@@ -185,9 +185,13 @@ def main():
     )
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_one_of = [["device", "virtual_machine"]]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_service = NetboxIpamModule(module, NB_SERVICES)

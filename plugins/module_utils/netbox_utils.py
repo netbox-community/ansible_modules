@@ -980,7 +980,7 @@ class NetboxAnsibleModule(AnsibleModule):
             no_log=False,
             mutually_exclusive=None,
             required_together=None,
-            required_one_of=None,
+            required_one_of=required_one_of,
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
             required_if=required_if,
@@ -1044,6 +1044,47 @@ class NetboxAnsibleModule(AnsibleModule):
                     missing["requires"],
                     ", ".join(missing["missing"]),
                 )
+                raise TypeError(to_native(msg))
+
+        return results
+
+    def _check_required_one_of(self, spec, param=None):
+        if spec is None:
+            return
+
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_required_one_of(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_required_one_of(self, terms, module_parameters):
+        """Check each list of terms to ensure at least one exists in the given module
+        parameters
+        Accepts a list of lists or tuples
+        :arg terms: List of lists of terms to check. For each list of terms, at
+            least one is required.
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for term in terms:
+            count = self.count_terms(term, module_parameters["data"])
+            if count == 0:
+                results.append(term)
+
+        if results:
+            for term in results:
+                msg = "one of the following is required: %s" % ", ".join(term)
                 raise TypeError(to_native(msg))
 
         return results
