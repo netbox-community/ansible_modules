@@ -167,7 +167,7 @@
   assert:
     that:
       - test_service_required_one_of is failed
-      - test_service_required_one_of['msg'] == "one of the following is required: device, virtual_machine"
+      - 'test_service_required_one_of["msg"] == "one of the following is required: device, virtual_machine"'
 
 - name: "NETBOX_SERVICE: Create new service on virtual_machine"
   netbox.netbox.netbox_service:
