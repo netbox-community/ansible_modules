@@ -148,3 +148,46 @@
       - test_service_ip_addresses['services']['protocol'] == "udp"
       - test_service_ip_addresses['services']['ipaddresses'] is defined
       - test_service_ip_addresses['msg'] == "services node-exporter created"
+
+- name: "NETBOX_SERVICE: Missing both device & virtual_machine options - Tests required_one_of"
+  netbox.netbox.netbox_service:
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: "node-exporter"
+      port: 9100
+      protocol: UDP
+      ipaddresses:
+        - address: "172.16.180.1/24"
+    state: present
+  ignore_errors: yes
+  register: test_service_required_one_of
+
+- name: "NETBOX_SERVICE ASSERT - Failed due to missing arguments"
+  assert:
+    that:
+      - test_service_required_one_of is failed
+      - 'test_service_required_one_of["msg"] == "one of the following is required: device, virtual_machine"'
+
+- name: "NETBOX_SERVICE: Create new service on virtual_machine"
+  netbox.netbox.netbox_service:
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: "test100-vm"
+      name: "node-exporter"
+      port: 9100
+      protocol: TCP
+    state: present
+  register: test_service_create_vm
+
+- name: "NETBOX_SERVICE ASSERT - Create"
+  assert:
+    that:
+      - test_service_create_vm is changed
+      - test_service_create_vm['services']['name'] == "node-exporter"
+      - test_service_create_vm['services']['port'] == 9100
+      - test_service_create_vm['services']['protocol'] == "tcp"
+      - test_service_create_vm['diff']['after']['state'] == "present"
+      - test_service_create_vm['diff']['before']['state'] == "absent"
+      - test_service_create_vm['msg'] == "services node-exporter created"
