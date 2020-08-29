@@ -90,6 +90,7 @@
           device_role: "Core Switch"
           site: "Test Site"
           status: "Staged"
+          asset_tag: "1234"
           tags:
             - second
             - third
@@ -134,3 +135,27 @@
           - test_six.results[3]["diff"]["before"]["state"] == "absent"
           - test_six.results[3]["diff"]["after"]["state"] == "present"
           - test_six.results[3]["interface_template"]["device_type"] == 3
+
+    - name: "7 - Don't prevent updates to other params if tags are specified"
+      netbox.netbox.netbox_device:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: "issue-242"
+          device_type: "Cisco Test"
+          device_role: "Core Switch"
+          site: "Test Site"
+          status: "Staged"
+          asset_tag: "Null"
+          tags:
+            - second
+            - third
+            - first
+      register: test_seven
+
+    - name: "5 - Assert added tag - Tests #242 is fixed"
+      assert:
+        that:
+          - test_seven is changed
+          - test_seven["diff"]["after"]["asset_tag"] == "Null"
+          - test_seven["device"]["asset_tag"] == "Null"
