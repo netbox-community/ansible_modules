@@ -124,6 +124,7 @@ QUERY_TYPES = dict(
     tenant_group="slug",
     time_zone="timezone",
     virtual_machine="name",
+    virtual_machine_role="slug",
     vlan="name",
     vlan_group="slug",
     vlan_role="name",
