@@ -35,6 +35,12 @@ DOCUMENTATION = """
                 - Allows connection when SSL certificates are not valid. Set to C(false) when certificates are not trusted.
             default: True
             type: boolean
+        follow_redirects:
+            description:
+                - Determine how redirects are followed.
+                - By default, I(follow_redirects) is set to uses urllib2 default behavior.
+            default: urllib2
+            choices: ['urllib2', 'all', 'yes', 'safe', 'none']
         config_context:
             description:
                 - If True, it adds config_context in host vars.
@@ -264,6 +270,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     headers=self.headers,
                     timeout=self.timeout,
                     validate_certs=self.validate_certs,
+                    follow_redirects=self.follow_redirects,
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
@@ -1357,6 +1364,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.max_uri_length = self.get_option("max_uri_length")
         self.validate_certs = self.get_option("validate_certs")
+        self.follow_redirects = self.get_option("follow_redirects")
         self.config_context = self.get_option("config_context")
         self.flatten_config_context = self.get_option("flatten_config_context")
         self.flatten_local_context_data = self.get_option("flatten_local_context_data")
