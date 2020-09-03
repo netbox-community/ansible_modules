@@ -77,7 +77,8 @@ This will cover the basic usage of the NetBox inventory plugin within this colle
 5. Create inventory and select ``source from project``.
 6. Select the AWX/Tower project from Step 2
 7. Select the ``inventory.yml`` file in the project from Step 3
-8. Click ``Save`` and sync source.
+8. Make sure your Tower installation uses Python 3 or select the proper ``ANSIBLE ENVIRONMENT``
+9. Click ``Save`` and sync source.
 
 .. toctree::
    :maxdepth: 4
