@@ -587,7 +587,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_tags(self, host):
         try:
-            return [sub['name'] for sub in host ["tags"] ]
+            tagobj = host["tags"][0]
+            # Check the format of the first element in the "tags" array.
+            # Netbox v2.9+ uses dicts, so return an array of just tags' names.
+            if isinstance(tagobj, dict):
+                return [sub['name'] for sub in host ["tags"] ]
+            # Netbox v2.8 and below uses strings, so return the plain array.
+            elif isinstance(tagobj, str):
+                return host["tags"]
         except Exception:
             return
 
