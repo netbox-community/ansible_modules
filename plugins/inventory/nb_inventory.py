@@ -586,7 +586,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_tags(self, host):
-        return host["tags"]
+        try:
+            return [sub['name'] for sub in host ["tags"] ]
+        except Exception:
+            return
 
     def extract_interfaces(self, host):
         try:
