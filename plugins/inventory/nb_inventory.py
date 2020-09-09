@@ -909,20 +909,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.ipaddresses_lookup = defaultdict(dict)
 
         for ipaddress in ipaddresses:
+            # As of NetBox v2.9 "assigned_object_x" replaces "interface"
+            if ipaddress.get("assigned_object_id"):
+                interface_id = ipaddress["assigned_object_id"]
+                # We need to copy the ipaddress entry to preserve the original in case caching is used.
+                ipaddress_copy = ipaddress.copy()
+                ip_id = ipaddress["id"]
+                # Remove "assigned_object_id" and "assigned_object_type"  attribute, as that's redundant when ipaddress is added to an interface
+                del ipaddress_copy["assigned_object_type"]
+
+                self.ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
+                continue
 
             if not ipaddress.get("interface"):
                 continue
-
             interface_id = ipaddress["interface"]["id"]
             ip_id = ipaddress["id"]
 
             # We need to copy the ipaddress entry to preserve the original in case caching is used.
             ipaddress_copy = ipaddress.copy()
+            # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
+            del ipaddress_copy["interface"]
 
             self.ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
 
-            # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
-            del ipaddress_copy["interface"]
 
     @property
     def lookup_processes(self):
