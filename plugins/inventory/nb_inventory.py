@@ -586,7 +586,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_tags(self, host):
-        return host["tags"]
+        try:
+            tag_zero = host["tags"][0]
+            # Check the type of the first element in the "tags" array.
+            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
+            if isinstance(tag_zero, dict):
+                return list(sub["slug"] for sub in host["tags"])
+            # If a string (Netbox <= 2.8), return the original "tags" array.
+            elif isinstance(tag_zero, str):
+                return host["tags"]
+        # If tag_zero not defined (no tags), return an empty array.
+        except Exception:
+            return []
 
     def extract_interfaces(self, host):
         try:
