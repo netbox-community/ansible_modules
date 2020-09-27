@@ -57,7 +57,7 @@ options:
       site:
         description:
           - The site the vlan will be assigned to
-        required: true
+        required: false
         type: raw
     required: true
   state:
@@ -73,6 +73,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

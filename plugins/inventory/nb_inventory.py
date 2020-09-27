@@ -274,8 +274,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
-                   This is to help determine what might be the issue when encountering an error.
-                   Please check issue #294 for more info.
+                This is to help determine what might be the issue when encountering an error.
+                Please check issue #294 for more info.
                 """
                 raise AnsibleError(to_native(e.fp.read()))
 
@@ -299,8 +299,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def get_resource_list(self, api_url):
         """Retrieves resource list from netbox API.
-         Returns:
-            A list of all resource from netbox API.
+        Returns:
+           A list of all resource from netbox API.
         """
         if not api_url:
             raise AnsibleError("Please check API URL in script configuration file.")
@@ -938,10 +938,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # We need to copy the ipaddress entry to preserve the original in case caching is used.
                 ipaddress_copy = ipaddress.copy()
 
-                if ipaddress["assigned_object_type"] == 'virtualization.vminterface':
+                if ipaddress["assigned_object_type"] == "virtualization.vminterface":
                     self.vm_ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
                 else:
-                    self.device_ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy                # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
+                    self.device_ipaddresses_lookup[interface_id][
+                        ip_id
+                    ] = ipaddress_copy  # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
 
                 del ipaddress_copy["assigned_object_id"]
                 del ipaddress_copy["assigned_object_type"]

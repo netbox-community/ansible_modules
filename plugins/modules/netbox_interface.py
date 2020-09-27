@@ -10,7 +10,7 @@ __metaclass__ = type
 
 ANSIBLE_METADATA = {
     "metadata_version": "1.1",
-    "status": ["preview"],
+    "status": ["deprecated"],
     "supported_by": "community",
 }
 
@@ -28,6 +28,10 @@ author:
 requirements:
   - pynetbox
 version_added: "2.8"
+deprecated:
+  removed_in: 0.1.0
+  alternative: Use M(netbox_device_interface) or M(netbox_vm_interface) instead.
+  why: Moved to new modular structure for managing the modules.
 options:
   netbox_url:
     description:

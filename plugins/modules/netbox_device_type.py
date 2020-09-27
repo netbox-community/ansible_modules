@@ -45,7 +45,7 @@ options:
       manufacturer:
         description:
           - The manufacturer of the device type
-        required: true
+        required: false
         type: raw
       model:
         description:
@@ -114,6 +114,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

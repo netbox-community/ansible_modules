@@ -219,8 +219,8 @@ __author_email__ = "felix@fontein.de"
 
 
 def setup(app):
-    """ Initializer for Sphinx extension API.
-        See http://www.sphinx-doc.org/en/stable/extdev/index.html#dev-extensions.
+    """Initializer for Sphinx extension API.
+    See http://www.sphinx-doc.org/en/stable/extdev/index.html#dev-extensions.
     """
     for lexer in [AnsibleOutputLexer(startinline=True)]:
         app.add_lexer(lexer.name, lexer)

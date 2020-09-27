@@ -27,7 +27,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.8"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -46,7 +46,7 @@ options:
       device:
         description:
           - Name of the device the interface will be associated with (case-sensitive)
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -141,6 +141,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
