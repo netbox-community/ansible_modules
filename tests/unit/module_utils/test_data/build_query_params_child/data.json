@@ -102,7 +102,7 @@
                 "name": "Test VLAN",
                 "site": "Test Site",
                 "tenant": "Test Tenant",
-		"vid": 1,
+                "vid": 1,
                 "vlan_group": "Test VLAN group"
             }
         },
@@ -110,14 +110,14 @@
             "name": "Test VLAN",
             "site": "Test Site",
             "tenant": "Test Tenant",
-    	    "vid": 1,
+            "vid": 1,
             "vlan_group": "Test VLAN group"
         },
         "expected": {
             "name": "Test VLAN",
             "site_id": 1,
             "tenant_id": 1,
-	    "vid": 1,
+            "vid": 1,
             "group": "Test VLAN group"
         }
     },
@@ -150,18 +150,18 @@
             "untagged_vlan": {
                 "name": "Test VLAN",
                 "site": "Test Site",
-		"vid": 1
+                "vid": 1
             }
         },
         "child": {
             "name": "Test VLAN",
             "site": "Test Site",
-	    "vid": 1
+            "vid": 1
         },
         "expected": {
             "name": "Test VLAN",
             "site_id": 1,
-	    "vid": 1
+            "vid": 1
         }
     },
     {
