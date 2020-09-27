@@ -595,9 +595,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # If a string (Netbox <= 2.8), return the original "tags" array.
             elif isinstance(tag_zero, str):
                 return host["tags"]
-        # If tag_zero not defined (no tags), return an empty array.
+        # If tag_zero fails definition (no tags), return the empty array.
         except Exception:
-            return []
+            return host["tags"]
 
     def extract_interfaces(self, host):
         try:
