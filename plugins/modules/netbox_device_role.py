@@ -50,7 +50,7 @@ options:
       color:
         description:
           - Hexidecimal code for a color, ex. FFFFFF
-        required: true
+        required: false
         type: str
       slug:
         description:
@@ -77,6 +77,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

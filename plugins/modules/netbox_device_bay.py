@@ -45,7 +45,7 @@ options:
       device:
         description:
           - The device the device bay will be associated to. The device type must be "parent".
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -82,6 +82,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

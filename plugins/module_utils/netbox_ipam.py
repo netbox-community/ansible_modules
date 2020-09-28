@@ -53,8 +53,7 @@ class NetboxIpamModule(NetboxModule):
     def _ensure_ip_in_prefix_present_on_netif(
         self, nb_app, nb_endpoint, data, endpoint_name
     ):
-        """
-        """
+        """"""
         if not data.get("interface") or not data.get("prefix"):
             self._handle_errors("A prefix and interface are required")
 
