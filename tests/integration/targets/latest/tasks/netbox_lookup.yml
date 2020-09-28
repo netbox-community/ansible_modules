@@ -39,7 +39,7 @@
       site: "Test Site"
       status: "Staged"
       tags:
-        - "nolookup"
+        - name: "nolookup"
     state: present
 
 - name: "NETBOX_LOOKUP 6: Add two of two devices for lookup filter test."
@@ -53,7 +53,7 @@
       site: "Test Site2"
       status: "Staged"
       tags:
-        - "lookup"
+        - name: "lookup"
     state: present
 
 - name: "NETBOX_LOOKUP 7: Device query returns exactly the L2 device"

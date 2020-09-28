@@ -100,7 +100,7 @@
       description: Test description
       is_pool: true
       tags:
-        - Schnozzberry
+        - name: "Schnozzberry"
     state: present
   register: test_five
 
@@ -121,7 +121,7 @@
       - test_five['prefix']['role'] == 1
       - test_five['prefix']['description'] == "Test description"
       - test_five['prefix']['is_pool'] == true
-      - test_five['prefix']['tags'][0] == "Schnozzberry"
+      - test_five['prefix']['tags'][0] == 4
 
 - name: "6 - Get a new /24 inside 10.156.0.0/19 within Netbox - Parent doesn't exist"
   netbox.netbox.netbox_prefix:

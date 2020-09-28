@@ -98,7 +98,7 @@
       outer_unit: "Inches"
       comments: "Just testing rack module"
       tags:
-        - "Schnozzberry"
+        - name: "Schnozzberry"
     state: present
   register: test_five
 
@@ -117,7 +117,7 @@
       - test_five['diff']['after']['serial'] == "FXS10001"
       - test_five['diff']['after']['status'] == "available"
       - test_five['diff']['after']['tenant'] == 1
-      - test_five['diff']['after']['tags'][0] == "Schnozzberry"
+      - test_five['diff']['after']['tags'][0] == 4
       - test_five['diff']['after']['type'] == "2-post-frame"
       - test_five['diff']['after']['u_height'] == 48
       - test_five['diff']['after']['width'] == 23
@@ -134,7 +134,7 @@
       - test_five['rack']['serial'] == "FXS10001"
       - test_five['rack']['status'] == "available"
       - test_five['rack']['tenant'] == 1
-      - test_five['rack']['tags'][0] == "Schnozzberry"
+      - test_five['rack']['tags'][0] == 4
       - test_five['rack']['type'] == "2-post-frame"
       - test_five['rack']['u_height'] == 48
       - test_five['rack']['width'] == 23
@@ -162,7 +162,7 @@
       outer_unit: "Inches"
       comments: "Just testing rack module"
       tags:
-        - "Schnozzberry"
+        - name: "Schnozzberry"
     state: present
   register: test_six
 
@@ -183,7 +183,7 @@
       - test_six['rack']['serial'] == "FXS10001"
       - test_six['rack']['status'] == "available"
       - test_six['rack']['tenant'] == 1
-      - test_six['rack']['tags'][0] == "Schnozzberry"
+      - test_six['rack']['tags'][0] == 4
       - test_six['rack']['type'] == "2-post-frame"
       - test_six['rack']['u_height'] == 48
       - test_six['rack']['width'] == 23

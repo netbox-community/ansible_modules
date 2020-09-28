@@ -69,7 +69,7 @@
       tenant: "Test Tenant"
       description: Updated description
       tags:
-        - Schnozzberry
+        - name: "Schnozzberry"
     state: present
   register: test_four
 
@@ -80,7 +80,7 @@
       - test_four['diff']['after']['rd'] == "65001:1"
       - test_four['diff']['after']['enforce_unique'] == false
       - test_four['diff']['after']['description'] == "Updated description"
-      - test_four['diff']['after']['tags'][0] == "Schnozzberry"
+      - test_four['diff']['after']['tags'][0] == 4
       - test_four['vrf']['name'] == "Test VRF One"
       - test_four['vrf']['tenant'] == 1
       - test_four['vrf']['rd'] == "65001:1"

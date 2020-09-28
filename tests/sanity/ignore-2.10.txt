@@ -36,6 +36,7 @@ plugins/modules/netbox_front_port.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_front_port_template.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_inventory_item.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_inventory_item.py validate-modules:parameter-list-no-elements
+plugins/modules/netbox_ip_address.py validate-modules:mutually_exclusive-unknown
 plugins/modules/netbox_ip_address.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_ip_address.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_ipam_role.py validate-modules:required_if-requirements-unknown

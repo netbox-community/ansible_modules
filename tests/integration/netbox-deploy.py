@@ -13,7 +13,25 @@ import pynetbox
 
 # Set nb variable to connect to Netbox and use the veriable in future calls
 nb = pynetbox.api("http://localhost:32768", "0123456789abcdef0123456789abcdef01234567")
+version = float(nb.version)
 
+# Create tags used in future tests
+
+if version >= 2.9:
+    create_tags = nb.extras.tags.create(
+        [
+            {"name": "First", "slug": "first"},
+            {"name": "Second", "slug": "second"},
+            {"name": "Third", "slug": "third"},
+            {"name": "Schnozzberry", "slug": "schnozzberry"},
+            {"name": "Lookup", "slug": "lookup"},
+            {"name": "Nolookup", "slug": "nolookup"},
+            {"name": "tagA", "slug": "taga"},
+            {"name": "tagB", "slug": "tagb"},
+            {"name": "tagC", "slug": "tagc"},
+            {"name": "Updated", "slug": "updated"},
+        ]
+    )
 
 # ORDER OF OPERATIONS FOR THE MOST PART
 
@@ -141,6 +159,16 @@ device_types = [
     },
     {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
 ]
+if version > 2.8:
+    temp_dt = []
+    for dt_type in device_types:
+        try:
+            dt_type.pop("subdevice_role")
+        except KeyError:
+            pass
+        temp_dt.append(dt_type)
+    device_types = temp_dt
+
 created_device_types = nb.dcim.device_types.create(device_types)
 ### Device type variables to be used later on
 cisco_test = nb.dcim.device_types.get(slug="cisco-test")
@@ -239,21 +267,21 @@ created_devices = nb.dcim.devices.create(devices)
 test100 = nb.dcim.devices.get(name="test100")
 
 # Create VC, assign member, create initial interface
-created_vcs = nb.dcim.virtual_chassis.create({"master": 4})
+created_vcs = nb.dcim.virtual_chassis.create({"name": "VC1", "master": 4})
 nexus_child = nb.dcim.devices.get(5)
-nexus_child.update({"virtual_chassis": 1, "vc_position": 1})
+nexus_child.update({"virtual_chassis": 1, "vc_position": 2})
 nexus = nb.dcim.devices.get(4)
 nexus.update({"vc_position": 0})
 nexus_interfaces = [
-    {"device": nexus.id, "name": "Ethernet1/1", "type": 1000},
-    {"device": nexus_child.id, "name": "Ethernet2/1", "type": 1000},
+    {"device": nexus.id, "name": "Ethernet1/1", "type": "1000base-t"},
+    {"device": nexus_child.id, "name": "Ethernet2/1", "type": "1000base-t"},
 ]
 created_nexus_interfaces = nb.dcim.interfaces.create(nexus_interfaces)
 
 ## Create Interfaces
 dev_interfaces = [
-    {"name": "GigabitEthernet1", "device": test100.id, "type": 1000},
-    {"name": "GigabitEthernet2", "device": test100.id, "type": 1000},
+    {"name": "GigabitEthernet1", "device": test100.id, "type": "1000base-t"},
+    {"name": "GigabitEthernet2", "device": test100.id, "type": "1000base-t"},
 ]
 created_interfaces = nb.dcim.interfaces.create(dev_interfaces)
 ## Interface variables to be used later on
@@ -269,6 +297,14 @@ ip_addresses = [
     {"address": "172.16.180.12/24", "interface": created_nexus_interfaces[1].id},
     {"address": "172.16.180.254/24"},
 ]
+if version > 2.8:
+    temp_ips = []
+    for ip in ip_addresses:
+        if ip.get("interface"):
+            ip["assigned_object_id"] = ip.pop("interface")
+            ip["assigned_object_type"] = "dcim.interface"
+        temp_ips.append(ip)
+
 created_ip_addresses = nb.ipam.ip_addresses.create(ip_addresses)
 
 

@@ -69,7 +69,7 @@ API_APPS_ENDPOINTS = dict(
         "sites",
         "virtual_chassis",
     ],
-    extras=[],
+    extras=["tags"],
     ipam=[
         "aggregates",
         "ip_addresses",
@@ -133,6 +133,7 @@ QUERY_TYPES = dict(
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = {
+    "assigned_object": "assigned_object",
     "circuit": "circuits",
     "circuit_type": "circuit_types",
     "circuit_termination": "circuit_terminations",
@@ -180,6 +181,7 @@ CONVERT_TO_ID = {
     "rir": "rirs",
     "services": "services",
     "site": "sites",
+    "tags": "tags",
     "tagged_vlans": "vlans",
     "tenant": "tenants",
     "tenant_group": "tenant_groups",
@@ -250,6 +252,7 @@ ENDPOINT_NAME_MAPPING = {
 
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "assigned_object": set(["name", "device", "virtual_machine"]),
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
@@ -309,6 +312,7 @@ ALLOWED_QUERY_PARAMS = {
     "role": set(["slug"]),
     "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
     "site": set(["slug"]),
+    "tags": set(["slug"]),
     "tagged_vlans": set(["name", "site", "vid", "vlan_group", "tenant"]),
     "tenant": set(["slug"]),
     "tenant_group": set(["slug"]),
@@ -369,6 +373,7 @@ REQUIRED_ID_FIND = {
 
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
+    "assigned_object": "assigned_object_id",
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
@@ -400,6 +405,7 @@ SLUG_REQUIRED = {
     "rirs",
     "roles",
     "sites",
+    "tags",
     "tenants",
     "tenant_groups",
     "manufacturers",
@@ -570,7 +576,10 @@ class NetboxModule(object):
         """
         new_dict = dict()
         for k, v in data.items():
-            if v is not None:
+            if isinstance(v, dict):
+                v = self._remove_arg_spec_default(v)
+                new_dict[k] = v
+            elif v is not None:
                 new_dict[k] = v
 
         return new_dict
@@ -739,10 +748,14 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
+                if self.version < 2.9 and k == "tags":
+                    continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
                 elif k == "termination_b":
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
+                elif k == "assigned_object":
+                    endpoint = "interfaces"
                 else:
                     endpoint = CONVERT_TO_ID[k]
                 search = v
@@ -751,22 +764,26 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
-                    if k == "interface" and v.get("virtual_machine"):
+                    if (k == "interface" or k == "assigned_object") and v.get(
+                        "virtual_machine"
+                    ):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
-
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        norm_data = self._normalize_data(list_item)
-                        temp_dict = self._build_query_params(k, data, child=norm_data)
-                        query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
-                        if query_id:
-                            id_list.append(query_id.id)
-                        else:
-                            self._handle_errors(msg="%s not found" % (list_item))
+                        if isinstance(list_item, dict):
+                            norm_data = self._normalize_data(list_item)
+                            temp_dict = self._build_query_params(
+                                k, data, child=norm_data
+                            )
+                            query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
+                            if query_id:
+                                id_list.append(query_id.id)
+                            else:
+                                self._handle_errors(msg="%s not found" % (list_item))
                 else:
                     if k in ["lag", "rear_port", "rear_port_template"]:
                         query_params = self._build_query_params(
@@ -832,6 +849,14 @@ class NetboxModule(object):
 
             if k == "mac_address":
                 data[k] = v.upper()
+
+        # We need to assign the correct type for the assigned object so the user doesn't have to worry about this.
+        # We determine it by whether or not they pass in a device or virtual_machine
+        if data.get("assigned_object"):
+            if data["assigned_object"].get("device"):
+                data["assigned_object_type"] = "dcim.interface"
+            if data["assigned_object"].get("virtual_machine"):
+                data["assigned_object_type"] = "virtualization.vminterface"
 
         return data
 
@@ -978,13 +1003,50 @@ class NetboxAnsibleModule(AnsibleModule):
             argument_spec,
             bypass_checks=False,
             no_log=False,
-            mutually_exclusive=None,
-            required_together=None,
+            mutually_exclusive=mutually_exclusive,
+            required_together=required_together,
             required_one_of=required_one_of,
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
             required_if=required_if,
         )
+
+    def _check_mutually_exclusive(self, spec, param=None):
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_mutually_exclusive(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_mutually_exclusive(self, terms, module_parameters):
+        """Check mutually exclusive terms against argument parameters
+        Accepts a single list or list of lists that are groups of terms that should be
+        mutually exclusive with one another
+        :arg terms: List of mutually exclusive module parameters
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for check in terms:
+            count = self.count_terms(check, module_parameters["data"])
+            if count > 1:
+                results.append(check)
+
+        if results:
+            full_list = ["|".join(check) for check in results]
+            msg = "parameters are mutually exclusive: %s" % ", ".join(full_list)
+            raise TypeError(to_native(msg))
+
+        return results
 
     def _check_required_if(self, spec, param=None):
         """ ensure that parameters which conditionally required are present """
@@ -1085,6 +1147,50 @@ class NetboxAnsibleModule(AnsibleModule):
         if results:
             for term in results:
                 msg = "one of the following is required: %s" % ", ".join(term)
+                raise TypeError(to_native(msg))
+
+        return results
+
+    def _check_required_together(self, spec, param=None):
+        if spec is None:
+            return
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_required_together(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_required_together(self, terms, module_parameters):
+        """Check each list of terms to ensure every parameter in each list exists
+        in the given module parameters
+        Accepts a list of lists or tuples
+        :arg terms: List of lists of terms to check. Each list should include
+            parameters that are all required when at least one is specified
+            in the module_parameters.
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for term in terms:
+            counts = [
+                self.count_terms(field, module_parameters["data"]) for field in term
+            ]
+            non_zero = [c for c in counts if c > 0]
+            if len(non_zero) > 0:
+                if 0 in counts:
+                    results.append(term)
+        if results:
+            for term in results:
+                msg = "parameters are required together: %s" % ", ".join(term)
                 raise TypeError(to_native(msg))
 
         return results
