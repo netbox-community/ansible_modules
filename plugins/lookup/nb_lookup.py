@@ -11,6 +11,7 @@ A lookup function designed to return data from the Netbox application
 
 from __future__ import absolute_import, division, print_function
 
+import functools
 from pprint import pformat
 
 from ansible.errors import AnsibleError
@@ -44,6 +45,10 @@ DOCUMENTATION = """
         api_filter:
             description:
                 - The api_filter to use.
+            required: False
+        plugin:
+            description:
+                - The Netbox plugin to query
             required: False
         token:
             description:
@@ -98,6 +103,17 @@ tasks:
   - name: "Obtain secrets for R1-Device"
     debug:
       msg: "{{ query('nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+
+# Fetch bgp sessions for R1-device
+tasks:
+  - name: "Obtain bgp sessions for R1-Device"
+    debug:
+      msg: "{{ query('nb_lookup', 'bgp_sessions',
+                     api_filter='device=R1-Device',
+                     api_endpoint='http://localhost/',
+                     token='<redacted>',
+                     plugin='mycustomstuff') }}"
+
 """
 
 RETURN = """
@@ -187,6 +203,21 @@ def get_endpoint(netbox, term):
     return netbox_endpoint_map[term]["endpoint"]
 
 
+def get_plugin_endpoint(netbox, plugin, term):
+    """
+    get_plugin_endpoint(netbox, plugin, term)
+        netbox: a predefined pynetbox.api() pointing to a valid instance
+                of Netbox
+        plugin: a string referencing the plugin name
+        term: the term passed to the lookup function upon which the api
+              call will be identified
+    """
+    attr = "plugins.%s.%s" % (plugin, term)
+    def _getattr(netbox, attr):
+        return getattr(netbox, attr)
+    return functools.reduce(_getattr, [netbox] + attr.split('.'))
+
+
 class LookupModule(LookupBase):
     """
     LookupModule(LookupBase) is defined by Ansible
@@ -200,6 +231,7 @@ class LookupModule(LookupBase):
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
+        netbox_plugin = kwargs.get("plugin")
 
         if not isinstance(terms, list):
             terms = [terms]
@@ -222,11 +254,13 @@ class LookupModule(LookupBase):
 
         results = []
         for term in terms:
-
-            try:
-                endpoint = get_endpoint(netbox, term)
-            except KeyError:
-                raise AnsibleError("Unrecognised term %s. Check documentation" % term)
+            if netbox_plugin:
+                endpoint  = get_plugin_endpoint(netbox, netbox_plugin, term)
+            else:
+                try:
+                    endpoint = get_endpoint(netbox, term)
+                except KeyError:
+                    raise AnsibleError("Unrecognised term %s. Check documentation" % term)
 
             Display().vvvv(
                 u"Netbox lookup for %s to %s using token %s filter %s"
@@ -261,7 +295,6 @@ class LookupModule(LookupBase):
 
             else:
                 for res in endpoint.all():
-
                     Display().vvvvv(pformat(dict(res)))
 
                     if netbox_raw_return:
