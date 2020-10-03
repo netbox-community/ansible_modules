@@ -321,7 +321,7 @@ def main():
                         ],
                     ),
                     assigned_object_type=dict(
-                        required=False, 
+                        required=False,
                         choices=[
                             "dcim.interface",
                             "virtualization.vminterface",
