@@ -320,7 +320,14 @@ def main():
                             "CARP",
                         ],
                     ),
-                    assigned_object_type=dict(required=False, type="str"),
+                    assigned_object_type=dict(
+                        required=False, 
+                        choices=[
+                            "dcim.interface",
+                            "virtualization.vminterface",
+                        ],
+                        type="str",
+                    ),
                     assigned_object=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
