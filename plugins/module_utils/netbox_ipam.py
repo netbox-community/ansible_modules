@@ -57,14 +57,12 @@ class NetboxIpamModule(NetboxModule):
         if not data.get("assigned_object_id") or not data.get("assigned_object_type") or not data.get("prefix"):
             self._handle_errors("A prefix, assigned_object_type and assigned_object are required")
 
-        query_params = { "parent": data["prefix"] }
-        #, {"assigned_object_id": data["assigned_object_id"], "assigned_object_type" : data["assigned_object_type"] 
+        query_params = {"parent": data["prefix"]}
 
         if data["assigned_object_type"] == "dcim.interface":
             query_params['interface_id'] = data["assigned_object_id"]
         else:
             query_params['vminterface_id'] = data['assigned_object_id']
-
 
         if data.get("vrf"):
             query_params["vrf_id"] = data["vrf"]
