@@ -101,13 +101,24 @@ options:
           - CARP
         required: false
         type: str
-      interface:
+      assigned_object_type:
+        description:
+          - | 
+            The type of the assigned object this IP address referes to
+        choices:
+          - dcim.interface
+          - virtualization.vminterface
+        required: false
+        type: str
+
+      assigned_object:
         description:
           - |
-            The name and device of the interface that the IP address should be assigned to
+            The name and device of the assigned object that the IP address should be assigned to
             Required if state is C(present) and a prefix specified.
         required: false
         type: raw
+
       description:
         description:
           - The description of the interface
@@ -309,7 +320,8 @@ def main():
                             "CARP",
                         ],
                     ),
-                    interface=dict(required=False, type="raw"),
+                    assigned_object_type=dict(required=False, type="str"),
+                    assigned_object=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
                     dns_name=dict(required=False, type="str"),

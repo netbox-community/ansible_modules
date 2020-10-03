@@ -185,6 +185,7 @@ CONVERT_TO_ID = {
     "tenant_group": "tenant_groups",
     "termination_a": "interfaces",
     "termination_b": "interfaces",
+    "assigned_object" : "interfaces",
     "untagged_vlan": "vlans",
     "virtual_chassis": "virtual_chassis",
     "virtual_machine": "virtual_machines",
@@ -320,6 +321,7 @@ ALLOWED_QUERY_PARAMS = {
     "vlan": set(["name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),
     "vrf": set(["name", "tenant"]),
+    "assigned_object": set(['name', 'device']),
 }
 
 QUERY_PARAMS_IDS = set(
@@ -384,6 +386,7 @@ CONVERT_KEYS = {
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
+    "assigned_object" : "assigned_object_id",
 }
 
 # This is used to dynamically conver name to slug on endpoints requiring a slug
@@ -743,6 +746,8 @@ class NetboxModule(object):
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
                 elif k == "termination_b":
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
+                elif k == "assigned_object":
+                    endpoint = CONVERT_TO_ID[data.get("assigned_object_type")]
                 else:
                     endpoint = CONVERT_TO_ID[k]
                 search = v
