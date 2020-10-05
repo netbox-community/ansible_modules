@@ -103,5 +103,5 @@
       - test_four['inventory_item']['description'] == "New SFP"
       - test_four['inventory_item']['manufacturer'] == 1
       - test_four['inventory_item']['part_id'] == "10G-SFP+"
-      - test_four['inventory_item']['tags'][0] == "Schnozzberry"
+      - test_four['inventory_item']['tags'][0] == 4
       - test_four['msg'] == "inventory_item 10G-SFP+ deleted"
