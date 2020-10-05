@@ -69,7 +69,7 @@
       port: 9100
       protocol: TCP
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_service_update
 

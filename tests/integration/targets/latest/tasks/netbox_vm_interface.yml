@@ -63,7 +63,7 @@
         - name: VoIP
           site: Test Site
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_three
 
@@ -130,7 +130,7 @@
         - name: VoIP
           site: Test Site
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_five
 

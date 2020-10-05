@@ -130,7 +130,7 @@
       position: 35
       face: "Front"
       tags:
-        - slug: "schnozzberry"
+        - "schnozzberry"
       tenant: "Test Tenant"
       asset_tag: "1234"
     state: present

@@ -54,7 +54,7 @@
       comments: "Updated cluster"
       tenant: "Test Tenant"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_three
 

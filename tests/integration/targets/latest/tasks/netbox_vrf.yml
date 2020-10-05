@@ -69,7 +69,7 @@
       tenant: "Test Tenant"
       description: Updated description
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_four
 

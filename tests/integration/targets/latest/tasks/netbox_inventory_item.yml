@@ -56,7 +56,7 @@
       description: "New SFP"
       discovered: True
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_three
 

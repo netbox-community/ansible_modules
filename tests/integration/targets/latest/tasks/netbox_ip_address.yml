@@ -30,7 +30,7 @@
       address: 192.168.1.10/30
       description: "Updated ip address"
       tags:
-        - name: "Updated"
+        - "Updated"
     state: present
   register: test_two
 
@@ -129,7 +129,7 @@
       role: Loopback
       description: Test description
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_seven
 
@@ -183,7 +183,7 @@
     data:
       family: 4
       address: 10.10.200.30/16
-      interface:
+      assigned_object:
         name: GigabitEthernet2
         device: test100
   register: test_nine
@@ -206,7 +206,7 @@
     data:
       family: 4
       prefix: 10.10.0.0/16
-      interface:
+      assigned_object:
         name: GigabitEthernet2
         device: test100
     state: new
@@ -230,7 +230,7 @@
     data:
       family: 4
       prefix: 192.168.100.0/24
-      interface:
+      assigned_object:
         name: GigabitEthernet2
         device: test100
     state: present
@@ -251,7 +251,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.100.2/24
-      interface:
+      assigned_object:
         name: GigabitEthernet2
         device: test100
     state: present
@@ -288,7 +288,7 @@
     data:
       family: 4
       address: 10.188.1.100/24
-      interface:
+      assigned_object:
         name: Eth0
         virtual_machine: test100-vm
   register: test_fourteen
@@ -311,7 +311,7 @@
     data:
       family: 4
       address: 10.188.1.100/24
-      interface:
+      assigned_object:
         name: Eth0
         virtual_machine: test101-vm
     state: "present"

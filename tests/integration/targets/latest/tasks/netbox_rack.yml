@@ -98,7 +98,7 @@
       outer_unit: "Inches"
       comments: "Just testing rack module"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_five
 
@@ -162,7 +162,7 @@
       outer_unit: "Inches"
       comments: "Just testing rack module"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_six
 

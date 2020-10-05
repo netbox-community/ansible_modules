@@ -774,16 +774,18 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if isinstance(list_item, dict):
+                        if k == "tags" and isinstance(list_item, str):
+                            temp_dict = {"slug": self._to_slug(list_item)}
+                        elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
                             temp_dict = self._build_query_params(
                                 k, data, child=norm_data
                             )
-                            query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
-                            if query_id:
-                                id_list.append(query_id.id)
-                            else:
-                                self._handle_errors(msg="%s not found" % (list_item))
+                        query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
+                        if query_id:
+                            id_list.append(query_id.id)
+                        else:
+                            self._handle_errors(msg="%s not found" % (list_item))
                 else:
                     if k in ["lag", "rear_port", "rear_port_template"]:
                         query_params = self._build_query_params(

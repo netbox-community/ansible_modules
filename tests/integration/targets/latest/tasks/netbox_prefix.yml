@@ -100,7 +100,7 @@
       description: Test description
       is_pool: true
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_five
 

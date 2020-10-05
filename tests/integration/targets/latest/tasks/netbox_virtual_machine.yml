@@ -54,7 +54,7 @@
       status: "Planned"
       virtual_machine_role: "Test VM Role"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_three
 

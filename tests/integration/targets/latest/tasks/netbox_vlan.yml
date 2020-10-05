@@ -79,7 +79,7 @@
       description: Updated description
       site: "Test Site"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_four
 

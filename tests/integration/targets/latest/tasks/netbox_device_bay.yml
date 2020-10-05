@@ -51,7 +51,7 @@
       name: "Device Bay One"
       installed_device: "Test Nexus Child One"
       tags:
-        - name: "Schnozzberry"
+        - "Schnozzberry"
     state: present
   register: test_three
 
