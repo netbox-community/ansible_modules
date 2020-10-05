@@ -162,10 +162,10 @@ device_types = [
 if version > 2.8:
     temp_dt = []
     for dt_type in device_types:
-        try:
-            dt_type.pop("subdevice_role")
-        except KeyError:
-            pass
+        if dt_type.get("subdevice_role") is not None and not dt_type["subdevice_role"]:
+            dt_type["subdevice_role"] = "child"
+        if dt_type.get("subdevice_role"):
+            dt_type["subdevice_role"] = "parent"
         temp_dt.append(dt_type)
     device_types = temp_dt
 
