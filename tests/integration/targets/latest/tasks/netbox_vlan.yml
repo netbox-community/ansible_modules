@@ -99,7 +99,7 @@
       - test_four['vlan']['status'] == "reserved"
       - test_four['vlan']['role'] == 1
       - test_four['vlan']['description'] == "Updated description"
-      - test_four['vlan']['tags'][0] == "Schnozzberry"
+      - test_four['vlan']['tags'][0] == 4
       - test_four['msg'] == "vlan Test VLAN 500 updated"
 
 - name: "VLAN 5: ASSERT - Delete more than one result"
@@ -139,5 +139,5 @@
       - test_six['vlan']['status'] == "reserved"
       - test_six['vlan']['role'] == 1
       - test_six['vlan']['description'] == "Updated description"
-      - test_six['vlan']['tags'][0] == "Schnozzberry"
+      - test_six['vlan']['tags'][0] == 4
       - test_six['msg'] == "vlan Test VLAN 500 deleted"

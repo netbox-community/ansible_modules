@@ -160,7 +160,6 @@
       nat_inside:
         address: 172.16.1.20
         vrf: Test VRF
-      interface: 3
   register: test_eight
 
 - name: "8 - ASSERT"
@@ -172,7 +171,6 @@
       - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
       - test_eight['ip_address']['address'] == "10.10.1.30/16"
       - test_eight['ip_address']['family'] == 4
-      - test_eight['ip_address']['interface'] == 3
       - test_eight['ip_address']['nat_inside'] == 10
       - test_eight['ip_address']['vrf'] == 1
 
@@ -197,7 +195,8 @@
       - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
       - test_nine['ip_address']['address'] == "10.10.200.30/16"
       - test_nine['ip_address']['family'] == 4
-      - test_nine['ip_address']['interface'] == 4
+      - test_nine['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_nine['ip_address']['assigned_object_id'] == 4
 
 - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
   netbox.netbox.netbox_ip_address:
@@ -221,7 +220,8 @@
       - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
       - test_ten['ip_address']['address'] == "10.10.0.1/16"
       - test_ten['ip_address']['family'] == 4
-      - test_ten['ip_address']['interface'] == 4
+      - test_ten['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_ten['ip_address']['assigned_object_id'] == 4
 
 - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
   netbox.netbox.netbox_ip_address:
@@ -263,7 +263,8 @@
       - not test_twelve['changed']
       - test_twelve['msg'] == "ip_address 192.168.100.2/24 already exists"
       - test_twelve['ip_address']['address'] == "192.168.100.2/24"
-      - test_twelve['ip_address']['interface'] == 4
+      - test_twelve['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_twelve['ip_address']['assigned_object_id'] == 4
 
 - name: "13 - Duplicate - 192.168.100.2/24"
   netbox.netbox.netbox_ip_address:
@@ -302,7 +303,8 @@
       - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
       - test_fourteen['ip_address']['family'] == 4
-      - test_fourteen['ip_address']['interface'] == 5
+      - test_fourteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
+      - test_fourteen['ip_address']['assigned_object_id'] == 1
 
 - name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
   netbox.netbox.netbox_ip_address:
@@ -326,7 +328,8 @@
       - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
       - test_fifteen['ip_address']['family'] == 4
-      - test_fifteen['ip_address']['interface'] == 10
+      - test_fifteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
+      - test_fifteen['ip_address']['assigned_object_id'] == 6
 
 - name: "16 - Create IP address with no mask - State: Present"
   netbox.netbox.netbox_ip_address:

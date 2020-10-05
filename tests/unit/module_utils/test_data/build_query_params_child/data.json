@@ -40,6 +40,44 @@
         }
     },
     {
+        "parent": "assigned_object",
+        "module_data": {
+            "address": "10.10.10.1/24",
+            "description": "Test description",
+            "assigned_object": {
+                "device": "test100",
+                "name": "Ethernet1/1"
+            }
+        },
+        "child": {
+            "device": "test100",
+            "name": "Ethernet1/1"
+        },
+        "expected": {
+            "device_id": 1,
+            "name": "Ethernet1/1"
+        }
+    },
+    {
+        "parent": "assigned_object",
+        "module_data": {
+            "address": "10.10.10.1/24",
+            "description": "Test description",
+            "assigned_object": {
+                "virtual_machine": "test100-vm",
+                "name": "Ethernet1/1"
+            }
+        },
+        "child": {
+            "virtual_machine": "test100-vm",
+            "name": "Ethernet1/1"
+        },
+        "expected": {
+            "virtual_machine_id": 1,
+            "name": "Ethernet1/1"
+        }
+    },
+    {
         "parent": "lag",
         "module_data": {
             "name": "GigabitEthernet1",

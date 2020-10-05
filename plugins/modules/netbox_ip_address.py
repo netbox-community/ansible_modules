@@ -125,7 +125,7 @@ options:
         type: str
       assigned_object:
         description:
-          - Dictionary
+          - Definition of the assigned object.
         required: false
         type: dict
         suboptions:
@@ -133,7 +133,7 @@ options:
             description:
               - The name of the interface
             type: str
-            required: True
+            required: False
           device:
             description:
               - The device the interface is attached to.
@@ -349,7 +349,7 @@ def main():
                         required=False,
                         type="dict",
                         options=dict(
-                            name=dict(required=True, type="str"),
+                            name=dict(required=False, type="str"),
                             device=dict(required=False, type="str"),
                             virtual_machine=dict(required=False, type="str"),
                         ),
