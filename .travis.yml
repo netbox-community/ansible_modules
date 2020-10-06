@@ -15,10 +15,10 @@ env:
 
 jobs:
   include:
-    - name: "Python 3.6 - Netbox 2.7 - Latest PyPi Ansible"
+    - name: "Python 3.6 - Netbox 2.8 - Latest PyPi Ansible"
       python: 3.6
       env:
-        - PYTHON_VER=3.6 VERSION=v2.7 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.6 VERSION=v2.8 INTEGRATION_TESTS=v2.8
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -37,10 +37,10 @@ jobs:
     # Stick to python 3.7 instead of 3.8, as ansible-test sanity is not compatible with 3.7
     # https://github.com/ansible/ansible/issues/67118
 
-    - name: "Python 3.7 - Netbox 2.8 - Latest PyPi Ansible"
+    - name: "Python 3.7 - Netbox 2.9 - Latest PyPi Ansible"
       python: 3.7
       env:
-        - PYTHON_VER=3.7 VERSION=v2.8 INTEGRATION_TESTS=latest
+        - PYTHON_VER=3.7 VERSION=v2.9 INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -58,9 +58,9 @@ jobs:
     # Latest development versions of Netbox and Ansible, newest Python
     # This may be broken sometimes by changes in the netbox & ansible projects
     # Failures will be allowed in this build
-    - name: "Python 3.8 - Netbox develop branch (snapshot) - Ansible Devel"
-      python: 3.8
-      env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
+    - name: "Python 3.6 - Netbox develop branch (snapshot) - Ansible Develop"
+      python: 3.6
+      env: PYTHON_VER=3.6 VERSION=snapshot INTEGRATION_TESTS=latest
       install:
         - cd ..
         # Setup netbox container for integration testing
@@ -79,30 +79,9 @@ jobs:
         - source hacking/env-setup
         - cd  ..
 
-        # Commenting out, but keeping for next PR to work on sanity issues
-        #- name: "Ansible 2.10 Preparation"
-        #  python: 3.8
-        #  env: INTEGRATION_TESTS=latest
-        #  install:
-        #    - pip install -U pip "setuptools>=46.1.3"
-        #    - pip install pytest==4.6.5 pytest-mock pytest-xdist jinja2 PyYAML black==19.10b0 "coverage<5"
-        #    - pip install pynetbox cryptography jmespath jsondiff ansible-base
-        #  before_script:
-        #    - ls
-        #    - cd ..
-        #    - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
-        #    - cp -R ansible_modules ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        #    - cd ~/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-        #    - ansible-galaxy collection build .
-        #    - ansible-galaxy collection install $COLLECTION_NAMESPACE-$COLLECTION_NAME-$COLLECTION_VERSION.tar.gz -p /home/travis/.ansible/collections
-        # Run all further tests from within the installed directory
-        # Required to resolve imports of other collections
-        #- cd /home/travis/.ansible/collections/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
-      #script:
-      #  - ansible-test sanity --docker -v --exclude tests/ --exclude docs/ --skip-test pep8
   allow_failures:
     # When testing against dev netbox and dev ansible, allow failures
-    - env: PYTHON_VER=3.8 VERSION=snapshot INTEGRATION_TESTS=latest
+    - env: PYTHON_VER=3.6 VERSION=snapshot INTEGRATION_TESTS=latest
 
 before_script:
   - mkdir -p ~/ansible_collections/$COLLECTION_NAMESPACE
@@ -117,13 +96,13 @@ before_script:
 
   # Set runme.sh execute permissions stripped by ansible-galaxy. Should be fixed in Ansible 2.10
   # https://github.com/ansible/ansible/issues/68415
-  - chmod +x tests/integration/targets/inventory/runme.sh
-  - chmod +x tests/integration/targets/inventory/compare_inventory_json.py
+  - chmod +x tests/integration/targets/inventory-$INTEGRATION_TESTS/runme.sh
+  - chmod +x tests/integration/targets/inventory-$INTEGRATION_TESTS/compare_inventory_json.py
   - chmod +x tests/integration/render_config.sh
 
   # Run render_config.sh to pass environment variables to integration tests
   # https://www.ansible.com/blog/adding-integration-tests-to-ansible-content-collections
-  - tests/integration/render_config.sh tests/integration/targets/inventory/runme_config.template > tests/integration/targets/inventory/runme_config
+  - tests/integration/render_config.sh tests/integration/targets/inventory/runme_config.template > tests/integration/targets/inventory-$INTEGRATION_TESTS/runme_config
 
 script:
   # Check python syntax
@@ -145,12 +124,12 @@ script:
 
   # Run regression and integration tests
   # Run the inventory test first, in case any of the other tests modify the data.
-  - ansible-test integration -v --coverage --python $PYTHON_VER inventory
-  - ansible-test integration -v --coverage --python $PYTHON_VER regression
+  - ansible-test integration -v --coverage --python $PYTHON_VER inventory-$INTEGRATION_TESTS
+  - ansible-test integration -v --coverage --python $PYTHON_VER regression-$INTEGRATION_TESTS
   - ansible-test integration -v --coverage --python $PYTHON_VER $INTEGRATION_TESTS
 
   # Report code coverage
-  - ansible-test coverage report --all --omit "tests/*,hacking/*" --show-missing
+  - ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
 
 deploy:
   provider: script
