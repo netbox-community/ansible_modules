@@ -277,6 +277,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 This is to help determine what might be the issue when encountering an error.
                 Please check issue #294 for more info.
                 """
+                # Prevent inventory from failing completely if the token does not have the proper permissions for specific URLs
+                if e.code == 403:
+                    self.display.v(
+                        "Permission denied: {0}. This may impair functionality of the inventory plugin.".format(
+                            url
+                        )
+                    )
+                    # Returning an empty iterable as it appears that most of the refresh_lookups iterate over results
+                    return []
+
                 raise AnsibleError(to_native(e.fp.read()))
 
             try:
