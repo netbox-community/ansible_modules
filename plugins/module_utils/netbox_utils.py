@@ -319,7 +319,7 @@ ALLOWED_QUERY_PARAMS = {
     "termination_a": set(["name", "device", "virtual_machine"]),
     "termination_b": set(["name", "device", "virtual_machine"]),
     "untagged_vlan": set(["name", "site", "vid", "vlan_group", "tenant"]),
-    "virtual_chassis": set(["master"]),
+    "virtual_chassis": set(["master", "name"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site"]),

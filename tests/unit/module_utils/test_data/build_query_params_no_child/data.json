@@ -397,6 +397,18 @@
         }
     },
     {
+        "parent": "virtual_chassis",
+        "module_data": {
+            "name": "Test VC",
+            "master": "Test Nexus One",
+            "domain": "Test Domain"
+        },
+        "expected": {
+            "name": "Test VC",
+            "master": 1
+        }
+    },
+    {
         "parent": "virtual_machine",
         "module_data": {
             "name": "Test VM 100",
