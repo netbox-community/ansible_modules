@@ -405,7 +405,7 @@
         },
         "expected": {
             "name": "Test VC",
-            "master": 1
+            "master": "Test Nexus One"
         }
     },
     {
