@@ -111,10 +111,10 @@ script:
   # Sanity tests
   # --requirements - install pip packages as necessary
   # Skip pep8 as we use black instead
-  - ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 plugins/
+  - ansible-test sanity -vv --requirements --python $PYTHON_VER --skip-test pep8 plugins/
 
   # Unit tests, with code coverage
-  - ansible-test units -v --coverage --python $PYTHON_VER
+  - ansible-test units -vv --coverage --python $PYTHON_VER
 
   # Wait for Netbox containers to be running
   - timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
@@ -124,9 +124,9 @@ script:
 
   # Run regression and integration tests
   # Run the inventory test first, in case any of the other tests modify the data.
-  - ansible-test integration -v --coverage --python $PYTHON_VER inventory-$INTEGRATION_TESTS
-  - ansible-test integration -v --coverage --python $PYTHON_VER regression-$INTEGRATION_TESTS
-  - ansible-test integration -v --coverage --python $PYTHON_VER $INTEGRATION_TESTS
+  - ansible-test integration -vv --coverage --python $PYTHON_VER inventory-$INTEGRATION_TESTS
+  - ansible-test integration -vv --coverage --python $PYTHON_VER regression-$INTEGRATION_TESTS
+  - ansible-test integration -vv --coverage --python $PYTHON_VER $INTEGRATION_TESTS
 
   # Report code coverage
   - ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
