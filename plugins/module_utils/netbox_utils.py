@@ -678,7 +678,7 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
-        elif parent == "virtual_chassis":
+        elif parent == "virtual_chassis" and self.version < 2.9:
             query_dict = {"q": self.module.params["data"].get("master")}
 
         elif parent == "rear_port" and self.endpoint == "front_ports":

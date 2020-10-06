@@ -218,6 +218,7 @@ def test_build_query_params_no_child(
 def test_build_query_params_child(
     mock_netbox_module, mocker, parent, module_data, child, expected
 ):
+    mock_netbox_module.version = 2.9
     get_query_param_id = mocker.patch(
         "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
     )
