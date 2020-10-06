@@ -203,6 +203,7 @@ def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected)
 def test_build_query_params_no_child(
     mock_netbox_module, mocker, parent, module_data, expected
 ):
+    mock_netbox_module.version = 2.9
     get_query_param_id = mocker.patch(
         "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
     )
@@ -242,6 +243,7 @@ def test_build_query_params_child(
 def test_build_query_params_user_query_params(
     mock_netbox_module, mocker, parent, module_data, user_query_params, expected
 ):
+    mock_netbox_module.version = 2.9
     get_query_param_id = mocker.patch(
         "%s%s" % (MOCKER_PATCH_PATH, "._get_query_param_id")
     )
