@@ -279,13 +279,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 """
                 # Prevent inventory from failing completely if the token does not have the proper permissions for specific URLs
                 if e.code == 403:
-                    self.display.v(
+                    self.display.display(
                         "Permission denied: {0}. This may impair functionality of the inventory plugin.".format(
                             url
-                        )
+                        ),
+                        color="red",
                     )
-                    # Returning an empty iterable as it appears that most of the refresh_lookups iterate over results
-                    return []
+                    # Need to return mock response data that is empty to prevent any failures downstream
+                    return {"results": [], "next": None}
 
                 raise AnsibleError(to_native(e.fp.read()))
 
