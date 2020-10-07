@@ -28,7 +28,7 @@ netbox.netbox.netbox_device_interface -- Creates or removes interfaces on device
 
 .. version_added
 
-.. versionadded:: 2.8 of 
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:
@@ -108,7 +108,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>

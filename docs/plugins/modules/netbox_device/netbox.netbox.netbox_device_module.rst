@@ -28,7 +28,7 @@ netbox.netbox.netbox_device -- Create, update or delete devices within Netbox
 
 .. version_added
 
-.. versionadded:: 2.8 of 
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:

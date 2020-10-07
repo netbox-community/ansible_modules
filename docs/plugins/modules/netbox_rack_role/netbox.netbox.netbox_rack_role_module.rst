@@ -92,7 +92,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-data/color" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>

@@ -402,6 +402,31 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-follow_redirects"></div>
+                    <b>follow_redirects</b>
+                    <a class="ansibleOptionLink" href="#parameter-follow_redirects" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>urllib2</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>all</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                                                                                                                                <li>safe</li>
+                                                                                                                                                                                                <li>none</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Determine how redirects are followed.</div>
+                                            <div>By default, <em>follow_redirects</em> is set to uses urllib2 default behavior.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-group_by"></div>
                     <b>group_by</b>
                     <a class="ansibleOptionLink" href="#parameter-group_by" title="Permalink to this option"></a>
@@ -417,6 +442,8 @@ Parameters
                                                                                                                                                                                                 <li>tenant</li>
                                                                                                                                                                                                 <li>racks</li>
                                                                                                                                                                                                 <li>rack</li>
+                                                                                                                                                                                                <li>rack_group</li>
+                                                                                                                                                                                                <li>rack_role</li>
                                                                                                                                                                                                 <li>tags</li>
                                                                                                                                                                                                 <li>tag</li>
                                                                                                                                                                                                 <li>device_roles</li>
