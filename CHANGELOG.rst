@@ -5,6 +5,23 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v1.1.0
+======
+
+Minor Changes
+-------------
+
+- Add ``follow_redirects`` option to inventory plugin (https://github.com/netbox-community/ansible_modules/pull/323)
+
+Bugfixes
+--------
+
+- Prevent inventory plugin from failing on 403 and print warning message (https://github.com/netbox-community/ansible_modules/pull/354)
+- Update ``netbox_ip_address`` module to accept ``assigned_object`` to work with NetBox 2.9 (https://github.com/netbox-community/ansible_modules/pull/345)
+- Update inventory plugin to properly associate IP address to interfaces with NetBox 2.9 (https://github.com/netbox-community/ansible_modules/pull/334)
+- Update inventory plugin to work with tags with NetBox 2.9 (https://github.com/netbox-community/ansible_modules/pull/340)
+- Update modules to be able to properly update tags to work with NetBox 2.9 (https://github.com/netbox-community/ansible_modules/pull/345)
+
 v1.0.2
 ======
 
