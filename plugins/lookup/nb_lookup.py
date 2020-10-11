@@ -204,6 +204,30 @@ def get_endpoint(netbox, term):
     return netbox_endpoint_map[term]["endpoint"]
 
 
+def build_filters(filters):
+    """
+    This will build the filters to be handed to NetBox endpoint call if they exist.
+
+    Args:
+        filters (str): String of filters to parse.
+
+    Returns:
+        result (list): List of dictionaries to filter by.
+    """
+    args_split = split_args(filters)
+    args = [parse_kv(x) for x in args_split]
+    filter = {}
+    for arg in args:
+        for k, v in arg.items():
+            if k not in filter:
+                filter[k] = list()
+                filter[k].append(v)
+            else:
+                filter[k].append(v)
+
+    return filter
+
+
 def get_plugin_endpoint(netbox, plugin, term):
     """
     get_plugin_endpoint(netbox, plugin, term)
@@ -219,6 +243,37 @@ def get_plugin_endpoint(netbox, plugin, term):
         return getattr(netbox, attr)
 
     return functools.reduce(_getattr, [netbox] + attr.split("."))
+
+
+def make_netbox_call(netbox, filters=None):
+    """
+    Wrapper for calls to NetBox and handle any possible errors.
+
+    Args:
+        netbox (object): The NetBox endpoint object to make calls.
+
+    Returns:
+        results (object): Pynetbox result.
+
+    Raises:
+        AnsibleError: Ansible Error containing an error message.
+    """
+    try:
+        if filters:
+            results = netbox.filter(**filters)
+        else:
+            results = netbox.all()
+    except pynetbox.RequestError as e:
+        if e.req.status_code == 404 and "plugins" in e:
+            raise AnsibleError(
+                "{0} - Not a valid plugin endpoint, please make sure to provide valid plugin endpoint.".format(
+                    e.error
+                )
+            )
+        else:
+            raise AnsibleError(e.error)
+
+    return results
 
 
 class LookupModule(LookupBase):
@@ -273,41 +328,20 @@ class LookupModule(LookupBase):
             )
 
             if netbox_api_filter:
-                args_split = split_args(netbox_api_filter)
-                args = [parse_kv(x) for x in args_split]
-                filter = {}
-                for arg in args:
-                    for k, v in arg.items():
-                        if k not in filter:
-                            filter[k] = list()
-                            filter[k].append(v)
-                        else:
-                            filter[k].append(v)
+                filter = build_filters(netbox_api_filter)
 
                 Display().vvvv("filter is %s" % filter)
 
-                for res in endpoint.filter(**filter):
+            # Make call to NetBox API and capture any failures
+            res = make_netbox_call(endpoint, filters=filter if filter else None)
 
-                    Display().vvvvv(pformat(dict(res)))
+            Display().vvvvv(pformat(dict(res)))
 
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
-
+            if netbox_raw_return:
+                results.append(dict(res))
             else:
-                for res in endpoint.all():
-                    Display().vvvvv(pformat(dict(res)))
-
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
+                key = dict(res)["id"]
+                result = {key: dict(res)}
+                results.extend(self._flatten_hash_to_list(result))
 
         return results
