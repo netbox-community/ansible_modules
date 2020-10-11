@@ -11,6 +11,7 @@ A lookup function designed to return data from the Netbox application
 
 from __future__ import absolute_import, division, print_function
 
+import functools
 from pprint import pformat
 
 from ansible.errors import AnsibleError
@@ -44,6 +45,10 @@ DOCUMENTATION = """
         api_filter:
             description:
                 - The api_filter to use.
+            required: False
+        plugin:
+            description:
+                - The Netbox plugin to query
             required: False
         token:
             description:
@@ -97,6 +102,18 @@ tasks:
 tasks:
   - name: "Obtain secrets for R1-Device"
     debug:
+      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+
+# Fetch bgp sessions for R1-device
+tasks:
+  - name: "Obtain bgp sessions for R1-Device"
+    debug:
+      msg: "{{ query('netbox.netbox.nb_lookup', 'bgp_sessions',
+                     api_filter='device=R1-Device',
+                     api_endpoint='http://localhost/',
+                     token='<redacted>',
+                     plugin='mycustomstuff') }}"
+
       msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
@@ -187,6 +204,78 @@ def get_endpoint(netbox, term):
     return netbox_endpoint_map[term]["endpoint"]
 
 
+def build_filters(filters):
+    """
+    This will build the filters to be handed to NetBox endpoint call if they exist.
+
+    Args:
+        filters (str): String of filters to parse.
+
+    Returns:
+        result (list): List of dictionaries to filter by.
+    """
+    filter = {}
+    args_split = split_args(filters)
+    args = [parse_kv(x) for x in args_split]
+    for arg in args:
+        for k, v in arg.items():
+            if k not in filter:
+                filter[k] = list()
+                filter[k].append(v)
+            else:
+                filter[k].append(v)
+
+    return filter
+
+
+def get_plugin_endpoint(netbox, plugin, term):
+    """
+    get_plugin_endpoint(netbox, plugin, term)
+        netbox: a predefined pynetbox.api() pointing to a valid instance
+                of Netbox
+        plugin: a string referencing the plugin name
+        term: the term passed to the lookup function upon which the api
+              call will be identified
+    """
+    attr = "plugins.%s.%s" % (plugin, term)
+
+    def _getattr(netbox, attr):
+        return getattr(netbox, attr)
+
+    return functools.reduce(_getattr, [netbox] + attr.split("."))
+
+
+def make_netbox_call(nb_endpoint, filters=None):
+    """
+    Wrapper for calls to NetBox and handle any possible errors.
+
+    Args:
+        nb_endpoint (object): The NetBox endpoint object to make calls.
+
+    Returns:
+        results (object): Pynetbox result.
+
+    Raises:
+        AnsibleError: Ansible Error containing an error message.
+    """
+    try:
+        if filters:
+            results = nb_endpoint.filter(**filters)
+        else:
+            results = nb_endpoint.all()
+    except pynetbox.RequestError as e:
+        if e.req.status_code == 404 and "plugins" in e:
+            raise AnsibleError(
+                "{0} - Not a valid plugin endpoint, please make sure to provide valid plugin endpoint.".format(
+                    e.error
+                )
+            )
+        else:
+            raise AnsibleError(e.error)
+
+    return results
+
+
 class LookupModule(LookupBase):
     """
     LookupModule(LookupBase) is defined by Ansible
@@ -200,6 +289,7 @@ class LookupModule(LookupBase):
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
+        netbox_plugin = kwargs.get("plugin")
 
         if not isinstance(terms, list):
             terms = [terms]
@@ -222,11 +312,15 @@ class LookupModule(LookupBase):
 
         results = []
         for term in terms:
-
-            try:
-                endpoint = get_endpoint(netbox, term)
-            except KeyError:
-                raise AnsibleError("Unrecognised term %s. Check documentation" % term)
+            if netbox_plugin:
+                endpoint = get_plugin_endpoint(netbox, netbox_plugin, term)
+            else:
+                try:
+                    endpoint = get_endpoint(netbox, term)
+                except KeyError:
+                    raise AnsibleError(
+                        "Unrecognised term %s. Check documentation" % term
+                    )
 
             Display().vvvv(
                 u"Netbox lookup for %s to %s using token %s filter %s"
@@ -234,42 +328,23 @@ class LookupModule(LookupBase):
             )
 
             if netbox_api_filter:
-                args_split = split_args(netbox_api_filter)
-                args = [parse_kv(x) for x in args_split]
-                filter = {}
-                for arg in args:
-                    for k, v in arg.items():
-                        if k not in filter:
-                            filter[k] = list()
-                            filter[k].append(v)
-                        else:
-                            filter[k].append(v)
+                filter = build_filters(netbox_api_filter)
 
                 Display().vvvv("filter is %s" % filter)
 
-                for res in endpoint.filter(**filter):
+            # Make call to NetBox API and capture any failures
+            nb_data = make_netbox_call(
+                endpoint, filters=filter if netbox_api_filter else None
+            )
 
-                    Display().vvvvv(pformat(dict(res)))
+            for data in nb_data:
+                Display().vvvvv(pformat(dict(data)))
 
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
-
-            else:
-                for res in endpoint.all():
-
-                    Display().vvvvv(pformat(dict(res)))
-
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
+                if netbox_raw_return:
+                    results.append(dict(data))
+                else:
+                    key = dict(data)["id"]
+                    result = {key: dict(data)}
+                    results.extend(self._flatten_hash_to_list(result))
 
         return results
