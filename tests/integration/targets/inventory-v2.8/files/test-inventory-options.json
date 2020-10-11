@@ -38,6 +38,11 @@
                 "regions": [],
                 "role": "core-switch",
                 "site": "test-site2",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test Nexus One": {
@@ -80,6 +85,11 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100": {
@@ -99,6 +109,11 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100-vm": {
@@ -112,6 +127,11 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test101-vm": {
@@ -125,6 +145,11 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test102-vm": {
@@ -138,6 +163,11 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test103-vm": {
@@ -151,6 +181,11 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test104-vm": {
@@ -159,6 +194,11 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "regions": [],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             }
         }

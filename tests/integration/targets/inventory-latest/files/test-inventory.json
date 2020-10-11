@@ -15,6 +15,11 @@
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site2",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test Nexus One": {
@@ -156,6 +161,11 @@
                     }
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test VM With Spaces": {
@@ -221,6 +231,11 @@
                         }
                     }
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "TestDeviceR1": {
@@ -242,6 +257,11 @@
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100": {
@@ -422,6 +442,11 @@
                     }
                 ],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100-vm": {
@@ -524,6 +549,11 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test101-vm": {
@@ -626,6 +656,11 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test102-vm": {
@@ -642,6 +677,11 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test103-vm": {
@@ -658,6 +698,11 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test104-vm": {
@@ -669,6 +714,11 @@
                 "is_virtual": true,
                 "regions": [],
                 "services": [],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             }
         }

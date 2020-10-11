@@ -30,6 +30,11 @@
                 "sites": [
                     "test-site2"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test Nexus One": {
@@ -187,6 +192,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test VM With Spaces": {
@@ -266,6 +276,11 @@
                         }
                     }
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "TestDeviceR1": {
@@ -302,6 +317,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100": {
@@ -498,6 +518,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test100-vm": {
@@ -627,6 +652,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test101-vm": {
@@ -756,6 +786,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test102-vm": {
@@ -802,6 +837,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test104-vm": {
@@ -818,6 +858,11 @@
                 ],
                 "regions": [],
                 "services": [],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             }
         }
