@@ -235,7 +235,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list"),
                     custom_fields=dict(required=False, type="dict"),
-                    local_context_data=dict(required=False, type="dict")
+                    local_context_data=dict(required=False, type="dict"),
                 ),
             ),
         )
