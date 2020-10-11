@@ -214,9 +214,9 @@ def build_filters(filters):
     Returns:
         result (list): List of dictionaries to filter by.
     """
+    filter = {}
     args_split = split_args(filters)
     args = [parse_kv(x) for x in args_split]
-    filter = {}
     for arg in args:
         for k, v in arg.items():
             if k not in filter:
@@ -333,17 +333,18 @@ class LookupModule(LookupBase):
                 Display().vvvv("filter is %s" % filter)
 
             # Make call to NetBox API and capture any failures
-            res = make_netbox_call(
+            nb_data = make_netbox_call(
                 endpoint, filters=filter if netbox_api_filter else None
             )
 
-            Display().vvvvv(pformat(dict(res)))
+            for data in nb_data:
+                Display().vvvvv(pformat(dict(data)))
 
-            if netbox_raw_return:
-                results.append(dict(res))
-            else:
-                key = dict(res)["id"]
-                result = {key: dict(res)}
-                results.extend(self._flatten_hash_to_list(result))
+                if netbox_raw_return:
+                    results.append(dict(data))
+                else:
+                    key = dict(data)["id"]
+                    result = {key: dict(data)}
+                    results.extend(self._flatten_hash_to_list(result))
 
         return results
