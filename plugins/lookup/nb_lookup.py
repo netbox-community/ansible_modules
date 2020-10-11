@@ -245,12 +245,12 @@ def get_plugin_endpoint(netbox, plugin, term):
     return functools.reduce(_getattr, [netbox] + attr.split("."))
 
 
-def make_netbox_call(netbox, filters=None):
+def make_netbox_call(nb_endpoint, filters=None):
     """
     Wrapper for calls to NetBox and handle any possible errors.
 
     Args:
-        netbox (object): The NetBox endpoint object to make calls.
+        nb_endpoint (object): The NetBox endpoint object to make calls.
 
     Returns:
         results (object): Pynetbox result.
@@ -260,9 +260,9 @@ def make_netbox_call(netbox, filters=None):
     """
     try:
         if filters:
-            results = netbox.filter(**filters)
+            results = nb_endpoint.filter(**filters)
         else:
-            results = netbox.all()
+            results = nb_endpoint.all()
     except pynetbox.RequestError as e:
         if e.req.status_code == 404 and "plugins" in e:
             raise AnsibleError(
