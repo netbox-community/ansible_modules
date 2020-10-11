@@ -27,7 +27,7 @@ copyright = "2020, Mikhail Yohman"
 author = "Mikhail Yohman <@FragmentedPacket>"
 
 # The full version, including alpha/beta/rc tags
-release = "1.0.2"
+release = "1.1.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -80,6 +80,9 @@ def create_antsibull_docs(files, plugin_type=None):
     """
     for f in files:
         file_name = re.search(r"(?:.+\/)(\S+)\.py", str(f)).group(1)
+        if file_name == "netbox_interface":
+            continue
+
         if plugin_type is not None:
             args_string = f"junk plugin --dest-dir plugins/{plugin_type}/{file_name}/ --plugin-type {plugin_type} netbox.netbox.{file_name}"
         else:
@@ -88,6 +91,7 @@ def create_antsibull_docs(files, plugin_type=None):
         try:
             run(args)
         except:
+            print(args)
             sys.exit(1)
 
 

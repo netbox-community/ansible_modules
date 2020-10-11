@@ -36,6 +36,7 @@ plugins/modules/netbox_front_port.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_front_port_template.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_inventory_item.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_inventory_item.py validate-modules:parameter-list-no-elements
+plugins/modules/netbox_ip_address.py validate-modules:mutually_exclusive-unknown
 plugins/modules/netbox_ip_address.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_ip_address.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_ipam_role.py validate-modules:required_if-requirements-unknown
@@ -71,8 +72,8 @@ plugins/modules/netbox_site.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_tenant.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_tenant.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_tenant_group.py validate-modules:required_if-requirements-unknown
-plugins/modules/netbox_virtual_chassis.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_virtual_chassis.py validate-modules:parameter-list-no-elements
+plugins/modules/netbox_virtual_chassis.py validate-modules:required_one_of-unknown
 plugins/modules/netbox_virtual_machine.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_virtual_machine.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_vlan.py validate-modules:required_if-requirements-unknown

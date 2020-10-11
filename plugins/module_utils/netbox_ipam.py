@@ -53,11 +53,28 @@ class NetboxIpamModule(NetboxModule):
     def _ensure_ip_in_prefix_present_on_netif(
         self, nb_app, nb_endpoint, data, endpoint_name
     ):
-        """"""
-        if not data.get("interface") or not data.get("prefix"):
-            self._handle_errors("A prefix and interface are required")
+        query_params = {
+            "parent": data["prefix"],
+        }
 
-        query_params = {"interface_id": data["interface"], "parent": data["prefix"]}
+        if self.version < 2.9:
+            if not data.get("interface") or not data.get("prefix"):
+                self._handle_errors("A prefix and interface is required")
+            data_intf_key = "interface"
+
+        else:
+            if not data.get("assigned_object_id") or not data.get("prefix"):
+                self._handle_errors("A prefix and assigned_object is required")
+            data_intf_key = "assigned_object_id"
+
+        intf_obj_type = data.get("assigned_object_type", "dcim.interface")
+        if intf_obj_type == "virtualization.vminterface":
+            intf_type = "vminterface_id"
+        else:
+            intf_type = "interface_id"
+
+        query_params.update({intf_type: data[data_intf_key]})
+
         if data.get("vrf"):
             query_params["vrf_id"] = data["vrf"]
 

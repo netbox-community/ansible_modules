@@ -108,12 +108,28 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-data/master" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>The master device the virtual chassis is attached to</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Name</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -249,6 +265,7 @@ Examples
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
+              name: "Virtual Chassis 1"
               master: Test Device
             state: present
 

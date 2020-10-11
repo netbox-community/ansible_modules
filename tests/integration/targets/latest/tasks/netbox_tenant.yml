@@ -85,9 +85,9 @@
       tenant_group: "Test Tenant Group"
       slug: "tenant_abc"
       tags:
-        - tagA
-        - tagB
-        - tagC
+        - "tagA"
+        - "tagB"
+        - "tagC"
     state: present
   register: test_five
 

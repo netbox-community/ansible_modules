@@ -28,7 +28,7 @@ netbox.netbox.netbox_ip_address -- Creates or removes IP addresses from Netbox
 
 .. version_added
 
-.. versionadded:: 2.8 of 
+.. versionadded:: 0.1.0 of 
 
 .. contents::
    :local:
@@ -65,12 +65,12 @@ Parameters
 
     <table  border=0 cellpadding=0 class="documentation-table">
         <tr>
-            <th colspan="2">Parameter</th>
+            <th colspan="3">Parameter</th>
             <th>Choices/<font color="blue">Defaults</font></th>
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-data"></div>
                     <b>data</b>
                     <a class="ansibleOptionLink" href="#parameter-data" title="Permalink to this option"></a>
@@ -86,7 +86,7 @@ Parameters
             </tr>
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/address"></div>
                     <b>address</b>
                     <a class="ansibleOptionLink" href="#parameter-data/address" title="Permalink to this option"></a>
@@ -102,7 +102,75 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-data/assigned_object"></div>
+                    <b>assigned_object</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/assigned_object" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Definition of the assigned object.</div>
+                                                        </td>
+            </tr>
+                                        <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/assigned_object/device"></div>
+                    <b>device</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/assigned_object/device" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The device the interface is attached to.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/assigned_object/name"></div>
+                    <b>name</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/assigned_object/name" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The name of the interface</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/assigned_object/virtual_machine"></div>
+                    <b>virtual_machine</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/assigned_object/virtual_machine" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The virtual machine the interface is attached to.</div>
+                                                        </td>
+            </tr>
+                    
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
                     <b>custom_fields</b>
                     <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
@@ -118,7 +186,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
                     <b>description</b>
                     <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
@@ -134,7 +202,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/dns_name"></div>
                     <b>dns_name</b>
                     <a class="ansibleOptionLink" href="#parameter-data/dns_name" title="Permalink to this option"></a>
@@ -150,7 +218,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/family"></div>
                     <b>family</b>
                     <a class="ansibleOptionLink" href="#parameter-data/family" title="Permalink to this option"></a>
@@ -170,7 +238,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/interface"></div>
                     <b>interface</b>
                     <a class="ansibleOptionLink" href="#parameter-data/interface" title="Permalink to this option"></a>
@@ -187,7 +255,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/nat_inside"></div>
                     <b>nat_inside</b>
                     <a class="ansibleOptionLink" href="#parameter-data/nat_inside" title="Permalink to this option"></a>
@@ -203,7 +271,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/prefix"></div>
                     <b>prefix</b>
                     <a class="ansibleOptionLink" href="#parameter-data/prefix" title="Permalink to this option"></a>
@@ -227,7 +295,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/role"></div>
                     <b>role</b>
                     <a class="ansibleOptionLink" href="#parameter-data/role" title="Permalink to this option"></a>
@@ -253,7 +321,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/status"></div>
                     <b>status</b>
                     <a class="ansibleOptionLink" href="#parameter-data/status" title="Permalink to this option"></a>
@@ -269,7 +337,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
                     <b>tags</b>
                     <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
@@ -285,7 +353,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/tenant"></div>
                     <b>tenant</b>
                     <a class="ansibleOptionLink" href="#parameter-data/tenant" title="Permalink to this option"></a>
@@ -301,7 +369,7 @@ Parameters
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
+                                                <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data/vrf"></div>
                     <b>vrf</b>
                     <a class="ansibleOptionLink" href="#parameter-data/vrf" title="Permalink to this option"></a>
@@ -317,7 +385,7 @@ Parameters
             </tr>
                     
                                 <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
                     <b>netbox_token</b>
                     <a class="ansibleOptionLink" href="#parameter-netbox_token" title="Permalink to this option"></a>
@@ -332,7 +400,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
                     <b>netbox_url</b>
                     <a class="ansibleOptionLink" href="#parameter-netbox_url" title="Permalink to this option"></a>
@@ -347,7 +415,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
                     <b>query_params</b>
                     <a class="ansibleOptionLink" href="#parameter-query_params" title="Permalink to this option"></a>
@@ -364,7 +432,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-state"></div>
                     <b>state</b>
                     <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
@@ -387,7 +455,7 @@ Parameters
                                                         </td>
             </tr>
                                 <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="3">
                     <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
                     <b>validate_certs</b>
                     <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
@@ -507,6 +575,17 @@ Examples
               prefix: 192.168.1.0/24
               vrf: Test
               interface:
+                name: GigabitEthernet1
+                device: test100
+            state: new
+        - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1 (NetBox 2.9+)
+          netbox_ip_address:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              prefix: 192.168.1.0/24
+              vrf: Test
+              assigned_object:
                 name: GigabitEthernet1
                 device: test100
             state: new

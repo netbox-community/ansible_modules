@@ -79,7 +79,7 @@
       description: Updated description
       site: "Test Site"
       tags:
-        - Schnozzberry
+        - "Schnozzberry"
     state: present
   register: test_four
 
@@ -91,7 +91,7 @@
       - test_four['diff']['after']['status'] == "reserved"
       - test_four['diff']['after']['role'] == 1
       - test_four['diff']['after']['description'] == "Updated description"
-      - test_four['diff']['after']['tags'][0] == "Schnozzberry"
+      - test_four['diff']['after']['tags'][0] == 4
       - test_four['vlan']['name'] == "Test VLAN 500"
       - test_four['vlan']['tenant'] == 1
       - test_four['vlan']['site'] == 1
@@ -99,7 +99,7 @@
       - test_four['vlan']['status'] == "reserved"
       - test_four['vlan']['role'] == 1
       - test_four['vlan']['description'] == "Updated description"
-      - test_four['vlan']['tags'][0] == "Schnozzberry"
+      - test_four['vlan']['tags'][0] == 4
       - test_four['msg'] == "vlan Test VLAN 500 updated"
 
 - name: "VLAN 5: ASSERT - Delete more than one result"
@@ -139,5 +139,5 @@
       - test_six['vlan']['status'] == "reserved"
       - test_six['vlan']['role'] == 1
       - test_six['vlan']['description'] == "Updated description"
-      - test_six['vlan']['tags'][0] == "Schnozzberry"
+      - test_six['vlan']['tags'][0] == 4
       - test_six['msg'] == "vlan Test VLAN 500 deleted"
