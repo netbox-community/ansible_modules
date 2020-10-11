@@ -31,7 +31,6 @@
                     "test-site2"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -190,7 +189,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -265,7 +263,6 @@
                     }
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -306,7 +303,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -503,7 +499,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -617,7 +612,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -731,7 +725,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -759,7 +752,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -787,7 +779,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -808,7 +799,6 @@
                 "regions": [],
                 "services": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },

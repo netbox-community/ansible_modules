@@ -814,6 +814,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test103-vm": {

@@ -38,7 +38,6 @@
                 "services": [],
                 "site": "test-site2",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -182,7 +181,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -250,7 +248,6 @@
                     }
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -274,7 +271,6 @@
                 "services": [],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -451,7 +447,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -556,7 +551,6 @@
                 "services": [],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -660,6 +654,10 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test102-vm": {
@@ -675,7 +673,6 @@
                 "services": [],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -694,7 +691,6 @@
                 "services": [],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -708,7 +704,6 @@
                 "regions": [],
                 "services": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },

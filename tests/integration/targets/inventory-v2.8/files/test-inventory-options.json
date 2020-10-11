@@ -57,6 +57,11 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "Test VM With Spaces": {
@@ -65,6 +70,11 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "regions": [],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "TestDeviceR1": {

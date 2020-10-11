@@ -39,7 +39,6 @@
                 "role": "core-switch",
                 "site": "test-site2",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -58,7 +57,6 @@
                 "role": "core-switch",
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -71,7 +69,6 @@
                 "is_virtual": true,
                 "regions": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -96,7 +93,6 @@
                 "role": "core-switch",
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -120,7 +116,6 @@
                 "role": "core-switch",
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -138,7 +133,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -156,7 +150,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -174,7 +167,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -192,7 +184,6 @@
                 ],
                 "site": "test-site",
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -205,7 +196,6 @@
                 "is_virtual": true,
                 "regions": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },

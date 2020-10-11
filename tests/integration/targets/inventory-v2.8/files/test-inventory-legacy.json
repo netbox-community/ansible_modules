@@ -261,6 +261,11 @@
                 "sites": [
                     "test-site"
                 ],
+                "status": {
+                    "id": 1,
+                    "label": "Active",
+                    "value": "active"
+                },
                 "tags": []
             },
             "test101-vm": {
