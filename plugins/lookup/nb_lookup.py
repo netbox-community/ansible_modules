@@ -80,7 +80,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('nb_lookup', 'devices',
+    loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
@@ -93,7 +93,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('nb_lookup', 'devices',
+    loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
@@ -102,18 +102,19 @@ tasks:
 tasks:
   - name: "Obtain secrets for R1-Device"
     debug:
-      msg: "{{ query('nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 
 # Fetch bgp sessions for R1-device
 tasks:
   - name: "Obtain bgp sessions for R1-Device"
     debug:
-      msg: "{{ query('nb_lookup', 'bgp_sessions',
+      msg: "{{ query('netbox.netbox.nb_lookup', 'bgp_sessions',
                      api_filter='device=R1-Device',
                      api_endpoint='http://localhost/',
                      token='<redacted>',
                      plugin='mycustomstuff') }}"
 
+      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
@@ -213,9 +214,11 @@ def get_plugin_endpoint(netbox, plugin, term):
               call will be identified
     """
     attr = "plugins.%s.%s" % (plugin, term)
+
     def _getattr(netbox, attr):
         return getattr(netbox, attr)
-    return functools.reduce(_getattr, [netbox] + attr.split('.'))
+
+    return functools.reduce(_getattr, [netbox] + attr.split("."))
 
 
 class LookupModule(LookupBase):
@@ -255,12 +258,14 @@ class LookupModule(LookupBase):
         results = []
         for term in terms:
             if netbox_plugin:
-                endpoint  = get_plugin_endpoint(netbox, netbox_plugin, term)
+                endpoint = get_plugin_endpoint(netbox, netbox_plugin, term)
             else:
                 try:
                     endpoint = get_endpoint(netbox, term)
                 except KeyError:
-                    raise AnsibleError("Unrecognised term %s. Check documentation" % term)
+                    raise AnsibleError(
+                        "Unrecognised term %s. Check documentation" % term
+                    )
 
             Display().vvvv(
                 u"Netbox lookup for %s to %s using token %s filter %s"

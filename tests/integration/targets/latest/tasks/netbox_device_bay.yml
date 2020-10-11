@@ -51,7 +51,7 @@
       name: "Device Bay One"
       installed_device: "Test Nexus Child One"
       tags:
-        - Schnozzberry
+        - "Schnozzberry"
     state: present
   register: test_three
 
@@ -60,11 +60,11 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['installed_device'] == 5
-      - test_three['diff']['after']['tags'][0] == "Schnozzberry"
+      - test_three['diff']['after']['tags'][0] == 4
       - test_three['device_bay']['name'] == "Device Bay One"
       - test_three['device_bay']['device'] == 4
       - test_three['device_bay']['installed_device'] == 5
-      - test_three['device_bay']['tags'][0] == "Schnozzberry"
+      - test_three['device_bay']['tags'][0] == 4
       - test_three['msg'] == "device_bay Device Bay One updated"
 
 - name: "DEVICE_BAY 4: ASSERT - Delete"
@@ -83,5 +83,5 @@
       - test_four['device_bay']['name'] == "Device Bay One"
       - test_four['device_bay']['device'] == 4
       - test_four['device_bay']['installed_device'] == 5
-      - test_four['device_bay']['tags'][0] == "Schnozzberry"
+      - test_four['device_bay']['tags'][0] == 4
       - test_four['msg'] == "device_bay Device Bay One deleted"

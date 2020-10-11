@@ -66,7 +66,7 @@
       local_context_data:
         bgp_as: "65412"
       virtual_chassis: "Test Nexus One"
-      vc_position: 2
+      vc_position: 3
       vc_priority: 15
     state: present
   register: test_three
@@ -78,7 +78,7 @@
       - test_three['diff']['after']['serial'] == "FXS1001"
       - test_three['diff']['after']['local_context_data']["bgp_as"] == "65412"
       - test_three['diff']['after']['virtual_chassis'] == 1
-      - test_three['diff']['after']['vc_position'] == 2
+      - test_three['diff']['after']['vc_position'] == 3
       - test_three['diff']['after']['vc_priority'] == 15
       - test_three['device']['name'] == "R1"
       - test_three['device']['device_role'] == 1
@@ -88,7 +88,7 @@
       - test_three['device']['serial'] == "FXS1001"
       - test_three['device']['local_context_data']["bgp_as"] == "65412"
       - test_three['device']['virtual_chassis'] == 1
-      - test_three['device']['vc_position'] == 2
+      - test_three['device']['vc_position'] == 3
       - test_three['device']['vc_priority'] == 15
       - test_three['msg'] == "device R1 updated"
 
@@ -130,7 +130,7 @@
       position: 35
       face: "Front"
       tags:
-        - "Schnozzberry"
+        - "schnozzberry"
       tenant: "Test Tenant"
       asset_tag: "1234"
     state: present
@@ -148,7 +148,7 @@
       - test_four['device']['site'] == 2
       - test_four['device']['status'] == "active"
       - test_four['device']['rack'] == 1
-      - test_four['device']['tags'][0] == 'Schnozzberry'
+      - test_four['device']['tags'][0] == 4
       - test_four['device']['tenant'] == 1
       - test_four['device']['asset_tag'] == '1234'
       - test_four['msg'] == "device TestR1 created"
