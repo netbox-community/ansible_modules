@@ -376,6 +376,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "disk": self.extract_disk,
             "memory": self.extract_memory,
             "vcpus": self.extract_vcpus,
+            "status": self.extract_status,
             "config_context": self.extract_config_context,
             "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
@@ -460,6 +461,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_vcpus(self, host):
         return host.get("vcpus")
+
+    def extract_status(self, host):
+        return host.get("status")
 
     def extract_memory(self, host):
         return host.get("memory")
