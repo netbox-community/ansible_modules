@@ -333,7 +333,9 @@ class LookupModule(LookupBase):
                 Display().vvvv("filter is %s" % filter)
 
             # Make call to NetBox API and capture any failures
-            res = make_netbox_call(endpoint, filters=filter if filter else None)
+            res = make_netbox_call(
+                endpoint, filters=filter if netbox_api_filter else None
+            )
 
             Display().vvvvv(pformat(dict(res)))
 
