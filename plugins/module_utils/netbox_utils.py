@@ -241,6 +241,7 @@ ENDPOINT_NAME_MAPPING = {
     "roles": "role",
     "services": "services",
     "sites": "site",
+    "tags": "tags",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
     "virtual_chassis": "virtual_chassis",

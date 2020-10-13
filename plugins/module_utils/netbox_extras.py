@@ -5,11 +5,17 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+# Import necessary packages
+import traceback
+from ansible.module_utils.basic import missing_required_lib
+
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
 )
 
+NB_TAGS = "tags"
 
 class NetboxExtrasModule(NetboxModule):
     def __init__(self, module, endpoint):
@@ -34,9 +40,18 @@ class NetboxExtrasModule(NetboxModule):
         data = self.data
 
         # Used for msg output
-        name = data.get("name")
+        if data.get("name"):
+            name = data["name"]
+        elif data.get("slug"):
+            name = data["slug"]
 
-        data["slug"] = self._to_slug(name)
+        if self.endpoint in SLUG_REQUIRED:
+            if not data.get("slug"):
+                data["slug"] = self._to_slug(name)
+
+        # Make color params lowercase
+        if data.get("color"):
+            data["color"] = data["color"].lower()
 
         object_query_params = self._build_query_params(
             endpoint_name, data, user_query_params
