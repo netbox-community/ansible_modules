@@ -15,7 +15,7 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_tags
+module: netbox_tag
 short_description: Creates or removes tags from Netbox
 description:
   - Creates or removes tags from Netbox
@@ -87,7 +87,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create tags
-      netbox_tags:
+      netbox_tag:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -98,7 +98,7 @@ EXAMPLES = r"""
         - { name: tun, description: "tunnel" }
 
     - name: Delete tags
-      netbox_tags:
+      netbox_tag:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -157,8 +157,8 @@ def main():
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_tags = NetboxExtrasModule(module, NB_TAGS)
-    netbox_tags.run()
+    netbox_tag = NetboxExtrasModule(module, NB_TAGS)
+    netbox_tag.run()
 
 
 if __name__ == "__main__":  # pragma: no cover
