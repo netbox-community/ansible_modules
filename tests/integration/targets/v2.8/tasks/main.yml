@@ -154,3 +154,6 @@
 
 - name: "NETBOX_LOOKUP TESTS"
   include_tasks: "netbox_lookup.yml"
+
+- name: "NETBOX_CONFIG_CONTEXT TESTS"
+  include_tasks: "netbox_config_context.yml"

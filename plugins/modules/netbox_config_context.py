@@ -210,13 +210,13 @@ def main():
                     tenant_groups=dict(required=False, type="list"),
                     tenants=dict(required=False, type="list"),
                     tags=dict(required=False, type="list"),
-                    data=dict(required=True, type="dict"),
+                    data=dict(required=False, type="dict"),
                 ),
             ),
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [("state", "present", ["name", "data"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
