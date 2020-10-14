@@ -5,7 +5,7 @@
 ##
 ##
 - name: "TAG 1: ASSERT - Necessary info creation"
-  netbox.netbox.netbox_tags:
+  netbox.netbox.netbox_tag:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -28,7 +28,7 @@
       - test_one['msg'] == "tags Test Tag 1 created"
 
 - name: "TAG 2: Create duplicate"
-  netbox.netbox.netbox_tags:
+  netbox.netbox.netbox_tag:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -46,7 +46,7 @@
       - test_two['msg'] == "tags Test Tag 1 already exists"
 
 - name: "TAG 3: ASSERT - Update"
-  netbox.netbox.netbox_tags:
+  netbox.netbox.netbox_tag:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -68,7 +68,7 @@
       - test_three['msg'] == "tags Test Tag 1 updated"
 
 - name: "TAG 4: ASSERT - Delete"
-  netbox.netbox.netbox_tags:
+  netbox.netbox.netbox_tag:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
