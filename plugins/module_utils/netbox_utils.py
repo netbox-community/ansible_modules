@@ -137,7 +137,7 @@ CONVERT_TO_ID = {
     "circuit": "circuits",
     "circuit_type": "circuit_types",
     "circuit_termination": "circuit_terminations",
-    "circuit.circuittermination": "circuit_terminations",
+    "circuits.circuittermination": "circuit_terminations",
     "cluster": "clusters",
     "cluster_group": "cluster_groups",
     "cluster_type": "cluster_types",
@@ -256,7 +256,7 @@ ALLOWED_QUERY_PARAMS = {
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
-    "circuit.circuittermination": set(["circuit", "term_side"]),
+    "circuits.circuittermination": set(["circuit", "term_side"]),
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
@@ -621,6 +621,12 @@ class NetboxModule(object):
         :params child(dict): This is used within `_find_ids` and passes the inner dictionary
         to build the appropriate `query_dict` for the parent
         """
+        # This is to change the parent key to use the proper ALLOWED_QUERY_PARAMS below for termination searches.
+        if parent == "termination_a" and module_data.get("termination_a_type"):
+            parent = module_data["termination_a_type"]
+        elif parent == "termination_b" and module_data.get("termination_b_type"):
+            parent = module_data["termination_b_type"]
+
         query_dict = dict()
         if user_query_params:
             query_params = set(user_query_params)

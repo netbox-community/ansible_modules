@@ -30,7 +30,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['cable']['termination_a_type'] == "dcim.interface"
-      - test_one['cable']['termination_a_id'] == 13
+      - test_one['cable']['termination_a_id'] == 25
       - test_one['cable']['termination_b_type'] == "dcim.interface"
       - test_one['cable']['termination_b_id'] == 2
       - test_one['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 created"
@@ -56,7 +56,7 @@
     that:
       - not test_two['changed']
       - test_two['cable']['termination_a_type'] == "dcim.interface"
-      - test_two['cable']['termination_a_id'] == 13
+      - test_two['cable']['termination_a_id'] == 25
       - test_two['cable']['termination_b_type'] == "dcim.interface"
       - test_two['cable']['termination_b_id'] == 2
       - test_two['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 already exists"
@@ -94,7 +94,7 @@
       - test_three['diff']['after']['length'] == 30
       - test_three['diff']['after']['length_unit'] == "m"
       - test_three['cable']['termination_a_type'] == "dcim.interface"
-      - test_three['cable']['termination_a_id'] == 13
+      - test_three['cable']['termination_a_id'] == 25
       - test_three['cable']['termination_b_type'] == "dcim.interface"
       - test_three['cable']['termination_b_id'] == 2
       - test_three['cable']['type'] == "mmf-om4"
@@ -156,3 +156,31 @@
       - test_five['cable']['termination_b_type'] == "dcim.consoleport"
       - test_five['cable']['termination_b_id'] == 1
       - test_five['msg'] == "cable dcim.consoleserverport Console Server Port <> dcim.consoleport Console Port created"
+
+- name: "CABLE 6: Circuits Termination as side A"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      termination_a_type: circuits.circuittermination
+      termination_a:
+        circuit: "Test Circuit Two"
+        term_side: "A"
+      termination_b_type: dcim.interface
+      termination_b:
+        device: "test100"
+        name: "GigabitEthernet2"
+    state: present
+  register: test_six
+
+- name: "CABLE 6: ASSERT - Circuits Termination as side A"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['cable']['termination_a_type'] == "circuits.circuittermination"
+      - test_six['cable']['termination_a_id'] == 1
+      - test_six['cable']['termination_b_type'] == "dcim.interface"
+      - test_six['cable']['termination_b_id'] == 4
+      - test_six['msg'] == "cable circuits.circuittermination 1 <> dcim.interface GigabitEthernet2 created"

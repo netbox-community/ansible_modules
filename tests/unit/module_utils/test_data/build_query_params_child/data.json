@@ -220,5 +220,41 @@
             "name": "Test VRF",
             "tenant_id": 1
         }
+    },
+    {
+        "parent": "termination_a",
+        "module_data": {
+            "termination_a_type": "circuits.circuittermination",
+            "termination_a": {
+                "circuit": "Circuit1",
+                "term_side": "A"
+            }
+        },
+        "child": {
+            "circuit": "Circuit1",
+            "term_side": "A"
+        },
+        "expected": {
+            "circuit_id": 1,
+            "term_side": "A"
+        }
+    },
+    {
+        "parent": "termination_b",
+        "module_data": {
+            "termination_b_type": "dcim.interface",
+            "termination_b": {
+                "device": "device1",
+                "name": "Ethernet1/1"
+            }
+        },
+        "child": {
+            "device": "device1",
+            "name": "Ethernet1/1"
+        },
+        "expected": {
+            "device_id": 1,
+            "name": "Ethernet1/1"
+        }
     }
 ]
