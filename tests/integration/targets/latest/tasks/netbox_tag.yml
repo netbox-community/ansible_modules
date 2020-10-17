@@ -100,11 +100,11 @@
 - name: "TAG 5: ASSERT - Necessary info creation"
   assert:
     that:
-      - test_dive is changed
-      - test_dive['diff']['before']['state'] == "absent"
-      - test_dive['diff']['after']['state'] == "present"
-      - test_dive['tags']['color'] == "0000ff"
-      - test_dive['tags']['description'] == "Tag 5 test"
-      - test_dive['tags']['name'] == "Test Tag 5"
-      - test_dive['tags']['slug'] == "test-tag-five"
-      - test_dive['msg'] == "tags test-tag-five created"
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['tags']['color'] == "0000ff"
+      - test_five['tags']['description'] == "Tag 5 test"
+      - test_five['tags']['name'] == "Test Tag 5"
+      - test_five['tags']['slug'] == "test-tag-five"
+      - test_five['msg'] == "tags test-tag-five created"
