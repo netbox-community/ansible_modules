@@ -107,4 +107,4 @@
       - test_five['tags']['description'] == "Tag 5 test"
       - test_five['tags']['name'] == "Test Tag 5"
       - test_five['tags']['slug'] == "test-tag-five"
-      - test_five['msg'] == "tags test-tag-five created"
+      - test_five['msg'] == "tags Test Tag 5 created"
