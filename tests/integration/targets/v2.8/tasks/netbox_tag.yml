@@ -84,3 +84,27 @@
       - test_four['tags']['name'] == "Test Tag 1"
       - test_four['tags']['slug'] == "test-tag-1"
       - test_four['msg'] == "tags Test Tag 1 deleted"
+
+- name: "TAG 5: ASSERT - Necessary info creation"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 5"
+      slug: "test-tag-five"
+      description: "Tag 5 test"
+      color: "0000ff"
+    state: present
+  register: test_five
+
+- name: "TAG 5: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_dive is changed
+      - test_dive['diff']['before']['state'] == "absent"
+      - test_dive['diff']['after']['state'] == "present"
+      - test_dive['tags']['color'] == "0000ff"
+      - test_dive['tags']['description'] == "Tag 5 test"
+      - test_dive['tags']['name'] == "Test Tag 5"
+      - test_dive['tags']['slug'] == "test-tag-five"
+      - test_dive['msg'] == "tags test-tag-five created"

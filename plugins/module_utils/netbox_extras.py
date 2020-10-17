@@ -5,10 +5,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-# Import necessary packages
-import traceback
-from ansible.module_utils.basic import missing_required_lib
-
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
@@ -16,6 +12,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 
 NB_TAGS = "tags"
+
 
 class NetboxExtrasModule(NetboxModule):
     def __init__(self, module, endpoint):
@@ -26,6 +23,7 @@ class NetboxExtrasModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - tags
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]

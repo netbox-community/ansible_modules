@@ -69,6 +69,7 @@ plugins/modules/netbox_service.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_service.py validate-modules:required_one_of-unknown
 plugins/modules/netbox_site.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_site.py validate-modules:parameter-list-no-elements
+plugins/modules/netbox_tag.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_tenant.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_tenant.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_tenant_group.py validate-modules:required_if-requirements-unknown
