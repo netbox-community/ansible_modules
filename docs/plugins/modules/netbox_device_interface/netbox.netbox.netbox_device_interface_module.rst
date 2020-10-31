@@ -81,7 +81,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the prefix configuration</div>
+                                            <div>Defines the interface configuration</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -97,7 +97,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The description of the prefix</div>
+                                            <div>The description of the interface</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -283,7 +283,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Any tags that the prefix may need to be associated with</div>
+                                            <div>Any tags that the interface may need to be associated with</div>
                                                         </td>
             </tr>
                                 <tr>
