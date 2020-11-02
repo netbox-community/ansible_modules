@@ -41,7 +41,7 @@ options:
     type: str
   data:
     description:
-      - Defines the prefix configuration
+      - Defines the interface configuration
     suboptions:
       device:
         description:
@@ -96,7 +96,7 @@ options:
         type: bool
       description:
         description:
-          - The description of the prefix
+          - The description of the interface
         required: false
         type: str
       mode:
@@ -116,7 +116,7 @@ options:
         type: raw
       tags:
         description:
-          - Any tags that the prefix may need to be associated with
+          - Any tags that the interface may need to be associated with
         required: false
         type: list
     required: true
