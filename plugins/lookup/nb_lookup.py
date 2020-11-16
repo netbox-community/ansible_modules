@@ -330,6 +330,20 @@ class LookupModule(LookupBase):
             if netbox_api_filter:
                 filter = build_filters(netbox_api_filter)
 
+                if "id" in filter:
+                    Display().vvvv(
+                        u"Filter is: %s and includes id, will use .get instead of .filter"
+                        % (filter)
+                    )
+                    try:
+                        id = int(filter["id"][0])
+                        nb_data = endpoint.get(id)
+                        data = dict(nb_data)
+                        Display().vvvvv(pformat(data))
+                        return [data]
+                    except pynetbox.RequestError as e:
+                        raise AnsibleError(e.error)
+
                 Display().vvvv("filter is %s" % filter)
 
             # Make call to NetBox API and capture any failures
@@ -338,13 +352,14 @@ class LookupModule(LookupBase):
             )
 
             for data in nb_data:
-                Display().vvvvv(pformat(dict(data)))
+                data = dict(data)
+                Display().vvvvv(pformat(data))
 
                 if netbox_raw_return:
-                    results.append(dict(data))
+                    results.append(data)
                 else:
-                    key = dict(data)["id"]
-                    result = {key: dict(data)}
+                    key = data["id"]
+                    result = {key: data}
                     results.extend(self._flatten_hash_to_list(result))
 
         return results

@@ -75,3 +75,8 @@
       - "'L2' in {{ query_result |json_query('[*].display_name') }}"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch site=test-site site=test-site2', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
+
+- name: "NETBOX_LOOKUP 10: Device query by ID"
+  assert:
+    that:
+      - "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='id=1', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
