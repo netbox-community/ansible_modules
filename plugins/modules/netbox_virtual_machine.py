@@ -123,7 +123,6 @@ options:
           - Comments of the virtual machine
         required: false
         type: str
-      custom_fields:
     required: true
   state:
     description:
