@@ -44,24 +44,6 @@
                 },
                 "tags": []
             },
-            "Test Nexus One": {
-                "custom_fields": {},
-                "device_type": "nexus-parent",
-                "display": "Test Nexus One",
-                "is_virtual": false,
-                "manufacturer": "cisco",
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "role": "core-switch",
-                "site": "test-site",
-                "status": {
-                    "label": "Active",
-                    "value": "active"
-                },
-                "tags": []
-            },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
@@ -86,6 +68,24 @@
                     "parent-rack-group"
                 ],
                 "rack_id": "2",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "site": "test-site",
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "VC1": {
+                "custom_fields": {},
+                "device_type": "nexus-parent",
+                "display": "Test Nexus One",
+                "is_virtual": false,
+                "manufacturer": "cisco",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -229,8 +229,8 @@
     "cisco": {
         "hosts": [
             "R1-Device",
-            "Test Nexus One",
             "TestDeviceR1",
+            "VC1",
             "test100"
         ]
     },
@@ -244,8 +244,8 @@
     "core_switch": {
         "hosts": [
             "R1-Device",
-            "Test Nexus One",
             "TestDeviceR1",
+            "VC1",
             "test100"
         ]
     },
@@ -261,14 +261,13 @@
     },
     "jinja_test_group": {
         "hosts": [
-            "Test Nexus One",
             "Test VM With Spaces",
             "TestDeviceR1"
         ]
     },
     "nexus_parent": {
         "hosts": [
-            "Test Nexus One"
+            "VC1"
         ]
     },
     "parent_rack_group": {
@@ -316,8 +315,8 @@
     },
     "test_site": {
         "hosts": [
-            "Test Nexus One",
             "TestDeviceR1",
+            "VC1",
             "test100",
             "test100-vm",
             "test101-vm",
