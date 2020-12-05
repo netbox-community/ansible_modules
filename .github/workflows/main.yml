@@ -1,0 +1,51 @@
+name: Linting
+
+# Run this workflow every time a new commit pushed to your repository
+on: [push, pull_request]
+
+env:
+  COLLECTION_NAMESPACE: "netbox"
+  COLLECTION_NAME: "netbox"
+  COLLECTION_VERSION: "1.1.0"
+
+jobs:
+  linting_unit_testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1.1.1
+        with:
+          virtualenvs-create: false
+      - name: Install Python packages
+        run: poetry install
+      - name: Create and install collection
+        run: |
+          mkdir -p /tmp/ansible_collections/$COLLECTION_NAMESPACE
+          cp -R ansible_modules /tmp/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+          cd /tmp/ansible_collections/$COLLECTION_NAMESPACE/$COLLECTION_NAME
+      - name: Run Black
+        run: black . --check --diff
+      - name: Run Ansible Sanity tests
+        run: ansible-test sanity -v --requirements --python $PYTHON_VER --skip-test pep8 plugins/
+      - name: Run Ansible Unit tests
+        run: ansible-test units -v --coverage --python $PYTHON_VER
+  #tests:
+  #  runs-on: ubuntu-latest
+  #  strategy:
+  #    matrix:
+  #      include:
+  #        - python-version: 3.6
+  #          netbox-version: 2.8
+  #        - python-version: 3.7
+  #          netbox-version: 2.9
+  #  steps:
+  #    - name: Set up Python ${{ matrix.python-version }}
+  #      uses: actions/setup-python@v2
+  #      with:
+  #        python-version: ${{ matrix.python-version }}
