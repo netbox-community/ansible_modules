@@ -121,7 +121,13 @@ vlan_groups = [
         "slug": "test-vlan-group",
         "site": test_site.id,
         "tenant": test_tenant.id,
-    }
+    },
+    {
+        "name": "Test Vlan Group 2",
+        "slug": "test-vlan-group-2",
+        "site": test_site.id,
+        "tenant": test_tenant.id,
+    },
 ]
 created_vlan_groups = make_netbox_calls(nb.ipam.vlan_groups, vlan_groups)
 ## VLAN Group variables to be used later on
