@@ -126,6 +126,31 @@
     that:
       - idempotent_vlan_group is not changed
 
+- name: "VLAN: Create VLAN with same name, but different vlan_group"
+  netbox.netbox.netbox_vlan:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test VLAN 500
+      vid: 500
+      site: Test Site
+      tenant: Test Tenant
+      vlan_group: "Test VLAN Group 2"
+    state: present
+  register: new_vlan_group
+
+- name: "VLAN: ASSERT - Create VLAN with same name, but different vlan_group"
+  assert:
+    that:
+      - new_vlan_group is changed
+      - new_vlan_group['diff']['before']['state'] == "absent"
+      - new_vlan_group['diff']['after']['state'] == "present"
+      - new_vlan_group['vlan']['name'] == "Test VLAN 500"
+      - new_vlan_group['vlan']['vid'] == 500
+      - new_vlan_group['vlan']['site'] == 1
+      - new_vlan_group['vlan']['group'] == 2
+      - new_vlan_group['msg'] == "vlan Test VLAN 500 created"
+
 - name: "VLAN 5: ASSERT - Delete more than one result"
   netbox.netbox.netbox_vlan:
     netbox_url: http://localhost:32768
