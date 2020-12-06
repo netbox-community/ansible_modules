@@ -406,20 +406,5 @@
             "name": "Test VM 100",
             "cluster_id": 1
         }
-    },
-    {
-        "parent": "vlan",
-        "module_data": {
-            "name": "Wireless",
-            "group": 1,
-            "site": 1,
-            "vid": 100
-        },
-        "expected": {
-            "name": "Wireless",
-            "group": 1,
-            "site": 1,
-            "vid": 100
-        }
     }
 ]
