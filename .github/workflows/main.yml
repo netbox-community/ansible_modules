@@ -51,6 +51,9 @@ jobs:
           - python-version: 3.6
             VERSION: "v2.9"
             INTEGRATION_TESTS: "latest"
+          - python-version: 3.7
+            VERSION: "v2.9"
+            INTEGRATION_TESTS: "latest"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
