@@ -51,6 +51,7 @@
       vid: 500
       site: Test Site
       tenant: Test Tenant
+      vlan_group: "Test VLAN Group"
     state: present
   register: test_three
 
@@ -63,6 +64,7 @@
       - test_three['vlan']['name'] == "Test VLAN 500"
       - test_three['vlan']['vid'] == 500
       - test_three['vlan']['site'] == 1
+      - test_three['vlan']['group'] == 1
       - test_three['msg'] == "vlan Test VLAN 500 created"
 
 - name: "VLAN 4: ASSERT - Update"
@@ -87,7 +89,6 @@
   assert:
     that:
       - test_four is changed
-      - test_four['diff']['after']['group'] == 1
       - test_four['diff']['after']['status'] == "reserved"
       - test_four['diff']['after']['role'] == 1
       - test_four['diff']['after']['description'] == "Updated description"
@@ -123,21 +124,7 @@
 - name: "VLAN: ASSERT - IDEMPOTENT WITH VLAN_GROUP"
   assert:
     that:
-      - idempotent_vlan_group is changed
-      - idempotent_vlan_group['diff']['after']['group'] == 1
-      - idempotent_vlan_group['diff']['after']['status'] == "reserved"
-      - idempotent_vlan_group['diff']['after']['role'] == 1
-      - idempotent_vlan_group['diff']['after']['description'] == "Updated description"
-      - idempotent_vlan_group['diff']['after']['tags'][0] == 4
-      - idempotent_vlan_group['vlan']['name'] == "Test VLAN 500"
-      - idempotent_vlan_group['vlan']['tenant'] == 1
-      - idempotent_vlan_group['vlan']['site'] == 1
-      - idempotent_vlan_group['vlan']['group'] == 1
-      - idempotent_vlan_group['vlan']['status'] == "reserved"
-      - idempotent_vlan_group['vlan']['role'] == 1
-      - idempotent_vlan_group['vlan']['description'] == "Updated description"
-      - idempotent_vlan_group['vlan']['tags'][0] == 4
-      - idempotent_vlan_group['msg'] == "vlan Test VLAN 500 updated"
+      - idempotent_vlan_group is not changed
 
 - name: "VLAN 5: ASSERT - Delete more than one result"
   netbox.netbox.netbox_vlan:
