@@ -102,6 +102,43 @@
       - test_four['vlan']['tags'][0] == "Schnozzberry"
       - test_four['msg'] == "vlan Test VLAN 500 updated"
 
+- name: "VLAN: ASSERT - IDEMPOTENT WITH VLAN_GROUP"
+  netbox.netbox.netbox_vlan:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test VLAN 500"
+      vid: 500
+      tenant: "Test Tenant"
+      vlan_group: "Test VLAN Group"
+      status: Reserved
+      vlan_role: Network of care
+      description: Updated description
+      site: "Test Site"
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: idempotent_vlan_group
+
+- name: "VLAN: ASSERT - IDEMPOTENT WITH VLAN_GROUP"
+  assert:
+    that:
+      - idempotent_vlan_group is changed
+      - idempotent_vlan_group['diff']['after']['group'] == 1
+      - idempotent_vlan_group['diff']['after']['status'] == "reserved"
+      - idempotent_vlan_group['diff']['after']['role'] == 1
+      - idempotent_vlan_group['diff']['after']['description'] == "Updated description"
+      - idempotent_vlan_group['diff']['after']['tags'][0] == 4
+      - idempotent_vlan_group['vlan']['name'] == "Test VLAN 500"
+      - idempotent_vlan_group['vlan']['tenant'] == 1
+      - idempotent_vlan_group['vlan']['site'] == 1
+      - idempotent_vlan_group['vlan']['group'] == 1
+      - idempotent_vlan_group['vlan']['status'] == "reserved"
+      - idempotent_vlan_group['vlan']['role'] == 1
+      - idempotent_vlan_group['vlan']['description'] == "Updated description"
+      - idempotent_vlan_group['vlan']['tags'][0] == 4
+      - idempotent_vlan_group['msg'] == "vlan Test VLAN 500 updated"
+
 - name: "VLAN 5: ASSERT - Delete more than one result"
   netbox.netbox.netbox_vlan:
     netbox_url: http://localhost:32768
