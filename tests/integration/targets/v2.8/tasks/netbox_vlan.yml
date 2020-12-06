@@ -174,6 +174,7 @@
     data:
       name: "Test VLAN 500"
       site: Test Site
+      vlan_group: "Test VLAN Group"
     state: absent
   register: test_six
 
