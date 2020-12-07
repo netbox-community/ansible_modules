@@ -45,6 +45,15 @@ options:
     description:
       - Defines the IP address configuration
     suboptions:
+      family:
+        description:
+          - (DEPRECATED) - NetBox now handles determining the IP family natively.
+          - Specifies with address family the IP address belongs to
+        choices:
+          - 4
+          - 6
+        required: false
+        type: int
       address:
         description:
           - Required if state is C(present)
