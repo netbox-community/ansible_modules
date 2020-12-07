@@ -45,15 +45,6 @@ options:
     description:
       - Defines the IP address configuration
     suboptions:
-      family:
-        description:
-          - Specifies with address family the IP address belongs to
-        choices:
-          - 4
-          - 6
-        required: false
-        removed_in: 0.3.0
-        type: int
       address:
         description:
           - Required if state is C(present)
