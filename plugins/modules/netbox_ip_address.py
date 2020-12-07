@@ -47,6 +47,7 @@ options:
     suboptions:
       family:
         description:
+          - (DEPRECATED) - NetBox now handles determining the IP family natively.
           - Specifies with address family the IP address belongs to
         choices:
           - 4
