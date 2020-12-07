@@ -165,6 +165,12 @@ DOCUMENTATION = """
             type: int
             default: 4000
             version_added: "0.2.1"
+        virtual_chassis_name:
+            description:
+                - When a device is part of a virtual chassis, use the virtual chassis name as the Ansible inventory hostname.
+                - The host var values will be from the virtual chassis master.
+            type: boolean
+            default: False
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -1191,7 +1197,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # An host in an Ansible inventory requires an hostname.
         # name is an unique but not required attribute for a device in NetBox
         # We default to an UUID for hostname in case the name is not set in NetBox
-        return host["name"] or str(uuid.uuid4())
+        # Use virtual chassis name if set by the user.
+        if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
+            return host["virtual_chassis"]["name"] or str(uuid.uuid4())
+        else:
+            return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
 
@@ -1447,5 +1457,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.query_filters = self.get_option("query_filters")
         self.device_query_filters = self.get_option("device_query_filters")
         self.vm_query_filters = self.get_option("vm_query_filters")
+        self.virtual_chassis_name = self.get_option("virtual_chassis_name")
 
         self.main()
