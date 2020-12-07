@@ -52,6 +52,7 @@ options:
           - 4
           - 6
         required: false
+        removed_in: 0.3.0
         type: int
       address:
         description:
