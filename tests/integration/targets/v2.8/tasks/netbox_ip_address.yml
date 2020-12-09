@@ -173,7 +173,7 @@
       - test_eight['ip_address']['address'] == "10.10.1.30/16"
       - test_eight['ip_address']['family'] == 4
       - test_eight['ip_address']['interface'] == 3
-      - test_eight['ip_address']['nat_inside'] == 11
+      - test_eight['ip_address']['nat_inside'] == 10
       - test_eight['ip_address']['vrf'] == 1
 
 - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
