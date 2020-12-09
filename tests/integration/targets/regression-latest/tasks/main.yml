@@ -191,6 +191,6 @@
         that:
           - query_params_372 is changed
           - query_params_372['msg'] == 'ip_address 10.255.255.1/24 updated'
-          - query_params_372['after']['assigned_object'] == 3
-          - query_params_372['after']['assigned_object_id'] == 3
-          - query_params_372['after']['assigned_object_type'] == 'dcim.interface'
+          - query_params_372['diff']['after']['assigned_object'] == 3
+          - query_params_372['diff']['after']['assigned_object_id'] == 3
+          - query_params_372['diff']['after']['assigned_object_type'] == 'dcim.interface'
