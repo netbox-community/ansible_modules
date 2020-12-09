@@ -159,3 +159,38 @@
           - test_seven is changed
           - test_seven["diff"]["after"]["asset_tag"] == "Null"
           - test_seven["device"]["asset_tag"] == "Null"
+
+    - name: Add ip address to netbox and don't assign it to a device (Issue 372)
+      netbox.netbox.netbox_ip_address:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          address: 10.255.255.1/24
+        query_params:
+          - address
+          - vrf
+        state: present
+
+    - name: Update same ip address to attach to a device interface (Issue 372)
+      netbox.netbox.netbox_ip_address:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          address: 10.255.255.1/24
+          assigned_object:
+            device: test100
+            name: GigabitEthernet1
+        query_params:
+          - address
+          - vrf
+        state: present
+      register: query_params_372
+
+    - name: Assert ip address was updated and added to device interface
+      assert:
+        that:
+          - query_params_372 is changed
+          - query_params_372['msg'] == 'ip_address 10.255.255.1/24 updated'
+          - query_params_372['after']['assigned_object'] == 3
+          - query_params_372['after']['assigned_object_id'] == 3
+          - query_params_372['after']['assigned_object_type'] == 'dcim.interface'
