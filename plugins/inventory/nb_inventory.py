@@ -761,20 +761,20 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return None
 
         # Only get VC members when the host is the master
-        if self._get_host_virtual_chassis_master(host) != host['id']:
+        if self._get_host_virtual_chassis_master(host) != host["id"]:
             return None
 
         vc_members = list()
-        for member in self.vc_members_lookup[host['virtual_chassis']['id']]:
+        for member in self.vc_members_lookup[host["virtual_chassis"]["id"]]:
             # Avoid infinite loop for master VC member
-            if member['id'] == host['id']:
+            if member["id"] == host["id"]:
                 continue
 
             # Get all vars for the VC member
             host_vars = self._get_host_variables(member)
 
             # Convert into a dictionary and add to the members list
-            vc_members.append({ v[0]: v[1] for v in host_vars })
+            vc_members.append({v[0]: v[1] for v in host_vars})
 
         return vc_members
 
@@ -1078,16 +1078,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def refresh_virtual_chassis_members(self):
         # Get all devices that are VC members
-        url = self.api_endpoint + "/api/dcim/devices/?limit=0&virtual_chassis_member=true"
+        url = (
+            self.api_endpoint + "/api/dcim/devices/?limit=0&virtual_chassis_member=true"
+        )
         raw_vc_members = self.get_resource_list(url)
 
         # Create member lookup dictionary for each virtual chassis
         self.vc_members_lookup = dict()
         for member in raw_vc_members:
-            if member['virtual_chassis']['id'] not in self.vc_members_lookup:
-                self.vc_members_lookup[member['virtual_chassis']['id']] = list()
+            if member["virtual_chassis"]["id"] not in self.vc_members_lookup:
+                self.vc_members_lookup[member["virtual_chassis"]["id"]] = list()
 
-            self.vc_members_lookup[member['virtual_chassis']['id']].append(member)
+            self.vc_members_lookup[member["virtual_chassis"]["id"]].append(member)
 
     @property
     def lookup_processes(self):
@@ -1425,7 +1427,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         extracted_vars = list()
         extracted_primary_ip = self.extract_primary_ip(host=host)
         if extracted_primary_ip:
-            extracted_vars.append(('ansible_host', extracted_primary_ip))
+            extracted_vars.append(("ansible_host", extracted_primary_ip))
 
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
