@@ -178,6 +178,10 @@ DOCUMENTATION = """
                 - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
             type: boolean
             default: False
+        virtual_chassis_members:
+            description: Include the virtual chassis member's information under the master's host vars.
+            type: boolean
+            default: False
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -430,6 +434,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.interfaces or self.dns_name:
             extractors.update(
                 {"dns_name": self.extract_dns_name,}
+            )
+
+        if self.virtual_chassis_members:
+            extractors.update(
+                {
+                    "virtual_chassis_members": self.extract_vc_members,
+                    "vc_position": self.extract_vc_position,
+                    "vc_priority": self.extract_vc_priority,
+                }
             )
 
         return extractors
@@ -743,6 +756,34 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return ip_address.get("dns_name")
 
+    def extract_vc_members(self, host):
+        if not host.get("virtual_chassis", None):
+            return None
+
+        # Only get VC members when the host is the master
+        if self._get_host_virtual_chassis_master(host) != host['id']:
+            return None
+
+        vc_members = list()
+        for member in self.vc_members_lookup[host['virtual_chassis']['id']]:
+            # Avoid infinite loop for master VC member
+            if member['id'] == host['id']:
+                continue
+
+            # Get all vars for the VC member
+            host_vars = self._get_host_variables(member)
+
+            # Convert into a dictionary and add to the members list
+            vc_members.append({ v[0]: v[1] for v in host_vars })
+
+        return vc_members
+
+    def extract_vc_position(self, host):
+        return host.get("vc_position")
+
+    def extract_vc_priority(self, host):
+        return host.get("vc_priority")
+
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
@@ -1035,6 +1076,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
             del ipaddress_copy["interface"]
 
+    def refresh_virtual_chassis_members(self):
+        # Get all devices that are VC members
+        url = self.api_endpoint + "/api/dcim/devices/?limit=0&virtual_chassis_member=true"
+        raw_vc_members = self.get_resource_list(url)
+
+        # Create member lookup dictionary for each virtual chassis
+        self.vc_members_lookup = dict()
+        for member in raw_vc_members:
+            if member['virtual_chassis']['id'] not in self.vc_members_lookup:
+                self.vc_members_lookup[member['virtual_chassis']['id']] = list()
+
+            self.vc_members_lookup[member['virtual_chassis']['id']].append(member)
+
     @property
     def lookup_processes(self):
         lookups = [
@@ -1055,6 +1109,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.services:
             lookups.append(self.refresh_services)
+
+        if self.virtual_chassis_members:
+            lookups.append(self.refresh_virtual_chassis_members)
 
         return lookups
 
@@ -1364,18 +1421,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 region_transformed_group_name, site_transformed_group_name
             )
 
-    def _fill_host_variables(self, host, hostname):
+    def _get_host_variables(self, host):
+        extracted_vars = list()
         extracted_primary_ip = self.extract_primary_ip(host=host)
         if extracted_primary_ip:
-            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
+            extracted_vars.append(('ansible_host', extracted_primary_ip))
 
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
-            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
+            extracted_vars.append(("primary_ip4", extracted_primary_ip4))
 
         extracted_primary_ip6 = self.extract_primary_ip6(host=host)
         if extracted_primary_ip6:
-            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
+            extracted_vars.append(("primary_ip6", extracted_primary_ip6))
 
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
@@ -1405,9 +1463,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             ):
                 for key, value in extracted_value.items():
-                    self.inventory.set_variable(hostname, key, value)
+                    extracted_vars.append((key, value))
             else:
-                self.inventory.set_variable(hostname, attribute, extracted_value)
+                extracted_vars.append((attribute, extracted_value))
+
+        return extracted_vars
+
+    def _fill_host_variables(self, host, hostname):
+        host_vars = self._get_host_variables(host)
+
+        for var in host_vars:
+            self.inventory.set_variable(hostname, var[0], var[1])
 
     def _get_host_virtual_chassis_master(self, host):
         virtual_chassis = host.get("virtual_chassis", None)
@@ -1507,6 +1573,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.device_query_filters = self.get_option("device_query_filters")
         self.vm_query_filters = self.get_option("vm_query_filters")
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
+        self.virtual_chassis_members = self.get_option("virtual_chassis_members")
         self.dns_name = self.get_option("dns_name")
 
         self.main()
