@@ -70,9 +70,7 @@ class AnsibleOutputPrimaryLexer(RegexLexer):
         # #########################################
         # # BEGIN: states from JSON lexer #########
         # #########################################
-        "whitespace": [
-            (r"\s+", token.Text),
-        ],
+        "whitespace": [(r"\s+", token.Text),],
         # represents a simple terminal value
         "simplevalue": [
             (r"(true|false|null)\b", token.Keyword.Constant),
