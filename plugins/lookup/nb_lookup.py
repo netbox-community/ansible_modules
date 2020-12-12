@@ -11,6 +11,7 @@ A lookup function designed to return data from the Netbox application
 
 from __future__ import absolute_import, division, print_function
 
+import os
 import functools
 from pprint import pformat
 
@@ -41,6 +42,10 @@ DOCUMENTATION = """
         api_endpoint:
             description:
                 - The URL to the Netbox instance to query
+            env:
+                # in order of precendence
+                - name: NETBOX_API
+                - name: NETBOX_URL
             required: True
         api_filter:
             description:
@@ -54,6 +59,8 @@ DOCUMENTATION = """
             description:
                 - The API token created through Netbox
                 - This may not be required depending on the Netbox setup.
+            env:
+                - name: NETBOX_TOKEN
             required: False
         validate_certs:
             description:
@@ -283,8 +290,8 @@ class LookupModule(LookupBase):
 
     def run(self, terms, variables=None, **kwargs):
 
-        netbox_api_token = kwargs.get("token")
-        netbox_api_endpoint = kwargs.get("api_endpoint")
+        netbox_api_token = kwargs.get("token") or os.getenv("NETBOX_TOKEN")
+        netbox_api_endpoint = kwargs.get("api_endpoint") or os.getenv("NETBOX_API") or os.getenv("NETBOX_TOKEN")
         netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
