@@ -185,7 +185,11 @@ device_types = [
         "manufacturer": cisco_manu.id,
         "subdevice_role": False,
     },
-    {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
+    {
+        "model": "1841",
+        "slug": "1841",
+        "manufacturer": cisco_manu.id,
+    },
 ]
 if version > 2.8:
     temp_dt = []
@@ -362,7 +366,10 @@ clusters = [
         "group": test_cluster_group.id,
         "site": test_site.id,
     },
-    {"name": "Test Cluster 2", "type": test_cluster_type.id,},
+    {
+        "name": "Test Cluster 2",
+        "type": test_cluster_type.id,
+    },
 ]
 created_clusters = make_netbox_calls(nb.virtualization.clusters, clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")

@@ -60,7 +60,9 @@ DOCUMENTATION = """
                 - The API token created through Netbox
                 - This may not be required depending on the Netbox setup.
             env:
+                # in order of precendence
                 - name: NETBOX_TOKEN
+                - name: NETBOX_API_TOKEN
             required: False
         validate_certs:
             description:
@@ -290,8 +292,16 @@ class LookupModule(LookupBase):
 
     def run(self, terms, variables=None, **kwargs):
 
-        netbox_api_token = kwargs.get("token") or os.getenv("NETBOX_TOKEN")
-        netbox_api_endpoint = kwargs.get("api_endpoint") or os.getenv("NETBOX_API") or os.getenv("NETBOX_TOKEN")
+        netbox_api_token = (
+            kwargs.get("token")
+            or os.getenv("NETBOX_TOKEN")
+            or os.getenv("NETBOX_API_TOKEN")
+        )
+        netbox_api_endpoint = (
+            kwargs.get("api_endpoint")
+            or os.getenv("NETBOX_API")
+            or os.getenv("NETBOX_URL")
+        )
         netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")

@@ -412,12 +412,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.services:
             extractors.update(
-                {"services": self.extract_services,}
+                {
+                    "services": self.extract_services,
+                }
             )
 
         if self.interfaces:
             extractors.update(
-                {"interfaces": self.extract_interfaces,}
+                {
+                    "interfaces": self.extract_interfaces,
+                }
             )
 
         return extractors
