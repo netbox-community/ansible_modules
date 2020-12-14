@@ -653,7 +653,11 @@ class NetboxModule(object):
                     value = module_data.get(match)
                 query_dict.update({match: value})
 
-        if parent == "lag":
+        if user_query_params:
+            # This is to skip any potential changes using module_data when the user
+            # provides user_query_params
+            pass
+        elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
             intf_type = self._fetch_choice_value(
