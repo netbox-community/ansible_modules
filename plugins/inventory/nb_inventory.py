@@ -660,7 +660,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     interface["ip_addresses"] = list(
                         self.vm_ipaddresses_intf_lookup[interface["id"]].values()
                         if host["is_virtual"]
-                        else self.device_ipaddresses_intf_lookup[interface["id"]].values()
+                        else self.device_ipaddresses_intf_lookup[
+                            interface["id"]
+                        ].values()
                     )
 
             return interfaces
@@ -720,23 +722,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_dns_name(self, host):
         # No primary IP assigned
-        if not host.get('primary_ip'):
+        if not host.get("primary_ip"):
             return None
 
         before_netbox_v29 = bool(self.ipaddresses_lookup)
         if before_netbox_v29:
-            ip_address = self.ipaddresses_lookup.get(host['primary_ip']['id'])
+            ip_address = self.ipaddresses_lookup.get(host["primary_ip"]["id"])
         else:
-            if host['is_virtual']:
-                ip_address = self.vm_ipaddresses_lookup.get(host['primary_ip']['id'])
+            if host["is_virtual"]:
+                ip_address = self.vm_ipaddresses_lookup.get(host["primary_ip"]["id"])
             else:
-                ip_address = self.device_ipaddresses_lookup.get(host['primary_ip']['id'])
+                ip_address = self.device_ipaddresses_lookup.get(host["primary_ip"]["id"])
 
-        # Don't assign a host_var for empty dns_name
-        if ip_address.get('dns_name') == '':
+        # Don"t assign a host_var for empty dns_name
+        if ip_address.get("dns_name") == "":
             return None
 
-        return ip_address.get('dns_name')
+        return ip_address.get("dns_name")
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
@@ -1003,7 +1005,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
                 if ipaddress["assigned_object_type"] == "virtualization.vminterface":
                     self.vm_ipaddresses_lookup[ip_id] = ipaddress_copy
-                    self.vm_ipaddresses_intf_lookup[interface_id][ip_id] = ipaddress_copy
+                    self.vm_ipaddresses_intf_lookup[interface_id][
+                        ip_id
+                    ] = ipaddress_copy
                 else:
                     self.device_ipaddresses_lookup[ip_id] = ipaddress_copy
                     self.device_ipaddresses_intf_lookup[interface_id][

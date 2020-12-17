@@ -320,7 +320,11 @@ test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
 
 ## Create IP Addresses
 ip_addresses = [
-    {"address": "172.16.180.1/24", "interface": test100_gi1.id, "dns_name": "test100.example.com"},
+    {
+        "address": "172.16.180.1/24",
+        "interface": test100_gi1.id,
+        "dns_name": "test100.example.com"
+    },
     {"address": "2001::1:1/64", "interface": test100_gi2.id},
     {"address": "172.16.180.11/24", "interface": created_nexus_interfaces[0].id},
     {"address": "172.16.180.12/24", "interface": created_nexus_interfaces[1].id},
@@ -431,8 +435,8 @@ services = [
 # 2.10+ requires the port attribute to be 'ports' and a list instead of an integer
 for service in services:
     if nb_version >= version.parse("2.10"):
-        service['ports'] = [service['port']]
-        del(service['port'])
+        service["ports"] = [service["port"]]
+        del(service["port"])
 
 created_services = make_netbox_calls(nb.ipam.services, services)
 
