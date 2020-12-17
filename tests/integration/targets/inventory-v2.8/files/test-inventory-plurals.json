@@ -38,6 +38,7 @@
                 "tags": []
             },
             "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
                 "config_context": [
                     {}
                 ],
@@ -48,6 +49,7 @@
                 "device_types": [
                     "nexus-parent"
                 ],
+                "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
                         "cable": null,
@@ -121,7 +123,7 @@
                                 "address": "172.16.180.12/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "",
+                                "dns_name": "nexus.example.com",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -163,6 +165,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -325,7 +328,6 @@
                 "tags": []
             },
             "test100": {
-                "ansible_host": "172.16.180.1",
                 "config_context": [
                     {
                         "ntp_servers": [
@@ -340,7 +342,6 @@
                 "device_types": [
                     "cisco-test"
                 ],
-                "dns_name": "test100.example.com",
                 "interfaces": [
                     {
                         "cable": null,
@@ -361,7 +362,7 @@
                                 "address": "172.16.180.1/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "test100.example.com",
+                                "dns_name": "",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -460,7 +461,6 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"

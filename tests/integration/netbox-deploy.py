@@ -320,14 +320,14 @@ test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
 
 ## Create IP Addresses
 ip_addresses = [
-    {
-        "address": "172.16.180.1/24",
-        "interface": test100_gi1.id,
-        "dns_name": "test100.example.com",
-    },
+    {"address": "172.16.180.1/24", "interface": test100_gi1.id},
     {"address": "2001::1:1/64", "interface": test100_gi2.id},
     {"address": "172.16.180.11/24", "interface": created_nexus_interfaces[0].id},
-    {"address": "172.16.180.12/24", "interface": created_nexus_interfaces[1].id},
+    {
+        "address": "172.16.180.12/24",
+        "interface": created_nexus_interfaces[1].id,
+        "dns_name": "nexus.example.com",
+    },
     {"address": "172.16.180.254/24"},
 ]
 if nb_version > version.parse("2.8"):
@@ -341,7 +341,7 @@ if nb_version > version.parse("2.8"):
 created_ip_addresses = make_netbox_calls(nb.ipam.ip_addresses, ip_addresses)
 
 # Assign Primary IP
-test100.update({"primary_ip4": 1})
+nexus.update({"primary_ip4": 4})
 
 ## Create RIRs
 rirs = [{"name": "Example RIR", "slug": "example-rir"}]

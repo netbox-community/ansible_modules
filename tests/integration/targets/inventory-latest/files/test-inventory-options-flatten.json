@@ -44,15 +44,15 @@
                 "tags": []
             },
             "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
                 "device_type": "nexus-parent",
+                "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -102,11 +102,9 @@
                     },
                     {
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -121,7 +119,7 @@
                                 "address": "172.16.180.12/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "",
+                                "dns_name": "nexus.example.com",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -157,6 +155,7 @@
                 ],
                 "is_virtual": false,
                 "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -174,9 +173,7 @@
                         "id": 3,
                         "ipaddresses": [],
                         "name": "telnet",
-                        "ports": [
-                            23
-                        ],
+                        "port": 23,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -241,9 +238,7 @@
                         "id": 4,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "ports": [
-                            22
-                        ],
+                        "port": 22,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -285,17 +280,13 @@
                 "tags": []
             },
             "test100": {
-                "ansible_host": "172.16.180.1",
                 "device_type": "cisco-test",
-                "dns_name": "test100.example.com",
                 "interfaces": [
                     {
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -310,7 +301,7 @@
                                 "address": "172.16.180.1/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "test100.example.com",
+                                "dns_name": "",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -345,11 +336,9 @@
                     },
                     {
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -403,7 +392,6 @@
                 "ntp_servers": [
                     "pool.ntp.org"
                 ],
-                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -421,9 +409,7 @@
                         "id": 1,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "ports": [
-                            22
-                        ],
+                        "port": 22,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -453,9 +439,7 @@
                             }
                         ],
                         "name": "http",
-                        "ports": [
-                            80
-                        ],
+                        "port": 80,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"

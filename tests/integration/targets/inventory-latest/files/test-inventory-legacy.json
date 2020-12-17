@@ -33,6 +33,7 @@
                 "tags": []
             },
             "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -47,6 +48,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -63,9 +65,7 @@
                         "id": 3,
                         "ipaddresses": [],
                         "name": "telnet",
-                        "ports": [
-                            23
-                        ],
+                        "port": 23,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -100,9 +100,7 @@
                         "id": 4,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "ports": [
-                            22
-                        ],
+                        "port": 22,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -157,7 +155,6 @@
                 "tags": []
             },
             "test100": {
-                "ansible_host": "172.16.180.1",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -176,7 +173,6 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -193,9 +189,7 @@
                         "id": 1,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "ports": [
-                            22
-                        ],
+                        "port": 22,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -225,9 +219,7 @@
                             }
                         ],
                         "name": "http",
-                        "ports": [
-                            80
-                        ],
+                        "port": 80,
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
