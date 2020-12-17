@@ -103,9 +103,11 @@
                 "tags": []
             },
             "test100": {
+                "ansible_host": "172.16.180.1",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "display": "test100",
+                "dns_name": "test100.example.com",
                 "is_virtual": false,
                 "local_context_data": {
                     "ntp_servers": [
@@ -113,6 +115,7 @@
                     ]
                 },
                 "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"

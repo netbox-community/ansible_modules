@@ -293,7 +293,9 @@
                 "tags": []
             },
             "test100": {
+                "ansible_host": "172.16.180.1",
                 "device_type": "cisco-test",
+                "dns_name": "test100.example.com",
                 "interfaces": [
                     {
                         "cable": null,
@@ -314,7 +316,7 @@
                                 "address": "172.16.180.1/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "",
+                                "dns_name": "test100.example.com",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -407,6 +409,7 @@
                 "ntp_servers": [
                     "pool.ntp.org"
                 ],
+                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"

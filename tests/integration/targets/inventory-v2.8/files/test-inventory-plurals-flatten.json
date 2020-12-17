@@ -134,6 +134,7 @@
                 "tags": []
             },
             "test100": {
+                "ansible_host": "172.16.180.1",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -154,6 +155,7 @@
                 "ntp_servers": [
                     "pool.ntp.org"
                 ],
+                "primary_ip4": "172.16.180.1",
                 "regions": [
                     "test-region",
                     "parent-region"
