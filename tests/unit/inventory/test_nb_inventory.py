@@ -142,15 +142,16 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, interfaces, expected, not_expected",
+    "plurals, services, interfaces, dns_name, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
-    inventory_fixture, plurals, services, interfaces, expected, not_expected
+    inventory_fixture, plurals, services, interfaces, dns_name, expected, not_expected
 ):
     inventory_fixture.plurals = plurals
     inventory_fixture.services = services
     inventory_fixture.interfaces = interfaces
+    inventory_fixture.dns_name = dns_name
     extractors = inventory_fixture.group_extractors
 
     for key in expected:
