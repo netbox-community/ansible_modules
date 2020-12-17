@@ -732,7 +732,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if host["is_virtual"]:
                 ip_address = self.vm_ipaddresses_lookup.get(host["primary_ip"]["id"])
             else:
-                ip_address = self.device_ipaddresses_lookup.get(host["primary_ip"]["id"])
+                ip_address = self.device_ipaddresses_lookup.get(
+                    host["primary_ip"]["id"]
+                )
 
         # Don"t assign a host_var for empty dns_name
         if ip_address.get("dns_name") == "":

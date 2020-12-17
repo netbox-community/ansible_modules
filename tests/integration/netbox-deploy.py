@@ -323,7 +323,7 @@ ip_addresses = [
     {
         "address": "172.16.180.1/24",
         "interface": test100_gi1.id,
-        "dns_name": "test100.example.com"
+        "dns_name": "test100.example.com",
     },
     {"address": "2001::1:1/64", "interface": test100_gi2.id},
     {"address": "172.16.180.11/24", "interface": created_nexus_interfaces[0].id},
@@ -436,7 +436,7 @@ services = [
 for service in services:
     if nb_version >= version.parse("2.10"):
         service["ports"] = [service["port"]]
-        del(service["port"])
+        del service["port"]
 
 created_services = make_netbox_calls(nb.ipam.services, services)
 
