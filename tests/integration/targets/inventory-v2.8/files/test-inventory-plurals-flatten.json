@@ -56,6 +56,7 @@
                 "tags": []
             },
             "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -69,6 +70,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"

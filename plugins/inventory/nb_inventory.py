@@ -171,6 +171,12 @@ DOCUMENTATION = """
                 - The host var values will be from the virtual chassis master.
             type: boolean
             default: False
+        dns_name:
+            description:
+                - Force IP Addresses to be fetched so that the dns_name for the primary_ip of each device or VM is set as a host_var.
+                - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
+            type: boolean
+            default: False
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -420,6 +426,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 {"interfaces": self.extract_interfaces,}
             )
 
+        if self.interfaces or self.dns_name:
+            extractors.update(
+                {"dns_name": self.extract_dns_name,}
+            )
+
         return extractors
 
     def _pluralize_group_by(self, group_by):
@@ -638,18 +649,20 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             interfaces = list(interfaces_lookup[host["id"]].values())
 
-            before_netbox_v29 = bool(self.ipaddresses_lookup)
+            before_netbox_v29 = bool(self.ipaddresses_intf_lookup)
             # Attach IP Addresses to their interface
             for interface in interfaces:
                 if before_netbox_v29:
                     interface["ip_addresses"] = list(
-                        self.ipaddresses_lookup[interface["id"]].values()
+                        self.ipaddresses_intf_lookup[interface["id"]].values()
                     )
                 else:
                     interface["ip_addresses"] = list(
-                        self.vm_ipaddresses_lookup[interface["id"]].values()
+                        self.vm_ipaddresses_intf_lookup[interface["id"]].values()
                         if host["is_virtual"]
-                        else self.device_ipaddresses_lookup[interface["id"]].values()
+                        else self.device_ipaddresses_intf_lookup[
+                            interface["id"]
+                        ].values()
                     )
 
             return interfaces
@@ -706,6 +719,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_is_virtual(self, host):
         return host.get("is_virtual")
+
+    def extract_dns_name(self, host):
+        # No primary IP assigned
+        if not host.get("primary_ip"):
+            return None
+
+        before_netbox_v29 = bool(self.ipaddresses_lookup)
+        if before_netbox_v29:
+            ip_address = self.ipaddresses_lookup.get(host["primary_ip"]["id"])
+        else:
+            if host["is_virtual"]:
+                ip_address = self.vm_ipaddresses_lookup.get(host["primary_ip"]["id"])
+            else:
+                ip_address = self.device_ipaddresses_lookup.get(
+                    host["primary_ip"]["id"]
+                )
+
+        # Don"t assign a host_var for empty dns_name
+        if ip_address.get("dns_name") == "":
+            return None
+
+        return ip_address.get("dns_name")
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
@@ -953,9 +988,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Construct a dictionary of lists, to allow looking up ip addresses by interface id
         # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
+        self.ipaddresses_intf_lookup = defaultdict(dict)
+        # Construct a dictionary of the IP addresses themselves
         self.ipaddresses_lookup = defaultdict(dict)
         # NetBox v2.9 and onwards
+        self.vm_ipaddresses_intf_lookup = defaultdict(dict)
         self.vm_ipaddresses_lookup = defaultdict(dict)
+        self.device_ipaddresses_intf_lookup = defaultdict(dict)
         self.device_ipaddresses_lookup = defaultdict(dict)
 
         for ipaddress in ipaddresses:
@@ -967,9 +1006,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 ipaddress_copy = ipaddress.copy()
 
                 if ipaddress["assigned_object_type"] == "virtualization.vminterface":
-                    self.vm_ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
+                    self.vm_ipaddresses_lookup[ip_id] = ipaddress_copy
+                    self.vm_ipaddresses_intf_lookup[interface_id][
+                        ip_id
+                    ] = ipaddress_copy
                 else:
-                    self.device_ipaddresses_lookup[interface_id][
+                    self.device_ipaddresses_lookup[ip_id] = ipaddress_copy
+                    self.device_ipaddresses_intf_lookup[interface_id][
                         ip_id
                     ] = ipaddress_copy  # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
 
@@ -986,7 +1029,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # We need to copy the ipaddress entry to preserve the original in case caching is used.
             ipaddress_copy = ipaddress.copy()
 
-            self.ipaddresses_lookup[interface_id][ip_id] = ipaddress_copy
+            self.ipaddresses_intf_lookup[interface_id][ip_id] = ipaddress_copy
+            self.ipaddresses_lookup[ip_id] = ipaddress_copy
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
             del ipaddress_copy["interface"]
 
@@ -1017,7 +1061,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def lookup_processes_secondary(self):
         lookups = []
 
-        if self.interfaces:
+        # IP addresses are needed for either interfaces or dns_name options
+        if self.interfaces or self.dns_name:
             lookups.append(self.refresh_ipaddresses)
 
         return lookups
@@ -1458,5 +1503,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.device_query_filters = self.get_option("device_query_filters")
         self.vm_query_filters = self.get_option("vm_query_filters")
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
+        self.dns_name = self.get_option("dns_name")
 
         self.main()

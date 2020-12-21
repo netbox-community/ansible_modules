@@ -44,7 +44,9 @@
                 "tags": []
             },
             "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
                 "device_type": "nexus-parent",
+                "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
                         "cable": null,
@@ -117,7 +119,7 @@
                                 "address": "172.16.180.12/24",
                                 "custom_fields": {},
                                 "description": "",
-                                "dns_name": "",
+                                "dns_name": "nexus.example.com",
                                 "family": {
                                     "label": "IPv4",
                                     "value": 4
@@ -153,6 +155,7 @@
                 ],
                 "is_virtual": false,
                 "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"

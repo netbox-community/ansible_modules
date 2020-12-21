@@ -81,11 +81,14 @@
                 "tags": []
             },
             "VC1": {
+                "ansible_host": "172.16.180.12",
                 "custom_fields": {},
                 "device_type": "nexus-parent",
                 "display": "Test Nexus One",
+                "dns_name": "nexus.example.com",
                 "is_virtual": false,
                 "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"

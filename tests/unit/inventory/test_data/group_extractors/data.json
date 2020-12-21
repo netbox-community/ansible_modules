@@ -3,6 +3,7 @@
         "plurals": false,
         "interfaces": false,
         "services": false,
+        "dns_name": false,
         "expected": [
             "disk",
             "memory",
@@ -33,13 +34,15 @@
             "device_types",
             "manufacturers",
             "services",
-            "interfaces"
+            "interfaces",
+            "dns_name"
         ]
     },
     {
         "plurals": true,
         "interfaces": true,
         "services": true,
+        "dns_name": true,
         "expected": [
             "disk",
             "memory",
@@ -60,7 +63,8 @@
             "device_types",
             "manufacturers",
             "services",
-            "interfaces"
+            "interfaces",
+            "dns_name"
         ],
         "not_expected": [
             "site",
