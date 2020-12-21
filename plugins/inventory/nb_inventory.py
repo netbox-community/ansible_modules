@@ -990,12 +990,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
         self.ipaddresses_intf_lookup = defaultdict(dict)
         # Construct a dictionary of the IP addresses themselves
-        self.ipaddresses_lookup = dict()
+        self.ipaddresses_lookup = defaultdict(dict)
         # NetBox v2.9 and onwards
         self.vm_ipaddresses_intf_lookup = defaultdict(dict)
-        self.vm_ipaddresses_lookup = dict()
+        self.vm_ipaddresses_lookup = defaultdict(dict)
         self.device_ipaddresses_intf_lookup = defaultdict(dict)
-        self.device_ipaddresses_lookup = dict()
+        self.device_ipaddresses_lookup = defaultdict(dict)
 
         for ipaddress in ipaddresses:
             # As of NetBox v2.9 "assigned_object_x" replaces "interface"
