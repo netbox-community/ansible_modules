@@ -25,6 +25,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      name: "First VC"
       master: Device Virtual Chassis Tests
     state: present
   register: test_one
@@ -36,13 +37,15 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['virtual_chassis']['master'] == 11
-      - test_one['msg'] == "virtual_chassis Device Virtual Chassis Tests created"
+      - test_one['virtual_chassis']['name'] == "First VC"
+      - test_one['msg'] == "virtual_chassis First VC created"
 
 - name: "VIRTUAL_CHASSIS 2: Create duplicate"
   netbox.netbox.netbox_virtual_chassis:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      name: "First VC"
       master: Device Virtual Chassis Tests
     state: present
   register: test_two
@@ -52,13 +55,15 @@
     that:
       - not test_two['changed']
       - test_two['virtual_chassis']['master'] == 11
-      - test_two['msg'] == "virtual_chassis Device Virtual Chassis Tests already exists"
+      - test_two['virtual_chassis']['name'] == "First VC"
+      - test_two['msg'] == "virtual_chassis First VC already exists"
 
 - name: "POWER_FEED 3: Update virtual_chassis with other fields"
   netbox.netbox.netbox_virtual_chassis:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      name: "First VC"
       master: Device Virtual Chassis Tests
       domain: Domain Text
     state: present
@@ -71,7 +76,8 @@
       - test_three['diff']['after']['domain'] == "Domain Text"
       - test_three['virtual_chassis']['master'] == 11
       - test_three['virtual_chassis']['domain'] == "Domain Text"
-      - test_three['msg'] == "virtual_chassis Device Virtual Chassis Tests updated"
+      - test_three['virtual_chassis']['name'] == "First VC"
+      - test_three['msg'] == "virtual_chassis First VC updated"
 
 - name: "VIRTUAL_CHASSIS 4: Create device for testing virtual chassis deletion"
   netbox.netbox.netbox_device:
@@ -91,6 +97,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      name: "Second VC"
       master: Device Virtual Chassis Tests 2
     state: present
   register: test_four
@@ -102,13 +109,15 @@
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
       - test_four['virtual_chassis']['master'] == 12
-      - test_four['msg'] == "virtual_chassis Device Virtual Chassis Tests 2 created"
+      - test_four['virtual_chassis']['name'] == "Second VC"
+      - test_four['msg'] == "virtual_chassis Second VC created"
 
 - name: "VIRTUAL_CHASSIS 5: Delete Virtual Chassis"
   netbox.netbox.netbox_virtual_chassis:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      name: "Second VC"
       master: Device Virtual Chassis Tests 2
     state: absent
   register: test_five
@@ -119,4 +128,4 @@
       - test_five is changed
       - test_five['diff']['before']['state'] == "present"
       - test_five['diff']['after']['state'] == "absent"
-      - test_five['msg'] == "virtual_chassis Device Virtual Chassis Tests 2 deleted"
+      - test_five['msg'] == "virtual_chassis Second VC deleted"

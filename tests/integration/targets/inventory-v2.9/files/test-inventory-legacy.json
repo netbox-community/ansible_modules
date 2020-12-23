@@ -27,7 +27,6 @@
                     "test-site2"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -68,7 +67,6 @@
                         "name": "telnet",
                         "port": 23,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -80,7 +78,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -105,7 +102,6 @@
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -117,7 +113,6 @@
                     }
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -154,7 +149,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -197,7 +191,6 @@
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -228,7 +221,6 @@
                         "name": "http",
                         "port": 80,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -240,7 +232,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -264,7 +255,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -288,7 +278,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -312,7 +301,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -336,7 +324,6 @@
                     "test-site"
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -353,7 +340,6 @@
                 "regions": [],
                 "services": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },

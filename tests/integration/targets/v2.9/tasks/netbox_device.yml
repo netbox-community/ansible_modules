@@ -130,7 +130,7 @@
       position: 35
       face: "Front"
       tags:
-        - "Schnozzberry"
+        - "schnozzberry"
       tenant: "Test Tenant"
       asset_tag: "1234"
     state: present
@@ -148,7 +148,7 @@
       - test_four['device']['site'] == 2
       - test_four['device']['status'] == "active"
       - test_four['device']['rack'] == 1
-      - test_four['device']['tags'][0] == 'Schnozzberry'
+      - test_four['device']['tags'][0] == 4
       - test_four['device']['tenant'] == 1
       - test_four['device']['asset_tag'] == '1234'
       - test_four['msg'] == "device TestR1 created"

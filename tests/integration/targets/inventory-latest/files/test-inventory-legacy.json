@@ -65,7 +65,9 @@
                         "id": 3,
                         "ipaddresses": [],
                         "name": "telnet",
-                        "port": 23,
+                        "ports": [
+                            23
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -100,7 +102,9 @@
                         "id": 4,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -189,7 +193,9 @@
                         "id": 1,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -219,7 +225,9 @@
                             }
                         ],
                         "name": "http",
-                        "port": 80,
+                        "ports": [
+                            80
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"

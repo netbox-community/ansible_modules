@@ -46,13 +46,10 @@ jobs:
       matrix:
         include:
           - python-version: 3.6
-            VERSION: "v2.8"
-            INTEGRATION_TESTS: "v2.8"
+            VERSION: "v2.9"
+            INTEGRATION_TESTS: "v2.9"
           - python-version: 3.6
-            VERSION: "v2.9"
-            INTEGRATION_TESTS: "latest"
-          - python-version: 3.7
-            VERSION: "v2.9"
+            VERSION: "latest"
             INTEGRATION_TESTS: "latest"
     steps:
       - name: Checkout repo
@@ -62,23 +59,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Clone & Start netbox-docker containers
-        if: matrix.VERSION != 'v2.8'
+        env:
+          VERSION: ${{ matrix.VERSION }}
         run: |
           cd ..
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-      - name: Clone & Start netbox-docker containers - NetBox v2.8
-        if: matrix.VERSION == 'v2.8'
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 0.24.1
-          sed -i 's/SKIP_STARTUP_SCRIPTS=false/SKIP_STARTUP_SCRIPTS=true/' env/netbox.env
-          export VERSION=${{ matrix.VERSION }}
           docker-compose up -d --quiet-pull
           docker container ls
           cd ..

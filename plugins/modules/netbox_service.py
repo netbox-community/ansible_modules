@@ -62,6 +62,11 @@ options:
           - Specifies which port used by service
         required: true
         type: int
+      ports:
+        description:
+          - Specifies which ports used by service (NetBox 2.10 and newer)
+        type: list
+        elements: int
       protocol:
         description:
           - Specifies which protocol used by service
@@ -175,6 +180,7 @@ def main():
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     port=dict(required=True, type="int"),
+                    ports=dict(required=False, type="list", elements="int"),
                     protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
@@ -196,6 +202,14 @@ def main():
     )
 
     netbox_service = NetboxIpamModule(module, NB_SERVICES)
+
+    # Change port to ports for 2.10+ and convert to a list with the single integer
+    if netbox_service.data.get("port") and netbox_service._version_check_greater(
+        netbox_service.version, "2.10", greater_or_equal=True
+    ):
+        netbox_service.data["ports"] = list(netbox_service.data.pop("port"))
+
+    # Run the normal run() method
     netbox_service.run()
 
 

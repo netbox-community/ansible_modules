@@ -33,7 +33,7 @@
     that:
       - test_service_create is changed
       - test_service_create['services']['name'] == "node-exporter"
-      - test_service_create['services']['port'] == 9100
+      - test_service_create['services']['ports'] == [9100]
       - test_service_create['services']['protocol'] == "tcp"
       - test_service_create['diff']['after']['state'] == "present"
       - test_service_create['diff']['before']['state'] == "absent"
@@ -55,7 +55,7 @@
   assert:
     that:
       - test_service_idempotence['services']['name'] == "node-exporter"
-      - test_service_idempotence['services']['port'] == 9100
+      - test_service_idempotence['services']['ports'] == [9100]
       - test_service_idempotence['services']['protocol'] == "tcp"
       - test_service_idempotence['msg'] == "services node-exporter already exists"
 
@@ -66,7 +66,9 @@
     data:
       device: "FOR_SERVICE"
       name: "node-exporter"
-      port: 9100
+      ports:
+        - 9100
+        - 9200
       protocol: TCP
       tags:
         - "Schnozzberry"
@@ -78,6 +80,7 @@
     that:
       - test_service_update is changed
       - test_service_update['diff']['after']['tags'][0] == 4
+      - test_service_update['diff']['after']['ports'] == [9100, 9200]
       - test_service_update['msg'] == "services node-exporter updated"
 
 - name: "NETBOX_SERVICE: Test same details, but different protocol - Create"
@@ -99,7 +102,7 @@
       - test_service_protocol['diff']['after']['state'] == "present"
       - test_service_protocol['diff']['before']['state'] == "absent"
       - test_service_protocol['services']['name'] == "node-exporter"
-      - test_service_protocol['services']['port'] == 9100
+      - test_service_protocol['services']['ports'] == [9100]
       - test_service_protocol['services']['protocol'] == "udp"
       - test_service_protocol['msg'] == "services node-exporter created"
 
@@ -144,7 +147,7 @@
       - test_service_ip_addresses['diff']['after']['state'] == "present"
       - test_service_ip_addresses['diff']['before']['state'] == "absent"
       - test_service_ip_addresses['services']['name'] == "node-exporter"
-      - test_service_ip_addresses['services']['port'] == 9100
+      - test_service_ip_addresses['services']['ports'] == [9100]
       - test_service_ip_addresses['services']['protocol'] == "udp"
       - test_service_ip_addresses['services']['ipaddresses'] is defined
       - test_service_ip_addresses['msg'] == "services node-exporter created"
@@ -186,7 +189,7 @@
     that:
       - test_service_create_vm is changed
       - test_service_create_vm['services']['name'] == "node-exporter"
-      - test_service_create_vm['services']['port'] == 9100
+      - test_service_create_vm['services']['ports'] == [9100]
       - test_service_create_vm['services']['protocol'] == "tcp"
       - test_service_create_vm['diff']['after']['state'] == "present"
       - test_service_create_vm['diff']['before']['state'] == "absent"

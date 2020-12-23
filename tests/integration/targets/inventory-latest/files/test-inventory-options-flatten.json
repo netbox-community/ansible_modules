@@ -50,9 +50,11 @@
                 "interfaces": [
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -102,9 +104,11 @@
                     },
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -173,7 +177,9 @@
                         "id": 3,
                         "ipaddresses": [],
                         "name": "telnet",
-                        "port": 23,
+                        "ports": [
+                            23
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -238,7 +244,9 @@
                         "id": 4,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -284,9 +292,11 @@
                 "interfaces": [
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -336,9 +346,11 @@
                     },
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -409,7 +421,9 @@
                         "id": 1,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -439,7 +453,9 @@
                             }
                         ],
                         "name": "http",
-                        "port": 80,
+                        "ports": [
+                            80
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"

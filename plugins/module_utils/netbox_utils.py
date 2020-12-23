@@ -393,7 +393,7 @@ CONVERT_KEYS = {
     "vlan_group": "group",
 }
 
-# This is used to dynamically conver name to slug on endpoints requiring a slug
+# This is used to dynamically convert name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
     "circuit_types",
     "cluster_groups",
@@ -802,7 +802,12 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
-                if not self._version_check_greater(self.version, "2.9") and k == "tags":
+                if (
+                    not self._version_check_greater(
+                        self.version, "2.9", greater_or_equal=True
+                    )
+                    and k == "tags"
+                ):
                     continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
