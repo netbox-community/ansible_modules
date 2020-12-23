@@ -91,7 +91,7 @@
         },
         "expected": {
             "device_id": 1,
-            "form_factor": 200,
+            "type": 200,
             "name": "port-channel1"
         }
     },
@@ -109,7 +109,7 @@
         },
         "expected": {
             "device": "Test Device",
-            "form_factor": 200,
+            "type": 200,
             "name": "port-channel1"
         }
     },

@@ -57,7 +57,7 @@ class NetboxIpamModule(NetboxModule):
             "parent": data["prefix"],
         }
 
-        if self.version < 2.9:
+        if self._version_check_greater(self.version, "2.9"):
             if not data.get("interface") or not data.get("prefix"):
                 self._handle_errors("A prefix and interface is required")
             data_intf_key = "interface"
