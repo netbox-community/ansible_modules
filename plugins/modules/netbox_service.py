@@ -60,7 +60,7 @@ options:
       port:
         description:
           - Specifies which port used by service
-        required: true
+        required: false
         type: int
       ports:
         description:
@@ -179,7 +179,7 @@ def main():
                     device=dict(required=False, type="raw"),
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
-                    port=dict(required=True, type="int"),
+                    port=dict(required=False, type="int"),
                     ports=dict(required=False, type="list", elements="int"),
                     protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
@@ -191,7 +191,11 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [
+        ("state", "present", ["name", "port", "ports"]),
+        ("state", "absent", ["name"]),
+    ]
+    mutually_exclusive = [("port", "ports")]
     required_one_of = [["device", "virtual_machine"]]
 
     module = NetboxAnsibleModule(
@@ -199,6 +203,7 @@ def main():
         supports_check_mode=True,
         required_if=required_if,
         required_one_of=required_one_of,
+        mutually_exclusive=mutually_exclusive,
     )
 
     netbox_service = NetboxIpamModule(module, NB_SERVICES)
