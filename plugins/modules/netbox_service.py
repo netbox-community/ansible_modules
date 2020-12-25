@@ -192,11 +192,11 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["name", "port", "ports"]),
+        ("state", "present", ["name"]),
         ("state", "absent", ["name"]),
     ]
     mutually_exclusive = [("port", "ports")]
-    required_one_of = [["device", "virtual_machine"]]
+    required_one_of = [["device", "virtual_machine", "port", "ports"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
