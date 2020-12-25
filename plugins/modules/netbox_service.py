@@ -207,7 +207,7 @@ def main():
     if netbox_service.data.get("port") and netbox_service._version_check_greater(
         netbox_service.version, "2.10", greater_or_equal=True
     ):
-        netbox_service.data["ports"] = list(netbox_service.data.pop("port"))
+        netbox_service.data["ports"] = [netbox_service.data.pop("port")]
 
     # Run the normal run() method
     netbox_service.run()
