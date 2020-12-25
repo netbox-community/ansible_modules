@@ -196,7 +196,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
     mutually_exclusive = [("port", "ports")]
-    required_one_of = [["device", "virtual_machine", "port", "ports"]]
+    required_one_of = [["device", "virtual_machine"], ["port", "ports"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
