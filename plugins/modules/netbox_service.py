@@ -60,8 +60,13 @@ options:
       port:
         description:
           - Specifies which port used by service
-        required: true
+        required: false
         type: int
+      ports:
+        description:
+          - Specifies which ports used by service (NetBox 2.10 and newer)
+        type: list
+        elements: int
       protocol:
         description:
           - Specifies which protocol used by service
@@ -174,7 +179,8 @@ def main():
                     device=dict(required=False, type="raw"),
                     virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
-                    port=dict(required=True, type="int"),
+                    port=dict(required=False, type="int"),
+                    ports=dict(required=False, type="list", elements="int"),
                     protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
@@ -185,17 +191,30 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
-    required_one_of = [["device", "virtual_machine"]]
+    required_if = [
+        ("state", "present", ["name"]),
+        ("state", "absent", ["name"]),
+    ]
+    mutually_exclusive = [("port", "ports")]
+    required_one_of = [["device", "virtual_machine"], ["port", "ports"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
         supports_check_mode=True,
         required_if=required_if,
         required_one_of=required_one_of,
+        mutually_exclusive=mutually_exclusive,
     )
 
     netbox_service = NetboxIpamModule(module, NB_SERVICES)
+
+    # Change port to ports for 2.10+ and convert to a list with the single integer
+    if netbox_service.data.get("port") and netbox_service._version_check_greater(
+        netbox_service.version, "2.10", greater_or_equal=True
+    ):
+        netbox_service.data["ports"] = [netbox_service.data.pop("port")]
+
+    # Run the normal run() method
     netbox_service.run()
 
 

@@ -12,6 +12,7 @@ __metaclass__ = type
 import traceback
 import re
 import json
+
 from itertools import chain
 
 from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
@@ -392,7 +393,7 @@ CONVERT_KEYS = {
     "vlan_group": "group",
 }
 
-# This is used to dynamically conver name to slug on endpoints requiring a slug
+# This is used to dynamically convert name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
     "circuit_types",
     "cluster_groups",
@@ -438,7 +439,6 @@ class NetboxModule(object):
         self.state = self.module.params["state"]
         self.check_mode = self.module.check_mode
         self.endpoint = endpoint
-        self.version = None
         query_params = self.module.params.get("query_params")
 
         if not HAS_PYNETBOX:
@@ -455,6 +455,10 @@ class NetboxModule(object):
             self.nb = self._connect_netbox_api(url, token, ssl_verify)
         else:
             self.nb = nb_client
+            try:
+                self.version = self.nb.version
+            except AttributeError:
+                self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
         # if self.module.params.get("query_params"):
         #    self._validate_query_params(self.module.params["query_params"])
@@ -466,6 +470,31 @@ class NetboxModule(object):
         data = self._find_ids(choices_data, query_params)
         self.data = self._convert_identical_keys(data)
 
+    def _version_check_greater(self, greater, lesser, greater_or_equal=False):
+        """Determine if first argument is greater than second argument.
+
+        Args:
+            greater (str): decimal string
+            lesser (str): decimal string
+        """
+        g_major, g_minor = greater.split(".")
+        l_major, l_minor = lesser.split(".")
+
+        # convert to ints
+        g_major = int(g_major)
+        g_minor = int(g_minor)
+        l_major = int(l_major)
+        l_minor = int(l_minor)
+
+        # If major version is higher then return true right off the bat
+        if g_major > l_major:
+            return True
+        elif greater_or_equal and g_major == l_major and g_minor >= l_minor:
+            return True
+        # If major versions are equal, and minor version is higher, return True
+        elif g_major == l_major and g_minor > l_minor:
+            return True
+
     def _connect_netbox_api(self, url, token, ssl_verify):
         try:
             session = requests.Session()
@@ -473,7 +502,7 @@ class NetboxModule(object):
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
-                self.version = float(nb.version)
+                self.version = nb.version
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
@@ -557,9 +586,9 @@ class NetboxModule(object):
         :params data (dict): Data dictionary after _find_ids method ran
         """
         temp_dict = dict()
-        if self.version and self.version >= 2.7:
+        if self._version_check_greater(self.version, "2.7", greater_or_equal=True):
             if data.get("form_factor"):
-                temp_dict["type"] = data["form_factor"]
+                temp_dict["type"] = data.pop("form_factor")
         for key in data:
             if self.endpoint == "power_panels" and key == "rack_group":
                 temp_dict[key] = data[key]
@@ -773,7 +802,12 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
-                if self.version < 2.9 and k == "tags":
+                if (
+                    not self._version_check_greater(
+                        self.version, "2.9", greater_or_equal=True
+                    )
+                    and k == "tags"
+                ):
                     continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]

@@ -130,7 +130,9 @@ def on_deletion_diff(mock_netbox_module):
 def mock_netbox_module(mocker, mock_ansible_module, find_ids_return):
     find_ids = mocker.patch("%s%s" % (MOCKER_PATCH_PATH, "._find_ids"))
     find_ids.return_value = find_ids_return
-    netbox = NetboxModule(mock_ansible_module, NB_DEVICES, nb_client=True)
+    nb_client = mocker.Mock(name="pynetbox.api")
+    nb_client.version = "2.10"
+    netbox = NetboxModule(mock_ansible_module, NB_DEVICES, nb_client=nb_client)
 
     return netbox
 
@@ -231,6 +233,7 @@ def test_build_query_params_child(
     query_params = mock_netbox_module._build_query_params(
         parent, module_data, child=child
     )
+    print(query_params)
     assert query_params == expected
 
 
@@ -343,3 +346,31 @@ def test_update_netbox_object_with_changes_check_mode_true(
     assert nb_obj_mock.update.not_called()
     assert serialized_obj == updated_serialized_obj
     assert diff == on_update_diff
+
+
+@pytest.mark.parametrize("version", ["2.9", "2.8", "2.7"])
+def test_version_check_greater_true(mock_netbox_module, nb_obj_mock, version):
+    mock_netbox_module.nb_object = nb_obj_mock
+    assert mock_netbox_module._version_check_greater("2.10", version)
+
+
+@pytest.mark.parametrize("version", ["2.13", "2.12", "2.11", "2.10"])
+def test_version_check_greater_false(mock_netbox_module, nb_obj_mock, version):
+    mock_netbox_module.nb_object = nb_obj_mock
+    assert not mock_netbox_module._version_check_greater("2.10", version)
+
+
+@pytest.mark.parametrize("version", ["2.9", "2.8", "2.7"])
+def test_version_check_greater_equal_to_true(mock_netbox_module, nb_obj_mock, version):
+    mock_netbox_module.nb_object = nb_obj_mock
+    assert mock_netbox_module._version_check_greater(
+        version, "2.7", greater_or_equal=True
+    )
+
+
+@pytest.mark.parametrize("version", ["2.6", "2.5", "2.4"])
+def test_version_check_greater_equal_to_false(mock_netbox_module, nb_obj_mock, version):
+    mock_netbox_module.nb_object = nb_obj_mock
+    assert not mock_netbox_module._version_check_greater(
+        version, "2.7", greater_or_equal=True
+    )

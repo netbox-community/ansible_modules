@@ -2,21 +2,35 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
-                "device_type": "cisco-test",
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
                 "interfaces": [],
                 "is_virtual": false,
-                "manufacturer": "cisco",
-                "rack": "Test Rack Site 2",
+                "local_context_data": [
+                    null
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
                 "rack_groups": [],
                 "rack_role": "test-rack-role",
+                "racks": [
+                    "Test Rack Site 2"
+                ],
                 "regions": [],
-                "role": "core-switch",
                 "services": [],
-                "site": "test-site2",
+                "sites": [
+                    "test-site2"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -24,9 +38,16 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
-                "device_type": "nexus-parent",
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "nexus-parent"
+                ],
                 "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
@@ -58,7 +79,6 @@
                                 "nat_outside": null,
                                 "role": null,
                                 "status": {
-                                    "id": 1,
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -67,6 +87,7 @@
                                 "vrf": null
                             }
                         ],
+                        "label": "",
                         "lag": null,
                         "mac_address": null,
                         "mgmt_only": false,
@@ -76,7 +97,6 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "type": {
-                            "id": 1000,
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
@@ -111,7 +131,6 @@
                                 "nat_outside": null,
                                 "role": null,
                                 "status": {
-                                    "id": 1,
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -120,6 +139,7 @@
                                 "vrf": null
                             }
                         ],
+                        "label": "",
                         "lag": null,
                         "mac_address": null,
                         "mgmt_only": false,
@@ -129,7 +149,6 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "type": {
-                            "id": 1000,
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
@@ -137,13 +156,17 @@
                     }
                 ],
                 "is_virtual": false,
-                "manufacturer": "cisco",
+                "local_context_data": [
+                    null
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
                 "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
-                "role": "core-switch",
                 "services": [
                     {
                         "custom_fields": {},
@@ -158,7 +181,6 @@
                         "name": "telnet",
                         "port": 23,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -166,9 +188,10 @@
                         "virtual_machine": null
                     }
                 ],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -177,13 +200,15 @@
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 15,
+                        "id": 11,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -191,10 +216,6 @@
                         "name": "Eth0",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 6,
@@ -204,7 +225,7 @@
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 16,
+                        "id": 12,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -212,10 +233,6 @@
                         "name": "Eth1",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 6,
@@ -224,6 +241,9 @@
                     }
                 ],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [
                     {
@@ -235,7 +255,6 @@
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -247,46 +266,66 @@
                     }
                 ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
                 "tags": []
             },
             "TestDeviceR1": {
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
-                "device_type": "cisco-test",
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
                 "interfaces": [],
                 "is_virtual": false,
-                "manufacturer": "cisco",
-                "rack": "Test Rack",
+                "local_context_data": [
+                    null
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
                 "rack_groups": [
                     "test-rack-group",
                     "parent-rack-group"
+                ],
+                "racks": [
+                    "Test Rack"
                 ],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
-                "role": "core-switch",
                 "services": [],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
                 "tags": []
             },
             "test100": {
-                "config_context": {
-                    "ntp_servers": [
-                        "pool.ntp.org"
-                    ]
-                },
+                "config_context": [
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
+                ],
                 "custom_fields": {},
-                "device_type": "cisco-test",
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
                 "interfaces": [
                     {
                         "cable": null,
@@ -317,7 +356,6 @@
                                 "nat_outside": null,
                                 "role": null,
                                 "status": {
-                                    "id": 1,
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -326,6 +364,7 @@
                                 "vrf": null
                             }
                         ],
+                        "label": "",
                         "lag": null,
                         "mac_address": null,
                         "mgmt_only": false,
@@ -335,7 +374,6 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "type": {
-                            "id": 1000,
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
@@ -370,7 +408,6 @@
                                 "nat_outside": null,
                                 "role": null,
                                 "status": {
-                                    "id": 1,
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -379,6 +416,7 @@
                                 "vrf": null
                             }
                         ],
+                        "label": "",
                         "lag": null,
                         "mac_address": null,
                         "mgmt_only": false,
@@ -388,7 +426,6 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "type": {
-                            "id": 1000,
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
@@ -396,17 +433,20 @@
                     }
                 ],
                 "is_virtual": false,
-                "local_context_data": {
-                    "ntp_servers": [
-                        "pool.ntp.org"
-                    ]
-                },
-                "manufacturer": "cisco",
+                "local_context_data": [
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
-                "role": "core-switch",
                 "services": [
                     {
                         "custom_fields": {},
@@ -421,7 +461,6 @@
                         "name": "ssh",
                         "port": 22,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -452,7 +491,6 @@
                         "name": "http",
                         "port": 80,
                         "protocol": {
-                            "id": 6,
                             "label": "TCP",
                             "value": "tcp"
                         },
@@ -460,9 +498,10 @@
                         "virtual_machine": null
                     }
                 ],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -472,13 +511,15 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
                 "interfaces": [
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 5,
+                        "id": 1,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -486,10 +527,6 @@
                         "name": "Eth0",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
@@ -499,7 +536,7 @@
                     {
                         "description": "",
                         "enabled": true,
-                        "id": 6,
+                        "id": 2,
                         "ip_addresses": [],
                         "mac_address": null,
                         "mode": null,
@@ -507,14 +544,106 @@
                         "name": "Eth1",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 3,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth2",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 1,
+                            "name": "test100-vm"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 4,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth3",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 1,
+                            "name": "test100-vm"
+                        }
+                    },
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 5,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth4",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 1,
+                            "name": "test100-vm"
+                        }
+                    }
+                ],
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "config_context": [
+                    {}
+                ],
+                "custom_fields": {},
+                "interfaces": [
+                    {
+                        "description": "",
+                        "enabled": true,
+                        "id": 6,
+                        "ip_addresses": [],
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth0",
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "id": 2,
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -525,17 +654,13 @@
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
-                        "name": "Eth2",
+                        "name": "Eth1",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
-                            "id": 1,
-                            "name": "test100-vm"
+                            "id": 2,
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -546,17 +671,13 @@
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
-                        "name": "Eth3",
+                        "name": "Eth2",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
-                            "id": 1,
-                            "name": "test100-vm"
+                            "id": 2,
+                            "name": "test101-vm"
                         }
                     },
                     {
@@ -567,41 +688,15 @@
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
-                        "name": "Eth4",
+                        "name": "Eth3",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
-                            "id": 1,
-                            "name": "test100-vm"
+                            "id": 2,
+                            "name": "test101-vm"
                         }
-                    }
-                ],
-                "is_virtual": true,
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "services": [],
-                "site": "test-site",
-                "status": {
-                    "id": 1,
-                    "label": "Active",
-                    "value": "active"
-                },
-                "tags": []
-            },
-            "test101-vm": {
-                "cluster": "Test Cluster",
-                "cluster_group": "test-cluster-group",
-                "cluster_type": "test-cluster-type",
-                "config_context": {},
-                "custom_fields": {},
-                "interfaces": [
+                    },
                     {
                         "description": "",
                         "enabled": true,
@@ -610,97 +705,9 @@
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
-                        "name": "Eth0",
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
-                        "untagged_vlan": null,
-                        "virtual_machine": {
-                            "id": 2,
-                            "name": "test101-vm"
-                        }
-                    },
-                    {
-                        "description": "",
-                        "enabled": true,
-                        "id": 11,
-                        "ip_addresses": [],
-                        "mac_address": null,
-                        "mode": null,
-                        "mtu": null,
-                        "name": "Eth1",
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
-                        "untagged_vlan": null,
-                        "virtual_machine": {
-                            "id": 2,
-                            "name": "test101-vm"
-                        }
-                    },
-                    {
-                        "description": "",
-                        "enabled": true,
-                        "id": 12,
-                        "ip_addresses": [],
-                        "mac_address": null,
-                        "mode": null,
-                        "mtu": null,
-                        "name": "Eth2",
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
-                        "untagged_vlan": null,
-                        "virtual_machine": {
-                            "id": 2,
-                            "name": "test101-vm"
-                        }
-                    },
-                    {
-                        "description": "",
-                        "enabled": true,
-                        "id": 13,
-                        "ip_addresses": [],
-                        "mac_address": null,
-                        "mode": null,
-                        "mtu": null,
-                        "name": "Eth3",
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
-                        "untagged_vlan": null,
-                        "virtual_machine": {
-                            "id": 2,
-                            "name": "test101-vm"
-                        }
-                    },
-                    {
-                        "description": "",
-                        "enabled": true,
-                        "id": 14,
-                        "ip_addresses": [],
-                        "mac_address": null,
-                        "mode": null,
-                        "mtu": null,
                         "name": "Eth4",
                         "tagged_vlans": [],
                         "tags": [],
-                        "type": {
-                            "label": "Virtual",
-                            "value": "virtual"
-                        },
                         "untagged_vlan": null,
                         "virtual_machine": {
                             "id": 2,
@@ -709,14 +716,18 @@
                     }
                 ],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -726,18 +737,24 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -747,18 +764,24 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "site": "test-site",
+                "sites": [
+                    "test-site"
+                ],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -767,14 +790,18 @@
             "test104-vm": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "config_context": {},
+                "config_context": [
+                    {}
+                ],
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
                 "regions": [],
                 "services": [],
                 "status": {
-                    "id": 1,
                     "label": "Active",
                     "value": "active"
                 },
@@ -788,22 +815,19 @@
             "cluster_Test_Cluster_2",
             "cluster_group_test_cluster_group",
             "cluster_type_test_cluster_type",
-            "device_type_cisco_test",
-            "device_type_nexus_parent",
+            "device_roles_core_switch",
+            "device_types_cisco_test",
+            "device_types_nexus_parent",
             "is_virtual",
-            "manufacturer_cisco",
-            "rack_Test_Rack",
-            "rack_Test_Rack_Site_2",
+            "manufacturers_cisco",
             "rack_group_parent_rack_group",
             "rack_group_test_rack_group",
             "rack_role_test_rack_role",
+            "racks_Test_Rack",
+            "racks_Test_Rack_Site_2",
             "region_other_region",
             "region_parent_region",
-            "role_core_switch",
-            "service_http",
-            "service_ssh",
-            "service_telnet",
-            "site_test_site2",
+            "sites_test_site2",
             "ungrouped"
         ]
     },
@@ -839,14 +863,22 @@
             "test104-vm"
         ]
     },
-    "device_type_cisco_test": {
+    "device_roles_core_switch": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "device_types_cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_type_nexus_parent": {
+    "device_types_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
@@ -861,22 +893,12 @@
             "test104-vm"
         ]
     },
-    "manufacturer_cisco": {
+    "manufacturers_cisco": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
-        ]
-    },
-    "rack_Test_Rack": {
-        "hosts": [
-            "TestDeviceR1"
-        ]
-    },
-    "rack_Test_Rack_Site_2": {
-        "hosts": [
-            "R1-Device"
         ]
     },
     "rack_group_parent_rack_group": {
@@ -894,6 +916,16 @@
             "R1-Device"
         ]
     },
+    "racks_Test_Rack": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "racks_Test_Rack_Site_2": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
     "region_parent_region": {
         "children": [
             "region_test_region"
@@ -901,34 +933,10 @@
     },
     "region_test_region": {
         "children": [
-            "site_test_site"
+            "sites_test_site"
         ]
     },
-    "role_core_switch": {
-        "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100"
-        ]
-    },
-    "service_http": {
-        "hosts": [
-            "test100"
-        ]
-    },
-    "service_ssh": {
-        "hosts": [
-            "Test VM With Spaces",
-            "test100"
-        ]
-    },
-    "service_telnet": {
-        "hosts": [
-            "Test Nexus One"
-        ]
-    },
-    "site_test_site": {
+    "sites_test_site": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -939,7 +947,7 @@
             "test103-vm"
         ]
     },
-    "site_test_site2": {
+    "sites_test_site2": {
         "hosts": [
             "R1-Device"
         ]
