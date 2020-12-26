@@ -136,6 +136,7 @@ DOCUMENTATION = """
                 - cluster_group
                 - is_virtual
                 - services
+                - status
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -487,7 +488,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host.get("vcpus")
 
     def extract_status(self, host):
-        return host.get("status")
+        return host["status"]
 
     def extract_memory(self, host):
         return host.get("memory")
@@ -1263,6 +1264,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if grouping == "services":
             group = group["name"]
             grouping = "service"
+
+        if grouping == "status":
+            group = group["value"]
 
         if self.group_names_raw:
             return group

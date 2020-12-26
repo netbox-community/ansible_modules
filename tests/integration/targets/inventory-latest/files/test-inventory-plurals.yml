@@ -33,3 +33,4 @@ group_by:
   - cluster_group
   - cluster_type
   - is_virtual
+  - status

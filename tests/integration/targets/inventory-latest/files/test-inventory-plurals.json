@@ -844,6 +844,7 @@
             "region_other_region",
             "region_parent_region",
             "sites_test_site2",
+            "status_active",
             "ungrouped"
         ]
     },
@@ -966,6 +967,20 @@
     "sites_test_site2": {
         "hosts": [
             "R1-Device"
+        ]
+    },
+    "status_active": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
         ]
     }
 }

@@ -9,7 +9,6 @@ cache_timeout: 3600
 cache_plugin: jsonfile
 cache_connection: /tmp/inventory_netbox
 
-
 config_context: True
 flatten_config_context: True
 flatten_custom_fields: True
@@ -37,3 +36,4 @@ group_by:
   - cluster_group
   - cluster_type
   - is_virtual
+  - status
