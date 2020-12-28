@@ -5,6 +5,46 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v1.2.0
+======
+
+Major Changes
+-------------
+
+- nb_inventory - Add ``dns_name`` option that adds ``dns_name`` to the host when ``True`` and device has a primary IP address. (#394)
+- nb_inventory - Add ``status`` as a ``group_by`` option. (398)
+- nb_inventory - Move around ``extracted_primary_ip`` to allow for ``config_context`` or ``custom_field`` to overwite. (#377)
+- nb_inventory - Services are now a list of integers due to NetBox 2.10 changes. (#396)
+- nb_lookup - Allow ID to be passed in and use ``.get`` instead of ``.filter``. (#376)
+- nb_lookup - Allow ``api_endpoint`` and ``token`` to be found via env. (#391)
+
+Minor Changes
+-------------
+
+- nb_inventory - Added ``status`` as host_var. (359)
+- nb_inventory - Added documentation for using ``keyed_groups``. (#361)
+- nb_inventory - Allow to use virtual chassis name instead of device name. (#383)
+- nb_lookup - Allow lookup of plugin endpoints. (#360)
+- nb_lookup - Documentation update to show Fully Qualified Collection Name (FQCN). (#355)
+- netbox_service - Add ``ports`` option for NetBox 2.10+ and convert ``port`` to ``ports`` if NetBox 2.9 or lower. (#396)
+- netbox_virtual_machine - Added ``comments`` option. (#380)
+- netbox_virtual_machine - Added ``local_context_data`` option. (#357)
+
+Bugfixes
+--------
+
+- Version checks were failing due to converting "2.10" to a float made it an integer of 2.1 which broke version related logic. (#396)
+- netbox_device_interface - Fixed copy pasta in documentation. (#371)
+- netbox_ip_address - Updated documentation to show that ``family`` option has been deprecated. (#388)
+- netbox_utils - Fixed typo for ``circuits.circuittermination`` searches. (#367)
+- netbox_utils - Skip all modifications to ``query_params`` when ``user_query_params`` is defined. (#389)
+- netbox_vlan - Fixed uniqueness for vlan searches to add ``group``. (#386)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_tag - Creates or removes tags from Netbox
+
 v1.1.0
 ======
 
