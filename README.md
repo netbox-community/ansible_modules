@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/netbox-community/ansible_modules.svg?branch=devel)](https://travis-ci.com/netbox-community/ansible_modules)
+![Devel Build Status](https://github.com/netbox-community/ansible_modules/workflows/main/badge.svg?branch=devel)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![Release](https://img.shields.io/github/v/release/netbox-community/ansible_modules)
 
