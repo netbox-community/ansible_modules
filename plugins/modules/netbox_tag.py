@@ -26,7 +26,7 @@ author:
   - Pavel Korovin (@pkorovin)
 requirements:
   - pynetbox
-version_added: "1.1.1"
+version_added: "1.2.0"
 options:
   netbox_url:
     description:
