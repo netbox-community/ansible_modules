@@ -1084,11 +1084,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         raw_vc_members = self.get_resource_list(url)
 
         # Create member lookup dictionary for each virtual chassis
-        self.vc_members_lookup = dict()
+        self.vc_members_lookup = defaultdict(list)
         for member in raw_vc_members:
-            if member["virtual_chassis"]["id"] not in self.vc_members_lookup:
-                self.vc_members_lookup[member["virtual_chassis"]["id"]] = list()
-
             self.vc_members_lookup[member["virtual_chassis"]["id"]].append(member)
 
     @property
