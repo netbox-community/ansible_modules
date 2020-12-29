@@ -99,7 +99,29 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vc_position": 0,
+                "virtual_chassis_members": [
+                    {
+                        "config_context": {},
+                        "custom_fields": {},
+                        "device_type": "nexus-child",
+                        "display": "Test Nexus Child One",
+                        "manufacturer": "cisco",
+                        "regions": [
+                            "test-region",
+                            "parent-region"
+                        ],
+                        "role": "core-switch",
+                        "site": "test-site",
+                        "status": {
+                            "label": "Active",
+                            "value": "active"
+                        },
+                        "tags": [],
+                        "vc_position": 2
+                    }
+                ]
             },
             "test100": {
                 "custom_fields": {},
@@ -206,6 +228,20 @@
             }
         }
     },
+    "active": {
+        "hosts": [
+            "R1-Device",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "VC1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "all": {
         "children": [
             "Test_Cluster",
@@ -282,20 +318,6 @@
     "parent_region": {
         "children": [
             "test_region"
-        ]
-    },
-    "active": {
-        "hosts": [
-            "R1-Device",
-            "Test VM With Spaces",
-            "TestDeviceR1",
-            "VC1",
-            "test100",
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm",
-            "test104-vm"
         ]
     },
     "test_cluster_group": {

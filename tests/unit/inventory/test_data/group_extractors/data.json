@@ -4,6 +4,7 @@
         "interfaces": false,
         "services": false,
         "dns_name": false,
+        "virtual_chassis_members": false,
         "expected": [
             "disk",
             "memory",
@@ -35,7 +36,10 @@
             "manufacturers",
             "services",
             "interfaces",
-            "dns_name"
+            "dns_name",
+            "virtual_chassis_members",
+            "vc_position",
+            "vc_priority"
         ]
     },
     {
@@ -43,6 +47,7 @@
         "interfaces": true,
         "services": true,
         "dns_name": true,
+        "virtual_chassis_members": true,
         "expected": [
             "disk",
             "memory",
@@ -64,7 +69,10 @@
             "manufacturers",
             "services",
             "interfaces",
-            "dns_name"
+            "dns_name",
+            "virtual_chassis_members",
+            "vc_position",
+            "vc_priority"
         ],
         "not_expected": [
             "site",

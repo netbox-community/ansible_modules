@@ -265,6 +265,20 @@
             }
         }
     },
+    "active": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "all": {
         "children": [
             "Test_Cluster",
@@ -334,20 +348,6 @@
     "parent_region": {
         "children": [
             "test_region"
-        ]
-    },
-    "active": {
-        "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "Test VM With Spaces",
-            "TestDeviceR1",
-            "test100",
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm",
-            "test104-vm"
         ]
     },
     "test_cluster_group": {
