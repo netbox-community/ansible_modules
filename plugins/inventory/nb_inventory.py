@@ -791,12 +791,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 try:
                     composite = self._compose(compose[varname], device)
                 except Exception as e:
-                    if strict:
-                        raise AnsibleError(
-                            "Could not set {} for VC member {}: {}".format(
-                                varname, device.get("name", ""), to_native(e)
-                            )
-                        )
+                    msg = "Could not set {} for VC member {}: {}".format(
+                        varname, device.get("name", ""), to_native(e)
+                    )
+                    if self.get_option("strict"):
+                        raise AnsibleError(msg)
+                    else:
+                        self.display.warning(msg)
                     continue
                 host_vars.append((varname, composite))
 
