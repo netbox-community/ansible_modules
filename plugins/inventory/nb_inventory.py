@@ -765,13 +765,40 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return None
 
         vc_members = list()
-        for member in self.vc_members_lookup[host["virtual_chassis"]["id"]]:
-            # Avoid infinite loop for master VC member
-            if member["id"] == host["id"]:
+
+        # Use specific VC members lookup if it was done or use device list by default
+        if hasattr(self, "vc_members_lookup"):
+            lookup = self.vc_members_lookup[host["virtual_chassis"]["id"]]
+        else:
+            lookup = self.devices_list
+
+        for device in lookup:
+            # Check for VC ID and avoid infinite loop for master VC member
+            if (
+                not device.get("virtual_chassis")
+                or device["virtual_chassis"]["id"] != host["virtual_chassis"]["id"]
+                or device["id"] == host["id"]
+            ):
                 continue
 
-            # Get all vars for the VC member
-            host_vars = self._get_host_variables(member)
+            # Get host vars from extractors for the VC member
+            host_vars = self._get_host_variables(device)
+
+            # Get composite vars for VC members
+            # Replicates the "Constructable._set_composite_vars" method
+            compose = self.get_option("compose")
+            for varname in compose:
+                try:
+                    composite = self._compose(compose[varname], device)
+                except Exception as e:
+                    if strict:
+                        raise AnsibleError(
+                            "Could not set {} for VC member {}: {}".format(
+                                varname, device.get("name", ""), to_native(e)
+                            )
+                        )
+                    continue
+                host_vars.append((varname, composite))
 
             # Convert into a dictionary and add to the members list
             vc_members.append({v[0]: v[1] for v in host_vars})
@@ -1109,7 +1136,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.services:
             lookups.append(self.refresh_services)
 
-        if self.virtual_chassis_members:
+        if self.virtual_chassis_members and (
+            self.query_filters or self.device_query_filters
+        ):
             lookups.append(self.refresh_virtual_chassis_members)
 
         return lookups
