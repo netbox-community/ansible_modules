@@ -99,7 +99,29 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vc_position": 0,
+                "virtual_chassis_members": [
+                    {
+                        "config_context": {},
+                        "custom_fields": {},
+                        "device_type": "nexus-child",
+                        "display": "Test Nexus Child One",
+                        "manufacturer": "cisco",
+                        "regions": [
+                            "test-region",
+                            "parent-region"
+                        ],
+                        "role": "core-switch",
+                        "site": "test-site",
+                        "status": {
+                            "label": "Active",
+                            "value": "active"
+                        },
+                        "tags": [],
+                        "vc_position": 2
+                    }
+                ]
             },
             "test100": {
                 "custom_fields": {},
