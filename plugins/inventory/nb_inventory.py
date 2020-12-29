@@ -791,7 +791,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 try:
                     composite = self._compose(compose[varname], device)
                 except Exception as e:
-                    msg = "Could not set {} for VC member {}: {}".format(
+                    msg = "Could not set {0} for VC member {1}: {2}".format(
                         varname, device.get("name", ""), to_native(e)
                     )
                     if self.get_option("strict"):
