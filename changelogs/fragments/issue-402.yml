@@ -1,0 +1,2 @@
+bugfixes:
+  - Allow ``virtual_chassis`` to be found via name (#402)
