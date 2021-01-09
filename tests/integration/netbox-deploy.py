@@ -41,7 +41,8 @@ def make_netbox_calls(endpoint, payload):
 
 # Create tags used in future tests
 if nb_version >= version.parse("2.9"):
-    create_tags = make_netbox_calls(nb.extras.tags,
+    create_tags = make_netbox_calls(
+        nb.extras.tags,
         [
             {"name": "First", "slug": "first"},
             {"name": "Second", "slug": "second"},
@@ -53,7 +54,7 @@ if nb_version >= version.parse("2.9"):
             {"name": "tagB", "slug": "tagb"},
             {"name": "tagC", "slug": "tagc"},
             {"name": "Updated", "slug": "updated"},
-        ]
+        ],
     )
 
 # ORDER OF OPERATIONS FOR THE MOST PART
