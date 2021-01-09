@@ -150,7 +150,7 @@
           tags:
             - slug: second
             - slug: third
-            - slug: first
+            - 1
       register: test_seven
 
     - name: "5 - Assert added tag - Tests #242 is fixed"

@@ -840,9 +840,10 @@ class NetboxModule(object):
                             temp_dict = self._build_query_params(
                                 k, data, child=norm_data
                             )
-                        # If user passes in an integer, it will skip it as it should be a tag ID
+                        # If user passes in an integer, add to ID list to id_list as user
+                        # should have passed in a tag ID
                         elif isinstance(list_item, int):
-                            continue
+                            id_list.append(list_item)
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
