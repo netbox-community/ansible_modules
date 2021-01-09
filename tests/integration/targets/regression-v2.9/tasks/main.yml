@@ -148,9 +148,9 @@
           status: "Staged"
           asset_tag: "Null"
           tags:
-            - slug: second
-            - slug: third
-            # Changed this to an ID for issue #407
+            # Changed these for issue #407 to be IDs
+            - 2
+            - 3
             - 1
       register: test_seven
 

@@ -844,6 +844,7 @@ class NetboxModule(object):
                         # should have passed in a tag ID
                         elif isinstance(list_item, int):
                             id_list.append(list_item)
+                            continue
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
