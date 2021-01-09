@@ -41,7 +41,7 @@ def make_netbox_calls(endpoint, payload):
 
 # Create tags used in future tests
 if nb_version >= version.parse("2.9"):
-    create_tags = nb.extras.tags.create(
+    create_tags = make_netbox_calls(nb.extras.tags,
         [
             {"name": "First", "slug": "first"},
             {"name": "Second", "slug": "second"},
