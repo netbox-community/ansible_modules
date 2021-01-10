@@ -447,3 +447,10 @@ releases:
       name: netbox_tag
       namespace: ''
     release_date: '2020-12-27'
+  1.2.1:
+    changes:
+      bugfixes:
+      - Allow IDs to be passed into objects that accept a list (https://github.com/netbox-community/ansible_modules/issues/407)
+    fragments:
+    - tags.yml
+    release_date: '2021-01-10'

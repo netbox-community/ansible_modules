@@ -9,7 +9,7 @@ namespace: netbox
 name: netbox
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 1.2.0
+version: 1.2.1
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -56,7 +56,7 @@ dependencies:
 repository: https://github.com/netbox-community/ansible_modules
 
 # The URL to any online docs
-documentation:
+documentation: https://netbox-ansible-collection.readthedocs.io/en/latest/
 
 # The URL to the homepage of the collection/project
 homepage:
