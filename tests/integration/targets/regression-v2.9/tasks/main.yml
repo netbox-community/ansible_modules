@@ -148,9 +148,10 @@
           status: "Staged"
           asset_tag: "Null"
           tags:
-            - slug: second
-            - slug: third
-            - slug: first
+            # Changed these for issue #407 to be IDs
+            - 2
+            - 3
+            - 1
       register: test_seven
 
     - name: "5 - Assert added tag - Tests #242 is fixed"
