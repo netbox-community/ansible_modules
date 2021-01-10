@@ -5,6 +5,14 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v1.2.1
+======
+
+Bugfixes
+--------
+
+- Allow IDs to be passed into objects that accept a list (https://github.com/netbox-community/ansible_modules/issues/407)
+
 v1.2.0
 ======
 
