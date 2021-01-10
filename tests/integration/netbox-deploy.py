@@ -477,6 +477,13 @@ created_circuit_terms = make_netbox_calls(
     nb.circuits.circuit_terminations, circuit_terms
 )
 
+route_targets = [
+    {"name": "4000:4000"},
+    {"name": "5000:5000"},
+    {"name": "6000:6000"},
+]
+created_route_targets = make_netbox_calls(nb.ipam.route_targets, route_targets)
+
 if ERRORS:
     sys.exit(
         "Errors have occurred when creating objects, and should have been printed out. Check previous output."

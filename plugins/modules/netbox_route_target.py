@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2018, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
+# Copyright: (c) 2020, Pavel Korovin (@pkorovin) <p@tristero.se>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -15,18 +15,18 @@ ANSIBLE_METADATA = {
 
 DOCUMENTATION = r"""
 ---
-module: netbox_vrf
-short_description: Create, update or delete vrfs within Netbox
+module: netbox_route_target
+short_description: Creates or removes route targets from Netbox
 description:
-  - Creates, updates or removes vrfs from Netbox
+  - Creates or removes route targets from Netbox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Mikhail Yohman (@FragmentedPacket)
+  - Mikhail Yohman (@fragmentedpacket)
 requirements:
   - pynetbox
-version_added: '0.1.0'
+version_added: "1.3.0"
 options:
   netbox_url:
     description:
@@ -41,48 +41,26 @@ options:
   data:
     type: dict
     description:
-      - Defines the vrf configuration
+      - Defines the route target configuration
     suboptions:
       name:
         description:
-          - The name of the vrf
+          - Route target name
         required: true
-        type: str
-      rd:
-        description:
-          - The RD of the VRF. Must be quoted to pass as a string.
-        required: false
         type: str
       tenant:
         description:
-          - The tenant that the vrf will be assigned to
+          - The tenant that the route target will be assigned to
         required: false
         type: raw
-      enforce_unique:
-        description:
-          - Prevent duplicate prefixes/IP addresses within this VRF
-        required: false
-        type: bool
-      import_targets:
-        description:
-          - Import targets tied to VRF
-        required: false
-        type: list
-        elements: str
-      export_targets:
-        description:
-          - Export targets tied to VRF
-        required: false
-        type: list
-        elements: str
       description:
         description:
-          - The description of the vrf
+          - Tag description
         required: false
         type: str
       tags:
         description:
-          - Any tags that the vrf may need to be associated with
+          - Any tags that the device may need to be associated with
         required: false
         type: list
       custom_fields:
@@ -107,57 +85,62 @@ options:
     elements: str
   validate_certs:
     description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
+      - |
+        If C(no), SSL certificates will not be validated.
+        This should only be used on personally controlled sites using self-signed certificates.
     default: true
     type: raw
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test route target creation/deletion"
   connection: local
   hosts: localhost
   gather_facts: False
-
   tasks:
-    - name: Create vrf within Netbox with only required information
-      netbox_vrf:
+    - name: Create Route Targets
+      netbox.netbox.netbox_route_target:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test VRF
-        state: present
-
-    - name: Delete vrf within netbox
-      netbox_vrf:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Test VRF
-        state: absent
-
-    - name: Create vrf with all information
-      netbox_vrf:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Test VRF
-          rd: "65000:1"
-          tenant: Test Tenant
-          enforce_unique: true
-          import_targets:
-            - "65000:65001"
-          export_targets:
-            - "65000:65001"
-          description: VRF description
+          name: "{{ item.name }}"
+          tenant: "Test Tenant"
           tags:
             - Schnozzberry
-        state: present
+      loop:
+        - { name: "65000:65001", description: "management" }
+        - { name: "65000:65002", description: "tunnel" }
+
+    - name: Update Description on Route Targets
+      netbox.netbox.netbox_route_target:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "{{ item.name }}"
+          tenant: "Test Tenant"
+          description: "{{ item.description }}"
+          tags:
+            - Schnozzberry
+      loop:
+        - { name: "65000:65001", description: "management" }
+        - { name: "65000:65002", description: "tunnel" }
+
+    - name: Delete Route Targets
+      netbox.netbox.netbox_route_target:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "{{ item }}"
+        state: absent
+      loop:
+        - "65000:65001"
+        - "65000:65002"
 """
 
 RETURN = r"""
-vrf:
-  description: Serialized object as created or already existent within Netbox
-  returned: success (when I(state=present))
+route_target:
+  description: Serialized object as created/existent/updated/deleted within Netbox
+  returned: always
   type: dict
 msg:
   description: Message indicating failure or info about what has been achieved
@@ -171,7 +154,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
-    NB_VRFS,
+    NB_ROUTE_TARGETS,
 )
 from copy import deepcopy
 
@@ -188,11 +171,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
-                    rd=dict(required=False, type="str"),
                     tenant=dict(required=False, type="raw"),
-                    enforce_unique=dict(required=False, type="bool"),
-                    import_targets=dict(required=False, type="list", elements="str"),
-                    export_targets=dict(required=False, type="list", elements="str"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
                     custom_fields=dict(required=False, type="dict"),
@@ -201,14 +180,10 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
-
-    netbox_vrf = NetboxIpamModule(module, NB_VRFS)
-    netbox_vrf.run()
+    netbox_route_target = NetboxIpamModule(module, NB_ROUTE_TARGETS)
+    netbox_route_target.run()
 
 
 if __name__ == "__main__":  # pragma: no cover

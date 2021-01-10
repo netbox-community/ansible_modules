@@ -157,3 +157,6 @@
 
 - name: "NETBOX_TAG_TESTS"
   include_tasks: "netbox_tag.yml"
+
+- name: "NETBOX_ROUTE_TARGET_TESTS"
+  include_tasks: "netbox_route_target.yml"

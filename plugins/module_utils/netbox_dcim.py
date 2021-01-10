@@ -6,10 +6,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-# Import necessary packages
-import traceback
-from ansible.module_utils.basic import missing_required_lib
-
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
