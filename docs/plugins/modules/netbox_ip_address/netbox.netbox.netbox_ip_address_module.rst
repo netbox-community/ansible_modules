@@ -233,7 +233,8 @@ Parameters
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Specifies with address family the IP address belongs to</div>
+                                            <div>Specifies with address family the IP address belongs to.</div>
+                                            <div>(DEPRECATED) - NetBox now handles determining the IP family natively.</div>
                                                         </td>
             </tr>
                                 <tr>
