@@ -78,8 +78,8 @@
       description: This is a test description
       physical_address: Hollywood, CA, 90210
       shipping_address: Hollywood, CA, 90210
-      latitude: 10.1
-      longitude: 12.2
+      latitude: "22.169141"
+      longitude: "-100.994041"
       contact_name: Jenny
       contact_phone: 867-5309
       contact_email: jenny@changednumber.com
@@ -105,13 +105,61 @@
       - test_four['site']['description'] == "This is a test description"
       - test_four['site']['physical_address'] == "Hollywood, CA, 90210"
       - test_four['site']['shipping_address'] == "Hollywood, CA, 90210"
-      - test_four['site']['latitude'] == "10.100000"
-      - test_four['site']['longitude'] == "12.200000"
+      - test_four['site']['latitude'] == "22.169141"
+      - test_four['site']['longitude'] == "-100.994041"
       - test_four['site']['contact_name'] == "Jenny"
       - test_four['site']['contact_phone'] == "867-5309"
       - test_four['site']['contact_email'] == "jenny@changednumber.com"
       - test_four['site']['comments'] == "### Placeholder"
       - test_four['site']['slug'] == "test_california"
+
+- name: "NETBOX_SITE_IDEM: Idempotency - Create duplicate site with all parameters"
+  netbox.netbox.netbox_site:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test - California
+      status: Planned
+      region: Test Region
+      tenant: Test Tenant
+      facility: EquinoxCA7
+      asn: 65001
+      time_zone: America/Los Angeles
+      description: This is a test description
+      physical_address: Hollywood, CA, 90210
+      shipping_address: Hollywood, CA, 90210
+      latitude: "22.169141"
+      longitude: "-100.994041"
+      contact_name: Jenny
+      contact_phone: 867-5309
+      contact_email: jenny@changednumber.com
+      comments: "### Placeholder"
+      slug: "test_california"
+    state: present
+  register: test_results
+
+- name: "NETBOX_SITE_IDEM: (ASSERT) Idempotency - Duplicate device site with all parameters"
+  assert:
+    that:
+      - test_results is not changed
+      - test_results['site']['name'] == "Test - California"
+      - test_results['msg'] == "site Test - California already exists"
+      - test_results['site']['status'] == "planned"
+      - test_results['site']['region'] == 1
+      - test_results['site']['tenant'] == 1
+      - test_results['site']['facility'] == "EquinoxCA7"
+      - test_results['site']['asn'] == 65001
+      - test_results['site']['time_zone'] == "America/Los_Angeles"
+      - test_results['site']['description'] == "This is a test description"
+      - test_results['site']['physical_address'] == "Hollywood, CA, 90210"
+      - test_results['site']['shipping_address'] == "Hollywood, CA, 90210"
+      - test_results['site']['latitude'] == "22.169141"
+      - test_results['site']['longitude'] == "-100.994041"
+      - test_results['site']['contact_name'] == "Jenny"
+      - test_results['site']['contact_phone'] == "867-5309"
+      - test_results['site']['contact_email'] == "jenny@changednumber.com"
+      - test_results['site']['comments'] == "### Placeholder"
+      - test_results['site']['slug'] == "test_california"
 
 - name: "5 - Delete site within netbox"
   netbox.netbox.netbox_site:
