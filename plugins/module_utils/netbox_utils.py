@@ -285,7 +285,7 @@ ALLOWED_QUERY_PARAMS = {
     "interface": set(["name", "device", "virtual_machine"]),
     "interface_template": set(["name", "device_type"]),
     "inventory_item": set(["name", "device"]),
-    "ip_address": set(["address", "vrf", "interface"]),
+    "ip_address": set(["address", "vrf", "device", "interface"]),
     "ip_addresses": set(["address", "vrf", "device", "interface"]),
     "ipaddresses": set(["address", "vrf", "device", "interface"]),
     "lag": set(["name"]),
@@ -702,15 +702,15 @@ class NetboxModule(object):
             query_dict.update({"prefix": module_data["parent"]})
 
         # This is for netbox_ipam and netbox_ip_address module
-        elif parent == "ip_address" and module_data.get("assigned_object_type"):
-            if module_data["assigned_object_type"] == "virtualization.vminterface":
-                query_dict.update(
-                    {"vminterface_id": module_data.get("assigned_object_id")}
-                )
-            elif module_data["assigned_object_type"] == "dcim.interface":
-                query_dict.update(
-                    {"interface_id": module_data.get("assigned_object_id")}
-                )
+        # elif parent == "ip_address" and module_data.get("assigned_object_type"):
+        #    if module_data["assigned_object_type"] == "virtualization.vminterface":
+        #        query_dict.update(
+        #            {"vminterface_id": module_data.get("assigned_object_id")}
+        #        )
+        #    elif module_data["assigned_object_type"] == "dcim.interface":
+        #        query_dict.update(
+        #            {"interface_id": module_data.get("assigned_object_id")}
+        #        )
 
         elif parent == "ip_addresses":
             if isinstance(module_data["device"], int):
