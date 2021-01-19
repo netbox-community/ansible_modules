@@ -185,15 +185,15 @@ class NetboxIpamModule(NetboxModule):
         else:
             first_available = False
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
         if data.get("prefix") and self.endpoint == "ip_addresses":
             object_query_params = self._build_query_params("prefix", data)
             self.nb_object = self._nb_endpoint_get(
                 nb_app.prefixes, object_query_params, name
             )
         else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
             self.nb_object = self._nb_endpoint_get(
                 nb_endpoint, object_query_params, name
             )

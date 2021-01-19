@@ -195,3 +195,24 @@
           - query_params_372['diff']['after']['assigned_object'] == 3
           - query_params_372['diff']['after']['assigned_object_id'] == 3
           - query_params_372['diff']['after']['assigned_object_type'] == 'dcim.interface'
+
+    - name: "Validate failure due to invalid child params provided by user"
+      netbox.netbox.netbox_cable:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          termination_a_type: "dcim.interface"
+          termination_a:
+            device: "test100"
+            name: "GigabitEthernet1"
+          termination_b_type: "circuits.circuittermination"
+          termination_b:
+            name: "XYZ987"
+      ignore_errors: "yes"
+      register: "test_results"
+
+    - name: "Issue #415 - Assert failure message shows the allowed params and what the user provided"
+      assert:
+        that:
+          - test_results is failed
+          - 'test_results["msg"] == "One or more of the kwargs provided are invalid for circuits.circuittermination, provided kwargs: name. Acceptable kwargs: circuit, term_side"'
