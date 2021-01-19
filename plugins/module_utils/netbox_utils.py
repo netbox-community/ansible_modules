@@ -743,8 +743,11 @@ class NetboxModule(object):
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
+            acceptable_query_params = (
+                user_query_params if user_query_params else query_params
+            )
             self._handle_errors(
-                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: {', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(query_params))}"
+                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: {', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
             )
 
         query_dict = self._convert_identical_keys(query_dict)
