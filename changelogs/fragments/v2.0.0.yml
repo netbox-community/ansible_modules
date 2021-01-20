@@ -1,0 +1,4 @@
+bugfixes:
+  - netbox_site - Changed latitude/longitude type from float to str
+  - netbox_utils - If query_dict is None, fail and provide meaningful error
+  - netbox_utils - Remove manual manipulation for building query params for netbox_ip_address and assigned object
