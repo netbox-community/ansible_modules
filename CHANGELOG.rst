@@ -5,6 +5,26 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v2.0.0
+======
+
+Minor Changes
+-------------
+
+- Added ``import_targets`` and ``export_targets`` options to ``netbox_vrf``
+
+Bugfixes
+--------
+
+- netbox_site - Changed latitude/longitude type from float to str [#418](https://github.com/netbox-community/ansible_modules/pull/418)
+- netbox_utils - If query_dict is None, fail and provide meaningful error [#419](https://github.com/netbox-community/ansible_modules/pull/419)
+- netbox_utils - Remove manual manipulation for building query params for netbox_ip_address and assigned object [#421](https://github.com/netbox-community/ansible_modules/pull/421)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_route_target - Creates or removes route targets from Netbox
+
 v1.2.1
 ======
 

@@ -16,8 +16,4 @@ To keep the code simple, we only officially support the two latest releases of N
 - Ansible 2.9+
 - NetBox write-enabled token when using modules or read-only token for `nb_lookup/nb_inventory`
 
-We have a new docs site live that can be found [here](https://netbox-ansible-collection.readthedocs.io/en/latest/)
-
-## How to Contribute
-
-Please read ![Contributing](CONTRIBUTING.md)
+We have a new docs site live that can be found [here](https://netbox-ansible-collection.readthedocs.io/en/latest/).
