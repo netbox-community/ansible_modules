@@ -77,6 +77,7 @@ API_APPS_ENDPOINTS = dict(
         "prefixes",
         "rirs",
         "roles",
+        "route_targets",
         "vlans",
         "vlan_groups",
         "vrfs",
@@ -98,8 +99,10 @@ QUERY_TYPES = dict(
     device="name",
     device_role="slug",
     device_type="slug",
+    export_targets="name",
     group="slug",
     installed_device="name",
+    import_targets="name",
     manufacturer="slug",
     nat_inside="address",
     nat_outside="address",
@@ -119,6 +122,7 @@ QUERY_TYPES = dict(
     rear_port_template="name",
     region="slug",
     rir="slug",
+    route_targets="name",
     slug="slug",
     site="slug",
     tenant="slug",
@@ -153,7 +157,9 @@ CONVERT_TO_ID = {
     "device": "devices",
     "device_role": "device_roles",
     "device_type": "device_types",
+    "export_targets": "route_targets",
     "group": "tenant_groups",
+    "import_targets": "route_targets",
     "installed_device": "devices",
     "interface": "interfaces",
     "interface_template": "interface_templates",
@@ -180,6 +186,7 @@ CONVERT_TO_ID = {
     "rear_port": "rear_ports",
     "rear_port_template": "rear_port_templates",
     "rir": "rirs",
+    "route_targets": "route_targets",
     "services": "services",
     "site": "sites",
     "tags": "tags",
@@ -240,6 +247,7 @@ ENDPOINT_NAME_MAPPING = {
     "regions": "region",
     "rirs": "rir",
     "roles": "role",
+    "route_targets": "route_target",
     "services": "services",
     "sites": "site",
     "tags": "tags",
@@ -312,6 +320,7 @@ ALLOWED_QUERY_PARAMS = {
     "rear_port_template": set(["name", "device_type"]),
     "rir": set(["slug"]),
     "role": set(["slug"]),
+    "route_target": set(["name"]),
     "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
     "site": set(["slug"]),
     "tags": set(["slug"]),
@@ -843,6 +852,9 @@ class NetboxModule(object):
                         elif isinstance(list_item, int):
                             id_list.append(list_item)
                             continue
+                        else:
+                            temp_dict = {QUERY_TYPES.get(k, "q"): search}
+
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)

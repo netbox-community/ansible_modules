@@ -23,6 +23,7 @@ NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
 NB_RIRS = "rirs"
+NB_ROUTE_TARGETS = "route_targets"
 NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
@@ -148,6 +149,7 @@ class NetboxIpamModule(NetboxModule):
         - ip_addresses
         - prefixes
         - rirs
+        - route_targets
         - vlans
         - vlan_groups
         - vrfs

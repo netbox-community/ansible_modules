@@ -7,3 +7,4 @@ Getting Started
 
    Installation <installation>
    How to Use <how-to-use>
+   Contributing <contributing/index>
