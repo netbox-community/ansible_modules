@@ -68,6 +68,12 @@ jobs:
           docker-compose up -d --quiet-pull
           docker container ls
           cd ..
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1.1.1
+        with:
+          virtualenvs-create: false
+      - name: Install Python packages
+        run: poetry install
       - name: Build and install collection
         run: |
           ansible-galaxy collection build .
@@ -78,12 +84,6 @@ jobs:
           docker logs netbox-docker_netbox_1
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
-      - name: Install and configure Poetry
-        uses: snok/install-poetry@v1.1.1
-        with:
-          virtualenvs-create: false
-      - name: Install Python packages
-        run: poetry install
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
