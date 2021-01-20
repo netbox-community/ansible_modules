@@ -122,7 +122,7 @@ Now we need to update the ``DOCUMENTATION`` variable to match the module we're c
     - Mikhail Yohman (@fragmentedpacket)
   requirements:
     - pynetbox
-  version_added: "1.3.0"
+  version_added: "2.0.0"
   options:
     ...
     data:

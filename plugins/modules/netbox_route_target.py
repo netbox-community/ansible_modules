@@ -26,7 +26,7 @@ author:
   - Mikhail Yohman (@fragmentedpacket)
 requirements:
   - pynetbox
-version_added: "1.3.0"
+version_added: "2.0.0"
 options:
   netbox_url:
     description:

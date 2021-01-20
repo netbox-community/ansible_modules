@@ -69,12 +69,14 @@ options:
         required: false
         type: list
         elements: str
+        version_added: 2.0.0
       export_targets:
         description:
           - Export targets tied to VRF
         required: false
         type: list
         elements: str
+        version_added: 2.0.0
       description:
         description:
           - The description of the vrf
