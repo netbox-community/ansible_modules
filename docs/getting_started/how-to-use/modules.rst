@@ -79,7 +79,7 @@ The next step is to then compare the object obtained from NetBox to the data pas
 Hopefully this helps paint a picture as to why certain design decisions were made and how you can better consume this collection. Let's move onto some examples.
 
 State: Present - Create
-+++++++++++++++++
++++++++++++++++++++++++++++++
 
 When creating an object, you will need to provide the same arguments as you would if you were creating an object via the API.
 
@@ -143,7 +143,7 @@ For reference, here is the code that **slugifies** the ``name`` argument when a 
 Now that we have a better understanding of why certain arguments are required or not, let's look into updating an existing object.
 
 State: Present - Update
-+++++++++++++++++
++++++++++++++++++++++++++++++
 
 Now that we have created our device (**Test Device**), let's update it by adding a serial number.
 
@@ -173,7 +173,7 @@ We're only providing the **name** which makes the device unique and then the arg
 
 
 State: Absent - Delete
-+++++++++++++++++
++++++++++++++++++++++++++++++
 
 The uniqueness of the device (**name** or user specified **query_params**) and the ``state`` set to ``absent`` are the only requirements for deleting an object.
 
