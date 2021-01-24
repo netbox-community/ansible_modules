@@ -1,4 +1,4 @@
-Module Utils
+module_utils
 ====================
 
 .. toctree::

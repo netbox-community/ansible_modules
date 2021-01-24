@@ -3,7 +3,6 @@ netbox_dcim
 
 Constants
 ---------
-
 .. autodata:: plugins.module_utils.netbox_dcim.NB_CABLES
 .. autodata:: plugins.module_utils.netbox_dcim.NB_CONSOLE_PORTS
 .. autodata:: plugins.module_utils.netbox_dcim.NB_CONSOLE_PORT_TEMPLATES
@@ -38,5 +37,4 @@ Constants
 
 Classes
 -------
-
 .. autoclass:: plugins.module_utils.netbox_dcim.NetboxDcimModule
