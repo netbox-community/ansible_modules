@@ -426,7 +426,8 @@ and let CI/CD pipeline to run, but we will be updating the development to allow 
 
 After all tests pass, let's generate our new documents. From the root of the collection, run the following commands.
 
-```bash
+.. code-block:: bash
+
   ❯ poetry shell && poetry install
   ❯ ./hacking/make-docs.sh
   rm: tests/output: No such file or directory
@@ -453,7 +454,6 @@ After all tests pass, let's generate our new documents. From the root of the col
   Downloading https://galaxy.ansible.com/download/community-kubernetes-1.1.1.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
   community.kubernetes (1.1.1) was installed successfully
   ERROR:antsibull:error=Cannot find plugin:func=get_ansible_plugin_info:mod=antsibull.docs_parsing.ansible_internal:plugin_name=netbox.netbox.netbox_interface:plugin_type=module|Error while extracting documentation. Will not document this plugin.
-```
 
 Let's move onto updating ``netbox_vrf`` module. This new model within NetBox is also tied to VRFs as ``import_targets`` and ``export_targets``. Here is a screenshot of the new options we will need to add to the :ref:`netbox_vrf module<ansible_collections.netbox.netbox.netbox_vrf>`.
 

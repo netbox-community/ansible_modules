@@ -195,7 +195,8 @@ We added the **import_targets** and **export_targets** when updating the VRF and
 
 Let's generate our new documents. From the root of the collection, run the following commands.
 
-```bash
+.. code-block:: bash
+
   ❯ poetry shell && poetry install
   ❯ ./hacking/make-docs.sh
   rm: tests/output: No such file or directory
@@ -222,6 +223,5 @@ Let's generate our new documents. From the root of the collection, run the follo
   Downloading https://galaxy.ansible.com/download/community-kubernetes-1.1.1.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
   community.kubernetes (1.1.1) was installed successfully
   ERROR:antsibull:error=Cannot find plugin:func=get_ansible_plugin_info:mod=antsibull.docs_parsing.ansible_internal:plugin_name=netbox.netbox.netbox_interface:plugin_type=module|Error while extracting documentation. Will not document this plugin.
-```
 
 We'll push these up and let the CI/CD run and then these tests should pass and then we're good to submit a PR.
