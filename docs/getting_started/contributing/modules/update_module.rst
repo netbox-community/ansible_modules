@@ -193,4 +193,35 @@ Next we'll update ``netbox_vrf.yml`` for the **latest** integration target.
 
 We added the **import_targets** and **export_targets** when updating the VRF and then asserting that the length of both the **after** and **vrf** object are both one.
 
+Let's generate our new documents. From the root of the collection, run the following commands.
+
+.. code-block:: bash
+
+  ❯ poetry shell && poetry install
+  ❯ ./hacking/make-docs.sh
+  rm: tests/output: No such file or directory
+  rm: .pytest_cache: No such file or directory
+  Using /Users/myohman/cloned-repos/ansible_modules/ansible.cfg as config file
+  Created collection for netbox.netbox at /Users/myohman/cloned-repos/ansible_modules/netbox-netbox-2.0.0.tar.gz
+  Starting galaxy collection install process
+  [WARNING]: The specified collections path '/Users/myohman/cloned-repos/ansible_modules' is not part of the configured Ansible collections paths
+  '/Users/myohman/.ansible/collections:/usr/share/ansible/collections'. The installed collection won't be picked up in an Ansible run.
+  Process install dependency map
+  Starting collection install process
+  Installing 'netbox.netbox:2.0.0' to '/Users/myohman/cloned-repos/ansible_modules/ansible_collections/netbox/netbox'
+  netbox.netbox (2.0.0) was installed successfully
+  Installing 'ansible.netcommon:1.4.1' to '/Users/myohman/cloned-repos/ansible_modules/ansible_collections/ansible/netcommon'
+  Downloading https://galaxy.ansible.com/download/ansible-netcommon-1.4.1.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
+  ansible.netcommon (1.4.1) was installed successfully
+  Installing 'community.general:1.3.4' to '/Users/myohman/cloned-repos/ansible_modules/ansible_collections/community/general'
+  Downloading https://galaxy.ansible.com/download/community-general-1.3.4.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
+  community.general (1.3.4) was installed successfully
+  Installing 'google.cloud:1.0.1' to '/Users/myohman/cloned-repos/ansible_modules/ansible_collections/google/cloud'
+  Downloading https://galaxy.ansible.com/download/google-cloud-1.0.1.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
+  google.cloud (1.0.1) was installed successfully
+  Installing 'community.kubernetes:1.1.1' to '/Users/myohman/cloned-repos/ansible_modules/ansible_collections/community/kubernetes'
+  Downloading https://galaxy.ansible.com/download/community-kubernetes-1.1.1.tar.gz to /Users/myohman/.ansible/tmp/ansible-local-4390k59zwzli/tmp5871aum5
+  community.kubernetes (1.1.1) was installed successfully
+  ERROR:antsibull:error=Cannot find plugin:func=get_ansible_plugin_info:mod=antsibull.docs_parsing.ansible_internal:plugin_name=netbox.netbox.netbox_interface:plugin_type=module|Error while extracting documentation. Will not document this plugin.
+
 We'll push these up and let the CI/CD run and then these tests should pass and then we're good to submit a PR.

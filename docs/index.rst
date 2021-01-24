@@ -17,4 +17,5 @@ Contents
    Getting Started <getting_started/index>
    Advanced Usage <advanced/index>
    Plugins <plugins/index>
+   Module Utils (Python) Docs <module_utils/index>
    Changelog <changelog/index>

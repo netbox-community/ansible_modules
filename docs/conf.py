@@ -15,7 +15,7 @@ import sys
 import re
 import stat
 from pathlib import Path
-from antsibull.cli.antsibull_docs import run
+from antsibull.cli import antsibull_docs
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -27,7 +27,7 @@ copyright = "2020, Mikhail Yohman"
 author = "Mikhail Yohman <@FragmentedPacket>"
 
 # The full version, including alpha/beta/rc tags
-release = "1.1.0"
+release = "2.0.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -84,18 +84,25 @@ def create_antsibull_docs(files, plugin_type=None):
     """
     for f in files:
         file_name = re.search(r"(?:.+\/)(\S+)\.py", str(f)).group(1)
-        if file_name == "netbox_interface":
+        if file_name in ["netbox_interface"]:
             continue
 
+        print(file_name)
         if plugin_type is not None:
-            args_string = f"junk plugin --dest-dir plugins/{plugin_type}/{file_name}/ --plugin-type {plugin_type} netbox.netbox.{file_name}"
+            file_path = Path(f"plugins/{plugin_type}/{file_name}/")
         else:
-            args_string = f"junk plugin --dest-dir plugins/modules/{file_name}/ --plugin-type module netbox.netbox.{file_name}"
+            file_path = Path(f"plugins/modules/{file_name}/")
+
+        file_path.mkdir(mode=744, exist_ok=True)
+
+        if plugin_type is not None:
+            args_string = f"junk plugin --dest-dir {file_path} --plugin-type {plugin_type} netbox.netbox.{file_name}"
+        else:
+            args_string = f"junk plugin --dest-dir {file_path} --plugin-type module netbox.netbox.{file_name}"
         args = args_string.split(" ")
         try:
-            run(args)
-        except:
-            print(args)
+            antsibull_docs.run(args)
+        except Exception as e:
             sys.exit(1)
 
 
@@ -113,30 +120,32 @@ def build_ansible_docs(app):
     """
     This will perform all necessary actions to use antsibull-docs to generate collection docs
     """
-    if os.environ.get("READTHEDOCS") != "True":
-        inventory_path = Path("../plugins/inventory/")
-        lookup_path = Path("../plugins/lookup/")
-        modules_path = Path("../plugins/modules/")
+    inventory_path = Path("../plugins/inventory/")
+    lookup_path = Path("../plugins/lookup/")
+    modules_path = Path("../plugins/modules/")
 
-        # Set permissions on folders within docs/plugins to remove w from g+o
-        doc_modules = Path("plugins/modules/")
-        doc_lookup = Path("plugins/lookup/")
-        doc_inventory = Path("plugins/inventory/")
-        remove_write_permissions(doc_modules)
-        remove_write_permissions(doc_lookup)
-        remove_write_permissions(doc_inventory)
+    # Set permissions on folders within docs/plugins to remove w from g+o
+    doc_modules = Path("plugins/modules/")
+    doc_lookup = Path("plugins/lookup/")
+    doc_inventory = Path("plugins/inventory/")
+    remove_write_permissions(doc_modules)
+    remove_write_permissions(doc_lookup)
+    remove_write_permissions(doc_inventory)
 
-        inventory = inventory_path.glob("[!_]*.py")
-        lookup = lookup_path.glob("[!_]*.py")
-        modules = modules_path.glob("[!_]*.py")
+    inventory = inventory_path.glob("[!_]*.py")
+    lookup = lookup_path.glob("[!_]*.py")
+    modules = modules_path.glob("[!_]*.py")
 
-        create_antsibull_docs(inventory, "inventory")
-        create_antsibull_docs(lookup, "lookup")
-        create_antsibull_docs(modules)
-
-
-def setup(app):
-    app.connect("builder-inited", build_ansible_docs)
+    create_antsibull_docs(inventory, "inventory")
+    create_antsibull_docs(lookup, "lookup")
+    create_antsibull_docs(modules)
 
 
-build_ansible_docs(None)
+###########################################
+# NOT IN USE AND SHOULD BE MANUALLY BUILT
+################
+# def setup(app):
+#    app.connect("builder-inited", build_ansible_docs)
+
+
+# build_ansible_docs(None)
