@@ -82,6 +82,7 @@ options:
         description:
           - Set the discovery flag for the inventory item
         required: false
+        default: false
         type: bool
       tags:
         description:
