@@ -158,10 +158,10 @@ Now that we have created our device (**Test Device**), let's update it by adding
           netbox_token: "thisIsMyToken"
           data:
             name: "Test Device"
-            serial_number: "FXS110011"
+            serial: "FXS110011"
           state: "present"
 
-We're only providing the **name** which makes the device unique and then the argument we want updated. As stated above, it will see that the device exist, and then update the ``serial_number`` field and then send a
+We're only providing the **name** which makes the device unique and then the argument we want updated. As stated above, it will see that the device exist, and then update the ``serial`` field and then send a
 ``PATCH`` to the NetBox API.
 
 .. note::
