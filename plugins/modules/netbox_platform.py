@@ -160,6 +160,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),

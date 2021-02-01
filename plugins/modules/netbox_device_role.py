@@ -142,6 +142,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
                     vm_role=dict(required=False, type="bool"),
