@@ -54,6 +54,11 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      description:
+        description:
+          - The description of the platform
+        required: false
+        type: str
       manufacturer:
         description:
           - The manufacturer the platform will be tied to

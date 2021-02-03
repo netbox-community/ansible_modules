@@ -47,6 +47,11 @@ options:
           - The name of the device role
         required: true
         type: str
+      description:
+        description:
+          - The description of the device role
+        required: false
+        type: str
       color:
         description:
           - Hexidecimal code for a color, ex. FFFFFF
