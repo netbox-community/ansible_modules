@@ -54,6 +54,11 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      description:
+        description:
+          - The description of the platform
+        required: false
+        type: str
       manufacturer:
         description:
           - The manufacturer the platform will be tied to
@@ -162,6 +167,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),
