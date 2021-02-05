@@ -1372,7 +1372,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.dns_name:
             extracted_dns_name = self.extract_dns_name(host=host)
             if extracted_dns_name:
-                self.inventory.set_variable(hostname, "ansible_host", extracted_dns_name)
+                self.inventory.set_variable(
+                    hostname, "ansible_host", extracted_dns_name
+                )
 
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
