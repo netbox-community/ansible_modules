@@ -4,6 +4,7 @@
         "interfaces": false,
         "services": false,
         "dns_name": false,
+        "ansible_host_dns_name": false,
         "expected": [
             "disk",
             "memory",
@@ -35,7 +36,8 @@
             "manufacturers",
             "services",
             "interfaces",
-            "dns_name"
+            "dns_name",
+            "ansible_host_dns_name"
         ]
     },
     {
@@ -43,6 +45,7 @@
         "interfaces": true,
         "services": true,
         "dns_name": true,
+        "ansible_host_dns_name": true,
         "expected": [
             "disk",
             "memory",
@@ -64,7 +67,8 @@
             "manufacturers",
             "services",
             "interfaces",
-            "dns_name"
+            "dns_name",
+            "ansible_host_dns_name"
         ],
         "not_expected": [
             "site",
