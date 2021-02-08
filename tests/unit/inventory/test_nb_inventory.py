@@ -142,7 +142,7 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, interfaces, dns_name, ansible_host_dns_name,expected, not_expected",
+    "plurals, services, interfaces, dns_name, ansible_host_dns_name, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
