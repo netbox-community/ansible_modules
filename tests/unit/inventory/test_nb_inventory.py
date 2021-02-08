@@ -153,7 +153,7 @@ def test_group_extractors(
     dns_name,
     ansible_host_dns_name,
     expected,
-    not_expected
+    not_expected,
 ):
     inventory_fixture.plurals = plurals
     inventory_fixture.services = services
