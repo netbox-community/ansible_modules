@@ -262,5 +262,5 @@
     - name: "ASSERT Issue #432 changes reflect correct device"
       assert:
         that:
-          - test_results | json_query('results[*].ip_address.[?address == "1.121.121.121/32"]') | length == 2
-          - test_results | json_query('results[*].ip_address.[?address == "121.121.121.121/32"]') | length == 2
+          - test_results | json_query('results[?ip_address.address==`1.121.121.121/32`]') | length == 2
+          - test_results | json_query('results[?ip_address.address==`121.121.121.121/32`]') | length == 2
