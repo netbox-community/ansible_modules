@@ -216,3 +216,51 @@
         that:
           - test_results is failed
           - 'test_results["msg"] == "One or more of the kwargs provided are invalid for circuits.circuittermination, provided kwargs: name. Acceptable kwargs: circuit, term_side"'
+
+    - name: "Issue #432 - Make sure same IPs get assigned to different device interfaces"
+      netbox.netbox.netbox_ip_address:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data: "{{ item }}"
+      loop: "{{ data }}"
+      register: "test_results"
+      vars:
+        data:
+          - address: 121.121.121.121/32
+            assigned_object:
+              device: "Test Nexus One"
+              name: "Ethernet1/1"
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 121.121.121.121/32
+            assigned_object:
+              device: "Test Nexus Child One"
+              name: "Ethernet2/1"
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 1.121.121.121/32
+            assigned_object:
+              device: "Test Nexus One"
+              name: "Ethernet1/1"
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 1.121.121.121/32
+            assigned_object:
+              device: "Test Nexus Child One"
+              name: "Ethernet2/1"
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+
+    - name: "ASSERT Issue #432 changes reflect correct device"
+      assert:
+        that:
+          - test_results | json_query('results[?ip_address.address==`1.121.121.121/32`]') | length == 2
+          - test_results | json_query('results[?ip_address.address==`121.121.121.121/32`]') | length == 2
