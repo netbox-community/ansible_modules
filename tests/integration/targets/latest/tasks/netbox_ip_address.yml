@@ -171,7 +171,7 @@
       - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
       - test_eight['ip_address']['address'] == "10.10.1.30/16"
       - test_eight['ip_address']['family'] == 4
-      - test_eight['ip_address']['nat_inside'] == 11
+      - test_eight['ip_address'].get('nat_inside')
       - test_eight['ip_address']['vrf'] == 1
 
 - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
@@ -316,7 +316,7 @@
       assigned_object:
         name: Eth0
         virtual_machine: test101-vm
-    state: "new"
+    state: "present"
   register: test_fifteen
 
 - name: "15 - ASSERT"
