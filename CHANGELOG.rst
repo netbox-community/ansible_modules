@@ -5,6 +5,21 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v2.1.0
+======
+
+Minor Changes
+-------------
+
+- Inventory - Added ansible_host_dns_name to set ansible_host to dns_name
+- netbox_device_role - Added description option
+- netbox_platform -  Added description option
+
+Bugfixes
+--------
+
+- netbox_ip_address - Added assigned_object to ALLOWED_QUERY_PARAMS
+
 v2.0.0
 ======
 
