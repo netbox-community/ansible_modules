@@ -178,6 +178,11 @@ DOCUMENTATION = """
                 - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
             type: boolean
             default: False
+        ansible_host_dns_name:
+            description:
+                - If True, sets DNS Name (fetched from primary_ip) to be used in ansible_host variable, instead of IP Address.
+            type: boolean
+            default: False
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -427,7 +432,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 {"interfaces": self.extract_interfaces,}
             )
 
-        if self.interfaces or self.dns_name:
+        if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             extractors.update(
                 {"dns_name": self.extract_dns_name,}
             )
@@ -1063,7 +1068,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         lookups = []
 
         # IP addresses are needed for either interfaces or dns_name options
-        if self.interfaces or self.dns_name:
+        if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             lookups.append(self.refresh_ipaddresses)
 
         return lookups
@@ -1369,6 +1374,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if extracted_primary_ip:
             self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
 
+        if self.ansible_host_dns_name:
+            extracted_dns_name = self.extract_dns_name(host=host)
+            if extracted_dns_name:
+                self.inventory.set_variable(
+                    hostname, "ansible_host", extracted_dns_name
+                )
+
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
             self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
@@ -1508,5 +1520,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.vm_query_filters = self.get_option("vm_query_filters")
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
+        self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
 
         self.main()

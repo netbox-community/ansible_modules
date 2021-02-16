@@ -17,6 +17,7 @@ services: False
 group_names_raw: True
 virtual_chassis_name: True
 dns_name: True
+ansible_host_dns_name: True
 
 group_by:
   - site

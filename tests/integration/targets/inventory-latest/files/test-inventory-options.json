@@ -81,7 +81,7 @@
                 "tags": []
             },
             "VC1": {
-                "ansible_host": "172.16.180.12",
+                "ansible_host": "nexus.example.com",
                 "custom_fields": {},
                 "device_type": "nexus-parent",
                 "display": "Test Nexus One",
