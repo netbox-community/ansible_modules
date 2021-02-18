@@ -49,6 +49,7 @@ vm_query_filters:
 # https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html
 
 compose:
+  vid: inventory_hostname | regex_replace('^test([0-9]+)\-vm$', '\\1' | int
   display: display_name
   rack_id: rack.id
   ntp_servers: config_context.ntp_servers

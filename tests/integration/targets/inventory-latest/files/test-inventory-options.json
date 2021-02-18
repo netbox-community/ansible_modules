@@ -139,7 +139,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": 100
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
@@ -156,7 +157,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": 101
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
@@ -173,7 +175,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": 102
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
@@ -190,7 +193,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": 103
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
@@ -202,7 +206,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": 104
             }
         }
     },
