@@ -263,6 +263,7 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress
 from ansible.utils.vars import combine_vars
 from ansible.inventory.helpers import get_group_vars
 
+
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
 
@@ -1468,7 +1469,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Parse created object
             host = combine_vars(
                 get_group_vars(self.inventory.hosts[hostname].get_groups()),
-                self.inventory.hosts[hostname].get_vars()
+                self.inventory.hosts[hostname].get_vars(),
             )
 
             # Composed variables
