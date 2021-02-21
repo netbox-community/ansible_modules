@@ -350,6 +350,7 @@ QUERY_PARAMS_IDS = set(
         "tenant",
         "type",
         "virtual_machine",
+        "rack",
     ]
 )
 
