@@ -42,7 +42,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": "0"
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -54,7 +55,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": "0"
             },
             "TestDeviceR1": {
                 "custom_fields": {},
@@ -78,7 +80,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": "0"
             },
             "VC1": {
                 "ansible_host": "nexus.example.com",
@@ -99,7 +102,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": "0"
             },
             "test100": {
                 "custom_fields": {},
@@ -122,7 +126,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "vid": "0"
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
@@ -140,7 +145,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "vid": 100
+                "vid": "100"
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
@@ -158,7 +163,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "vid": 101
+                "vid": "101"
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
@@ -176,7 +181,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "vid": 102
+                "vid": "102"
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
@@ -194,7 +199,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "vid": 103
+                "vid": "103"
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
@@ -207,7 +212,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "vid": 104
+                "vid": "104"
             }
         }
     },
