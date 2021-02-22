@@ -54,6 +54,11 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      description:
+        description:
+          - The description of the platform
+        required: false
+        type: str
       manufacturer:
         description:
           - The manufacturer the platform will be tied to
@@ -69,6 +74,7 @@ options:
           - The optional arguments used for NAPALM connections
         required: false
         type: dict
+    required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -82,6 +88,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -160,6 +167,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),

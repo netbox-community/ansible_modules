@@ -28,7 +28,7 @@ author:
   - Anthony Ruhier (@Anthony25)
 requirements:
   - pynetbox
-version_added: '2.8'
+version_added: '0.1.0'
 options:
   netbox_url:
     description:
@@ -47,6 +47,7 @@ options:
     suboptions:
       family:
         description:
+          - (DEPRECATED) - NetBox now handles determining the IP family natively.
           - Specifies with address family the IP address belongs to
         choices:
           - 4
@@ -123,6 +124,27 @@ options:
           - Hostname or FQDN
         required: false
         type: str
+      assigned_object:
+        description:
+          - Definition of the assigned object.
+        required: false
+        type: dict
+        suboptions:
+          name:
+            description:
+              - The name of the interface
+            type: str
+            required: False
+          device:
+            description:
+              - The device the interface is attached to.
+            type: str
+            required: False
+          virtual_machine:
+            description:
+              - The virtual machine the interface is attached to.
+            type: str
+            required: False
       tags:
         description:
           - Any tags that the IP address may need to be associated with
@@ -151,6 +173,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -244,6 +267,17 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: new
+    - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1 (NetBox 2.9+)
+      netbox_ip_address:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          prefix: 192.168.1.0/24
+          vrf: Test
+          assigned_object:
+            name: GigabitEthernet1
+            device: test100
+        state: new
 """
 
 RETURN = r"""
@@ -312,6 +346,15 @@ def main():
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
                     dns_name=dict(required=False, type="str"),
+                    assigned_object=dict(
+                        required=False,
+                        type="dict",
+                        options=dict(
+                            name=dict(required=False, type="str"),
+                            device=dict(required=False, type="str"),
+                            virtual_machine=dict(required=False, type="str"),
+                        ),
+                    ),
                     tags=dict(required=False, type="list"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
@@ -324,9 +367,13 @@ def main():
         ("state", "absent", ["address"]),
         ("state", "new", ["address", "prefix"], True),
     ]
+    mutually_exclusive = [["interface", "assigned_object"], ["address", "prefix"]]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        mutually_exclusive=mutually_exclusive,
     )
 
     netbox_ip_address = NetboxIpamModule(module, NB_IP_ADDRESSES)

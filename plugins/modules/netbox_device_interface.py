@@ -27,7 +27,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.8"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -41,12 +41,12 @@ options:
     type: str
   data:
     description:
-      - Defines the prefix configuration
+      - Defines the interface configuration
     suboptions:
       device:
         description:
           - Name of the device the interface will be associated with (case-sensitive)
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -96,7 +96,7 @@ options:
         type: bool
       description:
         description:
-          - The description of the prefix
+          - The description of the interface
         required: false
         type: str
       mode:
@@ -116,7 +116,7 @@ options:
         type: raw
       tags:
         description:
-          - Any tags that the prefix may need to be associated with
+          - Any tags that the interface may need to be associated with
         required: false
         type: list
     required: true
@@ -141,6 +141,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |

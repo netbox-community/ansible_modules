@@ -27,7 +27,7 @@ author:
   - Tobias Groß (@toerb)
 requirements:
   - pynetbox
-version_added: '0.2.4'
+version_added: '0.3.0'
 options:
   netbox_url:
     description:
@@ -158,6 +158,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.

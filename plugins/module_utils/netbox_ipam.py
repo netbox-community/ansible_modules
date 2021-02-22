@@ -23,6 +23,7 @@ NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
 NB_RIRS = "rirs"
+NB_ROUTE_TARGETS = "route_targets"
 NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
@@ -53,12 +54,28 @@ class NetboxIpamModule(NetboxModule):
     def _ensure_ip_in_prefix_present_on_netif(
         self, nb_app, nb_endpoint, data, endpoint_name
     ):
-        """
-        """
-        if not data.get("interface") or not data.get("prefix"):
-            self._handle_errors("A prefix and interface are required")
+        query_params = {
+            "parent": data["prefix"],
+        }
 
-        query_params = {"interface_id": data["interface"], "parent": data["prefix"]}
+        if not self._version_check_greater(self.version, "2.9", greater_or_equal=True):
+            if not data.get("interface") or not data.get("prefix"):
+                self._handle_errors("A prefix and interface is required")
+            data_intf_key = "interface"
+
+        else:
+            if not data.get("assigned_object_id") or not data.get("prefix"):
+                self._handle_errors("A prefix and assigned_object is required")
+            data_intf_key = "assigned_object_id"
+
+        intf_obj_type = data.get("assigned_object_type", "dcim.interface")
+        if intf_obj_type == "virtualization.vminterface":
+            intf_type = "vminterface_id"
+        else:
+            intf_type = "interface_id"
+
+        query_params.update({intf_type: data[data_intf_key]})
+
         if data.get("vrf"):
             query_params["vrf_id"] = data["vrf"]
 
@@ -85,6 +102,7 @@ class NetboxIpamModule(NetboxModule):
             self.nb_object, diff = self._create_netbox_object(
                 prefix.available_ips, data
             )
+            self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
                 endpoint_name,
@@ -110,6 +128,7 @@ class NetboxIpamModule(NetboxModule):
             self.nb_object, diff = self._create_netbox_object(
                 self.nb_object.available_prefixes, data
             )
+            self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
                 endpoint_name,
@@ -130,6 +149,7 @@ class NetboxIpamModule(NetboxModule):
         - ip_addresses
         - prefixes
         - rirs
+        - route_targets
         - vlans
         - vlan_groups
         - vrfs
@@ -167,15 +187,15 @@ class NetboxIpamModule(NetboxModule):
         else:
             first_available = False
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
         if data.get("prefix") and self.endpoint == "ip_addresses":
             object_query_params = self._build_query_params("prefix", data)
             self.nb_object = self._nb_endpoint_get(
                 nb_app.prefixes, object_query_params, name
             )
         else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
             self.nb_object = self._nb_endpoint_get(
                 nb_endpoint, object_query_params, name
             )

@@ -1,0 +1,136 @@
+name: All CI related tasks
+
+# Run this workflow every time a new commit pushed to your repository
+on: [push, pull_request]
+
+jobs:
+  linting_unit_testing:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6, 3.7]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1.1.1
+        with:
+          virtualenvs-create: false
+      - name: Install Python packages
+        run: poetry install
+      - name: Build and install collection
+        run: |
+          ansible-galaxy collection build .
+          ansible-galaxy collection install netbox*.tar.gz -p /home/runner/.ansible/collections
+      - name: Run Black
+        run: black . --check --diff
+      - name: Run Ansible Sanity tests
+        run: ansible-test sanity -v --requirements --python ${{ matrix.python-version }} --skip-test pep8 plugins/
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+      - name: Run Ansible Unit tests
+        run: ansible-test units -vvv --coverage --python ${{ matrix.python-version }}
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+      - name: Run Ansible Coverage
+        run: ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+  integration:
+    runs-on: ubuntu-latest
+    needs: linting_unit_testing
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python-version: 3.6
+            VERSION: "v2.9"
+            INTEGRATION_TESTS: "v2.9"
+          - python-version: 3.6
+            VERSION: "latest"
+            INTEGRATION_TESTS: "latest"
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Clone & Start netbox-docker containers - latest
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'latest'
+      - name: Clone & Start netbox-docker containers - 2.9
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 0.26.2
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            nginx:
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v2.9'
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1.1.1
+        with:
+          virtualenvs-create: false
+      - name: Install Python packages
+        run: poetry install
+      - name: Build and install collection
+        run: |
+          ansible-galaxy collection build .
+          ansible-galaxy collection install netbox*.tar.gz -p /home/runner/.ansible/collections
+      - name: Wait for NetBox to be available
+        run: |
+          docker container ls
+          docker logs netbox-docker_netbox_1
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for Netbox"; sleep 5; done' || false
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+      - name: Pre-populate NetBox
+        run: ./tests/integration/netbox-deploy.py
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+      - name: Allow scripts to be executed
+        # Set runme.sh execute permissions stripped by ansible-galaxy. Should be fixed in Ansible 2.10
+        # https://github.com/ansible/ansible/issues/68415
+        # Run render_config.sh to pass environment variables to integration tests
+        # https://www.ansible.com/blog/adding-integration-tests-to-ansible-content-collections
+        run: |
+          chmod +x tests/integration/targets/inventory-${{ matrix.INTEGRATION_TESTS }}/runme.sh
+          chmod +x tests/integration/targets/inventory-${{ matrix.INTEGRATION_TESTS }}/compare_inventory_json.py
+          chmod +x tests/integration/render_config.sh
+          tests/integration/render_config.sh tests/integration/targets/inventory/runme_config.template > tests/integration/targets/inventory-${{ matrix.INTEGRATION_TESTS }}/runme_config
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+      - name: Run integration tests
+        # Run regression and integration tests
+        # Run the inventory test first, in case any of the other tests modify the data.
+        run: |
+          ansible-test integration -v --coverage --python ${{ matrix.python-version }} inventory-${{ matrix.INTEGRATION_TESTS }}
+          ansible-test integration -v --coverage --python ${{ matrix.python-version }} regression-${{ matrix.INTEGRATION_TESTS }}
+          ansible-test integration -v --coverage --python ${{ matrix.python-version }} ${{ matrix.INTEGRATION_TESTS }}
+          ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox

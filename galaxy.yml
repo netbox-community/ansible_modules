@@ -9,7 +9,7 @@ namespace: netbox
 name: netbox
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 0.2.3
+version: 2.1.0
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -22,7 +22,7 @@ authors:
 ### OPTIONAL but strongly recommended
 
 # A short summary description of the collection
-description: This is a collection of Netbox Ansible modules
+description: This is a collection of NetBox Ansible modules
 
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
@@ -47,16 +47,16 @@ tags:
 # range specifiers can be set and are separated by ','
 dependencies:
   # Required for ipaddress python library
-  ansible.netcommon: "*"
+  ansible.netcommon: ">=1.0.0"
 
   # Required for json_query used in lookup plugin integration tests
-  community.general: "*"
+  community.general: ">=1.0.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/netbox-community/ansible_modules
 
 # The URL to any online docs
-documentation:
+documentation: https://netbox-ansible-collection.readthedocs.io/en/latest/
 
 # The URL to the homepage of the collection/project
 homepage:
@@ -68,8 +68,9 @@ issues: https://github.com/netbox-community/ansible_modules/issues
 # https://github.com/ansible/ansible/issues/67543
 # https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html#ignoring-files-and-folders
 build_ignore:
-  - venv
-  - ansible_collections
-  - tests/output
-  - .pytest_cache
-  - .vscode
+  - "venv"
+  - "ansible_collections"
+  - "tests/output"
+  - ".pytest_cache"
+  - ".vscode"
+  - "*.tar.gz"

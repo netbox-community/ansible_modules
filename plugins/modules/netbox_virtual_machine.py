@@ -113,6 +113,16 @@ options:
           - Must exist in Netbox
         required: false
         type: dict
+      local_context_data:
+        description:
+          - configuration context of the virtual machine
+        required: false
+        type: dict
+      comments:
+        description:
+          - Comments of the virtual machine
+        required: false
+        type: str
     required: true
   state:
     description:
@@ -127,6 +137,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -229,6 +240,8 @@ def main():
                     status=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list"),
                     custom_fields=dict(required=False, type="dict"),
+                    local_context_data=dict(required=False, type="dict"),
+                    comments=dict(required=False, type="str"),
                 ),
             ),
         )

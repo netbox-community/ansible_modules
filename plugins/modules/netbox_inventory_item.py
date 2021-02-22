@@ -46,7 +46,7 @@ options:
       device:
         description:
           - Name of the device the inventory item belongs to
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -82,6 +82,7 @@ options:
         description:
           - Set the discovery flag for the inventory item
         required: false
+        default: false
         type: bool
       tags:
         description:
@@ -102,6 +103,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |

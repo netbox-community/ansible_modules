@@ -1,0 +1,128 @@
+---
+##
+##
+### NETBOX_VRF
+##
+##
+- name: "VRF 1: Necessary info creation"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test VRF One
+    state: present
+  register: test_one
+
+- name: "VRF 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['vrf']['name'] == "Test VRF One"
+      - test_one['msg'] == "vrf Test VRF One created"
+
+- name: "VRF 2: Create duplicate"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test VRF One
+    state: present
+  register: test_two
+
+- name: "VRF 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['vrf']['name'] == "Test VRF One"
+      - test_two['msg'] == "vrf Test VRF One already exists"
+
+- name: "VRF 3: Create VRF with same name, but different tenant"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test VRF One
+      tenant: Test Tenant
+    state: present
+  register: test_three
+
+- name: "VRF 3: ASSERT - Create VRF with same name, but different site"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "absent"
+      - test_three['diff']['after']['state'] == "present"
+      - test_three['vrf']['name'] == "Test VRF One"
+      - test_three['vrf']['tenant'] == 1
+      - test_three['msg'] == "vrf Test VRF One created"
+
+- name: "VRF 4: ASSERT - Update"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test VRF One"
+      rd: "65001:1"
+      enforce_unique: False
+      tenant: "Test Tenant"
+      description: Updated description
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_four
+
+- name: "VRF 4: ASSERT - Updated"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['after']['rd'] == "65001:1"
+      - test_four['diff']['after']['enforce_unique'] == false
+      - test_four['diff']['after']['description'] == "Updated description"
+      - test_four['diff']['after']['tags'][0] == 4
+      - test_four['vrf']['name'] == "Test VRF One"
+      - test_four['vrf']['tenant'] == 1
+      - test_four['vrf']['rd'] == "65001:1"
+      - test_four['vrf']['enforce_unique'] == false
+      - test_four['vrf']['description'] == "Updated description"
+      - test_four['vrf']['tags'][0] == 4
+      - test_four['msg'] == "vrf Test VRF One updated"
+
+- name: "VRF 5: ASSERT - Delete more than one result"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test VRF One"
+    state: absent
+  ignore_errors: yes
+  register: test_five
+
+- name: "VRF 5: ASSERT - Delete more than one result"
+  assert:
+    that:
+      - test_five is failed
+      - test_five['msg'] == "More than one result returned for Test VRF One"
+
+- name: "VRF 6: ASSERT - Delete"
+  netbox.netbox.netbox_vrf:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test VRF One"
+      tenant: Test Tenant
+    state: absent
+  register: test_six
+
+- name: "VRF 6: ASSERT - Delete"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['vrf']['name'] == "Test VRF One"
+      - test_six['vrf']['tenant'] == 1
+      - test_six['vrf']['rd'] == "65001:1"
+      - test_six['vrf']['enforce_unique'] == false
+      - test_six['vrf']['description'] == "Updated description"
+      - test_six['vrf']['tags'][0] == 4
+      - test_six['msg'] == "vrf Test VRF One deleted"

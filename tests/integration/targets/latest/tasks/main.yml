@@ -5,6 +5,9 @@
 - name: "NETBOX_DEVICE_INTERFACE TESTS"
   include_tasks: "netbox_device_interface.yml"
 
+- name: "NETBOX_DEVICE_INTERFACE_TEMPLATE TESTS"
+  include_tasks: "netbox_device_interface_template.yml"
+
 - name: "NETBOX_IP_ADDRESS TESTS"
   include_tasks: "netbox_ip_address.yml"
 
@@ -151,3 +154,9 @@
 
 - name: "NETBOX_LOOKUP TESTS"
   include_tasks: "netbox_lookup.yml"
+
+- name: "NETBOX_TAG_TESTS"
+  include_tasks: "netbox_tag.yml"
+
+- name: "NETBOX_ROUTE_TARGET_TESTS"
+  include_tasks: "netbox_route_target.yml"

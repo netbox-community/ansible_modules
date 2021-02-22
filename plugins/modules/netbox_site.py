@@ -27,7 +27,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.8"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -98,12 +98,12 @@ options:
         description:
           - Latitude in decimal format
         required: false
-        type: float
+        type: str
       longitude:
         description:
           - Longitude in decimal format
         required: false
-        type: float
+        type: str
       contact_name:
         description:
           - Name of contact for site
@@ -153,6 +153,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -252,8 +253,8 @@ def main():
                     description=dict(required=False, type="str"),
                     physical_address=dict(required=False, type="str"),
                     shipping_address=dict(required=False, type="str"),
-                    latitude=dict(required=False, type="float"),
-                    longitude=dict(required=False, type="float"),
+                    latitude=dict(required=False, type="str"),
+                    longitude=dict(required=False, type="str"),
                     contact_name=dict(required=False, type="str"),
                     contact_phone=dict(required=False, type="str"),
                     contact_email=dict(required=False, type="str"),

@@ -308,6 +308,95 @@
         }
     },
     {
+        "parent": "interface_template",
+        "module_data": {
+            "device_type": 1,
+            "name": "SFP+ (10GBE)",
+            "type": "SFP+ (10GBE)"
+        },
+        "expected": {
+            "name": "SFP+ (10GBE)",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "device_bay_template",
+        "module_data": {
+            "name": "Bay 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "Bay 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "console_port_template",
+        "module_data": {
+            "name": "CP 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "CP 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "console_server_port_template",
+        "module_data": {
+            "name": "CP - Server 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "CP - Server 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "interface_template",
+        "module_data": {
+            "name": "Dev Intf 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "Dev Intf 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "front_port_template",
+        "module_data": {
+            "name": "FP 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "FP 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "power_outlet_template",
+        "module_data": {
+            "name": "PO 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "PO 1",
+            "devicetype_id": 1
+        }
+    },
+    {
+        "parent": "power_port_template",
+        "module_data": {
+            "name": "PP 1",
+            "device_type": 1
+        },
+        "expected": {
+            "name": "PP 1",
+            "devicetype_id": 1
+        }
+    },
+    {
         "parent": "virtual_machine",
         "module_data": {
             "name": "Test VM 100",

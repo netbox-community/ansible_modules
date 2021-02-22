@@ -1,0 +1,6 @@
+---
+requires_ansible: ">=2.9.10"
+plugin_routing:
+  modules:
+    netbox_interface:
+      redirect: netbox.netbox.plugins.modules.netbox_device_interface

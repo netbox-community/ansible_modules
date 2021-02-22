@@ -115,7 +115,8 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       model: "WS Test 3850"
-      manufacturer: Test Manufacturer
+      manufacturer: "Test Manufacturer"
+      subdevice_role: "parent"
     state: present
   register: test_six
 

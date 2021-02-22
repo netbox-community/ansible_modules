@@ -298,6 +298,16 @@
     {
         "before": {
             "interface": {
+                "id": "123"
+            }
+        },
+        "after": {
+            "interface": 123
+        }
+    },
+    {
+        "before": {
+            "interface": {
                 "vrf": "Test VRF"
             }
         },

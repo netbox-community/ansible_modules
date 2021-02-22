@@ -47,10 +47,15 @@ options:
           - The name of the device role
         required: true
         type: str
+      description:
+        description:
+          - The description of the device role
+        required: false
+        type: str
       color:
         description:
           - Hexidecimal code for a color, ex. FFFFFF
-        required: true
+        required: false
         type: str
       slug:
         description:
@@ -77,6 +82,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -142,6 +148,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
                     vm_role=dict(required=False, type="bool"),

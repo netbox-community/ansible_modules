@@ -3,6 +3,8 @@
         "plurals": false,
         "interfaces": false,
         "services": false,
+        "dns_name": false,
+        "ansible_host_dns_name": false,
         "expected": [
             "disk",
             "memory",
@@ -33,13 +35,17 @@
             "device_types",
             "manufacturers",
             "services",
-            "interfaces"
+            "interfaces",
+            "dns_name",
+            "ansible_host_dns_name"
         ]
     },
     {
         "plurals": true,
         "interfaces": true,
         "services": true,
+        "dns_name": true,
+        "ansible_host_dns_name": true,
         "expected": [
             "disk",
             "memory",
@@ -60,7 +66,48 @@
             "device_types",
             "manufacturers",
             "services",
-            "interfaces"
+            "interfaces",
+            "dns_name"
+        ],
+        "not_expected": [
+            "site",
+            "tenant",
+            "rack",
+            "tag",
+            "role",
+            "platform",
+            "device_type",
+            "manufacturer"
+        ]
+    },
+    {
+        "plurals": true,
+        "interfaces": true,
+        "services": true,
+        "dns_name": false,
+        "ansible_host_dns_name": true,
+        "expected": [
+            "disk",
+            "memory",
+            "vcpus",
+            "config_context",
+            "custom_fields",
+            "region",
+            "cluster",
+            "cluster_group",
+            "cluster_type",
+            "is_virtual",
+            "sites",
+            "tenants",
+            "racks",
+            "tags",
+            "device_roles",
+            "platforms",
+            "device_types",
+            "manufacturers",
+            "services",
+            "interfaces",
+            "dns_name"
         ],
         "not_expected": [
             "site",
