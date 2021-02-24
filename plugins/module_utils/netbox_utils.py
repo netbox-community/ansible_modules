@@ -109,6 +109,7 @@ QUERY_TYPES = dict(
     parent_region="slug",
     power_panel="name",
     power_port="name",
+    power_port_template="name",
     platform="slug",
     prefix_role="slug",
     primary_ip="address",
@@ -174,6 +175,7 @@ CONVERT_TO_ID = {
     "parent_region": "regions",
     "power_panel": "power_panels",
     "power_port": "power_ports",
+    "power_port_template": "power_port_templates",
     "prefix_role": "roles",
     "primary_ip": "ip_addresses",
     "primary_ip4": "ip_addresses",
@@ -390,6 +392,7 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "parent_region": "parent",
+    "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
     "rack_role": "role",
@@ -750,6 +753,25 @@ class NetboxModule(object):
                 }
                 query_dict.update(rear_port_template)
 
+        elif parent == "power_port" and self.endpoint == "power_outlets":
+            if isinstance(module_data.get("power_port"), str):
+                power_port = {
+                    "device_id": module_data.get("device"),
+                    "name": module_data.get("power_port"),
+                }
+                query_dict.update(power_port)
+
+        elif (
+            parent == "power_port_template"
+            and self.endpoint == "power_outlet_templates"
+        ):
+            if isinstance(module_data.get("power_port_template"), str):
+                power_port_template = {
+                    "devicetype_id": module_data.get("device_type"),
+                    "name": module_data.get("power_port_template"),
+                }
+                query_dict.update(power_port_template)
+
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")
@@ -876,7 +898,13 @@ class NetboxModule(object):
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
                 else:
-                    if k in ["lag", "rear_port", "rear_port_template"]:
+                    if k in [
+                        "lag",
+                        "rear_port",
+                        "rear_port_template",
+                        "power_port",
+                        "power_port_template",
+                    ]:
                         query_params = self._build_query_params(
                             k, data, user_query_params
                         )
