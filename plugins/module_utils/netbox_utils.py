@@ -107,6 +107,7 @@ QUERY_TYPES = dict(
     nat_inside="address",
     nat_outside="address",
     parent_region="slug",
+    parent_tenant_group="slug",
     power_panel="name",
     power_port="name",
     platform="slug",
@@ -172,6 +173,7 @@ CONVERT_TO_ID = {
     "nat_outside": "ip_addresses",
     "platform": "platforms",
     "parent_region": "regions",
+    "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
     "power_port": "power_ports",
     "prefix_role": "roles",
@@ -301,6 +303,7 @@ ALLOWED_QUERY_PARAMS = {
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
+    "parent_tenant_group": set(["slug"]),
     "platform": set(["slug"]),
     "power_feed": set(["name", "power_panel"]),
     "power_outlet": set(["name", "device"]),
@@ -390,6 +393,7 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "parent_region": "parent",
+    "parent_tenant_group": "parent",
     "prefix_role": "role",
     "rack_group": "group",
     "rack_role": "role",
@@ -749,6 +753,9 @@ class NetboxModule(object):
                     "name": module_data.get("rear_port_template"),
                 }
                 query_dict.update(rear_port_template)
+
+        elif parent == "tenant_group" and module_data.get("parent"):
+            query_dict.update({"tenant_group": module_data["parent"]})
 
         elif "_template" in parent:
             if query_dict.get("device_type"):
