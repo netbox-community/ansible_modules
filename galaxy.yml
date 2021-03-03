@@ -46,9 +46,6 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  # Required for ipaddress python library
-  ansible.netcommon: ">=1.0.0"
-
   # Required for json_query used in lookup plugin integration tests
   community.general: ">=1.0.0"
 
