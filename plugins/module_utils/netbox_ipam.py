@@ -169,7 +169,9 @@ class NetboxIpamModule(NetboxModule):
         if self.endpoint == "ip_addresses":
             if data.get("address"):
                 try:
-                    data["address"] = to_text(ip_interface(data["address"]).with_prefixlen)
+                    data["address"] = to_text(
+                        ip_interface(data["address"]).with_prefixlen
+                    )
                 except ValueError:
                     pass
             name = data.get("address")
