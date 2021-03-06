@@ -752,9 +752,6 @@ class NetboxModule(object):
                 }
                 query_dict.update(rear_port_template)
 
-        elif parent == "tenant_group" and module_data.get("parent"):
-            query_dict.update({"tenant_group": module_data["parent"]})
-
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")
