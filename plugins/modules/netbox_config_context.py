@@ -212,11 +212,14 @@ def main():
                     tags=dict(required=False, type="list"),
                     data=dict(required=False, type="dict"),
                 ),
-            ),
+            )
         )
     )
 
-    required_if = [("state", "present", ["name", "data"]), ("state", "absent", ["name"])]
+    required_if = [
+        ("state", "present", ["name", "data"]),
+        ("state", "absent", ["name"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if

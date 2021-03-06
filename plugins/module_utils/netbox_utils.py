@@ -281,7 +281,20 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
-    "config_context": set(["name", "regions", "sites", "roles", "platforms", "cluster_groups", "clusters", "tenant_groups", "tenants", "tags"]),
+    "config_context": set(
+        [
+            "name",
+            "regions",
+            "sites",
+            "roles",
+            "platforms",
+            "cluster_groups",
+            "clusters",
+            "tenant_groups",
+            "tenants",
+            "tags",
+        ]
+    ),
     "console_port": set(["name", "device"]),
     "console_port_template": set(["name", "device_type"]),
     "console_server_port": set(["name", "device"]),
@@ -869,10 +882,17 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if k in ("regions", "sites", "roles", "platforms",
-                                "cluster_groups", "clusters", "tenant_groups",
-                                "tenants", "tags") and isinstance(
-                            list_item, str):
+                        if k in (
+                            "regions",
+                            "sites",
+                            "roles",
+                            "platforms",
+                            "cluster_groups",
+                            "clusters",
+                            "tenant_groups",
+                            "tenants",
+                            "tags",
+                        ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
