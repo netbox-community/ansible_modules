@@ -86,3 +86,4 @@ plugins/modules/netbox_vm_interface.py validate-modules:required_if-requirements
 plugins/modules/netbox_vm_interface.py validate-modules:parameter-list-no-elements
 plugins/modules/netbox_vrf.py validate-modules:required_if-requirements-unknown
 plugins/modules/netbox_vrf.py validate-modules:parameter-list-no-elements
+plugins/modules/netbox_config_context.py validate-modules:required_if-requirements-unknown
