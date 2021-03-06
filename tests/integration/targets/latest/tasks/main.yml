@@ -160,3 +160,6 @@
 
 - name: "NETBOX_ROUTE_TARGET_TESTS"
   include_tasks: "netbox_route_target.yml"
+
+- name: "NETBOX_CONFIG_CONTEXT TESTS"
+  include_tasks: "netbox_config_context.yml"
