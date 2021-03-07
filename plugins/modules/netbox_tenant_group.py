@@ -53,6 +53,16 @@ options:
           - URL-friendly unique shorthand
         required: false
         type: str
+      parent_tenant_group:
+        description:
+          - Slug of the parent tenant group
+        required: false
+        type: str
+      description:
+        description:
+          - The description of the tenant group
+        required: false
+        type: str
     required: true
   state:
     description:
@@ -137,6 +147,8 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    parent_tenant_group=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                 ),
             ),
         )
