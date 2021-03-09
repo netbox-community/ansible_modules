@@ -25,6 +25,7 @@ jobs:
         run: poetry install
       - name: Build and install collection
         run: |
+          ansible-galaxy collection install community.general
           ansible-galaxy collection build .
           ansible-galaxy collection install netbox*.tar.gz -p /home/runner/.ansible/collections
       - name: Run Black
