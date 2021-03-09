@@ -20,7 +20,7 @@ netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbo
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 2.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -88,6 +88,22 @@ Parameters
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The description of the tenant group</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
                     <b>name</b>
                     <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
@@ -99,6 +115,22 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Name of the tenant group to be created</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/parent_tenant_group"></div>
+                    <b>parent_tenant_group</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/parent_tenant_group" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Slug of the parent tenant group</div>
                                                         </td>
             </tr>
                                 <tr>

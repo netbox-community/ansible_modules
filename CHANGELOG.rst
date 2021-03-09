@@ -5,6 +5,25 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.0.0
+======
+
+Minor Changes
+-------------
+
+- Allow rack to be in query_param_ids [#443](https://github.com/netbox-community/ansible_modules/pull/443)
+- netbox_cable -  Add tags option [#455](https://github.com/netbox-community/ansible_modules/pull/455)
+- netbox_cluster_type - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+- netbox_ipam_role - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+- netbox_manufacturer - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+- netbox_rir - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+- netbox_tenant_group - Add parent_tenant_group option [#460](https://github.com/netbox-community/ansible_modules/pull/460)
+
+Bugfixes
+--------
+
+- Remove ansible.netcommon and community.general dependencies from collection
+
 v2.1.0
 ======
 

@@ -5,7 +5,7 @@
 Netbox.Netbox
 =============
 
-Collection version 2.0.0
+Collection version 3.0.0
 
 .. toctree::
     :maxdepth: 1

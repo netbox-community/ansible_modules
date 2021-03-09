@@ -304,18 +304,17 @@ releases:
   0.3.0:
     changes:
       breaking_changes:
-      - "To pass in integers via Ansible Jinja filters for a key in ``data`` that\n\
-        requires querying an endpoint is now done by making it a dictionary with\n\
-        an ``id`` key. The previous behavior was to just pass in an integer and\n\
-        it was converted when normalizing the data, but some people may have names\n\
-        that are all integers and those were being converted erroneously so we made\n\
-        the decision to change the method to convert to an integer for the NetBox\n\
-        API.\n\n::\n\n  tasks:\n    - name: Create device within NetBox with only\
-        \ required information\n      netbox_device:\n        netbox_url: http://netbox-demo.org:32768\n\
-        \        netbox_token: 0123456789abcdef0123456789abcdef01234567\n        data:\n\
-        \          name: Test66\n          device_type:\n            id: \"{{ some_jinja_variable\
-        \ }}\"\n          device_role: Core Switch\n          site: Test Site\n  \
-        \        status: Staged\n        state: present\n"
+      - "To pass in integers via Ansible Jinja filters for a key in ``data`` that\nrequires
+        querying an endpoint is now done by making it a dictionary with\nan ``id``
+        key. The previous behavior was to just pass in an integer and\nit was converted
+        when normalizing the data, but some people may have names\nthat are all integers
+        and those were being converted erroneously so we made\nthe decision to change
+        the method to convert to an integer for the NetBox\nAPI.\n\n::\n\n  tasks:\n
+        \   - name: Create device within NetBox with only required information\n      netbox_device:\n
+        \       netbox_url: http://netbox-demo.org:32768\n        netbox_token: 0123456789abcdef0123456789abcdef01234567\n
+        \       data:\n          name: Test66\n          device_type:\n            id:
+        \"{{ some_jinja_variable }}\"\n          device_role: Core Switch\n          site:
+        Test Site\n          status: Staged\n        state: present\n"
       - '``pynetbox`` changed to using ``requests.Session()`` to manage the HTTP session
 
         which broke passing in ``ssl_verify`` when building the NetBox API client.
@@ -481,3 +480,18 @@ releases:
     fragments:
     - 2.1.0.yml
     release_date: '2021-02-15'
+  3.0.0:
+    changes:
+      bugfixes:
+      - Remove ansible.netcommon and community.general dependencies from collection
+      minor_changes:
+      - Allow rack to be in query_param_ids [#443](https://github.com/netbox-community/ansible_modules/pull/443)
+      - netbox_cable -  Add tags option [#455](https://github.com/netbox-community/ansible_modules/pull/455)
+      - netbox_cluster_type - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+      - netbox_ipam_role - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+      - netbox_manufacturer - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+      - netbox_rir - Add description option [#451](https://github.com/netbox-community/ansible_modules/pull/451)
+      - netbox_tenant_group - Add parent_tenant_group option [#460](https://github.com/netbox-community/ansible_modules/pull/460)
+    fragments:
+    - release-3.0.0.yml
+    release_date: '2021-03-08'
