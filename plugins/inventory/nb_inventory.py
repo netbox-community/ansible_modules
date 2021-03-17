@@ -670,7 +670,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     )
                     interface["tags"] = list(sub["slug"] for sub in interface["tags"])
 
-
             return interfaces
         except Exception:
             return
