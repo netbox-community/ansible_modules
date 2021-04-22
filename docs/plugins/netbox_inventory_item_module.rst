@@ -20,7 +20,7 @@ netbox.netbox.netbox_inventory_item -- Creates or removes inventory items from N
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 2.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -144,8 +144,8 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
                                                                                                                                                                                                 <li>yes</li>
                                                                                     </ul>
                                                                             </td>

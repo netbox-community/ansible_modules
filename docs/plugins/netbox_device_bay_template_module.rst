@@ -20,7 +20,7 @@ netbox.netbox.netbox_device_bay_template -- Create, update or delete device bay 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 2.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
