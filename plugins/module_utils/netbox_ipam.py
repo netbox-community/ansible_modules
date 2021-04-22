@@ -7,7 +7,7 @@ __metaclass__ = type
 
 # Import necessary packages
 import traceback
-from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
+from ipaddress import ip_interface
 from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import missing_required_lib
 
@@ -169,7 +169,9 @@ class NetboxIpamModule(NetboxModule):
         if self.endpoint == "ip_addresses":
             if data.get("address"):
                 try:
-                    data["address"] = to_text(ipaddress.ip_network(data["address"]))
+                    data["address"] = to_text(
+                        ip_interface(data["address"]).with_prefixlen
+                    )
                 except ValueError:
                     pass
             name = data.get("address")

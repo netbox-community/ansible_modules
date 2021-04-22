@@ -20,7 +20,7 @@ netbox.netbox.netbox_cable -- Create, update or delete cables within Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 2.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -174,6 +174,22 @@ Parameters
                                                                             </td>
                                                                 <td>
                                             <div>The status of the cable</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+                    <b>tags</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=string</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Any tags that the cable may need to be associated with</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -446,6 +462,8 @@ Examples
               color: abcdef
               length: 30
               length_unit: m
+              tags:
+                - foo
             state: present
 
         - name: Delete cable within netbox

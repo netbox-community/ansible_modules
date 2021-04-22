@@ -54,6 +54,11 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      description:
+        description:
+          - The description of the ipam role
+        required: false
+        type: str
       weight:
         description:
           - The weight of the ipam role to be created
@@ -141,6 +146,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     weight=dict(required=False, type="int"),
                 ),
             ),

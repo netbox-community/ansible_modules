@@ -20,7 +20,7 @@ netbox.netbox.netbox_manufacturer -- Create or delete manufacturers within Netbo
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 2.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -86,6 +86,22 @@ Parameters
                                                         </td>
             </tr>
                                         <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The description of the manufacturer</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/name"></div>

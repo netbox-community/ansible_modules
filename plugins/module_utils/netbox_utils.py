@@ -15,8 +15,6 @@ import json
 
 from itertools import chain
 
-from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
-
 from ansible.module_utils.common.text.converters import to_text
 
 from ansible.module_utils._text import to_native
@@ -107,6 +105,7 @@ QUERY_TYPES = dict(
     nat_inside="address",
     nat_outside="address",
     parent_region="slug",
+    parent_tenant_group="slug",
     power_panel="name",
     power_port="name",
     power_port_template="name",
@@ -173,6 +172,7 @@ CONVERT_TO_ID = {
     "nat_outside": "ip_addresses",
     "platform": "platforms",
     "parent_region": "regions",
+    "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
     "power_port": "power_ports",
     "power_port_template": "power_port_templates",
@@ -303,6 +303,7 @@ ALLOWED_QUERY_PARAMS = {
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
+    "parent_tenant_group": set(["slug"]),
     "platform": set(["slug"]),
     "power_feed": set(["name", "power_panel"]),
     "power_outlet": set(["name", "device"]),
@@ -392,6 +393,7 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "parent_region": "parent",
+    "parent_tenant_group": "parent",
     "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
