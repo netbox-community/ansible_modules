@@ -57,7 +57,7 @@ options:
         description:
           - JSON-formatted configuration context data
         required: true
-        type: int
+        type: dict
       description:
         description:
           - The description of the configuration context
@@ -120,6 +120,14 @@ options:
     choices: [ absent, present ]
     default: present
     type: str
+  query_params:
+    description:
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      - an object unique in their environment.
+    required: false
+    type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -210,7 +218,7 @@ def main():
                     tenant_groups=dict(required=False, type="list"),
                     tenants=dict(required=False, type="list"),
                     tags=dict(required=False, type="list"),
-                    data=dict(required=False, type="dict"),
+                    data=dict(required=True, type="dict"),
                 ),
             )
         )
