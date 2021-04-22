@@ -56,7 +56,7 @@ options:
       data:
         description:
           - JSON-formatted configuration context data
-        required: true
+        required: false
         type: dict
       description:
         description:
