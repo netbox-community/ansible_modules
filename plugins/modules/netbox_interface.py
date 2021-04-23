@@ -57,6 +57,11 @@ options:
           - Name of the interface to be created
         required: true
         type: str
+      label:
+        description:
+          - Physical label of the interface
+        required: false
+        type: str
       form_factor:
         description:
           - |

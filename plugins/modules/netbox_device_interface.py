@@ -53,6 +53,11 @@ options:
           - Name of the interface to be created
         required: true
         type: str
+      label:
+        description:
+          - Physical label of the interface
+        required: false
+        type: str
       form_factor:
         description:
           - |
@@ -271,6 +276,7 @@ def main():
                     form_factor=dict(
                         required=False, type="raw", removed_in_version="0.3.0"
                     ),
+                    label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),
                     enabled=dict(required=False, type="bool"),
                     lag=dict(required=False, type="raw"),
