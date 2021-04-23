@@ -53,7 +53,7 @@
       name: Power Outlet Template
       device_type: Device Type Power Tests
       type: ita-e
-      power_port: Power Port
+      power_port_template: Power Port Template
       feed_leg: B
     state: present
   register: test_three
