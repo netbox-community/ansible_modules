@@ -812,7 +812,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.racks_role_lookup = dict(map(get_role_for_rack, racks))
 
     def refresh_rack_groups_lookup(self):
-        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
+        if self.api_version == "2.11":
+            # In NetBox v2.11 Breaking Changes:
+            # The RackGroup model has been renamed to Location
+            # (see netbox-community/netbox#4971).
+            # Its REST API endpoint has changed from /api/dcim/rack-groups/
+            # to /api/dcim/locations/
+            # https://netbox.readthedocs.io/en/stable/release-notes/#v2110-2021-04-16
+            url = self.api_endpoint + "/api/dcim/locations/?limit=0"
+        else:
+            url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
         rack_groups = self.get_resource_list(api_url=url)
         self.rack_groups_lookup = dict(
             (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
