@@ -124,6 +124,11 @@ options:
           - Any tags that the interface may need to be associated with
         required: false
         type: list
+      mark_connected:
+        description:
+          - Mark an interface as connected without a cable attached (netbox >= 2.11 required)
+        required: false
+        type: bool
     required: true
     type: dict
   update_vc_child:
@@ -235,6 +240,15 @@ EXAMPLES = r"""
           name: GigabitEthernet2/0/1
           enabled: false
         update_vc_child: True
+    - name: Mark interface as connected without a cable (netbox >= 2.11 required)
+      netbox.netbox.netbox_device_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          device: test100
+          name: GigabitEthernet1
+          mark_connected: true
+        state: present
 """
 
 RETURN = r"""
@@ -288,6 +302,7 @@ def main():
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list"),
+                    mark_connected=dict(required=False, type="bool"),
                 ),
             ),
         )
