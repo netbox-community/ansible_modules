@@ -130,7 +130,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Tenant ABC
-          group: Very Special Tenants
+          tenant_group: Very Special Tenants
           description: ABC Incorporated
           comments: '### This tenant is super cool'
           slug: tenant_abc
