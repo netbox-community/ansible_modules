@@ -249,6 +249,7 @@ from typing import Iterable
 from itertools import chain
 from collections import defaultdict
 from ipaddress import ip_interface
+from packaging import specifiers, version
 
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
@@ -369,7 +370,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if chunk_size < 1:
             chunk_size = 1
 
-        if self.api_version == "2.6":
+        if self.api_version in specifiers.SpecifierSet("~=2.6.0"):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
@@ -812,7 +813,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.racks_role_lookup = dict(map(get_role_for_rack, racks))
 
     def refresh_rack_groups_lookup(self):
-        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
+        if self.api_version >= version.parse("2.11"):
+            # In NetBox v2.11 Breaking Changes:
+            # The RackGroup model has been renamed to Location
+            # (see netbox-community/netbox#4971).
+            # Its REST API endpoint has changed from /api/dcim/rack-groups/
+            # to /api/dcim/locations/
+            # https://netbox.readthedocs.io/en/stable/release-notes/#v2110-2021-04-16
+            url = self.api_endpoint + "/api/dcim/locations/?limit=0"
+        else:
+            url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
         rack_groups = self.get_resource_list(api_url=url)
         self.rack_groups_lookup = dict(
             (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
@@ -1115,7 +1125,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.api_endpoint + "/api/docs/?format=openapi"
         )
 
-        self.api_version = openapi["info"]["version"]
+        self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
             p["name"] for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
         ]

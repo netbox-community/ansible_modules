@@ -10,6 +10,7 @@ import pytest
 import os
 from functools import partial
 from unittest.mock import patch, MagicMock, Mock, call
+from packaging import version
 
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
@@ -40,7 +41,7 @@ def inventory_fixture(
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
 
     # Fill in data that is fetched dynamically
-    inventory.api_version = None
+    inventory.api_version = version.Version("2.0")
     inventory.allowed_device_query_parameters = allowed_device_query_parameters_fixture
     inventory.allowed_vm_query_parameters = allowed_vm_query_parameters_fixture
 
