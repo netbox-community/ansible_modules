@@ -370,8 +370,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if chunk_size < 1:
             chunk_size = 1
 
-        if (self.api_version_parsed >= version.parse("2.6") and 
-            self.api_version_parsed < version.parse("2.7")):
+        if self.api_version_parsed >= version.parse(
+            "2.6"
+        ) and self.api_version_parsed < version.parse("2.7"):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
