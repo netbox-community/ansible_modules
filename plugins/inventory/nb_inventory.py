@@ -1401,9 +1401,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def _add_region_groups(self):
         # Mapping of region id to group name
         region_transformed_group_names = self._setup_nested_groups(
-            "region",
-            self.regions_lookup,
-            self.regions_parent_lookup
+            "region", self.regions_lookup, self.regions_parent_lookup
         )
 
         # Add site groups as children of region groups
@@ -1414,15 +1412,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             self.inventory.add_child(
                 region_transformed_group_names[region_id],
-                self.site_group_names[site_id]
+                self.site_group_names[site_id],
             )
 
     def _add_location_groups(self):
         # Mapping of location id to group name
         self.location_group_names = self._setup_nested_groups(
-            "location",
-            self.locations_lookup,
-            self.locations_parent_lookup
+            "location", self.locations_lookup, self.locations_parent_lookup
         )
 
         # Add location to site groups as children
@@ -1436,8 +1432,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             ]
 
             self.inventory.add_child(
-                site_transformed_group_name,
-                self.location_group_names[location_id]
+                site_transformed_group_name, self.location_group_names[location_id]
             )
 
     def _setup_nested_groups(self, group, lookup, parent_lookup):
@@ -1447,18 +1442,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Create groups for each object
         for obj_id in lookup:
             group_name = self.generate_group_name(group, lookup[obj_id])
-            transformed_group_names[obj_id] = self.inventory.add_group(
-                group=group_name
-            )
+            transformed_group_names[obj_id] = self.inventory.add_group(group=group_name)
 
         # Now that all groups exist, add relationships between them
         for obj_id in lookup:
             group_name = transformed_group_names[obj_id]
             parent_id = parent_lookup.get(obj_id, None)
-            if (
-                parent_id is not None
-                and parent_id in transformed_group_names
-            ):
+            if parent_id is not None and parent_id in transformed_group_names:
                 parent_name = transformed_group_names[parent_id]
                 self.inventory.add_child(parent_name, group_name)
 
@@ -1553,7 +1543,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         site_group_by = self._pluralize_group_by("site")
         if (
             site_group_by in self.group_by
-            or "location" in self.group_by 
+            or "location" in self.group_by
             or "region" in self.group_by
         ):
             self._add_site_groups()
@@ -1603,15 +1593,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # Add host to location group when host is assigned to the location
                 self.inventory.add_host(
                     group=self.location_group_names[host["location"]["id"]],
-                    host=hostname
+                    host=hostname,
                 )
             else:
                 # Add host to site group when host is NOT assigned to a location
                 self.inventory.add_host(
-                    group=self.site_group_names[host["site"]["id"]],
-                    host=hostname
+                    group=self.site_group_names[host["site"]["id"]], host=hostname,
                 )
-
 
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
