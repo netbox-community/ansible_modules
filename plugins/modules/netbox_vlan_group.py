@@ -59,6 +59,34 @@ options:
           - The site the vlan will be assigned to
         required: false
         type: raw
+      scope_type:
+        description:
+          - Type of scope to be applied
+        required: false
+        type: str
+        choices:
+          - "dcim.location"
+          - "dcim.rack"
+          - "dcim.region"
+          - "dcim.site"
+          - "dcim.sitegroup"
+          - "virtualization.cluster"
+          - "virtualization.clustergroup"
+      scope:
+        description:
+          - Object related to scope type
+        required: false
+        type: raw
+      description:
+        description:
+          - Description for VLAN group
+        required: false
+        type: str
+      custom_fields:
+        description:
+          - must exist in Netbox
+        required: false
+        type: dict
     required: true
   state:
     description:
@@ -88,13 +116,23 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create vlan group within Netbox with only required information
+    - name: Create vlan group within Netbox with only required information - Pre 2.11
       netbox_vlan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           name: Test vlan group
           site: Test Site
+        state: present
+
+    - name: Create vlan group within Netbox with only required information - Post 2.11
+      netbox_vlan_group:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test vlan group
+          scope_type: "dcim.site"
+          scope: Test Site
         state: present
 
     - name: Delete vlan group within netbox
@@ -142,15 +180,35 @@ def main():
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
+                    scope_type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "dcim.location",
+                            "dcim.rack",
+                            "dcim.region",
+                            "dcim.site",
+                            "dcim.sitegroup",
+                            "virtualization.cluster",
+                            "virtualization.clustergroup",
+                        ],
+                    ),
+                    scope=dict(required=False, type="raw"),
+                    description=dict(required=False, type="str"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
     )
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_together = [("scope_type", "scope")]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_together=required_together,
     )
 
     netbox_vlan_group = NetboxIpamModule(module, NB_VLAN_GROUPS)

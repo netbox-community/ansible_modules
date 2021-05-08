@@ -55,15 +55,20 @@
                 ],
                 "services": [
                     {
+                        "created": "2021-05-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "display": "Test Nexus One",
                             "display_name": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One"
+                            "name": "Test Nexus One",
+                            "url": "http://localhost:9000/api/dcim/devices/4/"
                         },
+                        "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
+                        "last_updated": "2021-05-08T11:30:57.459163Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -73,6 +78,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:9000/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
@@ -96,11 +102,14 @@
                 "regions": [],
                 "services": [
                     {
+                        "created": "2021-05-08",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
+                        "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
+                        "last_updated": "2021-05-08T11:30:57.465221Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -110,9 +119,12 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:9000/api/ipam/services/4/",
                         "virtual_machine": {
+                            "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces"
+                            "name": "Test VM With Spaces",
+                            "url": "http://localhost:9000/api/virtualization/virtual-machines/6/"
                         }
                     }
                 ],
@@ -137,10 +149,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "rack_groups": [
-                    "test-rack-group",
-                    "parent-rack-group"
-                ],
+                "rack_groups": [],
                 "racks": [
                     "Test Rack"
                 ],
@@ -183,15 +192,20 @@
                 ],
                 "services": [
                     {
+                        "created": "2021-05-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "display": "test100",
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:9000/api/dcim/devices/1/"
                         },
+                        "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
+                        "last_updated": "2021-05-08T11:30:57.436503Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -201,29 +215,39 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:9000/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
+                        "created": "2021-05-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "display": "test100",
                             "display_name": "test100",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:9000/api/dcim/devices/1/"
                         },
+                        "display": "http (TCP/80)",
                         "id": 2,
                         "ipaddresses": [
                             {
                                 "address": "172.16.180.1/24",
+                                "display": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1
+                                "id": 1,
+                                "url": "http://localhost:9000/api/ipam/ip-addresses/1/"
                             },
                             {
                                 "address": "2001::1:1/64",
+                                "display": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2
+                                "id": 2,
+                                "url": "http://localhost:9000/api/ipam/ip-addresses/2/"
                             }
                         ],
+                        "last_updated": "2021-05-08T11:30:57.443736Z",
                         "name": "http",
                         "ports": [
                             80
@@ -233,6 +257,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:9000/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],

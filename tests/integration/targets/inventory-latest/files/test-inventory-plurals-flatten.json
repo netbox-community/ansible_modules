@@ -111,10 +111,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
-                "rack_groups": [
-                    "test-rack-group",
-                    "parent-rack-group"
-                ],
+                "rack_groups": [],
                 "racks": [
                     "Test Rack"
                 ],
@@ -265,6 +262,20 @@
             }
         }
     },
+    "active": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "all": {
         "children": [
             "Test_Cluster",
@@ -278,11 +289,9 @@
             "is_virtual",
             "nexus_parent",
             "other_region",
-            "parent_rack_group",
             "parent_region",
             "test_cluster_group",
             "test_cluster_type",
-            "test_rack_group",
             "test_rack_role",
             "test_site2",
             "ungrouped"
@@ -326,28 +335,9 @@
             "Test Nexus One"
         ]
     },
-    "parent_rack_group": {
-        "hosts": [
-            "TestDeviceR1"
-        ]
-    },
     "parent_region": {
         "children": [
             "test_region"
-        ]
-    },
-    "active": {
-        "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "Test VM With Spaces",
-            "TestDeviceR1",
-            "test100",
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm",
-            "test104-vm"
         ]
     },
     "test_cluster_group": {
@@ -366,11 +356,6 @@
             "test102-vm",
             "test103-vm",
             "test104-vm"
-        ]
-    },
-    "test_rack_group": {
-        "hosts": [
-            "TestDeviceR1"
         ]
     },
     "test_rack_role": {

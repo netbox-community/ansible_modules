@@ -58,6 +58,11 @@ options:
           - Required if I(state=present) and the rack does not exist yet
         required: false
         type: raw
+      location:
+        description:
+          - The location the rack will be associated to
+        required: false
+        type: raw
       rack_group:
         description:
           - The rack group the rack will be associated to
@@ -235,6 +240,7 @@ def main():
                     name=dict(required=True, type="str"),
                     facility_id=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
+                    location=dict(required=False, type="raw"),
                     rack_group=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),

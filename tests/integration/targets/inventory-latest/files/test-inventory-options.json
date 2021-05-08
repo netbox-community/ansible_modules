@@ -63,10 +63,7 @@
                 "is_virtual": false,
                 "manufacturer": "cisco",
                 "rack": "Test Rack",
-                "rack_groups": [
-                    "test-rack-group",
-                    "parent-rack-group"
-                ],
+                "rack_groups": [],
                 "rack_id": "2",
                 "regions": [
                     "test-region",
@@ -206,6 +203,20 @@
             }
         }
     },
+    "active": {
+        "hosts": [
+            "R1-Device",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "VC1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
     "all": {
         "children": [
             "Test_Cluster",
@@ -220,11 +231,9 @@
             "jinja_test_group",
             "nexus_parent",
             "other_region",
-            "parent_rack_group",
             "parent_region",
             "test_cluster_group",
             "test_cluster_type",
-            "test_rack_group",
             "test_rack_role",
             "test_site2",
             "ungrouped"
@@ -274,28 +283,9 @@
             "VC1"
         ]
     },
-    "parent_rack_group": {
-        "hosts": [
-            "TestDeviceR1"
-        ]
-    },
     "parent_region": {
         "children": [
             "test_region"
-        ]
-    },
-    "active": {
-        "hosts": [
-            "R1-Device",
-            "Test VM With Spaces",
-            "TestDeviceR1",
-            "VC1",
-            "test100",
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm",
-            "test104-vm"
         ]
     },
     "test_cluster_group": {
@@ -314,11 +304,6 @@
             "test102-vm",
             "test103-vm",
             "test104-vm"
-        ]
-    },
-    "test_rack_group": {
-        "hosts": [
-            "TestDeviceR1"
         ]
     },
     "test_rack_role": {

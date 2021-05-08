@@ -65,7 +65,7 @@
       serial: "FXS1001"
       local_context_data:
         bgp_as: "65412"
-      virtual_chassis: "Test Nexus One"
+      virtual_chassis: "VC1"
       vc_position: 3
       vc_priority: 15
     state: present

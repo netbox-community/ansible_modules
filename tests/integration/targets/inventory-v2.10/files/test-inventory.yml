@@ -25,3 +25,4 @@ group_by:
   - cluster_type
   - is_virtual
   - services
+  - status

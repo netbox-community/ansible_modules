@@ -55,6 +55,11 @@ options:
           - The rack group the power panel is assigned to
         required: false
         type: raw
+      location:
+        description:
+          - The location the power panel is assigned to
+        required: false
+        type: raw
       name:
         description:
           - The name of the power panel
@@ -152,6 +157,7 @@ def main():
                 options=dict(
                     site=dict(required=True, type="raw"),
                     rack_group=dict(required=False, type="raw"),
+                    location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                 ),
             ),
