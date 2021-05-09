@@ -57,10 +57,9 @@ options:
       site:
         description:
           - The site the vlan will be assigned to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
-        removed_at_version: "5.0.0"
-        removed_from_collection: "netbox.netbox"
       scope_type:
         description:
           - Type of scope to be applied (NetBox 2.11+)
@@ -185,7 +184,12 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
-                    site=dict(required=False, type="raw"),
+                    site=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
                     scope_type=dict(
                         required=False,
                         type="str",

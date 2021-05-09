@@ -53,10 +53,9 @@ options:
       rack_group:
         description:
           - The rack group the power panel is assigned to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
-        removed_at_version: "5.0.0"
-        removed_from_collection: "netbox.netbox"
       location:
         description:
           - The location the power panel is assigned to (NetBox 2.11+)
@@ -169,7 +168,12 @@ def main():
                 required=True,
                 options=dict(
                     site=dict(required=True, type="raw"),
-                    rack_group=dict(required=False, type="raw"),
+                    rack_group=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
                     location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                 ),

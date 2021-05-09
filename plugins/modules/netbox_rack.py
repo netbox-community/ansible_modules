@@ -67,10 +67,9 @@ options:
       rack_group:
         description:
           - The rack group the rack will be associated to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
-        removed_at_version: "5.0.0"
-        removed_from_collection: "netbox.netbox"
       tenant:
         description:
           - The tenant that the device will be assigned to
@@ -264,7 +263,12 @@ def main():
                     facility_id=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
                     location=dict(required=False, type="raw"),
-                    rack_group=dict(required=False, type="raw"),
+                    rack_group=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
                     tenant=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     rack_role=dict(required=False, type="raw"),
@@ -281,27 +285,13 @@ def main():
                             "Wall-mounted cabinet",
                         ],
                     ),
-                    width=dict(
-                        required=False,
-                        type="int",
-                        choices=[
-                            10,
-                            19,
-                            21,
-                            23,
-                        ],
-                    ),
+                    width=dict(required=False, type="int", choices=[10, 19, 21, 23,],),
                     u_height=dict(required=False, type="int"),
                     desc_units=dict(required=False, type="bool"),
                     outer_width=dict(required=False, type="int"),
                     outer_depth=dict(required=False, type="int"),
                     outer_unit=dict(
-                        required=False,
-                        type="str",
-                        choices=[
-                            "Millimeters",
-                            "Inches",
-                        ],
+                        required=False, type="str", choices=["Millimeters", "Inches",],
                     ),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
