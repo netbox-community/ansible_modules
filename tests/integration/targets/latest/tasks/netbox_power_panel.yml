@@ -52,7 +52,7 @@
     data:
       name: Power Panel
       site: Test Site
-      rack_group: Test Rack Group
+      location: Test Rack Group
     state: present
   register: test_three
 
@@ -60,10 +60,10 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['rack_group'] == 1
+      - test_three['diff']['after']['location'] == 1
       - test_three['power_panel']['name'] == "Power Panel"
       - test_three['power_panel']['site'] == 1
-      - test_three['power_panel']['rack_group'] == 1
+      - test_three['power_panel']['location'] == 1
       - test_three['msg'] == "power_panel Power Panel updated"
 
 - name: "POWER_PANEL 4: Create Power Panel for Delete Test"
@@ -85,7 +85,6 @@
       - test_four['power_panel']['name'] == "Power Panel 2"
       - test_four['power_panel']['site'] == 1
       - test_four['msg'] == "power_panel Power Panel 2 created"
-
 
 - name: "POWER_PANEL 5: Delete Power Panel"
   netbox.netbox.netbox_power_panel:

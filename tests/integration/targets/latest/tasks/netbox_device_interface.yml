@@ -299,7 +299,7 @@
       name: GigabitEthernet5
       type: 1000Base-T (1GE)
       mark_connected: true
-    register: test_twelve
+  register: test_twelve
 
 - name: "12- ASSERT"
   assert:

@@ -58,9 +58,16 @@ options:
           - Required if I(state=present) and the rack does not exist yet
         required: false
         type: raw
+      location:
+        description:
+          - The location the rack will be associated to (NetBox 2.11+)
+        required: false
+        type: raw
+        version_added: "3.1.0"
       rack_group:
         description:
-          - The rack group the rack will be associated to
+          - The rack group the rack will be associated to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
       tenant:
@@ -190,6 +197,26 @@ EXAMPLES = r"""
           site: Test Site
         state: present
 
+    - name: Create rack within Netbox with only required information - Pre 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          rack_group: Test Rack Group
+        state: present
+
+    - name: Create rack within Netbox with only required information - Post 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          location: Test Location
+        state: present
+
     - name: Delete rack within netbox
       netbox_rack:
         netbox_url: http://netbox.local
@@ -235,7 +262,13 @@ def main():
                     name=dict(required=True, type="str"),
                     facility_id=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
-                    rack_group=dict(required=False, type="raw"),
+                    location=dict(required=False, type="raw"),
+                    rack_group=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
                     tenant=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     rack_role=dict(required=False, type="raw"),

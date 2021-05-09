@@ -1,8 +1,31 @@
 {
+    "Test_Cluster": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "Test_Cluster_2": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test104-vm"
+        ]
+    },
+    "Test_Rack": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "Test_Rack_Site_2": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
     "_meta": {
         "hostvars": {
             "R1-Device": {
-                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -22,7 +45,6 @@
                     "Test Rack Site 2"
                 ],
                 "regions": [],
-                "services": [],
                 "sites": [
                     "test-site2"
                 ],
@@ -34,7 +56,6 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
-                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -53,27 +74,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [
-                    {
-                        "custom_fields": {},
-                        "description": "",
-                        "device": {
-                            "display_name": "Test Nexus One",
-                            "id": 4,
-                            "name": "Test Nexus One"
-                        },
-                        "id": 3,
-                        "ipaddresses": [],
-                        "name": "telnet",
-                        "port": 23,
-                        "protocol": {
-                            "label": "TCP",
-                            "value": "tcp"
-                        },
-                        "tags": [],
-                        "virtual_machine": null
-                    }
-                ],
                 "sites": [
                     "test-site"
                 ],
@@ -86,32 +86,11 @@
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
                 ],
                 "regions": [],
-                "services": [
-                    {
-                        "custom_fields": {},
-                        "description": "",
-                        "device": null,
-                        "id": 4,
-                        "ipaddresses": [],
-                        "name": "ssh",
-                        "port": 22,
-                        "protocol": {
-                            "label": "TCP",
-                            "value": "tcp"
-                        },
-                        "tags": [],
-                        "virtual_machine": {
-                            "id": 6,
-                            "name": "Test VM With Spaces"
-                        }
-                    }
-                ],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -119,7 +98,6 @@
                 "tags": []
             },
             "TestDeviceR1": {
-                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -144,7 +122,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -155,7 +132,6 @@
                 "tags": []
             },
             "test100": {
-                "custom_fields": {},
                 "device_roles": [
                     "core-switch"
                 ],
@@ -173,60 +149,12 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "ntp_servers": [
+                    "pool.ntp.org"
+                ],
                 "regions": [
                     "test-region",
                     "parent-region"
-                ],
-                "services": [
-                    {
-                        "custom_fields": {},
-                        "description": "",
-                        "device": {
-                            "display_name": "test100",
-                            "id": 1,
-                            "name": "test100"
-                        },
-                        "id": 1,
-                        "ipaddresses": [],
-                        "name": "ssh",
-                        "port": 22,
-                        "protocol": {
-                            "label": "TCP",
-                            "value": "tcp"
-                        },
-                        "tags": [],
-                        "virtual_machine": null
-                    },
-                    {
-                        "custom_fields": {},
-                        "description": "",
-                        "device": {
-                            "display_name": "test100",
-                            "id": 1,
-                            "name": "test100"
-                        },
-                        "id": 2,
-                        "ipaddresses": [
-                            {
-                                "address": "172.16.180.1/24",
-                                "family": 4,
-                                "id": 1
-                            },
-                            {
-                                "address": "2001::1:1/64",
-                                "family": 6,
-                                "id": 2
-                            }
-                        ],
-                        "name": "http",
-                        "port": 80,
-                        "protocol": {
-                            "label": "TCP",
-                            "value": "tcp"
-                        },
-                        "tags": [],
-                        "virtual_machine": null
-                    }
                 ],
                 "sites": [
                     "test-site"
@@ -241,7 +169,6 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -250,7 +177,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -264,7 +190,6 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -273,7 +198,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -287,7 +211,6 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -296,7 +219,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -310,7 +232,6 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -319,7 +240,6 @@
                     "test-region",
                     "parent-region"
                 ],
-                "services": [],
                 "sites": [
                     "test-site"
                 ],
@@ -332,13 +252,11 @@
             "test104-vm": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "custom_fields": {},
                 "is_virtual": true,
                 "local_context_data": [
                     null
                 ],
                 "regions": [],
-                "services": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -349,10 +267,76 @@
     },
     "all": {
         "children": [
+            "Test_Cluster",
+            "Test_Cluster_2",
+            "Test_Rack",
+            "Test_Rack_Site_2",
+            "active",
+            "cisco",
+            "cisco_test",
+            "core_switch",
+            "is_virtual",
+            "nexus_parent",
+            "other_region",
+            "parent_rack_group",
+            "parent_region",
+            "test_cluster_group",
+            "test_cluster_type",
+            "test_rack_group",
+            "test_rack_role",
+            "test_site2",
             "ungrouped"
         ]
     },
-    "ungrouped": {
+    "cisco": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "cisco_test": {
+        "hosts": [
+            "R1-Device",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "core_switch": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "is_virtual": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
+    "nexus_parent": {
+        "hosts": [
+            "Test Nexus One"
+        ]
+    },
+    "parent_rack_group": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "parent_region": {
+        "children": [
+            "test_region"
+        ]
+    },
+    "active": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
@@ -364,6 +348,55 @@
             "test102-vm",
             "test103-vm",
             "test104-vm"
+        ]
+    },
+    "test_cluster_group": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "test_cluster_type": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
+    "test_rack_group": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "test_rack_role": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
+    "test_region": {
+        "children": [
+            "test_site"
+        ]
+    },
+    "test_site": {
+        "hosts": [
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "test_site2": {
+        "hosts": [
+            "R1-Device"
         ]
     }
 }

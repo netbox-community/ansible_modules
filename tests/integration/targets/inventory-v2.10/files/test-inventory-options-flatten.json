@@ -50,9 +50,11 @@
                 "interfaces": [
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -102,9 +104,11 @@
                     },
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -173,7 +177,9 @@
                         "id": 3,
                         "ipaddresses": [],
                         "name": "telnet",
-                        "port": 23,
+                        "ports": [
+                            23
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -208,7 +214,8 @@
                         "virtual_machine": {
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -225,7 +232,8 @@
                         "virtual_machine": {
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     }
                 ],
                 "is_virtual": true,
@@ -238,7 +246,9 @@
                         "id": 4,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -284,9 +294,11 @@
                 "interfaces": [
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -336,9 +348,11 @@
                     },
                     {
                         "cable": null,
+                        "cable_peer": null,
+                        "cable_peer_type": null,
                         "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
-                        "connection_status": null,
                         "count_ipaddresses": 1,
                         "description": "",
                         "device": {
@@ -409,7 +423,9 @@
                         "id": 1,
                         "ipaddresses": [],
                         "name": "ssh",
-                        "port": 22,
+                        "ports": [
+                            22
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -439,7 +455,9 @@
                             }
                         ],
                         "name": "http",
-                        "port": 80,
+                        "ports": [
+                            80
+                        ],
                         "protocol": {
                             "label": "TCP",
                             "value": "tcp"
@@ -475,7 +493,8 @@
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -492,7 +511,8 @@
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -509,7 +529,8 @@
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -526,7 +547,8 @@
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -543,7 +565,8 @@
                         "virtual_machine": {
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     }
                 ],
                 "is_virtual": true,
@@ -579,7 +602,8 @@
                         "virtual_machine": {
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -596,7 +620,8 @@
                         "virtual_machine": {
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -613,7 +638,8 @@
                         "virtual_machine": {
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -630,7 +656,8 @@
                         "virtual_machine": {
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     },
                     {
                         "description": "",
@@ -647,7 +674,8 @@
                         "virtual_machine": {
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "count_ipaddresses": 0
                     }
                 ],
                 "is_virtual": true,
@@ -720,6 +748,7 @@
             "Test_Cluster_2",
             "Test_Rack",
             "Test_Rack_Site_2",
+            "active",
             "cisco",
             "cisco_test",
             "core_switch",
@@ -782,6 +811,20 @@
     "parent_region": {
         "children": [
             "test_region"
+        ]
+    },
+    "active": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
         ]
     },
     "test_cluster_group": {

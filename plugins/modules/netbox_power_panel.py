@@ -52,9 +52,16 @@ options:
         type: raw
       rack_group:
         description:
-          - The rack group the power panel is assigned to
+          - The rack group the power panel is assigned to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
+      location:
+        description:
+          - The location the power panel is assigned to (NetBox 2.11+)
+        required: false
+        type: raw
+        version_added: "3.1.0"
       name:
         description:
           - The name of the power panel
@@ -97,7 +104,7 @@ EXAMPLES = r"""
           site: Test Site
         state: present
 
-    - name: Update power panel with other fields
+    - name: Update power panel with other fields - Pre 2.11
       netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -105,6 +112,16 @@ EXAMPLES = r"""
           name: Test Power Panel
           site: Test Site
           rack_group: Test Rack Group
+        state: present
+
+    - name: Create power panel within Netbox with only required information - Post 2.11
+      netbox_power_panel:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Power Panel
+          site: Test Site
+          location: Test Location
         state: present
 
     - name: Delete power panel within netbox
@@ -151,7 +168,13 @@ def main():
                 required=True,
                 options=dict(
                     site=dict(required=True, type="raw"),
-                    rack_group=dict(required=False, type="raw"),
+                    rack_group=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
+                    location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                 ),
             ),

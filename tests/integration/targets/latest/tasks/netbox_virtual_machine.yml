@@ -76,7 +76,7 @@
       - test_three['virtual_machine']['tags'][0] == 4
       - test_three['msg'] == "virtual_machine Test VM One updated"
 
-- name: "VIRTUAL_MACHINE 4: ASSERT - Delete"
+- name: "VIRTUAL_MACHINE 4: Delete"
   netbox.netbox.netbox_virtual_machine:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -91,7 +91,7 @@
       - test_four is changed
       - test_four['virtual_machine']['name'] == "Test VM One"
       - test_four['virtual_machine']['cluster'] == 1
-      - test_four['virtual_machine']['vcpus'] == 8
+      - test_four['virtual_machine']['vcpus'] == "8.00"
       - test_four['virtual_machine']['memory'] == 8
       - test_four['virtual_machine']['status'] == "planned"
       - test_four['virtual_machine']['role'] == 2

@@ -1,0 +1,11 @@
+---
+minor_changes:
+  - **netbox_power_panel** - Add `location` option.
+  - **netbox_rack** - Add `location` option.
+  - **netbox_vlan_group** - Add `scope_type` option.
+  - **netbox_vlan_group** - Add `scope` option.
+  - **netbox_vlan_group** - Add `description` option.
+  - **netbox_vlan_group** - Add `custom_fields` option.
+
+major_changes:
+  - **packages** is now a required Python package and gets installed via Ansible 2.10+.

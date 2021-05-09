@@ -84,7 +84,7 @@
       name: Test rack one
       site: Test Site
       rack_role: "Test Rack Role"
-      rack_group: "Test Rack Group"
+      location: "Test Rack Group"
       facility_id: "EQUI10291"
       tenant: "Test Tenant"
       status: Available
@@ -109,7 +109,7 @@
       - test_five['diff']['after']['asset_tag'] == "1234"
       - test_five['diff']['after']['comments'] == "Just testing rack module"
       - test_five['diff']['after']['facility_id'] == "EQUI10291"
-      - test_five['diff']['after']['group'] == 1
+      - test_five['diff']['after']['location'] == 1
       - test_five['diff']['after']['outer_depth'] == 24
       - test_five['diff']['after']['outer_unit'] == "in"
       - test_five['diff']['after']['outer_width'] == 32
@@ -126,7 +126,7 @@
       - test_five['rack']['asset_tag'] == "1234"
       - test_five['rack']['comments'] == "Just testing rack module"
       - test_five['rack']['facility_id'] == "EQUI10291"
-      - test_five['rack']['group'] == 1
+      - test_five['rack']['location'] == 1
       - test_five['rack']['outer_depth'] == 24
       - test_five['rack']['outer_unit'] == "in"
       - test_five['rack']['outer_width'] == 32
@@ -148,7 +148,7 @@
       name: Test rack one
       site: Test Site
       rack_role: "Test Rack Role"
-      rack_group: "Test Rack Group"
+      location: "Test Rack Group"
       facility_id: "EQUI10291"
       tenant: "Test Tenant"
       status: Available
@@ -175,7 +175,7 @@
       - test_six['rack']['asset_tag'] == "1234"
       - test_six['rack']['comments'] == "Just testing rack module"
       - test_six['rack']['facility_id'] == "EQUI10291"
-      - test_six['rack']['group'] == 1
+      - test_six['rack']['location'] == 1
       - test_six['rack']['outer_depth'] == 24
       - test_six['rack']['outer_unit'] == "in"
       - test_six['rack']['outer_width'] == 32

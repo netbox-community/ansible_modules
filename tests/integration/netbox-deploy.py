@@ -40,22 +40,21 @@ def make_netbox_calls(endpoint, payload):
 
 
 # Create tags used in future tests
-if nb_version >= version.parse("2.9"):
-    create_tags = make_netbox_calls(
-        nb.extras.tags,
-        [
-            {"name": "First", "slug": "first"},
-            {"name": "Second", "slug": "second"},
-            {"name": "Third", "slug": "third"},
-            {"name": "Schnozzberry", "slug": "schnozzberry"},
-            {"name": "Lookup", "slug": "lookup"},
-            {"name": "Nolookup", "slug": "nolookup"},
-            {"name": "tagA", "slug": "taga"},
-            {"name": "tagB", "slug": "tagb"},
-            {"name": "tagC", "slug": "tagc"},
-            {"name": "Updated", "slug": "updated"},
-        ],
-    )
+create_tags = make_netbox_calls(
+    nb.extras.tags,
+    [
+        {"name": "First", "slug": "first"},
+        {"name": "Second", "slug": "second"},
+        {"name": "Third", "slug": "third"},
+        {"name": "Schnozzberry", "slug": "schnozzberry"},
+        {"name": "Lookup", "slug": "lookup"},
+        {"name": "Nolookup", "slug": "nolookup"},
+        {"name": "tagA", "slug": "taga"},
+        {"name": "tagB", "slug": "tagb"},
+        {"name": "tagC", "slug": "tagc"},
+        {"name": "Updated", "slug": "updated"},
+    ],
+)
 
 # ORDER OF OPERATIONS FOR THE MOST PART
 
@@ -102,6 +101,9 @@ created_sites = make_netbox_calls(nb.dcim.sites, sites)
 test_site = nb.dcim.sites.get(slug="test-site")
 test_site2 = nb.dcim.sites.get(slug="test-site2")
 
+## Create Site Groups
+site_groups = [{"name": "Test Site Group", "slug": "test-site-group"}]
+created_site_groups = make_netbox_calls(nb.dcim.site_groups, site_groups)
 
 ## Create VRFs
 vrfs = [{"name": "Test VRF", "rd": "1:1"}]
@@ -131,6 +133,11 @@ vlan_groups = [
         "tenant": test_tenant.id,
     },
 ]
+if nb_version >= version.parse("2.11"):
+    for vg in vlan_groups:
+        if vg.get("site"):
+            vg["scope_type"] = "dcim.site"
+            vg["scope_id"] = vg.pop("site")
 created_vlan_groups = make_netbox_calls(nb.ipam.vlan_groups, vlan_groups)
 ## VLAN Group variables to be used later on
 test_vlan_group = nb.ipam.vlan_groups.get(slug="test-vlan-group")
@@ -178,26 +185,17 @@ device_types = [
         "slug": "nexus-parent",
         "u_height": 0,
         "manufacturer": cisco_manu.id,
-        "subdevice_role": True,
+        "subdevice_role": "parent",
     },
     {
         "model": "Nexus Child",
         "slug": "nexus-child",
         "u_height": 0,
         "manufacturer": cisco_manu.id,
-        "subdevice_role": False,
+        "subdevice_role": "child",
     },
     {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
 ]
-if nb_version > version.parse("2.8"):
-    temp_dt = []
-    for dt_type in device_types:
-        if dt_type.get("subdevice_role") is not None and not dt_type["subdevice_role"]:
-            dt_type["subdevice_role"] = "child"
-        if dt_type.get("subdevice_role"):
-            dt_type["subdevice_role"] = "parent"
-        temp_dt.append(dt_type)
-    device_types = temp_dt
 
 created_device_types = make_netbox_calls(nb.dcim.device_types, device_types)
 ### Device type variables to be used later on
@@ -232,7 +230,10 @@ rack_groups = [
     {"name": "Test Rack Group", "slug": "test-rack-group", "site": test_site.id},
     {"name": "Parent Rack Group", "slug": "parent-rack-group", "site": test_site.id},
 ]
-created_rack_groups = make_netbox_calls(nb.dcim.rack_groups, rack_groups)
+if nb_version >= version.parse("2.11"):
+    created_rack_groups = make_netbox_calls(nb.dcim.locations, rack_groups)
+else:
+    created_rack_groups = make_netbox_calls(nb.dcim.rack_groups, rack_groups)
 
 ### Create Rack Group Parent relationship
 created_rack_groups[0].parent = created_rack_groups[1]
@@ -321,24 +322,29 @@ test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
 
 ## Create IP Addresses
 ip_addresses = [
-    {"address": "172.16.180.1/24", "interface": test100_gi1.id},
-    {"address": "2001::1:1/64", "interface": test100_gi2.id},
-    {"address": "172.16.180.11/24", "interface": created_nexus_interfaces[0].id},
+    {
+        "address": "172.16.180.1/24",
+        "assigned_object_id": test100_gi1.id,
+        "assigned_object_type": "dcim.interface",
+    },
+    {
+        "address": "2001::1:1/64",
+        "assigned_object_id": test100_gi2.id,
+        "assigned_object_type": "dcim.interface",
+    },
+    {
+        "address": "172.16.180.11/24",
+        "assigned_object_id": created_nexus_interfaces[0].id,
+        "assigned_object_type": "dcim.interface",
+    },
     {
         "address": "172.16.180.12/24",
-        "interface": created_nexus_interfaces[1].id,
+        "assigned_object_id": created_nexus_interfaces[1].id,
+        "assigned_object_type": "dcim.interface",
         "dns_name": "nexus.example.com",
     },
     {"address": "172.16.180.254/24"},
 ]
-if nb_version > version.parse("2.8"):
-    temp_ips = []
-    for ip in ip_addresses:
-        if ip.get("interface"):
-            ip["assigned_object_id"] = ip.pop("interface")
-            ip["assigned_object_type"] = "dcim.interface"
-        temp_ips.append(ip)
-
 created_ip_addresses = make_netbox_calls(nb.ipam.ip_addresses, ip_addresses)
 
 # Assign Primary IP
@@ -417,28 +423,22 @@ created_virtual_machines_intfs = make_netbox_calls(
 
 ## Create Services
 services = [
-    {"device": test100.id, "name": "ssh", "port": 22, "protocol": "tcp"},
+    {"device": test100.id, "name": "ssh", "ports": [22], "protocol": "tcp"},
     {
         "device": test100.id,
         "name": "http",
-        "port": 80,
+        "ports": [80],
         "protocol": "tcp",
         "ipaddresses": [created_ip_addresses[0].id, created_ip_addresses[1].id],
     },
-    {"device": nexus.id, "name": "telnet", "port": 23, "protocol": "tcp"},
+    {"device": nexus.id, "name": "telnet", "ports": [23], "protocol": "tcp"},
     {
         "virtual_machine": test_spaces_vm.id,
         "name": "ssh",
-        "port": 22,
+        "ports": [22],
         "protocol": "tcp",
     },
 ]
-# 2.10+ requires the port attribute to be 'ports' and a list instead of an integer
-for service in services:
-    if nb_version >= version.parse("2.10"):
-        service["ports"] = [service["port"]]
-        del service["port"]
-
 created_services = make_netbox_calls(nb.ipam.services, services)
 
 

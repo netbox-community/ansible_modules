@@ -51,6 +51,7 @@ API_APPS_ENDPOINTS = dict(
         "interfaces",
         "interface_templates",
         "inventory_items",
+        "locations",
         "manufacturers",
         "platforms",
         "power_feeds",
@@ -66,6 +67,7 @@ API_APPS_ENDPOINTS = dict(
         "rear_port_templates",
         "regions",
         "sites",
+        "site_groups",
         "virtual_chassis",
     ],
     extras=["tags"],
@@ -101,6 +103,7 @@ QUERY_TYPES = dict(
     group="slug",
     installed_device="name",
     import_targets="name",
+    location="slug",
     manufacturer="slug",
     nat_inside="address",
     nat_outside="address",
@@ -125,6 +128,7 @@ QUERY_TYPES = dict(
     route_targets="name",
     slug="slug",
     site="slug",
+    site_group="slug",
     tenant="slug",
     tenant_group="slug",
     time_zone="timezone",
@@ -166,6 +170,7 @@ CONVERT_TO_ID = {
     "interface_template": "interface_templates",
     "ip_addresses": "ip_addresses",
     "ipaddresses": "ip_addresses",
+    "location": "locations",
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
@@ -190,8 +195,11 @@ CONVERT_TO_ID = {
     "rear_port_template": "rear_port_templates",
     "rir": "rirs",
     "route_targets": "route_targets",
+    # Just a placeholder as scope can be several different types including sites.
+    "scope": "sites",
     "services": "services",
     "site": "sites",
+    "site_group": "site_groups",
     "tags": "tags",
     "tagged_vlans": "vlans",
     "tenant": "tenants",
@@ -232,6 +240,7 @@ ENDPOINT_NAME_MAPPING = {
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
     "ip_addresses": "ip_address",
+    "locations": "location",
     "manufacturers": "manufacturer",
     "platforms": "platform",
     "power_feeds": "power_feed",
@@ -253,6 +262,7 @@ ENDPOINT_NAME_MAPPING = {
     "route_targets": "route_target",
     "services": "services",
     "sites": "site",
+    "site_groups": "site_group",
     "tags": "tags",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
@@ -300,6 +310,7 @@ ALLOWED_QUERY_PARAMS = {
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "lag": set(["name"]),
+    "location": set(["slug"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
@@ -337,7 +348,7 @@ ALLOWED_QUERY_PARAMS = {
     "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
-    "vlan_group": set(["slug", "site"]),
+    "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
 }
 
@@ -351,6 +362,7 @@ QUERY_PARAMS_IDS = set(
         "rir",
         "vrf",
         "site",
+        "scope",
         "tenant",
         "type",
         "virtual_machine",
@@ -390,6 +402,7 @@ REQUIRED_ID_FIND = {
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
     "assigned_object": "assigned_object_id",
+    "scope": "scope_id",
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
@@ -417,12 +430,14 @@ SLUG_REQUIRED = {
     "device_roles",
     "device_types",
     "ipam_roles",
+    "locations",
     "rack_groups",
     "rack_roles",
     "regions",
     "rirs",
     "roles",
     "sites",
+    "site_groups",
     "tags",
     "tenants",
     "tenant_groups",
@@ -430,6 +445,16 @@ SLUG_REQUIRED = {
     "platforms",
     "providers",
     "vlan_groups",
+}
+
+SCOPE_TO_ENDPOINT = {
+    "dcim.location": "locations",
+    "dcim.rack": "racks",
+    "dcim.region": "regions",
+    "dcim.site": "sites",
+    "dcim.sitegroup": "site_groups",
+    "virtualization.cluster": "clusters",
+    "virtualization.clustergroup": "cluster_groups",
 }
 
 NETBOX_ARG_SPEC = dict(
@@ -609,8 +634,8 @@ class NetboxModule(object):
             if self.endpoint == "power_panels" and key == "rack_group":
                 temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
-                # This will keep the original key for assigned_object, but also convert to assigned_object_id
-                if key == "assigned_object":
+                # This will keep the original key for keys in list, but also convert it.
+                if key in ("assigned_object", "scope"):
                     temp_dict[key] = data[key]
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
@@ -672,6 +697,8 @@ class NetboxModule(object):
             parent = module_data["termination_a_type"]
         elif parent == "termination_b" and module_data.get("termination_b_type"):
             parent = module_data["termination_b_type"]
+        elif parent == "scope":
+            parent = ENDPOINT_NAME_MAPPING[SCOPE_TO_ENDPOINT[module_data["scope_type"]]]
 
         query_dict = dict()
         if user_query_params:
@@ -862,6 +889,9 @@ class NetboxModule(object):
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
                 elif k == "assigned_object":
                     endpoint = "interfaces"
+                elif k == "scope":
+                    # Determine endpoint name for scope ID resolution
+                    endpoint = SCOPE_TO_ENDPOINT[data["scope_type"]]
                 else:
                     endpoint = CONVERT_TO_ID[k]
                 search = v
@@ -911,6 +941,12 @@ class NetboxModule(object):
                         query_params = self._build_query_params(
                             k, data, user_query_params
                         )
+                    elif k == "scope":
+                        query_params = {
+                            QUERY_TYPES.get(
+                                ENDPOINT_NAME_MAPPING[endpoint], "q"
+                            ): search
+                        }
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
@@ -960,7 +996,13 @@ class NetboxModule(object):
                         if sub_data_type == "slug":
                             data[k][subk] = self._to_slug(subv)
             else:
-                data_type = QUERY_TYPES.get(k, "q")
+                if k == "scope":
+                    data_type = QUERY_TYPES.get(
+                        ENDPOINT_NAME_MAPPING[SCOPE_TO_ENDPOINT[data["scope_type"]]],
+                        "q",
+                    )
+                else:
+                    data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
                     data[k] = self._to_slug(v)
                 elif data_type == "timezone":

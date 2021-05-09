@@ -10,20 +10,22 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "VLAN Group One"
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
     state: present
-  register: test_one
+  register: results
 
 - name: "VLAN_GROUP 1: ASSERT - Necessary info creation"
   assert:
     that:
-      - test_one is changed
-      - test_one['diff']['before']['state'] == "absent"
-      - test_one['diff']['after']['state'] == "present"
-      - test_one['vlan_group']['name'] == "VLAN Group One"
-      - test_one['vlan_group']['slug'] == "vlan-group-one"
-      - test_one['vlan_group']['site'] == 1
-      - test_one['msg'] == "vlan_group VLAN Group One created"
+      - results is changed
+      - results['diff']['before']['state'] == "absent"
+      - results['diff']['after']['state'] == "present"
+      - results['vlan_group']['name'] == "VLAN Group One"
+      - results['vlan_group']['slug'] == "vlan-group-one"
+      - results['vlan_group']['scope_type'] == "dcim.site"
+      - results['vlan_group']['scope_id'] == 1
+      - results['msg'] == "vlan_group VLAN Group One created"
 
 - name: "VLAN_GROUP 2: Create duplicate"
   netbox.netbox.netbox_vlan_group:
@@ -31,18 +33,20 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "VLAN Group One"
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
     state: present
-  register: test_two
+  register: results
 
 - name: "VLAN_GROUP 2: ASSERT - Create duplicate"
   assert:
     that:
-      - not test_two['changed']
-      - test_two['vlan_group']['name'] == "VLAN Group One"
-      - test_two['vlan_group']['slug'] == "vlan-group-one"
-      - test_two['vlan_group']['site'] == 1
-      - test_two['msg'] == "vlan_group VLAN Group One already exists"
+      - not results['changed']
+      - results['vlan_group']['name'] == "VLAN Group One"
+      - results['vlan_group']['slug'] == "vlan-group-one"
+      - results['vlan_group']['scope_type'] == "dcim.site"
+      - results['vlan_group']['scope_id'] == 1
+      - results['msg'] == "vlan_group VLAN Group One already exists"
 
 - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
   netbox.netbox.netbox_vlan_group:
@@ -50,18 +54,20 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "VLAN Group One"
-      site: "Test Site2"
+      scope_type: "dcim.site"
+      scope: "Test Site2"
     state: present
-  register: test_three
+  register: results
 
 - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
   assert:
     that:
-      - test_three is changed
-      - test_three['vlan_group']['name'] == "VLAN Group One"
-      - test_three['vlan_group']['slug'] == "vlan-group-one"
-      - test_three['vlan_group']['site'] == 2
-      - test_three['msg'] == "vlan_group VLAN Group One created"
+      - results is changed
+      - results['vlan_group']['name'] == "VLAN Group One"
+      - results['vlan_group']['slug'] == "vlan-group-one"
+      - results['vlan_group']['scope_type'] == "dcim.site"
+      - results['vlan_group']['scope_id'] == 2
+      - results['msg'] == "vlan_group VLAN Group One created"
 
 - name: "VLAN_GROUP 4: ASSERT - Create vlan group, no site"
   netbox.netbox.netbox_vlan_group:
@@ -71,13 +77,13 @@
       name: "VLAN Group One"
     state: present
   ignore_errors: yes
-  register: test_four
+  register: results
 
 - name: "VLAN_GROUP 4: ASSERT - Create with same name, different site"
   assert:
     that:
-      - test_four is failed
-      - test_four['msg'] == "More than one result returned for VLAN Group One"
+      - results is failed
+      - results['msg'] == "More than one result returned for VLAN Group One"
 
 - name: "VLAN_GROUP 5: ASSERT - Delete"
   netbox.netbox.netbox_vlan_group:
@@ -85,20 +91,22 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: VLAN Group One
-      site: Test Site2
+      scope_type: "dcim.site"
+      scope: Test Site2
     state: absent
-  register: test_five
+  register: results
 
 - name: "VLAN_GROUP 5: ASSERT - Delete"
   assert:
     that:
-      - test_five is changed
-      - test_five['diff']['before']['state'] == "present"
-      - test_five['diff']['after']['state'] == "absent"
-      - test_five['vlan_group']['name'] == "VLAN Group One"
-      - test_five['vlan_group']['slug'] == "vlan-group-one"
-      - test_five['vlan_group']['site'] == 2
-      - test_five['msg'] == "vlan_group VLAN Group One deleted"
+      - results is changed
+      - results['diff']['before']['state'] == "present"
+      - results['diff']['after']['state'] == "absent"
+      - results['vlan_group']['name'] == "VLAN Group One"
+      - results['vlan_group']['slug'] == "vlan-group-one"
+      - results['vlan_group']['scope_type'] == "dcim.site"
+      - results['vlan_group']['scope_id'] == 2
+      - results['msg'] == "vlan_group VLAN Group One deleted"
 
 - name: "VLAN_GROUP 6: ASSERT - Delete non existing"
   netbox.netbox.netbox_vlan_group:
@@ -106,13 +114,201 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: VLAN Group One
-      site: Test Site2
+      scope_type: "dcim.site"
+      scope: Test Site2
     state: absent
-  register: test_six
+  register: results
 
 - name: "VLAN_GROUP 6: ASSERT - Delete non existing`"
   assert:
     that:
-      - not test_six['changed']
-      - test_six['vlan_group'] == None
-      - test_six['msg'] == "vlan_group VLAN Group One already absent"
+      - not results['changed']
+      - results['vlan_group'] == None
+      - results['msg'] == "vlan_group VLAN Group One already absent"
+
+- name: "VLAN_GROUP 7: Necessary info creation - scope_type: dcim.location"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Location"
+      scope_type: "dcim.location"
+      scope: Test Rack Group
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 7: ASSERT - Necessary info creation - scope_type: dcim.location"
+  assert:
+    that:
+      - results is changed
+      - results['diff']['before']['state'] == "absent"
+      - results['diff']['after']['state'] == "present"
+      - results['vlan_group']['name'] == "VLAN Group Location"
+      - results['vlan_group']['slug'] == "vlan-group-location"
+      - results['vlan_group']['scope_type'] == "dcim.location"
+      - results['vlan_group']['scope_id'] == 1
+      - results['msg'] == "vlan_group VLAN Group Location created"
+
+- name: "VLAN_GROUP 8: Necessary info creation - scope_type: dcim.rack"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Rack"
+      scope_type: "dcim.rack"
+      scope: Test Rack
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 8: ASSERT - Necessary info creation - scope_type: dcim.rack"
+  assert:
+    that:
+      - results is changed
+      - results['diff']['before']['state'] == "absent"
+      - results['diff']['after']['state'] == "present"
+      - results['vlan_group']['name'] == "VLAN Group Rack"
+      - results['vlan_group']['slug'] == "vlan-group-rack"
+      - results['vlan_group']['scope_type'] == "dcim.rack"
+      - results['vlan_group']['scope_id'] == 2
+      - results['msg'] == "vlan_group VLAN Group Rack created"
+
+- name: "VLAN_GROUP 9: Necessary info creation - scope_type: dcim.region"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Region"
+      scope_type: "dcim.region"
+      scope: Test Region
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 9: ASSERT - Necessary info creation - scope_type: dcim.region"
+  assert:
+    that:
+      - results is changed
+      - results['diff']['before']['state'] == "absent"
+      - results['diff']['after']['state'] == "present"
+      - results['vlan_group']['name'] == "VLAN Group Region"
+      - results['vlan_group']['slug'] == "vlan-group-region"
+      - results['vlan_group']['scope_type'] == "dcim.region"
+      - results['vlan_group']['scope_id'] == 1
+      - results['msg'] == "vlan_group VLAN Group Region created"
+
+- name: "VLAN_GROUP 10: Necessary info creation - scope_type: dcim.sitegroup"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Site Group"
+      scope_type: "dcim.sitegroup"
+      scope: Test Site Group
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 10: ASSERT - Necessary info creation - scope_type: dcim.sitegroup"
+  assert:
+    that:
+      - results is changed
+      - results['diff']['before']['state'] == "absent"
+      - results['diff']['after']['state'] == "present"
+      - results['vlan_group']['name'] == "VLAN Group Site Group"
+      - results['vlan_group']['slug'] == "vlan-group-site-group"
+      - results['vlan_group']['scope_type'] == "dcim.sitegroup"
+      - results['vlan_group']['scope_id'] == 1
+      - results['msg'] == "vlan_group VLAN Group Site Group created"
+
+# Commented out due to invalid content type being reported back by API
+#- name: "VLAN_GROUP 11: Necessary info creation - scope_type: virtualization.cluster"
+#  netbox.netbox.netbox_vlan_group:
+#    netbox_url: http://localhost:32768
+#    netbox_token: 0123456789abcdef0123456789abcdef01234567
+#    data:
+#      name: "VLAN Group Cluster"
+#      scope_type: "virtualization.cluster"
+#      scope: Test Cluster
+#    state: present
+#  register: results
+
+#- name: "VLAN_GROUP 11: ASSERT - Necessary info creation - scope_type: virtualization.cluster"
+#  assert:
+#    that:
+#      - results is changed
+#      - results['diff']['before']['state'] == "absent"
+#      - results['diff']['after']['state'] == "present"
+#      - results['vlan_group']['name'] == "VLAN Group Cluster"
+#      - results['vlan_group']['slug'] == "vlan-group-cluster"
+#      - results['vlan_group']['scope_type'] == "virtualization.cluster"
+#      - results['vlan_group']['scope_id'] == 1
+#      - results['msg'] == "vlan_group VLAN Group Cluster created"
+#
+#- name: "VLAN_GROUP 12: Necessary info creation - scope_type: virtualization.clustergroup"
+#  netbox.netbox.netbox_vlan_group:
+#    netbox_url: http://localhost:32768
+#    netbox_token: 0123456789abcdef0123456789abcdef01234567
+#    data:
+#      name: "VLAN Group Cluster Group"
+#      scope_type: "virtualization.clustergroup"
+#      scope: Test Cluster Group
+#    state: present
+#  register: results
+#
+#- name: "VLAN_GROUP 12: ASSERT - Necessary info creation - scope_type: virtualization.clustergroup"
+#  assert:
+#    that:
+#      - results is changed
+#      - results['diff']['before']['state'] == "absent"
+#      - results['diff']['after']['state'] == "present"
+#      - results['vlan_group']['name'] == "VLAN Group Cluster Group"
+#      - results['vlan_group']['slug'] == "vlan-group-cluster-group"
+#      - results['vlan_group']['scope_type'] == "virtualization.clustergroup"
+#      - results['vlan_group']['scope_id'] == 1
+#      - results['msg'] == "vlan_group VLAN Group Cluster Group created"
+
+- name: "VLAN_GROUP 12: Update Description - scope_type: dcim.location"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Location"
+      scope_type: "dcim.location"
+      scope: Test Rack Group
+      description: "Ansible updated description"
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 12: ASSERT - Update Description - scope_type: dcim.location"
+  assert:
+    that:
+      - results is changed
+      - results['diff']['before']['description'] == ""
+      - results['diff']['after']['description'] == "Ansible updated description"
+      - results['vlan_group']['name'] == "VLAN Group Location"
+      - results['vlan_group']['slug'] == "vlan-group-location"
+      - results['vlan_group']['scope_type'] == "dcim.location"
+      - results['vlan_group']['scope_id'] == 1
+      - results['vlan_group']['description'] == "Ansible updated description"
+      - results['msg'] == "vlan_group VLAN Group Location updated"
+
+- name: "VLAN_GROUP 12: Update Description (IDEM) - scope_type: dcim.location"
+  netbox.netbox.netbox_vlan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "VLAN Group Location"
+      scope_type: "dcim.location"
+      scope: Test Rack Group
+      description: "Ansible updated description"
+    state: present
+  register: results
+
+- name: "VLAN_GROUP 12: ASSERT - Update Description (IDEM) - scope_type: dcim.location"
+  assert:
+    that:
+      - results is not changed
+      - results['vlan_group']['name'] == "VLAN Group Location"
+      - results['vlan_group']['slug'] == "vlan-group-location"
+      - results['vlan_group']['scope_type'] == "dcim.location"
+      - results['vlan_group']['scope_id'] == 1
+      - results['vlan_group']['description'] == "Ansible updated description"
+      - results['msg'] == "vlan_group VLAN Group Location already exists"
