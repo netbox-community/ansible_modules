@@ -20,7 +20,7 @@ netbox.netbox.netbox_device_interface -- Creates or removes interfaces on device
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -158,6 +158,22 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+                    <b>label</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Physical label of the interface</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/lag"></div>
                     <b>lag</b>
                     <a class="ansibleOptionLink" href="#parameter-data/lag" title="Permalink to this option"></a>
@@ -185,6 +201,26 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>The MAC address of the interface</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/mark_connected"></div>
+                    <b>mark_connected</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/mark_connected" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Mark an interface as connected without a cable attached (netbox &gt;= 2.11 required)</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -526,6 +562,15 @@ Examples
               name: GigabitEthernet2/0/1
               enabled: false
             update_vc_child: True
+        - name: Mark interface as connected without a cable (netbox >= 2.11 required)
+          netbox.netbox.netbox_device_interface:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              device: test100
+              name: GigabitEthernet1
+              mark_connected: true
+            state: present
 
 
 

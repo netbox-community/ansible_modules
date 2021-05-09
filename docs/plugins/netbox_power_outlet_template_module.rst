@@ -20,7 +20,7 @@ netbox.netbox.netbox_power_outlet_template -- Create, update or delete power out
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -141,9 +141,9 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/power_port"></div>
-                    <b>power_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/power_port" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/power_port_template"></div>
+                    <b>power_port_template</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/power_port_template" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
                                                                     </div>
@@ -151,7 +151,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The attached power port</div>
+                                            <div>The attached power port template</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -338,33 +338,33 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create power port within Netbox with only required information
+        - name: Create power outlet template within Netbox with only required information
           netbox_power_outlet_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
+              name: Test Power Outlet Template
               device_type: Test Device Type
             state: present
 
-        - name: Update power port with other fields
+        - name: Update power outlet template with other fields
           netbox_power_outlet_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
+              name: Test Power Outlet Template
               device_type: Test Device Type
               type: iec-60320-c6
-              power_port: Test Power Port
+              power_port_template: Test Power Port Template
               feed_leg: A
             state: present
 
-        - name: Delete power port within netbox
+        - name: Delete power outlet template within netbox
           netbox_power_outlet_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
+              name: Test Power Outlet Template
               device_type: Test Device Type
             state: absent
 
