@@ -56,12 +56,14 @@ options:
         type: str
       site:
         description:
-          - The site the vlan will be assigned to
+          - The site the vlan will be assigned to (NetBox < 2.11)
         required: false
         type: raw
+        removed_at_version: "5.0.0"
+        removed_from_collection: "netbox.netbox"
       scope_type:
         description:
-          - Type of scope to be applied
+          - Type of scope to be applied (NetBox 2.11+)
         required: false
         type: str
         choices:
@@ -72,21 +74,25 @@ options:
           - "dcim.sitegroup"
           - "virtualization.cluster"
           - "virtualization.clustergroup"
+        version_added: "3.1.0"
       scope:
         description:
-          - Object related to scope type
+          - Object related to scope type (NetBox 2.11+)
         required: false
         type: raw
+        version_added: "3.1.0"
       description:
         description:
           - Description for VLAN group
         required: false
         type: str
+        version_added: "3.1.0"
       custom_fields:
         description:
           - must exist in Netbox
         required: false
         type: dict
+        version_added: "3.1.0"
     required: true
   state:
     description:

@@ -60,14 +60,17 @@ options:
         type: raw
       location:
         description:
-          - The location the rack will be associated to
+          - The location the rack will be associated to (NetBox 2.11+)
         required: false
         type: raw
+        version_added: "3.1.0"
       rack_group:
         description:
-          - The rack group the rack will be associated to
+          - The rack group the rack will be associated to (NetBox < 2.11)
         required: false
         type: raw
+        removed_at_version: "5.0.0"
+        removed_from_collection: "netbox.netbox"
       tenant:
         description:
           - The tenant that the device will be assigned to
@@ -195,6 +198,26 @@ EXAMPLES = r"""
           site: Test Site
         state: present
 
+    - name: Create rack within Netbox with only required information - Pre 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          rack_group: Test Rack Group
+        state: present
+
+    - name: Create rack within Netbox with only required information - Post 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          location: Test Location
+        state: present
+
     - name: Delete rack within netbox
       netbox_rack:
         netbox_url: http://netbox.local
@@ -258,13 +281,27 @@ def main():
                             "Wall-mounted cabinet",
                         ],
                     ),
-                    width=dict(required=False, type="int", choices=[10, 19, 21, 23,],),
+                    width=dict(
+                        required=False,
+                        type="int",
+                        choices=[
+                            10,
+                            19,
+                            21,
+                            23,
+                        ],
+                    ),
                     u_height=dict(required=False, type="int"),
                     desc_units=dict(required=False, type="bool"),
                     outer_width=dict(required=False, type="int"),
                     outer_depth=dict(required=False, type="int"),
                     outer_unit=dict(
-                        required=False, type="str", choices=["Millimeters", "Inches",],
+                        required=False,
+                        type="str",
+                        choices=[
+                            "Millimeters",
+                            "Inches",
+                        ],
                     ),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list"),
