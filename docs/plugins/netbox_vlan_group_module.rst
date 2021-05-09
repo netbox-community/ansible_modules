@@ -20,7 +20,7 @@ netbox.netbox.netbox_vlan_group -- Create, update or delete vlans groups within 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -88,6 +88,44 @@ Parameters
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.1.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>must exist in Netbox</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.1.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Description for VLAN group</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
                     <b>name</b>
                     <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
@@ -104,6 +142,53 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/scope"></div>
+                    <b>scope</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/scope" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.1.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Object related to scope type (NetBox 2.11+)</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/scope_type"></div>
+                    <b>scope_type</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/scope_type" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.1.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>dcim.location</li>
+                                                                                                                                                                                                <li>dcim.rack</li>
+                                                                                                                                                                                                <li>dcim.region</li>
+                                                                                                                                                                                                <li>dcim.site</li>
+                                                                                                                                                                                                <li>dcim.sitegroup</li>
+                                                                                                                                                                                                <li>virtualization.cluster</li>
+                                                                                                                                                                                                <li>virtualization.clustergroup</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>Type of scope to be applied (NetBox 2.11+)</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
                     <b>site</b>
                     <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>
@@ -114,7 +199,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The site the vlan will be assigned to</div>
+                                            <div>The site the vlan will be assigned to (NetBox &lt; 2.11)</div>
+                                            <div>Will be removed in version 5.0.0</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -246,13 +332,23 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create vlan group within Netbox with only required information
+        - name: Create vlan group within Netbox with only required information - Pre 2.11
           netbox_vlan_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               name: Test vlan group
               site: Test Site
+            state: present
+
+        - name: Create vlan group within Netbox with only required information - Post 2.11
+          netbox_vlan_group:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test vlan group
+              scope_type: "dcim.site"
+              scope: Test Site
             state: present
 
         - name: Delete vlan group within netbox

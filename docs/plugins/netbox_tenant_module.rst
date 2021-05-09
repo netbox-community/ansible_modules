@@ -20,7 +20,7 @@ netbox.netbox.netbox_tenant -- Creates or removes tenants from Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -331,7 +331,7 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Tenant ABC
-              group: Very Special Tenants
+              tenant_group: Very Special Tenants
               description: ABC Incorporated
               comments: '### This tenant is super cool'
               slug: tenant_abc

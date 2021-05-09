@@ -20,7 +20,7 @@ netbox.netbox.netbox_power_panel -- Create, update or delete power panels within
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.0.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -88,6 +88,25 @@ Parameters
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/location"></div>
+                    <b>location</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/location" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.1.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The location the power panel is assigned to (NetBox 2.11+)</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
                     <b>name</b>
                     <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
@@ -114,7 +133,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The rack group the power panel is assigned to</div>
+                                            <div>The rack group the power panel is assigned to (NetBox &lt; 2.11)</div>
+                                            <div>Will be removed in version 5.0.0</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -254,7 +274,7 @@ Examples
               site: Test Site
             state: present
 
-        - name: Update power panel with other fields
+        - name: Update power panel with other fields - Pre 2.11
           netbox_power_panel:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -262,6 +282,16 @@ Examples
               name: Test Power Panel
               site: Test Site
               rack_group: Test Rack Group
+            state: present
+
+        - name: Create power panel within Netbox with only required information - Post 2.11
+          netbox_power_panel:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test Power Panel
+              site: Test Site
+              location: Test Location
             state: present
 
         - name: Delete power panel within netbox

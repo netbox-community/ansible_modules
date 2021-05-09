@@ -5,6 +5,42 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.1.0
+======
+
+Release Summary
+---------------
+
+This release should fix obvious broken changes between collection and Netbox 2.11, but there is most likely more. Please report as they're encountered.
+**packages** is now a required Python package and is already included in Ansible 2.10, but anyone using Ansible 2.9 or below must manually pip install the library.
+
+
+Major Changes
+-------------
+
+- packages is now a required Python package and gets installed via Ansible 2.10+.
+
+Minor Changes
+-------------
+
+- netbox_device_interface - Add label option.
+- netbox_device_interface - Add mark_connected option.
+- netbox_power_panel - Add location option.
+- netbox_rack - Add location option.
+- netbox_vlan_group - Add custom_fields option.
+- netbox_vlan_group - Add description option.
+- netbox_vlan_group - Add scope option.
+- netbox_vlan_group - Add scope_type option.
+
+Bugfixes
+--------
+
+- Allow ``virtual_chassis`` to be found via name [#402](https://github.com/netbox-community/ansible_modules/issues/402)
+- Fix mapping between power_outlet_template and power_port_template.
+- inventory - Fix rack-group -> location for NetBox 2.11 changes.
+- inventory - Properly handle interface tags.
+- netbox_tenant - Fix example to match argspec.
+
 v3.0.0
 ======
 
