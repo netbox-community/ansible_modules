@@ -129,6 +129,11 @@ options:
           - Mark an interface as connected without a cable attached (netbox >= 2.11 required)
         required: false
         type: bool
+      custom_fields:
+        description:
+          - must exist in Netbox
+        required: false
+        type: dict
     required: true
     type: dict
   update_vc_child:
@@ -303,6 +308,7 @@ def main():
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list"),
                     mark_connected=dict(required=False, type="bool"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
