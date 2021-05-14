@@ -172,7 +172,10 @@
                     }
                 ],
                 "is_virtual": false,
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "primary_ip4": "172.16.180.12",
                 "regions": [
@@ -298,7 +301,10 @@
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "rack": "Test Rack",
                 "regions": [
@@ -441,7 +447,10 @@
                     }
                 ],
                 "is_virtual": false,
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "ntp_servers": [
                     "pool.ntp.org"
@@ -934,6 +943,13 @@
             "test104-vm"
         ]
     },
+    "test_rack_group": {
+        "hosts": [
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
     "test_rack_role": {
         "hosts": [
             "R1-Device"
@@ -949,9 +965,6 @@
             "parent_rack_group"
         ],
         "hosts": [
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",

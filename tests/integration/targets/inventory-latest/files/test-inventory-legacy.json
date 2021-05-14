@@ -45,7 +45,10 @@
                 "local_context_data": [
                     null
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -140,7 +143,10 @@
                 "local_context_data": [
                     null
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -177,7 +183,10 @@
                         ]
                     }
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],

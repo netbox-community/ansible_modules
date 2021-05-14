@@ -62,7 +62,10 @@
                 "device_type": "cisco-test",
                 "display": "TestDeviceR1",
                 "is_virtual": false,
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "rack": "Test Rack",
                 "rack_id": "2",
@@ -85,7 +88,10 @@
                 "display": "Test Nexus One",
                 "dns_name": "nexus.example.com",
                 "is_virtual": false,
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "primary_ip4": "172.16.180.12",
                 "regions": [
@@ -110,7 +116,10 @@
                         "pool.ntp.org"
                     ]
                 },
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturer": "cisco",
                 "regions": [
                     "test-region",
@@ -319,6 +328,13 @@
             "test104-vm"
         ]
     },
+    "test_rack_group": {
+        "hosts": [
+            "TestDeviceR1",
+            "VC1",
+            "test100"
+        ]
+    },
     "test_rack_role": {
         "hosts": [
             "R1-Device"
@@ -334,9 +350,6 @@
             "parent_rack_group"
         ],
         "hosts": [
-            "TestDeviceR1",
-            "VC1",
-            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",

@@ -299,6 +299,13 @@ devices = [
         "site": test_site.id,
     },
 ]
+
+## Add some locations for 2.11+
+if nb_version >= version.parse("2.11"):
+    devices[0]["location"] = created_rack_groups[0].id
+    devices[1]["location"] = created_rack_groups[0].id
+    devices[3]["location"] = created_rack_groups[0].id
+
 created_devices = make_netbox_calls(nb.dcim.devices, devices)
 ### Device variables to be used later on
 test100 = nb.dcim.devices.get(name="test100")

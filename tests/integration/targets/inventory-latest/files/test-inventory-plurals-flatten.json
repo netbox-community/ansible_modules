@@ -66,7 +66,10 @@
                 "local_context_data": [
                     null
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -110,7 +113,10 @@
                 "local_context_data": [
                     null
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -145,7 +151,10 @@
                         ]
                     }
                 ],
-                "locations": [],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -371,6 +380,13 @@
             "test104-vm"
         ]
     },
+    "test_rack_group": {
+        "hosts": [
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
     "test_rack_role": {
         "hosts": [
             "R1-Device"
@@ -386,9 +402,6 @@
             "parent_rack_group"
         ],
         "hosts": [
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
