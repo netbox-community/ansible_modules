@@ -1589,7 +1589,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.add_host_to_groups(host=host, hostname=hostname)
 
             # Special processing for sites and locations as those groups were already created
-            if host.get("location") and host["location"].get("id"):
+            if (
+                getattr(self, "location_group_names", None)
+                and host.get("location")
+                and host["location"].get("id")
+            ):
                 # Add host to location group when host is assigned to the location
                 self.inventory.add_host(
                     group=self.location_group_names[host["location"]["id"]],
