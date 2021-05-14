@@ -1595,7 +1595,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     group=self.location_group_names[host["location"]["id"]],
                     host=hostname,
                 )
-            else:
+            elif self.site_group_names and host.get("site"):
                 # Add host to site group when host is NOT assigned to a location
                 self.inventory.add_host(
                     group=self.site_group_names[host["site"]["id"]], host=hostname,
