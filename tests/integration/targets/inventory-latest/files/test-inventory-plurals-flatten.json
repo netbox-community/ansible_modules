@@ -36,10 +36,10 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "manufacturers": [
                     "cisco"
                 ],
-                "rack_groups": [],
                 "rack_role": "test-rack-role",
                 "racks": [
                     "Test Rack Site 2"
@@ -66,6 +66,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -90,6 +91,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [],
                 "status": {
                     "label": "Active",
@@ -108,10 +110,10 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "manufacturers": [
                     "cisco"
                 ],
-                "rack_groups": [],
                 "racks": [
                     "Test Rack"
                 ],
@@ -143,6 +145,7 @@
                         ]
                     }
                 ],
+                "locations": [],
                 "manufacturers": [
                     "cisco"
                 ],
@@ -170,6 +173,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -191,6 +195,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -212,6 +217,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -233,6 +239,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -253,6 +260,7 @@
                 "local_context_data": [
                     null
                 ],
+                "locations": [],
                 "regions": [],
                 "status": {
                     "label": "Active",
@@ -335,6 +343,11 @@
             "Test Nexus One"
         ]
     },
+    "parent_rack_group": {
+        "children": [
+            "test_rack_group"
+        ]
+    },
     "parent_region": {
         "children": [
             "test_region"
@@ -369,6 +382,9 @@
         ]
     },
     "test_site": {
+        "children": [
+            "parent_rack_group"
+        ],
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",

@@ -252,6 +252,12 @@ racks = [
     },
     {"name": "Test Rack", "site": test_site.id, "group": created_rack_groups[0].id},
 ]
+
+## Use location instead of group for 2.11+
+if nb_version >= version.parse("2.11"):
+    racks[1]["location"] = created_rack_groups[0].id
+    del racks[1]["group"]
+
 created_racks = make_netbox_calls(nb.dcim.racks, racks)
 test_rack = nb.dcim.racks.get(name="Test Rack")  # racks don't have slugs
 test_rack_site2 = nb.dcim.racks.get(name="Test Rack Site 2")
