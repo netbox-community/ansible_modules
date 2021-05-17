@@ -12,7 +12,7 @@ group_by:
   - site
   - tenant
   - rack
-  - rack_group
+  - location
   - rack_role
   - tag
   - role

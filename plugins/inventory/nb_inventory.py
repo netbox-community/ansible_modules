@@ -109,11 +109,15 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.1"
         group_by:
-            description: Keys used to create groups. The I(plurals) option controls which of these are valid.
+            description:
+                - Keys used to create groups. The I(plurals) option controls which of these are valid.
+                - I(rack_group) is supported on NetBox versions 2.10 or lower only
+                - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
             choices:
                 - sites
                 - site
+                - location
                 - tenants
                 - tenant
                 - racks
@@ -412,7 +416,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("rack"): self.extract_rack,
-            "rack_group": self.extract_rack_group,
             "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
@@ -420,6 +423,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("device_type"): self.extract_device_type,
             self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
+
+        # Locations were added in 2.11 replacing rack-groups.
+        if self.api_version >= version.parse("2.11"):
+            extractors.update(
+                {"location": self.extract_location,}
+            )
+        else:
+            extractors.update(
+                {"rack_group": self.extract_rack_group,}
+            )
 
         if self.services:
             extractors.update(
@@ -704,6 +717,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             object_parent_lookup=self.regions_parent_lookup,
         )
 
+    def extract_location(self, host):
+        # A host may have a location. A location may have a parent location.
+        # Produce a list of locations:
+        # - it will be empty if the device has no location
+        # - it will have 1 element if the device's location has no parent
+        # - it will have multiple elements if the location has a parent location
+
+        try:
+            location_id = host["location"]["id"]
+        except (KeyError, TypeError):
+            # Device has no location
+            return []
+
+        return self._objects_array_following_parents(
+            initial_object_id=location_id,
+            object_lookup=self.locations_lookup,
+            object_parent_lookup=self.locations_parent_lookup,
+        )
+
     def extract_cluster(self, host):
         try:
             # cluster does not have a slug
@@ -787,6 +819,35 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             filter(lambda x: x is not None, map(get_region_parent, regions))
         )
 
+    def refresh_locations_lookup(self):
+        # Locations were added in v2.11. Return empty lookups for previous versions.
+        if self.api_version < version.parse("2.11"):
+            return
+
+        url = self.api_endpoint + "/api/dcim/locations/?limit=0"
+        locations = self.get_resource_list(api_url=url)
+        self.locations_lookup = dict(
+            (location["id"], location["slug"]) for location in locations
+        )
+
+        def get_location_parent(location):
+            # Will fail if location does not have a parent location
+            try:
+                return (location["id"], location["parent"]["id"])
+            except Exception:
+                return (location["id"], None)
+
+        def get_location_site(location):
+            # Locations MUST be assigned to a site
+            return (location["id"], location["site"]["id"])
+
+        # Dictionary of location id to parent location id
+        self.locations_parent_lookup = dict(
+            filter(None, map(get_location_parent, locations))
+        )
+        # Location to site lookup
+        self.locations_site_lookup = dict(map(get_location_site, locations))
+
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
         tenants = self.get_resource_list(api_url=url)
@@ -813,16 +874,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.racks_role_lookup = dict(map(get_role_for_rack, racks))
 
     def refresh_rack_groups_lookup(self):
+        # Locations were added in v2.11 replacing rack groups. Do nothing for 2.11+
         if self.api_version >= version.parse("2.11"):
-            # In NetBox v2.11 Breaking Changes:
-            # The RackGroup model has been renamed to Location
-            # (see netbox-community/netbox#4971).
-            # Its REST API endpoint has changed from /api/dcim/rack-groups/
-            # to /api/dcim/locations/
-            # https://netbox.readthedocs.io/en/stable/release-notes/#v2110-2021-04-16
-            url = self.api_endpoint + "/api/dcim/locations/?limit=0"
-        else:
-            url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
+            return
+
+        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
         rack_groups = self.get_resource_list(api_url=url)
         self.rack_groups_lookup = dict(
             (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
@@ -1054,6 +1110,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         lookups = [
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
+            self.refresh_locations_lookup,
             self.refresh_tenants_lookup,
             self.refresh_racks_lookup,
             self.refresh_rack_groups_lookup,
@@ -1288,26 +1345,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return "_".join([grouping, group])
 
     def add_host_to_groups(self, host, hostname):
-
-        # If we're grouping by regions, hosts are not added to region groups
-        # - the site groups are added as sub-groups of regions
-        # So, we need to make sure we're also grouping by sites if regions are enabled
-
-        if "region" in self.group_by:
-            # Make sure "site" or "sites" grouping also exists, depending on plurals options
-            site_group_by = self._pluralize_group_by("site")
-            if site_group_by not in self.group_by:
-                self.group_by.append(site_group_by)
+        site_group_by = self._pluralize_group_by("site")
 
         for grouping in self.group_by:
 
-            # Don't handle regions here - that will happen in main()
-            if grouping == "region":
+            # Don't handle regions here since no hosts are ever added to region groups
+            # Sites and locations are also specially handled in the main()
+            if grouping in ["region", site_group_by, "location"]:
                 continue
 
             if grouping not in self.group_extractors:
                 raise AnsibleError(
-                    'group_by option "%s" is not valid. (Maybe check the plurals option? It can determine what group_by options are valid)'
+                    'group_by option "%s" is not valid. Check group_by documentation or check the plurals option. It can determine what group_by options are valid.'
                     % grouping
                 )
 
@@ -1331,30 +1380,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 transformed_group_name = self.inventory.add_group(group=group_name)
                 self.inventory.add_host(group=transformed_group_name, host=hostname)
 
+    def _add_site_groups(self):
+        # Map site id to transformed group names
+        self.site_group_names = dict()
+
+        for site_id, site_name in self.sites_lookup.items():
+            site_group_name = self.generate_group_name(
+                self._pluralize_group_by("site"), site_name
+            )
+            # Add the site group to get its transformed name
+            site_transformed_group_name = self.inventory.add_group(
+                group=site_group_name
+            )
+            self.site_group_names[site_id] = site_transformed_group_name
+
     def _add_region_groups(self):
-
         # Mapping of region id to group name
-        region_transformed_group_names = dict()
-
-        # Create groups for each region
-        for region_id in self.regions_lookup:
-            region_group_name = self.generate_group_name(
-                "region", self.regions_lookup[region_id]
-            )
-            region_transformed_group_names[region_id] = self.inventory.add_group(
-                group=region_group_name
-            )
-
-        # Now that all region groups exist, add relationships between them
-        for region_id in self.regions_lookup:
-            region_group_name = region_transformed_group_names[region_id]
-            parent_region_id = self.regions_parent_lookup.get(region_id, None)
-            if (
-                parent_region_id is not None
-                and parent_region_id in region_transformed_group_names
-            ):
-                parent_region_name = region_transformed_group_names[parent_region_id]
-                self.inventory.add_child(parent_region_name, region_group_name)
+        region_transformed_group_names = self._setup_nested_groups(
+            "region", self.regions_lookup, self.regions_parent_lookup
+        )
 
         # Add site groups as children of region groups
         for site_id in self.sites_lookup:
@@ -1362,21 +1406,49 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if region_id is None:
                 continue
 
-            region_transformed_group_name = region_transformed_group_names[region_id]
+            self.inventory.add_child(
+                region_transformed_group_names[region_id],
+                self.site_group_names[site_id],
+            )
 
-            site_name = self.sites_lookup[site_id]
-            site_group_name = self.generate_group_name(
-                self._pluralize_group_by("site"), site_name
-            )
-            # Add the site group to get its transformed name
-            # Will already be created by add_host_to_groups - it's ok to call add_group again just to get its name
-            site_transformed_group_name = self.inventory.add_group(
-                group=site_group_name
-            )
+    def _add_location_groups(self):
+        # Mapping of location id to group name
+        self.location_group_names = self._setup_nested_groups(
+            "location", self.locations_lookup, self.locations_parent_lookup
+        )
+
+        # Add location to site groups as children
+        for location_id, location_slug in self.locations_lookup.items():
+            if self.locations_parent_lookup.get(location_id, None):
+                # Only top level locations should be children of sites
+                continue
+
+            site_transformed_group_name = self.site_group_names[
+                self.locations_site_lookup[location_id]
+            ]
 
             self.inventory.add_child(
-                region_transformed_group_name, site_transformed_group_name
+                site_transformed_group_name, self.location_group_names[location_id]
             )
+
+    def _setup_nested_groups(self, group, lookup, parent_lookup):
+        # Mapping of id to group name
+        transformed_group_names = dict()
+
+        # Create groups for each object
+        for obj_id in lookup:
+            group_name = self.generate_group_name(group, lookup[obj_id])
+            transformed_group_names[obj_id] = self.inventory.add_group(group=group_name)
+
+        # Now that all groups exist, add relationships between them
+        for obj_id in lookup:
+            group_name = transformed_group_names[obj_id]
+            parent_id = parent_lookup.get(obj_id, None)
+            if parent_id is not None and parent_id in transformed_group_names:
+                parent_name = transformed_group_names[parent_id]
+                self.inventory.add_child(parent_name, group_name)
+
+        return transformed_group_names
 
     def _fill_host_variables(self, host, hostname):
         extracted_primary_ip = self.extract_primary_ip(host=host)
@@ -1412,6 +1484,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             if attribute == "region":
                 attribute = "regions"
+
+            if attribute == "location":
+                attribute = "locations"
 
             if attribute == "rack_group":
                 attribute = "rack_groups"
@@ -1456,6 +1531,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # - can skip any device/vm without any IPs
         self.refresh_lookups(self.lookup_processes_secondary)
 
+        # If we're grouping by regions, hosts are not added to region groups
+        # If we're grouping by locations, hosts may be added to the site or location
+        # - the site groups are added as sub-groups of regions
+        # - the location groups are added as sub-groups of sites
+        # So, we need to make sure we're also grouping by sites if regions or locations are enabled
+        site_group_by = self._pluralize_group_by("site")
+        if (
+            site_group_by in self.group_by
+            or "location" in self.group_by
+            or "region" in self.group_by
+        ):
+            self._add_site_groups()
+
+        # Create groups for locations. Will be a part of site groups.
+        if "location" in self.group_by and self.api_version >= version.parse("2.11"):
+            self._add_location_groups()
+
+        # Create groups for regions, containing the site groups
+        if "region" in self.group_by:
+            self._add_region_groups()
+
         for host in chain(self.devices_list, self.vms_list):
 
             virtual_chassis_master = self._get_host_virtual_chassis_master(host)
@@ -1488,9 +1584,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
             self.add_host_to_groups(host=host, hostname=hostname)
 
-        # Create groups for regions, containing the site groups
-        if "region" in self.group_by:
-            self._add_region_groups()
+            # Special processing for sites and locations as those groups were already created
+            if getattr(self, "location_group_names", None) and host.get("location"):
+                # Add host to location group when host is assigned to the location
+                self.inventory.add_host(
+                    group=self.location_group_names[host["location"]["id"]],
+                    host=hostname,
+                )
+            elif getattr(self, "site_group_names", None) and host.get("site"):
+                # Add host to site group when host is NOT assigned to a location
+                self.inventory.add_host(
+                    group=self.site_group_names[host["site"]["id"]], host=hostname,
+                )
 
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
