@@ -724,13 +724,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # - it will have 1 element if the device's location has no parent
         # - it will have multiple elements if the location has a parent location
 
-        location = host.get("location", None)
-        if not isinstance(location, dict):
-            # Device has no location
-            return []
-
-        location_id = location.get("id", None)
-        if location_id is None:
+        try:
+            location_id = host["location"]["id"]
+        except (KeyError, TypeError):
             # Device has no location
             return []
 
@@ -847,7 +843,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Dictionary of location id to parent location id
         self.locations_parent_lookup = dict(
-            filter(lambda x: x is not None, map(get_location_parent, locations))
+            filter(None, map(get_location_parent, locations))
         )
         # Location to site lookup
         self.locations_site_lookup = dict(map(get_location_site, locations))
@@ -1589,11 +1585,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.add_host_to_groups(host=host, hostname=hostname)
 
             # Special processing for sites and locations as those groups were already created
-            if (
-                getattr(self, "location_group_names", None)
-                and host.get("location")
-                and host["location"].get("id")
-            ):
+            if getattr(self, "location_group_names", None) and host.get("location"):
                 # Add host to location group when host is assigned to the location
                 self.inventory.add_host(
                     group=self.location_group_names[host["location"]["id"]],
