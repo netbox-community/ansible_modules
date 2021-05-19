@@ -20,7 +20,7 @@ netbox.netbox.netbox_vm_interface -- Creates or removes interfaces from virtual 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 

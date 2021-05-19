@@ -20,7 +20,7 @@ netbox.netbox.netbox_power_outlet_template -- Create, update or delete power out
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 

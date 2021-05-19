@@ -5,6 +5,19 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.1.1
+======
+
+Minor Changes
+-------------
+
+- netbox_device_interface - Add custom_fields [#514](https://github.com/netbox-community/ansible_modules/pull/514)
+
+Bugfixes
+--------
+
+- Inventory - Update plugin to support location for NetBox 2.11+ [#510](https://github.com/netbox-community/ansible_modules/pull/510)
+
 v3.1.0
 ======
 
