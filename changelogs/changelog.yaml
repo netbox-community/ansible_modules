@@ -528,3 +528,12 @@ releases:
     - issue-402.yml
     - release-summary-3.1.0.yml
     release_date: '2021-05-08'
+  3.1.1:
+    changes:
+      bugfixes:
+      - Inventory - Update plugin to support location for NetBox 2.11+ [#510](https://github.com/netbox-community/ansible_modules/pull/510)
+      minor_changes:
+      - netbox_device_interface - Add custom_fields [#514](https://github.com/netbox-community/ansible_modules/pull/514)
+    fragments:
+    - 3.1.1.yml
+    release_date: '2021-05-18'

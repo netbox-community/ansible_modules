@@ -20,7 +20,7 @@ netbox.netbox.nb_inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -482,6 +482,7 @@ Parameters
                                                                                                                             <ul style="margin: 0; padding: 0"><b>Choices:</b>
                                                                                                                                                                 <li>sites</li>
                                                                                                                                                                                                 <li>site</li>
+                                                                                                                                                                                                <li>location</li>
                                                                                                                                                                                                 <li>tenants</li>
                                                                                                                                                                                                 <li>tenant</li>
                                                                                                                                                                                                 <li>racks</li>
@@ -512,6 +513,8 @@ Parameters
                                                                                             </td>
                                                 <td>
                                             <div>Keys used to create groups. The <em>plurals</em> option controls which of these are valid.</div>
+                                            <div><em>rack_group</em> is supported on NetBox versions 2.10 or lower only</div>
+                                            <div><em>location</em> is supported on NetBox versions 2.11 or higher only</div>
                                                         </td>
             </tr>
                                 <tr>

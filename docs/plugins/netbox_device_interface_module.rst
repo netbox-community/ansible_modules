@@ -20,7 +20,7 @@ netbox.netbox.netbox_device_interface -- Creates or removes interfaces on device
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -86,6 +86,22 @@ Parameters
                                                         </td>
             </tr>
                                         <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>must exist in Netbox</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
