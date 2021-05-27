@@ -2,14 +2,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![Release](https://img.shields.io/github/v/release/netbox-community/ansible_modules)
 
-# Looking for New Maintainer/Owner
-
-Recently I posted a discussion with a [project update](https://github.com/netbox-community/ansible_modules/discussions/454) advising that I was looking for another maintainer to help maintain this project due to time constraints.
-
-I'm officially going to stop maintaining this collection going forward and looking to hand over responsibility to someone else.
-
-All I can say is I appreciate everyone that has contributed to the collection and have used it in production! I'll make sure to get this in the right hands if anyone is interested in taking over the project.
-
 # NetBox modules for Ansible using Ansible Collections
 
 We have moved this collection to a different namespace and collection name on Ansible Galaxy. The new versions will be at `netbox.netbox`.
