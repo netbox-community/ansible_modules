@@ -33,7 +33,7 @@ DOCUMENTATION = """
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
+        - If wanting to obtain the plaintext attribute of a secret, private_key or key_file must be provided.
     options:
         _terms:
             description:
@@ -69,9 +69,13 @@ DOCUMENTATION = """
                 - Whether or not to validate SSL of the NetBox instance
             required: False
             default: True
+        private_key:
+            description:
+                - The private key as a string. Mutually exclusive with I(key_file).
+            required: False
         key_file:
             description:
-                - The location of the private key tied to user account.
+                - The location of the private key tied to user account. Mutually exclusive with I(private_key).
             required: False
         raw_data:
             description:
@@ -303,6 +307,7 @@ class LookupModule(LookupBase):
             or os.getenv("NETBOX_URL")
         )
         netbox_ssl_verify = kwargs.get("validate_certs", True)
+        netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
@@ -318,6 +323,7 @@ class LookupModule(LookupBase):
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
+                private_key=netbox_private_key,
                 private_key_file=netbox_private_key_file,
             )
             netbox.http_session = session
