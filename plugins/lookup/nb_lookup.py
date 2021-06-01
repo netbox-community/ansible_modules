@@ -49,7 +49,7 @@ DOCUMENTATION = """
             required: True
         api_filter:
             description:
-                - The api_filter to use.
+                - The api_filter to use. Filters should be key value pairs separated by a space.
             required: False
         plugin:
             description:
