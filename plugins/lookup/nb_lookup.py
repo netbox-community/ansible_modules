@@ -33,7 +33,7 @@ DOCUMENTATION = """
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - If wanting to obtain the plaintext attribute of a secret, private_key or key_file must be provided.
+        - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
