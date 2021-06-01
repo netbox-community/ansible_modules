@@ -78,6 +78,7 @@ DOCUMENTATION = """
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
             required: False
         raw_data:
+            type: bool
             description:
                 - Whether to return raw API data with the lookup/query or whether to return a key/value dict
             required: False
