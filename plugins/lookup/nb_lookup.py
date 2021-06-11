@@ -154,6 +154,7 @@ def get_endpoint(netbox, term):
         "cluster-types": {"endpoint": netbox.virtualization.cluster_types},
         "clusters": {"endpoint": netbox.virtualization.clusters},
         "config-contexts": {"endpoint": netbox.extras.config_contexts},
+        "connected-device": {"endpoint": netbox.dcim.connected_device},
         "console-connections": {"endpoint": netbox.dcim.console_connections},
         "console-ports": {"endpoint": netbox.dcim.console_ports},
         "console-server-port-templates": {
