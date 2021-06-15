@@ -345,7 +345,7 @@ ALLOWED_QUERY_PARAMS = {
     "termination_a": set(["name", "device", "virtual_machine"]),
     "termination_b": set(["name", "device", "virtual_machine"]),
     "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
-    "virtual_chassis": set(["name", "master"]),
+    "virtual_chassis": set(["name", "device"]),
     "virtual_machine": set(["name", "cluster"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site", "scope"]),
@@ -763,9 +763,6 @@ class NetboxModule(object):
                 query_dict.update(
                     {"interface_id": module_data.get("assigned_object_id")}
                 )
-
-        elif parent == "virtual_chassis":
-            query_dict = {"q": self.module.params["data"].get("master")}
 
         elif parent == "rear_port" and self.endpoint == "front_ports":
             if isinstance(module_data.get("rear_port"), str):
