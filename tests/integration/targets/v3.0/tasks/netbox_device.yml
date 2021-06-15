@@ -68,6 +68,7 @@
       virtual_chassis: "VC1"
       vc_position: 3
       vc_priority: 15
+      location: "Test Rack Group"
     state: present
   register: test_three
 
@@ -90,6 +91,7 @@
       - test_three['device']['virtual_chassis'] == 1
       - test_three['device']['vc_position'] == 3
       - test_three['device']['vc_priority'] == 15
+      - test_three['device']['location'] == 1
       - test_three['msg'] == "device R1 updated"
 
 - name: "3.1 - Update device name using query_params"
