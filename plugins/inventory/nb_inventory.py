@@ -1265,7 +1265,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # - If none of the filters are valid for VMs, do not fetch any VMs
         # If either device_query_filters or vm_query_filters are set,
         # device_query_parameters and vm_query_parameters will have > 1 element so will continue to be requested
-        if self.query_filters and isinstance(self.query_filters, Iterable):
+        #
+        # Also: When query_filters is empty and either device_query_filters or vm_query_filters are set,
+        # remove empty filters to only query one desired endpoint
+        # E.g.: query_filters & vm_query_filters empty, but device_query_filters set - do not query all VMs,
+        # but only filtered devices
+        if (self.query_filters and isinstance(self.query_filters, Iterable)) \
+           or len(device_query_parameters + vm_query_parameters) > 2:
             if len(device_query_parameters) <= 1:
                 device_url = None
 
