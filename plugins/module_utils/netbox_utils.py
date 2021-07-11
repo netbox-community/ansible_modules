@@ -463,6 +463,7 @@ NETBOX_ARG_SPEC = dict(
     state=dict(required=False, default="present", choices=["present", "absent"]),
     query_params=dict(required=False, type="list", elements="str"),
     validate_certs=dict(type="raw", default=True),
+    cert=dict(type="raw", required=False),
 )
 
 
@@ -490,10 +491,11 @@ class NetboxModule(object):
         url = self.module.params["netbox_url"]
         token = self.module.params["netbox_token"]
         ssl_verify = self.module.params["validate_certs"]
+        cert = self.module.params["cert"]
 
         # Attempt to initiate connection to Netbox
         if nb_client is None:
-            self.nb = self._connect_netbox_api(url, token, ssl_verify)
+            self.nb = self._connect_netbox_api(url, token, ssl_verify, cert)
         else:
             self.nb = nb_client
             try:
@@ -536,10 +538,11 @@ class NetboxModule(object):
         elif g_major == l_major and g_minor > l_minor:
             return True
 
-    def _connect_netbox_api(self, url, token, ssl_verify):
+    def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
             session = requests.Session()
             session.verify = ssl_verify
+            session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
