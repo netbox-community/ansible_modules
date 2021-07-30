@@ -230,7 +230,7 @@ query_filters:
   - tag: web
   - tag: production
 
-# See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+# See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
 # the query_filters work as a logical **OR**
 #
 # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string
