@@ -41,7 +41,6 @@ options:
   cert:
     description:
       - Certificate path
-    default: false
     required: false
     type: raw
   data:
