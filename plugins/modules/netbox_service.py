@@ -42,6 +42,7 @@ options:
       - Certificate path
     default: true
     required: false
+    type: raw
   data:
     type: dict
     description:

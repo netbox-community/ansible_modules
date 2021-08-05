@@ -43,6 +43,7 @@ options:
       - Certificate path
     default: true
     required: false
+    type: raw
   data:
     description:
       - Defines the device bay configuration
