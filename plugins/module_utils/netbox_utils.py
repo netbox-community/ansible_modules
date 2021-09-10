@@ -19,7 +19,7 @@ from ansible.module_utils.common.text.converters import to_text
 
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
-from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
 
 PYNETBOX_IMP_ERR = None
@@ -1166,17 +1166,36 @@ class NetboxAnsibleModule(AnsibleModule):
         required_if=None,
         required_by=None,
     ):
+        # Sets each check to None so they are not run in AnsibleModule
         super().__init__(
             argument_spec,
             bypass_checks=False,
             no_log=False,
-            mutually_exclusive=mutually_exclusive,
-            required_together=required_together,
-            required_one_of=required_one_of,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
-            required_if=required_if,
+            required_if=None,
         )
+
+        # Quick fix to support ansible-core 2.11
+        #
+        # Load the params manually as the self.params already have the defaults set
+        params = _load_params()
+
+        # Run each check manually providing the params
+        if mutually_exclusive:
+            self._check_mutually_exclusive(mutually_exclusive, param=params)
+
+        if required_together:
+            self._check_required_together(required_together, param=params)
+
+        if required_one_of:
+            self._check_required_one_of(required_one_of, param=params)
+
+        if required_if:
+            self._check_required_if(required_if, param=params)
 
     def _check_mutually_exclusive(self, spec, param=None):
         if param is None:
