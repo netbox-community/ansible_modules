@@ -99,7 +99,7 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v2.11'
-      - name: Clone & Start netbox-docker containers - latest
+      - name: Clone & Start netbox-docker containers - 3.0
         env:
           VERSION: ${{ matrix.VERSION }}
         run: |
