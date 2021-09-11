@@ -71,7 +71,7 @@ options:
         description:
           - Specifies which ports used by service (NetBox 2.10 and newer)
         type: list
-        elements: str
+        elements: int
       protocol:
         description:
           - Specifies which protocol used by service
