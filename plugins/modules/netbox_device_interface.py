@@ -129,6 +129,7 @@ options:
           - Any tags that the interface may need to be associated with
         required: false
         type: list
+        elements: str
       mark_connected:
         description:
           - Mark an interface as connected without a cable attached (netbox >= 2.11 required)

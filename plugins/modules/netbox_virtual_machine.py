@@ -113,6 +113,7 @@ options:
           - Any tags that the virtual machine may need to be associated with
         required: false
         type: list
+        elements: str
       custom_fields:
         description:
           - Must exist in Netbox

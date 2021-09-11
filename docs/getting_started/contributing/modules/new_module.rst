@@ -150,6 +150,7 @@ Now we need to update the ``DOCUMENTATION`` variable to match the module we're c
             - Any tags that the device may need to be associated with
           required: false
           type: list
+          elements: str
         custom_fields:
           description:
             - must exist in Netbox

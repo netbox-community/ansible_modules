@@ -117,6 +117,7 @@ options:
           - Any tags that the prefix may need to be associated with
         required: false
         type: list
+        elements: str
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format

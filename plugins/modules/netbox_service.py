@@ -71,6 +71,7 @@ options:
         description:
           - Specifies which ports used by service (NetBox 2.10 and newer)
         type: list
+        elements: str
         elements: int
       protocol:
         description:
@@ -92,6 +93,7 @@ options:
           - What tags to add/update
         required: false
         type: list
+        elements: str
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format

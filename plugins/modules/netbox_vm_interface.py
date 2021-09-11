@@ -97,6 +97,7 @@ options:
           - Any tags that the prefix may need to be associated with
         required: false
         type: list
+        elements: str
     required: true
     type: dict
   state:

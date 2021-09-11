@@ -72,6 +72,7 @@ options:
           - Any tags that the device bay may need to be associated with
         required: false
         type: list
+        elements: str
     type: dict
     required: true
   state:

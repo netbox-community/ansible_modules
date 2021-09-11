@@ -94,6 +94,7 @@ options:
           - Any tags that the device may need to be associated with
         required: false
         type: list
+        elements: str
     required: true
   state:
     description:

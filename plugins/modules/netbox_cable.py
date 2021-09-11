@@ -156,6 +156,7 @@ options:
         required: false
         type: list
         elements: str
+        elements: str
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.

@@ -93,6 +93,7 @@ options:
           - Any tags that the vlan may need to be associated with
         required: false
         type: list
+        elements: str
       custom_fields:
         description:
           - must exist in Netbox

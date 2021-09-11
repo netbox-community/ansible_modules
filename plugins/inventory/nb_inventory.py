@@ -126,6 +126,7 @@ DOCUMENTATION = """
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
+        elements: str
             elements:
                 - sites
                 - site
@@ -162,14 +163,17 @@ DOCUMENTATION = """
         query_filters:
             description: List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
             type: list
+        elements: str
             default: []
         device_query_filters:
             description: List of parameters passed to the query string for devices (Multiple values may be separated by commas)
             type: list
+        elements: str
             default: []
         vm_query_filters:
             description: List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
             type: list
+        elements: str
             default: []
         timeout:
             description: Timeout for Netbox requests in seconds

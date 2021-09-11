@@ -70,6 +70,7 @@ options:
           - Any tags that the virtual chassis may need to be associated with
         required: false
         type: list
+        elements: str
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.

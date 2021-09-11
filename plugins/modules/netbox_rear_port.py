@@ -95,6 +95,7 @@ options:
           - Any tags that the rear port may need to be associated with
         required: false
         type: list
+        elements: str
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.

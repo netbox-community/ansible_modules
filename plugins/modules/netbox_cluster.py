@@ -84,6 +84,7 @@ options:
           - Any tags that the cluster may need to be associated with
         required: false
         type: list
+        elements: str
       custom_fields:
         description:
           - must exist in Netbox
