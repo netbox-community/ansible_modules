@@ -175,7 +175,7 @@ def main():
                     rir=dict(required=False, type="raw"),
                     date_added=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

@@ -178,7 +178,7 @@ def main():
                     name=dict(required=True, type="str"),
                     tenant=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

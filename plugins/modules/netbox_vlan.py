@@ -204,7 +204,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     vlan_role=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

@@ -285,7 +285,7 @@ def main():
                     prefix_role=dict(required=False, type="raw"),
                     is_pool=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

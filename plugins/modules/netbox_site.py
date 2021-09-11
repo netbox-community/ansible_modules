@@ -265,7 +265,7 @@ def main():
                     contact_email=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

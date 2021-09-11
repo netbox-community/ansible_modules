@@ -209,7 +209,7 @@ def main():
                     commit_rate=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

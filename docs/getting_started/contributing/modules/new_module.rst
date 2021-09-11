@@ -282,7 +282,7 @@ Let's move onto the ``main()`` function in the module and take a look at the req
                       name=dict(required=True, type="str"),
                       tenant=dict(required=False, type="raw"),
                       description=dict(required=False, type="str"),
-                      tags=dict(required=False, type="list", elements='str'),
+                      tags=dict(required=False, type="list", elements="str"),
                       custom_fields=dict(required=False, type="dict"),
                   ),
               ),

@@ -243,7 +243,7 @@ def main():
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list", elements='str'),
+                    tags=dict(required=False, type="list", elements="str"),
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
                     comments=dict(required=False, type="str"),
