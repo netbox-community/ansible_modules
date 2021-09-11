@@ -49,6 +49,9 @@ jobs:
             VERSION: "v2.10"
             INTEGRATION_TESTS: "v2.10"
           - python-version: 3.6
+            VERSION: "v2.11"
+            INTEGRATION_TESTS: "v2.11"
+          - python-version: 3.6
             VERSION: "latest"
             INTEGRATION_TESTS: "latest"
     steps:
@@ -77,6 +80,25 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v2.10'
+      - name: Clone & Start netbox-docker containers - 2.11
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 1.2.0
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v2.11'
       - name: Clone & Start netbox-docker containers - latest
         env:
           VERSION: ${{ matrix.VERSION }}
