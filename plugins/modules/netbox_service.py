@@ -92,7 +92,7 @@ options:
           - What tags to add/update
         required: false
         type: list
-        elements: str
+        elements: raw
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
@@ -190,7 +190,7 @@ def main():
                     protocol=dict(required=True, type="raw"),
                     ipaddresses=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

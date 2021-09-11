@@ -93,7 +93,7 @@ options:
           - Any tags that the vlan may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -205,7 +205,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     vlan_role=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

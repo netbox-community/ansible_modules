@@ -150,7 +150,7 @@ Now we need to update the ``DOCUMENTATION`` variable to match the module we're c
             - Any tags that the device may need to be associated with
           required: false
           type: list
-          elements: str
+          elements: raw
         custom_fields:
           description:
             - must exist in Netbox
@@ -283,7 +283,7 @@ Let's move onto the ``main()`` function in the module and take a look at the req
                       name=dict(required=True, type="str"),
                       tenant=dict(required=False, type="raw"),
                       description=dict(required=False, type="str"),
-                      tags=dict(required=False, type="list", elements="str"),
+                      tags=dict(required=False, type="list", elements="raw"),
                       custom_fields=dict(required=False, type="dict"),
                   ),
               ),

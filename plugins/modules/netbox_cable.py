@@ -155,7 +155,7 @@ options:
           - Any tags that the cable may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -340,7 +340,7 @@ def main():
                     length_unit=dict(
                         required=False, choices=["m", "cm", "ft", "in"], type="str"
                     ),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

@@ -94,7 +94,7 @@ options:
           - Any tags that the device may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
     required: true
   state:
     description:
@@ -199,7 +199,7 @@ def main():
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

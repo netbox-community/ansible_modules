@@ -89,7 +89,7 @@ options:
           - Any tags that the console server port may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -203,7 +203,7 @@ def main():
                         type="str",
                     ),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

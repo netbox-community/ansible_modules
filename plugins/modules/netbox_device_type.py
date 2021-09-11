@@ -99,7 +99,7 @@ options:
           - Any tags that the device type may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -213,7 +213,7 @@ def main():
                         type="str",
                     ),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

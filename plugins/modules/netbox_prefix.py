@@ -117,7 +117,7 @@ options:
           - Any tags that the prefix may need to be associated with
         required: false
         type: list
-        elements: str
+        elements: raw
       custom_fields:
         description:
           - Must exist in Netbox and in key/value format
@@ -286,7 +286,7 @@ def main():
                     prefix_role=dict(required=False, type="raw"),
                     is_pool=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
