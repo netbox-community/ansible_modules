@@ -311,7 +311,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                     mark_connected=dict(required=False, type="bool"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

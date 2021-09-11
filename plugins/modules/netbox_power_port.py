@@ -298,7 +298,7 @@ def main():
                     allocated_draw=dict(required=False, type="int"),
                     maximum_draw=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                 ),
             ),
         )

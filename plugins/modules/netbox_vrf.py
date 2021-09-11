@@ -201,7 +201,7 @@ def main():
                     import_targets=dict(required=False, type="list", elements="str"),
                     export_targets=dict(required=False, type="list", elements="str"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

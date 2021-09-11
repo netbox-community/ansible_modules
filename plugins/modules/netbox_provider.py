@@ -194,7 +194,7 @@ def main():
                     noc_contact=dict(required=False, type="str"),
                     admin_contact=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

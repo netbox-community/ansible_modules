@@ -202,7 +202,7 @@ def main():
                         type="str",
                     ),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                 ),
             ),
         )

@@ -161,7 +161,7 @@ def main():
                     name=dict(required=False, type="str"),
                     master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                 ),
             ),
         )

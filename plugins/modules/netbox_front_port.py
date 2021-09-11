@@ -222,7 +222,7 @@ def main():
                     rear_port=dict(required=True, type="raw"),
                     rear_port_position=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                 ),
             ),
         )

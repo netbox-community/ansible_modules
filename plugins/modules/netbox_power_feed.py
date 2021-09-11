@@ -247,7 +247,7 @@ def main():
                     amperage=dict(required=False, type="int"),
                     max_utilization=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements='str'),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
