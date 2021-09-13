@@ -542,7 +542,8 @@ class NetboxModule(object):
         try:
             session = requests.Session()
             session.verify = ssl_verify
-            session.cert = tuple(i for i in cert)
+            if cert:
+                session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:

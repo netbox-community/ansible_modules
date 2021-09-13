@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the interface configuration
@@ -124,6 +129,7 @@ options:
           - Any tags that the interface may need to be associated with
         required: false
         type: list
+        elements: raw
       mark_connected:
         description:
           - Mark an interface as connected without a cable attached (netbox >= 2.11 required)
@@ -306,7 +312,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     mark_connected=dict(required=False, type="bool"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the device bay configuration
@@ -67,6 +72,7 @@ options:
           - Any tags that the device bay may need to be associated with
         required: false
         type: list
+        elements: raw
     type: dict
     required: true
   state:
@@ -164,7 +170,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     installed_device=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

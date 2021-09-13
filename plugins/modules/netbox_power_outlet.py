@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     required: true
@@ -139,6 +144,7 @@ options:
           - Any tags that the power outlet may need to be associated with
         required: false
         type: list
+        elements: raw
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -297,7 +303,7 @@ def main():
                     power_port=dict(required=False, type="raw"),
                     feed_leg=dict(required=False, choices=["A", "B", "C"], type="str"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )
