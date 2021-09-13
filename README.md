@@ -1,6 +1,8 @@
 ![Devel CI Status](https://github.com/netbox-community/ansible_modules/workflows/All%20CI%20related%20tasks/badge.svg?branch=devel)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![Release](https://img.shields.io/github/v/release/netbox-community/ansible_modules)
+[![Talk to us: Slack](https://img.shields.io/badge/Slack-blue.svg)](https://netdev-community.slack.com/join/shared_invite/zt-mtts8g0n-Sm6Wutn62q_M4OdsaIycrQ#/shared-invite/email)
+
 
 # NetBox modules for Ansible using Ansible Collections
 
@@ -12,8 +14,16 @@ To keep the code simple, we only officially support the two latest releases of N
 
 - NetBox 2.6+ or the two latest NetBox releases
 - Python 3.6+
-- Python modules: **pynetbox 5.0.4+**, **packages** if using Ansible < 2.10 as it's included in Ansible 2.10+
+- Python modules:
+  - `pynetbox 5.0.4+`
+  - `packages` if using Ansible < 2.10, as it's included in Ansible 2.10+
 - Ansible 2.9+
 - NetBox write-enabled token when using modules or read-only token for `nb_lookup/nb_inventory`
 
-We have a new docs site live that can be found [here](https://netbox-ansible-collection.readthedocs.io/en/latest/).
+## Docs
+
+Module documentation exists on [netbox-ansible-collection.readthedocs.io](https://netbox-ansible-collection.readthedocs.io/en/latest/).
+
+## Join the discussion
+
+We have a dedicated Slack channel `#ansible` on [netdev-community.slack.com](https://netdev-community.slack.com/join/shared_invite/zt-mtts8g0n-Sm6Wutn62q_M4OdsaIycrQ#/shared-invite/email)
