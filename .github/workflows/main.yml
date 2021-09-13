@@ -73,6 +73,7 @@ jobs:
           version: '3.4'
           services:
             netbox:
+              image: netboxcommunity/netbox:v2.10
               ports:
                 - 32768:8080
           EOF
@@ -92,6 +93,7 @@ jobs:
           version: '3.4'
           services:
             netbox:
+              image: netboxcommunity/netbox:v2.11
               ports:
                 - 32768:8080
           EOF
@@ -111,6 +113,7 @@ jobs:
           version: '3.4'
           services:
             netbox:
+              image: netboxcommunity/netbox:v3.0
               ports:
                 - 32768:8080
           EOF
