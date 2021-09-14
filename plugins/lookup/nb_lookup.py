@@ -312,12 +312,14 @@ class LookupModule(LookupBase):
         if PYNETBOX_LIBRARY_IMPORT_ERROR:
             raise_from(
                 AnsibleError("pynetbox must be installed to use this plugin"),
-                PYNETBOX_LIBRARY_IMPORT_ERROR)
+                PYNETBOX_LIBRARY_IMPORT_ERROR
+            )
 
         if REQUESTS_LIBRARY_IMPORT_ERROR:
             raise_from(
                 AnsibleError("requests must be installed to use this plugin"),
-                REQUESTS_LIBRARY_IMPORT_ERROR)
+                REQUESTS_LIBRARY_IMPORT_ERROR
+            )
 
         netbox_api_token = (
             kwargs.get("token")
