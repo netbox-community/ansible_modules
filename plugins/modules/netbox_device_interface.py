@@ -299,7 +299,10 @@ def main():
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     form_factor=dict(
-                        required=False, type="raw", removed_in_version="0.3.0"
+                        required=False, 
+                        type="raw", 
+                        removed_in_version="0.3.0", 
+                        removed_in_collection="netbox.netbox"
                     ),
                     label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),

@@ -328,6 +328,7 @@ def main():
                         type="int",
                         choices=[4, 6],
                         removed_in_version="0.3.0",
+                        removed_in_collection="netbox.netbox"
                     ),
                     address=dict(required=False, type="str"),
                     prefix=dict(required=False, type="raw"),
