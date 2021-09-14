@@ -833,7 +833,7 @@ class NetboxModule(object):
                 msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
             )
 
-        choices = [x for x in chain.from_iterable(endpoint_choices.values())]
+        choices = list(chain.from_iterable(endpoint_choices.values()))
 
         for item in choices:
             if item["display_name"].lower() == search.lower():
