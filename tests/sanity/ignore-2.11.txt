@@ -1,1 +1,1 @@
-plugins/inventory/nb_inventory.py pylint:W1116
+plugins/inventory/nb_inventory.py pylint!skip
