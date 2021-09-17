@@ -303,7 +303,7 @@ def main():
                         type="raw",
                         removed_in_version="4.0.0",
                         removed_from_collection="netbox.netbox",
-                        ),
+                    ),
                     label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),
                     enabled=dict(required=False, type="bool"),

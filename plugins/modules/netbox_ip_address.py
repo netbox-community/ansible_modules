@@ -328,7 +328,7 @@ def main():
                         choices=[4, 6],
                         removed_in_version="4.0.0",
                         removed_from_collection="netbox.netbox",
-                        ),
+                    ),
                     prefix=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
