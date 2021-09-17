@@ -19,9 +19,22 @@ from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
+from ansible.module_utils.six import raise_from
 
-import pynetbox
-import requests
+try:
+    import pynetbox
+except ImportError as imp_exc:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = None
+
+try:
+    import requests
+except ImportError as imp_exc:
+    REQUESTS_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    REQUESTS_LIBRARY_IMPORT_ERROR = None
+
 
 __metaclass__ = type
 
@@ -296,6 +309,17 @@ class LookupModule(LookupBase):
     """
 
     def run(self, terms, variables=None, **kwargs):
+        if PYNETBOX_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("pynetbox must be installed to use this plugin"),
+                PYNETBOX_LIBRARY_IMPORT_ERROR,
+            )
+
+        if REQUESTS_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("requests must be installed to use this plugin"),
+                REQUESTS_LIBRARY_IMPORT_ERROR,
+            )
 
         netbox_api_token = (
             kwargs.get("token")

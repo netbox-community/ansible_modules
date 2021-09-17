@@ -51,14 +51,14 @@ options:
       - Defines the IP address configuration
     suboptions:
       family:
-        description:
-          - (DEPRECATED) - NetBox now handles determining the IP family natively.
-          - Specifies with address family the IP address belongs to
-        choices:
-          - 4
-          - 6
-        required: false
-        type: int
+         description:
+           - (DEPRECATED) - NetBox now handles determining the IP family natively.
+           - Specifies with address family the IP address belongs to
+         choices:
+           - 4
+           - 6
+         required: false
+         type: int
       address:
         description:
           - Required if state is C(present)
@@ -227,7 +227,6 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          family: 4
           address: 192.168.1.20
           vrf: Test
           tenant: Test Tenant
@@ -242,7 +241,6 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          family: 4
           address: 192.168.1.30
           vrf: Test
           nat_inside:
@@ -323,13 +321,14 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    address=dict(required=False, type="str"),
                     family=dict(
                         required=False,
                         type="int",
                         choices=[4, 6],
-                        removed_in_version="0.3.0",
+                        removed_in_version="4.0.0",
+                        removed_from_collection="netbox.netbox",
                     ),
-                    address=dict(required=False, type="str"),
                     prefix=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),

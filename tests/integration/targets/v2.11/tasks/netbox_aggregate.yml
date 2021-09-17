@@ -21,7 +21,6 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['aggregate']['prefix'] == "10.0.0.0/8"
-      - test_one['aggregate']['family'] == 4
       - test_one['aggregate']['rir'] == 1
       - test_one['msg'] == "aggregate 10.0.0.0/8 created"
 
@@ -39,7 +38,6 @@
     that:
       - not test_two['changed']
       - test_two['aggregate']['prefix'] == "10.0.0.0/8"
-      - test_two['aggregate']['family'] == 4
       - test_two['aggregate']['rir'] == 1
       - test_two['msg'] == "aggregate 10.0.0.0/8 already exists"
 
@@ -65,7 +63,6 @@
       - test_three['diff']['after']['description'] == "Test Description"
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['aggregate']['prefix'] == "10.0.0.0/8"
-      - test_three['aggregate']['family'] == 4
       - test_three['aggregate']['rir'] == 1
       - test_three['aggregate']['date_added'] == "1989-01-18"
       - test_three['aggregate']['description'] == "Test Description"
@@ -86,7 +83,6 @@
     that:
       - test_four is changed
       - test_four['aggregate']['prefix'] == "10.0.0.0/8"
-      - test_four['aggregate']['family'] == 4
       - test_four['aggregate']['rir'] == 1
       - test_four['aggregate']['date_added'] == "1989-01-18"
       - test_four['aggregate']['description'] == "Test Description"
@@ -110,6 +106,5 @@
       - test_five['diff']['before']['state'] == "absent"
       - test_five['diff']['after']['state'] == "present"
       - test_five['aggregate']['prefix'] == "2001::/32"
-      - test_five['aggregate']['family'] == 6
       - test_five['aggregate']['rir'] == 1
       - test_five['msg'] == "aggregate 2001::/32 created"

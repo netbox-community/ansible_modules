@@ -64,13 +64,13 @@ options:
         required: false
         type: str
       form_factor:
-        description:
-          - |
-            Form factor of the interface:
-            ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-            This has to be specified exactly as what is found within UI
-        required: false
-        type: raw
+         description:
+           - |
+             Form factor of the interface:
+             ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+             This has to be specified exactly as what is found within UI
+         required: false
+         type: raw
       type:
         description:
           - |
@@ -299,7 +299,10 @@ def main():
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     form_factor=dict(
-                        required=False, type="raw", removed_in_version="0.3.0"
+                        required=False,
+                        type="raw",
+                        removed_in_version="4.0.0",
+                        removed_from_collection="netbox.netbox",
                     ),
                     label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),
