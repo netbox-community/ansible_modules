@@ -126,7 +126,7 @@ DOCUMENTATION = """
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
-            elements:
+            choices:
                 - sites
                 - site
                 - location
