@@ -3,6 +3,11 @@
 ![Release](https://img.shields.io/github/v/release/netbox-community/ansible_modules)
 [![Talk to us: Slack](https://img.shields.io/badge/Slack-blue.svg)](https://netdev-community.slack.com/join/shared_invite/zt-mtts8g0n-Sm6Wutn62q_M4OdsaIycrQ#/shared-invite/email)
 
+# Looking for New Maintainers
+
+We are in search of a few maintainers for this project.  Please see discussion [Looking for maintainers](https://github.com/netbox-community/ansible_modules/discussions/526).  Our previous single maintainer was unable to keep up with the project to the high bar set by @FragmentedPacket.  The reality is that this is not a project that should be held by a single maintainer.  Reach out in the discussion or on our slack if you are interested in helping out.
+
+While we look for maintainers who have shown a willingness to provide inputs/ides, contribute code, and review contributions, the netbox-community team will do its best to maintain this repo in the interim.  Prioritization will given to bug fixes, NetBox compatibility, and Ansible requirements/compatibility.  New features (associated to the project or NetBox core)will be developed as a best effort, but rest assured, no releases will be cut that are not stable and tested.
 
 # NetBox modules for Ansible using Ansible Collections
 
