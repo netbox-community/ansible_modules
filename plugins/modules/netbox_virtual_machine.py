@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -108,11 +113,22 @@ options:
           - Any tags that the virtual machine may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - Must exist in Netbox
         required: false
         type: dict
+      local_context_data:
+        description:
+          - configuration context of the virtual machine
+        required: false
+        type: dict
+      comments:
+        description:
+          - Comments of the virtual machine
+        required: false
+        type: str
     required: true
   state:
     description:
@@ -127,6 +143,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -227,8 +244,10 @@ def main():
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
+                    local_context_data=dict(required=False, type="dict"),
+                    comments=dict(required=False, type="str"),
                 ),
             ),
         )

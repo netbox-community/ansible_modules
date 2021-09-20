@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -51,6 +56,16 @@ options:
       slug:
         description:
           - URL-friendly unique shorthand
+        required: false
+        type: str
+      parent_tenant_group:
+        description:
+          - Slug of the parent tenant group
+        required: false
+        type: str
+      description:
+        description:
+          - The description of the tenant group
         required: false
         type: str
     required: true
@@ -67,6 +82,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -136,6 +152,8 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    parent_tenant_group=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                 ),
             ),
         )

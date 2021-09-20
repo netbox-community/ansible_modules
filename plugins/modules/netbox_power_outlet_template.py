@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     required: true
@@ -115,9 +120,9 @@ options:
           - hdot-cx
         required: false
         type: str
-      power_port:
+      power_port_template:
         description:
-          - The attached power port
+          - The attached power port template
         required: false
         type: raw
       feed_leg:
@@ -142,6 +147,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -156,33 +162,33 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create power port within Netbox with only required information
+    - name: Create power outlet template within Netbox with only required information
       netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Power Outlet
+          name: Test Power Outlet Template
           device_type: Test Device Type
         state: present
 
-    - name: Update power port with other fields
+    - name: Update power outlet template with other fields
       netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Power Outlet
+          name: Test Power Outlet Template
           device_type: Test Device Type
           type: iec-60320-c6
-          power_port: Test Power Port
+          power_port_template: Test Power Port Template
           feed_leg: A
         state: present
 
-    - name: Delete power port within netbox
+    - name: Delete power outlet template within netbox
       netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Power Outlet
+          name: Test Power Outlet Template
           device_type: Test Device Type
         state: absent
 """
@@ -282,7 +288,7 @@ def main():
                         ],
                         type="str",
                     ),
-                    power_port=dict(required=False, type="raw"),
+                    power_port_template=dict(required=False, type="raw"),
                     feed_leg=dict(required=False, choices=["A", "B", "C"], type="str"),
                 ),
             ),

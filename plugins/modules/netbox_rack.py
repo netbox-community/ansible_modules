@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -58,9 +63,16 @@ options:
           - Required if I(state=present) and the rack does not exist yet
         required: false
         type: raw
+      location:
+        description:
+          - The location the rack will be associated to (NetBox 2.11+)
+        required: false
+        type: raw
+        version_added: "3.1.0"
       rack_group:
         description:
-          - The rack group the rack will be associated to
+          - The rack group the rack will be associated to (NetBox < 2.11)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
       tenant:
@@ -147,6 +159,7 @@ options:
           - Any tags that the rack may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -166,6 +179,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -187,6 +201,26 @@ EXAMPLES = r"""
         data:
           name: Test rack
           site: Test Site
+        state: present
+
+    - name: Create rack within Netbox with only required information - Pre 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          rack_group: Test Rack Group
+        state: present
+
+    - name: Create rack within Netbox with only required information - Post 2.11
+      netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack
+          site: Test Site
+          location: Test Location
         state: present
 
     - name: Delete rack within netbox
@@ -234,7 +268,13 @@ def main():
                     name=dict(required=True, type="str"),
                     facility_id=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
-                    rack_group=dict(required=False, type="raw"),
+                    location=dict(required=False, type="raw"),
+                    rack_group=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
                     tenant=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     rack_role=dict(required=False, type="raw"),
@@ -260,7 +300,7 @@ def main():
                         required=False, type="str", choices=["Millimeters", "Inches",],
                     ),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

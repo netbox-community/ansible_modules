@@ -27,7 +27,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.8"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -98,12 +103,12 @@ options:
         description:
           - Latitude in decimal format
         required: false
-        type: float
+        type: str
       longitude:
         description:
           - Longitude in decimal format
         required: false
-        type: float
+        type: str
       contact_name:
         description:
           - Name of contact for site
@@ -134,6 +139,7 @@ options:
           - Any tags that the prefix may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -153,6 +159,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -252,14 +259,14 @@ def main():
                     description=dict(required=False, type="str"),
                     physical_address=dict(required=False, type="str"),
                     shipping_address=dict(required=False, type="str"),
-                    latitude=dict(required=False, type="float"),
-                    longitude=dict(required=False, type="float"),
+                    latitude=dict(required=False, type="str"),
+                    longitude=dict(required=False, type="str"),
                     contact_name=dict(required=False, type="str"),
                     contact_phone=dict(required=False, type="str"),
                     contact_email=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

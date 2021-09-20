@@ -1,0 +1,9 @@
+---
+requires_ansible: ">=2.9.10"
+plugin_routing:
+  modules:
+    netbox_interface:
+      tombstone:
+        removal_version: "0.1.0"
+        warning_text: "netbox_interface has been superseceded by netbox.netbox.netbox_device_interface"
+      redirect: netbox.netbox.plugins.modules.netbox_device_interface

@@ -10,6 +10,7 @@ import pytest
 import os
 from functools import partial
 from unittest.mock import patch, MagicMock, Mock, call
+from packaging import version
 
 try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
@@ -40,7 +41,7 @@ def inventory_fixture(
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
 
     # Fill in data that is fetched dynamically
-    inventory.api_version = None
+    inventory.api_version = version.Version("2.0")
     inventory.allowed_device_query_parameters = allowed_device_query_parameters_fixture
     inventory.allowed_vm_query_parameters = allowed_vm_query_parameters_fixture
 
@@ -142,15 +143,24 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, interfaces, expected, not_expected",
+    "plurals, services, interfaces, dns_name, ansible_host_dns_name, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
-    inventory_fixture, plurals, services, interfaces, expected, not_expected
+    inventory_fixture,
+    plurals,
+    services,
+    interfaces,
+    dns_name,
+    ansible_host_dns_name,
+    expected,
+    not_expected,
 ):
     inventory_fixture.plurals = plurals
     inventory_fixture.services = services
     inventory_fixture.interfaces = interfaces
+    inventory_fixture.dns_name = dns_name
+    inventory_fixture.ansible_host_dns_name = ansible_host_dns_name
     extractors = inventory_fixture.group_extractors
 
     for key in expected:

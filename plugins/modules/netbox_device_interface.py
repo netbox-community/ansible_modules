@@ -27,7 +27,7 @@ author:
   - Mikhail Yohman (@FragmentedPacket)
 requirements:
   - pynetbox
-version_added: "2.8"
+version_added: "0.1.0"
 options:
   netbox_url:
     description:
@@ -39,28 +39,38 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
-      - Defines the prefix configuration
+      - Defines the interface configuration
     suboptions:
       device:
         description:
           - Name of the device the interface will be associated with (case-sensitive)
-        required: true
+        required: false
         type: raw
       name:
         description:
           - Name of the interface to be created
         required: true
         type: str
-      form_factor:
+      label:
         description:
-          - |
-            Form factor of the interface:
-            ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-            This has to be specified exactly as what is found within UI
+          - Physical label of the interface
         required: false
-        type: raw
+        type: str
+      form_factor:
+         description:
+           - |
+             Form factor of the interface:
+             ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+             This has to be specified exactly as what is found within UI
+         required: false
+         type: raw
       type:
         description:
           - |
@@ -96,7 +106,7 @@ options:
         type: bool
       description:
         description:
-          - The description of the prefix
+          - The description of the interface
         required: false
         type: str
       mode:
@@ -116,9 +126,20 @@ options:
         type: raw
       tags:
         description:
-          - Any tags that the prefix may need to be associated with
+          - Any tags that the interface may need to be associated with
         required: false
         type: list
+        elements: raw
+      mark_connected:
+        description:
+          - Mark an interface as connected without a cable attached (netbox >= 2.11 required)
+        required: false
+        type: bool
+      custom_fields:
+        description:
+          - must exist in Netbox
+        required: false
+        type: dict
     required: true
     type: dict
   update_vc_child:
@@ -141,6 +162,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -229,6 +251,15 @@ EXAMPLES = r"""
           name: GigabitEthernet2/0/1
           enabled: false
         update_vc_child: True
+    - name: Mark interface as connected without a cable (netbox >= 2.11 required)
+      netbox.netbox.netbox_device_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          device: test100
+          name: GigabitEthernet1
+          mark_connected: true
+        state: present
 """
 
 RETURN = r"""
@@ -268,8 +299,12 @@ def main():
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     form_factor=dict(
-                        required=False, type="raw", removed_in_version="0.3.0"
+                        required=False,
+                        type="raw",
+                        removed_in_version="4.0.0",
+                        removed_from_collection="netbox.netbox",
                     ),
+                    label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),
                     enabled=dict(required=False, type="bool"),
                     lag=dict(required=False, type="raw"),
@@ -280,7 +315,9 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
+                    mark_connected=dict(required=False, type="bool"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

@@ -1,0 +1,131 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_VIRTUAL_CHASSIS
+##
+##
+- name: "VIRTUAL_CHASSIS 0: Create device for testing virtual chassis"
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Device Virtual Chassis Tests
+      device_type: Cisco Test
+      device_role: Core Switch
+      site: Test Site
+      vc_position: 1
+      vc_priority: 1
+    state: present
+
+- name: "VIRTUAL_CHASSIS 1: Necessary info creation"
+  netbox.netbox.netbox_virtual_chassis:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "First VC"
+      master: Device Virtual Chassis Tests
+    state: present
+  register: test_one
+
+- name: "VIRTUAL_CHASSIS 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['virtual_chassis']['master'] == 11
+      - test_one['virtual_chassis']['name'] == "First VC"
+      - test_one['msg'] == "virtual_chassis First VC created"
+
+- name: "VIRTUAL_CHASSIS 2: Create duplicate"
+  netbox.netbox.netbox_virtual_chassis:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "First VC"
+      master: Device Virtual Chassis Tests
+    state: present
+  register: test_two
+
+- name: "VIRTUAL_CHASSIS 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['virtual_chassis']['master'] == 11
+      - test_two['virtual_chassis']['name'] == "First VC"
+      - test_two['msg'] == "virtual_chassis First VC already exists"
+
+- name: "POWER_FEED 3: Update virtual_chassis with other fields"
+  netbox.netbox.netbox_virtual_chassis:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "First VC"
+      master: Device Virtual Chassis Tests
+      domain: Domain Text
+    state: present
+  register: test_three
+
+- name: "POWER_FEED 3: ASSERT - Update virtual_chassis with other fields"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['domain'] == "Domain Text"
+      - test_three['virtual_chassis']['master'] == 11
+      - test_three['virtual_chassis']['domain'] == "Domain Text"
+      - test_three['virtual_chassis']['name'] == "First VC"
+      - test_three['msg'] == "virtual_chassis First VC updated"
+
+- name: "VIRTUAL_CHASSIS 4: Create device for testing virtual chassis deletion"
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Device Virtual Chassis Tests 2
+      device_type: Cisco Test
+      device_role: Core Switch
+      site: Test Site
+      vc_position: 1
+      vc_priority: 15
+    state: present
+
+- name: "VIRTUAL_CHASSIS 4: Create Virtual Chassis for Delete Test"
+  netbox.netbox.netbox_virtual_chassis:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Second VC"
+      master: Device Virtual Chassis Tests 2
+    state: present
+  register: test_four
+
+- name: "VIRTUAL_CHASSIS 4: ASSERT - Create Virtual Chassis for Delete Test"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['virtual_chassis']['master'] == 12
+      - test_four['virtual_chassis']['name'] == "Second VC"
+      - test_four['msg'] == "virtual_chassis Second VC created"
+
+- name: "VIRTUAL_CHASSIS 5: Delete Virtual Chassis"
+  netbox.netbox.netbox_virtual_chassis:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Second VC"
+      master: Device Virtual Chassis Tests 2
+    state: absent
+  register: test_five
+
+- name: "VIRTUAL_CHASSIS 5: ASSERT - Delete Virtual Chassis"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "virtual_chassis Second VC deleted"

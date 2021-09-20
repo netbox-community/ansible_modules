@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -52,6 +57,11 @@ options:
         description:
           - The slugified version of the name or custom slug.
           - This is auto-generated following NetBox rules if not provided
+        required: false
+        type: str
+      description:
+        description:
+          - The description of the ipam role
         required: false
         type: str
       weight:
@@ -73,6 +83,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -140,6 +151,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     weight=dict(required=False, type="int"),
                 ),
             ),

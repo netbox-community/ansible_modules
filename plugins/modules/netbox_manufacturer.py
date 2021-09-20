@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -54,6 +59,12 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      description:
+        description:
+          - The description of the manufacturer
+        required: false
+        type: str
+    required: true
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -67,6 +78,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -133,6 +145,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                 ),
             ),
         )

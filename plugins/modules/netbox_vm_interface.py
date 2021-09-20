@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the vm interface configuration
@@ -92,6 +97,7 @@ options:
           - Any tags that the prefix may need to be associated with
         required: false
         type: list
+        elements: raw
     required: true
     type: dict
   state:
@@ -107,6 +113,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -203,7 +210,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

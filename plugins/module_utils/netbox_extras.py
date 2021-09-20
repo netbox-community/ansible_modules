@@ -8,7 +8,10 @@ __metaclass__ = type
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
+    SLUG_REQUIRED,
 )
+
+NB_TAGS = "tags"
 
 
 class NetboxExtrasModule(NetboxModule):
@@ -20,6 +23,7 @@ class NetboxExtrasModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - tags
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -34,9 +38,18 @@ class NetboxExtrasModule(NetboxModule):
         data = self.data
 
         # Used for msg output
-        name = data.get("name")
+        if data.get("name"):
+            name = data["name"]
+        elif data.get("slug"):
+            name = data["slug"]
 
-        data["slug"] = self._to_slug(name)
+        if self.endpoint in SLUG_REQUIRED:
+            if not data.get("slug"):
+                data["slug"] = self._to_slug(name)
+
+        # Make color params lowercase
+        if data.get("color"):
+            data["color"] = data["color"].lower()
 
         object_query_params = self._build_query_params(
             endpoint_name, data, user_query_params

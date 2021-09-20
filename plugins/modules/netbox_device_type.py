@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the device type configuration
@@ -45,7 +50,7 @@ options:
       manufacturer:
         description:
           - The manufacturer of the device type
-        required: true
+        required: false
         type: raw
       model:
         description:
@@ -94,6 +99,7 @@ options:
           - Any tags that the device type may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -114,6 +120,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -206,7 +213,7 @@ def main():
                         type="str",
                     ),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

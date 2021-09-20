@@ -12,15 +12,14 @@ __metaclass__ = type
 import traceback
 import re
 import json
-from itertools import chain
 
-from ansible_collections.ansible.netcommon.plugins.module_utils.compat import ipaddress
+from itertools import chain
 
 from ansible.module_utils.common.text.converters import to_text
 
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
-from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
 
 PYNETBOX_IMP_ERR = None
@@ -52,6 +51,7 @@ API_APPS_ENDPOINTS = dict(
         "interfaces",
         "interface_templates",
         "inventory_items",
+        "locations",
         "manufacturers",
         "platforms",
         "power_feeds",
@@ -67,15 +67,17 @@ API_APPS_ENDPOINTS = dict(
         "rear_port_templates",
         "regions",
         "sites",
+        "site_groups",
         "virtual_chassis",
     ],
-    extras=[],
+    extras=["tags"],
     ipam=[
         "aggregates",
         "ip_addresses",
         "prefixes",
         "rirs",
         "roles",
+        "route_targets",
         "vlans",
         "vlan_groups",
         "vrfs",
@@ -97,14 +99,19 @@ QUERY_TYPES = dict(
     device="name",
     device_role="slug",
     device_type="slug",
+    export_targets="name",
     group="slug",
     installed_device="name",
+    import_targets="name",
+    location="slug",
     manufacturer="slug",
     nat_inside="address",
     nat_outside="address",
     parent_region="slug",
+    parent_tenant_group="slug",
     power_panel="name",
     power_port="name",
+    power_port_template="name",
     platform="slug",
     prefix_role="slug",
     primary_ip="address",
@@ -118,12 +125,16 @@ QUERY_TYPES = dict(
     rear_port_template="name",
     region="slug",
     rir="slug",
+    route_targets="name",
     slug="slug",
     site="slug",
+    site_group="slug",
     tenant="slug",
     tenant_group="slug",
     time_zone="timezone",
+    virtual_chassis="name",
     virtual_machine="name",
+    virtual_machine_role="slug",
     vlan="name",
     vlan_group="slug",
     vlan_role="name",
@@ -132,10 +143,11 @@ QUERY_TYPES = dict(
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = {
+    "assigned_object": "assigned_object",
     "circuit": "circuits",
     "circuit_type": "circuit_types",
     "circuit_termination": "circuit_terminations",
-    "circuit.circuittermination": "circuit_terminations",
+    "circuits.circuittermination": "circuit_terminations",
     "cluster": "clusters",
     "cluster_group": "cluster_groups",
     "cluster_type": "cluster_types",
@@ -150,12 +162,15 @@ CONVERT_TO_ID = {
     "device": "devices",
     "device_role": "device_roles",
     "device_type": "device_types",
+    "export_targets": "route_targets",
     "group": "tenant_groups",
+    "import_targets": "route_targets",
     "installed_device": "devices",
     "interface": "interfaces",
     "interface_template": "interface_templates",
     "ip_addresses": "ip_addresses",
     "ipaddresses": "ip_addresses",
+    "location": "locations",
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
@@ -163,8 +178,10 @@ CONVERT_TO_ID = {
     "nat_outside": "ip_addresses",
     "platform": "platforms",
     "parent_region": "regions",
+    "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
     "power_port": "power_ports",
+    "power_port_template": "power_port_templates",
     "prefix_role": "roles",
     "primary_ip": "ip_addresses",
     "primary_ip4": "ip_addresses",
@@ -177,8 +194,13 @@ CONVERT_TO_ID = {
     "rear_port": "rear_ports",
     "rear_port_template": "rear_port_templates",
     "rir": "rirs",
+    "route_targets": "route_targets",
+    # Just a placeholder as scope can be several different types including sites.
+    "scope": "sites",
     "services": "services",
     "site": "sites",
+    "site_group": "site_groups",
+    "tags": "tags",
     "tagged_vlans": "vlans",
     "tenant": "tenants",
     "tenant_group": "tenant_groups",
@@ -218,6 +240,7 @@ ENDPOINT_NAME_MAPPING = {
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
     "ip_addresses": "ip_address",
+    "locations": "location",
     "manufacturers": "manufacturer",
     "platforms": "platform",
     "power_feeds": "power_feed",
@@ -236,8 +259,11 @@ ENDPOINT_NAME_MAPPING = {
     "regions": "region",
     "rirs": "rir",
     "roles": "role",
+    "route_targets": "route_target",
     "services": "services",
     "sites": "site",
+    "site_groups": "site_group",
+    "tags": "tags",
     "tenants": "tenant",
     "tenant_groups": "tenant_group",
     "virtual_chassis": "virtual_chassis",
@@ -249,10 +275,11 @@ ENDPOINT_NAME_MAPPING = {
 
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "assigned_object": set(["name", "device", "virtual_machine"]),
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
-    "circuit.circuittermination": set(["circuit", "term_side"]),
+    "circuits.circuittermination": set(["circuit", "term_side"]),
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
@@ -279,14 +306,16 @@ ALLOWED_QUERY_PARAMS = {
     "interface": set(["name", "device", "virtual_machine"]),
     "interface_template": set(["name", "device_type"]),
     "inventory_item": set(["name", "device"]),
-    "ip_address": set(["address", "vrf", "interface"]),
-    "ip_addresses": set(["address", "vrf", "device", "interface"]),
-    "ipaddresses": set(["address", "vrf", "device", "interface"]),
+    "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
+    "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
+    "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "lag": set(["name"]),
+    "location": set(["slug"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_region": set(["slug"]),
+    "parent_tenant_group": set(["slug"]),
     "platform": set(["slug"]),
     "power_feed": set(["name", "power_panel"]),
     "power_outlet": set(["name", "device"]),
@@ -306,18 +335,20 @@ ALLOWED_QUERY_PARAMS = {
     "rear_port_template": set(["name", "device_type"]),
     "rir": set(["slug"]),
     "role": set(["slug"]),
+    "route_target": set(["name"]),
     "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
     "site": set(["slug"]),
-    "tagged_vlans": set(["name", "site", "vlan_group", "tenant"]),
+    "tags": set(["slug"]),
+    "tagged_vlans": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
     "tenant": set(["slug"]),
     "tenant_group": set(["slug"]),
     "termination_a": set(["name", "device", "virtual_machine"]),
     "termination_b": set(["name", "device", "virtual_machine"]),
-    "untagged_vlan": set(["name", "site", "vlan_group", "tenant"]),
-    "virtual_chassis": set(["master"]),
+    "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
+    "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
-    "vlan": set(["name", "site", "tenant", "vlan_group"]),
-    "vlan_group": set(["slug", "site"]),
+    "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
+    "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
 }
 
@@ -331,9 +362,11 @@ QUERY_PARAMS_IDS = set(
         "rir",
         "vrf",
         "site",
+        "scope",
         "tenant",
         "type",
         "virtual_machine",
+        "rack",
     ]
 )
 
@@ -368,10 +401,14 @@ REQUIRED_ID_FIND = {
 
 # This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
+    "assigned_object": "assigned_object_id",
+    "scope": "scope_id",
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
     "parent_region": "parent",
+    "parent_tenant_group": "parent",
+    "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
     "rack_role": "role",
@@ -385,7 +422,7 @@ CONVERT_KEYS = {
     "vlan_group": "group",
 }
 
-# This is used to dynamically conver name to slug on endpoints requiring a slug
+# This is used to dynamically convert name to slug on endpoints requiring a slug
 SLUG_REQUIRED = {
     "circuit_types",
     "cluster_groups",
@@ -393,12 +430,15 @@ SLUG_REQUIRED = {
     "device_roles",
     "device_types",
     "ipam_roles",
+    "locations",
     "rack_groups",
     "rack_roles",
     "regions",
     "rirs",
     "roles",
     "sites",
+    "site_groups",
+    "tags",
     "tenants",
     "tenant_groups",
     "manufacturers",
@@ -407,12 +447,23 @@ SLUG_REQUIRED = {
     "vlan_groups",
 }
 
+SCOPE_TO_ENDPOINT = {
+    "dcim.location": "locations",
+    "dcim.rack": "racks",
+    "dcim.region": "regions",
+    "dcim.site": "sites",
+    "dcim.sitegroup": "site_groups",
+    "virtualization.cluster": "clusters",
+    "virtualization.clustergroup": "cluster_groups",
+}
+
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
     state=dict(required=False, default="present", choices=["present", "absent"]),
-    query_params=dict(required=False, type="list"),
+    query_params=dict(required=False, type="list", elements="str"),
     validate_certs=dict(type="raw", default=True),
+    cert=dict(type="raw", required=False),
 )
 
 
@@ -430,7 +481,6 @@ class NetboxModule(object):
         self.state = self.module.params["state"]
         self.check_mode = self.module.check_mode
         self.endpoint = endpoint
-        self.version = None
         query_params = self.module.params.get("query_params")
 
         if not HAS_PYNETBOX:
@@ -441,12 +491,17 @@ class NetboxModule(object):
         url = self.module.params["netbox_url"]
         token = self.module.params["netbox_token"]
         ssl_verify = self.module.params["validate_certs"]
+        cert = self.module.params["cert"]
 
         # Attempt to initiate connection to Netbox
         if nb_client is None:
-            self.nb = self._connect_netbox_api(url, token, ssl_verify)
+            self.nb = self._connect_netbox_api(url, token, ssl_verify, cert)
         else:
             self.nb = nb_client
+            try:
+                self.version = self.nb.version
+            except AttributeError:
+                self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
         # if self.module.params.get("query_params"):
         #    self._validate_query_params(self.module.params["query_params"])
@@ -458,14 +513,41 @@ class NetboxModule(object):
         data = self._find_ids(choices_data, query_params)
         self.data = self._convert_identical_keys(data)
 
-    def _connect_netbox_api(self, url, token, ssl_verify):
+    def _version_check_greater(self, greater, lesser, greater_or_equal=False):
+        """Determine if first argument is greater than second argument.
+
+        Args:
+            greater (str): decimal string
+            lesser (str): decimal string
+        """
+        g_major, g_minor = greater.split(".")
+        l_major, l_minor = lesser.split(".")
+
+        # convert to ints
+        g_major = int(g_major)
+        g_minor = int(g_minor)
+        l_major = int(l_major)
+        l_minor = int(l_minor)
+
+        # If major version is higher then return true right off the bat
+        if g_major > l_major:
+            return True
+        elif greater_or_equal and g_major == l_major and g_minor >= l_minor:
+            return True
+        # If major versions are equal, and minor version is higher, return True
+        elif g_major == l_major and g_minor > l_minor:
+            return True
+
+    def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
             session = requests.Session()
             session.verify = ssl_verify
+            if cert:
+                session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
-                self.version = float(nb.version)
+                self.version = nb.version
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
@@ -549,13 +631,16 @@ class NetboxModule(object):
         :params data (dict): Data dictionary after _find_ids method ran
         """
         temp_dict = dict()
-        if self.version and self.version >= 2.7:
+        if self._version_check_greater(self.version, "2.7", greater_or_equal=True):
             if data.get("form_factor"):
-                temp_dict["type"] = data["form_factor"]
+                temp_dict["type"] = data.pop("form_factor")
         for key in data:
             if self.endpoint == "power_panels" and key == "rack_group":
                 temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
+                # This will keep the original key for keys in list, but also convert it.
+                if key in ("assigned_object", "scope"):
+                    temp_dict[key] = data[key]
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
             else:
@@ -569,7 +654,10 @@ class NetboxModule(object):
         """
         new_dict = dict()
         for k, v in data.items():
-            if v is not None:
+            if isinstance(v, dict):
+                v = self._remove_arg_spec_default(v)
+                new_dict[k] = v
+            elif v is not None:
                 new_dict[k] = v
 
         return new_dict
@@ -608,6 +696,14 @@ class NetboxModule(object):
         :params child(dict): This is used within `_find_ids` and passes the inner dictionary
         to build the appropriate `query_dict` for the parent
         """
+        # This is to change the parent key to use the proper ALLOWED_QUERY_PARAMS below for termination searches.
+        if parent == "termination_a" and module_data.get("termination_a_type"):
+            parent = module_data["termination_a_type"]
+        elif parent == "termination_b" and module_data.get("termination_b_type"):
+            parent = module_data["termination_b_type"]
+        elif parent == "scope":
+            parent = ENDPOINT_NAME_MAPPING[SCOPE_TO_ENDPOINT[module_data["scope_type"]]]
+
         query_dict = dict()
         if user_query_params:
             query_params = set(user_query_params)
@@ -633,7 +729,11 @@ class NetboxModule(object):
                     value = module_data.get(match)
                 query_dict.update({match: value})
 
-        if parent == "lag":
+        if user_query_params:
+            # This is to skip any potential changes using module_data when the user
+            # provides user_query_params
+            pass
+        elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
             intf_type = self._fetch_choice_value(
@@ -648,11 +748,25 @@ class NetboxModule(object):
         elif parent == "prefix" and module_data.get("parent"):
             query_dict.update({"prefix": module_data["parent"]})
 
-        elif parent == "ip_addreses":
+        elif parent == "ip_addresses":
             if isinstance(module_data["device"], int):
                 query_dict.update({"device_id": module_data["device"]})
             else:
                 query_dict.update({"device": module_data["device"]})
+
+        elif (
+            parent == "ip_address"
+            and "assigned_object" in matches
+            and module_data.get("assigned_object_type")
+        ):
+            if module_data["assigned_object_type"] == "virtualization.vminterface":
+                query_dict.update(
+                    {"vminterface_id": module_data.get("assigned_object_id")}
+                )
+            elif module_data["assigned_object_type"] == "dcim.interface":
+                query_dict.update(
+                    {"interface_id": module_data.get("assigned_object_id")}
+                )
 
         elif parent == "virtual_chassis":
             query_dict = {"q": self.module.params["data"].get("master")}
@@ -673,9 +787,37 @@ class NetboxModule(object):
                 }
                 query_dict.update(rear_port_template)
 
+        elif parent == "power_port" and self.endpoint == "power_outlets":
+            if isinstance(module_data.get("power_port"), str):
+                power_port = {
+                    "device_id": module_data.get("device"),
+                    "name": module_data.get("power_port"),
+                }
+                query_dict.update(power_port)
+
+        elif (
+            parent == "power_port_template"
+            and self.endpoint == "power_outlet_templates"
+        ):
+            if isinstance(module_data.get("power_port_template"), str):
+                power_port_template = {
+                    "devicetype_id": module_data.get("device_type"),
+                    "name": module_data.get("power_port_template"),
+                }
+                query_dict.update(power_port_template)
+
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")
+
+        if not query_dict:
+            provided_kwargs = child.keys() if child else module_data.keys()
+            acceptable_query_params = (
+                user_query_params if user_query_params else query_params
+            )
+            self._handle_errors(
+                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: {', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
+            )
 
         query_dict = self._convert_identical_keys(query_dict)
         return query_dict
@@ -691,7 +833,7 @@ class NetboxModule(object):
                 msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
             )
 
-        choices = [x for x in chain.from_iterable(endpoint_choices.values())]
+        choices = list(chain.from_iterable(endpoint_choices.values()))
 
         for item in choices:
             if item["display_name"].lower() == search.lower():
@@ -738,10 +880,22 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
+                if (
+                    not self._version_check_greater(
+                        self.version, "2.9", greater_or_equal=True
+                    )
+                    and k == "tags"
+                ):
+                    continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
                 elif k == "termination_b":
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
+                elif k == "assigned_object":
+                    endpoint = "interfaces"
+                elif k == "scope":
+                    # Determine endpoint name for scope ID resolution
+                    endpoint = SCOPE_TO_ENDPOINT[data["scope_type"]]
                 else:
                     endpoint = CONVERT_TO_ID[k]
                 search = v
@@ -750,27 +904,53 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
-                    if k == "interface" and v.get("virtual_machine"):
+                    if (k == "interface" or k == "assigned_object") and v.get(
+                        "virtual_machine"
+                    ):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
-
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        norm_data = self._normalize_data(list_item)
-                        temp_dict = self._build_query_params(k, data, child=norm_data)
+                        if k == "tags" and isinstance(list_item, str):
+                            temp_dict = {"slug": self._to_slug(list_item)}
+                        elif isinstance(list_item, dict):
+                            norm_data = self._normalize_data(list_item)
+                            temp_dict = self._build_query_params(
+                                k, data, child=norm_data
+                            )
+                        # If user passes in an integer, add to ID list to id_list as user
+                        # should have passed in a tag ID
+                        elif isinstance(list_item, int):
+                            id_list.append(list_item)
+                            continue
+                        else:
+                            temp_dict = {QUERY_TYPES.get(k, "q"): search}
+
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
                             id_list.append(query_id.id)
                         else:
                             self._handle_errors(msg="%s not found" % (list_item))
                 else:
-                    if k in ["lag", "rear_port", "rear_port_template"]:
+                    if k in [
+                        "lag",
+                        "rear_port",
+                        "rear_port_template",
+                        "power_port",
+                        "power_port_template",
+                    ]:
                         query_params = self._build_query_params(
                             k, data, user_query_params
                         )
+                    elif k == "scope":
+                        query_params = {
+                            QUERY_TYPES.get(
+                                ENDPOINT_NAME_MAPPING[endpoint], "q"
+                            ): search
+                        }
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
@@ -820,7 +1000,13 @@ class NetboxModule(object):
                         if sub_data_type == "slug":
                             data[k][subk] = self._to_slug(subv)
             else:
-                data_type = QUERY_TYPES.get(k, "q")
+                if k == "scope":
+                    data_type = QUERY_TYPES.get(
+                        ENDPOINT_NAME_MAPPING[SCOPE_TO_ENDPOINT[data["scope_type"]]],
+                        "q",
+                    )
+                else:
+                    data_type = QUERY_TYPES.get(k, "q")
                 if data_type == "slug":
                     data[k] = self._to_slug(v)
                 elif data_type == "timezone":
@@ -831,6 +1017,14 @@ class NetboxModule(object):
 
             if k == "mac_address":
                 data[k] = v.upper()
+
+        # We need to assign the correct type for the assigned object so the user doesn't have to worry about this.
+        # We determine it by whether or not they pass in a device or virtual_machine
+        if data.get("assigned_object"):
+            if data["assigned_object"].get("device"):
+                data["assigned_object_type"] = "dcim.interface"
+            if data["assigned_object"].get("virtual_machine"):
+                data["assigned_object_type"] = "virtualization.vminterface"
 
         return data
 
@@ -870,11 +1064,10 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
+        updated_obj.update(data)
         if serialized_nb_obj.get("tags") and data.get("tags"):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
-        else:
-            updated_obj.update(data)
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
@@ -974,6 +1167,7 @@ class NetboxAnsibleModule(AnsibleModule):
         required_if=None,
         required_by=None,
     ):
+        # Sets each check to None so they are not run in AnsibleModule
         super().__init__(
             argument_spec,
             bypass_checks=False,
@@ -983,8 +1177,63 @@ class NetboxAnsibleModule(AnsibleModule):
             required_one_of=None,
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
-            required_if=required_if,
+            required_if=None,
         )
+
+        # Quick fix to support ansible-core 2.11
+        #
+        # Load the params manually as the self.params already have the defaults set
+        params = _load_params()
+
+        # Run each check manually providing the params
+        if mutually_exclusive:
+            self._check_mutually_exclusive(mutually_exclusive, param=params)
+
+        if required_together:
+            self._check_required_together(required_together, param=params)
+
+        if required_one_of:
+            self._check_required_one_of(required_one_of, param=params)
+
+        if required_if:
+            self._check_required_if(required_if, param=params)
+
+    def _check_mutually_exclusive(self, spec, param=None):
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_mutually_exclusive(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_mutually_exclusive(self, terms, module_parameters):
+        """Check mutually exclusive terms against argument parameters
+        Accepts a single list or list of lists that are groups of terms that should be
+        mutually exclusive with one another
+        :arg terms: List of mutually exclusive module parameters
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for check in terms:
+            count = self.count_terms(check, module_parameters["data"])
+            if count > 1:
+                results.append(check)
+
+        if results:
+            full_list = ["|".join(check) for check in results]
+            msg = "parameters are mutually exclusive: %s" % ", ".join(full_list)
+            raise TypeError(to_native(msg))
+
+        return results
 
     def _check_required_if(self, spec, param=None):
         """ ensure that parameters which conditionally required are present """
@@ -1044,6 +1293,91 @@ class NetboxAnsibleModule(AnsibleModule):
                     missing["requires"],
                     ", ".join(missing["missing"]),
                 )
+                raise TypeError(to_native(msg))
+
+        return results
+
+    def _check_required_one_of(self, spec, param=None):
+        if spec is None:
+            return
+
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_required_one_of(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_required_one_of(self, terms, module_parameters):
+        """Check each list of terms to ensure at least one exists in the given module
+        parameters
+        Accepts a list of lists or tuples
+        :arg terms: List of lists of terms to check. For each list of terms, at
+            least one is required.
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for term in terms:
+            count = self.count_terms(term, module_parameters["data"])
+            if count == 0:
+                results.append(term)
+
+        if results:
+            for term in results:
+                msg = "one of the following is required: %s" % ", ".join(term)
+                raise TypeError(to_native(msg))
+
+        return results
+
+    def _check_required_together(self, spec, param=None):
+        if spec is None:
+            return
+        if param is None:
+            param = self.params
+
+        try:
+            self.check_required_together(spec, param)
+        except TypeError as e:
+            msg = to_native(e)
+            if self._options_context:
+                msg += " found in %s" % " -> ".join(self._options_context)
+            self.fail_json(msg=msg)
+
+    def check_required_together(self, terms, module_parameters):
+        """Check each list of terms to ensure every parameter in each list exists
+        in the given module parameters
+        Accepts a list of lists or tuples
+        :arg terms: List of lists of terms to check. Each list should include
+            parameters that are all required when at least one is specified
+            in the module_parameters.
+        :arg module_parameters: Dictionary of module parameters
+        :returns: Empty list or raises TypeError if the check fails.
+        """
+
+        results = []
+        if terms is None:
+            return results
+
+        for term in terms:
+            counts = [
+                self.count_terms(field, module_parameters["data"]) for field in term
+            ]
+            non_zero = [c for c in counts if c > 0]
+            if len(non_zero) > 0:
+                if 0 in counts:
+                    results.append(term)
+        if results:
+            for term in results:
+                msg = "parameters are required together: %s" % ", ".join(term)
                 raise TypeError(to_native(msg))
 
         return results

@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -46,7 +51,7 @@ options:
       device:
         description:
           - Name of the device the inventory item belongs to
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -82,12 +87,14 @@ options:
         description:
           - Set the discovery flag for the inventory item
         required: false
+        default: false
         type: bool
       tags:
         description:
           - Any tags that the device may need to be associated with
         required: false
         type: list
+        elements: raw
     required: true
   state:
     description:
@@ -102,6 +109,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -191,7 +199,7 @@ def main():
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

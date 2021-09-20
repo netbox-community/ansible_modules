@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     required: true
@@ -135,6 +140,7 @@ options:
           - Any tags that the power port may need to be associated with
         required: false
         type: list
+        elements: raw
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -148,6 +154,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -292,7 +299,7 @@ def main():
                     allocated_draw=dict(required=False, type="int"),
                     maximum_draw=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

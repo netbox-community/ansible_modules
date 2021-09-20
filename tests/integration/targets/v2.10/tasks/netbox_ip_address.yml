@@ -1,0 +1,337 @@
+---
+##
+##
+### NETBOX_IP_ADDRESS
+##
+##
+- name: "1 - Create IP address within Netbox with only required information - State: Present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.1.10/30
+    state: present
+  register: test_one
+
+- name: "1 - ASSERT"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['msg'] == "ip_address 192.168.1.10/30 created"
+      - test_one['ip_address']['address'] == "192.168.1.10/30"
+
+- name: "2 - Update 192.168.1.10/30"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.1.10/30
+      description: "Updated ip address"
+      tags:
+        - "Updated"
+    state: present
+  register: test_two
+
+- name: "2 - ASSERT"
+  assert:
+    that:
+      - test_two is changed
+      - test_two['diff']['after']['description'] == "Updated ip address"
+      - test_two['diff']['after']['tags'][0] == 10
+      - test_two['msg'] == "ip_address 192.168.1.10/30 updated"
+      - test_two['ip_address']['address'] == "192.168.1.10/30"
+      - test_two['ip_address']['tags'][0] == 10
+      - test_two['ip_address']['description'] == "Updated ip address"
+
+- name: "3 - Delete IP - 192.168.1.10 - State: Absent"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.1.10/30
+    state: absent
+  register: test_three
+
+- name: "3 - ASSERT"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "present"
+      - test_three['diff']['after']['state'] == "absent"
+      - test_three['msg'] == "ip_address 192.168.1.10/30 deleted"
+
+- name: "4 - Create IP in global VRF - 192.168.1.20/30 - State: Present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.1.20/30
+    state: present
+  register: test_four
+
+- name: "4 - ASSERT"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['msg'] == "ip_address 192.168.1.20/30 created"
+      - test_four['ip_address']['address'] == "192.168.1.20/30"
+
+- name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.1.20/30
+    state: new
+  register: test_five
+
+- name: "5 - ASSERT"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['msg'] == "ip_address 192.168.1.20/30 created"
+      - test_five['ip_address']['address'] == "192.168.1.20/30"
+
+- name: "6 - Create new address with only prefix specified - State: new"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      prefix: 192.168.100.0/24
+    state: new
+  register: test_six
+
+- name: "6 - ASSERT"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['msg'] == "ip_address 192.168.100.1/24 created"
+      - test_six['ip_address']['address'] == "192.168.100.1/24"
+
+- name: "7 - Create IP address with several specified"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 172.16.1.20/24
+      vrf: Test VRF
+      tenant: Test Tenant
+      status: Reserved
+      role: Loopback
+      description: Test description
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_seven
+
+- name: "7 - ASSERT"
+  assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['before']['state'] == "absent"
+      - test_seven['diff']['after']['state'] == "present"
+      - test_seven['msg'] == "ip_address 172.16.1.20/24 created"
+      - test_seven['ip_address']['address'] == "172.16.1.20/24"
+      - test_seven['ip_address']['description'] == "Test description"
+      - test_seven['ip_address']['role'] == "loopback"
+      - test_seven['ip_address']['status'] == "reserved"
+      - test_seven['ip_address']['tags'][0] == 4
+      - test_seven['ip_address']['tenant'] == 1
+      - test_seven['ip_address']['vrf'] == 1
+
+- name: "8 - Create IP address and assign a nat_inside IP"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.10.1.30/16
+      vrf: Test VRF
+      nat_inside:
+        address: 172.16.1.20
+        vrf: Test VRF
+  register: test_eight
+
+- name: "8 - ASSERT"
+  assert:
+    that:
+      - test_eight is changed
+      - test_eight['diff']['before']['state'] == "absent"
+      - test_eight['diff']['after']['state'] == "present"
+      - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
+      - test_eight['ip_address']['address'] == "10.10.1.30/16"
+      - test_eight['ip_address'].get('nat_inside')
+      - test_eight['ip_address']['vrf'] == 1
+
+- name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.10.200.30/16
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+  register: test_nine
+
+- name: "9 - ASSERT"
+  assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['before']['state'] == "absent"
+      - test_nine['diff']['after']['state'] == "present"
+      - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
+      - test_nine['ip_address']['address'] == "10.10.200.30/16"
+      - test_nine['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_nine['ip_address']['assigned_object_id'] == 4
+
+- name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      prefix: 10.10.0.0/16
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+    state: new
+  register: test_ten
+
+- name: "10 - ASSERT"
+  assert:
+    that:
+      - test_ten is changed
+      - test_ten['diff']['before']['state'] == "absent"
+      - test_ten['diff']['after']['state'] == "present"
+      - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
+      - test_ten['ip_address']['address'] == "10.10.0.1/16"
+      - test_ten['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_ten['ip_address']['assigned_object_id'] == 4
+
+- name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      prefix: 192.168.100.0/24
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_eleven
+
+- name: "11 - ASSERT"
+  assert:
+    that:
+      - test_eleven is changed
+      - test_eleven['diff']['before']['state'] == "absent"
+      - test_eleven['diff']['after']['state'] == "present"
+      - test_eleven['msg'] == "ip_address 192.168.100.2/24 created"
+      - test_eleven['ip_address']['address'] == "192.168.100.2/24"
+
+- name: "12 - Duplicate - 192.168.100.2/24 on interface"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.100.2/24
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_twelve
+
+- name: "12 - ASSERT"
+  assert:
+    that:
+      - not test_twelve['changed']
+      - test_twelve['msg'] == "ip_address 192.168.100.2/24 already exists"
+      - test_twelve['ip_address']['address'] == "192.168.100.2/24"
+      - test_twelve['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_twelve['ip_address']['assigned_object_id'] == 4
+
+- name: "13 - Duplicate - 192.168.100.2/24"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 192.168.100.2/24
+    state: present
+  register: test_thirteen
+
+- name: "13 - ASSERT"
+  assert:
+    that:
+      - not test_thirteen['changed']
+      - test_thirteen['msg'] == "ip_address 192.168.100.2/24 already exists"
+      - test_thirteen['ip_address']['address'] == "192.168.100.2/24"
+
+- name: "14 - Create IP address on Eth0 - test100-vm - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.188.1.100/24
+      assigned_object:
+        name: Eth0
+        virtual_machine: test100-vm
+  register: test_fourteen
+
+- name: "14 - ASSERT"
+  assert:
+    that:
+      - test_fourteen is changed
+      - test_fourteen['diff']['before']['state'] == "absent"
+      - test_fourteen['diff']['after']['state'] == "present"
+      - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
+      - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
+      - test_fourteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
+      - test_fourteen['ip_address']['assigned_object_id'] == 1
+
+- name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.188.1.100/24
+      assigned_object:
+        name: Eth0
+        virtual_machine: test101-vm
+    state: "present"
+  register: test_fifteen
+
+- name: "15 - ASSERT"
+  assert:
+    that:
+      - test_fifteen is changed
+      - test_fifteen['diff']['before']['state'] == "absent"
+      - test_fifteen['diff']['after']['state'] == "present"
+      - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
+      - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
+      - test_fifteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
+      - test_fifteen['ip_address']['assigned_object_id'] == 6
+
+- name: "16 - Create IP address with no mask - State: Present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost.org:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      address: 10.120.10.1
+    state: present
+  register: test_sixteen
+
+- name: "16 - ASSERT"
+  assert:
+    that:
+      - test_sixteen is changed
+      - test_sixteen['diff']['before']['state'] == "absent"
+      - test_sixteen['diff']['after']['state'] == "present"
+      - test_sixteen['msg'] == "ip_address 10.120.10.1/32 created"
+      - test_sixteen['ip_address']['address'] == "10.120.10.1/32"

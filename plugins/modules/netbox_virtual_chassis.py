@@ -39,16 +39,26 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     required: true
     description:
       - Defines the virtual chassis configuration
     suboptions:
+      name:
+        description:
+          - Name
+        required: false
+        type: str
       master:
         description:
           - The master device the virtual chassis is attached to
-        required: true
+        required: false
         type: raw
       domain:
         description:
@@ -60,6 +70,7 @@ options:
           - Any tags that the virtual chassis may need to be associated with
         required: false
         type: list
+        elements: raw
   state:
     description:
       - Use C(present) or C(absent) for adding or removing.
@@ -73,6 +84,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -92,6 +104,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
+          name: "Virtual Chassis 1"
           master: Test Device
         state: present
 
@@ -146,21 +159,26 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    master=dict(required=True, type="raw"),
+                    name=dict(required=False, type="str"),
+                    master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )
     )
 
-    required_if = [
-        ("state", "present", ["master"]),
-        ("state", "absent", ["master"]),
-    ]
+    # required_if = [
+    #    ("state", "present", ["master"]),
+    #    ("state", "absent", ["master"]),
+    # ]
+    required_one_of = [["name", "master"]]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        # required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_virtual_chassis = NetboxDcimModule(module, NB_VIRTUAL_CHASSIS)

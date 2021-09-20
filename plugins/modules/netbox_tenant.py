@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -73,6 +78,7 @@ options:
           - Any tags that the tenant may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -92,6 +98,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - |
@@ -129,7 +136,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Tenant ABC
-          group: Very Special Tenants
+          tenant_group: Very Special Tenants
           description: ABC Incorporated
           comments: '### This tenant is super cool'
           slug: tenant_abc
@@ -178,7 +185,7 @@ def main():
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

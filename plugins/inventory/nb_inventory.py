@@ -35,6 +35,24 @@ DOCUMENTATION = """
                 - Allows connection when SSL certificates are not valid. Set to C(false) when certificates are not trusted.
             default: True
             type: boolean
+        cert:
+            description:
+                - Certificate path
+            default: False
+        key:
+            description:
+                - Certificate key path
+            default: False
+        ca_path:
+            description:
+                - CA path
+            default: False
+        follow_redirects:
+            description:
+                - Determine how redirects are followed.
+                - By default, I(follow_redirects) is set to uses urllib2 default behavior.
+            default: urllib2
+            choices: ['urllib2', 'all', 'yes', 'safe', 'none']
         config_context:
             description:
                 - If True, it adds config_context in host vars.
@@ -103,15 +121,21 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.1"
         group_by:
-            description: Keys used to create groups. The I(plurals) option controls which of these are valid.
+            description:
+                - Keys used to create groups. The I(plurals) option controls which of these are valid.
+                - I(rack_group) is supported on NetBox versions 2.10 or lower only
+                - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
             choices:
                 - sites
                 - site
+                - location
                 - tenants
                 - tenant
                 - racks
                 - rack
+                - rack_group
+                - rack_role
                 - tags
                 - tag
                 - device_roles
@@ -127,6 +151,8 @@ DOCUMENTATION = """
                 - cluster_type
                 - cluster_group
                 - is_virtual
+                - services
+                - status
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -156,6 +182,23 @@ DOCUMENTATION = """
             type: int
             default: 4000
             version_added: "0.2.1"
+        virtual_chassis_name:
+            description:
+                - When a device is part of a virtual chassis, use the virtual chassis name as the Ansible inventory hostname.
+                - The host var values will be from the virtual chassis master.
+            type: boolean
+            default: False
+        dns_name:
+            description:
+                - Force IP Addresses to be fetched so that the dns_name for the primary_ip of each device or VM is set as a host_var.
+                - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
+            type: boolean
+            default: False
+        ansible_host_dns_name:
+            description:
+                - If True, sets DNS Name (fetched from primary_ip) to be used in ansible_host variable, instead of IP Address.
+            type: boolean
+            default: False
         compose:
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
@@ -187,7 +230,7 @@ query_filters:
   - tag: web
   - tag: production
 
-# See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+# See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
 # the query_filters work as a logical **OR**
 #
 # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string
@@ -203,6 +246,13 @@ compose:
   foo: last_updated
   bar: display_name
   nested_variable: rack.display_name
+
+# You can use keyed_groups to group on properties of devices or VMs.
+# NOTE: It's only possible to key off direct items on the device/VM objects.
+plugin: netbox.netbox.nb_inventory
+keyed_groups:
+  - prefix: status
+    key: status.value
 """
 
 import json
@@ -214,16 +264,16 @@ from threading import Thread
 from typing import Iterable
 from itertools import chain
 from collections import defaultdict
+from ipaddress import ip_interface
+from packaging import specifiers, version
 
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
-from ansible.module_utils._text import to_text
+from ansible.module_utils._text import to_text, to_native
 from ansible.module_utils.urls import open_url
+from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
-from ansible_collections.ansible.netcommon.plugins.module_utils.compat.ipaddress import (
-    ip_interface,
-)
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
@@ -254,12 +304,34 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if need_to_fetch:
             self.display.v("Fetching: " + url)
-            response = open_url(
-                url,
-                headers=self.headers,
-                timeout=self.timeout,
-                validate_certs=self.validate_certs,
-            )
+            try:
+                response = open_url(
+                    url,
+                    headers=self.headers,
+                    timeout=self.timeout,
+                    validate_certs=self.validate_certs,
+                    follow_redirects=self.follow_redirects,
+                    client_cert=self.cert,
+                    client_key=self.key,
+                    ca_path=self.ca_path,
+                )
+            except urllib_error.HTTPError as e:
+                """This will return the response body when we encounter an error.
+                This is to help determine what might be the issue when encountering an error.
+                Please check issue #294 for more info.
+                """
+                # Prevent inventory from failing completely if the token does not have the proper permissions for specific URLs
+                if e.code == 403:
+                    self.display.display(
+                        "Permission denied: {0}. This may impair functionality of the inventory plugin.".format(
+                            url
+                        ),
+                        color="red",
+                    )
+                    # Need to return mock response data that is empty to prevent any failures downstream
+                    return {"results": [], "next": None}
+
+                raise AnsibleError(to_native(e.fp.read()))
 
             try:
                 raw_data = to_text(response.read(), errors="surrogate_or_strict")
@@ -281,8 +353,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def get_resource_list(self, api_url):
         """Retrieves resource list from netbox API.
-         Returns:
-            A list of all resource from netbox API.
+        Returns:
+           A list of all resource from netbox API.
         """
         if not api_url:
             raise AnsibleError("Please check API URL in script configuration file.")
@@ -317,7 +389,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if chunk_size < 1:
             chunk_size = 1
 
-        if self.api_version == "2.6":
+        if self.api_version in specifiers.SpecifierSet("~=2.6.0"):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
@@ -347,6 +419,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "disk": self.extract_disk,
             "memory": self.extract_memory,
             "vcpus": self.extract_vcpus,
+            "status": self.extract_status,
             "config_context": self.extract_config_context,
             "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
@@ -358,12 +431,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("rack"): self.extract_rack,
+            "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
             self._pluralize_group_by("platform"): self.extract_platform,
             self._pluralize_group_by("device_type"): self.extract_device_type,
             self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
+
+        # Locations were added in 2.11 replacing rack-groups.
+        if self.api_version >= version.parse("2.11"):
+            extractors.update(
+                {"location": self.extract_location,}
+            )
+        else:
+            extractors.update(
+                {"rack_group": self.extract_rack_group,}
+            )
 
         if self.services:
             extractors.update(
@@ -373,6 +457,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.interfaces:
             extractors.update(
                 {"interfaces": self.extract_interfaces,}
+            )
+
+        if self.interfaces or self.dns_name or self.ansible_host_dns_name:
+            extractors.update(
+                {"dns_name": self.extract_dns_name,}
             )
 
         return extractors
@@ -402,11 +491,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         else:
             return extracted_value
 
+    def _objects_array_following_parents(
+        self, initial_object_id, object_lookup, object_parent_lookup
+    ):
+        objects = []
+
+        object_id = initial_object_id
+
+        # Keep looping until the object has no parent
+        while object_id is not None:
+            object_slug = object_lookup[object_id]
+
+            if object_slug in objects:
+                # Won't ever happen - defensively guard against infinite loop
+                break
+
+            objects.append(object_slug)
+
+            # Get the parent of this object
+            object_id = object_parent_lookup[object_id]
+
+        return objects
+
     def extract_disk(self, host):
         return host.get("disk")
 
     def extract_vcpus(self, host):
         return host.get("vcpus")
+
+    def extract_status(self, host):
+        return host["status"]
 
     def extract_memory(self, host):
         return host.get("memory")
@@ -439,6 +553,35 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_rack(self, host):
         try:
             return self._pluralize(self.racks_lookup[host["rack"]["id"]])
+        except Exception:
+            return
+
+    def extract_rack_group(self, host):
+        # A host may have a rack. A rack may have a rack_group. A rack_group may have a parent rack_group.
+        # Produce a list of rack_groups:
+        # - it will be empty if the device has no rack, or the rack has no rack_group
+        # - it will have 1 element if the rack's group has no parent
+        # - it will have multiple elements if the rack's group has a parent group
+
+        rack = host.get("rack", None)
+        if not isinstance(rack, dict):
+            # Device has no rack
+            return None
+
+        rack_id = rack.get("id", None)
+        if rack_id is None:
+            # Device has no rack
+            return None
+
+        return self._objects_array_following_parents(
+            initial_object_id=self.racks_group_lookup[rack_id],
+            object_lookup=self.rack_groups_lookup,
+            object_parent_lookup=self.rack_group_parent_lookup,
+        )
+
+    def extract_rack_role(self, host):
+        try:
+            return self.racks_role_lookup[host["rack"]["id"]]
         except Exception:
             return
 
@@ -515,7 +658,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_tags(self, host):
-        return host["tags"]
+        try:
+            tag_zero = host["tags"][0]
+            # Check the type of the first element in the "tags" array.
+            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
+            if isinstance(tag_zero, dict):
+                return list(sub["slug"] for sub in host["tags"])
+            # If a string (Netbox <= 2.8), return the original "tags" array.
+            elif isinstance(tag_zero, str):
+                return host["tags"]
+        # If tag_zero fails definition (no tags), return the empty array.
+        except Exception:
+            return host["tags"]
 
     def extract_interfaces(self, host):
         try:
@@ -528,11 +682,22 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             interfaces = list(interfaces_lookup[host["id"]].values())
 
+            before_netbox_v29 = bool(self.ipaddresses_intf_lookup)
             # Attach IP Addresses to their interface
             for interface in interfaces:
-                interface["ip_addresses"] = list(
-                    self.ipaddresses_lookup[interface["id"]].values()
-                )
+                if before_netbox_v29:
+                    interface["ip_addresses"] = list(
+                        self.ipaddresses_intf_lookup[interface["id"]].values()
+                    )
+                else:
+                    interface["ip_addresses"] = list(
+                        self.vm_ipaddresses_intf_lookup[interface["id"]].values()
+                        if host["is_virtual"]
+                        else self.device_ipaddresses_intf_lookup[
+                            interface["id"]
+                        ].values()
+                    )
+                    interface["tags"] = list(sub["slug"] for sub in interface["tags"])
 
             return interfaces
         except Exception:
@@ -561,21 +726,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Device has no site
             return []
 
-        regions = []
-        region_id = self.sites_region_lookup[site_id]
+        return self._objects_array_following_parents(
+            initial_object_id=self.sites_region_lookup[site_id],
+            object_lookup=self.regions_lookup,
+            object_parent_lookup=self.regions_parent_lookup,
+        )
 
-        # Keep looping until the region has no parent
-        while region_id is not None:
-            region_slug = self.regions_lookup[region_id]
-            if region_slug in regions:
-                # Won't ever happen - defensively guard against infinite loop
-                break
-            regions.append(region_slug)
+    def extract_location(self, host):
+        # A host may have a location. A location may have a parent location.
+        # Produce a list of locations:
+        # - it will be empty if the device has no location
+        # - it will have 1 element if the device's location has no parent
+        # - it will have multiple elements if the location has a parent location
 
-            # Get the parent of this region
-            region_id = self.regions_parent_lookup[region_id]
+        try:
+            location_id = host["location"]["id"]
+        except (KeyError, TypeError):
+            # Device has no location
+            return []
 
-        return regions
+        return self._objects_array_following_parents(
+            initial_object_id=location_id,
+            object_lookup=self.locations_lookup,
+            object_parent_lookup=self.locations_parent_lookup,
+        )
 
     def extract_cluster(self, host):
         try:
@@ -599,6 +773,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_is_virtual(self, host):
         return host.get("is_virtual")
 
+    def extract_dns_name(self, host):
+        # No primary IP assigned
+        if not host.get("primary_ip"):
+            return None
+
+        before_netbox_v29 = bool(self.ipaddresses_lookup)
+        if before_netbox_v29:
+            ip_address = self.ipaddresses_lookup.get(host["primary_ip"]["id"])
+        else:
+            if host["is_virtual"]:
+                ip_address = self.vm_ipaddresses_lookup.get(host["primary_ip"]["id"])
+            else:
+                ip_address = self.device_ipaddresses_lookup.get(
+                    host["primary_ip"]["id"]
+                )
+
+        # Don"t assign a host_var for empty dns_name
+        if ip_address.get("dns_name") == "":
+            return None
+
+        return ip_address.get("dns_name")
+
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
         platforms = self.get_resource_list(api_url=url)
@@ -619,9 +815,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return (site["id"], None)
 
         # Dictionary of site id to region id
-        self.sites_region_lookup = dict(
-            filter(lambda x: x is not None, map(get_region_for_site, sites))
-        )
+        self.sites_region_lookup = dict(map(get_region_for_site, sites))
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
@@ -640,6 +834,35 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             filter(lambda x: x is not None, map(get_region_parent, regions))
         )
 
+    def refresh_locations_lookup(self):
+        # Locations were added in v2.11. Return empty lookups for previous versions.
+        if self.api_version < version.parse("2.11"):
+            return
+
+        url = self.api_endpoint + "/api/dcim/locations/?limit=0"
+        locations = self.get_resource_list(api_url=url)
+        self.locations_lookup = dict(
+            (location["id"], location["slug"]) for location in locations
+        )
+
+        def get_location_parent(location):
+            # Will fail if location does not have a parent location
+            try:
+                return (location["id"], location["parent"]["id"])
+            except Exception:
+                return (location["id"], None)
+
+        def get_location_site(location):
+            # Locations MUST be assigned to a site
+            return (location["id"], location["site"]["id"])
+
+        # Dictionary of location id to parent location id
+        self.locations_parent_lookup = dict(
+            filter(None, map(get_location_parent, locations))
+        )
+        # Location to site lookup
+        self.locations_site_lookup = dict(map(get_location_site, locations))
+
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
         tenants = self.get_resource_list(api_url=url)
@@ -649,6 +872,41 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         url = self.api_endpoint + "/api/dcim/racks/?limit=0"
         racks = self.get_resource_list(api_url=url)
         self.racks_lookup = dict((rack["id"], rack["name"]) for rack in racks)
+
+        def get_group_for_rack(rack):
+            try:
+                return (rack["id"], rack["group"]["id"])
+            except Exception:
+                return (rack["id"], None)
+
+        def get_role_for_rack(rack):
+            try:
+                return (rack["id"], rack["role"]["slug"])
+            except Exception:
+                return (rack["id"], None)
+
+        self.racks_group_lookup = dict(map(get_group_for_rack, racks))
+        self.racks_role_lookup = dict(map(get_role_for_rack, racks))
+
+    def refresh_rack_groups_lookup(self):
+        # Locations were added in v2.11 replacing rack groups. Do nothing for 2.11+
+        if self.api_version >= version.parse("2.11"):
+            return
+
+        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
+        rack_groups = self.get_resource_list(api_url=url)
+        self.rack_groups_lookup = dict(
+            (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
+        )
+
+        def get_rack_group_parent(rack_group):
+            try:
+                return (rack_group["id"], rack_group["parent"]["id"])
+            except Exception:
+                return (rack_group["id"], None)
+
+        # Dictionary of rack group id to parent rack group id
+        self.rack_group_parent_lookup = dict(map(get_rack_group_parent, rack_groups))
 
     def refresh_device_roles_lookup(self):
         url = self.api_endpoint + "/api/dcim/device-roles/?limit=0"
@@ -689,13 +947,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except Exception:
                 return (cluster["id"], None)
 
-        self.clusters_type_lookup = dict(
-            filter(lambda x: x is not None, map(get_cluster_type, clusters))
-        )
-
-        self.clusters_group_lookup = dict(
-            filter(lambda x: x is not None, map(get_cluster_group, clusters))
-        )
+        self.clusters_type_lookup = dict(map(get_cluster_type, clusters))
+        self.clusters_group_lookup = dict(map(get_cluster_group, clusters))
 
     def refresh_services(self):
         url = self.api_endpoint + "/api/ipam/services/?limit=0"
@@ -821,28 +1074,61 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Construct a dictionary of lists, to allow looking up ip addresses by interface id
         # Note that interface ids share the same namespace for both devices and vms so this is a single dictionary
+        self.ipaddresses_intf_lookup = defaultdict(dict)
+        # Construct a dictionary of the IP addresses themselves
         self.ipaddresses_lookup = defaultdict(dict)
+        # NetBox v2.9 and onwards
+        self.vm_ipaddresses_intf_lookup = defaultdict(dict)
+        self.vm_ipaddresses_lookup = defaultdict(dict)
+        self.device_ipaddresses_intf_lookup = defaultdict(dict)
+        self.device_ipaddresses_lookup = defaultdict(dict)
 
         for ipaddress in ipaddresses:
+            # As of NetBox v2.9 "assigned_object_x" replaces "interface"
+            if ipaddress.get("assigned_object_id"):
+                interface_id = ipaddress["assigned_object_id"]
+                ip_id = ipaddress["id"]
+                # We need to copy the ipaddress entry to preserve the original in case caching is used.
+                ipaddress_copy = ipaddress.copy()
+
+                if ipaddress["assigned_object_type"] == "virtualization.vminterface":
+                    self.vm_ipaddresses_lookup[ip_id] = ipaddress_copy
+                    self.vm_ipaddresses_intf_lookup[interface_id][
+                        ip_id
+                    ] = ipaddress_copy
+                else:
+                    self.device_ipaddresses_lookup[ip_id] = ipaddress_copy
+                    self.device_ipaddresses_intf_lookup[interface_id][
+                        ip_id
+                    ] = ipaddress_copy  # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
+
+                del ipaddress_copy["assigned_object_id"]
+                del ipaddress_copy["assigned_object_type"]
+                del ipaddress_copy["assigned_object"]
+                continue
 
             if not ipaddress.get("interface"):
                 continue
-
             interface_id = ipaddress["interface"]["id"]
             ip_id = ipaddress["id"]
 
-            self.ipaddresses_lookup[interface_id][ip_id] = ipaddress
+            # We need to copy the ipaddress entry to preserve the original in case caching is used.
+            ipaddress_copy = ipaddress.copy()
 
+            self.ipaddresses_intf_lookup[interface_id][ip_id] = ipaddress_copy
+            self.ipaddresses_lookup[ip_id] = ipaddress_copy
             # Remove "interface" attribute, as that's redundant when ipaddress is added to an interface
-            del ipaddress["interface"]
+            del ipaddress_copy["interface"]
 
     @property
     def lookup_processes(self):
         lookups = [
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
+            self.refresh_locations_lookup,
             self.refresh_tenants_lookup,
             self.refresh_racks_lookup,
+            self.refresh_rack_groups_lookup,
             self.refresh_device_roles_lookup,
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,
@@ -862,7 +1148,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def lookup_processes_secondary(self):
         lookups = []
 
-        if self.interfaces:
+        # IP addresses are needed for either interfaces or dns_name options
+        if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             lookups.append(self.refresh_ipaddresses)
 
         return lookups
@@ -910,7 +1197,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.api_endpoint + "/api/docs/?format=openapi"
         )
 
-        self.api_version = openapi["info"]["version"]
+        self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
             p["name"] for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
         ]
@@ -1042,7 +1329,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # An host in an Ansible inventory requires an hostname.
         # name is an unique but not required attribute for a device in NetBox
         # We default to an UUID for hostname in case the name is not set in NetBox
-        return host["name"] or str(uuid.uuid4())
+        # Use virtual chassis name if set by the user.
+        if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
+            return host["virtual_chassis"]["name"] or str(uuid.uuid4())
+        else:
+            return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
 
@@ -1055,32 +1346,32 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # Don't create the inverse group
                 return None
 
+        # Special case. Extract name from service, which is a hash.
+        if grouping == "services":
+            group = group["name"]
+            grouping = "service"
+
+        if grouping == "status":
+            group = group["value"]
+
         if self.group_names_raw:
             return group
         else:
             return "_".join([grouping, group])
 
     def add_host_to_groups(self, host, hostname):
-
-        # If we're grouping by regions, hosts are not added to region groups
-        # - the site groups are added as sub-groups of regions
-        # So, we need to make sure we're also grouping by sites if regions are enabled
-
-        if "region" in self.group_by:
-            # Make sure "site" or "sites" grouping also exists, depending on plurals options
-            site_group_by = self._pluralize_group_by("site")
-            if site_group_by not in self.group_by:
-                self.group_by.append(site_group_by)
+        site_group_by = self._pluralize_group_by("site")
 
         for grouping in self.group_by:
 
-            # Don't handle regions here - that will happen in main()
-            if grouping == "region":
+            # Don't handle regions here since no hosts are ever added to region groups
+            # Sites and locations are also specially handled in the main()
+            if grouping in ["region", site_group_by, "location"]:
                 continue
 
             if grouping not in self.group_extractors:
                 raise AnsibleError(
-                    'group_by option "%s" is not valid. (Maybe check the plurals option? It can determine what group_by options are valid)'
+                    'group_by option "%s" is not valid. Check group_by documentation or check the plurals option. It can determine what group_by options are valid.'
                     % grouping
                 )
 
@@ -1104,30 +1395,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 transformed_group_name = self.inventory.add_group(group=group_name)
                 self.inventory.add_host(group=transformed_group_name, host=hostname)
 
+    def _add_site_groups(self):
+        # Map site id to transformed group names
+        self.site_group_names = dict()
+
+        for site_id, site_name in self.sites_lookup.items():
+            site_group_name = self.generate_group_name(
+                self._pluralize_group_by("site"), site_name
+            )
+            # Add the site group to get its transformed name
+            site_transformed_group_name = self.inventory.add_group(
+                group=site_group_name
+            )
+            self.site_group_names[site_id] = site_transformed_group_name
+
     def _add_region_groups(self):
-
         # Mapping of region id to group name
-        region_transformed_group_names = dict()
-
-        # Create groups for each region
-        for region_id in self.regions_lookup:
-            region_group_name = self.generate_group_name(
-                "region", self.regions_lookup[region_id]
-            )
-            region_transformed_group_names[region_id] = self.inventory.add_group(
-                group=region_group_name
-            )
-
-        # Now that all region groups exist, add relationships between them
-        for region_id in self.regions_lookup:
-            region_group_name = region_transformed_group_names[region_id]
-            parent_region_id = self.regions_parent_lookup.get(region_id, None)
-            if (
-                parent_region_id is not None
-                and parent_region_id in region_transformed_group_names
-            ):
-                parent_region_name = region_transformed_group_names[parent_region_id]
-                self.inventory.add_child(parent_region_name, region_group_name)
+        region_transformed_group_names = self._setup_nested_groups(
+            "region", self.regions_lookup, self.regions_parent_lookup
+        )
 
         # Add site groups as children of region groups
         for site_id in self.sites_lookup:
@@ -1135,23 +1421,70 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if region_id is None:
                 continue
 
-            region_transformed_group_name = region_transformed_group_names[region_id]
+            self.inventory.add_child(
+                region_transformed_group_names[region_id],
+                self.site_group_names[site_id],
+            )
 
-            site_name = self.sites_lookup[site_id]
-            site_group_name = self.generate_group_name(
-                self._pluralize_group_by("site"), site_name
-            )
-            # Add the site group to get its transformed name
-            # Will already be created by add_host_to_groups - it's ok to call add_group again just to get its name
-            site_transformed_group_name = self.inventory.add_group(
-                group=site_group_name
-            )
+    def _add_location_groups(self):
+        # Mapping of location id to group name
+        self.location_group_names = self._setup_nested_groups(
+            "location", self.locations_lookup, self.locations_parent_lookup
+        )
+
+        # Add location to site groups as children
+        for location_id, location_slug in self.locations_lookup.items():
+            if self.locations_parent_lookup.get(location_id, None):
+                # Only top level locations should be children of sites
+                continue
+
+            site_transformed_group_name = self.site_group_names[
+                self.locations_site_lookup[location_id]
+            ]
 
             self.inventory.add_child(
-                region_transformed_group_name, site_transformed_group_name
+                site_transformed_group_name, self.location_group_names[location_id]
             )
 
+    def _setup_nested_groups(self, group, lookup, parent_lookup):
+        # Mapping of id to group name
+        transformed_group_names = dict()
+
+        # Create groups for each object
+        for obj_id in lookup:
+            group_name = self.generate_group_name(group, lookup[obj_id])
+            transformed_group_names[obj_id] = self.inventory.add_group(group=group_name)
+
+        # Now that all groups exist, add relationships between them
+        for obj_id in lookup:
+            group_name = transformed_group_names[obj_id]
+            parent_id = parent_lookup.get(obj_id, None)
+            if parent_id is not None and parent_id in transformed_group_names:
+                parent_name = transformed_group_names[parent_id]
+                self.inventory.add_child(parent_name, group_name)
+
+        return transformed_group_names
+
     def _fill_host_variables(self, host, hostname):
+        extracted_primary_ip = self.extract_primary_ip(host=host)
+        if extracted_primary_ip:
+            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
+
+        if self.ansible_host_dns_name:
+            extracted_dns_name = self.extract_dns_name(host=host)
+            if extracted_dns_name:
+                self.inventory.set_variable(
+                    hostname, "ansible_host", extracted_dns_name
+                )
+
+        extracted_primary_ip4 = self.extract_primary_ip4(host=host)
+        if extracted_primary_ip4:
+            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
+
+        extracted_primary_ip6 = self.extract_primary_ip6(host=host)
+        if extracted_primary_ip6:
+            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
+
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
 
@@ -1167,6 +1500,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if attribute == "region":
                 attribute = "regions"
 
+            if attribute == "location":
+                attribute = "locations"
+
+            if attribute == "rack_group":
+                attribute = "rack_groups"
+
             # Flatten the dict into separate host vars, if enabled
             if isinstance(extracted_value, dict) and (
                 (attribute == "config_context" and self.flatten_config_context)
@@ -1180,18 +1519,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     self.inventory.set_variable(hostname, key, value)
             else:
                 self.inventory.set_variable(hostname, attribute, extracted_value)
-
-        extracted_primary_ip = self.extract_primary_ip(host=host)
-        if extracted_primary_ip:
-            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
-
-        extracted_primary_ip4 = self.extract_primary_ip4(host=host)
-        if extracted_primary_ip4:
-            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
-
-        extracted_primary_ip6 = self.extract_primary_ip6(host=host)
-        if extracted_primary_ip6:
-            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
     def _get_host_virtual_chassis_master(self, host):
         virtual_chassis = host.get("virtual_chassis", None)
@@ -1218,6 +1545,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Looking up IP Addresses depends on the result of interfaces count_ipaddresses field
         # - can skip any device/vm without any IPs
         self.refresh_lookups(self.lookup_processes_secondary)
+
+        # If we're grouping by regions, hosts are not added to region groups
+        # If we're grouping by locations, hosts may be added to the site or location
+        # - the site groups are added as sub-groups of regions
+        # - the location groups are added as sub-groups of sites
+        # So, we need to make sure we're also grouping by sites if regions or locations are enabled
+        site_group_by = self._pluralize_group_by("site")
+        if (
+            site_group_by in self.group_by
+            or "location" in self.group_by
+            or "region" in self.group_by
+        ):
+            self._add_site_groups()
+
+        # Create groups for locations. Will be a part of site groups.
+        if "location" in self.group_by and self.api_version >= version.parse("2.11"):
+            self._add_location_groups()
+
+        # Create groups for regions, containing the site groups
+        if "region" in self.group_by:
+            self._add_region_groups()
 
         for host in chain(self.devices_list, self.vms_list):
 
@@ -1251,9 +1599,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
             self.add_host_to_groups(host=host, hostname=hostname)
 
-        # Create groups for regions, containing the site groups
-        if "region" in self.group_by:
-            self._add_region_groups()
+            # Special processing for sites and locations as those groups were already created
+            if getattr(self, "location_group_names", None) and host.get("location"):
+                # Add host to location group when host is assigned to the location
+                self.inventory.add_host(
+                    group=self.location_group_names[host["location"]["id"]],
+                    host=hostname,
+                )
+            elif getattr(self, "site_group_names", None) and host.get("site"):
+                # Add host to site group when host is NOT assigned to a location
+                self.inventory.add_host(
+                    group=self.site_group_names[host["site"]["id"]], host=hostname,
+                )
 
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
@@ -1267,6 +1624,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.timeout = self.get_option("timeout")
         self.max_uri_length = self.get_option("max_uri_length")
         self.validate_certs = self.get_option("validate_certs")
+        self.follow_redirects = self.get_option("follow_redirects")
         self.config_context = self.get_option("config_context")
         self.flatten_config_context = self.get_option("flatten_config_context")
         self.flatten_local_context_data = self.get_option("flatten_local_context_data")
@@ -1280,6 +1638,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             % (ansible_version, python_version.split(" ")[0]),
             "Content-type": "application/json",
         }
+        self.cert = self.get_option("cert")
+        self.key = self.get_option("key")
+        self.ca_path = self.get_option("ca_path")
         if token:
             self.headers.update({"Authorization": "Token %s" % token})
 
@@ -1289,5 +1650,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.query_filters = self.get_option("query_filters")
         self.device_query_filters = self.get_option("device_query_filters")
         self.vm_query_filters = self.get_option("vm_query_filters")
+        self.virtual_chassis_name = self.get_option("virtual_chassis_name")
+        self.dns_name = self.get_option("dns_name")
+        self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
 
         self.main()

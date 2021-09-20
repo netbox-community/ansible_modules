@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the device bay configuration
@@ -45,7 +50,7 @@ options:
       device:
         description:
           - The device the device bay will be associated to. The device type must be "parent".
-        required: true
+        required: false
         type: raw
       name:
         description:
@@ -67,6 +72,7 @@ options:
           - Any tags that the device bay may need to be associated with
         required: false
         type: list
+        elements: raw
     type: dict
     required: true
   state:
@@ -82,6 +88,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -163,7 +170,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     installed_device=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

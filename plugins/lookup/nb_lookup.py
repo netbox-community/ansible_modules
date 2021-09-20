@@ -11,15 +11,30 @@ A lookup function designed to return data from the Netbox application
 
 from __future__ import absolute_import, division, print_function
 
+import os
+import functools
 from pprint import pformat
 
 from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
+from ansible.module_utils.six import raise_from
 
-import pynetbox
-import requests
+try:
+    import pynetbox
+except ImportError as imp_exc:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = None
+
+try:
+    import requests
+except ImportError as imp_exc:
+    REQUESTS_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    REQUESTS_LIBRARY_IMPORT_ERROR = None
+
 
 __metaclass__ = type
 
@@ -31,7 +46,7 @@ DOCUMENTATION = """
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
+        - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
@@ -40,26 +55,43 @@ DOCUMENTATION = """
         api_endpoint:
             description:
                 - The URL to the Netbox instance to query
+            env:
+                # in order of precendence
+                - name: NETBOX_API
+                - name: NETBOX_URL
             required: True
         api_filter:
             description:
-                - The api_filter to use.
+                - The api_filter to use. Filters should be key value pairs separated by a space.
+            required: False
+        plugin:
+            description:
+                - The Netbox plugin to query
             required: False
         token:
             description:
                 - The API token created through Netbox
                 - This may not be required depending on the Netbox setup.
+            env:
+                # in order of precendence
+                - name: NETBOX_TOKEN
+                - name: NETBOX_API_TOKEN
             required: False
         validate_certs:
             description:
                 - Whether or not to validate SSL of the NetBox instance
             required: False
             default: True
+        private_key:
+            description:
+                - The private key as a string. Mutually exclusive with I(key_file).
+            required: False
         key_file:
             description:
-                - The location of the private key tied to user account.
+                - The location of the private key tied to user account. Mutually exclusive with I(private_key).
             required: False
         raw_data:
+            type: bool
             description:
                 - Whether to return raw API data with the lookup/query or whether to return a key/value dict
             required: False
@@ -75,7 +107,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('nb_lookup', 'devices',
+    loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
@@ -88,7 +120,7 @@ tasks:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
          manufactured by {{ item.value.device_type.manufacturer.name }}"
-    loop: "{{ query('nb_lookup', 'devices',
+    loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
@@ -97,7 +129,19 @@ tasks:
 tasks:
   - name: "Obtain secrets for R1-Device"
     debug:
-      msg: "{{ query('nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
+
+# Fetch bgp sessions for R1-device
+tasks:
+  - name: "Obtain bgp sessions for R1-Device"
+    debug:
+      msg: "{{ query('netbox.netbox.nb_lookup', 'bgp_sessions',
+                     api_filter='device=R1-Device',
+                     api_endpoint='http://localhost/',
+                     token='<redacted>',
+                     plugin='mycustomstuff') }}"
+
+      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
@@ -187,19 +231,112 @@ def get_endpoint(netbox, term):
     return netbox_endpoint_map[term]["endpoint"]
 
 
+def build_filters(filters):
+    """
+    This will build the filters to be handed to NetBox endpoint call if they exist.
+
+    Args:
+        filters (str): String of filters to parse.
+
+    Returns:
+        result (list): List of dictionaries to filter by.
+    """
+    filter = {}
+    args_split = split_args(filters)
+    args = [parse_kv(x) for x in args_split]
+    for arg in args:
+        for k, v in arg.items():
+            if k not in filter:
+                filter[k] = list()
+                filter[k].append(v)
+            else:
+                filter[k].append(v)
+
+    return filter
+
+
+def get_plugin_endpoint(netbox, plugin, term):
+    """
+    get_plugin_endpoint(netbox, plugin, term)
+        netbox: a predefined pynetbox.api() pointing to a valid instance
+                of Netbox
+        plugin: a string referencing the plugin name
+        term: the term passed to the lookup function upon which the api
+              call will be identified
+    """
+    attr = "plugins.%s.%s" % (plugin, term)
+
+    def _getattr(netbox, attr):
+        return getattr(netbox, attr)
+
+    return functools.reduce(_getattr, [netbox] + attr.split("."))
+
+
+def make_netbox_call(nb_endpoint, filters=None):
+    """
+    Wrapper for calls to NetBox and handle any possible errors.
+
+    Args:
+        nb_endpoint (object): The NetBox endpoint object to make calls.
+
+    Returns:
+        results (object): Pynetbox result.
+
+    Raises:
+        AnsibleError: Ansible Error containing an error message.
+    """
+    try:
+        if filters:
+            results = nb_endpoint.filter(**filters)
+        else:
+            results = nb_endpoint.all()
+    except pynetbox.RequestError as e:
+        if e.req.status_code == 404 and "plugins" in e:
+            raise AnsibleError(
+                "{0} - Not a valid plugin endpoint, please make sure to provide valid plugin endpoint.".format(
+                    e.error
+                )
+            )
+        else:
+            raise AnsibleError(e.error)
+
+    return results
+
+
 class LookupModule(LookupBase):
     """
     LookupModule(LookupBase) is defined by Ansible
     """
 
     def run(self, terms, variables=None, **kwargs):
+        if PYNETBOX_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("pynetbox must be installed to use this plugin"),
+                PYNETBOX_LIBRARY_IMPORT_ERROR,
+            )
 
-        netbox_api_token = kwargs.get("token")
-        netbox_api_endpoint = kwargs.get("api_endpoint")
+        if REQUESTS_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("requests must be installed to use this plugin"),
+                REQUESTS_LIBRARY_IMPORT_ERROR,
+            )
+
+        netbox_api_token = (
+            kwargs.get("token")
+            or os.getenv("NETBOX_TOKEN")
+            or os.getenv("NETBOX_API_TOKEN")
+        )
+        netbox_api_endpoint = (
+            kwargs.get("api_endpoint")
+            or os.getenv("NETBOX_API")
+            or os.getenv("NETBOX_URL")
+        )
         netbox_ssl_verify = kwargs.get("validate_certs", True)
+        netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
+        netbox_plugin = kwargs.get("plugin")
 
         if not isinstance(terms, list):
             terms = [terms]
@@ -211,6 +348,7 @@ class LookupModule(LookupBase):
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
+                private_key=netbox_private_key,
                 private_key_file=netbox_private_key_file,
             )
             netbox.http_session = session
@@ -222,11 +360,15 @@ class LookupModule(LookupBase):
 
         results = []
         for term in terms:
-
-            try:
-                endpoint = get_endpoint(netbox, term)
-            except KeyError:
-                raise AnsibleError("Unrecognised term %s. Check documentation" % term)
+            if netbox_plugin:
+                endpoint = get_plugin_endpoint(netbox, netbox_plugin, term)
+            else:
+                try:
+                    endpoint = get_endpoint(netbox, term)
+                except KeyError:
+                    raise AnsibleError(
+                        "Unrecognised term %s. Check documentation" % term
+                    )
 
             Display().vvvv(
                 u"Netbox lookup for %s to %s using token %s filter %s"
@@ -234,42 +376,38 @@ class LookupModule(LookupBase):
             )
 
             if netbox_api_filter:
-                args_split = split_args(netbox_api_filter)
-                args = [parse_kv(x) for x in args_split]
-                filter = {}
-                for arg in args:
-                    for k, v in arg.items():
-                        if k not in filter:
-                            filter[k] = list()
-                            filter[k].append(v)
-                        else:
-                            filter[k].append(v)
+                filter = build_filters(netbox_api_filter)
+
+                if "id" in filter:
+                    Display().vvvv(
+                        u"Filter is: %s and includes id, will use .get instead of .filter"
+                        % (filter)
+                    )
+                    try:
+                        id = int(filter["id"][0])
+                        nb_data = endpoint.get(id)
+                        data = dict(nb_data)
+                        Display().vvvvv(pformat(data))
+                        return [data]
+                    except pynetbox.RequestError as e:
+                        raise AnsibleError(e.error)
 
                 Display().vvvv("filter is %s" % filter)
 
-                for res in endpoint.filter(**filter):
+            # Make call to NetBox API and capture any failures
+            nb_data = make_netbox_call(
+                endpoint, filters=filter if netbox_api_filter else None
+            )
 
-                    Display().vvvvv(pformat(dict(res)))
+            for data in nb_data:
+                data = dict(data)
+                Display().vvvvv(pformat(data))
 
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
-
-            else:
-                for res in endpoint.all():
-
-                    Display().vvvvv(pformat(dict(res)))
-
-                    if netbox_raw_return:
-                        results.append(dict(res))
-
-                    else:
-                        key = dict(res)["id"]
-                        result = {key: dict(res)}
-                        results.extend(self._flatten_hash_to_list(result))
+                if netbox_raw_return:
+                    results.append(data)
+                else:
+                    key = data["id"]
+                    result = {key: data}
+                    results.extend(self._flatten_hash_to_list(result))
 
         return results

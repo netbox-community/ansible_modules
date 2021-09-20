@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     required: true
     type: dict
@@ -52,7 +57,7 @@ options:
       cluster_type:
         description:
           - type of the cluster
-        required: true
+        required: false
         type: raw
       cluster_group:
         description:
@@ -79,6 +84,7 @@ options:
           - Any tags that the cluster may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in Netbox
@@ -97,6 +103,7 @@ options:
       - an object unique in their environment.
     required: false
     type: list
+    elements: str
   validate_certs:
     description:
       - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
@@ -190,7 +197,7 @@ def main():
                     site=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
