@@ -20,7 +20,7 @@ netbox.netbox.nb_lookup -- Queries and returns elements from Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -43,7 +43,7 @@ Synopsis
 .. Description
 
 - Queries Netbox via its API to return virtually any information capable of being held in Netbox.
-- If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
+- If wanting to obtain the plaintext attribute of a secret, *private_key* or *key_file* must be provided.
 
 
 .. Aliases
@@ -126,7 +126,7 @@ Parameters
                                                     <td>
                                                                                             </td>
                                                 <td>
-                                            <div>The api_filter to use.</div>
+                                            <div>The api_filter to use. Filters should be key value pairs separated by a space.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -143,7 +143,7 @@ Parameters
                                                     <td>
                                                                                             </td>
                                                 <td>
-                                            <div>The location of the private key tied to user account.</div>
+                                            <div>The location of the private key tied to user account. Mutually exclusive with <em>private_key</em>.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -165,15 +165,36 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-raw_data"></div>
-                    <b>raw_data</b>
-                    <a class="ansibleOptionLink" href="#parameter-raw_data" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-private_key"></div>
+                    <b>private_key</b>
+                    <a class="ansibleOptionLink" href="#parameter-private_key" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>The private key as a string. Mutually exclusive with <em>key_file</em>.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-raw_data"></div>
+                    <b>raw_data</b>
+                    <a class="ansibleOptionLink" href="#parameter-raw_data" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
                                                     <td>
                                                                                             </td>
                                                 <td>

@@ -20,7 +20,7 @@ netbox.netbox.nb_inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -103,6 +103,24 @@ Parameters
                                                                     </td>
                                                 <td>
                                             <div>Endpoint of the NetBox API</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-ca_path"></div>
+                    <b>ca_path</b>
+                    <a class="ansibleOptionLink" href="#parameter-ca_path" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>CA path</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -259,6 +277,24 @@ Parameters
                                                                     </td>
                                                 <td>
                                             <div>Cache duration in seconds</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-cert"></div>
+                    <b>cert</b>
+                    <a class="ansibleOptionLink" href="#parameter-cert" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Certificate path</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -585,6 +621,24 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-key"></div>
+                    <b>key</b>
+                    <a class="ansibleOptionLink" href="#parameter-key" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Certificate key path</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-keyed_groups"></div>
                     <b>keyed_groups</b>
                     <a class="ansibleOptionLink" href="#parameter-keyed_groups" title="Permalink to this option"></a>
@@ -877,7 +931,7 @@ Examples
       - tag: web
       - tag: production
 
-    # See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+    # See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
     # the query_filters work as a logical **OR**
     #
     # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string

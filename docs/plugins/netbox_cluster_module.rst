@@ -20,7 +20,7 @@ netbox.netbox.netbox_cluster -- Create, update or delete clusters within Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -71,6 +71,21 @@ Parameters
                         <th width="100%">Comments</th>
         </tr>
                     <tr>
+                                                                <td colspan="2">
+                    <div class="ansibleOptionAnchor" id="parameter-cert"></div>
+                    <b>cert</b>
+                    <a class="ansibleOptionLink" href="#parameter-cert" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Certificate path</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                                 <td colspan="2">
                     <div class="ansibleOptionAnchor" id="parameter-data"></div>
                     <b>data</b>
@@ -189,7 +204,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">list</span>
-                         / <span style="color: purple">elements=string</span>                                            </div>
+                         / <span style="color: purple">elements=raw</span>                                            </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
