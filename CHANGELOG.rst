@@ -5,6 +5,29 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.1.2
+======
+
+Release Summary
+---------------
+
+This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates. 
+This release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI. 
+The next release will idenify and resolve any issues with NetBox 3.0.
+
+Minor Changes
+-------------
+
+- Add ansible-core support - Quick fix to support ansible-core 2.11 [#558](https://github.com/netbox-community/ansible_modules/pull/558)
+- Add private_key option to nb_lookup for secret decryption [#532](https://github.com/netbox-community/ansible_modules/pull/532)
+- Added custom certificate support [#534](https://github.com/netbox-community/ansible_modules/pull/534)
+- CI testing & integration tests now leverage ansible-core 2.11 - Fixes #583: Move to Ansible-core for CI tests  [#591](https://github.com/netbox-community/ansible_modules/pull/591)
+- Correct Invalid NetBox readthedocs URL in nb_inventory docs [#568](https://github.com/netbox-community/ansible_modules/pull/568)
+- Fixes to CI due to not pinning NetBox & NetBox-Docker version CI among other minor CI corrections - General CI Fix [573](https://github.com/netbox-community/ansible_modules/pull/573)
+- README: Slack link and tidyup [#584](https://github.com/netbox-community/ansible_modules/pull/584)
+- Release v3.1.2 [#594](https://github.com/netbox-community/ansible_modules/pull/594)
+- Update netbox_region documentation - Documentation: netbox_region - Correct examples [#548](https://github.com/netbox-community/ansible_modules/pull/548)
+
 v3.1.1
 ======
 
