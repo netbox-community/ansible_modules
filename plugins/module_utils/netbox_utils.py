@@ -19,7 +19,7 @@ from ansible.module_utils.common.text.converters import to_text
 
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
-from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
 
 PYNETBOX_IMP_ERR = None
@@ -463,6 +463,7 @@ NETBOX_ARG_SPEC = dict(
     state=dict(required=False, default="present", choices=["present", "absent"]),
     query_params=dict(required=False, type="list", elements="str"),
     validate_certs=dict(type="raw", default=True),
+    cert=dict(type="raw", required=False),
 )
 
 
@@ -490,10 +491,11 @@ class NetboxModule(object):
         url = self.module.params["netbox_url"]
         token = self.module.params["netbox_token"]
         ssl_verify = self.module.params["validate_certs"]
+        cert = self.module.params["cert"]
 
         # Attempt to initiate connection to Netbox
         if nb_client is None:
-            self.nb = self._connect_netbox_api(url, token, ssl_verify)
+            self.nb = self._connect_netbox_api(url, token, ssl_verify, cert)
         else:
             self.nb = nb_client
             try:
@@ -536,10 +538,12 @@ class NetboxModule(object):
         elif g_major == l_major and g_minor > l_minor:
             return True
 
-    def _connect_netbox_api(self, url, token, ssl_verify):
+    def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
             session = requests.Session()
             session.verify = ssl_verify
+            if cert:
+                session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
@@ -829,7 +833,7 @@ class NetboxModule(object):
                 msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
             )
 
-        choices = [x for x in chain.from_iterable(endpoint_choices.values())]
+        choices = list(chain.from_iterable(endpoint_choices.values()))
 
         for item in choices:
             if item["display_name"].lower() == search.lower():
@@ -1163,17 +1167,36 @@ class NetboxAnsibleModule(AnsibleModule):
         required_if=None,
         required_by=None,
     ):
+        # Sets each check to None so they are not run in AnsibleModule
         super().__init__(
             argument_spec,
             bypass_checks=False,
             no_log=False,
-            mutually_exclusive=mutually_exclusive,
-            required_together=required_together,
-            required_one_of=required_one_of,
+            mutually_exclusive=None,
+            required_together=None,
+            required_one_of=None,
             add_file_common_args=False,
             supports_check_mode=supports_check_mode,
-            required_if=required_if,
+            required_if=None,
         )
+
+        # Quick fix to support ansible-core 2.11
+        #
+        # Load the params manually as the self.params already have the defaults set
+        params = _load_params()
+
+        # Run each check manually providing the params
+        if mutually_exclusive:
+            self._check_mutually_exclusive(mutually_exclusive, param=params)
+
+        if required_together:
+            self._check_required_together(required_together, param=params)
+
+        if required_one_of:
+            self._check_required_one_of(required_one_of, param=params)
+
+        if required_if:
+            self._check_required_if(required_if, param=params)
 
     def _check_mutually_exclusive(self, spec, param=None):
         if param is None:

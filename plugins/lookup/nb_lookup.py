@@ -19,9 +19,22 @@ from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
+from ansible.module_utils.six import raise_from
 
-import pynetbox
-import requests
+try:
+    import pynetbox
+except ImportError as imp_exc:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    PYNETBOX_LIBRARY_IMPORT_ERROR = None
+
+try:
+    import requests
+except ImportError as imp_exc:
+    REQUESTS_LIBRARY_IMPORT_ERROR = imp_exc
+else:
+    REQUESTS_LIBRARY_IMPORT_ERROR = None
+
 
 __metaclass__ = type
 
@@ -33,7 +46,7 @@ DOCUMENTATION = """
     description:
         - Queries Netbox via its API to return virtually any information
           capable of being held in Netbox.
-        - If wanting to obtain the plaintext attribute of a secret, key_file must be provided.
+        - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
@@ -49,7 +62,7 @@ DOCUMENTATION = """
             required: True
         api_filter:
             description:
-                - The api_filter to use.
+                - The api_filter to use. Filters should be key value pairs separated by a space.
             required: False
         plugin:
             description:
@@ -69,11 +82,16 @@ DOCUMENTATION = """
                 - Whether or not to validate SSL of the NetBox instance
             required: False
             default: True
+        private_key:
+            description:
+                - The private key as a string. Mutually exclusive with I(key_file).
+            required: False
         key_file:
             description:
-                - The location of the private key tied to user account.
+                - The location of the private key tied to user account. Mutually exclusive with I(private_key).
             required: False
         raw_data:
+            type: bool
             description:
                 - Whether to return raw API data with the lookup/query or whether to return a key/value dict
             required: False
@@ -291,6 +309,17 @@ class LookupModule(LookupBase):
     """
 
     def run(self, terms, variables=None, **kwargs):
+        if PYNETBOX_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("pynetbox must be installed to use this plugin"),
+                PYNETBOX_LIBRARY_IMPORT_ERROR,
+            )
+
+        if REQUESTS_LIBRARY_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("requests must be installed to use this plugin"),
+                REQUESTS_LIBRARY_IMPORT_ERROR,
+            )
 
         netbox_api_token = (
             kwargs.get("token")
@@ -303,6 +332,7 @@ class LookupModule(LookupBase):
             or os.getenv("NETBOX_URL")
         )
         netbox_ssl_verify = kwargs.get("validate_certs", True)
+        netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
@@ -318,6 +348,7 @@ class LookupModule(LookupBase):
             netbox = pynetbox.api(
                 netbox_api_endpoint,
                 token=netbox_api_token if netbox_api_token else None,
+                private_key=netbox_private_key,
                 private_key_file=netbox_private_key_file,
             )
             netbox.http_session = session

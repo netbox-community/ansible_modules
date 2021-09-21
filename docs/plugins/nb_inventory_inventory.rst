@@ -20,7 +20,7 @@ netbox.netbox.nb_inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.1).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -103,6 +103,24 @@ Parameters
                                                                     </td>
                                                 <td>
                                             <div>Endpoint of the NetBox API</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-ca_path"></div>
+                    <b>ca_path</b>
+                    <a class="ansibleOptionLink" href="#parameter-ca_path" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>CA path</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -259,6 +277,24 @@ Parameters
                                                                     </td>
                                                 <td>
                                             <div>Cache duration in seconds</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-cert"></div>
+                    <b>cert</b>
+                    <a class="ansibleOptionLink" href="#parameter-cert" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Certificate path</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -585,6 +621,24 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-key"></div>
+                    <b>key</b>
+                    <a class="ansibleOptionLink" href="#parameter-key" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"no"</div>
+                                    </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Certificate key path</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-keyed_groups"></div>
                     <b>keyed_groups</b>
                     <a class="ansibleOptionLink" href="#parameter-keyed_groups" title="Permalink to this option"></a>
@@ -599,6 +653,35 @@ Parameters
                                                                                             </td>
                                                 <td>
                                             <div>Add hosts to group based on the values of a variable.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-leading_separator"></div>
+                    <b>leading_separator</b>
+                    <a class="ansibleOptionLink" href="#parameter-leading_separator" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 2.11 of ansible.builtin
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                <li><div style="color: blue"><b>yes</b>&nbsp;&larr;</div></li>
+                                                                                    </ul>
+                                                                            </td>
+                                                    <td>
+                                                                                            </td>
+                                                <td>
+                                            <div>Use in conjunction with keyed_groups.</div>
+                                            <div>By default, a keyed group that does not have a prefix or a separator provided will have a name that starts with an underscore.</div>
+                                            <div>This is because the default prefix is &quot;&quot; and the default separator is &quot;_&quot;.</div>
+                                            <div>Set this option to False to omit the leading underscore (or other separator) if no prefix is given.</div>
+                                            <div>If the group name is derived from a mapping the separator is still used to concatenate the items.</div>
+                                            <div>To not use a separator in the group name at all, set the separator for the keyed group to an empty string instead.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -777,6 +860,38 @@ Parameters
             </tr>
                                 <tr>
                                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-use_extra_vars"></div>
+                    <b>use_extra_vars</b>
+                    <a class="ansibleOptionLink" href="#parameter-use_extra_vars" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">boolean</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 2.11 of ansible.builtin
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>yes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                    <td>
+                                                    <div> ini entries:
+                                                                    <p>
+                                        [inventory_plugins]<br>use_extra_vars = no
+                                                                                                                    </p>
+                                                            </div>
+                                                                            <div>
+                                env:ANSIBLE_INVENTORY_USE_EXTRA_VARS
+                                                                                            </div>
+                                                                    </td>
+                                                <td>
+                                            <div>Merge extra vars into the available variables for composition (highest precedence).</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
                     <b>validate_certs</b>
                     <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
@@ -877,7 +992,7 @@ Examples
       - tag: web
       - tag: production
 
-    # See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+    # See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
     # the query_filters work as a logical **OR**
     #
     # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string

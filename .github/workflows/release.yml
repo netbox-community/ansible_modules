@@ -13,8 +13,8 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.6
-      - name: Install ansible-base to deploy collection
-        run: pip install ansible-base
+      - name: Install ansible-core to deploy collection
+        run: pip install ansible-core
       - name: Build and Deploy Collection
         uses: artis3n/ansible_galaxy_collection@v2
         with:

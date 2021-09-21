@@ -35,6 +35,18 @@ DOCUMENTATION = """
                 - Allows connection when SSL certificates are not valid. Set to C(false) when certificates are not trusted.
             default: True
             type: boolean
+        cert:
+            description:
+                - Certificate path
+            default: False
+        key:
+            description:
+                - Certificate key path
+            default: False
+        ca_path:
+            description:
+                - CA path
+            default: False
         follow_redirects:
             description:
                 - Determine how redirects are followed.
@@ -218,7 +230,7 @@ query_filters:
   - tag: web
   - tag: production
 
-# See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+# See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
 # the query_filters work as a logical **OR**
 #
 # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string
@@ -300,6 +312,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     timeout=self.timeout,
                     validate_certs=self.validate_certs,
                     follow_redirects=self.follow_redirects,
+                    client_cert=self.cert,
+                    client_key=self.key,
+                    ca_path=self.ca_path,
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
@@ -1624,6 +1639,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             % (ansible_version, python_version.split(" ")[0]),
             "Content-type": "application/json",
         }
+        self.cert = self.get_option("cert")
+        self.key = self.get_option("key")
+        self.ca_path = self.get_option("ca_path")
         if token:
             self.headers.update({"Authorization": "Token %s" % token})
 

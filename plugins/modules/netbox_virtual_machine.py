@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -108,6 +113,7 @@ options:
           - Any tags that the virtual machine may need to be associated with
         required: false
         type: list
+        elements: raw
       custom_fields:
         description:
           - Must exist in Netbox
@@ -238,7 +244,7 @@ def main():
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
                     comments=dict(required=False, type="str"),

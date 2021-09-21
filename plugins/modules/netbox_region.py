@@ -38,6 +38,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     type: dict
     description:
@@ -89,20 +94,20 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create tenant within Netbox with only required information
-      netbox_region:
+    - name: Create region within Netbox with only required information
+      netbox.netbox.netbox_region:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           name: "Test Region One"
         state: present
 
-    - name: Delete tenant within netbox
-      netbox_region:
+    - name: Delete region within netbox
+      netbox.netbox.netbox_region:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant Group ABC
+          name: "Test Region One"
         state: absent
 """
 

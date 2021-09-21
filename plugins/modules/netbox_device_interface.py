@@ -39,6 +39,11 @@ options:
       - The token created within Netbox to authorize API access
     required: true
     type: str
+  cert:
+    description:
+      - Certificate path
+    required: false
+    type: raw
   data:
     description:
       - Defines the interface configuration
@@ -59,13 +64,13 @@ options:
         required: false
         type: str
       form_factor:
-        description:
-          - |
-            Form factor of the interface:
-            ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-            This has to be specified exactly as what is found within UI
-        required: false
-        type: raw
+         description:
+           - |
+             Form factor of the interface:
+             ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+             This has to be specified exactly as what is found within UI
+         required: false
+         type: raw
       type:
         description:
           - |
@@ -124,6 +129,7 @@ options:
           - Any tags that the interface may need to be associated with
         required: false
         type: list
+        elements: raw
       mark_connected:
         description:
           - Mark an interface as connected without a cable attached (netbox >= 2.11 required)
@@ -293,7 +299,10 @@ def main():
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     form_factor=dict(
-                        required=False, type="raw", removed_in_version="0.3.0"
+                        required=False,
+                        type="raw",
+                        removed_in_version="4.0.0",
+                        removed_from_collection="netbox.netbox",
                     ),
                     label=dict(required=False, type="str"),
                     type=dict(required=False, type="str"),
@@ -306,7 +315,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
-                    tags=dict(required=False, type="list"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     mark_connected=dict(required=False, type="bool"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
