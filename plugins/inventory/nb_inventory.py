@@ -258,6 +258,7 @@ keyed_groups:
 import json
 import uuid
 import math
+from copy import deepcopy
 from functools import partial
 from sys import version as python_version
 from threading import Thread
@@ -680,7 +681,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 else self.device_interfaces_lookup
             )
 
-            interfaces = list(interfaces_lookup[host["id"]].values())
+            interfaces = deepcopy(list(interfaces_lookup[host["id"]].values()))
 
             before_netbox_v29 = bool(self.ipaddresses_intf_lookup)
             # Attach IP Addresses to their interface
