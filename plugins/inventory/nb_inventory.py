@@ -203,6 +203,11 @@ DOCUMENTATION = """
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
             type: dict
+        ansible_inventory_primary_ip:
+            description:
+                - Use Primary IP Address as inventory_hostname instead of Netbox device name
+            type: boolean
+            default: False
 """
 
 EXAMPLES = """
@@ -1578,7 +1583,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # Device is part of a virtual chassis, but is not the master
                 continue
 
-            hostname = self.extract_name(host=host)
+            if self.ansible_inventory_primary_ip:
+                hostname = self.extract_primary_ip(host=host)
+            else:
+                hostname = self.extract_name(host=host)
+
             self.inventory.add_host(host=hostname)
             self._fill_host_variables(host=host, hostname=hostname)
 
@@ -1654,5 +1663,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
+        self.ansible_inventory_primary_ip = self.get_option("ansible_inventory_primary_ip")
 
         self.main()
