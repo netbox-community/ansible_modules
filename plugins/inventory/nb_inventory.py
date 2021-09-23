@@ -1583,7 +1583,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # Device is part of a virtual chassis, but is not the master
                 continue
 
-            if self.ansible_inventory_primary_ip:
+            if self.ansible_inventory_primary_ip and self.extract_primary_ip(host=host):
                 hostname = self.extract_primary_ip(host=host)
             else:
                 hostname = self.extract_name(host=host)
