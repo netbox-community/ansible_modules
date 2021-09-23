@@ -1663,6 +1663,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
-        self.ansible_inventory_primary_ip = self.get_option("ansible_inventory_primary_ip")
+        self.ansible_inventory_primary_ip = self.get_option(
+            "ansible_inventory_primary_ip"
+        )
 
         self.main()
