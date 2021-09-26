@@ -72,7 +72,7 @@ options:
         description:
           - Number of vcpus of the virtual machine
         required: false
-        type: int
+        type: float
       tenant:
         description:
           - The tenant that the virtual machine will be assigned to
@@ -236,7 +236,7 @@ def main():
                     site=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),
                     virtual_machine_role=dict(required=False, type="raw"),
-                    vcpus=dict(required=False, type="int"),
+                    vcpus=dict(required=False, type="float"),
                     tenant=dict(required=False, type="raw"),
                     platform=dict(required=False, type="raw"),
                     primary_ip4=dict(required=False, type="raw"),
