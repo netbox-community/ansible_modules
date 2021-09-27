@@ -114,6 +114,11 @@ options:
           - The mode of the interface
         required: false
         type: raw
+      parent:
+        description:
+          - the device's parent interface
+        required: false
+        type: raw
       untagged_vlan:
         description:
           - The untagged VLAN to be assigned to interface
@@ -313,6 +318,7 @@ def main():
                     mgmt_only=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
+                    parent=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
