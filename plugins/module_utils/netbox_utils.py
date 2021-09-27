@@ -739,7 +739,7 @@ class NetboxModule(object):
         elif parent == "parent":
             if not child:
                 query_dict["name"] = module_data["parent"]
-            if instance(module_data["device"], int):
+            if isnstance(module_data["device"], int):
                 query_dict.update({"device_id": module_data["device"]})
             else:
                 query_dict.update({"device": module_data["device"]})
