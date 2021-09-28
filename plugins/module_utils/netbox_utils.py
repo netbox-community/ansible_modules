@@ -736,7 +736,7 @@ class NetboxModule(object):
             # provides user_query_params
             pass
 
-        elif parent == "parent":
+        elif parent == "parent" and module_data.get("device"):
             if not child:
                 query_dict["name"] = module_data["parent"]
 
