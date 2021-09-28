@@ -114,7 +114,7 @@ options:
           - The mode of the interface
         required: false
         type: raw
-      parent:
+      parent_interface:
         description:
           - the device's parent interface
         required: false
@@ -318,7 +318,7 @@ def main():
                     mgmt_only=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
-                    parent=dict(required=False, type="raw"),
+                    parent_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),

@@ -157,3 +157,24 @@
       - test_five['interface']['tagged_vlans'] == [2, 3]
       - test_five['interface']['tags'][0] == 4
       - test_five['msg'] == "interface Eth0 updated"
+
+- name: "NETBOX_VM_INTERFACE 6: Create a child virtual device Eth0."
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: "http://localhost:32768"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: "test100-vm"
+      name: Child1
+      type: virtual
+      parent_interface: "Eth0"
+  register: test_six
+
+- name: "NETBOX_VM_INTERFACE 6: ASSERT"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['msg'] == "interface Child1 created"
+      - test_six['diff']['before']['state'] == 'absent'
+      - test_six['diff']['after']['state'] == 'present'
+      - test_six['interface']['parent'] == test_five['interface']['id']
+

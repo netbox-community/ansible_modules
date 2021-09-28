@@ -177,7 +177,7 @@ CONVERT_TO_ID = {
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
-    "parent": "interfaces",
+    "parent_interface": "interfaces",
     "parent_region": "regions",
     "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
@@ -315,7 +315,7 @@ ALLOWED_QUERY_PARAMS = {
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
-    "parent": set(["name"]),
+    "parent_interface": set(["name"]),
     "parent_region": set(["slug"]),
     "parent_tenant_group": set(["slug"]),
     "platform": set(["slug"]),
@@ -408,6 +408,7 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
+    "parent_interface": "parent",
     "parent_region": "parent",
     "parent_tenant_group": "parent",
     "power_port_template": "power_port",
@@ -736,9 +737,12 @@ class NetboxModule(object):
             # provides user_query_params
             pass
 
-        elif parent == "parent" and module_data.get("device"):
+        elif parent == "prefix" and module_data.get("parent"):
+            query_dict.update({"prefix": module_data["parent"]})
+
+        elif parent == "parent_interface":
             if not child:
-                query_dict["name"] = module_data["parent"]
+                query_dict["name"] = module_data.get("parent_interface")
 
             if isinstance(module_data.get("device"), int):
                 query_dict.update({"device_id": module_data.get("device")})
@@ -756,9 +760,6 @@ class NetboxModule(object):
                 query_dict.update({"device_id": module_data["device"]})
             else:
                 query_dict.update({"device": module_data["device"]})
-
-        elif parent == "prefix" and module_data.get("parent"):
-            query_dict.update({"prefix": module_data["parent"]})
 
         elif parent == "ip_addresses":
             if isinstance(module_data["device"], int):
@@ -949,7 +950,7 @@ class NetboxModule(object):
                 else:
                     if k in [
                         "lag",
-                        "parent",
+                        "parent_interface",
                         "rear_port",
                         "rear_port_template",
                         "power_port",
