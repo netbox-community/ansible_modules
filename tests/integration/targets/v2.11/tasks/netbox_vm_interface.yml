@@ -165,7 +165,6 @@
     data:
       virtual_machine: "test100-vm"
       name: Child1
-      type: virtual
       parent_interface: "Eth0"
   register: test_six
 
