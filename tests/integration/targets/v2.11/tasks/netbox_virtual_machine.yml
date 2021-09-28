@@ -62,14 +62,14 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['vcpus'] == 8.5
+      - test_three['diff']['after']['vcpus'] == "8.50"
       - test_three['diff']['after']['memory'] == 8
       - test_three['diff']['after']['status'] == "planned"
       - test_three['diff']['after']['role'] == 2
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['virtual_machine']['name'] == "Test VM One"
       - test_three['virtual_machine']['cluster'] == 1
-      - test_three['virtual_machine']['vcpus'] == 8.5
+      - test_three['virtual_machine']['vcpus'] == "8.50"
       - test_three['virtual_machine']['memory'] == 8
       - test_three['virtual_machine']['status'] == "planned"
       - test_three['virtual_machine']['role'] == 2
@@ -91,7 +91,7 @@
       - test_four is changed
       - test_four['virtual_machine']['name'] == "Test VM One"
       - test_four['virtual_machine']['cluster'] == 1
-      - test_four['virtual_machine']['vcpus'] == 8.5
+      - test_four['virtual_machine']['vcpus'] == "8.50"
       - test_four['virtual_machine']['memory'] == 8
       - test_four['virtual_machine']['status'] == "planned"
       - test_four['virtual_machine']['role'] == 2
