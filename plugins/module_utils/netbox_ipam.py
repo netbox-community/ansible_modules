@@ -81,7 +81,7 @@ class NetboxIpamModule(NetboxModule):
 
         attached_ips = nb_endpoint.filter(**query_params)
         if attached_ips:
-            self.nb_object = attached_ips[-1].serialize()
+            self.nb_object = list(attached_ips[-1]).serialize()
             self.result["changed"] = False
             self.result["msg"] = "%s %s already attached" % (
                 endpoint_name,
