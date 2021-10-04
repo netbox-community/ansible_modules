@@ -755,11 +755,11 @@ class NetboxModule(object):
         elif parent == "parent_vm_interface" and module_data.get("virtual_machine"):
             if not child:
                 query_dict["name"] = module_data["parent_vm_interface"]
-            if isinstance(module_data["virtual_machine"], int):
-                query_dict.update({"virtual_machine": module_data["virtual_machine"]})
-            else:
-                query_dict.update({"virtual_machine": module_data["virtual_machine"]})
-
+#            if isinstance(module_data["virtual_machine"], int):
+#                query_dict.update({"virtual_machine": module_data["virtual_machine"]})
+#            else:
+#                query_dict.update({"virtual_machine": module_data["virtual_machine"]})
+#
         elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
