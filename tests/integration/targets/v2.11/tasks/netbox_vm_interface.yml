@@ -175,7 +175,7 @@
     data:
       virtual_machine: "test100-vm"
       name: "Child1"
-      parent_interface: "Eth10"
+      parent_vm_interface: "Eth10"
     state: present
   register: test_child
 
