@@ -178,7 +178,7 @@ CONVERT_TO_ID = {
     "nat_outside": "ip_addresses",
     "platform": "platforms",
     "parent_interface": "interfaces",
-    "parent_vm_interface": "interfaces,
+    "parent_vm_interface": "interfaces",
     "parent_region": "regions",
     "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
