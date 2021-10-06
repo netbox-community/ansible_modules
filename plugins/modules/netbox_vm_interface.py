@@ -82,6 +82,11 @@ options:
           - The mode of the interface
         required: false
         type: raw
+      parent_vm_interface:
+        description:
+          - the vm interface's parent interface.
+        required: false
+        type: raw
       untagged_vlan:
         description:
           - The untagged VLAN to be assigned to interface
@@ -208,6 +213,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
+                    parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
