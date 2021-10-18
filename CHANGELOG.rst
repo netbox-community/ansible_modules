@@ -5,6 +5,23 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.2.0
+======
+
+Minor Changes
+-------------
+
+- Add connected-devices to nb_lookup [#540](https://github.com/netbox-community/ansible_modules/pull/540)
+- Add location and power panel as lookup keys to nb_lookup [#599](https://github.com/netbox-community/ansible_modules/pull/599)
+- netbox_device_interface and netbox_vm_interface - Add parent interface to modules [#604](https://github.com/netbox-community/ansible_modules/pull/604)
+- netbox_virtual_machine - Change vCPU to float from int (to reflect NetBox 3.0) [#605](https://github.com/netbox-community/ansible_modules/pull/605)
+
+Bugfixes
+--------
+
+- Copy interfaces before processing [#556](https://github.com/netbox-community/ansible_modules/pull/556)
+- Make attached_ips subscriptable. [#609](https://github.com/netbox-community/ansible_modules/pull/609)
+
 v3.1.2
 ======
 
