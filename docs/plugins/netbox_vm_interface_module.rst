@@ -20,7 +20,7 @@ netbox.netbox.netbox_vm_interface -- Creates or removes interfaces from virtual 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -198,6 +198,22 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Name of the interface to be created</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/parent_vm_interface"></div>
+                    <b>parent_vm_interface</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/parent_vm_interface" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The virtual machine interface&#x27;s parent interface.</div>
                                                         </td>
             </tr>
                                 <tr>

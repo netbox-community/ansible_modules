@@ -20,7 +20,7 @@ netbox.netbox.netbox_virtual_machine -- Create, update or delete virtual_machine
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -331,7 +331,7 @@ Parameters
                     <b>vcpus</b>
                     <a class="ansibleOptionLink" href="#parameter-data/vcpus" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">integer</span>
+                        <span style="color: purple">float</span>
                                                                     </div>
                                                         </td>
                                 <td>

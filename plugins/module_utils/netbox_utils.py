@@ -177,6 +177,8 @@ CONVERT_TO_ID = {
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
+    "parent_interface": "interfaces",
+    "parent_vm_interface": "interfaces",
     "parent_region": "regions",
     "parent_tenant_group": "tenant_groups",
     "power_panel": "power_panels",
@@ -314,6 +316,8 @@ ALLOWED_QUERY_PARAMS = {
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
+    "parent_interface": set(["name"]),
+    "parent_vm_interface": set(["name"]),
     "parent_region": set(["slug"]),
     "parent_tenant_group": set(["slug"]),
     "platform": set(["slug"]),
@@ -406,6 +410,8 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
+    "parent_interface": "parent",
+    "parent_vm_interface": "parent",
     "parent_region": "parent",
     "parent_tenant_group": "parent",
     "power_port_template": "power_port",
@@ -733,6 +739,23 @@ class NetboxModule(object):
             # This is to skip any potential changes using module_data when the user
             # provides user_query_params
             pass
+
+        elif parent == "prefix" and module_data.get("parent"):
+            query_dict.update({"prefix": module_data["parent"]})
+
+        elif parent == "parent_interface" and module_data.get("device"):
+            if not child:
+                query_dict["name"] = module_data.get("parent_interface")
+
+            if isinstance(module_data.get("device"), int):
+                query_dict.update({"device_id": module_data.get("device")})
+            else:
+                query_dict.update({"device": module_data.get("device")})
+
+        elif parent == "parent_vm_interface" and module_data.get("virtual_machine"):
+            if not child:
+                query_dict["name"] = module_data["parent_vm_interface"]
+
         elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
@@ -744,9 +767,6 @@ class NetboxModule(object):
                 query_dict.update({"device_id": module_data["device"]})
             else:
                 query_dict.update({"device": module_data["device"]})
-
-        elif parent == "prefix" and module_data.get("parent"):
-            query_dict.update({"prefix": module_data["parent"]})
 
         elif parent == "ip_addresses":
             if isinstance(module_data["device"], int):
@@ -937,6 +957,7 @@ class NetboxModule(object):
                 else:
                     if k in [
                         "lag",
+                        "parent_interface",
                         "rear_port",
                         "rear_port_template",
                         "power_port",
@@ -951,6 +972,12 @@ class NetboxModule(object):
                                 ENDPOINT_NAME_MAPPING[endpoint], "q"
                             ): search
                         }
+                    elif k == "parent_vm_interface":
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
+                        query_params = self._build_query_params(
+                            k, data, user_query_params
+                        )
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
