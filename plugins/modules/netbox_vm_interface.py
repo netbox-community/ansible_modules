@@ -84,10 +84,9 @@ options:
         type: raw
       parent_vm_interface:
         description:
-          - the vm interface's parent interface.
+          - The virtual machine interface's parent interface.
         required: false
         type: raw
-        added_in_version: 3.2.0
       untagged_vlan:
         description:
           - The untagged VLAN to be assigned to interface

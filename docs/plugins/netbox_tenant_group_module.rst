@@ -20,7 +20,7 @@ netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbo
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.1.2).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
