@@ -116,7 +116,7 @@ options:
         type: raw
       parent_interface:
         description:
-          - the device's parent interface
+          - The device's parent interface
         required: false
         type: raw
       untagged_vlan:
