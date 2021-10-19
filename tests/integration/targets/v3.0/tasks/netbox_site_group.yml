@@ -9,7 +9,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: Test Site Group
+      name: Test Parent Site Group
     state: present
   register: test_one
 
@@ -19,16 +19,16 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['site_group']['name'] == "Test Site Group"
-      - test_one['site_group']['slug'] == "test-site-group"
-      - test_one['msg'] == "site_group Test Site Group created"
+      - test_one['site_group']['name'] == "Test Parent Site Group"
+      - test_one['site_group']['slug'] == "test-parent-site-group"
+      - test_one['msg'] == "site_group Test Parent Site Group created"
 
 - name: "2 - NETBOX_SITE_GROUP: Idempotency - Duplicate site group"
   netbox.netbox.netbox_site_group:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: Test Site Group
+      name: Test Parent Site Group
     state: present
   register: test_two
 
@@ -36,16 +36,16 @@
   assert:
     that:
       - not test_two['changed']
-      - test_two['site_group']['name'] == "Test Site Group"
-      - test_two['site_group']['slug'] == "test-site-group"
-      - test_two['msg'] == "site_group Test Site Group already exists"
+      - test_two['site_group']['name'] == "Test Parent Site Group"
+      - test_two['site_group']['slug'] == "test-parent-site-group"
+      - test_two['msg'] == "site_group Test Parent Site Group already exists"
 
 - name: "3 - NETBOX_SITE_GROUP: Update site group"
   netbox.netbox.netbox_site_group:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: Test Site Group
+      name: Test Parent Site Group
       description: This is a test description
     state: present
   register: test_three
@@ -55,9 +55,9 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['description'] == "This is a test description"
-      - test_three['site_group']['name'] == "Test Site Group"
+      - test_three['site_group']['name'] == "Test Parent Site Group"
       - test_three['site_group']['description'] == "This is a test description"
-      - test_three['msg'] == "site_group Test Site Group updated"
+      - test_three['msg'] == "site_group Test Parent Site Group updated"
 
 - name: "4 - NETBOX_SITE_GROUP: Create site group with all parameters"
   netbox.netbox.netbox_site_group:
@@ -65,7 +65,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test Child Site Group
-      parent_site_group: Test Site Group
+      parent_site_group: Test Parent Site Group
       description: This is a test description
       slug: "test_child_site_group"
     state: present
@@ -89,38 +89,37 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test Child Site Group
-      parent_site_group: Test Site Group
+      parent_site_group: Test Parent Site Group
       description: This is a test description
       slug: "test_child_site_group"
     state: present
-  register: test_results
+  register: test_five
 
 - name: "5 - NETBOX_SITE_GROUP: Assert"
   assert:
     that:
-      - test_results is not changed
-      - test_results['site_group']['name'] == "Test Child Site Group"
-      - test_results['site_group']['parent'] == {{ test_three.site_group.id }}
-      - test_results['site_group']['description'] == "This is a test description"
-      - test_results['site_group']['slug'] == "test_child_site_group"
-      - test_results['msg'] == "site_group Test Child Site Group already exists"
+      - test_five is not changed
+      - test_five['site_group']['name'] == "Test Child Site Group"
+      - test_five['site_group']['parent'] == {{ test_three.site_group.id }}
+      - test_five['site_group']['description'] == "This is a test description"
+      - test_five['site_group']['slug'] == "test_child_site_group"
+      - test_five['msg'] == "site_group Test Child Site Group already exists"
 
 - name: "6 - NETBOX_SITE_GROUP: Delete site group"
   netbox.netbox.netbox_site_group:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: Test Child Site Group
-      slug: "test_child_site_group"
+      name: Test Parent Site Group
     state: absent
-  register: test_five
+  register: test_six
 
 - name: "6 - NETBOX_SITE_GROUP: Assert"
   assert:
     that:
-      - test_five is changed
-      - test_five['diff']['before']['state'] == "present"
-      - test_five['diff']['after']['state'] == "absent"
-      - test_five['site_group']['name'] == "Test Child Site Group"
-      - test_results['site_group']['slug'] == "test_child_site_group"
-      - test_five['msg'] == "site_group Test Child Site Group deleted"
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "present"
+      - test_six['diff']['after']['state'] == "absent"
+      - test_six['site_group']['name'] == "Test Parent Site Group"
+      - test_six['site_group']['slug'] == "test-parent-site-group"
+      - test_six['msg'] == "site_group Test Parent Site Group deleted"
