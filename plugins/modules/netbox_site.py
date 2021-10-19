@@ -64,6 +64,11 @@ options:
           - The region that the site should be associated with
         required: false
         type: raw
+      site_group:
+        description: 
+          - The site group the site will be associated with (NetBox 2.11+)
+        required: false
+        type: raw
       tenant:
         description:
           - The tenant the site will be assigned to
@@ -199,6 +204,7 @@ EXAMPLES = r"""
           name: Test - California
           status: Planned
           region: Test Region
+          site_group: Test Site Group
           tenant: Test Tenant
           facility: EquinoxCA7
           asn: 65001
@@ -252,6 +258,7 @@ def main():
                     name=dict(required=True, type="str"),
                     status=dict(required=False, type="raw"),
                     region=dict(required=False, type="raw"),
+                    site_group=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     facility=dict(required=False, type="str"),
                     asn=dict(required=False, type="int"),
