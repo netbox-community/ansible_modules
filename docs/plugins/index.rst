@@ -73,6 +73,7 @@ Modules
 * :ref:`netbox_route_target <ansible_collections.netbox.netbox.netbox_route_target_module>` -- Creates or removes route targets from Netbox
 * :ref:`netbox_service <ansible_collections.netbox.netbox.netbox_service_module>` -- Creates or removes service from Netbox
 * :ref:`netbox_site <ansible_collections.netbox.netbox.netbox_site_module>` -- Creates or removes sites from Netbox
+* :ref:`netbox_site_group <ansible_collections.netbox.netbox.netbox_site_group_module>` -- Creates or removes site groups from Netbox
 * :ref:`netbox_tag <ansible_collections.netbox.netbox.netbox_tag_module>` -- Creates or removes tags from Netbox
 * :ref:`netbox_tenant <ansible_collections.netbox.netbox.netbox_tenant_module>` -- Creates or removes tenants from Netbox
 * :ref:`netbox_tenant_group <ansible_collections.netbox.netbox.netbox_tenant_group_module>` -- Creates or removes tenant groups from Netbox
