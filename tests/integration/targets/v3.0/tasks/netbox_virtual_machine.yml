@@ -69,7 +69,7 @@
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['virtual_machine']['name'] == "Test VM One"
       - test_three['virtual_machine']['cluster'] == 1
-      - test_three['virtual_machine']['vcpus'] == 8
+      - test_three['virtual_machine']['vcpus'] == 8.5
       - test_three['virtual_machine']['memory'] == 8
       - test_three['virtual_machine']['status'] == "planned"
       - test_three['virtual_machine']['role'] == 2
