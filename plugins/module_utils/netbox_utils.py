@@ -70,7 +70,7 @@ API_APPS_ENDPOINTS = dict(
         "site_groups",
         "virtual_chassis",
     ],
-    extras=["tags"],
+    extras=["config_contexts", "tags"],
     ipam=[
         "aggregates",
         "ip_addresses",
@@ -96,6 +96,7 @@ QUERY_TYPES = dict(
     cluster="name",
     cluster_group="slug",
     cluster_type="slug",
+    config_context="name",
     device="name",
     device_role="slug",
     device_type="slug",
@@ -150,7 +151,9 @@ CONVERT_TO_ID = {
     "circuits.circuittermination": "circuit_terminations",
     "cluster": "clusters",
     "cluster_group": "cluster_groups",
+    "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
+    "config_context": "config_contexts",
     "dcim.consoleport": "console_ports",
     "dcim.consoleserverport": "console_server_ports",
     "dcim.frontport": "front_ports",
@@ -162,6 +165,7 @@ CONVERT_TO_ID = {
     "device": "devices",
     "device_role": "device_roles",
     "device_type": "device_types",
+    "device_types": "device_types",
     "export_targets": "route_targets",
     "group": "tenant_groups",
     "import_targets": "route_targets",
@@ -181,6 +185,7 @@ CONVERT_TO_ID = {
     "parent_vm_interface": "interfaces",
     "parent_region": "regions",
     "parent_tenant_group": "tenant_groups",
+    "platforms": "platforms",
     "power_panel": "power_panels",
     "power_port": "power_ports",
     "power_port_template": "power_port_templates",
@@ -193,19 +198,24 @@ CONVERT_TO_ID = {
     "rack_group": "rack_groups",
     "rack_role": "rack_roles",
     "region": "regions",
+    "regions": "regions",
     "rear_port": "rear_ports",
     "rear_port_template": "rear_port_templates",
     "rir": "rirs",
+    "roles": "device_roles",
     "route_targets": "route_targets",
     # Just a placeholder as scope can be several different types including sites.
     "scope": "sites",
     "services": "services",
     "site": "sites",
     "site_group": "site_groups",
+    "sites": "sites",
     "tags": "tags",
     "tagged_vlans": "vlans",
     "tenant": "tenants",
+    "tenants": "tenants",
     "tenant_group": "tenant_groups",
+    "tenant_groups": "tenant_groups",
     "termination_a": "interfaces",
     "termination_b": "interfaces",
     "untagged_vlan": "vlans",
@@ -227,6 +237,7 @@ ENDPOINT_NAME_MAPPING = {
     "clusters": "cluster",
     "cluster_groups": "cluster_group",
     "cluster_types": "cluster_type",
+    "config_contexts": "config_context",
     "console_ports": "console_port",
     "console_port_templates": "console_port_template",
     "console_server_ports": "console_server_port",
@@ -285,6 +296,21 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
+    "config_context": set(
+        [
+            "name",
+            "regions",
+            "sites",
+            "roles",
+            "device_types",
+            "platforms",
+            "cluster_groups",
+            "clusters",
+            "tenant_groups",
+            "tenants",
+            "tags",
+        ]
+    ),
     "console_port": set(["name", "device"]),
     "console_port_template": set(["name", "device_type"]),
     "console_server_port": set(["name", "device"]),
@@ -907,7 +933,7 @@ class NetboxModule(object):
                         self.version, "2.9", greater_or_equal=True
                     )
                     and k == "tags"
-                ):
+                ) or (self.endpoint == "config_contexts" and k == "tags"):
                     continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
@@ -936,7 +962,18 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if k == "tags" and isinstance(list_item, str):
+                        if k in (
+                            "regions",
+                            "sites",
+                            "roles",
+                            "device_types",
+                            "platforms",
+                            "cluster_groups",
+                            "clusters",
+                            "tenant_groups",
+                            "tenants",
+                            "tags",
+                        ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
