@@ -43,6 +43,7 @@ NB_REAR_PORTS = "rear_ports"
 NB_REAR_PORT_TEMPLATES = "rear_port_templates"
 NB_REGIONS = "regions"
 NB_SITES = "sites"
+NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
 
@@ -79,6 +80,7 @@ class NetboxDcimModule(NetboxModule):
         - power_ports
         - power_port_templates
         - sites
+        - site_groups
         - racks
         - rack_roles
         - rack_groups
