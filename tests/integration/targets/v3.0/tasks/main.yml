@@ -17,6 +17,9 @@
 - name: "NETBOX_SITE TESTS"
   include_tasks: "netbox_site.yml"
 
+- name: "NETBOX_SITE_GROUP TESTS"
+  include_tasks: "netbox_site_group.yml"
+
 - name: "NETBOX_TENTANT TESTS"
   include_tasks: "netbox_tenant.yml"
 
