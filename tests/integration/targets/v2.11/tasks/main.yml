@@ -14,11 +14,11 @@
 - name: "NETBOX_PREFIX TESTS"
   include_tasks: "netbox_prefix.yml"
 
-- name: "NETBOX_SITE TESTS"
-  include_tasks: "netbox_site.yml"
-
 - name: "NETBOX_SITE_GROUP TESTS"
   include_tasks: "netbox_site_group.yml"
+
+- name: "NETBOX_SITE TESTS"
+  include_tasks: "netbox_site.yml"
 
 - name: "NETBOX_TENTANT TESTS"
   include_tasks: "netbox_tenant.yml"
@@ -31,9 +31,6 @@
 
 - name: "NETBOX_RACK_ROLE TESTS"
   include_tasks: "netbox_rack_role.yml"
-
-# - name: "NETBOX_RACK_GROUP TESTS"
-#   include_tasks: "netbox_rack_group.yml"
 
 - name: "NETBOX_MANUFACTURER TESTS"
   include_tasks: "netbox_manufacturer.yml"
