@@ -46,7 +46,12 @@ NB_SITES = "sites"
 NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
-from packaging.version import Version
+try:
+    from packaging.version import Version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
 
 
 class NetboxDcimModule(NetboxModule):
