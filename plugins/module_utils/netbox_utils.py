@@ -12,7 +12,6 @@ __metaclass__ = type
 import traceback
 import re
 import json
-
 from itertools import chain
 
 from ansible.module_utils.common.text.converters import to_text
@@ -538,6 +537,7 @@ class NetboxModule(object):
             self.nb = nb_client
             try:
                 self.version = self.nb.version
+                self.full_version = self.nb.status().get("netbox-version")
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
@@ -586,6 +586,7 @@ class NetboxModule(object):
             nb.http_session = session
             try:
                 self.version = nb.version
+                self.full_version = nb.status().get("netbox-version")
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
