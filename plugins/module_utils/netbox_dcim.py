@@ -46,6 +46,13 @@ NB_SITES = "sites"
 NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
+try:
+    from packaging.version import Version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
+
 
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
@@ -141,14 +148,24 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
-            cables = [
-                cable
-                for cable in nb_endpoint.all()
-                if cable.termination_a_type == data["termination_a_type"]
-                and cable.termination_a_id == data["termination_a_id"]
-                and cable.termination_b_type == data["termination_b_type"]
-                and cable.termination_b_id == data["termination_b_id"]
-            ]
+            if Version(self.full_version) >= Version("3.0.6"):
+                cables = [
+                    nb_endpoint.get(
+                        termination_a_type=data["termination_a_type"],
+                        termination_a_id=data["termination_a_id"],
+                        termination_b_type=data["termination_b_type"],
+                        termination_b_id=data["termination_b_id"],
+                    )
+                ]
+            else:
+                cables = [
+                    cable
+                    for cable in nb_endpoint.all()
+                    if cable.termination_a_type == data["termination_a_type"]
+                    and cable.termination_a_id == data["termination_a_id"]
+                    and cable.termination_b_type == data["termination_b_type"]
+                    and cable.termination_b_id == data["termination_b_id"]
+                ]
             if len(cables) == 0:
                 self.nb_object = None
             elif len(cables) == 1:
