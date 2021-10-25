@@ -32,6 +32,9 @@
 - name: "NETBOX_RACK_ROLE TESTS"
   include_tasks: "netbox_rack_role.yml"
 
+- name: "NETBOX_LOCATION TESTS"
+  include_tasks: "netbox_location.yml"
+
 - name: "NETBOX_MANUFACTURER TESTS"
   include_tasks: "netbox_manufacturer.yml"
 
