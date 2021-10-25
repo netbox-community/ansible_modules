@@ -20,7 +20,7 @@ netbox.netbox.netbox_site -- Creates or removes sites from Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.3.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -327,6 +327,25 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/site_group"></div>
+                    <b>site_group</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/site_group" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.3.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The site group the site will be associated with (NetBox 2.11+)</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
                     <b>slug</b>
                     <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
@@ -540,6 +559,7 @@ Examples
               name: Test - California
               status: Planned
               region: Test Region
+              site_group: Test Site Group
               tenant: Test Tenant
               facility: EquinoxCA7
               asn: 65001

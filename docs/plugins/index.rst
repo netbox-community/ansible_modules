@@ -5,7 +5,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.2.0
+Collection version 3.3.0
 
 .. toctree::
     :maxdepth: 1
@@ -37,6 +37,7 @@ Modules
 * :ref:`netbox_cluster <ansible_collections.netbox.netbox.netbox_cluster_module>` -- Create, update or delete clusters within Netbox
 * :ref:`netbox_cluster_group <ansible_collections.netbox.netbox.netbox_cluster_group_module>` -- Create, update or delete cluster groups within Netbox
 * :ref:`netbox_cluster_type <ansible_collections.netbox.netbox.netbox_cluster_type_module>` -- Create, update or delete cluster types within Netbox
+* :ref:`netbox_config_context <ansible_collections.netbox.netbox.netbox_config_context_module>` -- Creates, updates or deletes configuration contexts within Netbox
 * :ref:`netbox_console_port <ansible_collections.netbox.netbox.netbox_console_port_module>` -- Create, update or delete console ports within Netbox
 * :ref:`netbox_console_port_template <ansible_collections.netbox.netbox.netbox_console_port_template_module>` -- Create, update or delete console port templates within Netbox
 * :ref:`netbox_console_server_port <ansible_collections.netbox.netbox.netbox_console_server_port_module>` -- Create, update or delete console server ports within Netbox
@@ -53,6 +54,7 @@ Modules
 * :ref:`netbox_inventory_item <ansible_collections.netbox.netbox.netbox_inventory_item_module>` -- Creates or removes inventory items from Netbox
 * :ref:`netbox_ip_address <ansible_collections.netbox.netbox.netbox_ip_address_module>` -- Creates or removes IP addresses from Netbox
 * :ref:`netbox_ipam_role <ansible_collections.netbox.netbox.netbox_ipam_role_module>` -- Creates or removes ipam roles from Netbox
+* :ref:`netbox_location <ansible_collections.netbox.netbox.netbox_location_module>` -- Create, update or delete locations within NetBox
 * :ref:`netbox_manufacturer <ansible_collections.netbox.netbox.netbox_manufacturer_module>` -- Create or delete manufacturers within Netbox
 * :ref:`netbox_platform <ansible_collections.netbox.netbox.netbox_platform_module>` -- Create or delete platforms within Netbox
 * :ref:`netbox_power_feed <ansible_collections.netbox.netbox.netbox_power_feed_module>` -- Create, update or delete power feeds within Netbox
@@ -73,6 +75,7 @@ Modules
 * :ref:`netbox_route_target <ansible_collections.netbox.netbox.netbox_route_target_module>` -- Creates or removes route targets from Netbox
 * :ref:`netbox_service <ansible_collections.netbox.netbox.netbox_service_module>` -- Creates or removes service from Netbox
 * :ref:`netbox_site <ansible_collections.netbox.netbox.netbox_site_module>` -- Creates or removes sites from Netbox
+* :ref:`netbox_site_group <ansible_collections.netbox.netbox.netbox_site_group_module>` -- Create, update, or delete site groups within NetBox
 * :ref:`netbox_tag <ansible_collections.netbox.netbox.netbox_tag_module>` -- Creates or removes tags from Netbox
 * :ref:`netbox_tenant <ansible_collections.netbox.netbox.netbox_tenant_module>` -- Creates or removes tenants from Netbox
 * :ref:`netbox_tenant_group <ansible_collections.netbox.netbox.netbox_tenant_group_module>` -- Creates or removes tenant groups from Netbox

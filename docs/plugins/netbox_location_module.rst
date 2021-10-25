@@ -4,7 +4,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_tenant_group_module:
+.. _ansible_collections.netbox.netbox.netbox_location_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbox
+netbox.netbox.netbox_location -- Create, update or delete locations within NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -24,11 +24,11 @@ netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbo
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_tenant_group`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_location`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 3.3.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes tenant groups from Netbox
+- Creates, updates or removes locations from NetBox
 
 
 .. Aliases
@@ -97,7 +97,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the tenant group configuration</div>
+                                            <div>Defines the location configuration</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -113,7 +113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The description of the tenant group</div>
+                                            <div>The description of the location</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -129,23 +129,39 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Name of the tenant group to be created</div>
+                                            <div>The name of the location</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/parent_tenant_group"></div>
-                    <b>parent_tenant_group</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/parent_tenant_group" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/parent_location"></div>
+                    <b>parent_location</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/parent_location" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">string</span>
+                        <span style="color: purple">raw</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Slug of the parent tenant group</div>
+                                            <div>The parent location the location will be associated with</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
+                    <b>site</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Required if <em>state=present</em> and the location does not exist yet</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -161,7 +177,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL-friendly unique shorthand</div>
+                                            <div>The slugified version of the name or custom slug.</div>
+                                            <div>This is auto-generated following NetBox rules if not provided</div>
                                                         </td>
             </tr>
                     
@@ -177,7 +194,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -192,7 +209,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -244,8 +261,7 @@ Parameters
                                                                                                                                                                                                                 <b>Default:</b><br/><div style="color: blue">"yes"</div>
                                     </td>
                                                                 <td>
-                                            <div>If <code>no</code>, SSL certificates will not be validated.
-    This should only be used on personally controlled sites using self-signed certificates.</div>
+                                            <div>If <code>no</code>, SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.</div>
                                                         </td>
             </tr>
                         </table>
@@ -271,28 +287,38 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox tenant group module"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
+
       tasks:
-        - name: Create tenant within Netbox with only required information
-          netbox_tenant_group:
+        - name: Create location within NetBox with only required information
+          netbox.netbox.netbox_location:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Tenant Group ABC
-              slug: "tenant_group_abc"
+              name: Test location
+              site: Test Site
             state: present
 
-        - name: Delete tenant within netbox
-          netbox_tenant_group:
+        - name: Create location within NetBox with a parent location
+          netbox.netbox.netbox_location:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Tenant ABC
-            state: absent
+              name: Child location
+              site: Test Site
+              parent_location: Test location
+            state: present
 
+        - name: Delete location within NetBox
+          netbox.netbox.netbox_location:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test location
+            state: absent
 
 
 
@@ -316,6 +342,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </tr>
                     <tr>
                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-location"></div>
+                    <b>location</b>
+                    <a class="ansibleOptionLink" href="#return-location" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>success (when <em>state=present</em>)</td>
+                <td>
+                                            <div>Serialized object as created or already existent within NetBox</div>
+                                        <br/>
+                                    </td>
+            </tr>
+                                <tr>
+                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="return-msg"></div>
                     <b>msg</b>
                     <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
@@ -326,21 +367,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                 <td>always</td>
                 <td>
                                             <div>Message indicating failure or info about what has been achieved</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-tenant_group"></div>
-                    <b>tenant_group</b>
-                    <a class="ansibleOptionLink" href="#return-tenant_group" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>on creation</td>
-                <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
                                         <br/>
                                     </td>
             </tr>
@@ -355,7 +381,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Andrew Simmons (@andybro19)
 
 
 

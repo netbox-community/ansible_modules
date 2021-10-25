@@ -4,6 +4,7 @@ __pycache__/
 tests/output/*
 venv/
 .vscode/
+.idea/
 changelogs/.plugin-cache.yaml
 docs/_build/*
 .python-version

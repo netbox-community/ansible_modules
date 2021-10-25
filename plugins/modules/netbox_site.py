@@ -69,6 +69,7 @@ options:
           - The site group the site will be associated with (NetBox 2.11+)
         required: false
         type: raw
+        version_added: "3.3.0"
       tenant:
         description:
           - The tenant the site will be assigned to

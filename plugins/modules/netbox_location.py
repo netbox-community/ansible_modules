@@ -26,7 +26,7 @@ author:
   - Andrew Simmons (@andybro19)
 requirements:
   - pynetbox
-version_added: '4.0.0'
+version_added: '3.3.0'
 options:
   netbox_url:
     description:

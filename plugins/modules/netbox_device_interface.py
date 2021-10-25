@@ -119,6 +119,7 @@ options:
           - The device's parent interface
         required: false
         type: raw
+        version_added: "3.2.0"
       untagged_vlan:
         description:
           - The untagged VLAN to be assigned to interface

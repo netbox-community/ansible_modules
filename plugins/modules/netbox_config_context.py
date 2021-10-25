@@ -26,7 +26,7 @@ author:
   - Pavel Korovin (@pkorovin)
 requirements:
   - pynetbox
-version_added: "2.4.0"
+version_added: "3.3.0"
 options:
   netbox_url:
     description:
@@ -79,70 +79,60 @@ options:
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       sites:
         description:
           - List of sites where configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       roles:
         description:
           - List of roles to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       device_types:
         description:
           - List of device_types to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.11.0
       platforms:
         description:
           - List of platforms to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       cluster_groups:
         description:
           - List of cluster_groups to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.8.0
       clusters:
         description:
           - List of clusters to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.8.0
       tenant_groups:
         description:
           - List of tenant_groups to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       tenants:
         description:
           - List of tenants to which configuration context applies
         required: false
         type: list
         elements: str
-        version_added: 2.4.0
       tags:
         description:
           - Any tags that the configuration context associates with
         required: false
         type: list
         elements: str
-        version_added: 2.7.0
     required: true
   state:
     description:
