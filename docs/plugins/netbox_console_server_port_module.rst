@@ -20,7 +20,7 @@ netbox.netbox.netbox_console_server_port -- Create, update or delete console ser
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.3.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 

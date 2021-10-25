@@ -565,3 +565,21 @@ releases:
         - Make attached_ips subscriptable. [#609](https://github.com/netbox-community/ansible_modules/pull/609)
         - Copy interfaces before processing [#556](https://github.com/netbox-community/ansible_modules/pull/556)
     release_date: '2021-10-18'
+  3.3.0:
+    changes:
+      minor_changes:
+        - Improve speed of netbox_cable module on NetBox version 3.0.6 or later [#624](https://github.com/netbox-community/ansible_modules/pull/624)
+        - netbox_location - add module for handling Location [#543](https://github.com/netbox-community/ansible_modules/pull/543)
+        - netbox_site_group - add module for handling Site Group [#547](https://github.com/netbox-community/ansible_modules/pull/547)
+        - netbox_config_context - add module for handling Config Context [#610](https://github.com/netbox-community/ansible_modules/pull/610)
+    modules:
+    - description: Create, update or delete Location in NetBox
+      name: netbox_location
+      namespace: ''
+    - description: Create, update or delete Site Group in NetBox
+      name: netbox_site_group
+      namespace: ''
+    - description: Create, update or delete Config Context in NetBox
+      name: netbox_config_context
+      namespace: ''
+    release_date: '2021-10-25' 
