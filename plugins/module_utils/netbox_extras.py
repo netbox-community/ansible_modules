@@ -11,6 +11,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
+NB_CONFIG_CONTEXTS = "config_contexts"
 NB_TAGS = "tags"
 
 
@@ -23,6 +24,7 @@ class NetboxExtrasModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
+        - config_contexts
         - tags
         """
         # Used to dynamically set key when returning results

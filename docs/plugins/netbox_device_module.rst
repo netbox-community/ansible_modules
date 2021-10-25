@@ -20,7 +20,7 @@ netbox.netbox.netbox_device -- Create, update or delete devices within Netbox
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.2.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.3.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -232,6 +232,25 @@ Parameters
                                                                                                                                                             </td>
                                                                 <td>
                                             <div>Arbitrary JSON data to define the devices configuration variables.</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/location"></div>
+                    <b>location</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/location" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                          <div style="font-style: italic; font-size: small; color: darkgreen">
+                        added in 3.3.0 of netbox.netbox
+                      </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The location the device will be associated to (NetBox 2.11+)</div>
                                                         </td>
             </tr>
                                 <tr>

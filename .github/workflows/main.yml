@@ -45,10 +45,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: 3.6
+          - python-version: 3.8
             VERSION: "v2.10"
             INTEGRATION_TESTS: "v2.10"
-          - python-version: 3.6
+          - python-version: 3.8
             VERSION: "v2.11"
             INTEGRATION_TESTS: "v2.11"
           #- python-version: 3.6

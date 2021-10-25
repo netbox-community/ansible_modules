@@ -4,7 +4,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_tenant_group_module:
+.. _ansible_collections.netbox.netbox.netbox_site_group_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -14,8 +14,8 @@
 
 .. Title
 
-netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_site_group -- Create, update, or delete site groups within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -24,11 +24,11 @@ netbox.netbox.netbox_tenant_group -- Creates or removes tenant groups from Netbo
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_tenant_group`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_site_group`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 3.4.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes tenant groups from Netbox
+- Creates, updates, or deletes site groups within NetBox
 
 
 .. Aliases
@@ -97,7 +97,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the tenant group configuration</div>
+                                            <div>Defines the site group configuration</div>
                                                         </td>
             </tr>
                                         <tr>
@@ -113,7 +113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The description of the tenant group</div>
+                                            <div>The description of the site group</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -129,23 +129,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Name of the tenant group to be created</div>
+                                            <div>Name of the site group to be created</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/parent_tenant_group"></div>
-                    <b>parent_tenant_group</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/parent_tenant_group" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/parent_site_group"></div>
+                    <b>parent_site_group</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/parent_site_group" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">string</span>
+                        <span style="color: purple">raw</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Slug of the parent tenant group</div>
+                                            <div>The parent site group the site group will be associated with</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -161,7 +161,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL-friendly unique shorthand</div>
+                                            <div>The slugified version of the name or custom slug.</div>
+                                            <div>This is auto-generated following NetBox rules if not provided</div>
                                                         </td>
             </tr>
                     
@@ -177,7 +178,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -192,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -271,28 +272,35 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox tenant group module"
+    - name: "Test NetBox site group module"
       connection: local
       hosts: localhost
       gather_facts: False
       tasks:
-        - name: Create tenant within Netbox with only required information
-          netbox_tenant_group:
+        - name: Create site group within NetBox with only required information
+          netbox.netbox.netbox_site_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Tenant Group ABC
-              slug: "tenant_group_abc"
+              name: Site group
             state: present
 
-        - name: Delete tenant within netbox
-          netbox_tenant_group:
+        - name: Create site group within NetBox with a parent site group
+          netbox.netbox.netbox_site_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Tenant ABC
-            state: absent
+              name: Child site group
+              parent_site_group: Site group
+            state: present
 
+        - name: Delete site group within NetBox
+          netbox.netbox.netbox_site_group:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Site group
+            state: absent
 
 
 
@@ -331,16 +339,16 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             </tr>
                                 <tr>
                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-tenant_group"></div>
-                    <b>tenant_group</b>
-                    <a class="ansibleOptionLink" href="#return-tenant_group" title="Permalink to this return value"></a>
+                    <div class="ansibleOptionAnchor" id="return-site_group"></div>
+                    <b>site_group</b>
+                    <a class="ansibleOptionLink" href="#return-site_group" title="Permalink to this return value"></a>
                     <div style="font-size: small">
                       <span style="color: purple">dictionary</span>
                                           </div>
                                     </td>
-                <td>on creation</td>
+                <td>success (when <em>state=present</em>)</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>
@@ -355,7 +363,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Andrew Simmons (@andybro19)
 
 
 

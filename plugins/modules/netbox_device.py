@@ -89,6 +89,12 @@ options:
           - Required if I(state=present) and the device does not exist yet
         required: false
         type: raw
+      location:
+        description:
+          - The location the device will be associated to (NetBox 2.11+)
+        required: false
+        type: raw
+        version_added: "3.3.0"
       rack:
         description:
           - The name of the rack to assign the device to
@@ -294,6 +300,7 @@ def main():
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
+                    location=dict(required=False, type="raw"),
                     rack=dict(required=False, type="raw"),
                     position=dict(required=False, type="int"),
                     face=dict(
