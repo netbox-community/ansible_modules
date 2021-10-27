@@ -235,7 +235,7 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"yes"</div>
+                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">True</div>
                                     </td>
                                                     <td>
                                                                                             </td>
