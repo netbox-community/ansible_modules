@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_route_target
-short_description: Creates or removes route targets from Netbox
+short_description: Creates or removes route targets from NetBox
 description:
-  - Creates or removes route targets from Netbox
+  - Creates or removes route targets from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: "2.0.0"
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -71,7 +71,7 @@ options:
         elements: raw
       custom_fields:
         description:
-          - must exist in Netbox
+          - must exist in NetBox
         required: false
         type: dict
     required: true
@@ -145,7 +145,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 route_target:
-  description: Serialized object as created/existent/updated/deleted within Netbox
+  description: Serialized object as created/existent/updated/deleted within NetBox
   returned: always
   type: dict
 msg:

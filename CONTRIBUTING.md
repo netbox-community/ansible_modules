@@ -2,7 +2,7 @@
 
 ## Modules
 
-The structure of the Netbox modules attempts to follow the layout of the Netbox API by having a module_util for each application (`dcim, ipam, tenancy, etc`) that inherits from a base module (`NetboxModule - netbox_utils.py`) and then implements the specific endpoints within the correct application module.
+The structure of the NetBox modules attempts to follow the layout of the NetBox API by having a module_util for each application (`dcim, ipam, tenancy, etc`) that inherits from a base module (`NetboxModule - netbox_utils.py`) and then implements the specific endpoints within the correct application module.
 
 e.g. Add logic for adding devices under netbox_dcim.py or ip addresses under netbox_ipam.py
 
@@ -10,9 +10,9 @@ In turn when creating the actual modules, we're just calling a single function a
 
 (Ansible Module) netbox_{{ endpoint }} -> (Module Util) netbox_{{ application }} -> (Module Util) netbox_utils
 
-These modules are built using the pynetbox Python library which allows you to interact with Netbox using objects. Most of this is abstracted away when creating more modules, but something to be aware of. The reasoning for using underscores within the endpoint names is so the endpoints work with pynetbox.
+These modules are built using the pynetbox Python library which allows you to interact with NetBox using objects. Most of this is abstracted away when creating more modules, but something to be aware of. The reasoning for using underscores within the endpoint names is so the endpoints work with pynetbox.
 
-An example of connecting to a Netbox instance and then choosing the application, endpoint, and operation:
+An example of connecting to a NetBox instance and then choosing the application, endpoint, and operation:
 
 ```python
 import pynetbox
@@ -122,7 +122,7 @@ ENDPOINT_NAME_MAPPING = {
 }
 ```
 
-Log into your Netbox instance and navigate to `/api/docs` and searching for the **POST** documents for the given endpoint you're looking to create.
+Log into your NetBox instance and navigate to `/api/docs` and searching for the **POST** documents for the given endpoint you're looking to create.
 ![POST Results](docs/media/postresults.PNG)
 The module should implement all available fields that are not the **id** or **readOnly** such as the **created, last_updated, device_count** in the example above.
 
@@ -239,7 +239,7 @@ def _convert_identical_keys(self, data):
     """
     Used to change non-clashing keys for each module into identical keys that are required
     to be passed to pynetbox
-    ex. rack_role back into role to pass to Netbox
+    ex. rack_role back into role to pass to NetBox
     Returns data
     :params data (dict): Data dictionary after _find_ids method ran
     """
@@ -293,7 +293,7 @@ Copying an existing module that has close to the same options is typically the p
   ```
 
 - Check each test above to see which `test_data` it uses and edit the corresponding data.json file
-- Please add or update an existing play to test the new Netbox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
+- Please add or update an existing play to test the new NetBox module for integration testing within `tests/integration/integration-tests.yml`. Make sure to test creation, duplicate, update (if possible), and deletion along with any other conditions that may want to be tested.
 - Run `pytest -vv` to make sure all unit tests pass
 - Run `black .` within the base directory for black formatting as it's required for tests to pass
 - Run `ansible-lint integration-tests.yml` it's required for tests to pass
@@ -306,7 +306,7 @@ Integration tests are run by comparing `ansible-inventory --list` against known 
 
 When the inventory plugin is updated in a way that changes this output (or `netbox-deploy.py` is changed), the test data used for comparison will need to be updated. There is a script `./hacking/update_test_inventories.sh` to do this.
 
-Run from the root project working directory, and make sure you have a clean test instance of Netbox set up with test data loaded into it from `./tests/integration/netbox-deploy.py`
+Run from the root project working directory, and make sure you have a clean test instance of NetBox set up with test data loaded into it from `./tests/integration/netbox-deploy.py`
 
 ```
 ./hacking/update_test_inventories.sh
@@ -319,7 +319,7 @@ After running the script, to prevent introducing a regression you'll need to man
 
 You can see the specific details of what happens in CI in  `.travis.yml`. An overview of what you need to do is:
 
-* Run a test instance of Netbox on port 32768. The `netbox-docker` project makes this easy.
+* Run a test instance of NetBox on port 32768. The `netbox-docker` project makes this easy.
 
 ```
 git clone git@github.com:netbox-community/netbox-docker.git

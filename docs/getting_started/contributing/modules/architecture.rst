@@ -253,7 +253,7 @@ The ``NetboxModule`` is the cornerstone of this collection and contains most of 
 
   class NetboxModule(object):
       """
-      Initialize connection to Netbox, sets AnsibleModule passed in to
+      Initialize connection to NetBox, sets AnsibleModule passed in to
       self.module to be used throughout the class
       :params module (obj): Ansible Module object
       :params endpoint (str): Used to tell class which endpoint the logic needs to follow
@@ -280,12 +280,12 @@ We set several instance attributes that are used within other methods throughout
 
   class NetboxModule(object):
       ...
-      # These should not be required after making connection to Netbox
+      # These should not be required after making connection to NetBox
       url = self.module.params["netbox_url"]
       token = self.module.params["netbox_token"]
       ssl_verify = self.module.params["validate_certs"]
   
-      # Attempt to initiate connection to Netbox
+      # Attempt to initiate connection to NetBox
       if nb_client is None:
           self.nb = self._connect_netbox_api(url, token, ssl_verify)
       else:

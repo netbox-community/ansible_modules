@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.nb_lookup -- Queries and returns elements from Netbox
+netbox.netbox.nb_lookup -- Queries and returns elements from NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Queries Netbox via its API to return virtually any information capable of being held in Netbox.
+- Queries NetBox via its API to return virtually any information capable of being held in NetBox.
 - If wanting to obtain the plaintext attribute of a secret, *private_key* or *key_file* must be provided.
 
 
@@ -86,7 +86,7 @@ Parameters
                                                     <td>
                                                                                             </td>
                                                 <td>
-                                            <div>The Netbox object type to query</div>
+                                            <div>The NetBox object type to query</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -109,7 +109,7 @@ Parameters
                                                                                             </div>
                                                                     </td>
                                                 <td>
-                                            <div>The URL to the Netbox instance to query</div>
+                                            <div>The URL to the NetBox instance to query</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -160,7 +160,7 @@ Parameters
                                                     <td>
                                                                                             </td>
                                                 <td>
-                                            <div>The Netbox plugin to query</div>
+                                            <div>The NetBox plugin to query</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -221,8 +221,8 @@ Parameters
                                                                                             </div>
                                                                     </td>
                                                 <td>
-                                            <div>The API token created through Netbox</div>
-                                            <div>This may not be required depending on the Netbox setup.</div>
+                                            <div>The API token created through NetBox</div>
+                                            <div>This may not be required depending on the NetBox setup.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -262,7 +262,7 @@ Examples
     
     tasks:
       # query a list of devices
-      - name: Obtain list of devices from Netbox
+      - name: Obtain list of devices from NetBox
         debug:
           msg: >
             "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
@@ -275,7 +275,7 @@ Examples
 
     tasks:
       # query a list of devices
-      - name: Obtain list of devices from Netbox
+      - name: Obtain list of devices from NetBox
         debug:
           msg: >
             "Device {{ item.value.display_name }} (ID: {{ item.key }}) was

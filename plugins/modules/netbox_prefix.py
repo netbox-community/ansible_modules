@@ -17,9 +17,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_prefix
-short_description: Creates or removes prefixes from Netbox
+short_description: Creates or removes prefixes from NetBox
 description:
-  - Creates or removes prefixes from Netbox
+  - Creates or removes prefixes from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -32,12 +32,12 @@ version_added: '0.1.0'
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -120,7 +120,7 @@ options:
         elements: raw
       custom_fields:
         description:
-          - Must exist in Netbox and in key/value format
+          - Must exist in NetBox and in key/value format
         required: false
         type: dict
     required: true
@@ -154,13 +154,13 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox prefix module"
+- name: "Test NetBox prefix module"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create prefix within Netbox with only required information
+    - name: Create prefix within NetBox with only required information
       netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -199,7 +199,7 @@ EXAMPLES = r"""
             - Schnozzberry
         state: present
 
-    - name: Get a new /24 inside 10.156.0.0/19 within Netbox - Parent doesn't exist
+    - name: Get a new /24 inside 10.156.0.0/19 within NetBox - Parent doesn't exist
       netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -209,7 +209,7 @@ EXAMPLES = r"""
         state: present
         first_available: yes
 
-    - name: Create prefix within Netbox with only required information
+    - name: Create prefix within NetBox with only required information
       netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -217,7 +217,7 @@ EXAMPLES = r"""
           prefix: 10.156.0.0/19
         state: present
 
-    - name: Get a new /24 inside 10.156.0.0/19 within Netbox
+    - name: Get a new /24 inside 10.156.0.0/19 within NetBox
       netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -227,7 +227,7 @@ EXAMPLES = r"""
         state: present
         first_available: yes
 
-    - name: Get a new /24 inside 10.157.0.0/19 within Netbox with additional values
+    - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
       netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -242,7 +242,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 prefix:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
 msg:

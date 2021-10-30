@@ -14,7 +14,7 @@ from jsondiff import diff
 from typing import Iterable
 from operator import itemgetter
 
-# Netbox includes "created" and "last_updated" times on objects. These end up in the interfaces objects that are included verbatim from the Netbox API.
+# NetBox includes "created" and "last_updated" times on objects. These end up in the interfaces objects that are included verbatim from the NetBox API.
 # "url" may be different if local tests use a different host/port
 # Remove these from files saved in git as test data
 KEYS_REMOVE = frozenset(["created", "last_updated", "url"])

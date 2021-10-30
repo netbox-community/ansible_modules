@@ -114,7 +114,7 @@ DOCUMENTATION = """
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
                 - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
-                - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
+                - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
             default: True
@@ -172,7 +172,7 @@ DOCUMENTATION = """
             type: list
             default: []
         timeout:
-            description: Timeout for Netbox requests in seconds
+            description: Timeout for NetBox requests in seconds
             type: int
             default: 60
         max_uri_length:
@@ -394,7 +394,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
-            # (You should really just upgrade your Netbox install)
+            # (You should really just upgrade your NetBox install)
             chunk_size = 1
 
         resources = []
@@ -662,10 +662,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             tag_zero = host["tags"][0]
             # Check the type of the first element in the "tags" array.
-            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
+            # If a dictionary (NetBox >= 2.9), return an array of tags' slugs.
             if isinstance(tag_zero, dict):
                 return list(sub["slug"] for sub in host["tags"])
-            # If a string (Netbox <= 2.8), return the original "tags" array.
+            # If a string (NetBox <= 2.8), return the original "tags" array.
             elif isinstance(tag_zero, str):
                 return host["tags"]
         # If tag_zero fails definition (no tags), return the empty array.
@@ -809,7 +809,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
 
         def get_region_for_site(site):
-            # Will fail if site does not have a region defined in Netbox
+            # Will fail if site does not have a region defined in NetBox
             try:
                 return (site["id"], site["region"]["id"])
             except Exception:
@@ -1618,7 +1618,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self._read_config_data(path=path)
         self.use_cache = cache
 
-        # Netbox access
+        # NetBox access
         token = self.get_option("token")
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")

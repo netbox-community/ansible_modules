@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_config_context -- Creates, updates or deletes configuration contexts within Netbox
+netbox.netbox.netbox_config_context -- Creates, updates or deletes configuration contexts within NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes configuration contexts from Netbox
+- Creates, updates or removes configuration contexts from NetBox
 
 
 .. Aliases
@@ -357,7 +357,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -372,7 +372,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -451,7 +451,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox config_context module"
+    - name: "Test NetBox config_context module"
       connection: local
       hosts: localhost
       gather_facts: False
@@ -515,7 +515,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>Serialized object as created/existent/updated/deleted within Netbox</div>
+                                            <div>Serialized object as created/existent/updated/deleted within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

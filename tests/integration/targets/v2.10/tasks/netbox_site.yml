@@ -4,7 +4,7 @@
 ### NETBOX_SITE
 ##
 ##
-- name: "1 - Create site within Netbox with only required information"
+- name: "1 - Create site within NetBox with only required information"
   netbox.netbox.netbox_site:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567

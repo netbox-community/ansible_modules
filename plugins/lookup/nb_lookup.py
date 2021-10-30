@@ -6,7 +6,7 @@
 """
 netbox.py
 
-A lookup function designed to return data from the Netbox application
+A lookup function designed to return data from the NetBox application
 """
 
 from __future__ import absolute_import, division, print_function
@@ -42,19 +42,19 @@ DOCUMENTATION = """
     lookup: nb_lookup
     author: Chris Mills (@cpmills1975)
     version_added: "2.9"
-    short_description: Queries and returns elements from Netbox
+    short_description: Queries and returns elements from NetBox
     description:
-        - Queries Netbox via its API to return virtually any information
-          capable of being held in Netbox.
+        - Queries NetBox via its API to return virtually any information
+          capable of being held in NetBox.
         - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
-                - The Netbox object type to query
+                - The NetBox object type to query
             required: True
         api_endpoint:
             description:
-                - The URL to the Netbox instance to query
+                - The URL to the NetBox instance to query
             env:
                 # in order of precendence
                 - name: NETBOX_API
@@ -66,12 +66,12 @@ DOCUMENTATION = """
             required: False
         plugin:
             description:
-                - The Netbox plugin to query
+                - The NetBox plugin to query
             required: False
         token:
             description:
-                - The API token created through Netbox
-                - This may not be required depending on the Netbox setup.
+                - The API token created through NetBox
+                - This may not be required depending on the NetBox setup.
             env:
                 # in order of precendence
                 - name: NETBOX_TOKEN
@@ -102,7 +102,7 @@ DOCUMENTATION = """
 EXAMPLES = """
 tasks:
   # query a list of devices
-  - name: Obtain list of devices from Netbox
+  - name: Obtain list of devices from NetBox
     debug:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
@@ -115,7 +115,7 @@ tasks:
 
 tasks:
   # query a list of devices
-  - name: Obtain list of devices from Netbox
+  - name: Obtain list of devices from NetBox
     debug:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
@@ -156,7 +156,7 @@ def get_endpoint(netbox, term):
     """
     get_endpoint(netbox, term)
         netbox: a predefined pynetbox.api() pointing to a valid instance
-                of Netbox
+                of NetBox
         term: the term passed to the lookup function upon which the api
               call will be identified
     """
@@ -262,7 +262,7 @@ def get_plugin_endpoint(netbox, plugin, term):
     """
     get_plugin_endpoint(netbox, plugin, term)
         netbox: a predefined pynetbox.api() pointing to a valid instance
-                of Netbox
+                of NetBox
         plugin: a string referencing the plugin name
         term: the term passed to the lookup function upon which the api
               call will be identified
@@ -374,7 +374,7 @@ class LookupModule(LookupBase):
                     )
 
             Display().vvvv(
-                u"Netbox lookup for %s to %s using token %s filter %s"
+                u"NetBox lookup for %s to %s using token %s filter %s"
                 % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter)
             )
 

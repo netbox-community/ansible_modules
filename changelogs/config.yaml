@@ -26,6 +26,6 @@ sections:
     - Bugfixes
   - - known_issues
     - Known Issues
-title: Netbox.Netbox
+title: NetBox.NetBox
 trivial_section_name: trivial
 use_fqcn: true

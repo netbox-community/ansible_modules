@@ -25,11 +25,11 @@ Also test if the latest release, and master branch are affected too.
 ###### Ansible:
 <!--- Ansible Version ansible --version -->
 
-###### Netbox:
-<!--- Netbox Version -->
+###### NetBox:
+<!--- NetBox Version -->
 
 ###### Collection:
-<!--- Netbox Ansible Module Collection Version -->
+<!--- NetBox Ansible Module Collection Version -->
 
 ##### SUMMARY
 <!--- Explain the problem briefly -->

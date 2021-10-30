@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_prefix -- Creates or removes prefixes from Netbox
+netbox.netbox.netbox_prefix -- Creates or removes prefixes from NetBox
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes prefixes from Netbox
+- Creates or removes prefixes from NetBox
 
 
 .. Aliases
@@ -113,7 +113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Must exist in Netbox and in key/value format</div>
+                                            <div>Must exist in NetBox and in key/value format</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -361,7 +361,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -376,7 +376,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -454,13 +454,13 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox prefix module"
+    - name: "Test NetBox prefix module"
       connection: local
       hosts: localhost
       gather_facts: False
 
       tasks:
-        - name: Create prefix within Netbox with only required information
+        - name: Create prefix within NetBox with only required information
           netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -499,7 +499,7 @@ Examples
                 - Schnozzberry
             state: present
 
-        - name: Get a new /24 inside 10.156.0.0/19 within Netbox - Parent doesn't exist
+        - name: Get a new /24 inside 10.156.0.0/19 within NetBox - Parent doesn't exist
           netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -509,7 +509,7 @@ Examples
             state: present
             first_available: yes
 
-        - name: Create prefix within Netbox with only required information
+        - name: Create prefix within NetBox with only required information
           netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -517,7 +517,7 @@ Examples
               prefix: 10.156.0.0/19
             state: present
 
-        - name: Get a new /24 inside 10.156.0.0/19 within Netbox
+        - name: Get a new /24 inside 10.156.0.0/19 within NetBox
           netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -527,7 +527,7 @@ Examples
             state: present
             first_available: yes
 
-        - name: Get a new /24 inside 10.157.0.0/19 within Netbox with additional values
+        - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
           netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -585,7 +585,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>on creation</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

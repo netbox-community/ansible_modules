@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_config_context
-short_description: Creates, updates or deletes configuration contexts within Netbox
+short_description: Creates, updates or deletes configuration contexts within NetBox
 description:
-  - Creates, updates or removes configuration contexts from Netbox
+  - Creates, updates or removes configuration contexts from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: "3.3.0"
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -158,7 +158,7 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox config_context module"
+- name: "Test NetBox config_context module"
   connection: local
   hosts: localhost
   gather_facts: False
@@ -194,7 +194,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 config_context:
-  description: Serialized object as created/existent/updated/deleted within Netbox
+  description: Serialized object as created/existent/updated/deleted within NetBox
   returned: always
   type: dict
 msg:

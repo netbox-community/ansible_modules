@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_tenant_group
-short_description: Creates or removes tenant groups from Netbox
+short_description: Creates or removes tenant groups from NetBox
 description:
-  - Creates or removes tenant groups from Netbox
+  - Creates or removes tenant groups from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: "0.1.0"
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -93,12 +93,12 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox tenant group module"
+- name: "Test NetBox tenant group module"
   connection: local
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create tenant within Netbox with only required information
+    - name: Create tenant within NetBox with only required information
       netbox_tenant_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -119,7 +119,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 tenant_group:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
 msg:
