@@ -58,6 +58,12 @@ options:
           - Name of the inventory item to be created
         required: true
         type: str
+      label:
+        description:
+          - The physical label of the inventory item
+        required: false
+        type: str
+        version_added: "3.4.0"
       manufacturer:
         description:
           - The manufacturer of the inventory item
@@ -95,6 +101,12 @@ options:
         required: false
         type: list
         elements: raw
+      custom_fields:
+        description:
+          - must exist in Netbox
+        required: false
+        type: dict
+        version_added: "3.4.0"
     required: true
   state:
     description:
@@ -193,6 +205,7 @@ def main():
                 options=dict(
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    label=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     part_id=dict(required=False, type="str"),
                     serial=dict(required=False, type="str"),
@@ -200,6 +213,7 @@ def main():
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
