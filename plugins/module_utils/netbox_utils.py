@@ -1144,17 +1144,18 @@ class NetboxModule(object):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
 
-        # Ensure idempotency between version 2.11 and 3.0
+        # Ensure idempotency for site on version pre-3.0
+        version_pre_30 = self._version_check_greater("3.0", self.version)
         if (
             serialized_nb_obj.get("latitude")
             and data.get("latitude")
-            and self._version_check_greater("3.0", self.version)
+            and version_pre_30
         ):
             updated_obj["latitude"] = str(data["latitude"])
         if (
             serialized_nb_obj.get("longitude")
             and data.get("longitude")
-            and self._version_check_greater("3.0", self.version)
+            and version_pre_30
         ):
             updated_obj["longitude"] = str(data["longitude"])
 
@@ -1325,7 +1326,7 @@ class NetboxAnsibleModule(AnsibleModule):
         return results
 
     def _check_required_if(self, spec, param=None):
-        """ensure that parameters which conditionally required are present"""
+        """ ensure that parameters which conditionally required are present """
         if spec is None:
             return
 
