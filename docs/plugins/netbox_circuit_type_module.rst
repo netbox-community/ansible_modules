@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_circuit_type -- Create, update or delete circuit types within Netbox
+netbox.netbox.netbox_circuit_type -- Create, update or delete circuit types within NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes circuit types from Netbox
+- Creates, updates or removes circuit types from NetBox
 
 
 .. Aliases
@@ -146,7 +146,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -161,7 +161,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -239,13 +239,13 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox modules"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
 
       tasks:
-        - name: Create type within Netbox with only required information
+        - name: Create type within NetBox with only required information
           netbox_circuit_type:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -292,7 +292,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>success (when <em>state=present</em>)</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

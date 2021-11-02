@@ -4,7 +4,7 @@
 ### NETBOX_IP_ADDRESS
 ##
 ##
-- name: "1 - Create IP address within Netbox with only required information - State: Present"
+- name: "1 - Create IP address within NetBox with only required information - State: Present"
   netbox.netbox.netbox_ip_address:
     netbox_url: http://localhost.org:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567

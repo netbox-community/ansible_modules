@@ -4,7 +4,7 @@
 ### NETBOX_CIRCUIT
 ##
 ##
-- name: "NETBOX_CIRCUIT 1: Create provider within Netbox with only required information"
+- name: "NETBOX_CIRCUIT 1: Create provider within NetBox with only required information"
   netbox.netbox.netbox_circuit:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567

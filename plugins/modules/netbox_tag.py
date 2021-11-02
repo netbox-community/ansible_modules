@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_tag
-short_description: Creates or removes tags from Netbox
+short_description: Creates or removes tags from NetBox
 description:
-  - Creates or removes tags from Netbox
+  - Creates or removes tags from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: "1.2.0"
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -124,7 +124,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 tags:
-  description: Serialized object as created/existent/updated/deleted within Netbox
+  description: Serialized object as created/existent/updated/deleted within NetBox
   returned: always
   type: dict
 msg:

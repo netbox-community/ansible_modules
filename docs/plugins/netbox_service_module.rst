@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_service -- Creates or removes service from Netbox
+netbox.netbox.netbox_service -- Creates or removes service from NetBox
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes service from Netbox
+- Creates or removes service from NetBox
 
 
 .. Aliases
@@ -113,7 +113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Must exist in Netbox and in key/value format</div>
+                                            <div>Must exist in NetBox and in key/value format</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -273,7 +273,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -288,7 +288,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>

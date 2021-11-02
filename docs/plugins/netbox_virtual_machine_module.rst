@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_virtual_machine -- Create, update or delete virtual_machines within Netbox
+netbox.netbox.netbox_virtual_machine -- Create, update or delete virtual_machines within NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes virtual_machines from Netbox
+- Creates, updates or removes virtual_machines from NetBox
 
 
 .. Aliases
@@ -145,7 +145,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Must exist in Netbox</div>
+                                            <div>Must exist in NetBox</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -369,7 +369,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -384,7 +384,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -462,12 +462,12 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox modules"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
       tasks:
-        - name: Create virtual machine within Netbox with only required information
+        - name: Create virtual machine within NetBox with only required information
           netbox_virtual_machine:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -554,7 +554,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>success (when <em>state=present</em>)</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

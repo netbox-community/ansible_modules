@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_ip_address -- Creates or removes IP addresses from Netbox
+netbox.netbox.netbox_ip_address -- Creates or removes IP addresses from NetBox
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes IP addresses from Netbox
+- Creates or removes IP addresses from NetBox
 
 
 .. Aliases
@@ -197,7 +197,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>must exist in Netbox</div>
+                                            <div>must exist in NetBox</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -413,7 +413,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -428,7 +428,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -510,13 +510,13 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox IP address module"
+    - name: "Test NetBox IP address module"
       connection: local
       hosts: localhost
       gather_facts: False
 
       tasks:
-        - name: Create IP address within Netbox with only required information
+        - name: Create IP address within NetBox with only required information
           netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -636,7 +636,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>on creation</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

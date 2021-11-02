@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_service
-short_description: Creates or removes service from Netbox
+short_description: Creates or removes service from NetBox
 description:
-  - Creates or removes service from Netbox
+  - Creates or removes service from NetBox
 notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
@@ -29,12 +29,12 @@ version_added: '0.1.5'
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -95,7 +95,7 @@ options:
         elements: raw
       custom_fields:
         description:
-          - Must exist in Netbox and in key/value format
+          - Must exist in NetBox and in key/value format
         required: false
         type: dict
     required: true

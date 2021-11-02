@@ -400,7 +400,7 @@ Parameters
                                                 <td>
                                             <div>By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.</div>
                                             <div>When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.</div>
-                                            <div>If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.</div>
+                                            <div>If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.</div>
                                             <div>For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&amp;device_id=1&amp;device_id=2&amp;device_id=3</div>
                                             <div>These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.</div>
                                                         </td>
@@ -831,7 +831,7 @@ Parameters
                                                     <td>
                                                                                             </td>
                                                 <td>
-                                            <div>Timeout for Netbox requests in seconds</div>
+                                            <div>Timeout for NetBox requests in seconds</div>
                                                         </td>
             </tr>
                                 <tr>

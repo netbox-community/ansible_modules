@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_platform
-short_description: Create or delete platforms within Netbox
+short_description: Create or delete platforms within NetBox
 description:
-  - Creates or removes platforms from Netbox
+  - Creates or removes platforms from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: '0.1.0'
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -102,13 +102,13 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create platform within Netbox with only required information
+    - name: Create platform within NetBox with only required information
       netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -116,7 +116,7 @@ EXAMPLES = r"""
           name: Test Platform
         state: present
 
-    - name: Create platform within Netbox with only required information
+    - name: Create platform within NetBox with only required information
       netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -139,7 +139,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 platform:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
 msg:

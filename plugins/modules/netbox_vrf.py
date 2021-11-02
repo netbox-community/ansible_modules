@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_vrf
-short_description: Create, update or delete vrfs within Netbox
+short_description: Create, update or delete vrfs within NetBox
 description:
-  - Creates, updates or removes vrfs from Netbox
+  - Creates, updates or removes vrfs from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -30,12 +30,12 @@ version_added: '0.1.0'
 options:
   netbox_url:
     description:
-      - URL of the Netbox instance resolvable by Ansible control host
+      - URL of the NetBox instance resolvable by Ansible control host
     required: true
     type: str
   netbox_token:
     description:
-      - The token created within Netbox to authorize API access
+      - The token created within NetBox to authorize API access
     required: true
     type: str
   cert:
@@ -95,7 +95,7 @@ options:
         elements: raw
       custom_fields:
         description:
-          - must exist in Netbox
+          - must exist in NetBox
         required: false
         type: dict
     required: true
@@ -121,13 +121,13 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create vrf within Netbox with only required information
+    - name: Create vrf within NetBox with only required information
       netbox_vrf:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -164,7 +164,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 vrf:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
 msg:

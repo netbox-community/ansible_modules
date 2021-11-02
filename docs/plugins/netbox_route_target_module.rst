@@ -14,7 +14,7 @@
 
 .. Title
 
-netbox.netbox.netbox_route_target -- Creates or removes route targets from Netbox
+netbox.netbox.netbox_route_target -- Creates or removes route targets from NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes route targets from Netbox
+- Creates or removes route targets from NetBox
 
 
 .. Aliases
@@ -113,7 +113,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>must exist in Netbox</div>
+                                            <div>must exist in NetBox</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -193,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The token created within NetBox to authorize API access</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -208,7 +208,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -376,7 +376,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>always</td>
                 <td>
-                                            <div>Serialized object as created/existent/updated/deleted within Netbox</div>
+                                            <div>Serialized object as created/existent/updated/deleted within NetBox</div>
                                         <br/>
                                     </td>
             </tr>
