@@ -1159,11 +1159,7 @@ class NetboxModule(object):
         ):
             updated_obj["longitude"] = str(data["longitude"])
 
-        if (
-            serialized_nb_obj.get("vcpus")
-            and data.get("vcpus")
-            and version_pre_30
-        ):
+        if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
             updated_obj["vcpus"] = "{:.2f}".format(data["vcpus"])
 
         if serialized_nb_obj == updated_obj:
