@@ -258,6 +258,7 @@ keyed_groups:
 import json
 import uuid
 import math
+import os
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -268,6 +269,7 @@ from collections import defaultdict
 from ipaddress import ip_interface
 from packaging import specifiers, version
 
+from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
@@ -1194,9 +1196,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             thread_exceptions = None
 
     def fetch_api_docs(self):
-        openapi = self._fetch_information(
-            self.api_endpoint + "/api/docs/?format=openapi"
-        )
+        try:
+            status = self._fetch_information(self.api_endpoint + "/api/status")
+            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
+        except:
+            netbox_api_version = 0
+
+        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
+        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
+
+        try:
+            with open(tmp_file) as file:
+                openapi = json.load(file)
+        except:
+            openapi = {}
+
+        cached_api_version = openapi.get("info", {}).get("version")
+
+        if netbox_api_version != cached_api_version:
+            openapi = self._fetch_information(
+                self.api_endpoint + "/api/docs/?format=openapi"
+            )
+
+            with open(tmp_file, "w") as file:
+                json.dump(openapi, file)
 
         self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
