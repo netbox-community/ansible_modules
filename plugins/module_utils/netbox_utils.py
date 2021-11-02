@@ -1144,7 +1144,7 @@ class NetboxModule(object):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
 
-        # Ensure idempotency for site on version pre-3.0
+        # Ensure idempotency for site and virtual machine on version pre-3.0
         version_pre_30 = self._version_check_greater("3.0", self.version)
         if (
             serialized_nb_obj.get("latitude")
@@ -1158,6 +1158,9 @@ class NetboxModule(object):
             and version_pre_30
         ):
             updated_obj["longitude"] = str(data["longitude"])
+
+        if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
+            updated_obj["vcpus"] = "{0:.2f}".format(data["vcpus"])
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
