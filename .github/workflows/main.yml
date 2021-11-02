@@ -51,7 +51,7 @@ jobs:
           - python-version: 3.8
             VERSION: "v2.11"
             INTEGRATION_TESTS: "v2.11"
-          - python-version: 3.6
+          - python-version: 3.8
             VERSION: "v3.0"
             INTEGRATION_TESTS: "v3.0"
     steps:
