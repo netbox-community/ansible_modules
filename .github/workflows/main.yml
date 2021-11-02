@@ -51,9 +51,9 @@ jobs:
           - python-version: 3.8
             VERSION: "v2.11"
             INTEGRATION_TESTS: "v2.11"
-          #- python-version: 3.6
-          #  VERSION: "v3.0"
-          #  INTEGRATION_TESTS: "v3.0"
+          - python-version: 3.8
+            VERSION: "v3.0"
+            INTEGRATION_TESTS: "v3.0"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -156,8 +156,8 @@ jobs:
         # Run regression and integration tests
         # Run the inventory test first, in case any of the other tests modify the data.
         run: |
-          ansible-test integration -v --coverage --python ${{ matrix.python-version }} inventory-${{ matrix.INTEGRATION_TESTS }}
-          ansible-test integration -v --coverage --python ${{ matrix.python-version }} regression-${{ matrix.INTEGRATION_TESTS }}
-          ansible-test integration -v --coverage --python ${{ matrix.python-version }} ${{ matrix.INTEGRATION_TESTS }}
+          ansible-test integration -v --color --coverage --python ${{ matrix.python-version }} inventory-${{ matrix.INTEGRATION_TESTS }}
+          ansible-test integration -v --color --coverage --python ${{ matrix.python-version }} regression-${{ matrix.INTEGRATION_TESTS }}
+          ansible-test integration -v --color --coverage --python ${{ matrix.python-version }} ${{ matrix.INTEGRATION_TESTS }}
           ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox

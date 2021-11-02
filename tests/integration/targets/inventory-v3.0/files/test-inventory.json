@@ -41,7 +41,6 @@
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One"
                         },
@@ -102,7 +101,6 @@
                         "description": "",
                         "device": {
                             "display": "Test Nexus Child One",
-                            "display_name": "Test Nexus Child One",
                             "id": 5,
                             "name": "Test Nexus Child One"
                         },
@@ -169,7 +167,6 @@
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One"
                         },
@@ -326,7 +323,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
@@ -387,7 +383,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
@@ -458,7 +453,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
@@ -481,7 +475,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
