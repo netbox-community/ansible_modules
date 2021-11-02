@@ -5,6 +5,24 @@ Netbox.Netbox Release Notes
 .. contents:: Topics
 
 
+v3.3.0
+======
+
+Minor Changes
+-------------
+
+- Improve speed of netbox_cable module on NetBox version 3.0.6 or later [#624](https://github.com/netbox-community/ansible_modules/pull/624)
+- netbox_config_context - add module for handling Config Context [#610](https://github.com/netbox-community/ansible_modules/pull/610)
+- netbox_location - add module for handling Location [#543](https://github.com/netbox-community/ansible_modules/pull/543)
+- netbox_site_group - add module for handling Site Group [#547](https://github.com/netbox-community/ansible_modules/pull/547)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_config_context - Create, update or delete Config Context in NetBox
+- netbox.netbox.netbox_location - Create, update or delete Location in NetBox
+- netbox.netbox.netbox_site_group - Create, update or delete Site Group in NetBox
+
 v3.2.0
 ======
 

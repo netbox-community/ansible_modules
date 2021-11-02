@@ -94,6 +94,7 @@ options:
           - The location the device will be associated to (NetBox 2.11+)
         required: false
         type: raw
+        version_added: "3.3.0"
       rack:
         description:
           - The name of the rack to assign the device to

@@ -28,6 +28,7 @@ NB_FRONT_PORT_TEMPLATES = "front_port_templates"
 NB_INTERFACES = "interfaces"
 NB_INTERFACE_TEMPLATES = "interface_templates"
 NB_INVENTORY_ITEMS = "inventory_items"
+NB_LOCATIONS = "locations"
 NB_MANUFACTURERS = "manufacturers"
 NB_PLATFORMS = "platforms"
 NB_POWER_FEEDS = "power_feeds"
@@ -43,7 +44,15 @@ NB_REAR_PORTS = "rear_ports"
 NB_REAR_PORT_TEMPLATES = "rear_port_templates"
 NB_REGIONS = "regions"
 NB_SITES = "sites"
+NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
+
+try:
+    from packaging.version import Version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
 
 
 class NetboxDcimModule(NetboxModule):
@@ -70,6 +79,7 @@ class NetboxDcimModule(NetboxModule):
         - interfaces
         - interface_templates
         - inventory_items
+        - locations
         - manufacturers
         - platforms
         - power_feeds
@@ -79,6 +89,7 @@ class NetboxDcimModule(NetboxModule):
         - power_ports
         - power_port_templates
         - sites
+        - site_groups
         - racks
         - rack_roles
         - rack_groups
@@ -139,14 +150,24 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
-            cables = [
-                cable
-                for cable in nb_endpoint.all()
-                if cable.termination_a_type == data["termination_a_type"]
-                and cable.termination_a_id == data["termination_a_id"]
-                and cable.termination_b_type == data["termination_b_type"]
-                and cable.termination_b_id == data["termination_b_id"]
-            ]
+            if Version(self.full_version) >= Version("3.0.6"):
+                cables = [
+                    nb_endpoint.get(
+                        termination_a_type=data["termination_a_type"],
+                        termination_a_id=data["termination_a_id"],
+                        termination_b_type=data["termination_b_type"],
+                        termination_b_id=data["termination_b_id"],
+                    )
+                ]
+            else:
+                cables = [
+                    cable
+                    for cable in nb_endpoint.all()
+                    if cable.termination_a_type == data["termination_a_type"]
+                    and cable.termination_a_id == data["termination_a_id"]
+                    and cable.termination_b_type == data["termination_b_type"]
+                    and cable.termination_b_id == data["termination_b_id"]
+                ]
             if len(cables) == 0:
                 self.nb_object = None
             elif len(cables) == 1:
