@@ -33,7 +33,7 @@ options:
     type: str
   query_params:
     description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
+      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined
       - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
       - an object unique in their environment.
     required: false
@@ -41,7 +41,8 @@ options:
     elements: str
   validate_certs:
     description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
+      - If C(no), SSL certificates will not be validated.
+      - This should only be used on personally controlled sites using a self-signed certificates.
     default: true
     type: raw
   cert:
