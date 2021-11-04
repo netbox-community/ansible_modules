@@ -97,7 +97,6 @@ DOCUMENTATION = """
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
             default: False
             type: boolean
-            version_added: "0.1.7"
         services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
@@ -106,8 +105,8 @@ DOCUMENTATION = """
             version_added: "0.2.0"
         fetch_all:
             description:
-                - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
-                - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
+                - By default, fetching interfaces, services and prefixes will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
+                - When set to False, separate requests will be made fetching only interfaces, services, IP Addresses and Prefixes that are actually assigned to the filtered device set.
                 - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
