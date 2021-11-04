@@ -104,6 +104,11 @@ options:
         required: false
         type: list
         elements: raw
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
     required: true
     type: dict
   state:
@@ -218,6 +223,7 @@ def main():
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
