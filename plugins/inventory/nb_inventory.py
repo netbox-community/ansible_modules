@@ -35,18 +35,6 @@ DOCUMENTATION = """
                 - Allows connection when SSL certificates are not valid. Set to C(false) when certificates are not trusted.
             default: True
             type: boolean
-        cert:
-            description:
-                - Certificate path
-            default: False
-        key:
-            description:
-                - Certificate key path
-            default: False
-        ca_path:
-            description:
-                - CA path
-            default: False
         follow_redirects:
             description:
                 - Determine how redirects are followed.
@@ -104,6 +92,12 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "0.1.7"
+        prefixes:
+            description:
+                - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
+            default: False
+            type: boolean
+            version_added: "0.1.7"
         services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
@@ -114,7 +108,7 @@ DOCUMENTATION = """
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
                 - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
-                - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
+                - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
             default: True
@@ -172,7 +166,7 @@ DOCUMENTATION = """
             type: list
             default: []
         timeout:
-            description: Timeout for NetBox requests in seconds
+            description: Timeout for Netbox requests in seconds
             type: int
             default: 60
         max_uri_length:
@@ -230,7 +224,7 @@ query_filters:
   - tag: web
   - tag: production
 
-# See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
+# See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
 # the query_filters work as a logical **OR**
 #
 # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string
@@ -258,8 +252,6 @@ keyed_groups:
 import json
 import uuid
 import math
-import os
-from copy import deepcopy
 from functools import partial
 from sys import version as python_version
 from threading import Thread
@@ -269,7 +261,6 @@ from collections import defaultdict
 from ipaddress import ip_interface
 from packaging import specifiers, version
 
-from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
@@ -314,9 +305,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     timeout=self.timeout,
                     validate_certs=self.validate_certs,
                     follow_redirects=self.follow_redirects,
-                    client_cert=self.cert,
-                    client_key=self.key,
-                    ca_path=self.ca_path,
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
@@ -396,7 +384,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
-            # (You should really just upgrade your NetBox install)
+            # (You should really just upgrade your Netbox install)
             chunk_size = 1
 
         resources = []
@@ -590,7 +578,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_site(self, host):
         try:
-            return self._pluralize(self.sites_lookup[host["site"]["id"]])
+            site = self.sites_lookup[host["site"]["id"]]
+            if self.prefixes:  # If prefixes have been pulled, attach prefix to its assigned site
+                prefix_id = self.prefixes_sites_lookup[site["id"]]
+                prefix = self.prefixes_lookup[prefix_id]
+                site["prefix"] = prefix
+            return self._pluralize(site)
         except Exception:
             return
 
@@ -664,10 +657,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             tag_zero = host["tags"][0]
             # Check the type of the first element in the "tags" array.
-            # If a dictionary (NetBox >= 2.9), return an array of tags' slugs.
+            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
             if isinstance(tag_zero, dict):
                 return list(sub["slug"] for sub in host["tags"])
-            # If a string (NetBox <= 2.8), return the original "tags" array.
+            # If a string (Netbox <= 2.8), return the original "tags" array.
             elif isinstance(tag_zero, str):
                 return host["tags"]
         # If tag_zero fails definition (no tags), return the empty array.
@@ -683,7 +676,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 else self.device_interfaces_lookup
             )
 
-            interfaces = deepcopy(list(interfaces_lookup[host["id"]].values()))
+            interfaces = list(interfaces_lookup[host["id"]].values())
 
             before_netbox_v29 = bool(self.ipaddresses_intf_lookup)
             # Attach IP Addresses to their interface
@@ -806,12 +799,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         )
 
     def refresh_sites_lookup(self):
+        # Three dictionaries are created here.
+        # "sites_lookup_slug" only contains the slug. Used by _add_site_groups() when creating inventory groups
+        # "sites_lookup" contains the full data structure. Most site lookups use this
+        # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
         url = self.api_endpoint + "/api/dcim/sites/?limit=0"
         sites = self.get_resource_list(api_url=url)
-        self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
+        # This dictionary is used for host group creation only,
+        # as the grouping function expects a string as the value of each key
+        self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
+        # This dictionary contains the full nested data structure presented by the API response.
+        self.sites_lookup = dict((site["id"], site) for site in sites)
+        # This dictionary tracks which sites have prefixes assigned.
+        self.sites_with_prefixes = set()
+
+        for site in sites:
+            if site["prefix_count"] > 0:
+                self.sites_with_prefixes.add(site["slug"])
+                # Used by refresh_prefixes()
 
         def get_region_for_site(site):
-            # Will fail if site does not have a region defined in NetBox
+            # Will fail if site does not have a region defined in Netbox
             try:
                 return (site["id"], site["region"]["id"])
             except Exception:
@@ -819,6 +827,31 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Dictionary of site id to region id
         self.sites_region_lookup = dict(map(get_region_for_site, sites))
+
+    # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
+    def refresh_prefixes(self):
+        # Pull prefixes with "active" status only
+        url = (self.api_endpoint + "/api/ipam/prefixes?status=active")
+
+        if self.fetch_all:
+            prefixes = self.get_resource_list(url)
+        else:
+            prefixes = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="site",
+                query_values=list(self.sites_with_prefixes),
+            )
+        self.prefixes_sites_lookup = defaultdict(dict)
+        self.prefixes_lookup = defaultdict(dict)
+
+        for prefix in prefixes:
+            if prefix.get("site"):
+                prefix_id = prefix["id"]
+                site_id = prefix["site"]["id"]
+                self.prefixes_lookup[prefix_id] = prefix
+                self.prefixes_sites_lookup[site_id] = prefix_id
+            # Remove "site" attribute, as it's redundant when prefixes are assigned to site
+            del prefix["site"]
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
@@ -1142,6 +1175,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
 
+        if self.prefixes:
+            lookups.append(self.refresh_prefixes)
+
         if self.services:
             lookups.append(self.refresh_services)
 
@@ -1196,30 +1232,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             thread_exceptions = None
 
     def fetch_api_docs(self):
-        try:
-            status = self._fetch_information(self.api_endpoint + "/api/status")
-            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
-        except:
-            netbox_api_version = 0
-
-        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
-        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
-
-        try:
-            with open(tmp_file) as file:
-                openapi = json.load(file)
-        except:
-            openapi = {}
-
-        cached_api_version = openapi.get("info", {}).get("version")
-
-        if netbox_api_version != cached_api_version:
-            openapi = self._fetch_information(
-                self.api_endpoint + "/api/docs/?format=openapi"
-            )
-
-            with open(tmp_file, "w") as file:
-                json.dump(openapi, file)
+        openapi = self._fetch_information(
+            self.api_endpoint + "/api/docs/?format=openapi"
+        )
 
         self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
@@ -1423,7 +1438,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Map site id to transformed group names
         self.site_group_names = dict()
 
-        for site_id, site_name in self.sites_lookup.items():
+        for site_id, site_name in self.sites_lookup_slug.items():
             site_group_name = self.generate_group_name(
                 self._pluralize_group_by("site"), site_name
             )
@@ -1641,7 +1656,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self._read_config_data(path=path)
         self.use_cache = cache
 
-        # NetBox access
+        # Netbox access
         token = self.get_option("token")
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
@@ -1656,15 +1671,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
+        self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
         self.headers = {
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ")[0]),
             "Content-type": "application/json",
         }
-        self.cert = self.get_option("cert")
-        self.key = self.get_option("key")
-        self.ca_path = self.get_option("ca_path")
         if token:
             self.headers.update({"Authorization": "Token %s" % token})
 
