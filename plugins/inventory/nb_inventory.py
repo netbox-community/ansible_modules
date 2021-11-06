@@ -92,9 +92,15 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "0.1.7"
+        site_data:
+            description:
+                - If True, sites' full data structures returned from Netbox API are included in host vars.
+            default: False
+            type: boolean
         prefixes:
             description:
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
+                - Recommended to match your "site_data" selection.
             default: False
             type: boolean
         services:
@@ -804,12 +810,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
         url = self.api_endpoint + "/api/dcim/sites/?limit=0"
         sites = self.get_resource_list(api_url=url)
-        # This dictionary is used for host group creation only,
+        # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
-        # This dictionary contains the full nested data structure presented by the API response.
-        self.sites_lookup = dict((site["id"], site) for site in sites)
-        # This dictionary tracks which sites have prefixes assigned.
+        if self.site_data:
+            # If the "site_data" option is specified, keep the full data structure presented by the API response.
+            self.sites_lookup = dict((site["id"], site) for site in sites)
+        else:
+            # Otherwise, set equal to the "slug only" dictionary
+            self.sites_lookup = self.sites_lookup_slug
+        # The following dictionary tracks which sites have prefixes assigned.
         self.sites_with_prefixes = set()
 
         for site in sites:
@@ -1285,7 +1295,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         device_url = self.api_endpoint + "/api/dcim/devices/?"
         vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
 
-        # Add query_filtes to both devices and vms query, if they're valid
+        # Add query_filters to both devices and vms query, if they're valid
         if isinstance(self.query_filters, Iterable):
             device_query_parameters.extend(
                 self.filter_query_parameters(
@@ -1670,6 +1680,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
+        self.site_data = self.get_option("site_data")
         self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
         self.headers = {
