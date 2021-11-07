@@ -2,10 +2,10 @@
 
 .. _plugins_in_netbox.netbox:
 
-NetBox.NetBox
+Netbox.Netbox
 =============
 
-Collection version 3.3.0
+Collection version 3.4.0
 
 .. toctree::
     :maxdepth: 1
