@@ -96,6 +96,7 @@ options:
           - Must exist in NetBox
         required: false
         type: dict
+        version_added: "3.4.0"
     required: true
     type: dict
 """
