@@ -35,6 +35,18 @@ DOCUMENTATION = """
                 - Allows connection when SSL certificates are not valid. Set to C(false) when certificates are not trusted.
             default: True
             type: boolean
+        cert:
+            description:
+                - Certificate path
+            default: False
+        key:
+            description:
+                - Certificate key path
+            default: False
+        ca_path:
+            description:
+                - CA path
+            default: False
         follow_redirects:
             description:
                 - Determine how redirects are followed.
@@ -100,7 +112,7 @@ DOCUMENTATION = """
         prefixes:
             description:
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
-                - Recommended to match your "site_data" selection.
+                - Must match selection for "site_data", as this changes the structure of "site" in hostvars
             default: False
             type: boolean
         services:
@@ -111,9 +123,9 @@ DOCUMENTATION = """
             version_added: "0.2.0"
         fetch_all:
             description:
-                - By default, fetching interfaces, services and prefixes will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
-                - When set to False, separate requests will be made fetching only interfaces, services, IP Addresses and Prefixes that are actually assigned to the filtered device set.
-                - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
+                - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
+                - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
+                - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
             default: True
@@ -171,7 +183,7 @@ DOCUMENTATION = """
             type: list
             default: []
         timeout:
-            description: Timeout for Netbox requests in seconds
+            description: Timeout for NetBox requests in seconds
             type: int
             default: 60
         max_uri_length:
@@ -229,7 +241,7 @@ query_filters:
   - tag: web
   - tag: production
 
-# See the NetBox documentation at https://netbox.readthedocs.io/en/latest/api/overview/
+# See the NetBox documentation at https://netbox.readthedocs.io/en/stable/rest-api/overview/
 # the query_filters work as a logical **OR**
 #
 # Prefix any custom fields with cf_ and pass the field value with the regular NetBox query string
@@ -257,6 +269,8 @@ keyed_groups:
 import json
 import uuid
 import math
+import os
+from copy import deepcopy
 from functools import partial
 from sys import version as python_version
 from threading import Thread
@@ -266,6 +280,7 @@ from collections import defaultdict
 from ipaddress import ip_interface
 from packaging import specifiers, version
 
+from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
@@ -310,6 +325,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     timeout=self.timeout,
                     validate_certs=self.validate_certs,
                     follow_redirects=self.follow_redirects,
+                    client_cert=self.cert,
+                    client_key=self.key,
+                    ca_path=self.ca_path,
                 )
             except urllib_error.HTTPError as e:
                 """This will return the response body when we encounter an error.
@@ -389,7 +407,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
-            # (You should really just upgrade your Netbox install)
+            # (You should really just upgrade your NetBox install)
             chunk_size = 1
 
         resources = []
@@ -662,10 +680,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             tag_zero = host["tags"][0]
             # Check the type of the first element in the "tags" array.
-            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
+            # If a dictionary (NetBox >= 2.9), return an array of tags' slugs.
             if isinstance(tag_zero, dict):
                 return list(sub["slug"] for sub in host["tags"])
-            # If a string (Netbox <= 2.8), return the original "tags" array.
+            # If a string (NetBox <= 2.8), return the original "tags" array.
             elif isinstance(tag_zero, str):
                 return host["tags"]
         # If tag_zero fails definition (no tags), return the empty array.
@@ -681,7 +699,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 else self.device_interfaces_lookup
             )
 
-            interfaces = list(interfaces_lookup[host["id"]].values())
+            interfaces = deepcopy(list(interfaces_lookup[host["id"]].values()))
 
             before_netbox_v29 = bool(self.ipaddresses_intf_lookup)
             # Attach IP Addresses to their interface
@@ -813,8 +831,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
-        if self.site_data:
+        if self.site_data or self.prefixes:
             # If the "site_data" option is specified, keep the full data structure presented by the API response.
+            # The "prefixes" option necessitates this structure as well as it requires the site object to be dict().
             self.sites_lookup = dict((site["id"], site) for site in sites)
         else:
             # Otherwise, set equal to the "slug only" dictionary
@@ -1241,9 +1260,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             thread_exceptions = None
 
     def fetch_api_docs(self):
-        openapi = self._fetch_information(
-            self.api_endpoint + "/api/docs/?format=openapi"
-        )
+        try:
+            status = self._fetch_information(self.api_endpoint + "/api/status")
+            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
+        except:
+            netbox_api_version = 0
+
+        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
+        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
+
+        try:
+            with open(tmp_file) as file:
+                openapi = json.load(file)
+        except:
+            openapi = {}
+
+        cached_api_version = openapi.get("info", {}).get("version")
+
+        if netbox_api_version != cached_api_version:
+            openapi = self._fetch_information(
+                self.api_endpoint + "/api/docs/?format=openapi"
+            )
+
+            with open(tmp_file, "w") as file:
+                json.dump(openapi, file)
 
         self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
@@ -1295,7 +1335,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         device_url = self.api_endpoint + "/api/dcim/devices/?"
         vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
 
-        # Add query_filters to both devices and vms query, if they're valid
+        # Add query_filtes to both devices and vms query, if they're valid
         if isinstance(self.query_filters, Iterable):
             device_query_parameters.extend(
                 self.filter_query_parameters(
@@ -1447,7 +1487,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Map site id to transformed group names
         self.site_group_names = dict()
 
-        for site_id, site_name in self.sites_lookup_slug.items():
+        for site_id, site_name in self.sites_lookup_slug.items():  # "Slug" only. Data not used even if pulled
             site_group_name = self.generate_group_name(
                 self._pluralize_group_by("site"), site_name
             )
@@ -1665,7 +1705,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self._read_config_data(path=path)
         self.use_cache = cache
 
-        # Netbox access
+        # NetBox access
         token = self.get_option("token")
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
@@ -1688,6 +1728,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             % (ansible_version, python_version.split(" ")[0]),
             "Content-type": "application/json",
         }
+        self.cert = self.get_option("cert")
+        self.key = self.get_option("key")
+        self.ca_path = self.get_option("ca_path")
         if token:
             self.headers.update({"Authorization": "Token %s" % token})
 
