@@ -847,7 +847,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 # Used by refresh_prefixes()
 
         def get_region_for_site(site):
-            # Will fail if site does not have a region defined in Netbox
+            # Will fail if site does not have a region defined in NetBox
             try:
                 return (site["id"], site["region"]["id"])
             except Exception:
