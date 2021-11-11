@@ -1489,9 +1489,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.site_group_names = dict()
 
         for (site_id, site_name) in (self.sites_lookup_slug.items()):  # "Slug" only. Data not used for grouping
-            site_group_name = self.generate_group_name(self._pluralize_group_by("site"), site_name)
+            site_group_name = self.generate_group_name(
+                self._pluralize_group_by("site"), site_name
+            )
             # Add the site group to get its transformed name
-            site_transformed_group_name = self.inventory.add_group(group=site_group_name)
+            site_transformed_group_name = self.inventory.add_group(
+                group=site_group_name
+            )
             self.site_group_names[site_id] = site_transformed_group_name
 
     def _add_region_groups(self):
