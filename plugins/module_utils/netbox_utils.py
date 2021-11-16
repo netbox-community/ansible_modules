@@ -33,7 +33,7 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
+    circuits=["circuits", "circuit_types", "circuit_terminations", "providers", "provider_networks"],
     dcim=[
         "cables",
         "console_ports",
@@ -120,6 +120,7 @@ QUERY_TYPES = dict(
     primary_ip4="address",
     primary_ip6="address",
     provider="slug",
+    provider_network="name",
     rack="name",
     rack_group="slug",
     rack_role="slug",
@@ -197,6 +198,7 @@ CONVERT_TO_ID = {
     "primary_ip4": "ip_addresses",
     "primary_ip6": "ip_addresses",
     "provider": "providers",
+    "provider_network": "provider_networks",
     "rack": "racks",
     "rack_group": "rack_groups",
     "rack_role": "rack_roles",
@@ -267,6 +269,7 @@ ENDPOINT_NAME_MAPPING = {
     "power_port_templates": "power_port_template",
     "prefixes": "prefix",
     "providers": "provider",
+    "provider_networks": "provider_network",
     "racks": "rack",
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
@@ -362,6 +365,7 @@ ALLOWED_QUERY_PARAMS = {
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
     "provider": set(["slug"]),
+    "provider_network": set(["name"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
