@@ -56,6 +56,12 @@ options:
           - Comments related to the provider network
         required: false
         type: str
+     tags:
+        description:
+          - Any tags that the provdier_network may need to be associated with
+        required: false
+        type: list
+        elements: raw
       custom_fields:
         description:
           - must exist in NetBox
@@ -71,12 +77,13 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create provider within NetBox with only required information
+    - name: Create provider network within NetBox with only required information
       netbox_provider:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Provider
+          provider: Test Provider
+          name: Test Provider Network
         state: present
 
     - name: Update provider with other fields
@@ -84,13 +91,10 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Provider
-          asn: 65001
-          account: 200129104
-          portal_url: http://provider.net
-          noc_contact: noc@provider.net
-          admin_contact: admin@provider.net
-          comments: "BAD PROVIDER"
+          provider: Test Provider
+          name: Test Provider Network
+          description: Describe a Provider Network
+          comments: "A Provider Network"
         state: present
 
     - name: Delete provider within netbox
@@ -98,7 +102,8 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Provider
+          provider: test Provider
+          name: Test Provider Network
         state: absent
 """
 
@@ -139,13 +144,14 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         ),
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [("state", "present", ["provider", "name"]), ("state", "absent", ["provider", "name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
