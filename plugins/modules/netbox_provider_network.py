@@ -46,17 +46,17 @@ options:
           - The name of the provider network
         required: true
         type: str
-     description:
+      description:
         description:
           - Description related to the provider network
         required: false
         type: str
-     comments:
+      comments:
         description:
           - Comments related to the provider network
         required: false
         type: str
-     tags:
+      tags:
         description:
           - Any tags that the provdier_network may need to be associated with
         required: false
