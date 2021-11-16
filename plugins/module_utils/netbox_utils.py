@@ -33,7 +33,13 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=["circuits", "circuit_types", "circuit_terminations", "providers", "provider_networks"],
+    circuits=[
+        "circuits",
+        "circuit_types",
+        "circuit_terminations",
+        "providers",
+        "provider_networks",
+    ],
     dcim=[
         "cables",
         "console_ports",
