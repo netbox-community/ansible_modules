@@ -38,7 +38,7 @@
     that:
       - not test_two['changed']
       - test_two['provider_network']['name'] == "Test Provider Network One"
-      - test_two['msg'] == "provider Test Provider One already exists"
+      - test_two['msg'] == "provider_network Test Provider Network One already exists"
 
 - name: "NETBOX_PROVIDER_NETWORK 3: Update provider network with other fields"
   netbox.netbox.netbox_provider_network:
