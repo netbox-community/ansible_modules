@@ -253,6 +253,28 @@ plugin: netbox.netbox.nb_inventory
 keyed_groups:
   - prefix: status
     key: status.value
+
+# For use in Ansible Tower (AWX), please see this blog from RedHat: https://www.ansible.com/blog/using-an-inventory-plugin-from-a-collection-in-ansible-tower
+# The credential for NetBox will need to expose NETBOX_API and NETBOX_TOKEN as environment variables.
+# Example Ansible Tower credential Input Configuration:
+
+fields:
+  - id: NETBOX_API
+    type: string
+    label: NetBox Host URL
+  - id: NETBOX_TOKEN
+    type: string
+    label: NetBox API Token
+    secret: true
+required:
+  - NETBOX_API
+  - NETBOX_TOKEN
+
+# Example Ansible Tower credential Injector Configuration:
+
+env:
+  NETBOX_API: '{{ NETBOX_API }}'
+  NETBOX_TOKEN: '{{ NETBOX_TOKEN }}'
 """
 
 import json
