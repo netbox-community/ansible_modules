@@ -1,0 +1,83 @@
+---
+##
+##
+### NETBOX_PROVIDER
+##
+##
+- name: "NETBOX_PROVIDER_NETWORK 1: Create provider network within NetBox with only required information"
+  netbox.netbox.netbox_provider_network:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      provider: Test Provider
+      name: Test Provider Network One
+    state: present
+  register: test_one
+
+- name: "NETBOX_PROVIDER_NETWORK 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['provider_network']['name'] == "Test Provider Network One"
+      - test_one['msg'] == "provider_network Test Provider Network One created"
+
+- name: "NETBOX_PROVIDER_NETWORK 2: Duplicate"
+  netbox.netbox.netbox_provider_network:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      provider: Test Provider
+      name: Test Provider Network One
+    state: present
+  register: test_two
+
+- name: "NETBOX_PROVIDER_NETWORK 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['provider_network']['name'] == "Test Provider Network One"
+      - test_two['msg'] == "provider_network Test Provider Network One already exists"
+
+- name: "NETBOX_PROVIDER_NETWORK 3: Update provider network with other fields"
+  netbox.netbox.netbox_provider_network:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      provider: Test Provider
+      name: Test Provider Network One
+      description: Describe a Provider Network
+      comments: "A provider network"
+    state: present
+  register: test_three
+
+- name: "NETBOX_PROVIDER_NETWORK 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['comments'] == "A provider network"
+      - test_three['diff']['after']['description'] == "Describe a Provider Network"
+      - test_three['provider_network']['name'] == "Test Provider Network One"
+      - test_three['provider_network']['comments'] == "A provider network"
+      - test_three['provider_network']['description'] == "Describe a Provider Network"
+      - test_three['msg'] == "provider_network Test Provider Network One updated"
+
+- name: "NETBOX_PROVIDER_NETWORK 4: Delete provider within netbox"
+  netbox.netbox.netbox_provider_network:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      provider: Test Provider
+      name: Test Provider Network One
+    state: absent
+  register: test_four
+
+- name: "NETBOX_PROVIDER_NETWORK 4 : ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['provider_network']['name'] == "Test Provider Network One"
+      - test_four['provider_network']['comments'] == "A provider network"
+      - test_four['provider_network']['description'] == "Describe a Provider Network"
+      - test_four['msg'] == "provider_network Test Provider Network One deleted"

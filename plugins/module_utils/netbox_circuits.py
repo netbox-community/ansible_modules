@@ -13,6 +13,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 
 NB_PROVIDERS = "providers"
+NB_PROVIDER_NETWORKS = "provider_networks"
 NB_CIRCUIT_TYPES = "circuit_types"
 NB_CIRCUIT_TERMINATIONS = "circuit_terminations"
 NB_CIRCUITS = "circuits"
@@ -31,6 +32,7 @@ class NetboxCircuitsModule(NetboxModule):
         - circuit_terminations
         - circuits
         - providers
+        - provider_networks
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]

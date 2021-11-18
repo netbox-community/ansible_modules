@@ -54,6 +54,11 @@ options:
           - The site the circuit termination will be assigned to
         required: false
         type: raw
+      provider_network:
+        description:
+          - The provider_network the circuit termination will be assigned to
+        required: false
+        type: raw
       port_speed:
         description:
           - The speed of the port (Kbps)
@@ -158,6 +163,7 @@ def main():
                     circuit=dict(required=True, type="raw"),
                     term_side=dict(required=True, choices=["A", "Z"]),
                     site=dict(required=False, type="raw"),
+                    provider_network=dict(required=False, type="raw"),
                     port_speed=dict(required=False, type="int"),
                     upstream_speed=dict(required=False, type="int"),
                     xconnect_id=dict(required=False, type="str"),

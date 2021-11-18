@@ -95,6 +95,9 @@
 - name: "NETBOX_PROVIDER TESTS"
   include_tasks: "netbox_provider.yml"
 
+- name: "NETBOX_PROVIDER_NETWORK TESTS"
+  include_tasks: "netbox_provider_network.yml"
+
 - name: "NETBOX_CIRCUIT_TYPE TESTS"
   include_tasks: "netbox_circuit_type.yml"
 
