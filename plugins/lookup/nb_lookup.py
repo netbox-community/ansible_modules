@@ -196,7 +196,7 @@ def get_endpoint(netbox, term):
         "devices": {"endpoint": netbox.dcim.devices},
         "export-templates": {"endpoint": netbox.dcim.export_templates},
         "fhrp-group-assignments": {"endpoint": netbox.ipam.fhrp_group_assignments},
-        "fhrp-group": {"endpoint": netbox.ipam.fhrp_group},
+        "fhrp-groups": {"endpoint": netbox.ipam.fhrp_groups},
         "front-port-templates": {"endpoint": netbox.dcim.front_port_templates},
         "front-ports": {"endpoint": netbox.dcim.front_ports},
         "graphs": {"endpoint": netbox.extras.graphs},
@@ -236,7 +236,7 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "route-targets": {"endpoint": netbox.ipam.route_targets},
-        "scripts": {"endpoint": netbox.api.scripts},
+        #"scripts": {"endpoint": netbox.api.scripts},
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
@@ -255,9 +255,9 @@ def get_endpoint(netbox, term):
         "vlans": {"endpoint": netbox.ipam.vlans},
         "vrfs": {"endpoint": netbox.ipam.vrfs},
         "webhooks": {"endpoint": netbox.extras.webhooks},
-        "wireless-lan-groups": {"endpoint": netbox.wireless.wireless_lan_groups},
-        "wireless-lan": {"endpoint": netbox.wireless.wireless_lan},
-        "wireless-links": {"endpoint": netbox.wireless.wireless_links},
+        #"wireless-lan-groups": {"endpoint": netbox.wireless.wireless_lan_groups},
+        #"wireless-lan": {"endpoint": netbox.wireless.wireless_lan},
+        #"wireless-links": {"endpoint": netbox.wireless.wireless_links},
     }
 
     return netbox_endpoint_map[term]["endpoint"]
