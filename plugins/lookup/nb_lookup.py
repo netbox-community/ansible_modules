@@ -236,7 +236,7 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "route-targets": {"endpoint": netbox.ipam.route_targets},
-        #"scripts": {"endpoint": netbox.api.scripts},
+        # "scripts": {"endpoint": netbox.api.scripts},
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
@@ -255,9 +255,9 @@ def get_endpoint(netbox, term):
         "vlans": {"endpoint": netbox.ipam.vlans},
         "vrfs": {"endpoint": netbox.ipam.vrfs},
         "webhooks": {"endpoint": netbox.extras.webhooks},
-        #"wireless-lan-groups": {"endpoint": netbox.wireless.wireless_lan_groups},
-        #"wireless-lan": {"endpoint": netbox.wireless.wireless_lan},
-        #"wireless-links": {"endpoint": netbox.wireless.wireless_links},
+        # "wireless-lan-groups": {"endpoint": netbox.wireless.wireless_lan_groups},
+        # "wireless-lan": {"endpoint": netbox.wireless.wireless_lan},
+        # "wireless-links": {"endpoint": netbox.wireless.wireless_links},
     }
 
     return netbox_endpoint_map[term]["endpoint"]
