@@ -137,14 +137,12 @@ def main():
     )
 
     required_if = [
-       ("state", "present", ["name"]),
-       ("state", "absent", ["name"]),
+        ("state", "present", ["name"]),
+        ("state", "absent", ["name"]),
     ]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec,
-        supports_check_mode=True,
-        required_if=required_if
+        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
     netbox_virtual_chassis = NetboxDcimModule(module, NB_VIRTUAL_CHASSIS)
