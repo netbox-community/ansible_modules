@@ -58,6 +58,11 @@ options:
         required: false
         type: list
         elements: raw
+      custom_fields:
+        description:
+          - must exist in NetBox
+        required: false
+        type: dict
 """
 
 EXAMPLES = r"""
@@ -81,7 +86,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          master: Test Device
+          name: "Virtual Chassis 1"
           domain: Domain Text
         state: present
 
@@ -90,7 +95,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          master: Test Device
+          name: "Virtual Chassis 1"
         state: absent
 """
 
@@ -131,6 +136,7 @@ def main():
                     master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
