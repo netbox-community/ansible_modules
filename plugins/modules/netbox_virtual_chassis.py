@@ -40,7 +40,7 @@ options:
       name:
         description:
           - Name
-        required: true
+        required: false
         type: str
       master:
         description:
