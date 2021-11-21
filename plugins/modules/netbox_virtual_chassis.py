@@ -132,7 +132,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    name=dict(required=True, type="str"),
+                    name=dict(required=False, type="str"),
                     master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
@@ -142,13 +142,12 @@ def main():
         )
     )
 
-    required_if = [
-        ("state", "present", ["name"]),
-        ("state", "absent", ["name"]),
-    ]
+    required_one_of = [["name", "master"]]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_one_of=required_one_of,
     )
 
     netbox_virtual_chassis = NetboxDcimModule(module, NB_VIRTUAL_CHASSIS)
