@@ -836,7 +836,7 @@ class NetboxModule(object):
                 )
 
         elif parent == "virtual_chassis":
-            query_dict = {"q": self.module.params["data"].get("master")}
+            query_dict.update({"master": self.module.params["data"].get("master")})
 
         elif parent == "rear_port" and self.endpoint == "front_ports":
             if isinstance(module_data.get("rear_port"), str):
