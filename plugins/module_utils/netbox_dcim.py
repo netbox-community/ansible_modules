@@ -160,14 +160,18 @@ class NetboxDcimModule(NetboxModule):
                     )
                 ]
             else:
-                cables = [
-                    cable
-                    for cable in nb_endpoint.all()
-                    if cable.termination_a_type == data["termination_a_type"]
-                    and cable.termination_a_id == data["termination_a_id"]
-                    and cable.termination_b_type == data["termination_b_type"]
-                    and cable.termination_b_id == data["termination_b_id"]
-                ]
+                # Attempt to find the exact cable via the interface
+                # relationship
+                interface_a = self.nb.dcim.interfaces.get(data["termination_a_id"])
+                interface_b = self.nb.dcim.interfaces.get(data["termination_b_id"])
+                if (
+                    interface_a.cable
+                    and interface_b.cable
+                    and interface_a.cable.id == interface_b.cable.id
+                ):
+                    cables = [self.nb.dcim.cables.get(interface_a.cable.id)]
+                else:
+                    cables = []
             if len(cables) == 0:
                 self.nb_object = None
             elif len(cables) == 1:
