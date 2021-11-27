@@ -167,6 +167,22 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/provider_network"></div>
+                    <b>provider_network</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/provider_network" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The provider_network the circuit termination will be assigned to</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
                     <b>site</b>
                     <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>

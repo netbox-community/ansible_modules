@@ -4,7 +4,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_virtual_chassis_module:
+.. _ansible_collections.netbox.netbox.netbox_provider_network_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -14,8 +14,8 @@
 
 .. Title
 
-netbox.netbox.netbox_virtual_chassis -- Create, update or delete virtual chassis within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_provider_network -- Create, update or delete provider networks within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -24,11 +24,11 @@ netbox.netbox.netbox_virtual_chassis -- Create, update or delete virtual chassis
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_virtual_chassis`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_provider_network`.
 
 .. version_added
 
-.. versionadded:: 0.3.0 of netbox.netbox
+.. versionadded:: 3.4.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes virtual chassis from NetBox
+- Creates, updates or removes provider networks from NetBox
 
 
 .. Aliases
@@ -97,10 +97,26 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the virtual chassis configuration</div>
+                                            <div>Defines the provider network configuration</div>
                                                         </td>
             </tr>
                                         <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+                    <b>comments</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Comments related to the provider network</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
@@ -119,9 +135,9 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/domain"></div>
-                    <b>domain</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/domain" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -129,23 +145,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>domain of the virtual chassis</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/master"></div>
-                    <b>master</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/master" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">raw</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The master device the virtual chassis is attached to</div>
+                                            <div>Description related to the provider network</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -156,12 +156,28 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
-                                                                    </div>
+                                                 / <span style="color: red">required</span>                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Name</div>
+                                            <div>The name of the provider network</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/provider"></div>
+                    <b>provider</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/provider" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                 / <span style="color: red">required</span>                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The name of the provider</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -177,7 +193,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Any tags that the virtual chassis may need to be associated with</div>
+                                            <div>Any tags that the provdier_network may need to be associated with</div>
                                                         </td>
             </tr>
                     
@@ -294,30 +310,33 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create virtual chassis within NetBox with only required information
-          netbox_virtual_chassis:
+        - name: Create provider network within NetBox with only required information
+          netbox_provider:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: "Virtual Chassis 1"
-              master: Test Device
+              provider: Test Provider
+              name: Test Provider Network
             state: present
 
-        - name: Update virtual chassis with other fields
-          netbox_virtual_chassis:
+        - name: Update provider with other fields
+          netbox_provider:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: "Virtual Chassis 1"
-              domain: Domain Text
+              provider: Test Provider
+              name: Test Provider Network
+              description: Describe a Provider Network
+              comments: "A Provider Network"
             state: present
 
-        - name: Delete virtual chassis within netbox
-          netbox_virtual_chassis:
+        - name: Delete provider within netbox
+          netbox_provider:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: "Virtual Chassis 1"
+              provider: test Provider
+              name: Test Provider Network
             state: absent
 
 
@@ -357,9 +376,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             </tr>
                                 <tr>
                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-virtual_chassis"></div>
-                    <b>virtual_chassis</b>
-                    <a class="ansibleOptionLink" href="#return-virtual_chassis" title="Permalink to this return value"></a>
+                    <div class="ansibleOptionAnchor" id="return-provider_network"></div>
+                    <b>provider_network</b>
+                    <a class="ansibleOptionLink" href="#return-provider_network" title="Permalink to this return value"></a>
                     <div style="font-size: small">
                       <span style="color: purple">dictionary</span>
                                           </div>
@@ -381,7 +400,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Martin Rødvand (@rodvand)
 
 
 
