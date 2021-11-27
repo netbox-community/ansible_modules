@@ -593,6 +593,7 @@ releases:
         - nb_lookup - Add missing endpoints to nb_lookup [#655](https://github.com/netbox-community/ansible_modules/pull/655)
         - netbox_virtual_chassis - Add custom_fileds to netbox_virtual_chassis [#657](https://github.com/netbox-community/ansible_modules/pull/657)
         - nb_inventory - Add documentation for use of inventory plugin in Tower/AWX [#648](https://github.com/netbox-community/ansible_modules/pull/648)
+        - netbox_cable - Improve lookup speed on NetBox versions earlier than 3.0.6 [#645](https://github.com/netbox-community/ansible_modules/pull/645)
       bugfixes:
         - netbox_site - Ensure idempotency between NetBox version 2.11 and 3.00 [#631](https://github.com/netbox-community/ansible_modules/pull/631)
         - netbox_virtual_machine - Ensure idempotency between NetBox version 2.11 and 3.00 [#633](https://github.com/netbox-community/ansible_modules/pull/633)
