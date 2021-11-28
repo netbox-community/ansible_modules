@@ -4,7 +4,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_manufacturer_module:
+.. _ansible_collections.netbox.netbox.netbox_provider_network_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -14,8 +14,8 @@
 
 .. Title
 
-netbox.netbox.netbox_manufacturer -- Create or delete manufacturers within NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_provider_network -- Create, update or delete provider networks within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -24,11 +24,11 @@ netbox.netbox.netbox_manufacturer -- Create or delete manufacturers within NetBo
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_manufacturer`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_provider_network`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: 3.4.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes manufacturers from NetBox
+- Creates, updates or removes provider networks from NetBox
 
 
 .. Aliases
@@ -97,10 +97,42 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the manufacturer configuration</div>
+                                            <div>Defines the provider network configuration</div>
                                                         </td>
             </tr>
                                         <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+                    <b>comments</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Comments related to the provider network</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>must exist in NetBox</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
@@ -113,7 +145,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The description of the manufacturer</div>
+                                            <div>Description related to the provider network</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -129,24 +161,39 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The name of the manufacturer</div>
+                                            <div>The name of the provider network</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
-                    <b>slug</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/provider"></div>
+                    <b>provider</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/provider" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
+                        <span style="color: purple">raw</span>
+                                                 / <span style="color: red">required</span>                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The slugified version of the name or custom slug.</div>
-                                            <div>This is auto-generated following NetBox rules if not provided</div>
+                                            <div>The name of the provider</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+                    <b>tags</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=raw</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Any tags that the provdier_network may need to be associated with</div>
                                                         </td>
             </tr>
                     
@@ -263,20 +310,33 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create manufacturer within NetBox with only required information
-          netbox_manufacturer:
+        - name: Create provider network within NetBox with only required information
+          netbox_provider_network:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Manufacturer
+              provider: Test Provider
+              name: Test Provider Network
             state: present
 
-        - name: Delete manufacturer within netbox
-          netbox_manufacturer:
+        - name: Update provider with other fields
+          netbox_provider_network:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Manufacturer
+              provider: Test Provider
+              name: Test Provider Network
+              description: Describe a Provider Network
+              comments: "A Provider Network"
+            state: present
+
+        - name: Delete provider within netbox
+          netbox_provider_network:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              provider: test Provider
+              name: Test Provider Network
             state: absent
 
 
@@ -301,21 +361,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </tr>
                     <tr>
                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-manufacturer"></div>
-                    <b>manufacturer</b>
-                    <a class="ansibleOptionLink" href="#return-manufacturer" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>success (when <em>state=present</em>)</td>
-                <td>
-                                            <div>Serialized object as created or already existent within NetBox</div>
-                                        <br/>
-                                    </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="return-msg"></div>
                     <b>msg</b>
                     <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
@@ -326,6 +371,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                 <td>always</td>
                 <td>
                                             <div>Message indicating failure or info about what has been achieved</div>
+                                        <br/>
+                                    </td>
+            </tr>
+                                <tr>
+                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-provider_network"></div>
+                    <b>provider_network</b>
+                    <a class="ansibleOptionLink" href="#return-provider_network" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>success (when <em>state=present</em>)</td>
+                <td>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>
@@ -340,7 +400,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Martin Rødvand (@rodvand)
 
 
 

@@ -20,7 +20,7 @@ netbox.netbox.netbox_circuit_termination -- Create, update or delete circuit ter
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.3.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.4.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -167,6 +167,22 @@ Parameters
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/provider_network"></div>
+                    <b>provider_network</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/provider_network" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The provider_network the circuit termination will be assigned to</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
                     <b>site</b>
                     <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>
@@ -245,7 +261,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within NetBox to authorize API access</div>
+                                            <div>The NetBox API token.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -260,7 +276,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the NetBox instance resolvable by Ansible control host</div>
+                                            <div>The URL of the NetBox instance.</div>
+                                            <div>Must be accessible by the Ansible control host.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -275,7 +292,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined</div>
+                                            <div>This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined</div>
                                             <div>in plugins/module_utils/netbox_utils.py and provides control to users on what may make</div>
                                             <div>an object unique in their environment.</div>
                                                         </td>
@@ -291,12 +308,12 @@ Parameters
                                                         </td>
                                 <td>
                                                                                                                             <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>absent</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>absent</li>
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Use <code>present</code> or <code>absent</code> for adding or removing.</div>
+                                            <div>The state of the object.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -312,7 +329,8 @@ Parameters
                                                                                                                                                                                                                 <b>Default:</b><br/><div style="color: blue">"yes"</div>
                                     </td>
                                                                 <td>
-                                            <div>If <code>no</code>, SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.</div>
+                                            <div>If <code>no</code>, SSL certificates will not be validated.</div>
+                                            <div>This should only be used on personally controlled sites using a self-signed certificates.</div>
                                                         </td>
             </tr>
                         </table>

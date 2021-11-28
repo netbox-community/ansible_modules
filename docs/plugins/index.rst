@@ -2,10 +2,10 @@
 
 .. _plugins_in_netbox.netbox:
 
-NetBox.NetBox
+Netbox.Netbox
 =============
 
-Collection version 3.3.0
+Collection version 3.4.0
 
 .. toctree::
     :maxdepth: 1
@@ -65,6 +65,7 @@ Modules
 * :ref:`netbox_power_port_template <ansible_collections.netbox.netbox.netbox_power_port_template_module>` -- Create, update or delete power port templates within NetBox
 * :ref:`netbox_prefix <ansible_collections.netbox.netbox.netbox_prefix_module>` -- Creates or removes prefixes from NetBox
 * :ref:`netbox_provider <ansible_collections.netbox.netbox.netbox_provider_module>` -- Create, update or delete providers within NetBox
+* :ref:`netbox_provider_network <ansible_collections.netbox.netbox.netbox_provider_network_module>` -- Create, update or delete provider networks within NetBox
 * :ref:`netbox_rack <ansible_collections.netbox.netbox.netbox_rack_module>` -- Create, update or delete racks within NetBox
 * :ref:`netbox_rack_group <ansible_collections.netbox.netbox.netbox_rack_group_module>` -- Create, update or delete racks groups within NetBox
 * :ref:`netbox_rack_role <ansible_collections.netbox.netbox.netbox_rack_role_module>` -- Create, update or delete racks roles within NetBox
