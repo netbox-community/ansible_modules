@@ -9,7 +9,7 @@ __metaclass__ = type
 import pytest
 import os
 from functools import partial
-from unittest.mock import patch, MagicMock, Mock, call
+from unittest.mock import patch, MagicMock, Mock, call, mock_open
 from packaging import version
 
 try:
@@ -190,3 +190,33 @@ def test_get_resource_list_chunked(
     mock_get_resource_list.assert_has_calls(map(call, expected))
     assert mock_get_resource_list.call_count == len(expected)
     assert resources == mock_get_resource_list.return_value * len(expected)
+
+
+@patch(
+    "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.DEFAULT_LOCAL_TMP",
+    "/fake/path/asdasd3456",
+)
+@pytest.mark.parametrize("netbox_ver", ["2.0.2", "3.0.0"])
+def test_fetch_api_docs(inventory_fixture, netbox_ver):
+    mock_fetch_information = Mock()
+    mock_fetch_information.side_effect = [
+        {"netbox-version": netbox_ver},
+        {"info": {"version": "3.0"}},
+    ]
+
+    inventory_fixture._fetch_information = mock_fetch_information
+
+    with pytest.raises(KeyError, match="paths"):
+        with patch("builtins.open", mock_open()) as filemock:
+            with patch(
+                "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.json"
+            ) as json_mock:
+                json_mock.load.return_value = {"info": {"version": "2.0"}}
+                inventory_fixture.fetch_api_docs()
+
+    ref_args_list = [call("/fake/path/netbox_api_dump.json")]
+    if netbox_ver == "3.0.0":
+        ref_args_list.append(call("/fake/path/netbox_api_dump.json", "w"))
+
+    assert filemock.call_args_list == ref_args_list
+    assert str(inventory_fixture.api_version) == netbox_ver[:-2]

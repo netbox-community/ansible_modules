@@ -25,7 +25,7 @@
       assert:
         that:
           - test_one is failed
-          - test_one['msg'] == "Failed to establish connection to Netbox API"
+          - test_one['msg'] == "Failed to establish connection to NetBox API"
 
     - name: "2 - Check to see if netbox_prefix with parent defined will pass via check-mode"
       netbox.netbox.netbox_prefix:

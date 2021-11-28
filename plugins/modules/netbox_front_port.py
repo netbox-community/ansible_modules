@@ -17,9 +17,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_front_port
-short_description: Create, update or delete front ports within Netbox
+short_description: Create, update or delete front ports within NetBox
 description:
-  - Creates, updates or removes front ports from Netbox
+  - Creates, updates or removes front ports from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -28,22 +28,9 @@ author:
 requirements:
   - pynetbox
 version_added: '0.2.3'
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     required: true
@@ -84,7 +71,7 @@ options:
         description:
           - The rear_port the front port is attached to
         required: true
-        type: raw        
+        type: raw
       rear_port_position:
         description:
           - The position of the rear port this front port is connected to
@@ -101,35 +88,16 @@ options:
         required: false
         type: list
         elements: raw
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create front port within Netbox with only required information
+    - name: Create front port within NetBox with only required information
       netbox_front_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -167,7 +135,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 front_port:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
 msg:

@@ -33,7 +33,13 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=["circuits", "circuit_types", "circuit_terminations", "providers"],
+    circuits=[
+        "circuits",
+        "circuit_types",
+        "circuit_terminations",
+        "providers",
+        "provider_networks",
+    ],
     dcim=[
         "cables",
         "console_ports",
@@ -120,6 +126,7 @@ QUERY_TYPES = dict(
     primary_ip4="address",
     primary_ip6="address",
     provider="slug",
+    provider_network="name",
     rack="name",
     rack_group="slug",
     rack_role="slug",
@@ -197,6 +204,7 @@ CONVERT_TO_ID = {
     "primary_ip4": "ip_addresses",
     "primary_ip6": "ip_addresses",
     "provider": "providers",
+    "provider_network": "provider_networks",
     "rack": "racks",
     "rack_group": "rack_groups",
     "rack_role": "rack_roles",
@@ -267,6 +275,7 @@ ENDPOINT_NAME_MAPPING = {
     "power_port_templates": "power_port_template",
     "prefixes": "prefix",
     "providers": "provider",
+    "provider_networks": "provider_network",
     "racks": "rack",
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
@@ -362,6 +371,7 @@ ALLOWED_QUERY_PARAMS = {
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
     "provider": set(["slug"]),
+    "provider_network": set(["name"]),
     "rack": set(["name", "site"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
@@ -435,7 +445,7 @@ REQUIRED_ID_FIND = {
     "vlans": set(["status"]),
 }
 
-# This is used to map non-clashing keys to Netbox API compliant keys to prevent bad logic in code for similar keys but different modules
+# This is used to map non-clashing keys to NetBox API compliant keys to prevent bad logic in code for similar keys but different modules
 CONVERT_KEYS = {
     "assigned_object": "assigned_object_id",
     "scope": "scope_id",
@@ -510,7 +520,7 @@ NETBOX_ARG_SPEC = dict(
 
 class NetboxModule(object):
     """
-    Initialize connection to Netbox, sets AnsibleModule passed in to
+    Initialize connection to NetBox, sets AnsibleModule passed in to
     self.module to be used throughout the class
     :params module (obj): Ansible Module object
     :params endpoint (str): Used to tell class which endpoint the logic needs to follow
@@ -528,13 +538,13 @@ class NetboxModule(object):
             self.module.fail_json(
                 msg=missing_required_lib("pynetbox"), exception=PYNETBOX_IMP_ERR
             )
-        # These should not be required after making connection to Netbox
+        # These should not be required after making connection to NetBox
         url = self.module.params["netbox_url"]
         token = self.module.params["netbox_token"]
         ssl_verify = self.module.params["validate_certs"]
         cert = self.module.params["cert"]
 
-        # Attempt to initiate connection to Netbox
+        # Attempt to initiate connection to NetBox
         if nb_client is None:
             self.nb = self._connect_netbox_api(url, token, ssl_verify, cert)
         else:
@@ -595,11 +605,11 @@ class NetboxModule(object):
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
                 self.module.fail_json(
-                    msg="Failed to establish connection to Netbox API"
+                    msg="Failed to establish connection to NetBox API"
                 )
             return nb
         except Exception:
-            self.module.fail_json(msg="Failed to establish connection to Netbox API")
+            self.module.fail_json(msg="Failed to establish connection to NetBox API")
 
     def _nb_endpoint_get(self, nb_endpoint, query_params, search_item):
         try:
@@ -669,7 +679,7 @@ class NetboxModule(object):
         """
         Used to change non-clashing keys for each module into identical keys that are required
         to be passed to pynetbox
-        ex. rack_role back into role to pass to Netbox
+        ex. rack_role back into role to pass to NetBox
         Returns data
         :params data (dict): Data dictionary after _find_ids method ran
         """
@@ -732,10 +742,10 @@ class NetboxModule(object):
     ):
         """
         :returns dict(query_dict): Returns a query dictionary built using mappings to dynamically
-        build available query params for Netbox endpoints
+        build available query params for NetBox endpoints
         :params parent(str): This is either a key from `_find_ids` or a string passed in to determine
         which keys in the data that we need to use to construct `query_dict`
-        :params module_data(dict): Uses the data provided to the Netbox module
+        :params module_data(dict): Uses the data provided to the NetBox module
         :params child(dict): This is used within `_find_ids` and passes the inner dictionary
         to build the appropriate `query_dict` for the parent
         """
@@ -826,7 +836,7 @@ class NetboxModule(object):
                 )
 
         elif parent == "virtual_chassis":
-            query_dict = {"q": self.module.params["data"].get("master")}
+            query_dict.update({"master": self.module.params["data"].get("master")})
 
         elif parent == "rear_port" and self.endpoint == "front_ports":
             if isinstance(module_data.get("rear_port"), str):
@@ -1057,10 +1067,10 @@ class NetboxModule(object):
 
     def _normalize_data(self, data):
         """
-        :returns data (dict): Normalized module data to formats accepted by Netbox searches
+        :returns data (dict): Normalized module data to formats accepted by NetBox searches
         such as changing from user specified value to slug
         ex. Test Rack -> test-rack
-        :params data (dict): Original data from Netbox module
+        :params data (dict): Original data from NetBox module
         """
         for k, v in data.items():
             if isinstance(v, dict):
@@ -1104,9 +1114,9 @@ class NetboxModule(object):
         return data
 
     def _create_netbox_object(self, nb_endpoint, data):
-        """Create a Netbox object.
+        """Create a NetBox object.
         :returns tuple(serialized_nb_obj, diff): tuple of the serialized created
-        Netbox object and the Ansible diff.
+        NetBox object and the Ansible diff.
         """
         if self.check_mode:
             nb_obj = data
@@ -1120,7 +1130,7 @@ class NetboxModule(object):
         return nb_obj, diff
 
     def _delete_netbox_object(self):
-        """Delete a Netbox object.
+        """Delete a NetBox object.
         :returns diff (dict): Ansible diff
         """
         if not self.check_mode:
@@ -1133,9 +1143,9 @@ class NetboxModule(object):
         return diff
 
     def _update_netbox_object(self, data):
-        """Update a Netbox object.
+        """Update a NetBox object.
         :returns tuple(serialized_nb_obj, diff): tuple of the serialized updated
-        Netbox object and the Ansible diff.
+        NetBox object and the Ansible diff.
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
@@ -1143,6 +1153,24 @@ class NetboxModule(object):
         if serialized_nb_obj.get("tags") and data.get("tags"):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
+
+        # Ensure idempotency for site and virtual machine on version pre-3.0
+        version_pre_30 = self._version_check_greater("3.0", self.version)
+        if (
+            serialized_nb_obj.get("latitude")
+            and data.get("latitude")
+            and version_pre_30
+        ):
+            updated_obj["latitude"] = str(data["latitude"])
+        if (
+            serialized_nb_obj.get("longitude")
+            and data.get("longitude")
+            and version_pre_30
+        ):
+            updated_obj["longitude"] = str(data["longitude"])
+
+        if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
+            updated_obj["vcpus"] = "{0:.2f}".format(data["vcpus"])
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
@@ -1222,11 +1250,11 @@ class NetboxAnsibleModule(AnsibleModule):
     """
     Creating this due to needing to override some functionality to provide required_together, required_if
     and will be able to override more in the future.
-    This is due to the Netbox modules having the module arguments within a key in the argument spec, using suboptions rather than
+    This is due to the NetBox modules having the module arguments within a key in the argument spec, using suboptions rather than
     having all module arguments within the regular argument spec.
 
-    Didn't want to change that functionality of the Netbox modules as its disruptive and we're required to send a specific payload
-    to the Netbox API
+    Didn't want to change that functionality of the NetBox modules as its disruptive and we're required to send a specific payload
+    to the NetBox API
     """
 
     def __init__(

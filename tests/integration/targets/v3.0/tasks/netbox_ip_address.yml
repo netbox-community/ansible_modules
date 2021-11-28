@@ -4,9 +4,9 @@
 ### NETBOX_IP_ADDRESS
 ##
 ##
-- name: "1 - Create IP address within Netbox with only required information - State: Present"
+- name: "1 - Create IP address within NetBox with only required information - State: Present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.1.10/30
@@ -24,7 +24,7 @@
 
 - name: "2 - Update 192.168.1.10/30"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.1.10/30
@@ -47,7 +47,7 @@
 
 - name: "3 - Delete IP - 192.168.1.10 - State: Absent"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.1.10/30
@@ -64,7 +64,7 @@
 
 - name: "4 - Create IP in global VRF - 192.168.1.20/30 - State: Present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.1.20/30
@@ -82,7 +82,7 @@
 
 - name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.1.20/30
@@ -100,7 +100,7 @@
 
 - name: "6 - Create new address with only prefix specified - State: new"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       prefix: 192.168.100.0/24
@@ -118,7 +118,7 @@
 
 - name: "7 - Create IP address with several specified"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -151,7 +151,7 @@
 
 - name: "8 - Create IP address and assign a nat_inside IP"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -176,7 +176,7 @@
 
 - name: "9 - Create IP address on GigabitEthernet2 - test100 - State: present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -200,7 +200,7 @@
 
 - name: "10 - Create IP address on GigabitEthernet2 - test100 - State: new"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -225,7 +225,7 @@
 
 - name: "11 - Create IP address on GigabitEthernet2 - test100 - State: present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -247,7 +247,7 @@
 
 - name: "12 - Duplicate - 192.168.100.2/24 on interface"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.100.2/24
@@ -268,7 +268,7 @@
 
 - name: "13 - Duplicate - 192.168.100.2/24"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 192.168.100.2/24
@@ -284,7 +284,7 @@
 
 - name: "14 - Create IP address on Eth0 - test100-vm - State: present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -308,7 +308,7 @@
 
 - name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       family: 4
@@ -333,7 +333,7 @@
 
 - name: "16 - Create IP address with no mask - State: Present"
   netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost.org:32768
+    netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       address: 10.120.10.1

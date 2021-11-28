@@ -13,7 +13,7 @@ from packaging import version
 # os.environ["INTEGRATION_TESTS"]
 
 
-# Set nb variable to connect to Netbox and use the veriable in future calls
+# Set nb variable to connect to NetBox and use the veriable in future calls
 nb_host = os.getenv("NETBOX_HOST", "http://localhost:32768")
 nb_token = os.getenv("NETBOX_TOKEN", "0123456789abcdef0123456789abcdef01234567")
 nb = pynetbox.api(nb_host, nb_token)

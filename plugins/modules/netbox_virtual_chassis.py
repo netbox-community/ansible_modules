@@ -17,9 +17,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_virtual_chassis
-short_description: Create, update or delete virtual chassis within Netbox
+short_description: Create, update or delete virtual chassis within NetBox
 description:
-  - Creates, updates or removes virtual chassis from Netbox
+  - Creates, updates or removes virtual chassis from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -28,22 +28,9 @@ author:
 requirements:
   - pynetbox
 version_added: '0.3.0'
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     required: true
@@ -71,35 +58,21 @@ options:
         required: false
         type: list
         elements: raw
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
+      custom_fields:
+        description:
+          - must exist in NetBox
+        required: false
+        type: dict
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create virtual chassis within Netbox with only required information
+    - name: Create virtual chassis within NetBox with only required information
       netbox_virtual_chassis:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -113,7 +86,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          master: Test Device
+          name: "Virtual Chassis 1"
           domain: Domain Text
         state: present
 
@@ -122,13 +95,13 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          master: Test Device
+          name: "Virtual Chassis 1"
         state: absent
 """
 
 RETURN = r"""
 virtual_chassis:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
 msg:
@@ -163,21 +136,17 @@ def main():
                     master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
     )
 
-    # required_if = [
-    #    ("state", "present", ["master"]),
-    #    ("state", "absent", ["master"]),
-    # ]
     required_one_of = [["name", "master"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
         supports_check_mode=True,
-        # required_if=required_if,
         required_one_of=required_one_of,
     )
 

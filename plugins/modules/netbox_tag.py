@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_tag
-short_description: Creates or removes tags from Netbox
+short_description: Creates or removes tags from NetBox
 description:
-  - Creates or removes tags from Netbox
+  - Creates or removes tags from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -27,22 +27,9 @@ author:
 requirements:
   - pynetbox
 version_added: "1.2.0"
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     description:
@@ -70,27 +57,6 @@ options:
         required: false
         type: str
     required: true
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - |
-        If C(no), SSL certificates will not be validated.
-        This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
 """
 
 EXAMPLES = r"""
@@ -124,7 +90,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 tags:
-  description: Serialized object as created/existent/updated/deleted within Netbox
+  description: Serialized object as created/existent/updated/deleted within NetBox
   returned: always
   type: dict
 msg:

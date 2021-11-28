@@ -6,7 +6,7 @@
 """
 netbox.py
 
-A lookup function designed to return data from the Netbox application
+A lookup function designed to return data from the NetBox application
 """
 
 from __future__ import absolute_import, division, print_function
@@ -42,19 +42,19 @@ DOCUMENTATION = """
     lookup: nb_lookup
     author: Chris Mills (@cpmills1975)
     version_added: "2.9"
-    short_description: Queries and returns elements from Netbox
+    short_description: Queries and returns elements from NetBox
     description:
-        - Queries Netbox via its API to return virtually any information
-          capable of being held in Netbox.
+        - Queries NetBox via its API to return virtually any information
+          capable of being held in NetBox.
         - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
-                - The Netbox object type to query
+                - The NetBox object type to query
             required: True
         api_endpoint:
             description:
-                - The URL to the Netbox instance to query
+                - The URL to the NetBox instance to query
             env:
                 # in order of precendence
                 - name: NETBOX_API
@@ -66,12 +66,12 @@ DOCUMENTATION = """
             required: False
         plugin:
             description:
-                - The Netbox plugin to query
+                - The NetBox plugin to query
             required: False
         token:
             description:
-                - The API token created through Netbox
-                - This may not be required depending on the Netbox setup.
+                - The API token created through NetBox
+                - This may not be required depending on the NetBox setup.
             env:
                 # in order of precendence
                 - name: NETBOX_TOKEN
@@ -102,7 +102,7 @@ DOCUMENTATION = """
 EXAMPLES = """
 tasks:
   # query a list of devices
-  - name: Obtain list of devices from Netbox
+  - name: Obtain list of devices from NetBox
     debug:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
@@ -115,7 +115,7 @@ tasks:
 
 tasks:
   # query a list of devices
-  - name: Obtain list of devices from Netbox
+  - name: Obtain list of devices from NetBox
     debug:
       msg: >
         "Device {{ item.value.display_name }} (ID: {{ item.key }}) was
@@ -156,13 +156,14 @@ def get_endpoint(netbox, term):
     """
     get_endpoint(netbox, term)
         netbox: a predefined pynetbox.api() pointing to a valid instance
-                of Netbox
+                of NetBox
         term: the term passed to the lookup function upon which the api
               call will be identified
     """
 
     netbox_endpoint_map = {
         "aggregates": {"endpoint": netbox.ipam.aggregates},
+        "asns": {"endpoint": netbox.ipam.asns},
         "circuit-terminations": {"endpoint": netbox.circuits.circuit_terminations},
         "circuit-types": {"endpoint": netbox.circuits.circuit_types},
         "circuits": {"endpoint": netbox.circuits.circuits},
@@ -171,40 +172,59 @@ def get_endpoint(netbox, term):
         "cluster-groups": {"endpoint": netbox.virtualization.cluster_groups},
         "cluster-types": {"endpoint": netbox.virtualization.cluster_types},
         "clusters": {"endpoint": netbox.virtualization.clusters},
+        "config": {"endpoint": netbox.users.config},
         "config-contexts": {"endpoint": netbox.extras.config_contexts},
         "connected-device": {"endpoint": netbox.dcim.connected_device},
+        "contact-assignments": {"endpoint": netbox.tenancy.contact_assignments},
+        "contact-groups": {"endpoint": netbox.tenancy.contact_groups},
+        "contact-roles": {"endpoint": netbox.tenancy.contact_roles},
+        "contacts": {"endpoint": netbox.tenancy.contacts},
         "console-connections": {"endpoint": netbox.dcim.console_connections},
+        "console-port-templates": {"endpoint": netbox.dcim.console_port_templates},
         "console-ports": {"endpoint": netbox.dcim.console_ports},
         "console-server-port-templates": {
             "endpoint": netbox.dcim.console_server_port_templates
         },
         "console-server-ports": {"endpoint": netbox.dcim.console_server_ports},
+        "content-types": {"endpoint": netbox.extras.content_types},
+        "custom-fields": {"endpoint": netbox.extras.custom_fields},
+        "custom-links": {"endpoint": netbox.extras.custom_links},
         "device-bay-templates": {"endpoint": netbox.dcim.device_bay_templates},
         "device-bays": {"endpoint": netbox.dcim.device_bays},
         "device-roles": {"endpoint": netbox.dcim.device_roles},
         "device-types": {"endpoint": netbox.dcim.device_types},
         "devices": {"endpoint": netbox.dcim.devices},
         "export-templates": {"endpoint": netbox.dcim.export_templates},
+        "fhrp-group-assignments": {"endpoint": netbox.ipam.fhrp_group_assignments},
+        "fhrp-groups": {"endpoint": netbox.ipam.fhrp_groups},
         "front-port-templates": {"endpoint": netbox.dcim.front_port_templates},
         "front-ports": {"endpoint": netbox.dcim.front_ports},
         "graphs": {"endpoint": netbox.extras.graphs},
+        "groups": {"endpoint": netbox.users.groups},
         "image-attachments": {"endpoint": netbox.extras.image_attachments},
         "interface-connections": {"endpoint": netbox.dcim.interface_connections},
         "interface-templates": {"endpoint": netbox.dcim.interface_templates},
         "interfaces": {"endpoint": netbox.dcim.interfaces},
         "inventory-items": {"endpoint": netbox.dcim.inventory_items},
         "ip-addresses": {"endpoint": netbox.ipam.ip_addresses},
+        "ip-ranges": {"endpoint": netbox.ipam.ip_ranges},
+        "job-results": {"endpoint": netbox.extras.job_results},
+        "journal-entries": {"endpoint": netbox.extras.journal_entries},
         "locations": {"endpoint": netbox.dcim.locations},
         "manufacturers": {"endpoint": netbox.dcim.manufacturers},
         "object-changes": {"endpoint": netbox.extras.object_changes},
+        "permissions": {"endpoint": netbox.users.permissions},
         "platforms": {"endpoint": netbox.dcim.platforms},
         "power-panels": {"endpoint": netbox.dcim.power_panels},
         "power-connections": {"endpoint": netbox.dcim.power_connections},
+        "power-feeds": {"endpoint": netbox.dcim.power_feeds},
         "power-outlet-templates": {"endpoint": netbox.dcim.power_outlet_templates},
         "power-outlets": {"endpoint": netbox.dcim.power_outlets},
         "power-port-templates": {"endpoint": netbox.dcim.power_port_templates},
         "power-ports": {"endpoint": netbox.dcim.power_ports},
         "prefixes": {"endpoint": netbox.ipam.prefixes},
+        "provider-networks": {"endpoint": netbox.circuits.provider_networks},
+        "providers": {"endpoint": netbox.circuits.providers},
         "rack-groups": {"endpoint": netbox.dcim.rack_groups},
         "rack-reservations": {"endpoint": netbox.dcim.rack_reservations},
         "rack-roles": {"endpoint": netbox.dcim.rack_roles},
@@ -215,20 +235,25 @@ def get_endpoint(netbox, term):
         "reports": {"endpoint": netbox.extras.reports},
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
+        "route-targets": {"endpoint": netbox.ipam.route_targets},
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
+        "site-groups": {"endpoint": netbox.dcim.site_groups},
         "sites": {"endpoint": netbox.dcim.sites},
         "tags": {"endpoint": netbox.extras.tags},
         "tenant-groups": {"endpoint": netbox.tenancy.tenant_groups},
         "tenants": {"endpoint": netbox.tenancy.tenants},
+        "tokens": {"endpoint": netbox.users.tokens},
         "topology-maps": {"endpoint": netbox.extras.topology_maps},
+        "users": {"endpoint": netbox.users.users},
         "virtual-chassis": {"endpoint": netbox.dcim.virtual_chassis},
         "virtual-machines": {"endpoint": netbox.virtualization.virtual_machines},
         "virtualization-interfaces": {"endpoint": netbox.virtualization.interfaces},
         "vlan-groups": {"endpoint": netbox.ipam.vlan_groups},
         "vlans": {"endpoint": netbox.ipam.vlans},
         "vrfs": {"endpoint": netbox.ipam.vrfs},
+        "webhooks": {"endpoint": netbox.extras.webhooks},
     }
 
     return netbox_endpoint_map[term]["endpoint"]
@@ -262,7 +287,7 @@ def get_plugin_endpoint(netbox, plugin, term):
     """
     get_plugin_endpoint(netbox, plugin, term)
         netbox: a predefined pynetbox.api() pointing to a valid instance
-                of Netbox
+                of NetBox
         plugin: a string referencing the plugin name
         term: the term passed to the lookup function upon which the api
               call will be identified
@@ -374,7 +399,7 @@ class LookupModule(LookupBase):
                     )
 
             Display().vvvv(
-                u"Netbox lookup for %s to %s using token %s filter %s"
+                u"NetBox lookup for %s to %s using token %s filter %s"
                 % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter)
             )
 

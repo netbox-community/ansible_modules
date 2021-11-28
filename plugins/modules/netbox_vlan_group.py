@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_vlan_group
-short_description: Create, update or delete vlans groups within Netbox
+short_description: Create, update or delete vlans groups within NetBox
 description:
-  - Creates, updates or removes vlans groups from Netbox
+  - Creates, updates or removes vlans groups from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -27,22 +27,9 @@ author:
 requirements:
   - pynetbox
 version_added: '0.1.0'
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     description:
@@ -93,40 +80,21 @@ options:
         version_added: "3.1.0"
       custom_fields:
         description:
-          - must exist in Netbox
+          - must exist in NetBox
         required: false
         type: dict
         version_added: "3.1.0"
     required: true
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox modules"
+- name: "Test NetBox modules"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create vlan group within Netbox with only required information - Pre 2.11
+    - name: Create vlan group within NetBox with only required information - Pre 2.11
       netbox_vlan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -135,7 +103,7 @@ EXAMPLES = r"""
           site: Test Site
         state: present
 
-    - name: Create vlan group within Netbox with only required information - Post 2.11
+    - name: Create vlan group within NetBox with only required information - Post 2.11
       netbox_vlan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -156,7 +124,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 vlan_group:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
 msg:

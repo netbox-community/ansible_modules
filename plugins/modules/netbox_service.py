@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_service
-short_description: Creates or removes service from Netbox
+short_description: Creates or removes service from NetBox
 description:
-  - Creates or removes service from Netbox
+  - Creates or removes service from NetBox
 notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
@@ -26,22 +26,9 @@ author:
 requirements:
   - pynetbox
 version_added: '0.1.5'
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     description:
@@ -95,29 +82,10 @@ options:
         elements: raw
       custom_fields:
         description:
-          - Must exist in Netbox and in key/value format
+          - Must exist in NetBox and in key/value format
         required: false
         type: dict
     required: true
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
 """
 
 EXAMPLES = r"""

@@ -1,9 +1,37 @@
 ===========================
-Netbox.Netbox Release Notes
+NetBox.NetBox Release Notes
 ===========================
 
 .. contents:: Topics
 
+
+v3.4.0
+======
+
+Minor Changes
+-------------
+
+- nb_inventory - Add documentation for use of inventory plugin in Tower/AWX [#648](https://github.com/netbox-community/ansible_modules/pull/648)
+- nb_inventory - Cache OpenAPI locally to speed up inventory [#617](https://github.com/netbox-community/ansible_modules/pull/617)
+- nb_lookup - Add missing endpoints to nb_lookup [#655](https://github.com/netbox-community/ansible_modules/pull/655)
+- netbox_cable - Improve lookup speed on NetBox versions earlier than 3.0.6 [#645](https://github.com/netbox-community/ansible_modules/pull/645)
+- netbox_inventory_item - Add label and custom fields to module [#632](https://github.com/netbox-community/ansible_modules/pull/632)
+- netbox_provider_network - Add module for handling provider networks [#653](https://github.com/netbox-community/ansible_modules/pull/653)
+- netbox_virtual_chassis - Add custom_fields to netbox_virtual_chassis [#657](https://github.com/netbox-community/ansible_modules/pull/657)
+- netbox_vm_interface - Add custom fields to module [#637](https://github.com/netbox-community/ansible_modules/pull/637)
+
+Bugfixes
+--------
+
+- nb_lookup - Fix documentation of validate_cert [#629](https://github.com/netbox-community/ansible_modules/pull/629)
+- netbox_site - Ensure idempotency between NetBox version 2.11 and 3.00 [#631](https://github.com/netbox-community/ansible_modules/pull/631)
+- netbox_virtual_chassis - Fix issue with virtual chassis creation [#657](https://github.com/netbox-community/ansible_modules/pull/657)
+- netbox_virtual_machine - Ensure idempotency between NetBox version 2.11 and 3.00 [#633](https://github.com/netbox-community/ansible_modules/pull/633)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_provider_network - Create, update or delete Provider Network in NetBox
 
 v3.3.0
 ======
@@ -82,7 +110,7 @@ v3.1.0
 Release Summary
 ---------------
 
-This release should fix obvious broken changes between collection and Netbox 2.11, but there is most likely more. Please report as they're encountered.
+This release should fix obvious broken changes between collection and NetBox 2.11, but there is most likely more. Please report as they're encountered.
 **packages** is now a required Python package and is already included in Ansible 2.10, but anyone using Ansible 2.9 or below must manually pip install the library.
 
 
@@ -164,7 +192,7 @@ Bugfixes
 New Modules
 -----------
 
-- netbox.netbox.netbox_route_target - Creates or removes route targets from Netbox
+- netbox.netbox.netbox_route_target - Creates or removes route targets from NetBox
 
 v1.2.1
 ======
@@ -212,7 +240,7 @@ Bugfixes
 New Modules
 -----------
 
-- netbox.netbox.netbox_tag - Creates or removes tags from Netbox
+- netbox.netbox.netbox_tag - Creates or removes tags from NetBox
 
 v1.1.0
 ======
@@ -328,10 +356,10 @@ Bugfixes
 New Modules
 -----------
 
-- netbox.netbox.netbox_cable - Create, update or delete cables within Netbox
-- netbox.netbox.netbox_device_bay_template - Create, update or delete device bay templates within Netbox
-- netbox.netbox.netbox_device_interface_template - Creates or removes interfaces on devices from Netbox
-- netbox.netbox.netbox_virtual_chassis - Create, update or delete virtual chassis within Netbox
+- netbox.netbox.netbox_cable - Create, update or delete cables within NetBox
+- netbox.netbox.netbox_device_bay_template - Create, update or delete device bay templates within NetBox
+- netbox.netbox.netbox_device_interface_template - Creates or removes interfaces on devices from NetBox
+- netbox.netbox.netbox_virtual_chassis - Create, update or delete virtual chassis within NetBox
 
 v0.2.3
 ======
@@ -355,20 +383,20 @@ Bugfixes
 New Modules
 -----------
 
-- netbox.netbox.netbox_console_port - Create, update or delete console ports within Netbox
-- netbox.netbox.netbox_console_port_template - Create, update or delete console port templates within Netbox
-- netbox.netbox.netbox_console_server_port - Create, update or delete console server ports within Netbox
-- netbox.netbox.netbox_console_server_port_template - Create, update or delete console server port templates within Netbox
-- netbox.netbox.netbox_front_port - Create, update or delete front ports within Netbox
-- netbox.netbox.netbox_front_port_template - Create, update or delete front port templates within Netbox
-- netbox.netbox.netbox_power_feed - Create, update or delete power feeds within Netbox
-- netbox.netbox.netbox_power_outlet - Create, update or delete power outlets within Netbox
-- netbox.netbox.netbox_power_outlet_template - Create, update or delete power outlet templates within Netbox
-- netbox.netbox.netbox_power_panel - Create, update or delete power panels within Netbox
-- netbox.netbox.netbox_power_port - Create, update or delete power ports within Netbox
-- netbox.netbox.netbox_power_port_template - Create, update or delete power port templates within Netbox
-- netbox.netbox.netbox_rear_port - Create, update or delete rear ports within Netbox
-- netbox.netbox.netbox_rear_port_template - Create, update or delete rear port templates within Netbox
+- netbox.netbox.netbox_console_port - Create, update or delete console ports within NetBox
+- netbox.netbox.netbox_console_port_template - Create, update or delete console port templates within NetBox
+- netbox.netbox.netbox_console_server_port - Create, update or delete console server ports within NetBox
+- netbox.netbox.netbox_console_server_port_template - Create, update or delete console server port templates within NetBox
+- netbox.netbox.netbox_front_port - Create, update or delete front ports within NetBox
+- netbox.netbox.netbox_front_port_template - Create, update or delete front port templates within NetBox
+- netbox.netbox.netbox_power_feed - Create, update or delete power feeds within NetBox
+- netbox.netbox.netbox_power_outlet - Create, update or delete power outlets within NetBox
+- netbox.netbox.netbox_power_outlet_template - Create, update or delete power outlet templates within NetBox
+- netbox.netbox.netbox_power_panel - Create, update or delete power panels within NetBox
+- netbox.netbox.netbox_power_port - Create, update or delete power ports within NetBox
+- netbox.netbox.netbox_power_port_template - Create, update or delete power port templates within NetBox
+- netbox.netbox.netbox_rear_port - Create, update or delete rear ports within NetBox
+- netbox.netbox.netbox_rear_port_template - Create, update or delete rear port templates within NetBox
 
 v0.2.2
 ======
@@ -469,7 +497,7 @@ v0.1.7
 Minor Changes
 -------------
 
-- Added fetching services for devices in Netbox Inventory Plugin (https://github.com/netbox-community/ansible_modules/issues/58)
+- Added fetching services for devices in NetBox Inventory Plugin (https://github.com/netbox-community/ansible_modules/issues/58)
 - Added option for interfaces and IP addresses of interfaces to be fetched via inventory plugin (https://github.com/netbox-community/ansible_modules/issues/60)
 - Change lookups to property for subclassing of inventory plugin (https://github.com/netbox-community/ansible_modules/issues/62)
 
@@ -489,13 +517,13 @@ Minor Changes
 -------------
 
 - Add dns_name to netbox_ip_address (https://github.com/netbox-community/ansible_modules/issues/84)
-- Add region and region_id to query_filter for Netbox Inventory plugin (https://github.com/netbox-community/ansible_modules/issues/83)
+- Add region and region_id to query_filter for NetBox Inventory plugin (https://github.com/netbox-community/ansible_modules/issues/83)
 
 Bugfixes
 --------
 
 - Fixed vlan searching with vlan_group for netbox_prefix (https://github.com/netbox-community/ansible_modules/issues/85)
-- Removed static choices from netbox_utils and now pulls the choices for each endpoint from the Netbox API at call time (https://github.com/netbox-community/ansible_modules/issues/67)
+- Removed static choices from netbox_utils and now pulls the choices for each endpoint from the NetBox API at call time (https://github.com/netbox-community/ansible_modules/issues/67)
 
 v0.1.5
 ======
@@ -506,14 +534,14 @@ Bugfixes
 - Add argument specs for every module to validate data passed in. Fixes some idempotency issues. POSSIBLE BREAKING CHANGE (https://github.com/netbox-community/ansible_modules/issues/68)
 - Allow name updates to manufacturers (https://github.com/netbox-community/ansible_modules/issues/76)
 - Builds slug for netbox_device_type from model which is now required and slug is optional. Model will be slugified if slug is not provided BREAKING CHANGE (https://github.com/netbox-community/ansible_modules/issues/77)
-- Fail module with proper exception when connection to Netbox API cannot be established (https://github.com/netbox-community/ansible_modules/issues/80)
+- Fail module with proper exception when connection to NetBox API cannot be established (https://github.com/netbox-community/ansible_modules/issues/80)
 - netbox_device_interface Lag no longer has to be a dictionary and the value of the key can be the name of the LAG (https://github.com/netbox-community/ansible_modules/issues/81)
-- netbox_ip_address If no address has no CIDR notation, it will convert it into a /32 and pass to Netbox. Fixes idempotency cidr notation is not provided (https://github.com/netbox-community/ansible_modules/issues/78)
+- netbox_ip_address If no address has no CIDR notation, it will convert it into a /32 and pass to NetBox. Fixes idempotency cidr notation is not provided (https://github.com/netbox-community/ansible_modules/issues/78)
 
 New Modules
 -----------
 
-- netbox.netbox.netbox_service - Creates or removes service from Netbox
+- netbox.netbox.netbox_service - Creates or removes service from NetBox
 
 v0.1.3
 ======
@@ -559,30 +587,30 @@ Breaking Changes / Porting Guide
 New Modules
 -----------
 
-- netbox.netbox.netbox_aggregate - Creates or removes aggregates from Netbox
-- netbox.netbox.netbox_circuit - Create, update or delete circuits within Netbox
-- netbox.netbox.netbox_circuit_termination - Create, update or delete circuit terminations within Netbox
-- netbox.netbox.netbox_circuit_type - Create, update or delete circuit types within Netbox
-- netbox.netbox.netbox_cluster - Create, update or delete clusters within Netbox
-- netbox.netbox.netbox_cluster_group - Create, update or delete cluster groups within Netbox
-- netbox.netbox.netbox_cluster_type - Create, update or delete cluster types within Netbox
-- netbox.netbox.netbox_device_bay - Create, update or delete device bays within Netbox
-- netbox.netbox.netbox_device_role - Create, update or delete devices roles within Netbox
-- netbox.netbox.netbox_device_type - Create, update or delete device types within Netbox
-- netbox.netbox.netbox_inventory_item - Creates or removes inventory items from Netbox
-- netbox.netbox.netbox_ipam_role - Creates or removes ipam roles from Netbox
-- netbox.netbox.netbox_manufacturer - Create or delete manufacturers within Netbox
-- netbox.netbox.netbox_platform - Create or delete platforms within Netbox
-- netbox.netbox.netbox_provider - Create, update or delete providers within Netbox
-- netbox.netbox.netbox_rack - Create, update or delete racks within Netbox
-- netbox.netbox.netbox_rack_group - Create, update or delete racks groups within Netbox
-- netbox.netbox.netbox_rack_role - Create, update or delete racks roles within Netbox
-- netbox.netbox.netbox_region - Creates or removes regions from Netbox
-- netbox.netbox.netbox_rir - Create, update or delete RIRs within Netbox
-- netbox.netbox.netbox_tenant - Creates or removes tenants from Netbox
-- netbox.netbox.netbox_tenant_group - Creates or removes tenant groups from Netbox
-- netbox.netbox.netbox_virtual_machine - Create, update or delete virtual_machines within Netbox
-- netbox.netbox.netbox_vlan - Create, update or delete vlans within Netbox
-- netbox.netbox.netbox_vlan_group - Create, update or delete vlans groups within Netbox
-- netbox.netbox.netbox_vm_interface - Creates or removes interfaces from virtual machines in Netbox
-- netbox.netbox.netbox_vrf - Create, update or delete vrfs within Netbox
+- netbox.netbox.netbox_aggregate - Creates or removes aggregates from NetBox
+- netbox.netbox.netbox_circuit - Create, update or delete circuits within NetBox
+- netbox.netbox.netbox_circuit_termination - Create, update or delete circuit terminations within NetBox
+- netbox.netbox.netbox_circuit_type - Create, update or delete circuit types within NetBox
+- netbox.netbox.netbox_cluster - Create, update or delete clusters within NetBox
+- netbox.netbox.netbox_cluster_group - Create, update or delete cluster groups within NetBox
+- netbox.netbox.netbox_cluster_type - Create, update or delete cluster types within NetBox
+- netbox.netbox.netbox_device_bay - Create, update or delete device bays within NetBox
+- netbox.netbox.netbox_device_role - Create, update or delete devices roles within NetBox
+- netbox.netbox.netbox_device_type - Create, update or delete device types within NetBox
+- netbox.netbox.netbox_inventory_item - Creates or removes inventory items from NetBox
+- netbox.netbox.netbox_ipam_role - Creates or removes ipam roles from NetBox
+- netbox.netbox.netbox_manufacturer - Create or delete manufacturers within NetBox
+- netbox.netbox.netbox_platform - Create or delete platforms within NetBox
+- netbox.netbox.netbox_provider - Create, update or delete providers within NetBox
+- netbox.netbox.netbox_rack - Create, update or delete racks within NetBox
+- netbox.netbox.netbox_rack_group - Create, update or delete racks groups within NetBox
+- netbox.netbox.netbox_rack_role - Create, update or delete racks roles within NetBox
+- netbox.netbox.netbox_region - Creates or removes regions from NetBox
+- netbox.netbox.netbox_rir - Create, update or delete RIRs within NetBox
+- netbox.netbox.netbox_tenant - Creates or removes tenants from NetBox
+- netbox.netbox.netbox_tenant_group - Creates or removes tenant groups from NetBox
+- netbox.netbox.netbox_virtual_machine - Create, update or delete virtual_machines within NetBox
+- netbox.netbox.netbox_vlan - Create, update or delete vlans within NetBox
+- netbox.netbox.netbox_vlan_group - Create, update or delete vlans groups within NetBox
+- netbox.netbox.netbox_vm_interface - Creates or removes interfaces from virtual machines in NetBox
+- netbox.netbox.netbox_vrf - Create, update or delete vrfs within NetBox

@@ -16,9 +16,9 @@ ANSIBLE_METADATA = {
 DOCUMENTATION = r"""
 ---
 module: netbox_inventory_item
-short_description: Creates or removes inventory items from Netbox
+short_description: Creates or removes inventory items from NetBox
 description:
-  - Creates or removes inventory items from Netbox
+  - Creates or removes inventory items from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -27,22 +27,9 @@ author:
 requirements:
   - pynetbox
 version_added: "0.1.0"
+extends_documentation_fragment:
+  - netbox.netbox.common
 options:
-  netbox_url:
-    description:
-      - URL of the Netbox instance resolvable by Ansible control host
-    required: true
-    type: str
-  netbox_token:
-    description:
-      - The token created within Netbox to authorize API access
-    required: true
-    type: str
-  cert:
-    description:
-      - Certificate path
-    required: false
-    type: raw
   data:
     type: dict
     description:
@@ -58,6 +45,12 @@ options:
           - Name of the inventory item to be created
         required: true
         type: str
+      label:
+        description:
+          - The physical label of the inventory item
+        required: false
+        type: str
+        version_added: "3.4.0"
       manufacturer:
         description:
           - The manufacturer of the inventory item
@@ -95,37 +88,22 @@ options:
         required: false
         type: list
         elements: raw
+      custom_fields:
+        description:
+          - must exist in Netbox
+        required: false
+        type: dict
+        version_added: "3.4.0"
     required: true
-  state:
-    description:
-      - Use C(present) or C(absent) for adding or removing.
-    choices: [ absent, present ]
-    default: present
-    type: str
-  query_params:
-    description:
-      - This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined
-      - in plugins/module_utils/netbox_utils.py and provides control to users on what may make
-      - an object unique in their environment.
-    required: false
-    type: list
-    elements: str
-  validate_certs:
-    description:
-      - |
-        If C(no), SSL certificates will not be validated.
-        This should only be used on personally controlled sites using self-signed certificates.
-    default: true
-    type: raw
 """
 
 EXAMPLES = r"""
-- name: "Test Netbox inventory_item module"
+- name: "Test NetBox inventory_item module"
   connection: local
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create inventory item within Netbox with only required information
+    - name: Create inventory item within NetBox with only required information
       netbox_inventory_item:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -160,7 +138,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 inventory_item:
-  description: Serialized object as created or already existent within Netbox
+  description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
 msg:
@@ -193,6 +171,7 @@ def main():
                 options=dict(
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    label=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     part_id=dict(required=False, type="str"),
                     serial=dict(required=False, type="str"),
@@ -200,6 +179,7 @@ def main():
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

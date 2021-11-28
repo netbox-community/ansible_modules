@@ -114,7 +114,7 @@ DOCUMENTATION = """
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
                 - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
-                - If you are using the various query_filters options to reduce the number of devices, you may find querying Netbox faster with fetch_all set to False.
+                - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
             default: True
@@ -172,7 +172,7 @@ DOCUMENTATION = """
             type: list
             default: []
         timeout:
-            description: Timeout for Netbox requests in seconds
+            description: Timeout for NetBox requests in seconds
             type: int
             default: 60
         max_uri_length:
@@ -253,11 +253,34 @@ plugin: netbox.netbox.nb_inventory
 keyed_groups:
   - prefix: status
     key: status.value
+
+# For use in Ansible Tower (AWX), please see this blog from RedHat: https://www.ansible.com/blog/using-an-inventory-plugin-from-a-collection-in-ansible-tower
+# The credential for NetBox will need to expose NETBOX_API and NETBOX_TOKEN as environment variables.
+# Example Ansible Tower credential Input Configuration:
+
+fields:
+  - id: NETBOX_API
+    type: string
+    label: NetBox Host URL
+  - id: NETBOX_TOKEN
+    type: string
+    label: NetBox API Token
+    secret: true
+required:
+  - NETBOX_API
+  - NETBOX_TOKEN
+
+# Example Ansible Tower credential Injector Configuration:
+
+env:
+  NETBOX_API: '{{ NETBOX_API }}'
+  NETBOX_TOKEN: '{{ NETBOX_TOKEN }}'
 """
 
 import json
 import uuid
 import math
+import os
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -268,6 +291,7 @@ from collections import defaultdict
 from ipaddress import ip_interface
 from packaging import specifiers, version
 
+from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
@@ -394,7 +418,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # Issue netbox-community/netbox#3507 was fixed in v2.7.5
             # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
             # but it's probably faster to keep fetch_all: True
-            # (You should really just upgrade your Netbox install)
+            # (You should really just upgrade your NetBox install)
             chunk_size = 1
 
         resources = []
@@ -662,10 +686,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             tag_zero = host["tags"][0]
             # Check the type of the first element in the "tags" array.
-            # If a dictionary (Netbox >= 2.9), return an array of tags' slugs.
+            # If a dictionary (NetBox >= 2.9), return an array of tags' slugs.
             if isinstance(tag_zero, dict):
                 return list(sub["slug"] for sub in host["tags"])
-            # If a string (Netbox <= 2.8), return the original "tags" array.
+            # If a string (NetBox <= 2.8), return the original "tags" array.
             elif isinstance(tag_zero, str):
                 return host["tags"]
         # If tag_zero fails definition (no tags), return the empty array.
@@ -809,7 +833,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
 
         def get_region_for_site(site):
-            # Will fail if site does not have a region defined in Netbox
+            # Will fail if site does not have a region defined in NetBox
             try:
                 return (site["id"], site["region"]["id"])
             except Exception:
@@ -1194,9 +1218,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             thread_exceptions = None
 
     def fetch_api_docs(self):
-        openapi = self._fetch_information(
-            self.api_endpoint + "/api/docs/?format=openapi"
-        )
+        try:
+            status = self._fetch_information(self.api_endpoint + "/api/status")
+            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
+        except:
+            netbox_api_version = 0
+
+        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
+        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
+
+        try:
+            with open(tmp_file) as file:
+                openapi = json.load(file)
+        except:
+            openapi = {}
+
+        cached_api_version = openapi.get("info", {}).get("version")
+
+        if netbox_api_version != cached_api_version:
+            openapi = self._fetch_information(
+                self.api_endpoint + "/api/docs/?format=openapi"
+            )
+
+            with open(tmp_file, "w") as file:
+                json.dump(openapi, file)
 
         self.api_version = version.parse(openapi["info"]["version"])
         self.allowed_device_query_parameters = [
@@ -1618,7 +1663,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self._read_config_data(path=path)
         self.use_cache = cache
 
-        # Netbox access
+        # NetBox access
         token = self.get_option("token")
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")

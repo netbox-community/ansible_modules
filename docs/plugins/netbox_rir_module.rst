@@ -14,13 +14,13 @@
 
 .. Title
 
-netbox.netbox.netbox_rir -- Create, update or delete RIRs within Netbox
+netbox.netbox.netbox_rir -- Create, update or delete RIRs within NetBox
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.3.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.4.0).
 
     To install it use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -42,7 +42,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes RIRs from Netbox
+- Creates, updates or removes RIRs from NetBox
 
 
 .. Aliases
@@ -182,7 +182,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The token created within Netbox to authorize API access</div>
+                                            <div>The NetBox API token.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -197,7 +197,8 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>URL of the Netbox instance resolvable by Ansible control host</div>
+                                            <div>The URL of the NetBox instance.</div>
+                                            <div>Must be accessible by the Ansible control host.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -212,7 +213,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>This can be used to override the specified values in ALLOWED_QUERY_PARAMS that is defined</div>
+                                            <div>This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined</div>
                                             <div>in plugins/module_utils/netbox_utils.py and provides control to users on what may make</div>
                                             <div>an object unique in their environment.</div>
                                                         </td>
@@ -228,12 +229,12 @@ Parameters
                                                         </td>
                                 <td>
                                                                                                                             <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>absent</li>
-                                                                                                                                                                                                <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                <li><div style="color: blue"><b>present</b>&nbsp;&larr;</div></li>
+                                                                                                                                                                                                <li>absent</li>
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>Use <code>present</code> or <code>absent</code> for adding or removing.</div>
+                                            <div>The state of the object.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -249,7 +250,8 @@ Parameters
                                                                                                                                                                                                                 <b>Default:</b><br/><div style="color: blue">"yes"</div>
                                     </td>
                                                                 <td>
-                                            <div>If <code>no</code>, SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.</div>
+                                            <div>If <code>no</code>, SSL certificates will not be validated.</div>
+                                            <div>This should only be used on personally controlled sites using a self-signed certificates.</div>
                                                         </td>
             </tr>
                         </table>
@@ -275,13 +277,13 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test Netbox modules"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
 
       tasks:
-        - name: Create RIR within Netbox with only required information
+        - name: Create RIR within NetBox with only required information
           netbox_rir:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -352,7 +354,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                     </td>
                 <td>success (when <em>state=present</em>)</td>
                 <td>
-                                            <div>Serialized object as created or already existent within Netbox</div>
+                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                     </td>
             </tr>

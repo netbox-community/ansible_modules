@@ -44,7 +44,7 @@ Open ``plugins/module_utils/netbox_ipam.py`` file and update the following.
 
 These should be all the changes we need within this file for the time being.
 
-Update Netbox Utils
+Update NetBox Utils
 -------------------------------
 
 Open ``plugins/module_utils/netbox_utils.py`` and update the following.
@@ -112,9 +112,9 @@ Now we need to update the ``DOCUMENTATION`` variable to match the module we're c
   DOCUMENTATION = r"""
   ---
   module: netbox_route_target
-  short_description: Creates or removes route targets from Netbox
+  short_description: Creates or removes route targets from NetBox
   description:
-    - Creates or removes route targets from Netbox
+    - Creates or removes route targets from NetBox
   notes:
     - Tags should be defined as a YAML list
     - This should be ran with connection C(local) and hosts C(localhost)
@@ -153,7 +153,7 @@ Now we need to update the ``DOCUMENTATION`` variable to match the module we're c
           elements: raw
         custom_fields:
           description:
-            - must exist in Netbox
+            - must exist in NetBox
           required: false
           type: dict
       required: true
@@ -230,7 +230,7 @@ The only update to the ``RETURN`` variable should be the name of the object retu
 
     RETURN = r"""
     route_targets:
-      description: Serialized object as created/existent/updated/deleted within Netbox
+      description: Serialized object as created/existent/updated/deleted within NetBox
       returned: always
       type: dict
     msg:
