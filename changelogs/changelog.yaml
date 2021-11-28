@@ -603,4 +603,4 @@ releases:
       - description: Create, update or delete Provider Network in NetBox
         name: netbox_provider_network
         namespace: ''
-    release_date: '2021-11-27'
+    release_date: '2021-11-28'
