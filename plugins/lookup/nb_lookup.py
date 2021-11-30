@@ -380,7 +380,7 @@ class LookupModule(LookupBase):
                 private_key_file=netbox_private_key_file,
             )
             netbox.http_session = session
-        except FileNotFoundError:
+        except OSError:
             raise AnsibleError(
                 "%s cannot be found. Please make sure file exists."
                 % netbox_private_key_file
