@@ -427,7 +427,7 @@ class LookupModule(LookupBase):
                 endpoint, filters=filter if netbox_api_filter else None
             )
 
-            for data in nb_data:
+            for data in nb_data.response:
                 data = dict(data)
                 Display().vvvvv(pformat(data))
 
