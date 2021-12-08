@@ -81,7 +81,7 @@ jobs:
           docker-compose up -d --quiet-pull
           docker container ls
           cd ..
-        if: matrix.VERSION == 'v3.0'
+        if: matrix.VERSION == 'v2.11'
       - name: Clone & Start netbox-docker containers - 3.0
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -101,7 +101,7 @@ jobs:
           docker-compose up -d --quiet-pull
           docker container ls
           cd ..
-        if: matrix.VERSION == 'v3.1'
+        if: matrix.VERSION == 'v3.0'
       - name: Clone & Start netbox-docker containers - 3.1
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -121,6 +121,7 @@ jobs:
           docker-compose up -d --quiet-pull
           docker container ls
           cd ..
+        if: matrix.VERSION == 'v3.1'
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1.1.1
         with:
