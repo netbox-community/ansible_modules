@@ -59,19 +59,16 @@
                 ],
                 "services": [
                     {
-                        "created": "2021-12-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:32768/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
-                        "last_updated": "2021-12-08T19:34:33.522534Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -81,7 +78,6 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
@@ -106,14 +102,12 @@
                 "regions": [],
                 "services": [
                     {
-                        "created": "2021-12-08",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
-                        "last_updated": "2021-12-08T19:34:33.567158Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -123,12 +117,10 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/4/",
                         "virtual_machine": {
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/6/"
+                            "name": "Test VM With Spaces"
                         }
                     }
                 ],
@@ -203,19 +195,16 @@
                 ],
                 "services": [
                     {
-                        "created": "2021-12-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
-                        "last_updated": "2021-12-08T19:34:33.364690Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -225,18 +214,15 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
-                        "created": "2021-12-08",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "http (TCP/80)",
                         "id": 2,
@@ -245,18 +231,15 @@
                                 "address": "172.16.180.1/24",
                                 "display": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
+                                "id": 1
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "display": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
+                                "id": 2
                             }
                         ],
-                        "last_updated": "2021-12-08T19:34:33.411380Z",
                         "name": "http",
                         "ports": [
                             80
@@ -266,7 +249,6 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],
