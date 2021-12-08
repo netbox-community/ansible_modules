@@ -1,5 +1,5 @@
 {
-    "Test_Cluster": {
+    "Test Cluster": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -7,18 +7,18 @@
             "test103-vm"
         ]
     },
-    "Test_Cluster_2": {
+    "Test Cluster 2": {
         "hosts": [
             "Test VM With Spaces",
             "test104-vm"
         ]
     },
-    "Test_Rack": {
+    "Test Rack": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "Test_Rack_Site_2": {
+    "Test Rack Site 2": {
         "hosts": [
             "R1-Device"
         ]
@@ -232,23 +232,23 @@
     },
     "all": {
         "children": [
-            "Test_Cluster",
-            "Test_Cluster_2",
-            "Test_Rack",
-            "Test_Rack_Site_2",
+            "Test Cluster",
+            "Test Cluster 2",
+            "Test Rack",
+            "Test Rack Site 2",
             "active",
             "cisco",
-            "cisco_test",
-            "core_switch",
+            "cisco-test",
+            "core-switch",
             "is_virtual",
             "jinja_test_group",
-            "nexus_parent",
-            "other_region",
-            "parent_region",
-            "test_cluster_group",
-            "test_cluster_type",
-            "test_rack_role",
-            "test_site2",
+            "nexus-parent",
+            "other-region",
+            "parent-region",
+            "test-cluster-group",
+            "test-cluster-type",
+            "test-rack-role",
+            "test-site2",
             "ungrouped"
         ]
     },
@@ -260,14 +260,14 @@
             "test100"
         ]
     },
-    "cisco_test": {
+    "cisco-test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "core_switch": {
+    "core-switch": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
@@ -291,22 +291,22 @@
             "TestDeviceR1"
         ]
     },
-    "nexus_parent": {
+    "nexus-parent": {
         "hosts": [
             "VC1"
         ]
     },
-    "parent_rack_group": {
+    "parent-rack-group": {
         "children": [
-            "test_rack_group"
+            "test-rack-group"
         ]
     },
-    "parent_region": {
+    "parent-region": {
         "children": [
-            "test_region"
+            "test-region"
         ]
     },
-    "test_cluster_group": {
+    "test-cluster-group": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -314,7 +314,7 @@
             "test103-vm"
         ]
     },
-    "test_cluster_type": {
+    "test-cluster-type": {
         "hosts": [
             "Test VM With Spaces",
             "test100-vm",
@@ -324,26 +324,26 @@
             "test104-vm"
         ]
     },
-    "test_rack_group": {
+    "test-rack-group": {
         "hosts": [
             "TestDeviceR1",
             "VC1",
             "test100"
         ]
     },
-    "test_rack_role": {
+    "test-rack-role": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "test_region": {
+    "test-region": {
         "children": [
-            "test_site"
+            "test-site"
         ]
     },
-    "test_site": {
+    "test-site": {
         "children": [
-            "parent_rack_group"
+            "parent-rack-group"
         ],
         "hosts": [
             "test100-vm",
@@ -352,7 +352,7 @@
             "test103-vm"
         ]
     },
-    "test_site2": {
+    "test-site2": {
         "hosts": [
             "R1-Device"
         ]
