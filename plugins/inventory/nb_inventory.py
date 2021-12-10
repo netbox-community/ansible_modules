@@ -456,26 +456,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Locations were added in 2.11 replacing rack-groups.
         if self.api_version >= version.parse("2.11"):
             extractors.update(
-                {"location": self.extract_location,}
+                {
+                    "location": self.extract_location,
+                }
             )
         else:
             extractors.update(
-                {"rack_group": self.extract_rack_group,}
+                {
+                    "rack_group": self.extract_rack_group,
+                }
             )
 
         if self.services:
             extractors.update(
-                {"services": self.extract_services,}
+                {
+                    "services": self.extract_services,
+                }
             )
 
         if self.interfaces:
             extractors.update(
-                {"interfaces": self.extract_interfaces,}
+                {
+                    "interfaces": self.extract_interfaces,
+                }
             )
 
         if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             extractors.update(
-                {"dns_name": self.extract_dns_name,}
+                {
+                    "dns_name": self.extract_dns_name,
+                }
             )
 
         return extractors
@@ -602,7 +612,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_site(self, host):
         try:
             site = self.sites_lookup[host["site"]["id"]]
-            if self.prefixes:  # If prefixes have been pulled, attach prefix to its assigned site
+            if (
+                self.prefixes
+            ):  # If prefixes have been pulled, attach prefix to its assigned site
                 prefix_id = self.prefixes_sites_lookup[site["id"]]
                 prefix = self.prefixes_lookup[prefix_id]
                 site["prefix"] = prefix
@@ -1488,7 +1500,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Map site id to transformed group names
         self.site_group_names = dict()
 
-        for (site_id, site_name) in (self.sites_lookup_slug.items()):  # "Slug" only. Data not used for grouping
+        for (
+            site_id,
+            site_name,
+        ) in self.sites_lookup_slug.items():  # "Slug" only. Data not used for grouping
             site_group_name = self.generate_group_name(
                 self._pluralize_group_by("site"), site_name
             )
@@ -1698,7 +1713,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             elif getattr(self, "site_group_names", None) and host.get("site"):
                 # Add host to site group when host is NOT assigned to a location
                 self.inventory.add_host(
-                    group=self.site_group_names[host["site"]["id"]], host=hostname,
+                    group=self.site_group_names[host["site"]["id"]],
+                    host=hostname,
                 )
 
     def parse(self, inventory, loader, path, cache=True):
