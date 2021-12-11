@@ -1005,7 +1005,7 @@ class NetboxModule(object):
                             id_list.append(list_item)
                             continue
                         else:
-                            temp_dict = {QUERY_TYPES.get(k, "q"): search}
+                            temp_dict = {QUERY_TYPES.get(k, "q"): list_item}
 
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
