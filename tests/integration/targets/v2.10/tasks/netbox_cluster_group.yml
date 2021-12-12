@@ -1,0 +1,96 @@
+---
+##
+##
+### NETBOX_CLUSTER_GROUP
+##
+##
+- name: "CLUSTER_GROUP 1: Necessary info creation"
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster Group One"
+    state: present
+  register: test_one
+
+- name: "CLUSTER_GROUP 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['cluster_group']['name'] == "Test Cluster Group One"
+      - test_one['cluster_group']['slug'] == "test-cluster-group-one"
+      - test_one['msg'] == "cluster_group Test Cluster Group One created"
+
+- name: "CLUSTER_GROUP 2: Create duplicate"
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster Group One"
+    state: present
+  register: test_two
+
+- name: "CLUSTER_GROUP 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['cluster_group']['name'] == "Test Cluster Group One"
+      - test_two['cluster_group']['slug'] == "test-cluster-group-one"
+      - test_two['msg'] == "cluster_group Test Cluster Group One already exists"
+
+- name: "CLUSTER_GROUP 3: User specified slug"
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster Group Two"
+      slug: "test-cluster-group-2"
+    state: present
+  register: test_three
+
+- name: "CLUSTER_GROUP 3: ASSERT - User specified slug"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "absent"
+      - test_three['diff']['after']['state'] == "present"
+      - test_three['cluster_group']['name'] == "Test Cluster Group Two"
+      - test_three['cluster_group']['slug'] == "test-cluster-group-2"
+      - test_three['msg'] == "cluster_group Test Cluster Group Two created"
+
+- name: "CLUSTER_GROUP 4: ASSERT - Delete"
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster Group One"
+    state: absent
+  register: test_four
+
+- name: "CLUSTER_GROUP 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['cluster_group']['name'] == "Test Cluster Group One"
+      - test_four['cluster_group']['slug'] == "test-cluster-group-one"
+      - test_four['msg'] == "cluster_group Test Cluster Group One deleted"
+
+- name: "CLUSTER_GROUP 5: ASSERT - Delete"
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster Group Two"
+      slug: "test-cluster-group-2"
+    state: absent
+  register: test_five
+
+- name: "CLUSTER_GROUP 5: ASSERT - Delete"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['cluster_group']['name'] == "Test Cluster Group Two"
+      - test_five['cluster_group']['slug'] == "test-cluster-group-2"
+      - test_five['msg'] == "cluster_group Test Cluster Group Two deleted"
