@@ -46,14 +46,14 @@ jobs:
       matrix:
         include:
           - python-version: 3.8
-            VERSION: "v2.10"
-            INTEGRATION_TESTS: "v2.10"
-          - python-version: 3.8
             VERSION: "v2.11"
             INTEGRATION_TESTS: "v2.11"
           - python-version: 3.8
             VERSION: "v3.0"
             INTEGRATION_TESTS: "v3.0"
+          - python-version: 3.8
+            VERSION: "v3.1"
+            INTEGRATION_TESTS: "v3.1"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -61,26 +61,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Clone & Start netbox-docker containers - 2.10
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.1.0
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v2.10
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v2.10'
+        if: matrix.VERSION == 'v2.11'
       - name: Clone & Start netbox-docker containers - 2.11
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -121,6 +102,26 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v3.0'
+      - name: Clone & Start netbox-docker containers - 3.1
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 1.4.1
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              image: netboxcommunity/netbox:v3.1
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v3.1'
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1.1.1
         with:
