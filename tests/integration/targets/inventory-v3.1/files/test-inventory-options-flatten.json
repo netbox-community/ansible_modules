@@ -1,5 +1,5 @@
 {
-    "Test Cluster": {
+    "Test_Cluster": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -7,18 +7,18 @@
             "test103-vm"
         ]
     },
-    "Test Cluster 2": {
+    "Test_Cluster_2": {
         "hosts": [
             "Test VM With Spaces",
             "test104-vm"
         ]
     },
-    "Test Rack": {
+    "Test_Rack": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "Test Rack Site 2": {
+    "Test_Rack_Site_2": {
         "hosts": [
             "R1-Device"
         ]
@@ -915,22 +915,22 @@
     },
     "all": {
         "children": [
-            "Test Cluster",
-            "Test Cluster 2",
-            "Test Rack",
-            "Test Rack Site 2",
+            "Test_Cluster",
+            "Test_Cluster_2",
+            "Test_Rack",
+            "Test_Rack_Site_2",
             "active",
             "cisco",
-            "cisco-test",
-            "core-switch",
+            "cisco_test",
+            "core_switch",
             "is_virtual",
-            "nexus-parent",
-            "other-region",
-            "parent-region",
-            "test-cluster-group",
-            "test-cluster-type",
-            "test-rack-role",
-            "test-site2",
+            "nexus_parent",
+            "other_region",
+            "parent_region",
+            "test_cluster_group",
+            "test_cluster_type",
+            "test_rack_role",
+            "test_site2",
             "ungrouped"
         ]
     },
@@ -942,14 +942,14 @@
             "test100"
         ]
     },
-    "cisco-test": {
+    "cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "core-switch": {
+    "core_switch": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
@@ -967,22 +967,22 @@
             "test104-vm"
         ]
     },
-    "nexus-parent": {
+    "nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
     },
-    "parent-rack-group": {
+    "parent_rack_group": {
         "children": [
-            "test-rack-group"
+            "test_rack_group"
         ]
     },
-    "parent-region": {
+    "parent_region": {
         "children": [
-            "test-region"
+            "test_region"
         ]
     },
-    "test-cluster-group": {
+    "test_cluster_group": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -990,7 +990,7 @@
             "test103-vm"
         ]
     },
-    "test-cluster-type": {
+    "test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
             "test100-vm",
@@ -1000,26 +1000,26 @@
             "test104-vm"
         ]
     },
-    "test-rack-group": {
+    "test_rack_group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "test-rack-role": {
+    "test_rack_role": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "test-region": {
+    "test_region": {
         "children": [
-            "test-site"
+            "test_site"
         ]
     },
-    "test-site": {
+    "test_site": {
         "children": [
-            "parent-rack-group"
+            "parent_rack_group"
         ],
         "hosts": [
             "test100-vm",
@@ -1028,7 +1028,7 @@
             "test103-vm"
         ]
     },
-    "test-site2": {
+    "test_site2": {
         "hosts": [
             "R1-Device"
         ]

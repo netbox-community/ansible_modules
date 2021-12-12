@@ -903,29 +903,29 @@
     },
     "all": {
         "children": [
-            "cluster_Test Cluster",
-            "cluster_Test Cluster 2",
-            "cluster_group_test-cluster-group",
-            "cluster_type_test-cluster-type",
-            "device_type_cisco-test",
-            "device_type_nexus-parent",
+            "cluster_Test_Cluster",
+            "cluster_Test_Cluster_2",
+            "cluster_group_test_cluster_group",
+            "cluster_type_test_cluster_type",
+            "device_type_cisco_test",
+            "device_type_nexus_parent",
             "is_virtual",
             "manufacturer_cisco",
-            "rack_Test Rack",
-            "rack_Test Rack Site 2",
-            "rack_role_test-rack-role",
-            "region_other-region",
-            "region_parent-region",
-            "role_core-switch",
+            "rack_Test_Rack",
+            "rack_Test_Rack_Site_2",
+            "rack_role_test_rack_role",
+            "region_other_region",
+            "region_parent_region",
+            "role_core_switch",
             "service_http",
             "service_ssh",
             "service_telnet",
-            "site_test-site2",
+            "site_test_site2",
             "status_active",
             "ungrouped"
         ]
     },
-    "cluster_Test Cluster": {
+    "cluster_Test_Cluster": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -933,13 +933,13 @@
             "test103-vm"
         ]
     },
-    "cluster_Test Cluster 2": {
+    "cluster_Test_Cluster_2": {
         "hosts": [
             "Test VM With Spaces",
             "test104-vm"
         ]
     },
-    "cluster_group_test-cluster-group": {
+    "cluster_group_test_cluster_group": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -947,7 +947,7 @@
             "test103-vm"
         ]
     },
-    "cluster_type_test-cluster-type": {
+    "cluster_type_test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
             "test100-vm",
@@ -957,14 +957,14 @@
             "test104-vm"
         ]
     },
-    "device_type_cisco-test": {
+    "device_type_cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_type_nexus-parent": {
+    "device_type_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
@@ -979,12 +979,12 @@
             "test104-vm"
         ]
     },
-    "location_parent-rack-group": {
+    "location_parent_rack_group": {
         "children": [
-            "location_test-rack-group"
+            "location_test_rack_group"
         ]
     },
-    "location_test-rack-group": {
+    "location_test_rack_group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -999,32 +999,32 @@
             "test100"
         ]
     },
-    "rack_Test Rack": {
+    "rack_Test_Rack": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "rack_Test Rack Site 2": {
+    "rack_Test_Rack_Site_2": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "rack_role_test-rack-role": {
+    "rack_role_test_rack_role": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "region_parent-region": {
+    "region_parent_region": {
         "children": [
-            "region_test-region"
+            "region_test_region"
         ]
     },
-    "region_test-region": {
+    "region_test_region": {
         "children": [
-            "site_test-site"
+            "site_test_site"
         ]
     },
-    "role_core-switch": {
+    "role_core_switch": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
@@ -1048,9 +1048,9 @@
             "Test Nexus One"
         ]
     },
-    "site_test-site": {
+    "site_test_site": {
         "children": [
-            "location_parent-rack-group"
+            "location_parent_rack_group"
         ],
         "hosts": [
             "test100-vm",
@@ -1059,7 +1059,7 @@
             "test103-vm"
         ]
     },
-    "site_test-site2": {
+    "site_test_site2": {
         "hosts": [
             "R1-Device"
         ]
