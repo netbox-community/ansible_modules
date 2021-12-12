@@ -1,0 +1,60 @@
+plugin: netbox.netbox.nb_inventory
+api_endpoint: "http://localhost:32768"
+token: "0123456789abcdef0123456789abcdef01234567"
+validate_certs: False
+
+# Cache is not for performance of tests, but to test the caching option works
+# Also set on test-inventory-plurals.yml so that we actually hit the cache on one of these runs
+cache: True
+cache_timeout: 3600
+cache_plugin: jsonfile
+cache_connection: /tmp/inventory_netbox
+
+config_context: False
+plurals: False
+interfaces: False
+services: False
+group_names_raw: True
+virtual_chassis_name: True
+dns_name: True
+ansible_host_dns_name: True
+
+group_by:
+  - site
+  - tenant
+  - rack
+  - location
+  - rack_role
+  - tag
+  - role
+  - device_type
+  - manufacturer
+  - platform
+  - region
+  - cluster
+  - cluster_group
+  - cluster_type
+  - is_virtual
+  - status
+
+query_filters:
+
+device_query_filters:
+  - role: core-switch
+
+vm_query_filters:
+  - cluster_type: test-cluster-type
+
+# See Constructed for details
+# https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html
+
+compose:
+  rack_id: rack.id
+  ntp_servers: config_context.ntp_servers
+
+keyed_groups:
+  - prefix: rack
+    key: rack.name
+
+groups:
+  jinja_test_group: inventory_hostname.startswith('Test')
