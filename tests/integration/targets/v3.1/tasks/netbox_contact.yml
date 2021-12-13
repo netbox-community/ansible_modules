@@ -34,7 +34,7 @@
     that:
       - not test_two['changed']
       - test_two['contact']['name'] == "Contact ABC"
-      - test_two['msg'] == "contact contact ABC already exists"
+      - test_two['msg'] == "contact Contact ABC already exists"
 
 - name: "3 - Test update"
   netbox.netbox.netbox_contact:
