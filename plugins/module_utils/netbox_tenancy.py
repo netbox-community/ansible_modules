@@ -14,6 +14,8 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 NB_TENANTS = "tenants"
 NB_TENANT_GROUPS = "tenant_groups"
+NB_CONTACTS = "contacts"
+NB_CONTACT_GROUPS = "contact_groups"
 
 
 class NetboxTenancyModule(NetboxModule):
@@ -25,8 +27,10 @@ class NetboxTenancyModule(NetboxModule):
         This function should have all necessary code for endpoints within the application
         to create/update/delete the endpoint objects
         Supported endpoints:
-        tenants
-        tenant groups
+        - tenants
+        - tenant groups
+        - contacts
+        - contact groups
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
