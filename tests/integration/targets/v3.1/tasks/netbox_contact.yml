@@ -19,7 +19,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['contact']['name'] == "Contact ABC"
-      - test_one['msg'] == "Contact Contact ABC created"
+      - test_one['msg'] == "contact Contact ABC created"
 
 - name: "Test duplicate contact"
   netbox.netbox.netbox_contact:
@@ -52,7 +52,7 @@
       - test_three['diff']['after']['title'] == "New Title"
       - test_three['contact']['name'] == "Contact ABC"
       - test_three['contact']['title'] == "New Title"
-      - test_three['msg'] == "Contact Contact ABC updated"
+      - test_three['msg'] == "contact Contact ABC updated"
 
 - name: "4 - Test delete"
   netbox.netbox.netbox_contact:
@@ -69,7 +69,7 @@
       - test_four is changed
       - test_four['diff']['before']['state'] == "present"
       - test_four['diff']['after']['state'] == "absent"
-      - test_four['msg'] == "Contact Contact ABC deleted"
+      - test_four['msg'] == "contact Contact ABC deleted"
 
 - name: "5 - Create contact with all parameters"
   netbox.netbox.netbox_contact:
@@ -97,4 +97,4 @@
       - test_five['contact']['title'] == "Fancy title"
       - test_five['contact']['phone'] == "12345678"
       - test_five['contact']['tags'] | length == 3
-      - test_five['msg'] == "Contact Contact ABC created"
+      - test_five['msg'] == "contact Contact ABC created"
