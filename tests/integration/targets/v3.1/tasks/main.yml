@@ -23,6 +23,9 @@
 - name: "NETBOX_CONTACT TESTS"
   include_tasks: "netbox_contact.yml"
 
+- name: "NETBOX_CONTACT_ROLE TESTS"
+  include_tasks: "netbox_contact_role.yml"
+
 - name: "NETBOX_TENTANT TESTS"
   include_tasks: "netbox_tenant.yml"
 
