@@ -90,5 +90,4 @@
   assert:
     that:
       - not test_five['changed']
-      - test_five['contact_role'] == None
       - test_five['msg'] == "contact_role Test Contact Role already absent"
