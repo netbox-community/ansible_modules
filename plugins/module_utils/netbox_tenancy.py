@@ -16,6 +16,7 @@ NB_TENANTS = "tenants"
 NB_TENANT_GROUPS = "tenant_groups"
 NB_CONTACTS = "contacts"
 NB_CONTACT_GROUPS = "contact_groups"
+NB_CONTACT_ROLES = "contact_roles"
 
 
 class NetboxTenancyModule(NetboxModule):
