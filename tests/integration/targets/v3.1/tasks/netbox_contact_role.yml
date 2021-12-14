@@ -78,7 +78,7 @@
       - test_four['msg'] == "contact_role Test Contact Role deleted"
 
 - name: "CONTACT_ROLE 5: ASSERT - Delete non existing"
-  netbox.netbox.netbox_ipam_role:
+  netbox.netbox.netbox_contact_role:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
@@ -90,4 +90,5 @@
   assert:
     that:
       - not test_five['changed']
+      - test_five['contact_role'] == None
       - test_five['msg'] == "contact_role Test Contact Role already absent"
