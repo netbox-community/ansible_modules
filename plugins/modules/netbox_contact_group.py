@@ -78,7 +78,7 @@ EXAMPLES = r"""
           slug: "contact_group_abc"
         state: present
 
-    - name: Delete tenant within netbox
+    - name: Delete contact group within netbox
       netbox_contact_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken

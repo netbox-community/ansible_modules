@@ -83,7 +83,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-role:
+contact_role:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict

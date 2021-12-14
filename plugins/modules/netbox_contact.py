@@ -93,23 +93,22 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete contact within netbox
-      netbox_tenant:
+      netbox_contact:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           name: Contact One
         state: absent
 
-    - name: Create tenant with all parameters
-      netbox_tenant:
+    - name: Create contact with all parameters
+      netbox_contact:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Tenant ABC
-          tenant_group: Very Special Tenants
-          description: ABC Incorporated
-          comments: '### This tenant is super cool'
-          slug: tenant_abc
+          name: contact ABC          
+          title: Mr Contact
+          phone: 123456789
+          email: contac@contact.com          
           tags:
             - tagA
             - tagB
@@ -170,8 +169,8 @@ def main():
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_tenant = NetboxTenancyModule(module, NB_CONTACTS)
-    netbox_tenant.run()
+    netbox_contact = NetboxTenancyModule(module, NB_CONTACTS)
+    netbox_contact.run()
 
 
 if __name__ == "__main__":  # pragma: no cover
