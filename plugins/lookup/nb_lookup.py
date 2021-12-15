@@ -256,7 +256,7 @@ def get_endpoint(netbox, term):
         "webhooks": {"endpoint": netbox.extras.webhooks},
     }
 
-    major, minor, patch = [int(x, 10) for x in pynetbox.__version__.split(".")]
+    major, minor, patch = map(int, pynetbox.__version__.split("."))
 
     if major >= 6 and minor >= 4 and patch >= 0:
         netbox_endpoint_map["wireless-lan-groups"] = {
