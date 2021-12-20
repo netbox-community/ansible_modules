@@ -14,6 +14,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 NB_WIRELESS_LANS = "wireless_lans"
 NB_WIRELESS_LAN_GROUPS = "wireless_lan_groups"
+NB_WIRELESS_LINKS = "wireless_links"
 
 
 class NetboxWirelessModule(NetboxModule):
@@ -27,6 +28,7 @@ class NetboxWirelessModule(NetboxModule):
         Supported endpoints:
         - wireless LAN
         - wireless LAN Group
+        - wireless link
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -47,6 +49,13 @@ class NetboxWirelessModule(NetboxModule):
             name = data["slug"]
         elif data.get("ssid"):
             name = data["ssid"]
+
+        if data.get("interface_a") and data.get("interface_b"):
+            interface_a_name = self.module.params["data"]["interface_a"].get("name")
+            interface_a_device = self.module.params["data"]["interface_a"].get("device")
+            interface_b_name = self.module.params["data"]["interface_b"].get("name")
+            interface_b_device = self.module.params["data"]["interface_b"].get("device")
+            name = f"{interface_a_device} {interface_a_name} <> {interface_b_device} {interface_b_name}"
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
