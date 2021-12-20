@@ -42,7 +42,12 @@ options:
         description:
           - The SSID of the Wireless link
         required: false
-        type: str  
+        type: str
+      description:
+        description:
+          - Description of the Wireless link
+        required: false
+        type: str    
       status:
         description:
           - The status of the Wireless link
@@ -167,7 +172,7 @@ def main():
                     ssid=dict(required=False, type="str"),
                     status=dict(
                         required=False,
-                        choices=["connected", "planned", "decommisioning"],
+                        choices=["connected", "planned", "decommissioning"],
                         type="str",
                     ),
                     description=dict(required=False, type="str"),
@@ -179,7 +184,7 @@ def main():
                     auth_cipher=dict(
                         required=False, choices=["auto", "tkip", "aes"], type="str"
                     ),
-                    auth_psk=dict(required=False, type="raw"),
+                    auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

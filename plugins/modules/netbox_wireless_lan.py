@@ -38,7 +38,7 @@ options:
           - The description of the Wireless LAN
         required: false
         type: str
-      group:
+      wireless_lan_group:
         description:
           - The wireless LAN group
         required: false
@@ -170,7 +170,7 @@ def main():
                     auth_cipher=dict(
                         required=False, choices=["auto", "tkip", "aes"], type="str"
                     ),
-                    auth_psk=dict(required=False, type="raw"),
+                    auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
