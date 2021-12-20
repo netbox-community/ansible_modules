@@ -121,6 +121,7 @@ QUERY_TYPES = dict(
     parent_region="slug",
     parent_site_group="slug",
     parent_tenant_group="slug",
+    parent_wireless_lan_group="slug",
     power_panel="name",
     power_port="name",
     power_port_template="name",
@@ -153,6 +154,7 @@ QUERY_TYPES = dict(
     vlan_role="name",
     vrf="name",
     wireless_lan="ssid",
+    wireless_lan_group="slug",
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
@@ -202,6 +204,7 @@ CONVERT_TO_ID = {
     "parent_region": "regions",
     "parent_site_group": "site_groups",
     "parent_tenant_group": "tenant_groups",
+    "parent_wireless_lan_group": "wireless_lan_groups",
     "platforms": "platforms",
     "power_panel": "power_panels",
     "power_port": "power_ports",
@@ -415,7 +418,7 @@ ALLOWED_QUERY_PARAMS = {
     "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
     "wireless_lan": set(["ssid"]),
-    "wireless_lan_group": set(["slug"]),
+    "wireless_lan_group": set(["name"]),
 }
 
 QUERY_PARAMS_IDS = set(
@@ -480,6 +483,7 @@ CONVERT_KEYS = {
     "parent_region": "parent",
     "parent_site_group": "parent",
     "parent_tenant_group": "parent",
+    "parent_wireless_lan_group": "parent",
     "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
@@ -521,6 +525,7 @@ SLUG_REQUIRED = {
     "platforms",
     "providers",
     "vlan_groups",
+    "wireless_lan_groups",
 }
 
 SCOPE_TO_ENDPOINT = {

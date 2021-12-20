@@ -9,10 +9,10 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_wireless_lan
-short_description: Creates or removes Wireless LANs from NetBox
+module: netbox_wireless_lan_group
+short_description: Creates or removes Wireless LAN Groups from NetBox
 description:
-  - Creates or removes wireless LANs from NetBox
+  - Creates or removes Wireless LAN Groups from NetBox
 notes:  
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
@@ -28,53 +28,29 @@ options:
     description:
       - Defines the contact configuration
     suboptions:
-      ssid:
+      name:
         description:
-          - Name of the SSID to be created
+          - Name of the Wireless LAN Group to be created
         required: true
         type: str
+      slug:
+        description:
+          - The slug of the Wireless LAN Group
+        required: false
+        type: str
+      parent_wireless_lan_group:
+        description:
+          - The parent Wireless LAN group
+        required: false
+        type: raw
       description:
         description:
-          - The description of the Wireless LAN
+          - Description of the Wireless LAN Group
         required: false
-        type: str
-      group:
-        description:
-          - The wireless LAN group
-        required: false
-        type: raw
-      vlan:
-        description:
-          - The VLAN of the Wireless LAN
-        required: false
-        type: raw
-      auth_type:
-        description:
-          - The authentication type of the Wireless LAN
-        choices:
-          - open
-          - wep
-          - wpa-personal
-          - wpa-enterprise
-        required: false
-        type: str
-      auth_cipher:
-        description:
-          - The authentication cipher of the Wireless LAN
-        choices:
-          - auto
-          - tkip
-          - aes
-        required: false
-        type: str
-      auth_psk:
-        description:
-          - The PSK of the Wireless LAN
-        required: false
-        type: str    
+        type: str          
       tags:
         description:
-          - Any tags that the Wireless LAN may need to be associated with
+          - Any tags that the Wireless LAN Group may need to be associated with
         required: false
         type: list
         elements: raw
@@ -93,7 +69,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create Wireless LAN within NetBox with only required information
-      netbox_wireless_lan:
+      netbox_wireless_lan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -101,7 +77,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete Wireless LAN within netbox
-      netbox_wireless_lan:
+      netbox_wireless_lan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +85,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create Wireless LAN with all parameters
-      netbox_wireless_lan:
+      netbox_wireless_lan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -126,7 +102,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-wireless_lan:
+wireless_lan_group:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
@@ -142,7 +118,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import (
     NetboxWirelessModule,
-    NB_WIRELESS_LANS,
+    NB_WIRELESS_LAN_GROUPS,
 )
 from copy import deepcopy
 
@@ -158,19 +134,10 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    ssid=dict(required=True, type="str"),
+                    name=dict(required=True, type="str"),
+                    slug=dict(required=False, type="str"),
+                    parent_wireless_lan_group=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
-                    wireless_lan_group=dict(required=False, type="raw"),
-                    vlan=dict(required=False, type="raw"),
-                    auth_type=dict(
-                        required=False,
-                        choices=["open", "wep", "wpa-enterprise", "wpa-personal"],
-                        type="str",
-                    ),
-                    auth_cipher=dict(
-                        required=False, choices=["auto", "tkip", "aes"], type="str"
-                    ),
-                    auth_psk=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
@@ -178,14 +145,14 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["ssid"]), ("state", "absent", ["ssid"])]
+    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_wireless_lan = NetboxWirelessModule(module, NB_WIRELESS_LANS)
-    netbox_wireless_lan.run()
+    netbox_wireless_lan_group = NetboxWirelessModule(module, NB_WIRELESS_LAN_GROUPS)
+    netbox_wireless_lan_group.run()
 
 
 if __name__ == "__main__":  # pragma: no cover
