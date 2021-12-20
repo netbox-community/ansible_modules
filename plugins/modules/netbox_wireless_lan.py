@@ -162,8 +162,14 @@ def main():
                     description=dict(required=False, type="str"),
                     wireless_lan_group=dict(required=False, type="raw"),
                     vlan=dict(required=False, type="raw"),
-                    auth_type=dict(required=False, choices=["open", "wep", "wpa-enterprise", "wpa-personal"], type="str"),
-                    auth_cipher=dict(required=False, choices=["auto", "tkip", "aes"], type="str"),
+                    auth_type=dict(
+                        required=False,
+                        choices=["open", "wep", "wpa-enterprise", "wpa-personal"],
+                        type="str",
+                    ),
+                    auth_cipher=dict(
+                        required=False, choices=["auto", "tkip", "aes"], type="str"
+                    ),
                     auth_psk=dict(required=False, type="raw"),
                 ),
             ),
