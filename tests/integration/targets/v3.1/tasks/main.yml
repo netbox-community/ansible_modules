@@ -172,3 +172,30 @@
 
 - name: "NETBOX_ROUTE_TARGET_TESTS"
   include_tasks: "netbox_route_target.yml"
+
+- name: "NETBOX_WIRELESS_LAN TESTS"
+  include_tasks:
+    file: "netbox_wireless_lan.yml"
+    apply:
+      tags:
+        - netbox_wireless_lan
+  tags:
+    - netbox_wireless_lan
+
+- name: "NETBOX_WIRELESS_LAN_GROUP TESTS"
+  include_tasks:
+    file: "netbox_wireless_lan_group.yml"
+    apply:
+      tags:
+        - netbox_wireless_lan_group
+  tags:
+    - netbox_wireless_lan_group
+
+- name: "NETBOX_WIRELESS_LINK TESTS"
+  include_tasks:
+    file: "netbox_wireless_link.yml"
+    apply:
+      tags:
+        - netbox_wireless_link
+  tags:
+    - netbox_wireless_link

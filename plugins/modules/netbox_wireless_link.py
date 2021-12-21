@@ -40,17 +40,17 @@ options:
         type: raw
       ssid:
         description:
-          - The SSID of the Wireless link
+          - The SSID of the wireless link
         required: false
         type: str
       description:
         description:
-          - Description of the Wireless link
+          - Description of the wireless link
         required: false
         type: str    
       status:
         description:
-          - The status of the Wireless link
+          - The status of the wireless link
         choices:
           - connected
           - planned
@@ -59,7 +59,7 @@ options:
         type: str          
       auth_type:
         description:
-          - The authentication type of the Wireless LAN
+          - The authentication type of the wireless link
         choices:
           - open
           - wep
@@ -69,7 +69,7 @@ options:
         type: str
       auth_cipher:
         description:
-          - The authentication cipher of the Wireless LAN
+          - The authentication cipher of the wireless link
         choices:
           - auto
           - tkip
@@ -78,12 +78,12 @@ options:
         type: str
       auth_psk:
         description:
-          - The PSK of the Wireless LAN
+          - The PSK of the wireless link
         required: false
         type: str    
       tags:
         description:
-          - Any tags that the Wireless LAN may need to be associated with
+          - Any tags that the wireless link may need to be associated with
         required: false
         type: list
         elements: raw
@@ -101,27 +101,43 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create Wireless LAN within NetBox with only required information
-      netbox_wireless_lan:
+    - name: Create wireless link within NetBox with only required information
+      netbox_wireless_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One
+          interface_a:
+            device: Device One
+            name: wireless_link_0
+          interface_b:
+            device: Device Two
+            name: wireless_link_0
         state: present
 
-    - name: Delete Wireless LAN within netbox
-      netbox_wireless_lan:
+    - name: Delete wireless link within netbox
+      netbox_wireless_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One
+          interface_a:
+            device: Device One
+            name: wireless_link_0
+          interface_b:
+            device: Device Two
+            name: wireless_link_0
         state: absent
 
-    - name: Create Wireless LAN with all parameters
-      netbox_wireless_lan:
+    - name: Create wireless link with all parameters
+      netbox_wireless_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
+          interface_a:
+            device: Device One
+            name: wireless_link_0
+          interface_b:
+            device: Device Two
+            name: wireless_link_0
           ssid: Wireless Network One          
           description: Cool Wireless Network
           auth_type: wpa-enterprise

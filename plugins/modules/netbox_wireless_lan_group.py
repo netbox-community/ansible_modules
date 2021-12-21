@@ -68,12 +68,12 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create Wireless LAN within NetBox with only required information
+    - name: Create Wireless LAN Group within NetBox with only required information
       netbox_wireless_lan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One
+          name: Wireless LAN Group One
         state: present
 
     - name: Delete Wireless LAN within netbox
@@ -81,19 +81,16 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One
+          name: Wireless LAN Group One
         state: absent
 
-    - name: Create Wireless LAN with all parameters
+    - name: Create Wireless LAN Group with all parameters
       netbox_wireless_lan_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One          
-          description: Cool Wireless Network
-          auth_type: wpa-enterprise
-          auth_cipher: aes
-          auth_psk: psk123456                    
+          name: Wireless LAN Group One
+          description: Wireless LAN Group description            
           tags:
             - tagA
             - tagB
