@@ -23,6 +23,8 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
+      - test_one['wireless_link']['interface_a'] == 6
+      - test_one['wireless_link']['interface_b'] == 5
       - test_one['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 created"
 
 - name: "Test duplicate wireless link"
@@ -119,6 +121,8 @@
       - test_five['diff']['after']['state'] == "present"
       - test_five['wireless_link']['ssid'] == "Wireless Network One"
       - test_five['wireless_link']['description'] == "Cool Wireless Network"
+      - test_five['wireless_link']['interface_a'] == 6
+      - test_five['wireless_link']['interface_b'] == 5
       - test_five['wireless_link']['auth_type'] == "wpa-enterprise"
       - test_five['wireless_link']['auth_cipher'] == "aes"
       - test_five['wireless_link']['auth_psk'] == "psk123456"
