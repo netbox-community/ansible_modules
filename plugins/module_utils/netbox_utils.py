@@ -91,6 +91,7 @@ API_APPS_ENDPOINTS = dict(
     secrets=[],
     tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
     virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
+    wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
 )
 
 # Used to normalize data for the respective query types used to find endpoints
@@ -120,6 +121,7 @@ QUERY_TYPES = dict(
     parent_region="slug",
     parent_site_group="slug",
     parent_tenant_group="slug",
+    parent_wireless_lan_group="slug",
     power_panel="name",
     power_port="name",
     power_port_template="name",
@@ -151,6 +153,8 @@ QUERY_TYPES = dict(
     vlan_group="slug",
     vlan_role="name",
     vrf="name",
+    wireless_lan="ssid",
+    wireless_lan_group="slug",
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
@@ -183,6 +187,8 @@ CONVERT_TO_ID = {
     "import_targets": "route_targets",
     "installed_device": "devices",
     "interface": "interfaces",
+    "interface_a": "interfaces",
+    "interface_b": "interfaces",
     "interface_template": "interface_templates",
     "ip_addresses": "ip_addresses",
     "ipaddresses": "ip_addresses",
@@ -200,6 +206,7 @@ CONVERT_TO_ID = {
     "parent_region": "regions",
     "parent_site_group": "site_groups",
     "parent_tenant_group": "tenant_groups",
+    "parent_wireless_lan_group": "wireless_lan_groups",
     "platforms": "platforms",
     "power_panel": "power_panels",
     "power_port": "power_ports",
@@ -242,6 +249,9 @@ CONVERT_TO_ID = {
     "vlan_group": "vlan_groups",
     "vlan_role": "roles",
     "vrf": "vrfs",
+    "wireless_lan": "wireless_lans",
+    "wireless_lan_group": "wireless_lan_groups",
+    "wireless_link": "wireless_links",
 }
 
 ENDPOINT_NAME_MAPPING = {
@@ -304,6 +314,9 @@ ENDPOINT_NAME_MAPPING = {
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
+    "wireless_lans": "wireless_lan",
+    "wireless_lan_groups": "wireless_lan_group",
+    "wireless_links": "wireless_link",
 }
 
 ALLOWED_QUERY_PARAMS = {
@@ -355,6 +368,8 @@ ALLOWED_QUERY_PARAMS = {
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
     "interface": set(["name", "device", "virtual_machine"]),
+    "interface_a": set(["name", "device"]),
+    "interface_b": set(["name", "device"]),
     "interface_template": set(["name", "device_type"]),
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -408,6 +423,9 @@ ALLOWED_QUERY_PARAMS = {
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
+    "wireless_lan": set(["ssid"]),
+    "wireless_lan_group": set(["name"]),
+    "wireless_link": set(["interface_a", "interface_b"]),
 }
 
 QUERY_PARAMS_IDS = set(
@@ -472,6 +490,7 @@ CONVERT_KEYS = {
     "parent_region": "parent",
     "parent_site_group": "parent",
     "parent_tenant_group": "parent",
+    "parent_wireless_lan_group": "parent",
     "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
@@ -485,6 +504,7 @@ CONVERT_KEYS = {
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
+    "wireless_lan_group": "group",
 }
 
 # This is used to dynamically convert name to slug on endpoints requiring a slug
@@ -512,6 +532,7 @@ SLUG_REQUIRED = {
     "platforms",
     "providers",
     "vlan_groups",
+    "wireless_lan_groups",
 }
 
 SCOPE_TO_ENDPOINT = {
@@ -954,6 +975,7 @@ class NetboxModule(object):
         for k, v in API_APPS_ENDPOINTS.items():
             if endpoint in v:
                 nb_app = k
+
         return nb_app
 
     def _find_ids(self, data, user_query_params):

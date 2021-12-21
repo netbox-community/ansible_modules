@@ -328,6 +328,15 @@ dev_interfaces = [
     {"name": "GigabitEthernet2", "device": test100.id, "type": "1000base-t"},
 ]
 created_interfaces = make_netbox_calls(nb.dcim.interfaces, dev_interfaces)
+
+## Wireless Interfaces
+if nb_version >= version.parse("3.1"):
+    wlink_interfaces = [
+        {"name": "wlink1", "device": test100.id, "type": "ieee802.11a"},
+        {"name": "wlink1", "device": nexus.id, "type": "ieee802.11a"},
+    ]
+    wireless_interfaces = make_netbox_calls(nb.dcim.interfaces, wlink_interfaces)
+
 ## Interface variables to be used later on
 test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
 test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
