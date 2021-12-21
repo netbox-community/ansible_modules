@@ -97,7 +97,7 @@
       - test_three['diff']['after']['length_unit'] == "m"
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['cable']['termination_a_type'] == "dcim.interface"
-      - test_three['cable']['termination_a_id'] == 13
+      - test_three['cable']['termination_a_id'] == 15
       - test_three['cable']['termination_b_type'] == "dcim.interface"
       - test_three['cable']['termination_b_id'] == 2
       - test_three['cable']['type'] == "mmf-om4"
