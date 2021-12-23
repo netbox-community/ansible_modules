@@ -271,10 +271,11 @@ def get_endpoint(netbox, term):
         }
 
     else:
-        Display().v(
-            "pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer."
-            % (major, minor, patch)
-        )
+        if "wireless" in term:
+            Display().v(
+                "pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer."
+                % (major, minor, patch)
+            )
 
     return netbox_endpoint_map[term]["endpoint"]
 
