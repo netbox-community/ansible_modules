@@ -256,6 +256,27 @@ def get_endpoint(netbox, term):
         "webhooks": {"endpoint": netbox.extras.webhooks},
     }
 
+    major, minor, patch = map(int, pynetbox.__version__.split("."))
+
+    if major >= 6 and minor >= 4 and patch >= 0:
+        netbox_endpoint_map["wireless-lan-groups"] = {
+            "endpoint": netbox.wireless.wireless_lan_groups
+        }
+        netbox_endpoint_map["wireless-lan-groups"] = {
+            "endpoint": netbox.wireless.wireless_lan_groups
+        }
+        netbox_endpoint_map["wireless-lan"] = {"endpoint": netbox.wireless.wireless_lan}
+        netbox_endpoint_map["wireless-links"] = {
+            "endpoint": netbox.wireless.wireless_links
+        }
+
+    else:
+        if "wireless" in term:
+            Display().v(
+                "pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer."
+                % (major, minor, patch)
+            )
+
     return netbox_endpoint_map[term]["endpoint"]
 
 
