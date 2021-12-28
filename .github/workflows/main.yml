@@ -28,15 +28,15 @@ jobs:
           ansible-galaxy collection build .
           ansible-galaxy collection install netbox*.tar.gz -p /home/runner/.ansible/collections
       - name: Run Black
-        run: black . --check --diff
+        run: poetry run black . --check --diff
       - name: Run Ansible Sanity tests
-        run: ansible-test sanity -v --requirements --python ${{ matrix.python-version }} --skip-test pep8 plugins/
+        run: poetry run ansible-test sanity -v --requirements --python ${{ matrix.python-version }} --skip-test pep8 plugins/
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
       - name: Run Ansible Unit tests
-        run: ansible-test units -vvv --coverage --python ${{ matrix.python-version }}
+        run: poetry run ansible-test units -vvv --coverage --python ${{ matrix.python-version }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
       - name: Run Ansible Coverage
-        run: ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
+        run: poetry run ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
   integration:
     runs-on: ubuntu-latest
