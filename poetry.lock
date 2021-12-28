@@ -61,16 +61,28 @@ PyYAML = "*"
 resolvelib = ">=0.5.3,<0.6.0"
 
 [[package]]
-name = "antsibull"
-version = "0.25.0"
+name = "ansible-pygments"
+version = "0.1.0"
 description = "Tools for building the Ansible Distribution"
 category = "main"
 optional = false
 python-versions = ">=3.6.0,<4.0.0"
 
 [package.dependencies]
+pygments = ">=2.4.0"
+
+[[package]]
+name = "antsibull"
+version = "0.39.2"
+description = "Tools for building the Ansible Distribution"
+category = "main"
+optional = false
+python-versions = ">=3.6.1,<4.0.0"
+
+[package.dependencies]
 aiofiles = "*"
-aiohttp = "*"
+aiohttp = ">=3.0.0"
+ansible-pygments = "*"
 antsibull-changelog = ">=0.7.0"
 asyncio-pool = "*"
 docutils = "*"
@@ -78,7 +90,6 @@ jinja2 = "*"
 packaging = ">=20.0"
 perky = "*"
 pydantic = "*"
-pygments = ">=2.6.1"
 PyYAML = "*"
 rstcheck = ">=3,<4"
 semantic_version = "*"
@@ -856,14 +867,6 @@ python-versions = "*"
 six = "*"
 
 [[package]]
-name = "typed-ast"
-version = "1.5.1"
-description = "a fork of Python 2 and 3 ast modules with type comment support"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "typing-extensions"
 version = "4.0.1"
 description = "Backported and Experimental Type Hints for Python 3.6+"
@@ -919,7 +922,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "d14aec280e8f5453f7a7db3e460515dcd0d4f73fd71e8db365800285816552af"
+content-hash = "2a4a8aa15239887aaf9b505c7b05d236a8070ab7bf548ba5a41b8b9d21e23ddd"
 
 [metadata.files]
 aiofiles = [
@@ -1011,9 +1014,13 @@ alabaster = [
 ansible-core = [
     {file = "ansible-core-2.12.1.tar.gz", hash = "sha256:a4508707262be11bb4dd98a006f1b14817879a055e6b6c46ad9fca8894fb3073"},
 ]
+ansible-pygments = [
+    {file = "ansible-pygments-0.1.0.tar.gz", hash = "sha256:0c106912afcb0115444f79152687731436b30b69bf230f09a0b1127bd7a9b9ef"},
+    {file = "ansible_pygments-0.1.0-py3-none-any.whl", hash = "sha256:055a46de4b745b1090fc596aba15c9324fe346a7b048955995b5337393e541f9"},
+]
 antsibull = [
-    {file = "antsibull-0.25.0-py3-none-any.whl", hash = "sha256:2f75baa501b857b1b2a1310dd3ac442cebd94cab60ebc984454dac012a1137ff"},
-    {file = "antsibull-0.25.0.tar.gz", hash = "sha256:a82c9f5bd77b39c5215f22317931b497ac36fa27045537262aae27aa3451af9a"},
+    {file = "antsibull-0.39.2-py3-none-any.whl", hash = "sha256:ec40d52594a3d49996a393760e154d21e25d95092be9628aeb30433074ffbd5f"},
+    {file = "antsibull-0.39.2.tar.gz", hash = "sha256:7d1634e0806b966d20af41b89cb7a3e1d4d690d3fb020f59aa3e66b3062b1250"},
 ]
 antsibull-changelog = [
     {file = "antsibull-changelog-0.13.0.tar.gz", hash = "sha256:4ed40013b82f06c13994990a11bb0c51e5c6855cbcd25def84c28aecca77c31d"},
@@ -1659,27 +1666,6 @@ tomli = [
 twiggy = [
     {file = "Twiggy-0.5.1-py3-none-any.whl", hash = "sha256:014671fdff7538b7f2396ff01724937ef57e1ac0e08f688747afbbcdeec9f081"},
     {file = "Twiggy-0.5.1.tar.gz", hash = "sha256:7938840275972f6ce89994a5bdfb0b84f0386301a043a960af6364952e78ffe4"},
-]
-typed-ast = [
-    {file = "typed_ast-1.5.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:5d8314c92414ce7481eee7ad42b353943679cf6f30237b5ecbf7d835519e1212"},
-    {file = "typed_ast-1.5.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:b53ae5de5500529c76225d18eeb060efbcec90ad5e030713fe8dab0fb4531631"},
-    {file = "typed_ast-1.5.1-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:24058827d8f5d633f97223f5148a7d22628099a3d2efe06654ce872f46f07cdb"},
-    {file = "typed_ast-1.5.1-cp310-cp310-win_amd64.whl", hash = "sha256:a6d495c1ef572519a7bac9534dbf6d94c40e5b6a608ef41136133377bba4aa08"},
-    {file = "typed_ast-1.5.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:de4ecae89c7d8b56169473e08f6bfd2df7f95015591f43126e4ea7865928677e"},
-    {file = "typed_ast-1.5.1-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:256115a5bc7ea9e665c6314ed6671ee2c08ca380f9d5f130bd4d2c1f5848d695"},
-    {file = "typed_ast-1.5.1-cp36-cp36m-win_amd64.whl", hash = "sha256:7c42707ab981b6cf4b73490c16e9d17fcd5227039720ca14abe415d39a173a30"},
-    {file = "typed_ast-1.5.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:71dcda943a471d826ea930dd449ac7e76db7be778fcd722deb63642bab32ea3f"},
-    {file = "typed_ast-1.5.1-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:4f30a2bcd8e68adbb791ce1567fdb897357506f7ea6716f6bbdd3053ac4d9471"},
-    {file = "typed_ast-1.5.1-cp37-cp37m-win_amd64.whl", hash = "sha256:ca9e8300d8ba0b66d140820cf463438c8e7b4cdc6fd710c059bfcfb1531d03fb"},
-    {file = "typed_ast-1.5.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:9caaf2b440efb39ecbc45e2fabde809cbe56272719131a6318fd9bf08b58e2cb"},
-    {file = "typed_ast-1.5.1-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:c9bcad65d66d594bffab8575f39420fe0ee96f66e23c4d927ebb4e24354ec1af"},
-    {file = "typed_ast-1.5.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:591bc04e507595887160ed7aa8d6785867fb86c5793911be79ccede61ae96f4d"},
-    {file = "typed_ast-1.5.1-cp38-cp38-win_amd64.whl", hash = "sha256:a80d84f535642420dd17e16ae25bb46c7f4c16ee231105e7f3eb43976a89670a"},
-    {file = "typed_ast-1.5.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:38cf5c642fa808300bae1281460d4f9b7617cf864d4e383054a5ef336e344d32"},
-    {file = "typed_ast-1.5.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:5b6ab14c56bc9c7e3c30228a0a0b54b915b1579613f6e463ba6f4eb1382e7fd4"},
-    {file = "typed_ast-1.5.1-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:a2b8d7007f6280e36fa42652df47087ac7b0a7d7f09f9468f07792ba646aac2d"},
-    {file = "typed_ast-1.5.1-cp39-cp39-win_amd64.whl", hash = "sha256:b6d17f37f6edd879141e64a5db17b67488cfeffeedad8c5cec0392305e9bc775"},
-    {file = "typed_ast-1.5.1.tar.gz", hash = "sha256:484137cab8ecf47e137260daa20bafbba5f4e3ec7fda1c1e69ab299b75fa81c5"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.0.1-py3-none-any.whl", hash = "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"},
