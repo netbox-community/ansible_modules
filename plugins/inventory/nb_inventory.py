@@ -478,26 +478,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Locations were added in 2.11 replacing rack-groups.
         if self.api_version >= version.parse("2.11"):
             extractors.update(
-                {"location": self.extract_location,}
+                {
+                    "location": self.extract_location,
+                }
             )
         else:
             extractors.update(
-                {"rack_group": self.extract_rack_group,}
+                {
+                    "rack_group": self.extract_rack_group,
+                }
             )
 
         if self.services:
             extractors.update(
-                {"services": self.extract_services,}
+                {
+                    "services": self.extract_services,
+                }
             )
 
         if self.interfaces:
             extractors.update(
-                {"interfaces": self.extract_interfaces,}
+                {
+                    "interfaces": self.extract_interfaces,
+                }
             )
 
         if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             extractors.update(
-                {"dns_name": self.extract_dns_name,}
+                {
+                    "dns_name": self.extract_dns_name,
+                }
             )
 
         return extractors
@@ -1288,7 +1298,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             status = self._fetch_information(self.api_endpoint + "/api/status")
             netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
-        except:
+        except Exception:
             netbox_api_version = 0
 
         tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
@@ -1297,7 +1307,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             with open(tmp_file) as file:
                 openapi = json.load(file)
-        except:
+        except Exception:
             openapi = {}
 
         cached_api_version = openapi.get("info", {}).get("version")
@@ -1725,7 +1735,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             elif getattr(self, "site_group_names", None) and host.get("site"):
                 # Add host to site group when host is NOT assigned to a location
                 self.inventory.add_host(
-                    group=self.site_group_names[host["site"]["id"]], host=hostname,
+                    group=self.site_group_names[host["site"]["id"]],
+                    host=hostname,
                 )
 
     def parse(self, inventory, loader, path, cache=True):
@@ -1753,7 +1764,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.fetch_all = self.get_option("fetch_all")
         self.headers = {
             "User-Agent": "ansible %s Python %s"
-            % (ansible_version, python_version.split(" ")[0]),
+            % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
         }
         self.cert = self.get_option("cert")

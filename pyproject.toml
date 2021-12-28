@@ -6,10 +6,9 @@ authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-ansible-core = "^2.11.0"
-black = "19.10b0"
-typed-ast = "^1.5.0"
+python = "^3.8"
+ansible-core = "^2.12.0"
+black = "21.12b0"
 codecov = "*"
 coverage = "^4.0"
 cryptography = "*"
@@ -22,10 +21,10 @@ pytest-mock = "*"
 pytest-xdist = "*"
 pyyaml = "*"
 mock = "^4.0.2"
-antsibull = "^0.25.0"
+antsibull = "*"
 importlib-metadata = "1.7.0"
-pylint = "^2.8.0"
-packaging = "^20.9"
+pylint = "*"
+packaging = "*"
 
 [tool.poetry.dev-dependencies]
 

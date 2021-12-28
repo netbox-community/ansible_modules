@@ -194,7 +194,11 @@ device_types = [
         "manufacturer": cisco_manu.id,
         "subdevice_role": "child",
     },
-    {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
+    {
+        "model": "1841",
+        "slug": "1841",
+        "manufacturer": cisco_manu.id,
+    },
 ]
 
 created_device_types = make_netbox_calls(nb.dcim.device_types, device_types)
@@ -398,7 +402,10 @@ clusters = [
         "group": test_cluster_group.id,
         "site": test_site.id,
     },
-    {"name": "Test Cluster 2", "type": test_cluster_type.id,},
+    {
+        "name": "Test Cluster 2",
+        "type": test_cluster_type.id,
+    },
 ]
 created_clusters = make_netbox_calls(nb.virtualization.clusters, clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
