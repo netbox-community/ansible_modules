@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_inventory_item
@@ -45,6 +39,12 @@ options:
           - Name of the inventory item to be created
         required: true
         type: str
+      parent_inventory_item:
+        description:
+          - The parent inventory item the inventory item will be associated with
+        required: false
+        type: raw     
+        version_added: "3.5.0"   
       label:
         description:
           - The physical label of the inventory item
@@ -171,6 +171,7 @@ def main():
                 options=dict(
                     device=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    parent_inventory_item=dict(required=False, type="raw"),
                     label=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     part_id=dict(required=False, type="str"),
