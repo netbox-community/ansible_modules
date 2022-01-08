@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_circuit_termination
@@ -49,6 +43,11 @@ options:
           - Z
         required: true
         type: str
+      mark_connected:
+        description: 
+          - Treat as if cable is connected
+        required: false
+        type: bool
       site:
         description:
           - The site the circuit termination will be assigned to
@@ -162,6 +161,7 @@ def main():
                 options=dict(
                     circuit=dict(required=True, type="raw"),
                     term_side=dict(required=True, choices=["A", "Z"]),
+                    mark_connected=dict(required=False, type="bool"),
                     site=dict(required=False, type="raw"),
                     provider_network=dict(required=False, type="raw"),
                     port_speed=dict(required=False, type="int"),
