@@ -48,6 +48,7 @@ options:
           - Treat as if cable is connected
         required: false
         type: bool
+        version_added: 3.5.0
       site:
         description:
           - The site the circuit termination will be assigned to
