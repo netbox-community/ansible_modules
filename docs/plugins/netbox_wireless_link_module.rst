@@ -14,7 +14,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_power_outlet_module:
+.. _ansible_collections.netbox.netbox.netbox_wireless_link_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -24,8 +24,8 @@
 
 .. Title
 
-netbox.netbox.netbox_power_outlet -- Create, update or delete power outlets within NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_wireless_link -- Creates or removes Wireless links from NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -38,11 +38,11 @@ netbox.netbox.netbox_power_outlet -- Create, update or delete power outlets with
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_power_outlet`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_wireless_link`.
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 3.5.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -56,7 +56,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes power outlets from NetBox
+- Creates or removes wireless links from NetBox
 
 
 .. Aliases
@@ -111,10 +111,85 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the power outlet configuration</div>
+                                            <div>Defines the wireless link configuration</div>
                                                         </td>
             </tr>
                                         <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/auth_cipher"></div>
+                    <b>auth_cipher</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/auth_cipher" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>auto</li>
+                                                                                                                                                                                                <li>tkip</li>
+                                                                                                                                                                                                <li>aes</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>The authentication cipher of the wireless link</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/auth_psk"></div>
+                    <b>auth_psk</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/auth_psk" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The PSK of the wireless link</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/auth_type"></div>
+                    <b>auth_type</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/auth_type" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li>open</li>
+                                                                                                                                                                                                <li>wep</li>
+                                                                                                                                                                                                <li>wpa-personal</li>
+                                                                                                                                                                                                <li>wpa-enterprise</li>
+                                                                                    </ul>
+                                                                            </td>
+                                                                <td>
+                                            <div>The authentication type of the wireless link</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>must exist in NetBox</div>
+                                                        </td>
+            </tr>
+                                <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
                     <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
@@ -127,15 +202,15 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Description of the power outlet</div>
+                                            <div>Description of the wireless link</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/device"></div>
-                    <b>device</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/interface_a"></div>
+                    <b>interface_a</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/interface_a" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
                                                  / <span style="color: red">required</span>                    </div>
@@ -143,60 +218,60 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The device the power outlet is attached to</div>
+                                            <div>Interface A of the wireless link</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/feed_leg"></div>
-                    <b>feed_leg</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/feed_leg" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/interface_b"></div>
+                    <b>interface_b</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/interface_b" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">raw</span>
+                                                 / <span style="color: red">required</span>                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Interface A of the wireless link</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/ssid"></div>
+                    <b>ssid</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/ssid" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>The SSID of the wireless link</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/status"></div>
+                    <b>status</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/status" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                             <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>A</li>
-                                                                                                                                                                                                <li>B</li>
-                                                                                                                                                                                                <li>C</li>
+                                                                                                                                                                <li>connected</li>
+                                                                                                                                                                                                <li>planned</li>
+                                                                                                                                                                                                <li>decommissioning</li>
                                                                                     </ul>
                                                                             </td>
                                                                 <td>
-                                            <div>The phase, in case of three-phase feed</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The name of the power outlet</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/power_port"></div>
-                    <b>power_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/power_port" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">raw</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>The attached power port</div>
+                                            <div>The status of the wireless link</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -212,79 +287,7 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Any tags that the power outlet may need to be associated with</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                    <td class="elbow-placeholder"></td>
-                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
-                    <b>type</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>iec-60320-c5</li>
-                                                                                                                                                                                                <li>iec-60320-c7</li>
-                                                                                                                                                                                                <li>iec-60320-c13</li>
-                                                                                                                                                                                                <li>iec-60320-c15</li>
-                                                                                                                                                                                                <li>iec-60320-c19</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-9h</li>
-                                                                                                                                                                                                <li>nema-5-15r</li>
-                                                                                                                                                                                                <li>nema-5-20r</li>
-                                                                                                                                                                                                <li>nema-5-30r</li>
-                                                                                                                                                                                                <li>nema-5-50r</li>
-                                                                                                                                                                                                <li>nema-6-15r</li>
-                                                                                                                                                                                                <li>nema-6-20r</li>
-                                                                                                                                                                                                <li>nema-6-30r</li>
-                                                                                                                                                                                                <li>nema-6-50r</li>
-                                                                                                                                                                                                <li>nema-l5-15r</li>
-                                                                                                                                                                                                <li>nema-l5-20r</li>
-                                                                                                                                                                                                <li>nema-l5-30r</li>
-                                                                                                                                                                                                <li>nema-l5-50r</li>
-                                                                                                                                                                                                <li>nema-l6-20r</li>
-                                                                                                                                                                                                <li>nema-l6-30r</li>
-                                                                                                                                                                                                <li>nema-l6-50r</li>
-                                                                                                                                                                                                <li>nema-l14-20r</li>
-                                                                                                                                                                                                <li>nema-l14-30r</li>
-                                                                                                                                                                                                <li>nema-l21-20r</li>
-                                                                                                                                                                                                <li>nema-l21-30r</li>
-                                                                                                                                                                                                <li>CS6360C</li>
-                                                                                                                                                                                                <li>CS6364C</li>
-                                                                                                                                                                                                <li>CS8164C</li>
-                                                                                                                                                                                                <li>CS8264C</li>
-                                                                                                                                                                                                <li>CS8364C</li>
-                                                                                                                                                                                                <li>CS8464C</li>
-                                                                                                                                                                                                <li>ita-e</li>
-                                                                                                                                                                                                <li>ita-f</li>
-                                                                                                                                                                                                <li>ita-g</li>
-                                                                                                                                                                                                <li>ita-h</li>
-                                                                                                                                                                                                <li>ita-i</li>
-                                                                                                                                                                                                <li>ita-j</li>
-                                                                                                                                                                                                <li>ita-k</li>
-                                                                                                                                                                                                <li>ita-l</li>
-                                                                                                                                                                                                <li>ita-m</li>
-                                                                                                                                                                                                <li>ita-n</li>
-                                                                                                                                                                                                <li>ita-o</li>
-                                                                                                                                                                                                <li>hdot-cx</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>The type of the power outlet</div>
+                                            <div>Any tags that the wireless link may need to be associated with</div>
                                                         </td>
             </tr>
                     
@@ -384,7 +387,6 @@ Notes
 -----
 
 .. note::
-   - Tags should be defined as a YAML list
    - This should be ran with connection ``local`` and hosts ``localhost``
 
 .. Seealso
@@ -398,42 +400,58 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - name: "Test NetBox module"
       connection: local
       hosts: localhost
       gather_facts: False
-
       tasks:
-        - name: Create power port within NetBox with only required information
-          netbox_power_outlet:
+        - name: Create wireless link within NetBox with only required information
+          netbox_wireless_link:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
-              device: Test Device
+              interface_a:
+                device: Device One
+                name: wireless_link_0
+              interface_b:
+                device: Device Two
+                name: wireless_link_0
             state: present
 
-        - name: Update power port with other fields
-          netbox_power_outlet:
+        - name: Delete wireless link within netbox
+          netbox_wireless_link:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
-              device: Test Device
-              type: iec-60320-c6
-              power_port: Test Power Port
-              feed_leg: A
-              description: power port description
-            state: present
-
-        - name: Delete power port within netbox
-          netbox_power_outlet:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Power Outlet
-              device: Test Device
+              interface_a:
+                device: Device One
+                name: wireless_link_0
+              interface_b:
+                device: Device Two
+                name: wireless_link_0
             state: absent
+
+        - name: Create wireless link with all parameters
+          netbox_wireless_link:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              interface_a:
+                device: Device One
+                name: wireless_link_0
+              interface_b:
+                device: Device Two
+                name: wireless_link_0
+              ssid: Wireless Network One          
+              description: Cool Wireless Network
+              auth_type: wpa-enterprise
+              auth_cipher: aes
+              auth_psk: psk123456                    
+              tags:
+                - tagA
+                - tagB
+                - tagC
+            state: present
 
 
 
@@ -472,14 +490,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             </tr>
                                 <tr>
                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-power_outlet"></div>
-                    <b>power_outlet</b>
-                    <a class="ansibleOptionLink" href="#return-power_outlet" title="Permalink to this return value"></a>
+                    <div class="ansibleOptionAnchor" id="return-wireless_link"></div>
+                    <b>wireless_link</b>
+                    <a class="ansibleOptionLink" href="#return-wireless_link" title="Permalink to this return value"></a>
                     <div style="font-size: small">
                       <span style="color: purple">dictionary</span>
                                           </div>
                                     </td>
-                <td>success (when <em>state=present</em>)</td>
+                <td>on creation</td>
                 <td>
                                             <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
@@ -496,7 +514,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Martin Rødvand (@rodvand)
 
 
 

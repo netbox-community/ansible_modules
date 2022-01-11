@@ -14,7 +14,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_power_outlet_module:
+.. _ansible_collections.netbox.netbox.netbox_contact_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -24,8 +24,8 @@
 
 .. Title
 
-netbox.netbox.netbox_power_outlet -- Create, update or delete power outlets within NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_contact -- Creates or removes contacts from NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -38,11 +38,11 @@ netbox.netbox.netbox_power_outlet -- Create, update or delete power outlets with
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_power_outlet`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_contact`.
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 3.5.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -56,7 +56,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes power outlets from NetBox
+- Creates or removes contacts from NetBox
 
 
 .. Aliases
@@ -111,15 +111,15 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the power outlet configuration</div>
+                                            <div>Defines the contact configuration</div>
                                                         </td>
             </tr>
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
-                    <b>description</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/address"></div>
+                    <b>address</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/address" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
@@ -127,44 +127,71 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Description of the power outlet</div>
+                                            <div>The address of the contact</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/device"></div>
-                    <b>device</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+                    <b>comments</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Comments on the contact</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/contact_group"></div>
+                    <b>contact_group</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/contact_group" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The device the power outlet is attached to</div>
+                                            <div>Group assignment for the contact</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/feed_leg"></div>
-                    <b>feed_leg</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/feed_leg" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">dictionary</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>must exist in NetBox</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/email"></div>
+                    <b>email</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/email" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>A</li>
-                                                                                                                                                                                                <li>B</li>
-                                                                                                                                                                                                <li>C</li>
-                                                                                    </ul>
-                                                                            </td>
+                                                                                                                                                            </td>
                                                                 <td>
-                                            <div>The phase, in case of three-phase feed</div>
+                                            <div>The email of the contact</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -180,23 +207,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The name of the power outlet</div>
+                                            <div>Name of the contact to be created</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/power_port"></div>
-                    <b>power_port</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/power_port" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/phone"></div>
+                    <b>phone</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/phone" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">raw</span>
+                        <span style="color: purple">string</span>
                                                                     </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The attached power port</div>
+                                            <div>The phone number of the contact</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -212,79 +239,23 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Any tags that the power outlet may need to be associated with</div>
+                                            <div>Any tags that the contact may need to be associated with</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
-                    <b>type</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/title"></div>
+                    <b>title</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/title" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">string</span>
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                            <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>iec-60320-c5</li>
-                                                                                                                                                                                                <li>iec-60320-c7</li>
-                                                                                                                                                                                                <li>iec-60320-c13</li>
-                                                                                                                                                                                                <li>iec-60320-c15</li>
-                                                                                                                                                                                                <li>iec-60320-c19</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-p-n-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-2p-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-e-9h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-4h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-6h</li>
-                                                                                                                                                                                                <li>iec-60309-3p-n-e-9h</li>
-                                                                                                                                                                                                <li>nema-5-15r</li>
-                                                                                                                                                                                                <li>nema-5-20r</li>
-                                                                                                                                                                                                <li>nema-5-30r</li>
-                                                                                                                                                                                                <li>nema-5-50r</li>
-                                                                                                                                                                                                <li>nema-6-15r</li>
-                                                                                                                                                                                                <li>nema-6-20r</li>
-                                                                                                                                                                                                <li>nema-6-30r</li>
-                                                                                                                                                                                                <li>nema-6-50r</li>
-                                                                                                                                                                                                <li>nema-l5-15r</li>
-                                                                                                                                                                                                <li>nema-l5-20r</li>
-                                                                                                                                                                                                <li>nema-l5-30r</li>
-                                                                                                                                                                                                <li>nema-l5-50r</li>
-                                                                                                                                                                                                <li>nema-l6-20r</li>
-                                                                                                                                                                                                <li>nema-l6-30r</li>
-                                                                                                                                                                                                <li>nema-l6-50r</li>
-                                                                                                                                                                                                <li>nema-l14-20r</li>
-                                                                                                                                                                                                <li>nema-l14-30r</li>
-                                                                                                                                                                                                <li>nema-l21-20r</li>
-                                                                                                                                                                                                <li>nema-l21-30r</li>
-                                                                                                                                                                                                <li>CS6360C</li>
-                                                                                                                                                                                                <li>CS6364C</li>
-                                                                                                                                                                                                <li>CS8164C</li>
-                                                                                                                                                                                                <li>CS8264C</li>
-                                                                                                                                                                                                <li>CS8364C</li>
-                                                                                                                                                                                                <li>CS8464C</li>
-                                                                                                                                                                                                <li>ita-e</li>
-                                                                                                                                                                                                <li>ita-f</li>
-                                                                                                                                                                                                <li>ita-g</li>
-                                                                                                                                                                                                <li>ita-h</li>
-                                                                                                                                                                                                <li>ita-i</li>
-                                                                                                                                                                                                <li>ita-j</li>
-                                                                                                                                                                                                <li>ita-k</li>
-                                                                                                                                                                                                <li>ita-l</li>
-                                                                                                                                                                                                <li>ita-m</li>
-                                                                                                                                                                                                <li>ita-n</li>
-                                                                                                                                                                                                <li>ita-o</li>
-                                                                                                                                                                                                <li>hdot-cx</li>
-                                                                                    </ul>
-                                                                            </td>
+                                                                                                                                                            </td>
                                                                 <td>
-                                            <div>The type of the power outlet</div>
+                                            <div>The title of the contact</div>
                                                         </td>
             </tr>
                     
@@ -398,42 +369,41 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - name: "Test NetBox module"
       connection: local
       hosts: localhost
       gather_facts: False
-
       tasks:
-        - name: Create power port within NetBox with only required information
-          netbox_power_outlet:
+        - name: Create contact within NetBox with only required information
+          netbox_contact:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
-              device: Test Device
+              name: Contact One
             state: present
 
-        - name: Update power port with other fields
-          netbox_power_outlet:
+        - name: Delete contact within netbox
+          netbox_contact:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Outlet
-              device: Test Device
-              type: iec-60320-c6
-              power_port: Test Power Port
-              feed_leg: A
-              description: power port description
-            state: present
-
-        - name: Delete power port within netbox
-          netbox_power_outlet:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Power Outlet
-              device: Test Device
+              name: Contact One
             state: absent
+
+        - name: Create contact with all parameters
+          netbox_contact:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: contact ABC          
+              title: Mr Contact
+              phone: 123456789
+              email: contac@contact.com          
+              tags:
+                - tagA
+                - tagB
+                - tagC
+            state: present
 
 
 
@@ -457,6 +427,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </tr>
                     <tr>
                                 <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="return-contact"></div>
+                    <b>contact</b>
+                    <a class="ansibleOptionLink" href="#return-contact" title="Permalink to this return value"></a>
+                    <div style="font-size: small">
+                      <span style="color: purple">dictionary</span>
+                                          </div>
+                                    </td>
+                <td>on creation</td>
+                <td>
+                                            <div>Serialized object as created or already existent within NetBox</div>
+                                        <br/>
+                                                        </td>
+            </tr>
+                                <tr>
+                                <td colspan="1">
                     <div class="ansibleOptionAnchor" id="return-msg"></div>
                     <b>msg</b>
                     <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
@@ -467,21 +452,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                 <td>always</td>
                 <td>
                                             <div>Message indicating failure or info about what has been achieved</div>
-                                        <br/>
-                                                        </td>
-            </tr>
-                                <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-power_outlet"></div>
-                    <b>power_outlet</b>
-                    <a class="ansibleOptionLink" href="#return-power_outlet" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">dictionary</span>
-                                          </div>
-                                    </td>
-                <td>success (when <em>state=present</em>)</td>
-                <td>
-                                            <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
                                                         </td>
             </tr>
@@ -496,7 +466,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Martin Rødvand (@rodvand)
 
 
 

@@ -14,7 +14,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_power_panel_module:
+.. _ansible_collections.netbox.netbox.netbox_wireless_lan_group_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -24,8 +24,8 @@
 
 .. Title
 
-netbox.netbox.netbox_power_panel -- Create, update or delete power panels within NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_wireless_lan_group -- Creates or removes Wireless LAN Groups from NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -38,11 +38,11 @@ netbox.netbox.netbox_power_panel -- Create, update or delete power panels within
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_power_panel`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_wireless_lan_group`.
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. versionadded:: 3.5.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -56,7 +56,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes power panels from NetBox
+- Creates or removes Wireless LAN Groups from NetBox
 
 
 .. Aliases
@@ -111,26 +111,39 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>Defines the power panel configuration</div>
+                                            <div>Defines the contact configuration</div>
                                                         </td>
             </tr>
                                         <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/location"></div>
-                    <b>location</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/location" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+                    <b>custom_fields</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">raw</span>
+                        <span style="color: purple">dictionary</span>
                                                                     </div>
-                                          <div style="font-style: italic; font-size: small; color: darkgreen">
-                        added in 3.1.0 of netbox.netbox
-                      </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The location the power panel is assigned to (NetBox 2.11+)</div>
+                                            <div>must exist in NetBox</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+                    <b>description</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">string</span>
+                                                                    </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Description of the Wireless LAN Group</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -146,15 +159,15 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The name of the power panel</div>
+                                            <div>Name of the Wireless LAN Group to be created</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/rack_group"></div>
-                    <b>rack_group</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/rack_group" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/parent_wireless_lan_group"></div>
+                    <b>parent_wireless_lan_group</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/parent_wireless_lan_group" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">raw</span>
                                                                     </div>
@@ -162,24 +175,39 @@ Parameters
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The rack group the power panel is assigned to (NetBox &lt; 2.11)</div>
-                                            <div>Will be removed in version 5.0.0</div>
+                                            <div>The parent Wireless LAN group</div>
                                                         </td>
             </tr>
                                 <tr>
                                                     <td class="elbow-placeholder"></td>
                                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
-                    <b>site</b>
-                    <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>
+                    <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
+                    <b>slug</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
                     <div style="font-size: small">
-                        <span style="color: purple">raw</span>
-                                                 / <span style="color: red">required</span>                    </div>
+                        <span style="color: purple">string</span>
+                                                                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
                                                                 <td>
-                                            <div>The site the power panel is located in</div>
+                                            <div>The slug of the Wireless LAN Group</div>
+                                                        </td>
+            </tr>
+                                <tr>
+                                                    <td class="elbow-placeholder"></td>
+                                                <td colspan="1">
+                    <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+                    <b>tags</b>
+                    <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+                    <div style="font-size: small">
+                        <span style="color: purple">list</span>
+                         / <span style="color: purple">elements=raw</span>                                            </div>
+                                                        </td>
+                                <td>
+                                                                                                                                                            </td>
+                                                                <td>
+                                            <div>Any tags that the Wireless LAN Group may need to be associated with</div>
                                                         </td>
             </tr>
                     
@@ -279,7 +307,6 @@ Notes
 -----
 
 .. note::
-   - Tags should be defined as a YAML list
    - This should be ran with connection ``local`` and hosts ``localhost``
 
 .. Seealso
@@ -293,49 +320,39 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - name: "Test NetBox module"
       connection: local
       hosts: localhost
       gather_facts: False
-
       tasks:
-        - name: Create power panel within NetBox with only required information
-          netbox_power_panel:
+        - name: Create Wireless LAN Group within NetBox with only required information
+          netbox_wireless_lan_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Panel
-              site: Test Site
+              name: Wireless LAN Group One
             state: present
 
-        - name: Update power panel with other fields - Pre 2.11
-          netbox_power_panel:
+        - name: Delete Wireless LAN within netbox
+          netbox_wireless_lan_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Power Panel
-              site: Test Site
-              rack_group: Test Rack Group
-            state: present
-
-        - name: Create power panel within NetBox with only required information - Post 2.11
-          netbox_power_panel:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Power Panel
-              site: Test Site
-              location: Test Location
-            state: present
-
-        - name: Delete power panel within netbox
-          netbox_power_panel:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Power Panel
-              site: Test Site
+              name: Wireless LAN Group One
             state: absent
+
+        - name: Create Wireless LAN Group with all parameters
+          netbox_wireless_lan_group:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Wireless LAN Group One
+              description: Wireless LAN Group description            
+              tags:
+                - tagA
+                - tagB
+                - tagC
+            state: present
 
 
 
@@ -374,14 +391,14 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
             </tr>
                                 <tr>
                                 <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-power_panel"></div>
-                    <b>power_panel</b>
-                    <a class="ansibleOptionLink" href="#return-power_panel" title="Permalink to this return value"></a>
+                    <div class="ansibleOptionAnchor" id="return-wireless_lan_group"></div>
+                    <b>wireless_lan_group</b>
+                    <a class="ansibleOptionLink" href="#return-wireless_lan_group" title="Permalink to this return value"></a>
                     <div style="font-size: small">
                       <span style="color: purple">dictionary</span>
                                           </div>
                                     </td>
-                <td>success (when <em>state=present</em>)</td>
+                <td>on creation</td>
                 <td>
                                             <div>Serialized object as created or already existent within NetBox</div>
                                         <br/>
@@ -398,7 +415,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Martin Rødvand (@rodvand)
 
 
 
