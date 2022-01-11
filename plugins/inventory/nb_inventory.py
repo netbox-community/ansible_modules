@@ -104,6 +104,17 @@ DOCUMENTATION = """
             default: False
             type: boolean
             version_added: "0.1.7"
+        site_data:
+            description:
+                - If True, sites' full data structures returned from Netbox API are included in host vars.
+            default: False
+            type: boolean
+        prefixes:
+            description:
+                - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
+                - Must match selection for "site_data", as this changes the structure of "site" in hostvars
+            default: False
+            type: boolean
         services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
@@ -467,26 +478,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Locations were added in 2.11 replacing rack-groups.
         if self.api_version >= version.parse("2.11"):
             extractors.update(
-                {"location": self.extract_location,}
+                {
+                    "location": self.extract_location,
+                }
             )
         else:
             extractors.update(
-                {"rack_group": self.extract_rack_group,}
+                {
+                    "rack_group": self.extract_rack_group,
+                }
             )
 
         if self.services:
             extractors.update(
-                {"services": self.extract_services,}
+                {
+                    "services": self.extract_services,
+                }
             )
 
         if self.interfaces:
             extractors.update(
-                {"interfaces": self.extract_interfaces,}
+                {
+                    "interfaces": self.extract_interfaces,
+                }
             )
 
         if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             extractors.update(
-                {"dns_name": self.extract_dns_name,}
+                {
+                    "dns_name": self.extract_dns_name,
+                }
             )
 
         return extractors
@@ -612,7 +633,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_site(self, host):
         try:
-            return self._pluralize(self.sites_lookup[host["site"]["id"]])
+            site = self.sites_lookup[host["site"]["id"]]
+            if (
+                self.prefixes
+            ):  # If prefixes have been pulled, attach prefix to its assigned site
+                prefix_id = self.prefixes_sites_lookup[site["id"]]
+                prefix = self.prefixes_lookup[prefix_id]
+                site["prefix"] = prefix
+            return self._pluralize(site)
         except Exception:
             return
 
@@ -828,9 +856,29 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         )
 
     def refresh_sites_lookup(self):
+        # Three dictionaries are created here.
+        # "sites_lookup_slug" only contains the slug. Used by _add_site_groups() when creating inventory groups
+        # "sites_lookup" contains the full data structure. Most site lookups use this
+        # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
         url = self.api_endpoint + "/api/dcim/sites/?limit=0"
         sites = self.get_resource_list(api_url=url)
-        self.sites_lookup = dict((site["id"], site["slug"]) for site in sites)
+        # The following dictionary is used for host group creation only,
+        # as the grouping function expects a string as the value of each key
+        self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
+        if self.site_data or self.prefixes:
+            # If the "site_data" option is specified, keep the full data structure presented by the API response.
+            # The "prefixes" option necessitates this structure as well as it requires the site object to be dict().
+            self.sites_lookup = dict((site["id"], site) for site in sites)
+        else:
+            # Otherwise, set equal to the "slug only" dictionary
+            self.sites_lookup = self.sites_lookup_slug
+        # The following dictionary tracks which sites have prefixes assigned.
+        self.sites_with_prefixes = set()
+
+        for site in sites:
+            if site["prefix_count"] > 0:
+                self.sites_with_prefixes.add(site["slug"])
+                # Used by refresh_prefixes()
 
         def get_region_for_site(site):
             # Will fail if site does not have a region defined in NetBox
@@ -841,6 +889,32 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Dictionary of site id to region id
         self.sites_region_lookup = dict(map(get_region_for_site, sites))
+
+    # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
+    def refresh_prefixes(self):
+        # Pull all prefixes defined in NetBox
+        url = self.api_endpoint + "/api/ipam/prefixes"
+
+        if self.fetch_all:
+            prefixes = self.get_resource_list(url)
+        else:
+            prefixes = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="site",
+                query_values=list(self.sites_with_prefixes),
+            )
+        self.prefixes_sites_lookup = defaultdict(dict)
+        self.prefixes_lookup = defaultdict(dict)
+
+        # We are only concerned with Prefixes that have actually been assigned to sites
+        for prefix in prefixes:
+            if prefix.get("site"):
+                prefix_id = prefix["id"]
+                site_id = prefix["site"]["id"]
+                self.prefixes_lookup[prefix_id] = prefix
+                self.prefixes_sites_lookup[site_id] = prefix_id
+            # Remove "site" attribute, as it's redundant when prefixes are assigned to site
+            del prefix["site"]
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
@@ -1164,6 +1238,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
 
+        if self.prefixes:
+            lookups.append(self.refresh_prefixes)
+
         if self.services:
             lookups.append(self.refresh_services)
 
@@ -1221,7 +1298,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             status = self._fetch_information(self.api_endpoint + "/api/status")
             netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
-        except:
+        except Exception:
             netbox_api_version = 0
 
         tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
@@ -1230,7 +1307,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         try:
             with open(tmp_file) as file:
                 openapi = json.load(file)
-        except:
+        except Exception:
             openapi = {}
 
         cached_api_version = openapi.get("info", {}).get("version")
@@ -1445,7 +1522,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Map site id to transformed group names
         self.site_group_names = dict()
 
-        for site_id, site_name in self.sites_lookup.items():
+        for (
+            site_id,
+            site_name,
+        ) in self.sites_lookup_slug.items():  # "Slug" only. Data not used for grouping
             site_group_name = self.generate_group_name(
                 self._pluralize_group_by("site"), site_name
             )
@@ -1655,7 +1735,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             elif getattr(self, "site_group_names", None) and host.get("site"):
                 # Add host to site group when host is NOT assigned to a location
                 self.inventory.add_host(
-                    group=self.site_group_names[host["site"]["id"]], host=hostname,
+                    group=self.site_group_names[host["site"]["id"]],
+                    host=hostname,
                 )
 
     def parse(self, inventory, loader, path, cache=True):
@@ -1678,10 +1759,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.plurals = self.get_option("plurals")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
+        self.site_data = self.get_option("site_data")
+        self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
         self.headers = {
             "User-Agent": "ansible %s Python %s"
-            % (ansible_version, python_version.split(" ")[0]),
+            % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
         }
         self.cert = self.get_option("cert")

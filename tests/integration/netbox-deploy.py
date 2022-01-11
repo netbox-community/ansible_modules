@@ -194,7 +194,11 @@ device_types = [
         "manufacturer": cisco_manu.id,
         "subdevice_role": "child",
     },
-    {"model": "1841", "slug": "1841", "manufacturer": cisco_manu.id,},
+    {
+        "model": "1841",
+        "slug": "1841",
+        "manufacturer": cisco_manu.id,
+    },
 ]
 
 created_device_types = make_netbox_calls(nb.dcim.device_types, device_types)
@@ -328,6 +332,15 @@ dev_interfaces = [
     {"name": "GigabitEthernet2", "device": test100.id, "type": "1000base-t"},
 ]
 created_interfaces = make_netbox_calls(nb.dcim.interfaces, dev_interfaces)
+
+## Wireless Interfaces
+if nb_version >= version.parse("3.1"):
+    wlink_interfaces = [
+        {"name": "wlink1", "device": test100.id, "type": "ieee802.11a"},
+        {"name": "wlink1", "device": nexus.id, "type": "ieee802.11a"},
+    ]
+    wireless_interfaces = make_netbox_calls(nb.dcim.interfaces, wlink_interfaces)
+
 ## Interface variables to be used later on
 test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
 test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
@@ -389,7 +402,10 @@ clusters = [
         "group": test_cluster_group.id,
         "site": test_site.id,
     },
-    {"name": "Test Cluster 2", "type": test_cluster_type.id,},
+    {
+        "name": "Test Cluster 2",
+        "type": test_cluster_type.id,
+    },
 ]
 created_clusters = make_netbox_calls(nb.virtualization.clusters, clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")

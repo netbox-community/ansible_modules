@@ -89,8 +89,9 @@ API_APPS_ENDPOINTS = dict(
         "services",
     ],
     secrets=[],
-    tenancy=["tenants", "tenant_groups"],
+    tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
     virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
+    wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
 )
 
 # Used to normalize data for the respective query types used to find endpoints
@@ -102,6 +103,8 @@ QUERY_TYPES = dict(
     cluster_group="slug",
     cluster_type="slug",
     config_context="name",
+    contact_group="name",
+    contact_role="name",
     device="name",
     device_role="slug",
     device_type="slug",
@@ -113,10 +116,12 @@ QUERY_TYPES = dict(
     manufacturer="slug",
     nat_inside="address",
     nat_outside="address",
+    parent_contact_group="name",
     parent_location="slug",
     parent_region="slug",
     parent_site_group="slug",
     parent_tenant_group="slug",
+    parent_wireless_lan_group="slug",
     power_panel="name",
     power_port="name",
     power_port_template="name",
@@ -148,6 +153,8 @@ QUERY_TYPES = dict(
     vlan_group="slug",
     vlan_role="name",
     vrf="name",
+    wireless_lan="ssid",
+    wireless_lan_group="slug",
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
@@ -162,6 +169,7 @@ CONVERT_TO_ID = {
     "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
     "config_context": "config_contexts",
+    "contact_groups": "contact_groups",
     "dcim.consoleport": "console_ports",
     "dcim.consoleserverport": "console_server_ports",
     "dcim.frontport": "front_ports",
@@ -179,6 +187,8 @@ CONVERT_TO_ID = {
     "import_targets": "route_targets",
     "installed_device": "devices",
     "interface": "interfaces",
+    "interface_a": "interfaces",
+    "interface_b": "interfaces",
     "interface_template": "interface_templates",
     "ip_addresses": "ip_addresses",
     "ipaddresses": "ip_addresses",
@@ -189,12 +199,15 @@ CONVERT_TO_ID = {
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
+    "parent_contact_group": "contact_groups",
     "parent_location": "locations",
     "parent_interface": "interfaces",
+    "parent_inventory_item": "inventory_items",
     "parent_vm_interface": "interfaces",
     "parent_region": "regions",
     "parent_site_group": "site_groups",
     "parent_tenant_group": "tenant_groups",
+    "parent_wireless_lan_group": "wireless_lan_groups",
     "platforms": "platforms",
     "power_panel": "power_panels",
     "power_port": "power_ports",
@@ -237,6 +250,9 @@ CONVERT_TO_ID = {
     "vlan_group": "vlan_groups",
     "vlan_role": "roles",
     "vrf": "vrfs",
+    "wireless_lan": "wireless_lans",
+    "wireless_lan_group": "wireless_lan_groups",
+    "wireless_link": "wireless_links",
 }
 
 ENDPOINT_NAME_MAPPING = {
@@ -253,6 +269,9 @@ ENDPOINT_NAME_MAPPING = {
     "console_port_templates": "console_port_template",
     "console_server_ports": "console_server_port",
     "console_server_port_templates": "console_server_port_template",
+    "contacts": "contact",
+    "contact_groups": "contact_group",
+    "contact_roles": "contact_role",
     "device_bays": "device_bay",
     "device_bay_templates": "device_bay_template",
     "devices": "device",
@@ -296,6 +315,9 @@ ENDPOINT_NAME_MAPPING = {
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
+    "wireless_lans": "wireless_lan",
+    "wireless_lan_groups": "wireless_lan_group",
+    "wireless_links": "wireless_link",
 }
 
 ALLOWED_QUERY_PARAMS = {
@@ -327,6 +349,9 @@ ALLOWED_QUERY_PARAMS = {
     "console_port_template": set(["name", "device_type"]),
     "console_server_port": set(["name", "device"]),
     "console_server_port_template": set(["name", "device_type"]),
+    "contact": set(["name", "group"]),
+    "contact_group": set(["name"]),
+    "contact_role": set(["name"]),
     "dcim.consoleport": set(["name", "device"]),
     "dcim.consoleserverport": set(["name", "device"]),
     "dcim.frontport": set(["name", "device", "rear_port"]),
@@ -344,6 +369,8 @@ ALLOWED_QUERY_PARAMS = {
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
     "interface": set(["name", "device", "virtual_machine"]),
+    "interface_a": set(["name", "device"]),
+    "interface_b": set(["name", "device"]),
     "interface_template": set(["name", "device_type"]),
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -354,8 +381,10 @@ ALLOWED_QUERY_PARAMS = {
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
+    "parent_contact_group": set(["name"]),
     "parent_location": set(["slug"]),
     "parent_interface": set(["name"]),
+    "parent_inventory_item": set(["name", "device"]),
     "parent_vm_interface": set(["name"]),
     "parent_region": set(["slug"]),
     "parent_site_group": set(["slug"]),
@@ -396,6 +425,9 @@ ALLOWED_QUERY_PARAMS = {
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
+    "wireless_lan": set(["ssid"]),
+    "wireless_lan_group": set(["name"]),
+    "wireless_link": set(["interface_a", "interface_b"]),
 }
 
 QUERY_PARAMS_IDS = set(
@@ -452,12 +484,16 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
+    "contact_group": "group",
+    "parent_contact_group": "parent",
     "parent_location": "parent",
     "parent_interface": "parent",
+    "parent_inventory_item": "parent",
     "parent_vm_interface": "parent",
     "parent_region": "parent",
     "parent_site_group": "parent",
     "parent_tenant_group": "parent",
+    "parent_wireless_lan_group": "parent",
     "power_port_template": "power_port",
     "prefix_role": "role",
     "rack_group": "group",
@@ -471,6 +507,7 @@ CONVERT_KEYS = {
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
+    "wireless_lan_group": "group",
 }
 
 # This is used to dynamically convert name to slug on endpoints requiring a slug
@@ -478,6 +515,8 @@ SLUG_REQUIRED = {
     "circuit_types",
     "cluster_groups",
     "cluster_types",
+    "contact_groups",
+    "contact_roles",
     "device_roles",
     "device_types",
     "ipam_roles",
@@ -496,6 +535,7 @@ SLUG_REQUIRED = {
     "platforms",
     "providers",
     "vlan_groups",
+    "wireless_lan_groups",
 }
 
 SCOPE_TO_ENDPOINT = {
@@ -938,6 +978,7 @@ class NetboxModule(object):
         for k, v in API_APPS_ENDPOINTS.items():
             if endpoint in v:
                 nb_app = k
+
         return nb_app
 
     def _find_ids(self, data, user_query_params):
@@ -981,18 +1022,23 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if k in (
-                            "regions",
-                            "sites",
-                            "roles",
-                            "device_types",
-                            "platforms",
-                            "cluster_groups",
-                            "clusters",
-                            "tenant_groups",
-                            "tenants",
-                            "tags",
-                        ) and isinstance(list_item, str):
+                        if (
+                            k
+                            in (
+                                "regions",
+                                "sites",
+                                "roles",
+                                "device_types",
+                                "platforms",
+                                "cluster_groups",
+                                "clusters",
+                                "contact_groups",
+                                "tenant_groups",
+                                "tenants",
+                                "tags",
+                            )
+                            and isinstance(list_item, str)
+                        ):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
@@ -1005,7 +1051,7 @@ class NetboxModule(object):
                             id_list.append(list_item)
                             continue
                         else:
-                            temp_dict = {QUERY_TYPES.get(k, "q"): search}
+                            temp_dict = {QUERY_TYPES.get(k, "q"): list_item}
 
                         query_id = self._nb_endpoint_get(nb_endpoint, temp_dict, k)
                         if query_id:
@@ -1339,7 +1385,7 @@ class NetboxAnsibleModule(AnsibleModule):
         return results
 
     def _check_required_if(self, spec, param=None):
-        """ ensure that parameters which conditionally required are present """
+        """ensure that parameters which conditionally required are present"""
         if spec is None:
             return
 

@@ -1,14 +1,14 @@
-:orphan:
 
 .. _plugins_in_netbox.netbox:
 
 Netbox.Netbox
 =============
 
-Collection version 3.4.0
+Collection version 3.5.0
 
 .. toctree::
     :maxdepth: 1
+
 
 Plugin Index
 ------------
@@ -42,6 +42,9 @@ Modules
 * :ref:`netbox_console_port_template <ansible_collections.netbox.netbox.netbox_console_port_template_module>` -- Create, update or delete console port templates within NetBox
 * :ref:`netbox_console_server_port <ansible_collections.netbox.netbox.netbox_console_server_port_module>` -- Create, update or delete console server ports within NetBox
 * :ref:`netbox_console_server_port_template <ansible_collections.netbox.netbox.netbox_console_server_port_template_module>` -- Create, update or delete console server port templates within NetBox
+* :ref:`netbox_contact <ansible_collections.netbox.netbox.netbox_contact_module>` -- Creates or removes contacts from NetBox
+* :ref:`netbox_contact_group <ansible_collections.netbox.netbox.netbox_contact_group_module>` -- Creates or removes contact groups from NetBox
+* :ref:`netbox_contact_role <ansible_collections.netbox.netbox.netbox_contact_role_module>` -- Creates or removes contact roles from NetBox
 * :ref:`netbox_device <ansible_collections.netbox.netbox.netbox_device_module>` -- Create, update or delete devices within NetBox
 * :ref:`netbox_device_bay <ansible_collections.netbox.netbox.netbox_device_bay_module>` -- Create, update or delete device bays within NetBox
 * :ref:`netbox_device_bay_template <ansible_collections.netbox.netbox.netbox_device_bay_template_module>` -- Create, update or delete device bay templates within NetBox
@@ -86,8 +89,82 @@ Modules
 * :ref:`netbox_vlan_group <ansible_collections.netbox.netbox.netbox_vlan_group_module>` -- Create, update or delete vlans groups within NetBox
 * :ref:`netbox_vm_interface <ansible_collections.netbox.netbox.netbox_vm_interface_module>` -- Creates or removes interfaces from virtual machines in NetBox
 * :ref:`netbox_vrf <ansible_collections.netbox.netbox.netbox_vrf_module>` -- Create, update or delete vrfs within NetBox
+* :ref:`netbox_wireless_lan <ansible_collections.netbox.netbox.netbox_wireless_lan_module>` -- Creates or removes Wireless LANs from NetBox
+* :ref:`netbox_wireless_lan_group <ansible_collections.netbox.netbox.netbox_wireless_lan_group_module>` -- Creates or removes Wireless LAN Groups from NetBox
+* :ref:`netbox_wireless_link <ansible_collections.netbox.netbox.netbox_wireless_link_module>` -- Creates or removes Wireless links from NetBox
+
 
 
 .. seealso::
 
     List of :ref:`collections <list_of_collections>` with docs hosted here.
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    nb_inventory_inventory
+    nb_lookup_lookup
+    netbox_aggregate_module
+    netbox_cable_module
+    netbox_circuit_module
+    netbox_circuit_termination_module
+    netbox_circuit_type_module
+    netbox_cluster_module
+    netbox_cluster_group_module
+    netbox_cluster_type_module
+    netbox_config_context_module
+    netbox_console_port_module
+    netbox_console_port_template_module
+    netbox_console_server_port_module
+    netbox_console_server_port_template_module
+    netbox_contact_module
+    netbox_contact_group_module
+    netbox_contact_role_module
+    netbox_device_module
+    netbox_device_bay_module
+    netbox_device_bay_template_module
+    netbox_device_interface_module
+    netbox_device_interface_template_module
+    netbox_device_role_module
+    netbox_device_type_module
+    netbox_front_port_module
+    netbox_front_port_template_module
+    netbox_inventory_item_module
+    netbox_ip_address_module
+    netbox_ipam_role_module
+    netbox_location_module
+    netbox_manufacturer_module
+    netbox_platform_module
+    netbox_power_feed_module
+    netbox_power_outlet_module
+    netbox_power_outlet_template_module
+    netbox_power_panel_module
+    netbox_power_port_module
+    netbox_power_port_template_module
+    netbox_prefix_module
+    netbox_provider_module
+    netbox_provider_network_module
+    netbox_rack_module
+    netbox_rack_group_module
+    netbox_rack_role_module
+    netbox_rear_port_module
+    netbox_rear_port_template_module
+    netbox_region_module
+    netbox_rir_module
+    netbox_route_target_module
+    netbox_service_module
+    netbox_site_module
+    netbox_site_group_module
+    netbox_tag_module
+    netbox_tenant_module
+    netbox_tenant_group_module
+    netbox_virtual_chassis_module
+    netbox_virtual_machine_module
+    netbox_vlan_module
+    netbox_vlan_group_module
+    netbox_vm_interface_module
+    netbox_vrf_module
+    netbox_wireless_lan_module
+    netbox_wireless_lan_group_module
+    netbox_wireless_link_module

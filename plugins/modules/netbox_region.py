@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_region
@@ -51,6 +45,25 @@ options:
           - The parent region this region should be tied to
         required: false
         type: raw
+      description:
+        description:
+          - The description of the region
+        required: false
+        type: str
+        version_added: 3.5.0
+      tags:
+        description:
+          - Any tags that the region may need to be associated with
+        required: false
+        type: list
+        elements: raw
+        version_added: 3.5.0
+      custom_fields:
+        description:
+          - Must exist in NetBox and in key/value format
+        required: false
+        type: dict
+        version_added: 3.5.0
     required: true
 """
 
@@ -113,6 +126,9 @@ def main():
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
                     parent_region=dict(required=False, type="raw"),
+                    description=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

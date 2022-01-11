@@ -5,6 +5,39 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.5.0
+======
+
+Release Summary
+---------------
+
+First release with some NetBox 3.1 modules, and new wireless endpoint support. Remember to update your pynetbox to utilise the wireless endpoint support.
+
+Minor Changes
+-------------
+
+- nb_inventory - Pull extended inventory data for prefixes and site [#646](https://github.com/netbox-community/ansible_modules/pull/646)
+- nb_lookup - Add endpoints for wireless (new in NetBox 3.1) [#673](https://github.com/netbox-community/ansible_modules/pull/673)
+- netbox_circuit_termination - Add mark_connected field to module [#686](https://github.com/netbox-community/ansible_modules/pull/686)
+- netbox_contact, netbox_contact_group, netbox_contact_role - Add modules [#671](https://github.com/netbox-community/ansible_modules/pull/671)
+- netbox_inventory_item - Add parent field to module [#682](https://github.com/netbox-community/ansible_modules/pull/682)
+- netbox_region - Add description, tags, custom_fields to module [#689](https://github.com/netbox-community/ansible_modules/pull/689)
+- netbox_wireless_lan, netbox_wireless_lan_group, netbox_wireless_link - Add modules [#678](https://github.com/netbox-community/ansible_modules/pull/678)
+
+Bugfixes
+--------
+
+- Use individual list items when looking for objects  [#570](https://github.com/netbox-community/ansible_modules/pull/570)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_contact - Create, update or delete Contact objects in NetBox
+- netbox.netbox.netbox_contact_group - Create, update or delete Contact Group objects in NetBox
+- netbox.netbox.netbox_wireless_lan - Create, update or delete Wireless LAN objects in NetBox
+- netbox.netbox.netbox_wireless_lan_group - Create, update or delete Wireless LAN Group objects in NetBox
+- netbox.netbox.netbox_wireless_link - Create, update or delete Wireless Link objects in NetBox
+
 v3.4.0
 ======
 
