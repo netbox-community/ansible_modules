@@ -876,7 +876,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.sites_with_prefixes = set()
 
         for site in sites:
-            if site["prefix_count"] > 0:
+            if site["prefix_count"] and site["prefix_count"] > 0:
                 self.sites_with_prefixes.add(site["slug"])
                 # Used by refresh_prefixes()
 
