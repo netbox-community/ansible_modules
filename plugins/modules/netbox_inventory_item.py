@@ -125,6 +125,18 @@ EXAMPLES = r"""
           asset_tag: "1234"
           description: "New SFP"
         state: present
+        
+    - name: Create inventory item with parent
+      netbox_inventory_item:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          parent_inventory_item:
+            name: "Line Card 1"
+            device: test100
+          name: "10G-SFP+"
+          device: test100
+        state: present
 
     - name: Delete inventory item within netbox
       netbox_inventory_item:
