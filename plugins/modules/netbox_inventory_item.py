@@ -136,6 +136,7 @@ EXAMPLES = r"""
             device: test100
           name: "10G-SFP+"
           device: test100
+        state: present
 
     - name: Delete inventory item within netbox
       netbox_inventory_item:
