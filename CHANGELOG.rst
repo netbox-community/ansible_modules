@@ -5,6 +5,14 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.5.1
+======
+
+Bugfixes
+--------
+
+- Fix prefix_count error on older NetBox versions in nb_inventory [#696](https://github.com/netbox-community/ansible_modules/pull/696)
+
 v3.5.0
 ======
 
