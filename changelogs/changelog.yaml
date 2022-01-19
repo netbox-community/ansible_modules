@@ -639,4 +639,9 @@ releases:
       - description: Create, update or delete Wireless Link objects in NetBox 
         name: netbox_wireless_link
         namespace: ''
-    relese_data: '2022-01-11'
+    release_date: '2022-01-11'
+  3.5.1:
+    changes:
+      bugfixes:
+        - Fix prefix_count error on older NetBox versions in nb_inventory [#696](https://github.com/netbox-community/ansible_modules/pull/696)
+    release_date: '2022-01-19'

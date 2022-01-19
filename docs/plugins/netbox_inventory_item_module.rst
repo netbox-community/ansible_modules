@@ -30,7 +30,7 @@ netbox.netbox.netbox_inventory_item -- Creates or removes inventory items from N
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.5.0).
+    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.5.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -456,6 +456,18 @@ Examples
               serial: "1234"
               asset_tag: "1234"
               description: "New SFP"
+            state: present
+            
+        - name: Create inventory item with parent
+          netbox_inventory_item:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              parent_inventory_item:
+                name: "Line Card 1"
+                device: test100
+              name: "10G-SFP+"
+              device: test100
             state: present
 
         - name: Delete inventory item within netbox
