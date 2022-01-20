@@ -133,7 +133,7 @@ DOCUMENTATION = """
             version_added: "0.2.1"
         group_by:
             description:
-                - Keys used to create groups. The I(plurals) option controls which of these are valid.
+                - Keys used to create groups. The I(plurals) and I(racks) options control which of these are valid.
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
@@ -214,6 +214,12 @@ DOCUMENTATION = """
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
             type: dict
+        racks:
+            description:
+                - If False, skip querying the racks for information, which can be slow with great amounts of racks.
+                - The choices of I(group_by) will be changed by this option.
+            type: boolean
+            default: True
 """
 
 EXAMPLES = """
@@ -466,8 +472,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "is_virtual": self.extract_is_virtual,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
-            self._pluralize_group_by("rack"): self.extract_rack,
-            "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
             self._pluralize_group_by("platform"): self.extract_platform,
@@ -475,19 +479,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
 
-        # Locations were added in 2.11 replacing rack-groups.
-        if self.api_version >= version.parse("2.11"):
+        if self.racks:
             extractors.update(
                 {
-                    "location": self.extract_location,
+                    self._pluralize_group_by("rack"): self.extract_rack,
+                    "rack_role": self.extract_rack_role,
                 }
             )
-        else:
-            extractors.update(
-                {
-                    "rack_group": self.extract_rack_group,
-                }
-            )
+
+            # Locations were added in 2.11 replacing rack-groups.
+            if self.api_version >= version.parse("2.11"):
+                extractors.update(
+                    {
+                        "location": self.extract_location,
+                    }
+                )
+            else:
+                extractors.update(
+                    {
+                        "rack_group": self.extract_rack_group,
+                    }
+                )
 
         if self.services:
             extractors.update(
@@ -1226,8 +1238,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_regions_lookup,
             self.refresh_locations_lookup,
             self.refresh_tenants_lookup,
-            self.refresh_racks_lookup,
-            self.refresh_rack_groups_lookup,
             self.refresh_device_roles_lookup,
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,
@@ -1243,6 +1253,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.services:
             lookups.append(self.refresh_services)
+
+        if self.racks:
+            lookups.extend(
+                [
+                    self.refresh_racks_lookup,
+                    self.refresh_rack_groups_lookup,
+                ]
+            )
 
         return lookups
 
@@ -1494,7 +1512,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             if grouping not in self.group_extractors:
                 raise AnsibleError(
-                    'group_by option "%s" is not valid. Check group_by documentation or check the plurals option. It can determine what group_by options are valid.'
+                    (
+                        'group_by option "%s" is not valid.'
+                        " Check group_by documentation or check the plurals option, as well as the racks options."
+                        " It can determine what group_by options are valid."
+                    )
                     % grouping
                 )
 
@@ -1782,5 +1804,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
+        self.racks = self.get_option("racks")
 
         self.main()
