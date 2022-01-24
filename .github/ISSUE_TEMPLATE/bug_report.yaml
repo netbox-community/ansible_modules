@@ -1,6 +1,6 @@
 ---
 name: 🐛 Bug Report
-description: Report a reproducible bug in the current release of NetBox
+description: Report a reproducible bug in the current release of the NetBox Ansible Collection
 labels: ["type: bug"]
 body:
   - type: markdown
@@ -22,7 +22,10 @@ body:
       description: >
         What version of the Ansible NetBox Collection are you currently running?
         Paste the output of "ansible --version" 
-      placeholder: <!--- Paste verbatim output from "ansible --version" between quotes -->
+      placeholder: >
+        '''bash
+        <!--- Paste verbatim output from "ansible --version" between quotes -->
+        '''
     validations:
       required: true
   - type: input

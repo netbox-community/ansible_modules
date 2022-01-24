@@ -1,6 +1,6 @@
 ---
 name: 📖 Documentation Change
-description: Suggest an addition or modification to the NetBox Ansible Modules documentation
+description: Suggest an addition or modification to the NetBox Ansible modules documentation
 labels: ["type: documentation"]
 body:
   - type: dropdown
@@ -22,7 +22,6 @@ body:
         - Installation instructions
         - Configuration parameters
         - Functionality/features
-        - REST API
         - Administration/development
         - Other
     validations:
