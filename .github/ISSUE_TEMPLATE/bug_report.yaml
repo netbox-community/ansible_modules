@@ -1,0 +1,69 @@
+---
+name: 🐛 Bug Report
+description: Report a reproducible bug in the current release of NetBox
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        **NOTE:** This form is only for reporting _reproducible bugs_ in a current NetBox
+        installation. If you're having trouble with installation or just looking for
+        assistance with using NetBox, please visit our
+        [discussion forum](https://github.com/netbox-community/ansible_modules/discussions) instead.
+  - type: input
+    attributes:
+      label: Ansible NetBox Collection version
+      description: What version of the Ansible NetBox Collection are you currently running?
+      placeholder: v3.5.1
+    validations:
+  - type: textarea
+    attributes:
+      label: Ansible version
+      description: >
+        What version of the Ansible NetBox Collection are you currently running?
+        Paste the output of "ansible --version" 
+      placeholder: <!--- Paste verbatim output from "ansible --version" between quotes -->
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: NetBox version
+      description: What version of NetBox are you currently running?
+      placeholder: v3.1.6
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Python version
+      description: What version of Python are you currently running?
+      options:
+        - "3.8"
+        - "3.9"
+        - "3.10"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: >
+        Describe in detail the exact steps that someone else can take to
+        reproduce this bug using the current stable release of the Ansible NetBox collection.
+        Include any sanatized playbooks, variables, & tasks specifically showing just the issue.
+      #placeholder: |
+
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: A new widget should have been created with the specified attributes
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Observed Behavior
+      description: What happened instead?
+      placeholder: A TypeError exception was raised
+    validations:
+      required: true
