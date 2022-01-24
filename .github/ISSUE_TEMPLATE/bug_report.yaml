@@ -6,10 +6,20 @@ body:
   - type: markdown
     attributes:
       value: >
-        **NOTE:** This form is only for reporting _reproducible bugs_ in a current NetBox
-        installation. If you're having trouble with installation or just looking for
-        assistance with using NetBox, please visit our
-        [discussion forum](https://github.com/netbox-community/ansible_modules/discussions) instead.
+        **NOTE:** This form is only for reporting _reproducible bugs_ in a current NetBox Collection
+        installation. 
+        
+        - See the latest ansible module documentation:
+          https://netbox-ansible-collection.readthedocs.io
+        - Check the release notes:
+          https://github.com/netbox-community/ansible_modules/releases
+        - Look through the issues already resolved:
+          https://github.com/netbox-community/ansible_modules/issues?q=is%3Aclosed
+        - Post to Github Discussions if you need setup or usage help that is not a bug:
+          https://github.com/netbox-community/ansible_modules/discussions
+        - Join the `#ansible` channel on our Slack:
+          https://join.slack.com/t/netdev-community/shared_invite/zt-mtts8g0n-Sm6Wutn62q_M4OdsaIycrQ
+
   - type: input
     attributes:
       label: Ansible NetBox Collection version
