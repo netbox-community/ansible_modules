@@ -32,9 +32,11 @@ body:
       description: >
         What version of the Ansible NetBox Collection are you currently running?
         Paste the output of "ansible --version" 
-      placeholder: >
+      value: >
         '''bash
+
         <!--- Paste verbatim output from "ansible --version" between quotes -->
+
         '''
     validations:
       required: true
