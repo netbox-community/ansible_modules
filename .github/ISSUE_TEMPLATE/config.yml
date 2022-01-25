@@ -12,4 +12,4 @@ contact_links:
     about: "If you're just looking for help, try starting a discussion instead"
   - name: 💬 Community Slack
     url: https://netdev.chat/
-    about: "Join #netbox on the NetDev Community Slack for assistance with installation issues and other problems"
+    about: "Join #ansible on the NetDev Community Slack for assistance with installation issues and other problems"
