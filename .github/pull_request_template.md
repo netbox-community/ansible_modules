@@ -4,20 +4,12 @@
 Thank you for sharing your work and for opening a PR.
 
 (!) IMPORTANT (!):
-First make sure that you point your PR to the `develop` branch!
+First make sure that you point your PR to the `devel` branch!
 
 Now please read the comments carefully and try to provide information
 on all relevant titles.
 
 #########################################################################
--->
-
-<!--
-Please don't open an extra issue when submitting a PR.
-
-But if there is already a related issue, please put it's number here.
-
-E.g. #123 or N/A
 -->
 
 ## Related Issue
@@ -84,6 +76,6 @@ into the release notes.
 Please put an x into the brackets (like `[x]`) if you've completed that task.
 -->
 
-* [ ] I have read the comments and followed the PR template.
+* [ ] I have read the comments and followed the [CONTRIBUTING.md](https://github.com/netbox-community/ansible_modules/blob/devel/CONTRIBUTING.md).
 * [ ] I have explained my PR according to the information in the comments or in a linked issue.
 * [ ] My PR targets the `devel` branch.
