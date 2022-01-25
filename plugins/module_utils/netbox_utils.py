@@ -592,7 +592,7 @@ class NetboxModule(object):
             try:
                 self.version = self.nb.version
                 try:
-                    self.full_version = nb.status().get("netbox-version")
+                    self.full_version = self.nb.status().get("netbox-version")
                 except Exception:
                     # For NetBox versions without /api/status endpoint
                     self.full_version = f"{self.version}.0"
