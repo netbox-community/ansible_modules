@@ -47,13 +47,6 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: Database changes
-      description: >
-        Note any changes to the database schema necessary to support the new feature. For example,
-        does the proposal require adding a new model or field? (Not all new features require database
-        changes.)
-  - type: textarea
-    attributes:
       label: External dependencies
       description: >
         List any new dependencies on external libraries or services that this new feature would
