@@ -1,7 +1,8 @@
 ---
 name: 📖 Documentation Change
 description: Suggest an addition or modification to the NetBox Ansible modules documentation
-labels: ["type: documentation"]
+title: "[Docs]: "
+labels: ["documentation"]
 body:
   - type: dropdown
     attributes:
