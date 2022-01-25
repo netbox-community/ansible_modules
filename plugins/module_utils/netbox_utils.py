@@ -591,7 +591,11 @@ class NetboxModule(object):
             self.nb = nb_client
             try:
                 self.version = self.nb.version
-                self.full_version = self.nb.status().get("netbox-version")
+                try:
+                    self.full_version = nb.status().get("netbox-version")
+                except Exception:
+                    # For NetBox versions without /api/status endpoint
+                    self.full_version = f"{self.version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
@@ -640,7 +644,11 @@ class NetboxModule(object):
             nb.http_session = session
             try:
                 self.version = nb.version
-                self.full_version = nb.status().get("netbox-version")
+                try:
+                    self.full_version = nb.status().get("netbox-version")
+                except Exception:
+                    # For NetBox versions without /api/status endpoint
+                    self.full_version = f"{self.version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
