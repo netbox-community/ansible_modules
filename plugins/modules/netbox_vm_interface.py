@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_vm_interface
@@ -67,6 +61,11 @@ options:
       mode:
         description:
           - The mode of the interface
+        required: false
+        type: raw
+      bridge:
+        description:
+          - The bridge the interface is connected to
         required: false
         type: raw
       parent_vm_interface:
@@ -186,6 +185,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
+                    bridge=dict(required=False, type="raw"),
                     parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),

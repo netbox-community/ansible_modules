@@ -90,7 +90,13 @@ API_APPS_ENDPOINTS = dict(
     ],
     secrets=[],
     tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
-    virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
+    virtualization=[
+        "cluster_groups",
+        "cluster_types",
+        "clusters",
+        "interfaces",
+        "virtual_machines",
+    ],
     wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
 )
 
@@ -194,6 +200,7 @@ CONVERT_TO_ID = {
     "ipaddresses": "ip_addresses",
     "location": "locations",
     "lag": "interfaces",
+    "bridge": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
     "nat_inside": "ip_addresses",
@@ -377,6 +384,7 @@ ALLOWED_QUERY_PARAMS = {
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "lag": set(["name"]),
+    "bridge": set(["name", "device", "virtual_machine"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
@@ -1020,9 +1028,9 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
-                    if (k == "interface" or k == "assigned_object") and v.get(
-                        "virtual_machine"
-                    ):
+                    if (
+                        k == "interface" or k == "assigned_object" or k == "bridge"
+                    ) and v.get("virtual_machine"):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)
