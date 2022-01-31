@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_vm_interface
@@ -69,6 +63,12 @@ options:
           - The mode of the interface
         required: false
         type: raw
+      vm_bridge:
+        description:
+          - The bridge the interface is connected to
+        required: false
+        type: raw
+        version_added: "3.6.0"
       parent_vm_interface:
         description:
           - The virtual machine interface's parent interface.
@@ -144,6 +144,25 @@ EXAMPLES = r"""
           mtu: 1600
           mode: Tagged
         state: present
+        
+    - name: Create bridge interface within NetBox
+      netbox_vm_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          virtual_machine: test100
+          name: br1000
+        state: present
+        
+    - name: Connect bridge interface within NetBox
+      netbox_vm_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          virtual_machine: test100
+          name: br1001
+          vm_bridge: br1000                        
+        state: present
 """
 
 RETURN = r"""
@@ -186,6 +205,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
+                    vm_bridge=dict(required=False, type="raw"),
                     parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
