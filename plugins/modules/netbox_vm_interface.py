@@ -144,6 +144,27 @@ EXAMPLES = r"""
           mtu: 1600
           mode: Tagged
         state: present
+        
+    - name: Create bridge interface within NetBox
+      netbox_vm_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          virtual_machine: test100
+          name: br1000
+        state: present
+        
+    - name: Connect bridge interface within NetBox
+      netbox_vm_interface:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          virtual_machine: test100
+          name: br1001
+          bridge:
+            virtual_machine: test100
+            name: br1000
+        state: present
 """
 
 RETURN = r"""
