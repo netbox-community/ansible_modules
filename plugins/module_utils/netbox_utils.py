@@ -164,6 +164,7 @@ QUERY_TYPES = dict(
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = {
     "assigned_object": "assigned_object",
+    "bridge": "interfaces",
     "circuit": "circuits",
     "circuit_type": "circuit_types",
     "circuit_termination": "circuit_terminations",
@@ -198,7 +199,6 @@ CONVERT_TO_ID = {
     "ipaddresses": "ip_addresses",
     "location": "locations",
     "lag": "interfaces",
-    "bridge": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
     "nat_inside": "ip_addresses",
@@ -251,6 +251,7 @@ CONVERT_TO_ID = {
     "virtual_chassis": "virtual_chassis",
     "virtual_machine": "virtual_machines",
     "virtual_machine_role": "device_roles",
+    "vm_bridge": "interfaces",
     "vlan": "vlans",
     "vlan_group": "vlan_groups",
     "vlan_role": "roles",
@@ -328,6 +329,7 @@ ENDPOINT_NAME_MAPPING = {
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
     "assigned_object": set(["name", "device", "virtual_machine"]),
+    "bridge": set(["name", "device"]),
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
@@ -382,7 +384,6 @@ ALLOWED_QUERY_PARAMS = {
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "lag": set(["name"]),
-    "bridge": set(["name", "device", "virtual_machine"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
@@ -428,6 +429,7 @@ ALLOWED_QUERY_PARAMS = {
     "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
     "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
+    "vm_bridge": set(["name"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
@@ -513,6 +515,7 @@ CONVERT_KEYS = {
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
+    "vm_bridge": "bridge",
     "wireless_lan_group": "group",
 }
 
@@ -857,6 +860,11 @@ class NetboxModule(object):
             if not child:
                 query_dict["name"] = module_data["parent_vm_interface"]
 
+        elif parent == "vm_bridge" and module_data.get("virtual_machine"):
+            if not child:
+                query_dict["name"] = module_data["vm_bridge"]
+                query_dict["virtual_machine_id"] = module_data["virtual_machine"]
+
         elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
@@ -1031,9 +1039,6 @@ class NetboxModule(object):
                     ):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
-                    elif k == "bridge" and v.get("virtual_machine"):
-                        nb_app = getattr(self.nb, "virtualization")
-                        nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
                 elif isinstance(v, list):
@@ -1094,6 +1099,12 @@ class NetboxModule(object):
                             ): search
                         }
                     elif k == "parent_vm_interface":
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
+                        query_params = self._build_query_params(
+                            k, data, user_query_params
+                        )
+                    elif k == "vm_bridge":
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                         query_params = self._build_query_params(

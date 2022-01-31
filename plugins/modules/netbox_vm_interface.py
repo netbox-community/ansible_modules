@@ -63,7 +63,7 @@ options:
           - The mode of the interface
         required: false
         type: raw
-      bridge:
+      vm_bridge:
         description:
           - The bridge the interface is connected to
         required: false
@@ -161,9 +161,7 @@ EXAMPLES = r"""
         data:
           virtual_machine: test100
           name: br1001
-          bridge:
-            virtual_machine: test100
-            name: br1000
+          vm_bridge: br1000                        
         state: present
 """
 
@@ -207,7 +205,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
-                    bridge=dict(required=False, type="dict"),
+                    vm_bridge=dict(required=False, type="raw"),
                     parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
