@@ -67,7 +67,7 @@ options:
         description:
           - The bridge the interface is connected to
         required: false
-        type: dict
+        type: raw
         version_added: "3.6.0"
       parent_vm_interface:
         description:
