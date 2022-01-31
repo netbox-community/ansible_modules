@@ -15,7 +15,6 @@ import json
 from itertools import chain
 
 from ansible.module_utils.common.text.converters import to_text
-
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
@@ -94,7 +93,6 @@ API_APPS_ENDPOINTS = dict(
         "cluster_groups",
         "cluster_types",
         "clusters",
-        "interfaces",
         "virtual_machines",
     ],
     wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
@@ -1028,9 +1026,12 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
-                    if (
-                        k == "interface" or k == "assigned_object" or k == "bridge"
-                    ) and v.get("virtual_machine"):
+                    if (k == "interface" or k == "assigned_object") and v.get(
+                        "virtual_machine"
+                    ):
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
+                    elif k == "bridge" and v.get("virtual_machine"):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)

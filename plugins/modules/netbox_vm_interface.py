@@ -67,7 +67,8 @@ options:
         description:
           - The bridge the interface is connected to
         required: false
-        type: raw
+        type: dict
+        version_added: "3.6.0"
       parent_vm_interface:
         description:
           - The virtual machine interface's parent interface.
@@ -185,7 +186,7 @@ def main():
                     mac_address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
-                    bridge=dict(required=False, type="raw"),
+                    bridge=dict(required=False, type="dict"),
                     parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
