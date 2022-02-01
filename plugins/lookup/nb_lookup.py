@@ -420,7 +420,7 @@ class LookupModule(LookupBase):
                     )
 
             Display().vvvv(
-                u"NetBox lookup for %s to %s using token %s filter %s"
+                "NetBox lookup for %s to %s using token %s filter %s"
                 % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter)
             )
 
@@ -429,7 +429,7 @@ class LookupModule(LookupBase):
 
                 if "id" in filter:
                     Display().vvvv(
-                        u"Filter is: %s and includes id, will use .get instead of .filter"
+                        "Filter is: %s and includes id, will use .get instead of .filter"
                         % (filter)
                     )
                     try:
