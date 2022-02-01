@@ -383,7 +383,9 @@ ALLOWED_QUERY_PARAMS = {
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
-    "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]),
+    "ipaddresses": set(
+        ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
+    ),
     "lag": set(["name"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
