@@ -170,6 +170,7 @@ CONVERT_TO_ID = {
     "circuit_termination": "circuit_terminations",
     "circuits.circuittermination": "circuit_terminations",
     "cluster": "clusters",
+    "clusters": "clusters",
     "cluster_group": "cluster_groups",
     "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
@@ -1044,19 +1045,22 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if k in (
-                            "regions",
-                            "sites",
-                            "roles",
-                            "device_types",
-                            "platforms",
-                            "cluster_groups",
-                            "clusters",
-                            "contact_groups",
-                            "tenant_groups",
-                            "tenants",
-                            "tags",
-                        ) and isinstance(list_item, str):
+                        if (
+                            k
+                            in (
+                                "regions",
+                                "sites",
+                                "roles",
+                                "device_types",
+                                "platforms",
+                                "cluster_groups",
+                                "contact_groups",
+                                "tenant_groups",
+                                "tenants",
+                                "tags",
+                            )
+                            and isinstance(list_item, str)
+                        ):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
