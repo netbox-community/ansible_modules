@@ -36,8 +36,8 @@ options:
         elements: raw
       type: 
         description: 
-          - The type of custom field
-        required: true
+          - The type of custom field (defaults to text)
+        required: false
         type: raw
       name:
         description:
@@ -165,7 +165,7 @@ def main():
                 required=True,
                 options=dict(
                     content_types=dict(required=False, type="list", elements="raw"),
-                    type=dict(required=True, type="raw"),
+                    type=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
