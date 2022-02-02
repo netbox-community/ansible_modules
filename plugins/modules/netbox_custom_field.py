@@ -31,7 +31,7 @@ options:
       content_types:
         description:
           - The content type(s) to apply this custom field to
-        required: true
+        required: false
         type: list
         elements: raw
       type: 
@@ -99,37 +99,35 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox config_context module"
+- name: "Test NetBox custom_fields module"
   connection: local
-  hosts: localhost
-  gather_facts: False
+  hosts: localhost  
   tasks:
-    - name: Create config context and apply it to sites euc1-az1, euc1-az2 with the default weight of 1000
-      netbox_config_context:
+    - name: Create a custom field on device and virtual machine
+      netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: "dns_nameservers-quadnine"
-          description: "9.9.9.9"
-          data: "{ \"dns\": { \"nameservers\": [ \"9.9.9.9\" ] } }"
-          sites: [ euc1-az1, euc1-az2 ]
+          content_types:
+            - dcim.device
+            - virtualization.virtualmachine
+          name: A Custom Field
+          type: text
 
-    - name: Detach config context from euc1-az1, euc1-az2 and attach to euc1-az3
-      netbox_config_context:
+    - name: Update the custom field to make it required
+      netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: "dns_nameservers-quadnine"
-          data: "{ \"dns\": { \"nameservers\": [ \"9.9.9.9\" ] } }"
-          sites: [ euc1-az3 ]
+          name: A Custom Field
+          required: yes          
 
-    - name: Delete config context
-      netbox_config_context:
+    - name: Delete the custom field
+      netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: "dns_nameservers-quadnine"
-          data: "{ \"dns\": { \"nameservers\": [ \"9.9.9.9\" ] } }"
+          name: A Custom Field
         state: absent
 """
 
@@ -166,8 +164,8 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    content_types=dict(required=True, type="list", elements="raw"),
-                    type=dict(required=True, type="raw"),
+                    content_types=dict(required=False, type="list", elements="raw"),
+                    type=dict(required=False, type="raw"),
                     name=dict(required=False, type="str"),
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
