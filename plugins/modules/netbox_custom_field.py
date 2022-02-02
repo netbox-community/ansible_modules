@@ -47,12 +47,12 @@ options:
       label:
         description:
           - Label of the custom field
-        required: true
+        required: false
         type: str
       description:
         description:
           - Description of the custom field
-        required: true
+        required: false
         type: str
       required:
         description:
@@ -63,7 +63,7 @@ options:
         description:
           - Filter logic of the custom field
         required: false
-        type: str
+        type: raw
       default:
         description:
           - Default value of the custom field
@@ -165,8 +165,8 @@ def main():
                 required=True,
                 options=dict(
                     content_types=dict(required=False, type="list", elements="raw"),
-                    type=dict(required=False, type="raw"),
-                    name=dict(required=False, type="str"),
+                    type=dict(required=True, type="raw"),
+                    name=dict(required=True, type="str"),
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     required=dict(required=False, type="bool"),
