@@ -75,9 +75,9 @@
     data:
       content_types:
         - "virtualization.virtualmachine"
-        name: "A_CustomField"
-        description: "Added a description"
-        required: yes
+      name: "A_CustomField"
+      description: "Added a description"
+      required: yes
     state: present
   register: test_four
 
