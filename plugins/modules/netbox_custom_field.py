@@ -88,7 +88,7 @@ options:
         description:
           - The regular expression to enforce on text fields
         required: false
-        type: string      
+        type: str      
       choices:
         description:
           - List of available choices (for selection fields) 
