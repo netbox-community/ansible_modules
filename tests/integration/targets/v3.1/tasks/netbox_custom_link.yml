@@ -23,7 +23,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['custom_link']['name'] == "Custom Link"
-      - test_one['custom_link']['content_types'] == "dcim.device"
+      - test_one['custom_link']['content_type'] == "dcim.device"
       - test_one['custom_link']['link_text'] == "Open Web management"
       - test_one['msg'] == "custom_link Custom Link created"
 
