@@ -199,3 +199,12 @@
         - netbox_wireless_link
   tags:
     - netbox_wireless_link
+
+- name: "NETBOX_CUSTOM_FIELD TESTS"
+  include_tasks:
+    file: "netbox_custom_field.yml"
+    apply:
+      tags:
+        - netbox_custom_field
+  tags:
+    - netbox_custom_field

@@ -13,6 +13,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 NB_CONFIG_CONTEXTS = "config_contexts"
 NB_TAGS = "tags"
+NB_CUSTOM_FIELDS = "custom_fields"
 
 
 class NetboxExtrasModule(NetboxModule):
