@@ -66,7 +66,7 @@
       - test_three is changed
       - test_three['diff']['after']['description'] == "Added a description"
       - test_three['diff']['after']['required'] == true
-      - test_three['custom_field']['name'] == "test_context"
+      - test_three['custom_field']['name'] == "A_CustomField"
       - test_three['msg'] == "custom_field A_CustomField updated"
 
 - name: "CUSTOM_FIELD 4: Change content type"
@@ -82,7 +82,7 @@
     state: present
   register: test_four
 
-- name: "CONFIG_CONTEXT 4: ASSERT - Change content type"
+- name: "CUSTOM_FIELD 4: ASSERT - Change content type"
   assert:
     that:
       - test_four is changed

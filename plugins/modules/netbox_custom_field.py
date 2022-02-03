@@ -36,7 +36,7 @@ options:
         elements: raw
       type: 
         description: 
-          - The type of custom field (defaults to text)
+          - The type of custom field
         required: false
         type: raw
       name:
