@@ -15,7 +15,7 @@ description:
   - Creates, updates or removes custom links from NetBox
 notes:  
   - This should be ran with connection C(local) and hosts C(localhost)
-  - Use the **!unsafe** data type if you want jinja2 code in link_text or link_url
+  - Use the C(!unsafe) data type if you want jinja2 code in link_text or link_url
 author:
   - Martin Rødvand (@rodvand)
 requirements:
@@ -82,19 +82,20 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_type:
-            - dcim.device            
+          content_type: "dcim.device"            
           name: Custom Link
           link_text: "Open Web Management"
-          link_url: !unsafe >
-            https://{{ obj.name }}.domain.local                        
+          link_url: !unsafe https://{{ obj.name }}.domain.local                        
 
     - name: Delete the custom link
       netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
+          content_type: "dcim.device"            
           name: Custom Link
+          link_text: "Open Web Management"
+          link_url: !unsafe https://{{ obj.name }}.domain.local
         state: absent
 """
 
