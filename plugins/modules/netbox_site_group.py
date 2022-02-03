@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_site_group
@@ -56,6 +50,12 @@ options:
           - The description of the site group
         required: false
         type: str
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
     required: true
 """
 
@@ -128,6 +128,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     parent_site_group=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
