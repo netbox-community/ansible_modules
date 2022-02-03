@@ -12,6 +12,7 @@
       content_types:
         - "dcim.device"
       name: A_CustomField
+      type: text
     state: present
   register: test_one
 
