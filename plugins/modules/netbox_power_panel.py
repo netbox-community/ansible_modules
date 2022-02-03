@@ -8,12 +8,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_power_panel
@@ -59,6 +53,12 @@ options:
           - The name of the power panel
         required: true
         type: str
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
 """
 
 EXAMPLES = r"""
@@ -149,6 +149,7 @@ def main():
                     ),
                     location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

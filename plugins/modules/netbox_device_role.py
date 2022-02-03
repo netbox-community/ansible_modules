@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_device_role
@@ -59,6 +53,12 @@ options:
         description:
           - Whether the role is a VM role
         type: bool
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
     required: true
     type: dict
 """
@@ -125,6 +125,7 @@ def main():
                     color=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
                     vm_role=dict(required=False, type="bool"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

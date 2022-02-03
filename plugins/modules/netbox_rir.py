@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_rir
@@ -56,6 +50,12 @@ options:
           - IP space managed by this RIR is considered private
         required: false
         type: bool
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
     required: true
 """
 
@@ -129,6 +129,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     is_private=dict(required=False, type="bool"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

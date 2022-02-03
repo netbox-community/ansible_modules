@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_circuit_type
@@ -47,6 +41,12 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
 """
 
 EXAMPLES = r"""
@@ -108,6 +108,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

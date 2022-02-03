@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_ipam_role
@@ -56,6 +50,12 @@ options:
           - The weight of the ipam role to be created
         required: false
         type: int
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
     required: true
 """
 
@@ -119,6 +119,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     weight=dict(required=False, type="int"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )
