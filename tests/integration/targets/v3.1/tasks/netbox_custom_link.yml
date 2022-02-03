@@ -64,7 +64,7 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['weight'] == 50
-      - test_three['custom_LINK']['name'] == "Custom Link"
+      - test_three['custom_link']['name'] == "Custom Link"
       - test_three['msg'] == "custom_link Custom Link updated"
 
 - name: "CUSTOM_LINK 4: Change content type"
