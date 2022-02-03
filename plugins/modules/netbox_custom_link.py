@@ -34,8 +34,8 @@ options:
           - The content type to apply this custom link to
         required: false
         type: raw        
-      type: 
-        name: 
+      name: 
+        description: 
           - The name of the custom link
         required: true
         type: str
@@ -43,12 +43,12 @@ options:
         description:
           - Link text of the custom link
         required: true
-        type: str
+        type: raw
       link_url:
         description:
           - Link URL of the custom link
         required: true
-        type: str                
+        type: raw                
       weight:
         description:
           - Fields with higher weights appear lower in a form
