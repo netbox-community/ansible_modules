@@ -25,7 +25,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['export_template']['name'] == "Example Export Template"
       - test_one['export_template']['content_type'] == "dcim.device"
-      - test_one['export_template']['description'] == "Open Web management"
+      - test_one['export_template']['description'] == "Export Devices"
       - test_one['msg'] == "export_template Example Export Template created"
 
 - name: "EXPORT_TEMPLATE 2: Create duplicate"
