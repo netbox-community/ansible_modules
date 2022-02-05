@@ -60,6 +60,13 @@ options:
           - The optional arguments used for NAPALM connections
         required: false
         type: dict
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -144,6 +151,7 @@ def main():
                     manufacturer=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

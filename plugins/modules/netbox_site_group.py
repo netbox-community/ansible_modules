@@ -50,6 +50,13 @@ options:
           - The description of the site group
         required: false
         type: str
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -128,6 +135,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     parent_site_group=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
