@@ -15,6 +15,7 @@ NB_CONFIG_CONTEXTS = "config_contexts"
 NB_TAGS = "tags"
 NB_CUSTOM_FIELDS = "custom_fields"
 NB_CUSTOM_LINKS = "custom_links"
+NB_EXPORT_TEMPLATES = "export_templates"
 
 
 class NetboxExtrasModule(NetboxModule):
