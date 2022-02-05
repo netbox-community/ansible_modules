@@ -217,3 +217,12 @@
         - netbox_custom_link
   tags:
     - netbox_custom_link
+
+- name: "NETBOX_EXPORT_TEMPLATE TESTS"
+  include_tasks:
+    file: "netbox_export_template.yml"
+    apply:
+      tags:
+        - netbox_export_template
+  tags:
+    - netbox_export_template
