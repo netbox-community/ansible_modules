@@ -11,12 +11,13 @@
     data:
       content_type: "dcim.device"
       name: Example Export Template
-      description: Open Web management
-      template_code: !unsafe https://{{ obj.name }}.domain.local/
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
     state: present
   register: test_one
 
-- name: "EXPORT_TEMPLAET 1: ASSERT - Necessary info creation"
+- name: "EXPORT_TEMPLATE 1: ASSERT - Necessary info creation"
   assert:
     that:
       - test_one is changed
@@ -34,8 +35,9 @@
     data:
       content_type: "dcim.device"
       name: Example Export Template
-      description: Open Web management
-      template_code: !unsafe https://{{ obj.name }}.domain.local/
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
     state: present
   register: test_two
 
@@ -46,16 +48,17 @@
       - test_two['export_template']['name'] == "Example Export Template"
       - test_two['msg'] == "export_template Example Export Template already exists"
 
-- name: "CUSTOM_FIELD 3: Update data and add as_attachment"
+- name: "CUSTOM_FIELD 3: Update data and remove as_attachment"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       content_type: "dcim.device"
       name: Example Export Template
-      description: Open Web management
-      template_code: !unsafe https://{{ obj.name }}.domain.local/
-      as_attachment: yes
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+      as_attachment: no
     state: present
   register: test_three
 
@@ -63,7 +66,7 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['as_attachment'] == true
+      - test_three['diff']['after']['as_attachment'] == false
       - test_three['export_template']['name'] == "Example Export Template"
       - test_three['msg'] == "export_template Example Export Template updated"
 
@@ -74,8 +77,9 @@
     data:
       content_type: "virtualization.virtualmachine"
       name: Example Export Template
-      description: Open Web management
-      template_code: !unsafe https://{{ obj.name }}.domain.local/
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
     state: present
   register: test_four
 
@@ -94,8 +98,9 @@
     data:
       content_type: "virtualization.virtualmachine"
       name: Example Export Template
-      description: Open Web management
-      template_code: !unsafe https://{{ obj.name }}.domain.local/
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
     state: absent
   register: test_five
 
