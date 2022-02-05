@@ -50,6 +50,13 @@ options:
           - The weight of the ipam role to be created
         required: false
         type: int
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -119,6 +126,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     weight=dict(required=False, type="int"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

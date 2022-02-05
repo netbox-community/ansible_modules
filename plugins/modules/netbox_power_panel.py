@@ -59,6 +59,13 @@ options:
         required: false
         type: dict
         version_added: "3.6.0"
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
 """
 
 EXAMPLES = r"""
@@ -150,6 +157,7 @@ def main():
                     location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     custom_fields=dict(required=False, type="dict"),
+                    tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )

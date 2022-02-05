@@ -53,6 +53,13 @@ options:
         description:
           - Whether the role is a VM role
         type: bool
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -125,6 +132,7 @@ def main():
                     color=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
                     vm_role=dict(required=False, type="bool"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
