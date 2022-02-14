@@ -80,6 +80,7 @@ API_APPS_ENDPOINTS = dict(
         "custom_fields",
         "custom_links",
         "export_templates",
+        "webhooks",
     ],
     ipam=[
         "aggregates",
@@ -166,6 +167,7 @@ QUERY_TYPES = dict(
     vlan_group="slug",
     vlan_role="name",
     vrf="name",
+    webhook="name",
     wireless_lan="ssid",
     wireless_lan_group="slug",
 )
@@ -334,6 +336,7 @@ ENDPOINT_NAME_MAPPING = {
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
+    "webhooks": "webhook",
     "wireless_lans": "wireless_lan",
     "wireless_lan_groups": "wireless_lan_group",
     "wireless_links": "wireless_link",
@@ -451,6 +454,7 @@ ALLOWED_QUERY_PARAMS = {
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
+    "webhook": set(["name"]),
     "wireless_lan": set(["ssid"]),
     "wireless_lan_group": set(["name"]),
     "wireless_link": set(["interface_a", "interface_b"]),
