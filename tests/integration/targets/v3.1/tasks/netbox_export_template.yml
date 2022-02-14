@@ -48,7 +48,7 @@
       - test_two['export_template']['name'] == "Example Export Template"
       - test_two['msg'] == "export_template Example Export Template already exists"
 
-- name: "CUSTOM_FIELD 3: Update data and remove as_attachment"
+- name: "EXPORT_TEMPLATE 3: Update data and remove as_attachment"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -62,7 +62,7 @@
     state: present
   register: test_three
 
-- name: "CUSTOM_FIELD 3: ASSERT - Updated"
+- name: "EXPORT_TEMPLATE 3: ASSERT - Updated"
   assert:
     that:
       - test_three is changed
