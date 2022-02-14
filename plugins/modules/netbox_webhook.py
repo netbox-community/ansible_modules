@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2022, Martin Rødvand (@rodvand) <p@tristero.se>
+# Copyright: (c) 2022, Martin Rødvand (@rodvand) <martin@rodvand.net>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -111,40 +111,51 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox custom_fields module"
+- name: "Test NetBox webhook module"
   connection: local
   hosts: localhost  
   tasks:
-    - name: Create a custom field on device and virtual machine
-      netbox_custom_field:
+    - name: Create a webhook
+      netbox_webhook:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           content_types:
-            - dcim.device
-            - virtualization.virtualmachine
-          name: A Custom Field
-          type: text
+            - dcim.device            
+          name: Example Webhook
+          type_create: yes
+          payload_url: https://payload.url/
+          body_template: !unsafe >-
+            {{ data }}
 
-    - name: Update the custom field to make it required
-      netbox_custom_field:
+    - name: Update the webhook to run on delete
+      netbox_webhook:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
-          required: yes          
+          name: Example Webhook
+          type_create: yes
+          type_delete: yes
+          payload_url: https://payload.url/
+          body_template: !unsafe >-
+            {{ data }}         
 
-    - name: Delete the custom field
-      netbox_custom_field:
+    - name: Delete the webhook
+      netbox_webhook:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: Example Webhook
+          type_create: yes
+          type_delete: yes
+          payload_url: https://payload.url/
+          body_template: !unsafe >-
+            {{ data }}  
         state: absent
 """
 
 RETURN = r"""
-custom_field:
+webhook:
   description: Serialized object as created/existent/updated/deleted within NetBox
   returned: always
   type: dict
