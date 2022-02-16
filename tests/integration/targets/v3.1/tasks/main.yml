@@ -226,3 +226,12 @@
         - netbox_export_template
   tags:
     - netbox_export_template
+
+- name: "NETBOX_WEBHOOK TESTS"
+  include_tasks:
+    file: "netbox_webhook.yml"
+    apply:
+      tags:
+        - netbox_webhook
+  tags:
+    - netbox_webhook
