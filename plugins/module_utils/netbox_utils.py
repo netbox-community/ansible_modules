@@ -452,7 +452,7 @@ ALLOWED_QUERY_PARAMS = {
     "virtual_machine": set(["name", "cluster"]),
     "vm_bridge": set(["name"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
-    "vlan_group": set(["slug", "site", "scope"]),
+    "vlan_group": set(["name", "slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
     "webhook": set(["name"]),
     "wireless_lan": set(["ssid"]),
