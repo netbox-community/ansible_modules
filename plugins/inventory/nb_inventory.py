@@ -648,10 +648,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             site = self.sites_lookup[host["site"]["id"]]
             if (
                 self.prefixes
-            ):  # If prefixes have been pulled, attach prefix to its assigned site
-                prefix_id = self.prefixes_sites_lookup[site["id"]]
-                prefix = self.prefixes_lookup[prefix_id]
-                site["prefix"] = prefix
+            ):  # If prefixes have been pulled, attach prefix list to its assigned site
+                prefixes = self.prefixes_sites_lookup[site["id"]]
+                site["prefixes"] = prefixes
             return self._pluralize(site)
         except Exception:
             return
@@ -915,16 +914,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 query_key="site",
                 query_values=list(self.sites_with_prefixes),
             )
-        self.prefixes_sites_lookup = defaultdict(dict)
-        self.prefixes_lookup = defaultdict(dict)
+        self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
         for prefix in prefixes:
             if prefix.get("site"):
-                prefix_id = prefix["id"]
-                site_id = prefix["site"]["id"]
-                self.prefixes_lookup[prefix_id] = prefix
-                self.prefixes_sites_lookup[site_id] = prefix_id
+                self.prefixes_sites_lookup[prefix['site']['id']].append(prefix)
             # Remove "site" attribute, as it's redundant when prefixes are assigned to site
             del prefix["site"]
 
