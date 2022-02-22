@@ -452,7 +452,7 @@ ALLOWED_QUERY_PARAMS = {
     "virtual_machine": set(["name", "cluster"]),
     "vm_bridge": set(["name"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
-    "vlan_group": set(["slug", "site", "scope"]),
+    "vlan_group": set(["name", "slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
     "webhook": set(["name"]),
     "wireless_lan": set(["ssid"]),
@@ -853,7 +853,11 @@ class NetboxModule(object):
                     query_id = self._get_query_param_id(match, child)
                 else:
                     query_id = self._get_query_param_id(match, module_data)
-                query_dict.update({match + "_id": query_id})
+
+                if parent == "vlan_group" and match == "site":
+                    query_dict.update({match: query_id})
+                else:
+                    query_dict.update({match + "_id": query_id})
             else:
                 if child:
                     value = child.get(match)
