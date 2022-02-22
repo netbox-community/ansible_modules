@@ -176,6 +176,7 @@
             "site": "Test Site"
         },
         "expected": {
+            "name": "Test VLAN Group",
             "slug": "test-vlan-group",
             "site_id": 1
         }
