@@ -853,7 +853,11 @@ class NetboxModule(object):
                     query_id = self._get_query_param_id(match, child)
                 else:
                     query_id = self._get_query_param_id(match, module_data)
-                query_dict.update({match + "_id": query_id})
+
+                if parent == "vlan_group" and match == "site":
+                    query_dict.update({match: query_id})
+                else:
+                    query_dict.update({match + "_id": query_id})
             else:
                 if child:
                     value = child.get(match)
