@@ -919,7 +919,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # We are only concerned with Prefixes that have actually been assigned to sites
         for prefix in prefixes:
             if prefix.get("site"):
-                self.prefixes_sites_lookup[prefix['site']['id']].append(prefix)
+                self.prefixes_sites_lookup[prefix["site"]["id"]].append(prefix)
             # Remove "site" attribute, as it's redundant when prefixes are assigned to site
             del prefix["site"]
 
