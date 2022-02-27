@@ -5,6 +5,38 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.6.0
+======
+
+Minor Changes
+-------------
+
+- Add custom fields to modules missing it [#723](https://github.com/netbox-community/ansible_modules/pull/723)
+- Add tags to modules missing it [#725](https://github.com/netbox-community/ansible_modules/pull/725)
+- nb_inventory - Add a racks option [#701](https://github.com/netbox-community/ansible_modules/pull/701)
+- netbox_custom_field - Add module [#719](https://github.com/netbox-community/ansible_modules/pull/719)
+- netbox_custom_link - Add module [#722](https://github.com/netbox-community/ansible_modules/pull/722)
+- netbox_device_interface, netbox_vm_interface - Add bridge to netbox_device_interface and netbox_vm_interface [#713](https://github.com/netbox-community/ansible_modules/pull/713)
+- netbox_export_template - Add module [#727](https://github.com/netbox-community/ansible_modules/pull/727)
+- netbox_service - Add virtual_machine as an allowed query parameter for ipaddresses [#718](https://github.com/netbox-community/ansible_modules/pull/718)
+- netbox_webhook - Add module [#738](https://github.com/netbox-community/ansible_modules/pull/738)
+
+Bugfixes
+--------
+
+- Config Context is now able to be added to cluster [#715](https://github.com/netbox-community/ansible_modules/pull/715)
+- Ensure proper filtering for VLAN group [#741](https://github.com/netbox-community/ansible_modules/pull/741)
+- Fix prefixes option in nb_inventory to ensure all prefixes are returned [#742](https://github.com/netbox-community/ansible_modules/pull/742)
+- Make sure API calls on versions without the /api/status endpoint [#707](https://github.com/netbox-community/ansible_modules/pull/707)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_custom_field - Create, update or delete Custom fields in NetBox
+- netbox.netbox.netbox_custom_link - Create, update or delete Custom links in NetBox
+- netbox.netbox.netbox_export_template - Create, update or delete Export templates in NetBox
+- netbox.netbox.netbox_webhook - Create, update or delete Webhooks in NetBox
+
 v3.5.1
 ======
 

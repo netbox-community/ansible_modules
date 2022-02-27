@@ -109,12 +109,14 @@ DOCUMENTATION = """
                 - If True, sites' full data structures returned from Netbox API are included in host vars.
             default: False
             type: boolean
+            version_added: "3.5.0"
         prefixes:
             description:
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
                 - Must match selection for "site_data", as this changes the structure of "site" in hostvars
             default: False
             type: boolean
+            version_added: "3.5.0"
         services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
@@ -133,7 +135,7 @@ DOCUMENTATION = """
             version_added: "0.2.1"
         group_by:
             description:
-                - Keys used to create groups. The I(plurals) option controls which of these are valid.
+                - Keys used to create groups. The I(plurals) and I(racks) options control which of these are valid.
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
@@ -214,6 +216,13 @@ DOCUMENTATION = """
             description: List of custom ansible host vars to create from the device object fetched from NetBox
             default: {}
             type: dict
+        racks:
+            description:
+                - If False, skip querying the racks for information, which can be slow with great amounts of racks.
+                - The choices of I(group_by) will be changed by this option.
+            type: boolean
+            default: True
+            version_added: "3.6.0"
 """
 
 EXAMPLES = """
@@ -466,8 +475,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "is_virtual": self.extract_is_virtual,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
-            self._pluralize_group_by("rack"): self.extract_rack,
-            "rack_role": self.extract_rack_role,
             self._pluralize_group_by("tag"): self.extract_tags,
             self._pluralize_group_by("role"): self.extract_device_role,
             self._pluralize_group_by("platform"): self.extract_platform,
@@ -475,19 +482,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
 
-        # Locations were added in 2.11 replacing rack-groups.
-        if self.api_version >= version.parse("2.11"):
+        if self.racks:
             extractors.update(
                 {
-                    "location": self.extract_location,
+                    self._pluralize_group_by("rack"): self.extract_rack,
+                    "rack_role": self.extract_rack_role,
                 }
             )
-        else:
-            extractors.update(
-                {
-                    "rack_group": self.extract_rack_group,
-                }
-            )
+
+            # Locations were added in 2.11 replacing rack-groups.
+            if self.api_version >= version.parse("2.11"):
+                extractors.update(
+                    {
+                        "location": self.extract_location,
+                    }
+                )
+            else:
+                extractors.update(
+                    {
+                        "rack_group": self.extract_rack_group,
+                    }
+                )
 
         if self.services:
             extractors.update(
@@ -636,10 +651,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             site = self.sites_lookup[host["site"]["id"]]
             if (
                 self.prefixes
-            ):  # If prefixes have been pulled, attach prefix to its assigned site
-                prefix_id = self.prefixes_sites_lookup[site["id"]]
-                prefix = self.prefixes_lookup[prefix_id]
-                site["prefix"] = prefix
+            ):  # If prefixes have been pulled, attach prefix list to its assigned site
+                prefixes = self.prefixes_sites_lookup[site["id"]]
+                site["prefixes"] = prefixes
             return self._pluralize(site)
         except Exception:
             return
@@ -903,16 +917,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 query_key="site",
                 query_values=list(self.sites_with_prefixes),
             )
-        self.prefixes_sites_lookup = defaultdict(dict)
-        self.prefixes_lookup = defaultdict(dict)
+        self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
         for prefix in prefixes:
             if prefix.get("site"):
-                prefix_id = prefix["id"]
-                site_id = prefix["site"]["id"]
-                self.prefixes_lookup[prefix_id] = prefix
-                self.prefixes_sites_lookup[site_id] = prefix_id
+                self.prefixes_sites_lookup[prefix["site"]["id"]].append(prefix)
             # Remove "site" attribute, as it's redundant when prefixes are assigned to site
             del prefix["site"]
 
@@ -1226,8 +1236,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_regions_lookup,
             self.refresh_locations_lookup,
             self.refresh_tenants_lookup,
-            self.refresh_racks_lookup,
-            self.refresh_rack_groups_lookup,
             self.refresh_device_roles_lookup,
             self.refresh_platforms_lookup,
             self.refresh_device_types_lookup,
@@ -1243,6 +1251,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.services:
             lookups.append(self.refresh_services)
+
+        if self.racks:
+            lookups.extend(
+                [
+                    self.refresh_racks_lookup,
+                    self.refresh_rack_groups_lookup,
+                ]
+            )
 
         return lookups
 
@@ -1494,7 +1510,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             if grouping not in self.group_extractors:
                 raise AnsibleError(
-                    'group_by option "%s" is not valid. Check group_by documentation or check the plurals option. It can determine what group_by options are valid.'
+                    (
+                        'group_by option "%s" is not valid.'
+                        " Check group_by documentation or check the plurals option, as well as the racks options."
+                        " It can determine what group_by options are valid."
+                    )
                     % grouping
                 )
 
@@ -1782,5 +1802,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
+        self.racks = self.get_option("racks")
 
         self.main()

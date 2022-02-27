@@ -199,3 +199,39 @@
         - netbox_wireless_link
   tags:
     - netbox_wireless_link
+
+- name: "NETBOX_CUSTOM_FIELD TESTS"
+  include_tasks:
+    file: "netbox_custom_field.yml"
+    apply:
+      tags:
+        - netbox_custom_field
+  tags:
+    - netbox_custom_field
+
+- name: "NETBOX_CUSTOM_LINK TESTS"
+  include_tasks:
+    file: "netbox_custom_link.yml"
+    apply:
+      tags:
+        - netbox_custom_link
+  tags:
+    - netbox_custom_link
+
+- name: "NETBOX_EXPORT_TEMPLATE TESTS"
+  include_tasks:
+    file: "netbox_export_template.yml"
+    apply:
+      tags:
+        - netbox_export_template
+  tags:
+    - netbox_export_template
+
+- name: "NETBOX_WEBHOOK TESTS"
+  include_tasks:
+    file: "netbox_webhook.yml"
+    apply:
+      tags:
+        - netbox_webhook
+  tags:
+    - netbox_webhook

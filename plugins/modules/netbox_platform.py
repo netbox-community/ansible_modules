@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_platform
@@ -66,6 +60,19 @@ options:
           - The optional arguments used for NAPALM connections
         required: false
         type: dict
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
     required: true
 """
 
@@ -144,6 +151,8 @@ def main():
                     manufacturer=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),
+                    tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

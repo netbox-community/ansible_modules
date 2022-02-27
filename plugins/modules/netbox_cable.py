@@ -8,12 +8,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_cable
@@ -143,6 +137,12 @@ options:
         required: false
         type: list
         elements: raw
+      custom_fields:
+        description:
+          - Must exist in NetBox
+        required: false
+        type: dict
+        version_added: "3.6.0"
 """
 
 EXAMPLES = r"""
@@ -309,6 +309,7 @@ def main():
                         required=False, choices=["m", "cm", "ft", "in"], type="str"
                     ),
                     tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
                 ),
             ),
         )

@@ -7,12 +7,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-ANSIBLE_METADATA = {
-    "metadata_version": "1.1",
-    "status": ["preview"],
-    "supported_by": "community",
-}
-
 DOCUMENTATION = r"""
 ---
 module: netbox_vlan_group
@@ -78,6 +72,13 @@ options:
         required: false
         type: str
         version_added: "3.1.0"
+      tags:
+        description:
+          - The tags to add/update
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.6.0"
       custom_fields:
         description:
           - must exist in NetBox
@@ -178,6 +179,7 @@ def main():
                     ),
                     scope=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

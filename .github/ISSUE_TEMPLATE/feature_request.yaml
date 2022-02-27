@@ -1,0 +1,54 @@
+---
+name: ✨ Feature Request
+description: Propose a new NetBox Ansible modules feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        **NOTE:** This form is only for submitting well-formed proposals to extend or modify
+        NetBox in some way. If you're trying to solve a problem but can't figure out how, or if
+        you still need time to work on the details of a proposed new feature, please start a
+        [discussion](https://github.com/netbox-community/ansible_modules/discussions) instead.
+  - type: input
+    attributes:
+      label: NetBox version
+      description: What version of NetBox are you currently running?
+      placeholder: v3.1.6
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Feature type
+      options:
+        - New Module
+        - New Plugin
+        - Change to existing Module
+        - Change to existing Plugin
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed functionality
+      description: >
+        Describe in detail the new feature or behavior you are proposing. Include any specific changes
+        to work flows, data models, and/or ansible module attributes. The more detail you provide here, the
+        greater chance your proposal has of being discussed. Feature requests which don't include an
+        actionable implementation plan will be rejected.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Use case
+      description: >
+        Explain how adding this functionality would benefit Ansible NetBox users. What need does it address?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: External dependencies
+      description: >
+        List any new dependencies on external libraries or services that this new feature would
+        introduce. For example, does the proposal require the installation of a new Python package?
+        (Not all new features introduce new dependencies.)

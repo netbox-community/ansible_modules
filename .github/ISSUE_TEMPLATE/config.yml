@@ -1,0 +1,15 @@
+# Reference: https://help.github.com/en/github/building-a-strong-community/configuring-issue-templates-for-your-repository#configuring-the-template-chooser
+blank_issues_enabled: false
+contact_links:
+  - name: 📕 Collection Documentation
+    url: https://netbox-ansible-collection.readthedocs.io
+    about: "Please refer to the documentation before raising a bug or feature request."
+  - name: 📖 Contributing Policy
+    url: https://github.com/netbox-community/ansible_modules/blob/devel/CONTRIBUTING.md
+    about: "Please read through our contributing policy before opening an issue or pull request"
+  - name: ❓ Discussion
+    url: https://github.com/netbox-community/ansible_modules/discussions
+    about: "If you're just looking for help, try starting a discussion instead"
+  - name: 💬 Community Slack
+    url: https://netdev.chat/
+    about: "Join #ansible on the NetDev Community Slack for assistance with installation issues and other problems"

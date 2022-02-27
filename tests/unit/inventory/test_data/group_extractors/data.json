@@ -5,6 +5,7 @@
         "services": false,
         "dns_name": false,
         "ansible_host_dns_name": false,
+        "racks": false,
         "expected": [
             "disk",
             "memory",
@@ -18,7 +19,6 @@
             "is_virtual",
             "site",
             "tenant",
-            "rack",
             "tag",
             "role",
             "platform",
@@ -28,6 +28,7 @@
         "not_expected": [
             "sites",
             "tenants",
+            "rack",
             "racks",
             "tags",
             "device_roles",
@@ -46,6 +47,7 @@
         "services": true,
         "dns_name": true,
         "ansible_host_dns_name": true,
+        "racks": true,
         "expected": [
             "disk",
             "memory",
@@ -86,6 +88,7 @@
         "services": true,
         "dns_name": false,
         "ansible_host_dns_name": true,
+        "racks": true,
         "expected": [
             "disk",
             "memory",

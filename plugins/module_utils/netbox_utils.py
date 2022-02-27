@@ -15,7 +15,6 @@ import json
 from itertools import chain
 
 from ansible.module_utils.common.text.converters import to_text
-
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
@@ -75,7 +74,14 @@ API_APPS_ENDPOINTS = dict(
         "site_groups",
         "virtual_chassis",
     ],
-    extras=["config_contexts", "tags"],
+    extras=[
+        "config_contexts",
+        "tags",
+        "custom_fields",
+        "custom_links",
+        "export_templates",
+        "webhooks",
+    ],
     ipam=[
         "aggregates",
         "ip_addresses",
@@ -90,7 +96,12 @@ API_APPS_ENDPOINTS = dict(
     ],
     secrets=[],
     tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
-    virtualization=["cluster_groups", "cluster_types", "clusters", "virtual_machines"],
+    virtualization=[
+        "cluster_groups",
+        "cluster_types",
+        "clusters",
+        "virtual_machines",
+    ],
     wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
 )
 
@@ -105,10 +116,13 @@ QUERY_TYPES = dict(
     config_context="name",
     contact_group="name",
     contact_role="name",
+    custom_field="name",
+    custom_link="name",
     device="name",
     device_role="slug",
     device_type="slug",
     export_targets="name",
+    export_template="name",
     group="slug",
     installed_device="name",
     import_targets="name",
@@ -153,6 +167,7 @@ QUERY_TYPES = dict(
     vlan_group="slug",
     vlan_role="name",
     vrf="name",
+    webhook="name",
     wireless_lan="ssid",
     wireless_lan_group="slug",
 )
@@ -160,11 +175,13 @@ QUERY_TYPES = dict(
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
 CONVERT_TO_ID = {
     "assigned_object": "assigned_object",
+    "bridge": "interfaces",
     "circuit": "circuits",
     "circuit_type": "circuit_types",
     "circuit_termination": "circuit_terminations",
     "circuits.circuittermination": "circuit_terminations",
     "cluster": "clusters",
+    "clusters": "clusters",
     "cluster_group": "cluster_groups",
     "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
@@ -246,6 +263,7 @@ CONVERT_TO_ID = {
     "virtual_chassis": "virtual_chassis",
     "virtual_machine": "virtual_machines",
     "virtual_machine_role": "device_roles",
+    "vm_bridge": "interfaces",
     "vlan": "vlans",
     "vlan_group": "vlan_groups",
     "vlan_role": "roles",
@@ -272,11 +290,14 @@ ENDPOINT_NAME_MAPPING = {
     "contacts": "contact",
     "contact_groups": "contact_group",
     "contact_roles": "contact_role",
+    "custom_fields": "custom_field",
+    "custom_links": "custom_link",
     "device_bays": "device_bay",
     "device_bay_templates": "device_bay_template",
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
+    "export_templates": "export_template",
     "front_ports": "front_port",
     "front_port_templates": "front_port_template",
     "interfaces": "interface",
@@ -315,6 +336,7 @@ ENDPOINT_NAME_MAPPING = {
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
+    "webhooks": "webhook",
     "wireless_lans": "wireless_lan",
     "wireless_lan_groups": "wireless_lan_group",
     "wireless_links": "wireless_link",
@@ -323,6 +345,7 @@ ENDPOINT_NAME_MAPPING = {
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
     "assigned_object": set(["name", "device", "virtual_machine"]),
+    "bridge": set(["name", "device"]),
     "circuit": set(["cid"]),
     "circuit_type": set(["slug"]),
     "circuit_termination": set(["circuit", "term_side"]),
@@ -352,6 +375,8 @@ ALLOWED_QUERY_PARAMS = {
     "contact": set(["name", "group"]),
     "contact_group": set(["name"]),
     "contact_role": set(["name"]),
+    "custom_field": set(["name"]),
+    "custom_link": set(["name"]),
     "dcim.consoleport": set(["name", "device"]),
     "dcim.consoleserverport": set(["name", "device"]),
     "dcim.frontport": set(["name", "device", "rear_port"]),
@@ -365,6 +390,7 @@ ALLOWED_QUERY_PARAMS = {
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
+    "export_template": set(["name"]),
     "front_port": set(["name", "device", "rear_port"]),
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
@@ -375,7 +401,9 @@ ALLOWED_QUERY_PARAMS = {
     "inventory_item": set(["name", "device"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
-    "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
+    "ipaddresses": set(
+        ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
+    ),
     "lag": set(["name"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
@@ -422,9 +450,11 @@ ALLOWED_QUERY_PARAMS = {
     "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
     "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
+    "vm_bridge": set(["name"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
-    "vlan_group": set(["slug", "site", "scope"]),
+    "vlan_group": set(["name", "slug", "site", "scope"]),
     "vrf": set(["name", "tenant"]),
+    "webhook": set(["name"]),
     "wireless_lan": set(["ssid"]),
     "wireless_lan_group": set(["name"]),
     "wireless_link": set(["interface_a", "interface_b"]),
@@ -507,6 +537,7 @@ CONVERT_KEYS = {
     "virtual_machine_role": "role",
     "vlan_role": "role",
     "vlan_group": "group",
+    "vm_bridge": "bridge",
     "wireless_lan_group": "group",
 }
 
@@ -591,7 +622,11 @@ class NetboxModule(object):
             self.nb = nb_client
             try:
                 self.version = self.nb.version
-                self.full_version = self.nb.status().get("netbox-version")
+                try:
+                    self.full_version = self.nb.status().get("netbox-version")
+                except Exception:
+                    # For NetBox versions without /api/status endpoint
+                    self.full_version = f"{self.version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
@@ -640,7 +675,11 @@ class NetboxModule(object):
             nb.http_session = session
             try:
                 self.version = nb.version
-                self.full_version = nb.status().get("netbox-version")
+                try:
+                    self.full_version = nb.status().get("netbox-version")
+                except Exception:
+                    # For NetBox versions without /api/status endpoint
+                    self.full_version = f"{self.version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
@@ -814,7 +853,11 @@ class NetboxModule(object):
                     query_id = self._get_query_param_id(match, child)
                 else:
                     query_id = self._get_query_param_id(match, module_data)
-                query_dict.update({match + "_id": query_id})
+
+                if parent == "vlan_group" and match == "site":
+                    query_dict.update({match: query_id})
+                else:
+                    query_dict.update({match + "_id": query_id})
             else:
                 if child:
                     value = child.get(match)
@@ -842,6 +885,11 @@ class NetboxModule(object):
         elif parent == "parent_vm_interface" and module_data.get("virtual_machine"):
             if not child:
                 query_dict["name"] = module_data["parent_vm_interface"]
+
+        elif parent == "vm_bridge" and module_data.get("virtual_machine"):
+            if not child:
+                query_dict["name"] = module_data["vm_bridge"]
+                query_dict["virtual_machine_id"] = module_data["virtual_machine"]
 
         elif parent == "lag":
             if not child:
@@ -1022,23 +1070,18 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if (
-                            k
-                            in (
-                                "regions",
-                                "sites",
-                                "roles",
-                                "device_types",
-                                "platforms",
-                                "cluster_groups",
-                                "clusters",
-                                "contact_groups",
-                                "tenant_groups",
-                                "tenants",
-                                "tags",
-                            )
-                            and isinstance(list_item, str)
-                        ):
+                        if k in (
+                            "regions",
+                            "sites",
+                            "roles",
+                            "device_types",
+                            "platforms",
+                            "cluster_groups",
+                            "contact_groups",
+                            "tenant_groups",
+                            "tenants",
+                            "tags",
+                        ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
@@ -1077,6 +1120,12 @@ class NetboxModule(object):
                             ): search
                         }
                     elif k == "parent_vm_interface":
+                        nb_app = getattr(self.nb, "virtualization")
+                        nb_endpoint = getattr(nb_app, endpoint)
+                        query_params = self._build_query_params(
+                            k, data, user_query_params
+                        )
+                    elif k == "vm_bridge":
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                         query_params = self._build_query_params(

@@ -11,6 +11,18 @@
 .. role:: ansible-attribute-support-partial
 .. role:: ansible-attribute-support-none
 .. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
 
 .. Anchors
 
@@ -24,13 +36,13 @@
 
 .. Title
 
-netbox.netbox.nb_lookup -- Queries and returns elements from NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.5.1).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -57,7 +69,7 @@ Synopsis
 .. Description
 
 - Queries NetBox via its API to return virtually any information capable of being held in NetBox.
-- If wanting to obtain the plaintext attribute of a secret, *private_key* or *key_file* must be provided.
+- If wanting to obtain the plaintext attribute of a secret, \ :emphasis:`private\_key`\  or \ :emphasis:`key\_file`\  must be provided.
 
 
 .. Aliases
@@ -77,201 +89,380 @@ The below requirements are needed on the local controller node that executes thi
 Parameters
 ----------
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table  border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Parameter</th>
-            <th>Choices/<font color="blue">Defaults</font></th>
-                            <th>Configuration</th>
-                        <th width="100%">Comments</th>
-        </tr>
-                    <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
-                    <b>_terms</b>
-                    <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>The NetBox object type to query</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-api_endpoint"></div>
-                    <b>api_endpoint</b>
-                    <a class="ansibleOptionLink" href="#parameter-api_endpoint" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                            <div>
-                                env:NETBOX_API
-                                                                	
-                            </div>
-                                                    <div>
-                                env:NETBOX_URL
-                                                                	
-                            </div>
-                                                                                            </td>
-                                                <td>
-                                            <div>The URL to the NetBox instance to query</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-api_filter"></div>
-                    <b>api_filter</b>
-                    <a class="ansibleOptionLink" href="#parameter-api_filter" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>The api_filter to use. Filters should be key value pairs separated by a space.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-key_file"></div>
-                    <b>key_file</b>
-                    <a class="ansibleOptionLink" href="#parameter-key_file" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>The location of the private key tied to user account. Mutually exclusive with <em>private_key</em>.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-plugin"></div>
-                    <b>plugin</b>
-                    <a class="ansibleOptionLink" href="#parameter-plugin" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>The NetBox plugin to query</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-private_key"></div>
-                    <b>private_key</b>
-                    <a class="ansibleOptionLink" href="#parameter-private_key" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>The private key as a string. Mutually exclusive with <em>key_file</em>.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-raw_data"></div>
-                    <b>raw_data</b>
-                    <a class="ansibleOptionLink" href="#parameter-raw_data" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>Whether to return raw API data with the lookup/query or whether to return a key/value dict</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-token"></div>
-                    <b>token</b>
-                    <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                    <td>
-                                                                            <div>
-                                env:NETBOX_TOKEN
-                                                                	
-                            </div>
-                                                    <div>
-                                env:NETBOX_API_TOKEN
-                                                                	
-                            </div>
-                                                                                            </td>
-                                                <td>
-                                            <div>The API token created through NetBox</div>
-                                            <div>This may not be required depending on the NetBox setup.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
-                    <b>validate_certs</b>
-                    <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                                    </div>
-                                                              	
-                                    </td>
-                                <td>
-                                                                                                                                                                                                                <b>Default:</b><br/><div style="color: blue">"yes"</div>
-                                    </td>
-                                                    <td>
-                                                                                                                    </td>
-                                                <td>
-                                            <div>Whether or not to validate SSL of the NetBox instance</div>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_terms"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-_terms:
+
+      .. rst-class:: ansible-option-title
+
+      **_terms**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_terms" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The NetBox object type to query
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_endpoint"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-api_endpoint:
+
+      .. rst-class:: ansible-option-title
+
+      **api_endpoint**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_endpoint" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The URL to the NetBox instance to query
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      - Environment variable: NETBOX\_API
+
+      - Environment variable: NETBOX\_URL
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-api_filter"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-api_filter:
+
+      .. rst-class:: ansible-option-title
+
+      **api_filter**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-api_filter" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The api_filter to use. Filters should be key value pairs separated by a space.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-key_file"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-key_file:
+
+      .. rst-class:: ansible-option-title
+
+      **key_file**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-key_file" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The location of the private key tied to user account. Mutually exclusive with \ :emphasis:`private\_key`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-plugin"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-plugin:
+
+      .. rst-class:: ansible-option-title
+
+      **plugin**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-plugin" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The NetBox plugin to query
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-private_key"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-private_key:
+
+      .. rst-class:: ansible-option-title
+
+      **private_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-private_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The private key as a string. Mutually exclusive with \ :emphasis:`key\_file`\ .
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-raw_data"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-raw_data:
+
+      .. rst-class:: ansible-option-title
+
+      **raw_data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-raw_data" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Whether to return raw API data with the lookup/query or whether to return a key/value dict
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-token"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-token:
+
+      .. rst-class:: ansible-option-title
+
+      **token**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The API token created through NetBox
+
+      This may not be required depending on the NetBox setup.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      - Environment variable: NETBOX\_TOKEN
+
+      - Environment variable: NETBOX\_API\_TOKEN
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-validate_certs:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_certs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Whether or not to validate SSL of the NetBox instance
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+
+      .. raw:: html
+
+        </div>
+
 
 .. Attributes
 
@@ -345,31 +536,56 @@ Return Values
 -------------
 Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this lookup:
 
-.. raw:: html
+.. rst-class:: ansible-option-table
 
-    <table border=0 cellpadding=0 class="documentation-table">
-        <tr>
-            <th colspan="1">Key</th>
-            <th>Returned</th>
-            <th width="100%">Description</th>
-        </tr>
-                    <tr>
-                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="return-_list"></div>
-                    <b>_list</b>
-                    <a class="ansibleOptionLink" href="#return-_list" title="Permalink to this return value"></a>
-                    <div style="font-size: small">
-                      <span style="color: purple">list</span>
-                       / <span style="color: purple">elements=string</span>                    </div>
-                                    </td>
-                <td>success</td>
-                <td>
-                                            <div>list of composed dictionaries with key and value</div>
-                                        <br/>
-                                                        </td>
-            </tr>
-                        </table>
-    <br/><br/>
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-_list"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__return-_list:
+
+      .. rst-class:: ansible-option-title
+
+      **_list**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-_list" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      list of composed dictionaries with key and value
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
