@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_contact_role_module:
+.. _ansible_collections.netbox.netbox.netbox_custom_field_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_contact_role module -- Creates or removes contact roles from NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom fields within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -50,11 +50,11 @@ netbox.netbox.netbox_contact_role module -- Creates or removes contact roles fro
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_contact_role`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_custom_field`.
 
 .. version_added
 
-.. versionadded:: 3.5.0 of netbox.netbox
+.. versionadded:: 3.6.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes contact roles from NetBox
+- Creates, updates or removes custom fields from NetBox
 
 
 .. Aliases
@@ -103,7 +103,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -137,7 +137,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -159,7 +159,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the contact role configuration
+      Defines the custom field
 
 
       .. raw:: html
@@ -169,21 +169,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/choices"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/choices:
 
       .. rst-class:: ansible-option-title
 
-      **custom_fields**
+      **choices**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/choices" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -193,7 +193,75 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      must exist in NetBox
+      List of available choices (for selection fields)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/content_types"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/content_types:
+
+      .. rst-class:: ansible-option-title
+
+      **content_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/content_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The content type(s) to apply this custom field to
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/default"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/default:
+
+      .. rst-class:: ansible-option-title
+
+      **default**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/default" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`raw`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default value of the custom field
 
 
       .. raw:: html
@@ -205,7 +273,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
@@ -227,7 +295,75 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The description of the contact role
+      Description of the custom field
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/filter_logic"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/filter_logic:
+
+      .. rst-class:: ansible-option-title
+
+      **filter_logic**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/filter_logic" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`raw`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Filter logic of the custom field
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Label of the custom field
 
 
       .. raw:: html
@@ -239,7 +375,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -261,7 +397,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the contact role to be created
+      Name of the custom field
 
 
       .. raw:: html
@@ -271,17 +407,160 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/required"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data/slug:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/required:
 
       .. rst-class:: ansible-option-title
 
-      **slug**
+      **required**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether the custom field is required
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`raw`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of custom field
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/validation_maximum"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/validation_maximum:
+
+      .. rst-class:: ansible-option-title
+
+      **validation_maximum**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/validation_maximum" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The maximum allowed value (for numeric fields)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/validation_minimum"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/validation_minimum:
+
+      .. rst-class:: ansible-option-title
+
+      **validation_minimum**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/validation_minimum" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The minimum allowed value (for numeric fields)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/validation_regex"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/validation_regex:
+
+      .. rst-class:: ansible-option-title
+
+      **validation_regex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/validation_regex" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -295,9 +574,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The slugified version of the name or custom slug.
-
-      This is auto-generated following NetBox rules if not provided
+      The regular expression to enforce on text fields
 
 
       .. raw:: html
@@ -307,21 +584,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/weight"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/weight:
 
       .. rst-class:: ansible-option-title
 
-      **tags**
+      **weight**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/weight" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -331,7 +608,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Any tags that the contact role may need to be associated with
+      Fields with higher weights appear lower in a form
 
 
       .. raw:: html
@@ -344,7 +621,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -378,7 +655,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -414,7 +691,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -452,7 +729,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -493,7 +770,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -538,7 +815,6 @@ Notes
 -----
 
 .. note::
-   - Tags should be defined as a YAML list
    - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
@@ -552,25 +828,35 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox module"
+    - name: "Test NetBox custom_fields module"
       connection: local
-      hosts: localhost
-      gather_facts: False
+      hosts: localhost  
       tasks:
-        - name: Create contact role within NetBox with only required information
-          netbox_contact_role:
+        - name: Create a custom field on device and virtual machine
+          netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Contact Role
-            state: present
+              content_types:
+                - dcim.device
+                - virtualization.virtualmachine
+              name: A Custom Field
+              type: text
 
-        - name: Delete contact role within netbox
-          netbox_contact_role:
+        - name: Update the custom field to make it required
+          netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Contact Role
+              name: A Custom Field
+              required: yes          
+
+        - name: Delete the custom field
+          netbox_custom_field:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: A Custom Field
             state: absent
 
 
@@ -598,17 +884,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-contact_role"></div>
+        <div class="ansibleOptionAnchor" id="return-custom_field"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__return-contact_role:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__return-custom_field:
 
       .. rst-class:: ansible-option-title
 
-      **contact_role**
+      **custom_field**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-contact_role" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-custom_field" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -622,12 +908,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Serialized object as created or already existent within NetBox
+      Serialized object as created/existent/updated/deleted within NetBox
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` on creation
+      :ansible-option-returned-bold:`Returned:` always
 
 
       .. raw:: html
@@ -640,7 +926,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_role_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
