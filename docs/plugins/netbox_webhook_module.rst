@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_contact_module:
+.. _ansible_collections.netbox.netbox.netbox_webhook_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_contact module -- Creates or removes contacts from NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_webhook module -- Creates, updates or deletes webhook configuration within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -50,11 +50,11 @@ netbox.netbox.netbox_contact module -- Creates or removes contacts from NetBox
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_contact`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_webhook`.
 
 .. version_added
 
-.. versionadded:: 3.5.0 of netbox.netbox
+.. versionadded:: 3.6.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes contacts from NetBox
+- Creates, updates or removes webhook configuration within NetBox
 
 
 .. Aliases
@@ -103,7 +103,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -137,7 +137,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -159,7 +159,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the contact configuration
+      Defines the custom field
 
 
       .. raw:: html
@@ -169,17 +169,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/address"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/additional_headers"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/address:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/additional_headers:
 
       .. rst-class:: ansible-option-title
 
-      **address**
+      **additional_headers**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/address" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/additional_headers" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -193,7 +193,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The address of the contact
+      User-supplied HTTP headers. Supports jinja2 code.
 
 
       .. raw:: html
@@ -203,17 +203,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/body_template"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/comments:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/body_template:
 
       .. rst-class:: ansible-option-title
 
-      **comments**
+      **body_template**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/body_template" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -227,7 +227,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Comments on the contact
+      Body template for webhook. Supports jinja2 code.
 
 
       .. raw:: html
@@ -237,17 +237,196 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/contact_group"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/ca_file_path"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/contact_group:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/ca_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **contact_group**
+      **ca_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/contact_group" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/ca_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CA certificate file to use for SSL verification
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/conditions"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/conditions:
+
+      .. rst-class:: ansible-option-title
+
+      **conditions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/conditions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A set of conditions which determine whether the webhook will be generated.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/content_types"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/content_types:
+
+      .. rst-class:: ansible-option-title
+
+      **content_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/content_types" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The content type(s) to apply this webhook to
+
+      Required when \ :emphasis:`state=present`\ 
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/enabled"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable the webhook.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/http_content_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/http_content_type:
+
+      .. rst-class:: ansible-option-title
+
+      **http_content_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/http_content_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The HTTP content type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/http_method"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/http_method:
+
+      .. rst-class:: ansible-option-title
+
+      **http_method**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/http_method" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -261,75 +440,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Group assignment for the contact
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/custom_fields:
-
-      .. rst-class:: ansible-option-title
-
-      **custom_fields**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      must exist in NetBox
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/email"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/email:
-
-      .. rst-class:: ansible-option-title
-
-      **email**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/email" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The email of the contact
+      HTTP method of the webhook.
 
 
       .. raw:: html
@@ -341,7 +452,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -363,7 +474,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the contact to be created
+      Name of the webhook
 
 
       .. raw:: html
@@ -373,17 +484,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/phone"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/payload_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/phone:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/payload_url:
 
       .. rst-class:: ansible-option-title
 
-      **phone**
+      **payload_url**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/phone" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/payload_url" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -397,7 +508,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The phone number of the contact
+      URL for the webhook to use.
+
+      Required when \ :emphasis:`state=present`\ 
 
 
       .. raw:: html
@@ -407,51 +520,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/secret"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/tags:
-
-      .. rst-class:: ansible-option-title
-
-      **tags**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Any tags that the contact may need to be associated with
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/title"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-data/title:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/secret:
 
       .. rst-class:: ansible-option-title
 
-      **title**
+      **secret**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/title" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/secret" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -465,8 +544,172 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The title of the contact
+      Secret key to generate X-Hook-Signature to include in the payload.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ssl_verification"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/ssl_verification:
+
+      .. rst-class:: ansible-option-title
+
+      **ssl_verification**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ssl_verification" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable ssl verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/type_create"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/type_create:
+
+      .. rst-class:: ansible-option-title
+
+      **type_create**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/type_create" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Call this webhook when a matching object is created
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/type_delete"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/type_delete:
+
+      .. rst-class:: ansible-option-title
+
+      **type_delete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/type_delete" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Call this webhook when a matching object is deleted
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/type_update"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-data/type_update:
+
+      .. rst-class:: ansible-option-title
+
+      **type_update**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/type_update" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Call this webhook when a matching object is updated
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
 
       .. raw:: html
 
@@ -478,7 +721,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -512,7 +755,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -548,7 +791,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -586,7 +829,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -627,7 +870,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -672,8 +915,8 @@ Notes
 -----
 
 .. note::
-   - Tags should be defined as a YAML list
    - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\ 
 
 .. Seealso
 
@@ -686,41 +929,47 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox module"
+    - name: "Test NetBox webhook module"
       connection: local
-      hosts: localhost
-      gather_facts: False
+      hosts: localhost  
       tasks:
-        - name: Create contact within NetBox with only required information
-          netbox_contact:
+        - name: Create a webhook
+          netbox_webhook:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Contact One
-            state: present
+              content_types:
+                - dcim.device            
+              name: Example Webhook
+              type_create: yes
+              payload_url: https://payload.url/
+              body_template: !unsafe >-
+                {{ data }}
 
-        - name: Delete contact within netbox
-          netbox_contact:
+        - name: Update the webhook to run on delete
+          netbox_webhook:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Contact One
+              name: Example Webhook
+              type_create: yes
+              type_delete: yes
+              payload_url: https://payload.url/
+              body_template: !unsafe >-
+                {{ data }}         
+
+        - name: Delete the webhook
+          netbox_webhook:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Example Webhook
+              type_create: yes
+              type_delete: yes
+              payload_url: https://payload.url/
+              body_template: !unsafe >-
+                {{ data }}  
             state: absent
-
-        - name: Create contact with all parameters
-          netbox_contact:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: contact ABC          
-              title: Mr Contact
-              phone: 123456789
-              email: contac@contact.com          
-              tags:
-                - tagA
-                - tagB
-                - tagC
-            state: present
 
 
 
@@ -747,49 +996,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-contact"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__return-contact:
-
-      .. rst-class:: ansible-option-title
-
-      **contact**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-contact" title="Permalink to this return value"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Serialized object as created or already existent within NetBox
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-returned-bold:`Returned:` on creation
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_contact_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -812,6 +1021,46 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
 
       Message indicating failure or info about what has been achieved
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-webhook"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_webhook_module__return-webhook:
+
+      .. rst-class:: ansible-option-title
+
+      **webhook**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-webhook" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created/existent/updated/deleted within NetBox
 
 
       .. rst-class:: ansible-option-line

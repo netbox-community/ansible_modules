@@ -645,3 +645,34 @@ releases:
       bugfixes:
         - Fix prefix_count error on older NetBox versions in nb_inventory [#696](https://github.com/netbox-community/ansible_modules/pull/696)
     release_date: '2022-01-19'
+  3.6.0:
+    changes:
+      minor_changes:
+        - netbox_webhook - Add module [#738](https://github.com/netbox-community/ansible_modules/pull/738)
+        - netbox_export_template - Add module [#727](https://github.com/netbox-community/ansible_modules/pull/727)
+        - Add tags to modules missing it [#725](https://github.com/netbox-community/ansible_modules/pull/725)
+        - Add custom fields to modules missing it [#723](https://github.com/netbox-community/ansible_modules/pull/723)
+        - netbox_custom_link - Add module [#722](https://github.com/netbox-community/ansible_modules/pull/722)
+        - netbox_custom_field - Add module [#719](https://github.com/netbox-community/ansible_modules/pull/719)
+        - netbox_service - Add virtual_machine as an allowed query parameter for ipaddresses [#718](https://github.com/netbox-community/ansible_modules/pull/718)
+        - netbox_device_interface, netbox_vm_interface - Add bridge to netbox_device_interface and netbox_vm_interface [#713](https://github.com/netbox-community/ansible_modules/pull/713)
+        - nb_inventory - Add a racks option [#701](https://github.com/netbox-community/ansible_modules/pull/701)
+      bugfixes:
+        - Fix prefixes option in nb_inventory to ensure all prefixes are returned [#742](https://github.com/netbox-community/ansible_modules/pull/742)
+        - Ensure proper filtering for VLAN group [#741](https://github.com/netbox-community/ansible_modules/pull/741)
+        - Config Context is now able to be added to cluster [#715](https://github.com/netbox-community/ansible_modules/pull/715)
+        - Make sure API calls on versions without the /api/status endpoint [#707](https://github.com/netbox-community/ansible_modules/pull/707)
+    modules:
+      - description: Create, update or delete Custom fields in NetBox
+        name: netbox_custom_field
+        namespace: ''
+      - description: Create, update or delete Custom links in NetBox
+        name: netbox_custom_link
+        namespace: ''
+      - description: Create, update or delete Export templates in NetBox
+        name: netbox_export_template
+        namespace: ''
+      - description: Create, update or delete Webhooks in NetBox
+        name: netbox_webhook
+        namespace: ''
+    release_date: '2022-02-27'

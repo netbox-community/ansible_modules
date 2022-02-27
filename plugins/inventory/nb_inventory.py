@@ -109,12 +109,14 @@ DOCUMENTATION = """
                 - If True, sites' full data structures returned from Netbox API are included in host vars.
             default: False
             type: boolean
+            version_added: "3.5.0"
         prefixes:
             description:
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
                 - Must match selection for "site_data", as this changes the structure of "site" in hostvars
             default: False
             type: boolean
+            version_added: "3.5.0"
         services:
             description:
                 - If True, it adds the device or virtual machine services information in host vars.
@@ -220,6 +222,7 @@ DOCUMENTATION = """
                 - The choices of I(group_by) will be changed by this option.
             type: boolean
             default: True
+            version_added: "3.6.0"
 """
 
 EXAMPLES = """
