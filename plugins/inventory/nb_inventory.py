@@ -222,6 +222,7 @@ DOCUMENTATION = """
                 - The choices of I(group_by) will be changed by this option.
             type: boolean
             default: True
+            version_added: "3.6.0"
 """
 
 EXAMPLES = """
