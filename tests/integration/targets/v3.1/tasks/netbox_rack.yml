@@ -111,7 +111,6 @@
       - test_five['diff']['after']['asset_tag'] == "1234"
       - test_five['diff']['after']['comments'] == "Just testing rack module"
       - test_five['diff']['after']['facility_id'] == "EQUI10291"
-      - test_five['diff']['after']['location'] == 1
       - test_five['diff']['after']['outer_depth'] == 24
       - test_five['diff']['after']['outer_unit'] == "in"
       - test_five['diff']['after']['outer_width'] == 32
