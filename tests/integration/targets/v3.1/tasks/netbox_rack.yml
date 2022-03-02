@@ -11,6 +11,7 @@
     data:
       name: "Test rack one"
       site: "Test Site"
+      location: "Test Rack Group"
   register: test_one
 
 - name: "1 - ASSERT"
@@ -65,6 +66,7 @@
     data:
       name: Test rack one
       site: Test Site
+      location: "Test Rack Group"
     state: present
   register: test_four
 
