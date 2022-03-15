@@ -14,8 +14,8 @@ To keep the code simple, we only officially support the two latest releases of N
 - NetBox 2.11+ or the two latest NetBox releases
 - Python 3.8+
 - Python modules:
-  - `pynetbox 5.0.4+`, `pynetbox 6.4.0` if using 3.1 features
-  - `packages` if using Ansible < 2.10, as it's included in Ansible 2.10+
+  - `pynetbox 5.0.4+`, `pynetbox 6.4.0+` if using 3.1 features
+  - `packaging` if using Ansible < 2.10, as it's included in Ansible 2.10+
 - Ansible 2.10+
 - NetBox write-enabled token when using modules or read-only token for `nb_lookup/nb_inventory`
 
