@@ -1005,29 +1005,31 @@
             }
         }
     },
-    "all": {
-        "children": [
-            "cluster_Test_Cluster",
-            "cluster_Test_Cluster_2",
-            "cluster_group_test_cluster_group",
-            "cluster_type_test_cluster_type",
-            "device_type_cisco_test",
-            "device_type_nexus_parent",
-            "is_virtual",
-            "manufacturer_cisco",
-            "rack_Test_Rack",
-            "rack_Test_Rack_Site_2",
-            "rack_role_test_rack_role",
-            "region_other_region",
-            "region_parent_region",
-            "role_core_switch",
-            "service_http",
-            "service_ssh",
-            "service_telnet",
-            "site_test_site2",
-            "status_active",
-            "ungrouped"
-        ]
+"all": {
+    "children": [
+        "cluster_Test_Cluster",
+        "cluster_Test_Cluster_2",
+        "cluster_group_test_cluster_group",
+        "cluster_type_test_cluster_type",
+        "device_type_cisco_test",
+        "device_type_nexus_parent",
+        "is_virtual",
+        "manufacturer_cisco",
+        "rack_Test_Rack",
+        "rack_Test_Rack_Site_2",
+        "rack_role_test_rack_role",
+        "region_other_region",
+        "region_parent_region",
+        "role_core_switch",
+        "service_http",
+        "service_ssh",
+        "service_telnet",
+        "site_group_other_site_group",
+        "site_group_parent_site_group",
+        "site_test_site2",
+        "status_active",
+        "ungrouped"
+    ]
     },
     "cluster_Test_Cluster": {
         "hosts": [
