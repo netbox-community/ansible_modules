@@ -1201,6 +1201,11 @@
             "test100"
         ]
     },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
+        ]
+    },
     "rack_role_test_rack_role": {
         "hosts": [
             "R1-Device"
@@ -1224,6 +1229,11 @@
     "region_test_region": {
         "children": [
             "sites_test_site"
+        ]
+    },
+    "site_group_parent_site_group": {
+        "children": [
+            "site_group_test_site_group"
         ]
     },
     "sites_test_site": {

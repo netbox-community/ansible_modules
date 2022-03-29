@@ -257,7 +257,9 @@
             "is_virtual",
             "jinja_test_group",
             "nexus_parent",
+            "other_site_group",
             "other_region",
+            "parent_site_group",
             "parent_region",
             "test_cluster_group",
             "test_cluster_type",
@@ -308,6 +310,11 @@
     "nexus_parent": {
         "hosts": [
             "VC1"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "parent_rack_group": {
