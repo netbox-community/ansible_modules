@@ -981,7 +981,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def refresh_site_groups_lookup(self):
         url = self.api_endpoint + "/api/dcim/site-groups/?limit=0"
         site_groups = self.get_resource_list(api_url=url)
-        self.site_groups_lookup = dict((site_group["id"], site_group["slug"]) for site_group in site_groups)
+        self.site_groups_lookup = dict(
+            (site_group["id"], site_group["slug"]) for site_group in site_groups
+        )
 
         def get_site_group_parent(site_group):
             # Will fail if site_group does not have a parent site_group
