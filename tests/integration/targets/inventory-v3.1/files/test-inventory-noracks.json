@@ -25,6 +25,7 @@
                 "sites": [
                     "test-site2"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -83,7 +84,8 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "status": {
+                                "site_groups": [],
+                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -160,7 +162,8 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "status": {
+                                "site_groups": [],
+                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -294,6 +297,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -398,6 +402,7 @@
                         }
                     }
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -431,6 +436,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -491,7 +497,8 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "status": {
+                                "site_groups": [],
+                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -568,7 +575,8 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "status": {
+                                "site_groups": [],
+                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -746,6 +754,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -914,6 +923,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -1082,6 +1092,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -1109,6 +1120,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -1136,6 +1148,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -1156,6 +1169,7 @@
                 ],
                 "regions": [],
                 "services": [],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"

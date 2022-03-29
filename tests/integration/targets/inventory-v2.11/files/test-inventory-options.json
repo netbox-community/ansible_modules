@@ -38,6 +38,7 @@
                 "regions": [],
                 "role": "core-switch",
                 "site": "test-site2",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -51,6 +52,7 @@
                 "is_virtual": true,
                 "locations": [],
                 "regions": [],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -75,6 +77,7 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -100,6 +103,7 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -127,6 +131,7 @@
                 ],
                 "role": "core-switch",
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -145,6 +150,7 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -163,6 +169,7 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -181,6 +188,7 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -199,6 +207,7 @@
                     "parent-region"
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -212,6 +221,7 @@
                 "is_virtual": true,
                 "locations": [],
                 "regions": [],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
