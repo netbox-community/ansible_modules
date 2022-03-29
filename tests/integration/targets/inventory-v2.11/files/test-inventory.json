@@ -1003,6 +1003,11 @@
             "Test Nexus One"
         ]
     },
+    "site_group_parent_site_group": {
+        "children": [
+            "site_group_test_site_group"
+        ]
+    },
     "site_test_site": {
         "children": [
             "location_parent_rack_group"
