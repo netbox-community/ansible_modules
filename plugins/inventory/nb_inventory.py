@@ -160,6 +160,7 @@ DOCUMENTATION = """
                 - platforms
                 - platform
                 - region
+                - site_group
                 - cluster
                 - cluster_type
                 - cluster_group
@@ -469,6 +470,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
             "region": self.extract_regions,
+            "site_group": self.extract_site_groups,
             "cluster": self.extract_cluster,
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
@@ -799,6 +801,29 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             object_parent_lookup=self.regions_parent_lookup,
         )
 
+    def extract_site_groups(self, host):
+        # A host may have a site. A site may have a site_group. A site_group may have a parent site_group.
+        # Produce a list of site_groups:
+        # - it will be empty if the device has no site, or the site has no site_group set
+        # - it will have 1 element if the site's site_group has no parent
+        # - it will have multiple elements if the site's site_group has a parent site_group
+
+        site = host.get("site", None)
+        if not isinstance(site, dict):
+            # Device has no site
+            return []
+
+        site_id = site.get("id", None)
+        if site_id is None:
+            # Device has no site
+            return []
+
+        return self._objects_array_following_parents(
+            initial_object_id=self.sites_site_group_lookup[site_id],
+            object_lookup=self.site_groups_lookup,
+            object_parent_lookup=self.site_groups_parent_lookup,
+        )
+
     def extract_location(self, host):
         # A host may have a location. A location may have a parent location.
         # Produce a list of locations:
@@ -904,6 +929,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Dictionary of site id to region id
         self.sites_region_lookup = dict(map(get_region_for_site, sites))
 
+        def get_site_group_for_site(site):
+            # Will fail if site does not have a site_group defined in NetBox
+            try:
+                return (site["id"], site["group"]["id"])
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to site_group id
+        self.sites_site_group_lookup = dict(map(get_site_group_for_site, sites))
+
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
@@ -941,6 +976,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Dictionary of region id to parent region id
         self.regions_parent_lookup = dict(
             filter(lambda x: x is not None, map(get_region_parent, regions))
+        )
+
+    def refresh_site_groups_lookup(self):
+        url = self.api_endpoint + "/api/dcim/site-groups/?limit=0"
+        site_groups = self.get_resource_list(api_url=url)
+        self.site_groups_lookup = dict((site_group["id"], site_group["slug"]) for site_group in site_groups)
+
+        def get_site_group_parent(site_group):
+            # Will fail if site_group does not have a parent site_group
+            try:
+                return (site_group["id"], site_group["parent"]["id"])
+            except Exception:
+                return (site_group["id"], None)
+
+        # Dictionary of site_group id to parent site_group id
+        self.site_groups_parent_lookup = dict(
+            filter(lambda x: x is not None, map(get_site_group_parent, site_groups))
         )
 
     def refresh_locations_lookup(self):
@@ -1234,6 +1286,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         lookups = [
             self.refresh_sites_lookup,
             self.refresh_regions_lookup,
+            self.refresh_site_groups_lookup,
             self.refresh_locations_lookup,
             self.refresh_tenants_lookup,
             self.refresh_device_roles_lookup,
@@ -1505,7 +1558,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
-            if grouping in ["region", site_group_by, "location"]:
+            if grouping in ["region", site_group_by, "location", "site_group"]:
                 continue
 
             if grouping not in self.group_extractors:
@@ -1569,6 +1622,23 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             self.inventory.add_child(
                 region_transformed_group_names[region_id],
+                self.site_group_names[site_id],
+            )
+
+    def _add_site_group_groups(self):
+        # Mapping of site_group id to group name
+        site_group_transformed_group_names = self._setup_nested_groups(
+            "site_group", self.site_groups_lookup, self.site_groups_parent_lookup
+        )
+
+        # Add site groups as children of site_group groups
+        for site_id in self.sites_lookup:
+            site_group_id = self.sites_site_group_lookup.get(site_id, None)
+            if site_group_id is None:
+                continue
+
+            self.inventory.add_child(
+                site_group_transformed_group_names[site_group_id],
                 self.site_group_names[site_id],
             )
 
@@ -1646,6 +1716,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if attribute == "region":
                 attribute = "regions"
 
+            if attribute == "site_group":
+                attribute = "site_groups"
+
             if attribute == "location":
                 attribute = "locations"
 
@@ -1702,6 +1775,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             site_group_by in self.group_by
             or "location" in self.group_by
             or "region" in self.group_by
+            or "site_group" in self.group_by
         ):
             self._add_site_groups()
 
@@ -1712,6 +1786,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Create groups for regions, containing the site groups
         if "region" in self.group_by:
             self._add_region_groups()
+
+        # Create groups for site_groups, containing the site groups
+        if "site_group" in self.group_by:
+            self._add_site_group_groups()
 
         for host in chain(self.devices_list, self.vms_list):
 
