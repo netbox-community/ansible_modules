@@ -86,8 +86,7 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "site_groups": [],
-                "status": {
+                                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -148,8 +147,7 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "site_groups": [],
-                "status": {
+                                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -409,8 +407,7 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "site_groups": [],
-                "status": {
+                                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
@@ -471,8 +468,7 @@
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
-                                "site_groups": [],
-                "status": {
+                                "status": {
                                     "label": "Active",
                                     "value": "active"
                                 },
