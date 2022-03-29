@@ -1029,8 +1029,8 @@
             "core_switch",
             "is_virtual",
             "nexus_parent",
-            "other_site_group",
             "other_region",
+            "other_site_group",
             "parent_region",
             "parent_site_group",
             "test_cluster_group",
@@ -1076,6 +1076,11 @@
     "nexus_parent": {
         "hosts": [
             "Test Nexus One"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "parent_rack_group": {
