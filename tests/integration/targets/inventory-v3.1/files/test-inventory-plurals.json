@@ -1114,6 +1114,8 @@
             "racks_Test_Rack_Site_2",
             "region_other_region",
             "region_parent_region",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
             "sites_test_site2",
             "status_active",
             "ungrouped"

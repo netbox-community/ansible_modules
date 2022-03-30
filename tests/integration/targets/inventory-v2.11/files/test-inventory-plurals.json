@@ -963,6 +963,8 @@
             "racks_Test_Rack_Site_2",
             "region_other_region",
             "region_parent_region",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
             "sites_test_site2",
             "status_active",
             "ungrouped"
@@ -1048,6 +1050,11 @@
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "rack_role_test_rack_role": {
