@@ -1045,11 +1045,6 @@
             "test100"
         ]
     },
-    "parent_site_group": {
-        "children": [
-            "test_site_group"
-        ]
-    },
     "rack_role_test_rack_role": {
         "hosts": [
             "R1-Device"
