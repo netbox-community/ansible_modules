@@ -85,6 +85,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       prefix: 10.156.32.0/19
       site: Test Site
       vrf: Test VRF
@@ -111,6 +112,7 @@
       - test_five['diff']['after']['state'] == "present"
       - test_five['msg'] == "prefix 10.156.32.0/19 created"
       - test_five['prefix']['prefix'] == "10.156.32.0/19"
+      - test_five['prefix']['family'] == 4
       - test_five['prefix']['site'] == 1
       - test_five['prefix']['vrf'] == 1
       - test_five['prefix']['tenant'] == 1

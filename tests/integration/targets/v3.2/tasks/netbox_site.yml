@@ -107,8 +107,8 @@
       - test_four['site']['description'] == "This is a test description"
       - test_four['site']['physical_address'] == "Hollywood, CA, 90210"
       - test_four['site']['shipping_address'] == "Hollywood, CA, 90210"
-      - test_four['site']['latitude'] == "22.169141"
-      - test_four['site']['longitude'] == "-100.994041"
+      - test_four['site']['latitude'] == 22.169141
+      - test_four['site']['longitude'] == -100.994041
       - test_four['site']['contact_name'] == "Jenny"
       - test_four['site']['contact_phone'] == "867-5309"
       - test_four['site']['contact_email'] == "jenny@changednumber.com"
@@ -157,8 +157,8 @@
       - test_results['site']['description'] == "This is a test description"
       - test_results['site']['physical_address'] == "Hollywood, CA, 90210"
       - test_results['site']['shipping_address'] == "Hollywood, CA, 90210"
-      - test_results['site']['latitude'] == "22.169141"
-      - test_results['site']['longitude'] == "-100.994041"
+      - test_results['site']['latitude'] == 22.169141
+      - test_results['site']['longitude'] == -100.994041
       - test_results['site']['contact_name'] == "Jenny"
       - test_results['site']['contact_phone'] == "867-5309"
       - test_results['site']['contact_email'] == "jenny@changednumber.com"

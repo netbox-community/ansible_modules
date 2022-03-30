@@ -28,7 +28,6 @@
             "R1-Device": {
                 "custom_fields": {},
                 "device_type": "cisco-test",
-                "display": "R1-Device",
                 "is_virtual": false,
                 "locations": [],
                 "manufacturer": "cisco",
@@ -60,7 +59,6 @@
             "TestDeviceR1": {
                 "custom_fields": {},
                 "device_type": "cisco-test",
-                "display": "TestDeviceR1",
                 "is_virtual": false,
                 "locations": [
                     "test-rack-group",
@@ -85,7 +83,6 @@
                 "ansible_host": "nexus.example.com",
                 "custom_fields": {},
                 "device_type": "nexus-parent",
-                "display": "Test Nexus One",
                 "dns_name": "nexus.example.com",
                 "is_virtual": false,
                 "locations": [
@@ -109,7 +106,6 @@
             "test100": {
                 "custom_fields": {},
                 "device_type": "cisco-test",
-                "display": "test100",
                 "is_virtual": false,
                 "local_context_data": {
                     "ntp_servers": [

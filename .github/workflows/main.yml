@@ -46,14 +46,14 @@ jobs:
       matrix:
         include:
           - python-version: 3.8
-            VERSION: "v2.11"
-            INTEGRATION_TESTS: "v2.11"
-          - python-version: 3.8
             VERSION: "v3.0"
             INTEGRATION_TESTS: "v3.0"
           - python-version: 3.8
             VERSION: "v3.1"
             INTEGRATION_TESTS: "v3.1"
+          - python-version: 3.8
+            VERSION: "v3.2"
+            INTEGRATION_TESTS: "v3.2"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2

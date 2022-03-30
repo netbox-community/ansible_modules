@@ -91,7 +91,7 @@
       - test_four is changed
       - test_four['virtual_machine']['name'] == "Test VM One"
       - test_four['virtual_machine']['cluster'] == 1
-      - test_four['virtual_machine']['vcpus'] == "8.50"
+      - test_four['virtual_machine']['vcpus'] == 8.5
       - test_four['virtual_machine']['memory'] == 8
       - test_four['virtual_machine']['status'] == "planned"
       - test_four['virtual_machine']['role'] == 2

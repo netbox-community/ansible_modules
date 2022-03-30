@@ -19,7 +19,7 @@ fi
 declare -a COMPARE_OPTIONS # empty array
 
 # Check if NETBOX_VERSION has been set by runme_config, and if so, pass to compare_inventory_json.py
-if [[ "${NETBOX_VERSION:-}" == "v2.7" ]]
+if [[ "${NETBOX_VERSION:-}" == "v3.1" ]]
 then
     COMPARE_OPTIONS+=(--netbox-version "${NETBOX_VERSION}")
 fi

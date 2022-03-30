@@ -2,29 +2,19 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "cisco-test"
-                ],
+                "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
-                "local_context_data": [
-                    null
-                ],
-                "manufacturers": [
-                    "cisco"
-                ],
+                "locations": [],
+                "manufacturer": "cisco",
+                "rack": "Test Rack Site 2",
+                "rack_role": "test-rack-role",
                 "regions": [],
+                "role": "core-switch",
                 "services": [],
-                "sites": [
-                    "test-site2"
-                ],
+                "site": "test-site2",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -33,104 +23,26 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "nexus-parent"
-                ],
+                "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
-                        "created": "2022-01-20",
-                        "custom_fields": {},
-                        "description": "",
-                        "device": {
-                            "display": "Test Nexus Child One",
-                            "display_name": "Test Nexus Child One",
-                            "id": 5,
-                            "name": "Test Nexus Child One",
-                            "url": "http://localhost:8000/api/dcim/devices/5/"
-                        },
-                        "display": "Ethernet2/1",
-                        "enabled": true,
-                        "id": 2,
-                        "ip_addresses": [
-                            {
-                                "address": "172.16.180.12/24",
-                                "created": "2022-01-20",
-                                "custom_fields": {},
-                                "description": "",
-                                "display": "172.16.180.12/24",
-                                "dns_name": "nexus.example.com",
-                                "family": {
-                                    "label": "IPv4",
-                                    "value": 4
-                                },
-                                "id": 4,
-                                "last_updated": "2022-01-20T14:49:16.128203Z",
-                                "nat_inside": null,
-                                "nat_outside": null,
-                                "role": null,
-                                "status": {
-                                    "label": "Active",
-                                    "value": "active"
-                                },
-                                "tags": [],
-                                "tenant": null,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/4/",
-                                "vrf": null
-                            }
-                        ],
-                        "label": "",
-                        "lag": null,
-                        "last_updated": "2022-01-20T14:49:15.913151Z",
-                        "mac_address": null,
-                        "mark_connected": false,
-                        "mgmt_only": false,
-                        "mode": null,
-                        "mtu": null,
-                        "name": "Ethernet2/1",
-                        "parent": null,
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "type": {
-                            "label": "1000BASE-T (1GE)",
-                            "value": "1000base-t"
-                        },
-                        "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/dcim/interfaces/2/"
-                    },
-                    {
-                        "_occupied": false,
-                        "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
-                        "count_ipaddresses": 1,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:8000/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "display": "Ethernet1/1",
                         "enabled": true,
@@ -138,7 +50,6 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.11/24",
-                                "created": "2022-01-20",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.11/24",
@@ -148,7 +59,6 @@
                                     "value": 4
                                 },
                                 "id": 3,
-                                "last_updated": "2022-01-20T14:49:16.116006Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -158,13 +68,13 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/3/",
                                 "vrf": null
                             }
                         ],
                         "label": "",
                         "lag": null,
-                        "last_updated": "2022-01-20T14:49:15.898062Z",
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -172,44 +82,164 @@
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/dcim/interfaces/1/"
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
+                    },
+                    {
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
+                        "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 1,
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
+                        },
+                        "display": "Ethernet2/1",
+                        "enabled": true,
+                        "id": 2,
+                        "ip_addresses": [
+                            {
+                                "address": "172.16.180.12/24",
+                                "custom_fields": {},
+                                "description": "",
+                                "display": "172.16.180.12/24",
+                                "dns_name": "nexus.example.com",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 4,
+                                "nat_inside": null,
+                                "nat_outside": null,
+                                "role": null,
+                                "status": {
+                                    "label": "Active",
+                                    "value": "active"
+                                },
+                                "tags": [],
+                                "tenant": null,
+                                "vrf": null
+                            }
+                        ],
+                        "label": "",
+                        "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Ethernet2/1",
+                        "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "1000BASE-T (1GE)",
+                            "value": "1000base-t"
+                        },
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
+                    },
+                    {
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
+                        "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
+                        },
+                        "display": "wlink1",
+                        "enabled": true,
+                        "id": 6,
+                        "ip_addresses": [],
+                        "label": "",
+                        "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "wlink1",
+                        "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "IEEE 802.11a",
+                            "value": "ieee802.11a"
+                        },
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
                     }
                 ],
                 "is_virtual": false,
-                "local_context_data": [
-                    null
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
                 ],
-                "manufacturers": [
-                    "cisco"
-                ],
+                "manufacturer": "cisco",
                 "primary_ip4": "172.16.180.12",
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "role": "core-switch",
                 "services": [
                     {
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:8000/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
-                        "last_updated": "2022-01-20T14:49:17.209820Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -219,13 +249,10 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:8000/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -235,21 +262,19 @@
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
                         "enabled": true,
                         "id": 11,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.080211Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -258,24 +283,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/11/",
                         "virtual_machine": {
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/6/"
+                            "name": "Test VM With Spaces"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
                         "enabled": true,
                         "id": 12,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.094623Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -284,30 +307,24 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/12/",
                         "virtual_machine": {
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/6/"
+                            "name": "Test VM With Spaces"
                         }
                     }
                 ],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [],
                 "services": [
                     {
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
-                        "last_updated": "2022-01-20T14:49:17.220363Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -317,12 +334,10 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:8000/api/ipam/services/4/",
                         "virtual_machine": {
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/6/"
+                            "name": "Test VM With Spaces"
                         }
                     }
                 ],
@@ -333,32 +348,24 @@
                 "tags": []
             },
             "TestDeviceR1": {
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "cisco-test"
-                ],
+                "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
-                "local_context_data": [
-                    null
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
                 ],
-                "manufacturers": [
-                    "cisco"
-                ],
+                "manufacturer": "cisco",
+                "rack": "Test Rack",
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "role": "core-switch",
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -366,39 +373,29 @@
                 "tags": []
             },
             "test100": {
-                "config_context": [
-                    {
-                        "ntp_servers": [
-                            "pool.ntp.org"
-                        ]
-                    }
-                ],
+                "config_context": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
                 "custom_fields": {},
-                "device_roles": [
-                    "core-switch"
-                ],
-                "device_types": [
-                    "cisco-test"
-                ],
+                "device_type": "cisco-test",
                 "interfaces": [
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:8000/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "GigabitEthernet1",
                         "enabled": true,
@@ -406,7 +403,6 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.1/24",
-                                "created": "2022-01-20",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.1/24",
@@ -416,7 +412,6 @@
                                     "value": 4
                                 },
                                 "id": 1,
-                                "last_updated": "2022-01-20T14:49:16.089670Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -426,13 +421,13 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/1/",
                                 "vrf": null
                             }
                         ],
                         "label": "",
                         "lag": null,
-                        "last_updated": "2022-01-20T14:49:15.952114Z",
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -440,33 +435,37 @@
                         "mtu": null,
                         "name": "GigabitEthernet1",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/dcim/interfaces/3/"
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
                     },
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:8000/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "GigabitEthernet2",
                         "enabled": true,
@@ -474,7 +473,6 @@
                         "ip_addresses": [
                             {
                                 "address": "2001::1:1/64",
-                                "created": "2022-01-20",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "2001::1:1/64",
@@ -484,7 +482,6 @@
                                     "value": 6
                                 },
                                 "id": 2,
-                                "last_updated": "2022-01-20T14:49:16.103678Z",
                                 "nat_inside": null,
                                 "nat_outside": null,
                                 "role": null,
@@ -494,13 +491,13 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/2/",
                                 "vrf": null
                             }
                         ],
                         "label": "",
                         "lag": null,
-                        "last_updated": "2022-01-20T14:49:15.965579Z",
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -508,47 +505,98 @@
                         "mtu": null,
                         "name": "GigabitEthernet2",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/dcim/interfaces/4/"
-                    }
-                ],
-                "is_virtual": false,
-                "local_context_data": [
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
+                    },
                     {
-                        "ntp_servers": [
-                            "pool.ntp.org"
-                        ]
-                    }
-                ],
-                "manufacturers": [
-                    "cisco"
-                ],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "services": [
-                    {
-                        "created": "2022-01-20",
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
+                        "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:8000/api/dcim/devices/1/"
+                            "name": "test100"
+                        },
+                        "display": "wlink1",
+                        "enabled": true,
+                        "id": 5,
+                        "ip_addresses": [],
+                        "label": "",
+                        "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "wlink1",
+                        "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "IEEE 802.11a",
+                            "value": "ieee802.11a"
+                        },
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
+                    }
+                ],
+                "is_virtual": false,
+                "local_context_data": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "services": [
+                    {
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "test100",
+                            "id": 1,
+                            "name": "test100"
                         },
                         "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
-                        "last_updated": "2022-01-20T14:49:17.172032Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -558,19 +606,15 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:8000/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:8000/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "http (TCP/80)",
                         "id": 2,
@@ -579,18 +623,15 @@
                                 "address": "172.16.180.1/24",
                                 "display": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/1/"
+                                "id": 1
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "display": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2,
-                                "url": "http://localhost:8000/api/ipam/ip-addresses/2/"
+                                "id": 2
                             }
                         ],
-                        "last_updated": "2022-01-20T14:49:17.183702Z",
                         "name": "http",
                         "ports": [
                             80
@@ -600,13 +641,10 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:8000/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -617,21 +655,19 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
                         "enabled": true,
                         "id": 1,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:16.954397Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -640,24 +676,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/1/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:16.968192Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -666,24 +700,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/2/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:16.980590Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -692,24 +724,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/3/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
                         "enabled": true,
                         "id": 4,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:16.992949Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -718,24 +748,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/4/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
                         "enabled": true,
                         "id": 5,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.005719Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -744,27 +772,21 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/5/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
+                            "name": "test100-vm"
                         }
                     }
                 ],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -775,21 +797,19 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
                         "enabled": true,
                         "id": 6,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.018277Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -798,24 +818,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/6/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
                         "enabled": true,
                         "id": 7,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.030572Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -824,24 +842,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/7/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
                         "enabled": true,
                         "id": 8,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.042979Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -850,24 +866,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/8/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
                         "enabled": true,
                         "id": 9,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.055331Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -876,24 +890,22 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/9/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
-                        "created": "2022-01-20",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
                         "enabled": true,
                         "id": 10,
                         "ip_addresses": [],
-                        "last_updated": "2022-01-20T14:49:17.067828Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -902,27 +914,21 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
-                        "url": "http://localhost:8000/api/virtualization/interfaces/10/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm",
-                            "url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
+                            "name": "test101-vm"
                         }
                     }
                 ],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -933,23 +939,17 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -960,23 +960,17 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
+                "site": "test-site",
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -986,15 +980,11 @@
             "test104-vm": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
-                "config_context": [
-                    {}
-                ],
+                "config_context": {},
                 "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
-                "local_context_data": [
-                    null
-                ],
+                "locations": [],
                 "regions": [],
                 "services": [],
                 "status": {
@@ -1011,14 +1001,20 @@
             "cluster_Test_Cluster_2",
             "cluster_group_test_cluster_group",
             "cluster_type_test_cluster_type",
-            "device_roles_core_switch",
-            "device_types_cisco_test",
-            "device_types_nexus_parent",
+            "device_type_cisco_test",
+            "device_type_nexus_parent",
             "is_virtual",
-            "manufacturers_cisco",
+            "manufacturer_cisco",
+            "rack_Test_Rack",
+            "rack_Test_Rack_Site_2",
+            "rack_role_test_rack_role",
             "region_other_region",
             "region_parent_region",
-            "sites_test_site2",
+            "role_core_switch",
+            "service_http",
+            "service_ssh",
+            "service_telnet",
+            "site_test_site2",
             "status_active",
             "ungrouped"
         ]
@@ -1055,22 +1051,14 @@
             "test104-vm"
         ]
     },
-    "device_roles_core_switch": {
-        "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100"
-        ]
-    },
-    "device_types_cisco_test": {
+    "device_type_cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_types_nexus_parent": {
+    "device_type_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
@@ -1097,12 +1085,27 @@
             "test100"
         ]
     },
-    "manufacturers_cisco": {
+    "manufacturer_cisco": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
+        ]
+    },
+    "rack_Test_Rack": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "rack_Test_Rack_Site_2": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
+    "rack_role_test_rack_role": {
+        "hosts": [
+            "R1-Device"
         ]
     },
     "region_parent_region": {
@@ -1112,10 +1115,34 @@
     },
     "region_test_region": {
         "children": [
-            "sites_test_site"
+            "site_test_site"
         ]
     },
-    "sites_test_site": {
+    "role_core_switch": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "service_http": {
+        "hosts": [
+            "test100"
+        ]
+    },
+    "service_ssh": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100"
+        ]
+    },
+    "service_telnet": {
+        "hosts": [
+            "Test Nexus One"
+        ]
+    },
+    "site_test_site": {
         "children": [
             "location_parent_rack_group"
         ],
@@ -1126,7 +1153,7 @@
             "test103-vm"
         ]
     },
-    "sites_test_site2": {
+    "site_test_site2": {
         "hosts": [
             "R1-Device"
         ]
