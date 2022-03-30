@@ -99,7 +99,7 @@
       - test_four['msg'] == "site Test - California created"
       - test_four['site']['status'] == "planned"
       - test_four['site']['region'] == 1
-      - test_four['site']['group'] == 1
+      - test_four['site']['group'] == 4
       - test_four['site']['tenant'] == 1
       - test_four['site']['facility'] == "EquinoxCA7"
       - test_four['site']['asn'] == 65001
