@@ -149,7 +149,7 @@
       - test_results['msg'] == "site Test - California already exists"
       - test_results['site']['status'] == "planned"
       - test_results['site']['region'] == 1
-      - test_results['site']['group'] == 1
+      - test_results['site']['group'] == 4
       - test_results['site']['tenant'] == 1
       - test_results['site']['facility'] == "EquinoxCA7"
       - test_results['site']['asn'] == 65001
