@@ -89,6 +89,9 @@
     state: present
   register: test_four
 
+- debug:
+    var: test_four
+
 - name: "4 - ASSERT"
   assert:
     that:
