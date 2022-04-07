@@ -215,7 +215,7 @@
       - results['vlan_group']['name'] == "VLAN Group Site Group"
       - results['vlan_group']['slug'] == "vlan-group-site-group"
       - results['vlan_group']['scope_type'] == "dcim.sitegroup"
-      - results['vlan_group']['scope_id'] == 1
+      - results['vlan_group']['scope_id'] == 4
       - results['msg'] == "vlan_group VLAN Group Site Group created"
 
 # Commented out due to invalid content type being reported back by API
