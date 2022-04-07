@@ -101,7 +101,8 @@
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
@@ -109,6 +110,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -119,7 +121,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -171,7 +174,8 @@
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet2/1",
                         "parent": null,
@@ -179,6 +183,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -189,7 +194,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -218,7 +224,8 @@
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
@@ -226,6 +233,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -236,7 +244,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
@@ -319,7 +328,8 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -343,7 +353,8 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
@@ -491,6 +502,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet1",
                         "parent": null,
@@ -498,6 +510,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -508,7 +521,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -561,6 +575,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet2",
                         "parent": null,
@@ -568,6 +583,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -578,7 +594,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -608,6 +625,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
@@ -615,6 +633,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -625,7 +644,8 @@
                         "untagged_vlan": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
@@ -747,7 +767,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -771,7 +792,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -795,7 +817,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -819,7 +842,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -843,7 +867,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
@@ -897,7 +922,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -921,7 +947,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -945,7 +972,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -969,7 +997,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -993,7 +1022,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,

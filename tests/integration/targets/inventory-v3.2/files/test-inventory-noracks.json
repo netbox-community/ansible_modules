@@ -65,6 +65,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/5/"
                         },
                         "display": "Ethernet2/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [
@@ -103,6 +104,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet2/1",
                         "parent": null,
@@ -110,6 +112,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -121,7 +124,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/2/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -142,6 +146,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/4/"
                         },
                         "display": "Ethernet1/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 1,
                         "ip_addresses": [
@@ -180,6 +185,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
@@ -187,6 +193,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -198,7 +205,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/1/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -219,6 +227,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/4/"
                         },
                         "display": "wlink1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 6,
                         "ip_addresses": [],
@@ -231,6 +240,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
@@ -238,6 +248,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -249,7 +260,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/6/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
@@ -336,7 +348,8 @@
                             "id": 6,
                             "name": "Test VM With Spaces",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/6/"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -365,7 +378,8 @@
                             "name": "Test VM With Spaces",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/6/"
                         }
-                    }
+                    },
+                    "vrf": null
                 ],
                 "is_virtual": true,
                 "local_context_data": [
@@ -476,6 +490,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/1/"
                         },
                         "display": "GigabitEthernet1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [
@@ -514,6 +529,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet1",
                         "parent": null,
@@ -521,6 +537,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -532,7 +549,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/3/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -553,6 +571,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/1/"
                         },
                         "display": "GigabitEthernet2",
+                        "duplex": null,
                         "enabled": true,
                         "id": 4,
                         "ip_addresses": [
@@ -591,6 +610,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet2",
                         "parent": null,
@@ -598,6 +618,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -609,7 +630,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/4/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
@@ -630,6 +652,7 @@
                             "url": "http://localhost:8000/api/dcim/devices/1/"
                         },
                         "display": "wlink1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 5,
                         "ip_addresses": [],
@@ -642,6 +665,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
@@ -649,6 +673,7 @@
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
                         "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
                         "tx_power": null,
@@ -660,7 +685,8 @@
                         "url": "http://localhost:8000/api/dcim/interfaces/5/",
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
@@ -792,7 +818,8 @@
                             "id": 1,
                             "name": "test100-vm",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -820,7 +847,8 @@
                             "id": 1,
                             "name": "test100-vm",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -848,7 +876,8 @@
                             "id": 1,
                             "name": "test100-vm",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -876,7 +905,8 @@
                             "id": 1,
                             "name": "test100-vm",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -904,7 +934,8 @@
                             "id": 1,
                             "name": "test100-vm",
                             "url": "http://localhost:8000/api/virtualization/virtual-machines/1/"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
