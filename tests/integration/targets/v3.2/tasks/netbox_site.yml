@@ -71,7 +71,6 @@
       site_group: Test Site Group
       tenant: Test Tenant
       facility: EquinoxCA7
-      asn: 65001
       time_zone: America/Los Angeles
       description: This is a test description
       physical_address: Hollywood, CA, 90210
@@ -96,7 +95,6 @@
       - test_four['site']['group'] == 4
       - test_four['site']['tenant'] == 1
       - test_four['site']['facility'] == "EquinoxCA7"
-      - test_four['site']['asn'] == 65001
       - test_four['site']['time_zone'] == "America/Los_Angeles"
       - test_four['site']['description'] == "This is a test description"
       - test_four['site']['physical_address'] == "Hollywood, CA, 90210"
@@ -117,7 +115,6 @@
       site_group: Test Site Group
       tenant: Test Tenant
       facility: EquinoxCA7
-      asn: 65001
       time_zone: America/Los Angeles
       description: This is a test description
       physical_address: Hollywood, CA, 90210
@@ -140,7 +137,6 @@
       - test_results['site']['group'] == 4
       - test_results['site']['tenant'] == 1
       - test_results['site']['facility'] == "EquinoxCA7"
-      - test_results['site']['asn'] == 65001
       - test_results['site']['time_zone'] == "America/Los_Angeles"
       - test_results['site']['description'] == "This is a test description"
       - test_results['site']['physical_address'] == "Hollywood, CA, 90210"
