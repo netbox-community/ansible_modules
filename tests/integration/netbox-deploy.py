@@ -85,6 +85,20 @@ test_region = nb.dcim.regions.get(slug="test-region")
 test_region.parent = parent_region
 test_region.save()
 
+## Create site_groups
+site_groups = [
+    {"name": "Test site_group", "slug": "test-site_group"},
+    {"name": "Parent site_group", "slug": "parent-site_group"},
+    {"name": "Other site_group", "slug": "other-site_group"},
+]
+created_site_groups = make_netbox_calls(nb.dcim.site_groups, site_groups)
+### site_group variables to be used later on
+parent_site_group = nb.dcim.site_groups.get(slug="parent-site_group")
+test_site_group = nb.dcim.site_groups.get(slug="test-site_group")
+
+### Create relationship between site_groups
+test_site_group.parent = parent_site_group
+test_site_group.save()
 
 ## Create SITES and register variables
 sites = [
@@ -93,6 +107,7 @@ sites = [
         "slug": "test-site",
         "tenant": test_tenant.id,
         "region": test_region.id,
+        "site_group": test_site_group.id,
     },
     {"name": "Test Site2", "slug": "test-site2"},
 ]

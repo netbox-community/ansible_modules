@@ -55,11 +55,11 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['parent'] == 1
+      - test_three['diff']['after']['parent'] == 4
       - test_three['diff']['after']['description'] == "This is a site group"
       - test_three['site_group']['name'] == "Site Group"
       - test_three['site_group']['slug'] == "site-group"
-      - test_three['site_group']['parent'] == 1
+      - test_three['site_group']['parent'] == 4
       - test_three['site_group']['description'] == "This is a site group"
       - test_three['msg'] == "site_group Site Group updated"
 

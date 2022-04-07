@@ -99,7 +99,7 @@
       - test_four['msg'] == "site Test - California created"
       - test_four['site']['status'] == "planned"
       - test_four['site']['region'] == 1
-      - test_four['site']['group'] == 1
+      - test_four['site']['group'] == 4
       - test_four['site']['tenant'] == 1
       - test_four['site']['facility'] == "EquinoxCA7"
       - test_four['site']['asn'] == 65001
@@ -149,7 +149,7 @@
       - test_results['msg'] == "site Test - California already exists"
       - test_results['site']['status'] == "planned"
       - test_results['site']['region'] == 1
-      - test_results['site']['group'] == 1
+      - test_results['site']['group'] == 4
       - test_results['site']['tenant'] == 1
       - test_results['site']['facility'] == "EquinoxCA7"
       - test_results['site']['asn'] == 65001

@@ -20,6 +20,7 @@ group_by:
   - manufacturer
   - platform
   - region
+  - site_group
   - cluster
   - cluster_group
   - cluster_type

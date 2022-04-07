@@ -37,6 +37,7 @@
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site2",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -209,6 +210,7 @@
                     }
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -291,6 +293,7 @@
                         }
                     }
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -314,6 +317,7 @@
                 "role": "core-switch",
                 "services": [],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -522,6 +526,7 @@
                     }
                 ],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -652,6 +657,7 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -782,6 +788,7 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -801,6 +808,7 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -820,6 +828,7 @@
                 ],
                 "services": [],
                 "site": "test-site",
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -834,6 +843,7 @@
                 "locations": [],
                 "regions": [],
                 "services": [],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -869,7 +879,9 @@
             "is_virtual",
             "nexus_parent",
             "other_region",
+            "other_site_group",
             "parent_region",
+            "parent_site_group",
             "test_cluster_group",
             "test_cluster_type",
             "test_rack_role",
@@ -913,6 +925,11 @@
     "nexus_parent": {
         "hosts": [
             "Test Nexus One"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "parent_rack_group": {
