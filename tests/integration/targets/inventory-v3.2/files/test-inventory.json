@@ -81,6 +81,7 @@
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
@@ -300,7 +301,8 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -352,8 +354,7 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        },
-                        "vrf": null
+                        }
                     }
                 ],
                 "site_groups": [],
