@@ -717,7 +717,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -741,7 +742,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -765,7 +767,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -789,7 +792,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
                         "bridge": null,
@@ -814,7 +818,8 @@
                             "id": 1,
                             "name": "test100-vm"
                         }
-                    }
+                    },
+                    "vrf": null
                 ],
                 "is_virtual": true,
                 "locations": [],

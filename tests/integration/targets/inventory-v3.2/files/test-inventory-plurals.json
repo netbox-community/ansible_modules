@@ -68,6 +68,7 @@
                             "name": "Test Nexus One"
                         },
                         "display": "Ethernet1/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 1,
                         "ip_addresses": [
@@ -141,6 +142,7 @@
                             "name": "Test Nexus Child One"
                         },
                         "display": "Ethernet2/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [
@@ -214,6 +216,7 @@
                             "name": "Test Nexus One"
                         },
                         "display": "wlink1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 6,
                         "ip_addresses": [],
@@ -468,6 +471,7 @@
                             "name": "test100"
                         },
                         "display": "GigabitEthernet1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [
@@ -541,6 +545,7 @@
                             "name": "test100"
                         },
                         "display": "GigabitEthernet2",
+                        "duplex": null,
                         "enabled": true,
                         "id": 4,
                         "ip_addresses": [
@@ -614,6 +619,7 @@
                             "name": "test100"
                         },
                         "display": "wlink1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 5,
                         "ip_addresses": [],
