@@ -957,7 +957,8 @@
 							"id": 2,
 							"name": "test101-vm",
 							"url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
-						}
+						},
+                        "vrf": null
 					},
 					{
 						"bridge": null,
@@ -985,7 +986,8 @@
 							"id": 2,
 							"name": "test101-vm",
 							"url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
-						}
+						},
+                        "vrf": null
 					},
 					{
 						"bridge": null,
@@ -1013,7 +1015,8 @@
 							"id": 2,
 							"name": "test101-vm",
 							"url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
-						}
+						},
+                        "vrf": null
 					},
 					{
 						"bridge": null,
@@ -1041,7 +1044,8 @@
 							"id": 2,
 							"name": "test101-vm",
 							"url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
-						}
+						},
+                        "vrf": null
 					},
 					{
 						"bridge": null,
@@ -1069,7 +1073,8 @@
 							"id": 2,
 							"name": "test101-vm",
 							"url": "http://localhost:8000/api/virtualization/virtual-machines/2/"
-						}
+						},
+                        "vrf": null
 					}
 				],
 				"is_virtual": true,
