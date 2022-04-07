@@ -25,6 +25,7 @@
                 "sites": [
                     "test-site2"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -223,6 +224,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -323,6 +325,7 @@
                         }
                     }
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -356,6 +359,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -600,6 +604,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -758,6 +763,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -916,6 +922,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -943,6 +950,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -970,6 +978,7 @@
                 "sites": [
                     "test-site"
                 ],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -990,6 +999,7 @@
                 ],
                 "regions": [],
                 "services": [],
+                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -1011,6 +1021,8 @@
             "manufacturers_cisco",
             "region_other_region",
             "region_parent_region",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
             "sites_test_site2",
             "status_active",
             "ungrouped"
@@ -1106,6 +1118,11 @@
     "region_test_region": {
         "children": [
             "sites_test_site"
+        ]
+    },
+    "site_group_parent_site_group": {
+        "children": [
+            "site_group_test_site_group"
         ]
     },
     "sites_test_site": {
