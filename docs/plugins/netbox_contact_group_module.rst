@@ -295,7 +295,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Slug of the parent contact group
+      Name of the parent contact group
 
 
       .. raw:: html
