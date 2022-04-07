@@ -61,27 +61,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-        if: matrix.VERSION == 'v2.11'
-      - name: Clone & Start netbox-docker containers - 2.11
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.2.0
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v2.11
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v2.11'
       - name: Clone & Start netbox-docker containers - 3.0
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -122,6 +101,26 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v3.1'
+      - name: Clone & Start netbox-docker containers - 3.2
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 1.6.1
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              image: netboxcommunity/netbox:v3.2
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v3.2'
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1.1.1
         with:
