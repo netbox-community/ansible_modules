@@ -1,0 +1,111 @@
+---
+##
+##
+### NETBOX_INVENTORY_ITEM
+##
+##
+- name: "INVENTORY_ITEM 1: Necessary info creation"
+  netbox.netbox.netbox_inventory_item:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      device: "test100"
+      name: "10G-SFP+"
+    state: present
+  register: test_one
+
+- name: "INVENTORY_ITEM 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['inventory_item']['name'] == "10G-SFP+"
+      - test_one['inventory_item']['device'] == 1
+      - test_one['msg'] == "inventory_item 10G-SFP+ created"
+
+- name: "INVENTORY_ITEM 2: Create duplicate"
+  netbox.netbox.netbox_inventory_item:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      device: "test100"
+      name: "10G-SFP+"
+    state: present
+  register: test_two
+
+- name: "INVENTORY_ITEM 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['inventory_item']['name'] == "10G-SFP+"
+      - test_two['inventory_item']['device'] == 1
+      - test_two['msg'] == "inventory_item 10G-SFP+ already exists"
+
+- name: "INVENTORY_ITEM 3: ASSERT - Update"
+  netbox.netbox.netbox_inventory_item:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      device: "test100"
+      name: "10G-SFP+"
+      label: "PHY test100"
+      manufacturer: "Cisco"
+      part_id: "10G-SFP+"
+      serial: "1234"
+      asset_tag: "1234"
+      description: "New SFP"
+      discovered: True
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_three
+
+- name: "INVENTORY_ITEM 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['asset_tag'] == "1234"
+      - test_three['diff']['after']['serial'] == "1234"
+      - test_three['diff']['after']['description'] == "New SFP"
+      - test_three['diff']['after']['manufacturer'] == 1
+      - test_three['diff']['after']['part_id'] == "10G-SFP+"
+      - test_three['diff']['after']['label'] == "PHY test100"
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['diff']['after']['discovered'] == True
+      - test_three['inventory_item']['name'] == "10G-SFP+"
+      - test_three['inventory_item']['label'] == "PHY test100"
+      - test_three['inventory_item']['device'] == 1
+      - test_three['inventory_item']['asset_tag'] == "1234"
+      - test_three['inventory_item']['serial'] == "1234"
+      - test_three['inventory_item']['description'] == "New SFP"
+      - test_three['inventory_item']['manufacturer'] == 1
+      - test_three['inventory_item']['part_id'] == "10G-SFP+"
+      - test_three['inventory_item']['tags'][0] == 4
+      - test_three['inventory_item']['discovered'] == True
+      - test_three['msg'] == "inventory_item 10G-SFP+ updated"
+
+- name: "INVENTORY_ITEM 4: ASSERT - Delete"
+  netbox.netbox.netbox_inventory_item:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      device: "test100"
+      name: "10G-SFP+"
+    state: absent
+  register: test_four
+
+- name: "INVENTORY_ITEM 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['inventory_item']['name'] == "10G-SFP+"
+      - test_four['inventory_item']['label'] == "PHY test100"
+      - test_four['inventory_item']['device'] == 1
+      - test_four['inventory_item']['asset_tag'] == "1234"
+      - test_four['inventory_item']['serial'] == "1234"
+      - test_four['inventory_item']['description'] == "New SFP"
+      - test_four['inventory_item']['manufacturer'] == 1
+      - test_four['inventory_item']['part_id'] == "10G-SFP+"
+      - test_four['inventory_item']['tags'][0] == 4
+      - test_four['msg'] == "inventory_item 10G-SFP+ deleted"

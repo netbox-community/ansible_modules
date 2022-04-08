@@ -1,0 +1,136 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_REAR_PORT_TEMPLATE
+##
+##
+- name: "REAR_PORT_TEMPLATE 1: Necessary info creation"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template
+      device_type: Cisco Test
+      type: bnc
+    state: present
+  register: test_one
+
+- name: "REAR_PORT_TEMPLATE 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['rear_port_template']['name'] == "Rear Port Template"
+      - test_one['rear_port_template']['device_type'] == 1
+      - test_one['rear_port_template']['type'] == "bnc"
+      - test_one['msg'] == "rear_port_template Rear Port Template created"
+
+- name: "REAR_PORT_TEMPLATE 2: Create duplicate"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template
+      device_type: Cisco Test
+      type: bnc
+    state: present
+  register: test_two
+
+- name: "REAR_PORT_TEMPLATE 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['rear_port_template']['name'] == "Rear Port Template"
+      - test_two['rear_port_template']['device_type'] == 1
+      - test_two['rear_port_template']['type'] == "bnc"
+      - test_two['msg'] == "rear_port_template Rear Port Template already exists"
+
+- name: "REAR_PORT_TEMPLATE 3: Update Rear Port Template with other fields"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template
+      device_type: Cisco Test
+      type: bnc
+      positions: 5
+    state: present
+  register: test_three
+
+- name: "REAR_PORT_TEMPLATE 3: ASSERT - Update Rear Port Template with other fields"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['positions'] == 5
+      - test_three['rear_port_template']['name'] == "Rear Port Template"
+      - test_three['rear_port_template']['device_type'] == 1
+      - test_three['rear_port_template']['type'] == "bnc"
+      - test_three['rear_port_template']['positions'] == 5
+      - test_three['msg'] == "rear_port_template Rear Port Template updated"
+
+- name: "REAR_PORT_TEMPLATE 4: Create Rear Port Template for Delete Test"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template 2
+      device_type: Cisco Test
+      type: bnc
+    state: present
+  register: test_four
+
+- name: "REAR_PORT_TEMPLATE 4: ASSERT - Create Rear Port Template for Delete Test"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['rear_port_template']['name'] == "Rear Port Template 2"
+      - test_four['rear_port_template']['device_type'] == 1
+      - test_four['rear_port_template']['type'] == "bnc"
+      - test_four['msg'] == "rear_port_template Rear Port Template 2 created"
+
+- name: "REAR_PORT_TEMPLATE 5: Delete Rear Port Template"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template 2
+      device_type: Cisco Test
+      type: bnc
+    state: absent
+  register: test_five
+
+- name: "REAR_PORT_TEMPLATE 5: ASSERT - Delete Rear Port Template"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "rear_port_template Rear Port Template 2 deleted"
+
+- name: "REAR_PORT_TEMPLATE 6: Create second Rear Port Template"
+  netbox.netbox.netbox_rear_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Rear Port Template 2
+      device_type: Arista Test
+      type: bnc
+    state: present
+  register: test_six
+
+- name: "REAR_PORT_TEMPLATE 6: ASSERT - Create second Rear Port Template"
+  assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['rear_port_template']['name'] == "Rear Port Template 2"
+      - test_six['rear_port_template']['device_type'] == 2
+      - test_six['rear_port_template']['type'] == "bnc"
+      - test_six['msg'] == "rear_port_template Rear Port Template 2 created"
