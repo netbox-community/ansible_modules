@@ -1,0 +1,99 @@
+---
+##
+##
+### NETBOX_PROVIDER
+##
+##
+- name: "NETBOX_PROVIDER 1: Create provider within NetBox with only required information"
+  netbox.netbox.netbox_provider:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test Provider One
+    state: present
+  register: test_one
+
+- name: "NETBOX_PROVIDER 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['provider']['name'] == "Test Provider One"
+      - test_one['provider']['slug'] == "test-provider-one"
+      - test_one['msg'] == "provider Test Provider One created"
+
+- name: "NETBOX_PROVIDER 2: Duplicate"
+  netbox.netbox.netbox_provider:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test Provider One
+    state: present
+  register: test_two
+
+- name: "NETBOX_PROVIDER 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['provider']['name'] == "Test Provider One"
+      - test_two['provider']['slug'] == "test-provider-one"
+      - test_two['msg'] == "provider Test Provider One already exists"
+
+- name: "NETBOX_PROVIDER 3: Update provider with other fields"
+  netbox.netbox.netbox_provider:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test Provider One
+      asn: 65001
+      account: "200129104"
+      portal_url: http://provider.net
+      noc_contact: noc@provider.net
+      admin_contact: admin@provider.net
+      comments: "BAD PROVIDER"
+    state: present
+  register: test_three
+
+- name: "NETBOX_PROVIDER 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['asn'] == 65001
+      - test_three['diff']['after']['account'] == "200129104"
+      - test_three['diff']['after']['portal_url'] == "http://provider.net"
+      - test_three['diff']['after']['noc_contact'] == "noc@provider.net"
+      - test_three['diff']['after']['admin_contact'] == "admin@provider.net"
+      - test_three['diff']['after']['comments'] == "BAD PROVIDER"
+      - test_three['provider']['name'] == "Test Provider One"
+      - test_three['provider']['slug'] == "test-provider-one"
+      - test_three['provider']['asn'] == 65001
+      - test_three['provider']['account'] == "200129104"
+      - test_three['provider']['portal_url'] == "http://provider.net"
+      - test_three['provider']['noc_contact'] == "noc@provider.net"
+      - test_three['provider']['admin_contact'] == "admin@provider.net"
+      - test_three['provider']['comments'] == "BAD PROVIDER"
+      - test_three['msg'] == "provider Test Provider One updated"
+
+- name: "NETBOX_PROVIDER 4: Delete provider within netbox"
+  netbox.netbox.netbox_provider:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Test Provider One
+    state: absent
+  register: test_four
+
+- name: "NETBOX_PROVIDER 4 : ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['provider']['name'] == "Test Provider One"
+      - test_four['provider']['slug'] == "test-provider-one"
+      - test_four['provider']['asn'] == 65001
+      - test_four['provider']['account'] == "200129104"
+      - test_four['provider']['portal_url'] == "http://provider.net"
+      - test_four['provider']['noc_contact'] == "noc@provider.net"
+      - test_four['provider']['admin_contact'] == "admin@provider.net"
+      - test_four['provider']['comments'] == "BAD PROVIDER"
+      - test_four['msg'] == "provider Test Provider One deleted"
