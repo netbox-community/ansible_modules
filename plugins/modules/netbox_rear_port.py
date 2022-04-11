@@ -71,6 +71,11 @@ options:
           - Description of the rear port
         required: false
         type: str
+      label:
+        description:
+          - Label of the rear port
+        required: false
+        type: str
       tags:
         description:
           - Any tags that the rear port may need to be associated with
@@ -176,6 +181,7 @@ def main():
                     ),
                     positions=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),

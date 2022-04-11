@@ -66,6 +66,16 @@ options:
           - The number of front ports which may be mapped to each rear port
         required: false
         type: int
+      description:
+        description:
+          - Description of the rear port
+        required: false
+        type: str
+      label:
+        description:
+          - Label of the rear port
+        required: false
+        type: str
 """
 
 EXAMPLES = r"""
@@ -163,6 +173,8 @@ def main():
                         type="str",
                     ),
                     positions=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
                 ),
             ),
         )
