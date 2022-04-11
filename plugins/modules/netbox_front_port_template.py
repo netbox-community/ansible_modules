@@ -71,6 +71,18 @@ options:
           - The position of the rear port template this front port template is connected to
         required: false
         type: int
+      description:
+        description:
+          - Description of the front port
+        required: false
+        type: str
+        version_added: "3.7.0"
+      label:
+        description:
+          - Label of the front port
+        required: false
+        type: str
+        version_added: "3.7.0"
 """
 
 EXAMPLES = r"""
@@ -172,6 +184,8 @@ def main():
                     ),
                     rear_port_template=dict(required=True, type="raw"),
                     rear_port_template_position=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
                 ),
             ),
         )
