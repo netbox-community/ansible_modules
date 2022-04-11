@@ -81,6 +81,7 @@ options:
           - Label of the front port
         required: false
         type: str
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the front port may need to be associated with

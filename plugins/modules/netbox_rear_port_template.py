@@ -71,11 +71,13 @@ options:
           - Description of the rear port
         required: false
         type: str
+        version_added: "3.7.0"
       label:
         description:
           - Label of the rear port
         required: false
         type: str
+        version_added: "3.7.0"
 """
 
 EXAMPLES = r"""

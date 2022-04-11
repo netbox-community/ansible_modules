@@ -76,6 +76,7 @@ options:
           - Label of the rear port
         required: false
         type: str
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the rear port may need to be associated with
