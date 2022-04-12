@@ -64,6 +64,12 @@ options:
           - Group assignment for the contact
         required: false
         type: raw
+      link:
+        description:
+          - URL associated with the contact
+        required: false
+        type: str
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the contact may need to be associated with
@@ -156,6 +162,7 @@ def main():
                     address=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     contact_group=dict(required=False, type="raw"),
+                    link=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
