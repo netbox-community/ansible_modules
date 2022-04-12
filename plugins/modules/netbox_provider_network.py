@@ -50,6 +50,12 @@ options:
           - Comments related to the provider network
         required: false
         type: str
+      service_id:
+        description:
+          - Arbitrary service ID
+        required: false
+        type: str
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the provdier_network may need to be associated with
@@ -138,6 +144,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    service_id=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
