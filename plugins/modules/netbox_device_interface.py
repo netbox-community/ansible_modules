@@ -101,6 +101,24 @@ options:
           - The mode of the interface
         required: false
         type: raw
+      vrf:
+        description:
+          - The VRF of the interface
+        required: false
+        type: raw
+        version_added: "3.7.0"
+      speed:
+        description:
+          - The speed of the interface
+        required: false
+        type: int
+        version_added: "3.7.0"
+      duplex:
+        description:
+          - The duplex of the interface
+        required: false
+        type: str
+        version_added: "3.7.0"
       parent_interface:
         description:
           - The device's parent interface
@@ -286,6 +304,9 @@ def main():
                     mgmt_only=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
+                    vrf=dict(required=False, type="raw"),
+                    speed=dict(required=False, type="int"),
+                    duplex=dict(required=False, type="str"),
                     parent_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
