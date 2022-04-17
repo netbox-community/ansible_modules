@@ -117,6 +117,10 @@ options:
         description:
           - The duplex of the interface
         required: false
+        choices:
+          - half
+          - full
+          - auto
         type: str
         version_added: "3.7.0"
       parent_interface:
@@ -306,7 +310,9 @@ def main():
                     mode=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     speed=dict(required=False, type="int"),
-                    duplex=dict(required=False, type="str"),
+                    duplex=dict(
+                        required=False, choices=["half", "full", "auto"], type="str"
+                    ),
                     parent_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
