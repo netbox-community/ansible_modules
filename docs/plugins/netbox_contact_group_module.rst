@@ -42,7 +42,7 @@ netbox.netbox.netbox_contact_group module -- Creates or removes contact groups f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -295,7 +295,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the parent contact group
+      Slug of the parent contact group
 
 
       .. raw:: html
@@ -721,6 +721,18 @@ Authors
 - Martin Rødvand (@rodvand)
 
 
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

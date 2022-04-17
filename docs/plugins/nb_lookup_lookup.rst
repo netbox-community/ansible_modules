@@ -42,7 +42,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -54,7 +54,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 
 .. version_added
 
-.. versionadded:: 2.9 of netbox.netbox
+.. versionadded:: 0.1.0 of netbox.netbox
 
 .. contents::
    :local:
@@ -598,6 +598,20 @@ Authors
 - Chris Mills (@cpmills1975)
 
 
+.. hint::
+    Configuration entries for each entry type have a low to high priority order. For example, a variable that is lower in the list will override a variable that is higher up.
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 
