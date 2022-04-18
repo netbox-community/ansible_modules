@@ -688,4 +688,4 @@ releases:
         - netbox_contact_group - Fix field description [#762](https://github.com/netbox-community/ansible_modules/pull/762)
       trivial:
         - Updated CI to test against NetBox 3.2 [#759](https://github.com/netbox-community/ansible_modules/pull/759)
-    release_date: '2022-04-17'
+    release_date: '2022-04-18'
