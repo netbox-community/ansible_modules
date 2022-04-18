@@ -42,7 +42,7 @@ netbox.netbox.netbox_custom_link module -- Creates, updates or deletes custom li
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -229,6 +229,50 @@ Parameters
 
       The content type to apply this custom link to
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/enabled"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_link_module__parameter-data/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable custom link
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`no`
+      - :ansible-option-choices-entry:`yes`
 
       .. raw:: html
 
@@ -798,6 +842,18 @@ Authors
 - Martin Rødvand (@rodvand)
 
 
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

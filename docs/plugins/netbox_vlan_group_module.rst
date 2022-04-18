@@ -42,7 +42,7 @@ netbox.netbox.netbox_vlan_group module -- Create, update or delete vlans groups 
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -234,6 +234,80 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Description for VLAN group
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/max_vid"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_vlan_group_module__parameter-data/max_vid:
+
+      .. rst-class:: ansible-option-title
+
+      **max_vid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/max_vid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Highest permissible ID of a child VLAN
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/min_vid"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_vlan_group_module__parameter-data/min_vid:
+
+      .. rst-class:: ansible-option-title
+
+      **min_vid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/min_vid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Lowest permissible ID of a child VLAN
 
 
       .. raw:: html
@@ -830,6 +904,18 @@ Authors
 - Mikhail Yohman (@FragmentedPacket)
 
 
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

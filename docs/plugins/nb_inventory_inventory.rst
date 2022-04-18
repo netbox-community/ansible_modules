@@ -42,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -1077,6 +1077,7 @@ Parameters
       - :ansible-option-choices-entry:`platforms`
       - :ansible-option-choices-entry:`platform`
       - :ansible-option-choices-entry:`region`
+      - :ansible-option-choices-entry:`site\_group`
       - :ansible-option-choices-entry:`cluster`
       - :ansible-option-choices-entry:`cluster\_type`
       - :ansible-option-choices-entry:`cluster\_group`
@@ -2427,6 +2428,20 @@ Authors
 - Douglas Heriot (@DouglasHeriot)
 
 
+.. hint::
+    Configuration entries for each entry type have a low to high priority order. For example, a variable that is lower in the list will override a variable that is higher up.
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

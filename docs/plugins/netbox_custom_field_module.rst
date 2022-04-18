@@ -42,7 +42,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -407,6 +407,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/object_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/object_type:
+
+      .. rst-class:: ansible-option-title
+
+      **object_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/object_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The object type of the custom field (if any)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/required"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/required:
@@ -462,7 +499,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -474,6 +511,22 @@ Parameters
 
       The type of custom field
 
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`text`
+      - :ansible-option-choices-entry:`longtext`
+      - :ansible-option-choices-entry:`integer`
+      - :ansible-option-choices-entry:`boolean`
+      - :ansible-option-choices-entry:`date`
+      - :ansible-option-choices-entry:`url`
+      - :ansible-option-choices-entry:`json`
+      - :ansible-option-choices-entry:`select`
+      - :ansible-option-choices-entry:`multiselect`
+      - :ansible-option-choices-entry:`object`
+      - :ansible-option-choices-entry:`multiobject`
 
       .. raw:: html
 
@@ -973,6 +1026,18 @@ Authors
 - Martin Rødvand (@rodvand)
 
 
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

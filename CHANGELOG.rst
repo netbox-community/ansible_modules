@@ -5,6 +5,23 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.7.0
+======
+
+Minor Changes
+-------------
+
+- Add meta information for use in Execution Environments [#753](https://github.com/netbox-community/ansible_modules/pull/753)
+- Multiple modules - add new parameters added in NetBox 3.2 [#768](https://github.com/netbox-community/ansible_modules/pull/768)
+- nb_inventory - Add site_group as an option [#755](https://github.com/netbox-community/ansible_modules/pull/755)
+- netbox_front_port and netbox_rear_port - Add label as parameter [#766](https://github.com/netbox-community/ansible_modules/pull/766)
+
+Bugfixes
+--------
+
+- netbox_contact_group - Fix field description [#762](https://github.com/netbox-community/ansible_modules/pull/762)
+- netbox_rack - Add location as a query parameter for uniqueness check [#751](https://github.com/netbox-community/ansible_modules/pull/751)
+
 v3.6.0
 ======
 
