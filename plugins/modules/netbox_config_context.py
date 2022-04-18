@@ -84,6 +84,12 @@ options:
         required: false
         type: list
         elements: str
+      cluster_types:
+        description:
+          - List of cluster_types to which configuration context applies
+        required: false
+        type: list
+        elements: str
       cluster_groups:
         description:
           - List of cluster_groups to which configuration context applies
@@ -194,6 +200,7 @@ def main():
                     roles=dict(required=False, type="list", elements="str"),
                     device_types=dict(required=False, type="list", elements="str"),
                     platforms=dict(required=False, type="list", elements="str"),
+                    cluster_types=dict(required=False, type="list", elements="str"),
                     cluster_groups=dict(required=False, type="list", elements="str"),
                     clusters=dict(required=False, type="list", elements="str"),
                     tenant_groups=dict(required=False, type="list", elements="str"),

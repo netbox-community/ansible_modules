@@ -42,7 +42,7 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.6.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
@@ -300,6 +300,51 @@ Parameters
 
       Name of the device the interface will be associated with (case-sensitive)
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/duplex"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/duplex:
+
+      .. rst-class:: ansible-option-title
+
+      **duplex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/duplex" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The duplex of the interface
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`half`
+      - :ansible-option-choices-entry:`full`
+      - :ansible-option-choices-entry:`auto`
 
       .. raw:: html
 
@@ -709,6 +754,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/speed"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/speed:
+
+      .. rst-class:: ansible-option-title
+
+      **speed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/speed" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The speed of the interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tagged_vlans"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/tagged_vlans:
@@ -839,6 +921,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The untagged VLAN to be assigned to interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/vrf"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/vrf:
+
+      .. rst-class:: ansible-option-title
+
+      **vrf**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/vrf" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`raw`
+
+      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The VRF of the interface
 
 
       .. raw:: html
@@ -1304,6 +1423,18 @@ Authors
 - Mikhail Yohman (@FragmentedPacket)
 
 
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
 
 .. Parsing errors
 

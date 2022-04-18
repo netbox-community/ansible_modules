@@ -676,3 +676,16 @@ releases:
         name: netbox_webhook
         namespace: ''
     release_date: '2022-02-27'
+  3.7.0:
+    changes:
+      minor_changes:
+        - Multiple modules - add new parameters added in NetBox 3.2 [#768](https://github.com/netbox-community/ansible_modules/pull/768)
+        - netbox_front_port and netbox_rear_port - Add label as parameter [#766](https://github.com/netbox-community/ansible_modules/pull/766)
+        - nb_inventory - Add site_group as an option [#755](https://github.com/netbox-community/ansible_modules/pull/755)
+        - Add meta information for use in Execution Environments [#753](https://github.com/netbox-community/ansible_modules/pull/753)
+      bugfixes:
+        - netbox_rack - Add location as a query parameter for uniqueness check [#751](https://github.com/netbox-community/ansible_modules/pull/751)
+        - netbox_contact_group - Fix field description [#762](https://github.com/netbox-community/ansible_modules/pull/762)
+      trivial:
+        - Updated CI to test against NetBox 3.2 [#759](https://github.com/netbox-community/ansible_modules/pull/759)
+    release_date: '2022-04-18'

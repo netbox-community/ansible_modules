@@ -72,6 +72,18 @@ options:
         required: false
         type: str
         version_added: "3.1.0"
+      min_vid:
+        description:
+          - Lowest permissible ID of a child VLAN
+        required: false
+        type: int
+        version_added: "3.7.0"
+      max_vid:
+        description:
+          - Highest permissible ID of a child VLAN
+        required: false
+        type: int
+        version_added: "3.7.0"
       tags:
         description:
           - The tags to add/update
@@ -178,6 +190,8 @@ def main():
                         ],
                     ),
                     scope=dict(required=False, type="raw"),
+                    min_vid=dict(required=False, type="int"),
+                    max_vid=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

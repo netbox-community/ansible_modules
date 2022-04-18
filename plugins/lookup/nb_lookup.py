@@ -41,7 +41,7 @@ __metaclass__ = type
 DOCUMENTATION = """
     lookup: nb_lookup
     author: Chris Mills (@cpmills1975)
-    version_added: "2.9"
+    version_added: "0.1.0"
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information

@@ -68,7 +68,13 @@ options:
         description:
           - Open link in new window 
         required: false
-        type: bool                                          
+        type: bool   
+      enabled:
+        description:
+          - Enable/disable custom link 
+        required: false
+        type: bool
+        version_added: "3.7.0"                      
     required: true
 """
 
@@ -140,6 +146,7 @@ def main():
                     group_name=dict(required=False, type="str"),
                     button_class=dict(required=False, type="raw"),
                     new_window=dict(required=False, type="bool"),
+                    enabled=dict(required=False, type="bool"),
                 ),
             )
         )

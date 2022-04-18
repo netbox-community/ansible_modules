@@ -38,7 +38,25 @@ options:
         description: 
           - The type of custom field
         required: false
-        type: raw
+        choices: 
+          - text
+          - longtext
+          - integer
+          - boolean
+          - date
+          - url
+          - json
+          - select
+          - multiselect
+          - object
+          - multiobject
+        type: str
+      object_type: 
+        description: 
+          - The object type of the custom field (if any)
+        required: false
+        type: str
+        version_added: "3.7.0"
       name:
         description:
           - Name of the custom field
@@ -165,7 +183,24 @@ def main():
                 required=True,
                 options=dict(
                     content_types=dict(required=False, type="list", elements="raw"),
-                    type=dict(required=False, type="raw"),
+                    type=dict(
+                        required=False,
+                        choices=[
+                            "text",
+                            "longtext",
+                            "integer",
+                            "boolean",
+                            "date",
+                            "url",
+                            "json",
+                            "select",
+                            "multiselect",
+                            "object",
+                            "multiobject",
+                        ],
+                        type="str",
+                    ),
+                    object_type=dict(required=False, type="str"),
                     name=dict(required=True, type="str"),
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),

@@ -54,6 +54,9 @@ jobs:
           - python-version: 3.8
             VERSION: "v3.1"
             INTEGRATION_TESTS: "v3.1"
+          - python-version: 3.8
+            VERSION: "v3.2"
+            INTEGRATION_TESTS: "v3.2"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -122,6 +125,26 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v3.1'
+      - name: Clone & Start netbox-docker containers - 3.2
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 1.6.1
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              image: netboxcommunity/netbox:v3.2
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v3.2'
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1.1.1
         with:

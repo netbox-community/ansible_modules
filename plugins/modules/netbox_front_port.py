@@ -76,6 +76,12 @@ options:
           - Description of the front port
         required: false
         type: str
+      label:
+        description:
+          - Label of the front port
+        required: false
+        type: str
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the front port may need to be associated with
@@ -185,6 +191,7 @@ def main():
                     rear_port=dict(required=True, type="raw"),
                     rear_port_position=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),

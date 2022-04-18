@@ -1,0 +1,5 @@
+---
+version: 1
+
+dependencies:
+  python: requirements.txt

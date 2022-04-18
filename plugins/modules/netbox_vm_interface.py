@@ -85,6 +85,12 @@ options:
           - A list of tagged VLANS to be assigned to interface. Mode must be set to either C(Tagged) or C(Tagged All)
         required: false
         type: raw
+      vrf:
+        description:
+          - VRF the interface is associated with
+        required: false
+        type: raw
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the prefix may need to be associated with
@@ -209,6 +215,7 @@ def main():
                     parent_vm_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
+                    vrf=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
