@@ -1866,6 +1866,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
+            "Accept": "application/json",
         }
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
