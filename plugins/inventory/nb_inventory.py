@@ -932,7 +932,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         def get_site_group_for_site(site):
             # Will fail if site does not have a site_group defined in NetBox
             try:
-                return (site["id"], site["group"]["id"])
+                return (site["id"], site["site_group"]["id"])
             except Exception:
                 return (site["id"], None)
 
