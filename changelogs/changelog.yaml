@@ -689,3 +689,8 @@ releases:
       trivial:
         - Updated CI to test against NetBox 3.2 [#759](https://github.com/netbox-community/ansible_modules/pull/759)
     release_date: '2022-04-18'
+  3.7.1:
+    changes:
+      bugfixes:
+        - nb_inventory - Fix netbox_inventory site_group group_by @ryanmerolle in [#780](https://github.com/netbox-community/ansible_modules/pull/780)
+    release_date: '2022-04-26'
