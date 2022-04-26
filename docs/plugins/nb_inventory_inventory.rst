@@ -42,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.

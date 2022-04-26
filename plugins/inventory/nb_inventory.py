@@ -470,7 +470,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "local_context_data": self.extract_local_context_data,
             "custom_fields": self.extract_custom_fields,
             "region": self.extract_regions,
-            "site_group": self.extract_site_groups,
             "cluster": self.extract_cluster,
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
@@ -484,6 +483,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._pluralize_group_by("manufacturer"): self.extract_manufacturer,
         }
 
+        if self.api_version >= version.parse("2.11"):
+            extractors.update(
+                {
+                    "site_group": self.extract_site_groups,
+                }
+            )
         if self.racks:
             extractors.update(
                 {
@@ -932,7 +937,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         def get_site_group_for_site(site):
             # Will fail if site does not have a site_group defined in NetBox
             try:
-                return (site["id"], site["group"]["id"])
+                return (site["id"], site["site_group"]["id"])
             except Exception:
                 return (site["id"], None)
 
@@ -979,6 +984,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         )
 
     def refresh_site_groups_lookup(self):
+        if self.api_version < version.parse("2.11"):
+            return
+
         url = self.api_endpoint + "/api/dcim/site-groups/?limit=0"
         site_groups = self.get_resource_list(api_url=url)
         self.site_groups_lookup = dict(
@@ -1790,7 +1798,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._add_region_groups()
 
         # Create groups for site_groups, containing the site groups
-        if "site_group" in self.group_by:
+        if "site_group" in self.group_by and self.api_version >= version.parse("2.11"):
             self._add_site_group_groups()
 
         for host in chain(self.devices_list, self.vms_list):

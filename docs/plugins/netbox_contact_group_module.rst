@@ -42,7 +42,7 @@ netbox.netbox.netbox_contact_group module -- Creates or removes contact groups f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.

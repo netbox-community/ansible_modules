@@ -5,6 +5,15 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.7.1
+======
+
+Bugfixes
+--------
+
+- nb_inventory - Ensure inventory works on NetBox versions without the site group model [#781](https://github.com/netbox-community/ansible_modules/pull/781)
+- nb_inventory - Fix netbox_inventory site_group group_by @ryanmerolle in [#780](https://github.com/netbox-community/ansible_modules/pull/780)
+
 v3.7.0
 ======
 

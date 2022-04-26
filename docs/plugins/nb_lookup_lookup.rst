@@ -42,7 +42,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
 
     You might already have this collection installed if you are using the ``ansible`` package.
     It is not included in ``ansible-core``.
