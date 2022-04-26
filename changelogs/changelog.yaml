@@ -693,4 +693,5 @@ releases:
     changes:
       bugfixes:
         - nb_inventory - Fix netbox_inventory site_group group_by @ryanmerolle in [#780](https://github.com/netbox-community/ansible_modules/pull/780)
+        - nb_inventory - Ensure inventory works on NetBox versions without the site group model [#781](https://github.com/netbox-community/ansible_modules/pull/781)
     release_date: '2022-04-26'
