@@ -250,6 +250,7 @@ CONVERT_TO_ID = {
     "scope": "sites",
     "services": "services",
     "site": "sites",
+    "site_groups": "site_groups",
     "site_group": "site_groups",
     "sites": "sites",
     "tags": "tags",
@@ -358,6 +359,7 @@ ALLOWED_QUERY_PARAMS = {
         [
             "name",
             "regions",
+            "site_groups",
             "sites",
             "roles",
             "device_types",
