@@ -60,7 +60,7 @@ options:
         required: false
         type: list
         elements: str
-      sites:
+      site_groups:
         description:
           - List of site groups where configuration context applies
         required: false
