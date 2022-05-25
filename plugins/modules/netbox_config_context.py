@@ -62,6 +62,12 @@ options:
         elements: str
       sites:
         description:
+          - List of site groups where configuration context applies
+        required: false
+        type: list
+        elements: str
+      sites:
+        description:
           - List of sites where configuration context applies
         required: false
         type: list
@@ -197,6 +203,7 @@ def main():
                     is_active=dict(required=False, type="bool"),
                     regions=dict(required=False, type="list", elements="str"),
                     sites=dict(required=False, type="list", elements="str"),
+                    site_groups=dict(required=False, type="list", elements="str"),
                     roles=dict(required=False, type="list", elements="str"),
                     device_types=dict(required=False, type="list", elements="str"),
                     platforms=dict(required=False, type="list", elements="str"),
