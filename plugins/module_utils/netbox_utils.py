@@ -359,6 +359,7 @@ ALLOWED_QUERY_PARAMS = {
         [
             "name",
             "regions",
+            "site_groups",
             "sites",
             "roles",
             "device_types",
