@@ -976,18 +976,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         def get_time_zone_utc_for_site(site):
             # Will fail if site does not have a time_zone defined in NetBox
             try:
-                utc = round(datetime.datetime.now(pytz.timezone(site["time_zone"])).utcoffset().total_seconds()/60/60)
+                utc = round(
+                    datetime.datetime.now(pytz.timezone(site["time_zone"]))
+                    .utcoffset()
+                    .total_seconds()
+                    / 60
+                    / 60
+                )
                 if utc < 0:
                     return (site["id"], str(utc).replace("-", "minus_"))
                 else:
-                    return (site["id"], f'plus_{utc}')
+                    return (site["id"], f"plus_{utc}")
             except Exception:
                 return (site["id"], None)
-        
+
         # Dictionary of site id to time_zone_utc name (if group by time_zone_utc is used)
         if "time_zone_utc" in self.group_by:
-            self.sites_time_zone_utc_lookup = dict(map(get_time_zone_utc_for_site, sites))
-
+            self.sites_time_zone_utc_lookup = dict(
+                map(get_time_zone_utc_for_site, sites)
+            )
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
