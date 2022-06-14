@@ -168,7 +168,7 @@ DOCUMENTATION = """
                 - services
                 - status
                 - time_zone
-                - time_zone_utc
+                - utc_offset
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -244,6 +244,16 @@ device_query_filters:
   - has_primary_ip: 'true'
 
 # has_primary_ip is a useful way to filter out patch panels and other passive devices
+
+# If you group by time_zone, utc_offset etc. it will group devices in ansible groups depending on time zone configured on site.
+# time_zone gives grouping like:
+# - "time_zone_Europe_Bucharest"
+# - "time_zone_Europe_Copenhagen"
+# - "time_zone_America_Denver"
+# utc_offset gives grouping like:
+# - "time_zone_utc_minus_7"
+# - "time_zone_utc_plus_1"
+# - "time_zone_utc_plus_10"
 
 # Query filters are passed directly as an argument to the fetching queries.
 # You can repeat tags in the query string.
@@ -479,7 +489,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
             "time_zone": self.extract_site_time_zone,
-            "time_zone_utc": self.extract_site_time_zone_utc,
+            "utc_offset": self.extract_site_utc_offset,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -694,9 +704,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             return
 
-    def extract_site_time_zone_utc(self, host):
+    def extract_site_utc_offset(self, host):
         try:
-            return self.sites_time_zone_utc_lookup[host["site"]["id"]]
+            return self.sites_utc_offset_lookup[host["site"]["id"]]
         except Exception:
             return
 
@@ -973,7 +983,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if "time_zone" in self.group_by:
             self.sites_time_zone_lookup = dict(map(get_time_zone_for_site, sites))
 
-        def get_time_zone_utc_for_site(site):
+        def get_utc_offset_for_site(site):
             # Will fail if site does not have a time_zone defined in NetBox
             try:
                 utc = round(
@@ -990,11 +1000,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except Exception:
                 return (site["id"], None)
 
-        # Dictionary of site id to time_zone_utc name (if group by time_zone_utc is used)
-        if "time_zone_utc" in self.group_by:
-            self.sites_time_zone_utc_lookup = dict(
-                map(get_time_zone_utc_for_site, sites)
-            )
+        # Dictionary of site id to utc_offset name (if group by utc_offset is used)
+        if "utc_offset" in self.group_by:
+            self.sites_utc_offset_lookup = dict(map(get_utc_offset_for_site, sites))
+
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
