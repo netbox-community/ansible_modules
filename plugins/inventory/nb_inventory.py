@@ -167,6 +167,8 @@ DOCUMENTATION = """
                 - is_virtual
                 - services
                 - status
+                - time_zone
+                - time_zone_utc
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -302,6 +304,8 @@ import json
 import uuid
 import math
 import os
+import datetime
+import pytz
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -474,6 +478,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
+            "time_zone": self.extract_site_time_zone,
+            "time_zone_utc": self.extract_site_time_zone_utc,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -679,6 +685,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             elif "role" in host:
                 return self._pluralize(self.device_roles_lookup[host["role"]["id"]])
+        except Exception:
+            return
+
+    def extract_site_time_zone(self, host):
+        try:
+            return self.sites_time_zone_lookup[host["site"]["id"]]
+        except Exception:
+            return
+
+    def extract_site_time_zone_utc(self, host):
+        try:
+            return self.sites_time_zone_utc_lookup[host["site"]["id"]]
         except Exception:
             return
 
@@ -943,6 +961,34 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Dictionary of site id to site_group id
         self.sites_site_group_lookup = dict(map(get_site_group_for_site, sites))
+
+        def get_time_zone_for_site(site):
+            # Will fail if site does not have a time_zone defined in NetBox
+            try:
+                return (site["id"], site["time_zone"].replace("/", "_", 2))
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to time_zone name (if group by time_zone is used)
+        if "time_zone" in self.group_by:
+            self.sites_time_zone_lookup = dict(map(get_time_zone_for_site, sites))
+
+        def get_time_zone_utc_for_site(site):
+            # Will fail if site does not have a time_zone defined in NetBox
+            try:
+                utc = round(datetime.datetime.now(pytz.timezone(site["time_zone"])).utcoffset().total_seconds()/60/60)
+                if utc < 0:
+                    return (site["id"], str(utc).replace("-", "minus_"))
+                else:
+                    return (site["id"], f'plus_{utc}')
+                # return (site["id"], site["time_zone"])
+            except Exception:
+                return (site["id"], None)
+        
+        # Dictionary of site id to time_zone_utc name (if group by time_zone_utc is used)
+        if "time_zone_utc" in self.group_by:
+            self.sites_time_zone_utc_lookup = dict(map(get_time_zone_utc_for_site, sites))
+
 
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
