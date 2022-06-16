@@ -7,3 +7,73 @@ plugin_routing:
         removal_version: "0.1.0"
         warning_text: "netbox_interface has been superseceded by netbox.netbox.netbox_device_interface"
       redirect: netbox.netbox.plugins.modules.netbox_device_interface
+
+action_groups:
+  netbox:
+    - netbox_aggregate
+    - netbox_cable
+    - netbox_circuit
+    - netbox_circuit_termination
+    - netbox_circuit_type
+    - netbox_cluster
+    - netbox_cluster_group
+    - netbox_cluster_type
+    - netbox_config_context
+    - netbox_console_port
+    - netbox_console_port_template
+    - netbox_console_server_port
+    - netbox_console_server_port_template
+    - netbox_contact
+    - netbox_contact_group
+    - netbox_contact_role
+    - netbox_custom_field
+    - netbox_custom_link
+    - netbox_device
+    - netbox_device_bay
+    - netbox_device_bay_template
+    - netbox_device_interface
+    - netbox_device_interface_template
+    - netbox_device_role
+    - netbox_device_type
+    - netbox_export_template
+    - netbox_front_port
+    - netbox_front_port_template
+    - netbox_inventory_item
+    - netbox_ip_address
+    - netbox_ipam_role
+    - netbox_location
+    - netbox_manufacturer
+    - netbox_platform
+    - netbox_power_feed
+    - netbox_power_outlet
+    - netbox_power_outlet_template
+    - netbox_power_panel
+    - netbox_power_port
+    - netbox_power_port_template
+    - netbox_prefix
+    - netbox_provider
+    - netbox_provider_network
+    - netbox_rack
+    - netbox_rack_group
+    - netbox_rack_role
+    - netbox_rear_port
+    - netbox_rear_port_template
+    - netbox_region
+    - netbox_rir
+    - netbox_route_target
+    - netbox_service
+    - netbox_site
+    - netbox_site_group
+    - netbox_tag
+    - netbox_tenant
+    - netbox_tenant_group
+    - netbox_virtual_chassis
+    - netbox_virtual_machine
+    - netbox_vlan
+    - netbox_vlan_group
+    - netbox_vm_interface
+    - netbox_vrf
+    - netbox_webhook
+    - netbox_wireless_lan
+    - netbox_wireless_lan_group
+    - netbox_wireless_link
