@@ -1853,7 +1853,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.use_cache = cache
 
         # NetBox access
-        token = self.get_option("token")
+        token = self.templar.template(self.get_option("token"), fail_on_undefined=False)
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
         self.timeout = self.get_option("timeout")
