@@ -22,7 +22,7 @@ pytest-xdist = "*"
 pyyaml = "*"
 mock = "^4.0.2"
 antsibull = "*"
-importlib-metadata = "1.7.0"
+importlib-metadata = "*"
 pylint = "*"
 packaging = "*"
 
