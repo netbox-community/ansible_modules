@@ -54,13 +54,13 @@ options:
         type: bool
       poe_mode:
         description:
-          - This interface has PoE ability
+          - This interface has PoE ability (NetBox release 3.3 and later)
         required: false
         type: raw
         version_added: "3.8.0"
       poe_type:
         description:
-          - This interface's power type
+          - This interface's power type (NetBox release 3.3 and later)
         required: false
         type: raw
         version_added: "3.8.0"
