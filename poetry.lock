@@ -47,7 +47,7 @@ python-versions = "*"
 
 [[package]]
 name = "ansible-core"
-version = "2.13.3"
+version = "2.12.8"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -55,10 +55,10 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 cryptography = "*"
-jinja2 = ">=3.0.0"
+jinja2 = "*"
 packaging = "*"
-PyYAML = ">=5.1"
-resolvelib = ">=0.5.3,<0.9.0"
+PyYAML = "*"
+resolvelib = ">=0.5.3,<0.6.0"
 
 [[package]]
 name = "ansible-pygments"
@@ -278,17 +278,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
-name = "commonmark"
-version = "0.9.1"
-description = "Python parser for the CommonMark Markdown spec"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.extras]
-test = ["hypothesis (==3.55.3)", "flake8 (==3.7.8)"]
-
-[[package]]
 name = "coverage"
 version = "4.5.4"
 description = "Code coverage measurement for Python"
@@ -328,11 +317,11 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "docutils"
-version = "0.18.1"
+version = "0.19"
 description = "Docutils -- Python Documentation Utilities"
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.7"
 
 [[package]]
 name = "execnet"
@@ -729,73 +718,28 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "resolvelib"
-version = "0.8.1"
+version = "0.5.5"
 description = "Resolve abstract dependencies into concrete ones"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.extras]
-test = ["pytest", "packaging", "commentjson"]
-release = ["twine", "towncrier", "build"]
-lint = ["types-requests", "isort", "mypy", "flake8", "black"]
-examples = ["requests", "pygraphviz", "packaging", "html5lib"]
-
-[[package]]
-name = "rich"
-version = "12.5.1"
-description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
-category = "main"
-optional = false
-python-versions = ">=3.6.3,<4.0.0"
-
-[package.dependencies]
-commonmark = ">=0.9.0,<0.10.0"
-pygments = ">=2.6.0,<3.0.0"
-typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.9\""}
-
-[package.extras]
-jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
+examples = ["html5lib", "packaging", "pygraphviz", "requests"]
+lint = ["black", "flake8"]
+release = ["setl", "towncrier"]
+test = ["commentjson", "packaging", "pytest"]
 
 [[package]]
 name = "rstcheck"
-version = "6.1.0"
+version = "3.5.0"
 description = "Checks syntax of reStructuredText and code blocks nested within it"
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = "*"
 
 [package.dependencies]
-docutils = ">=0.7,<0.19"
-pydantic = ">=1.2,<2.0"
-rstcheck-core = ">=1.0.2,<2.0.0"
-typer = {version = ">=0.4.1,<0.7", extras = ["all"]}
-types-docutils = ">=0.18,<0.19"
-
-[package.extras]
-sphinx = ["sphinx"]
-docs = ["sphinx", "sphinx-autobuild (==2021.3.14)", "m2r2 (>=0.3.2)", "sphinx-rtd-theme (<1)", "sphinx-rtd-dark-mode (>=1.2.4,<2.0.0)", "sphinxcontrib-spelling (>=7.3)", "sphinx-click (>=4.0.3,<5.0.0)"]
-toml = ["tomli"]
-testing = ["pytest (>=6.0)", "pytest-cov (>=3.0)", "coverage[toml] (>=6.0)", "coverage-conditional-plugin (>=0.5)", "pytest-sugar (>=0.9.5)", "pytest-randomly (>=3.0)"]
-
-[[package]]
-name = "rstcheck-core"
-version = "1.0.2"
-description = "Checks syntax of reStructuredText and code blocks nested within it"
-category = "main"
-optional = false
-python-versions = ">=3.7,<4.0"
-
-[package.dependencies]
-docutils = ">=0.7,<0.19"
-pydantic = ">=1.2,<2.0"
-types-docutils = ">=0.18,<0.19"
-
-[package.extras]
-docs = ["sphinxcontrib-spelling (>=7.3)", "sphinxcontrib-apidoc (>=0.3)", "sphinx-autodoc-typehints (>=1.15)", "sphinx-rtd-dark-mode (>=1.2.4,<2.0.0)", "sphinx-rtd-theme (<1)", "m2r2 (>=0.3.2)", "sphinx-autobuild (==2021.3.14)", "sphinx (>=4.0,<6.0)"]
-testing = ["mock (>=4.0)", "pytest-mock (>=3.7)", "pytest-randomly (>=3.0)", "coverage-conditional-plugin (>=0.5)", "coverage[toml] (>=6.0)", "pytest-cov (>=3.0)", "pytest (>=6.0)"]
-toml = ["tomli (>=2.0,<3.0)"]
-sphinx = ["sphinx (>=4.0,<6.0)"]
+docutils = ">=0.7"
 
 [[package]]
 name = "semantic-version"
@@ -816,14 +760,6 @@ description = "Python subprocess replacement"
 category = "main"
 optional = false
 python-versions = "*"
-
-[[package]]
-name = "shellingham"
-version = "1.5.0"
-description = "Tool to Detect Surrounding Shell"
-category = "main"
-optional = false
-python-versions = ">=3.4"
 
 [[package]]
 name = "six"
@@ -972,34 +908,6 @@ python-versions = "*"
 six = "*"
 
 [[package]]
-name = "typer"
-version = "0.6.1"
-description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-click = ">=7.1.1,<9.0.0"
-colorama = {version = ">=0.4.3,<0.5.0", optional = true, markers = "extra == \"all\""}
-rich = {version = ">=10.11.0,<13.0.0", optional = true, markers = "extra == \"all\""}
-shellingham = {version = ">=1.3.0,<2.0.0", optional = true, markers = "extra == \"all\""}
-
-[package.extras]
-test = ["rich (>=10.11.0,<13.0.0)", "isort (>=5.0.6,<6.0.0)", "black (>=22.3.0,<23.0.0)", "mypy (==0.910)", "pytest-sugar (>=0.9.4,<0.10.0)", "pytest-xdist (>=1.32.0,<2.0.0)", "coverage (>=5.2,<6.0)", "pytest-cov (>=2.10.0,<3.0.0)", "pytest (>=4.4.0,<5.4.0)", "shellingham (>=1.3.0,<2.0.0)"]
-doc = ["mdx-include (>=1.4.1,<2.0.0)", "mkdocs-material (>=8.1.4,<9.0.0)", "mkdocs (>=1.1.2,<2.0.0)"]
-dev = ["pre-commit (>=2.17.0,<3.0.0)", "flake8 (>=3.8.3,<4.0.0)", "autoflake (>=1.3.1,<2.0.0)"]
-all = ["rich (>=10.11.0,<13.0.0)", "shellingham (>=1.3.0,<2.0.0)", "colorama (>=0.4.3,<0.5.0)"]
-
-[[package]]
-name = "types-docutils"
-version = "0.18.3"
-description = "Typing stubs for docutils"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "typing-extensions"
 version = "4.3.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -1055,7 +963,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "7a6ff3fc9ab8fee5cb77a1d283cfb2a1c1d8bceb16c0bf192a40ccbd2c371e7b"
+content-hash = "0ad2f97cf7c32024abb01dbd8ab266b20c454ee3c7a742727b52f659af084e66"
 
 [metadata.files]
 aiofiles = []
@@ -1080,7 +988,6 @@ charset-normalizer = []
 click = []
 codecov = []
 colorama = []
-commonmark = []
 coverage = []
 cryptography = []
 dill = []
@@ -1121,12 +1028,9 @@ pytz = []
 pyyaml = []
 requests = []
 resolvelib = []
-rich = []
 rstcheck = []
-rstcheck-core = []
 semantic-version = []
 sh = []
-shellingham = []
 six = []
 snowballstemmer = []
 sphinx = []
@@ -1139,8 +1043,6 @@ sphinxcontrib-serializinghtml = []
 tomli = []
 tomlkit = []
 twiggy = []
-typer = []
-types-docutils = []
 typing-extensions = []
 urllib3 = []
 wrapt = []
