@@ -27,7 +27,7 @@ extends_documentation_fragment:
 options:
   data:
     description:
-      - Defines the prefix configuration
+      - Defines the interface template configuration
     suboptions:
       device_type:
         description:
@@ -52,6 +52,18 @@ options:
           - This interface template is used only for out-of-band management
         required: false
         type: bool
+      poe_mode:
+        description:
+          - This interface has PoE ability
+        required: false
+        type: raw
+        version_added: "3.8.0"
+      poe_type:
+        description:
+          - This interface's power type
+        required: false
+        type: raw
+        version_added: "3.8.0"
     required: true
     type: dict
 """
@@ -122,6 +134,8 @@ def main():
                         type="str",
                     ),
                     mgmt_only=dict(required=False, type="bool"),
+                    poe_type=dict(required=False, type="raw"),
+                    poe_mode=dict(required=False, type="raw"),
                 ),
             ),
         )
