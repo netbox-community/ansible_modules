@@ -474,10 +474,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
-
             "serial" : self.extract_serial,
             "asset_tag" : self.extract_asset_tag,
-
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -896,10 +894,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return ip_address.get("dns_name")
 
-    def extract_serial(self,host):
+    def extract_serial(self, host):
         return host.get("serial")
 
-    def extract_asset_tag(self,host):
+    def extract_asset_tag(self, host):
         return host.get("asset_tag")
 
     def refresh_platforms_lookup(self):
