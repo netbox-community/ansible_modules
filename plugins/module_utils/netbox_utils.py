@@ -443,7 +443,7 @@ ALLOWED_QUERY_PARAMS = {
     "role": set(["slug"]),
     "route_target": set(["name"]),
     "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
-    "site": set(["slug"]),
+    "site": set(["slug", "name"]),
     "site_group": set(["slug"]),
     "tags": set(["slug"]),
     "tagged_vlans": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
