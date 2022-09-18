@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -42,19 +43,17 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this lookup plugin,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.nb_lookup_lookup_requirements>` for details.
 
     To use it in a playbook, specify: :code:`netbox.netbox.nb_lookup`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. versionadded:: netbox.netbox 0.1.0
 
 .. contents::
    :local:
@@ -77,6 +76,8 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.netbox.netbox.nb_lookup_lookup_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the local controller node that executes this lookup.
@@ -84,10 +85,12 @@ The below requirements are needed on the local controller node that executes thi
 - pynetbox
 
 
-.. Options
 
-Parameters
-----------
+
+.. Terms
+
+Terms
+-----
 
 .. rst-class:: ansible-option-table
 
@@ -108,7 +111,7 @@ Parameters
 
       .. rst-class:: ansible-option-title
 
-      **_terms**
+      **Terms**
 
       .. raw:: html
 
@@ -135,6 +138,26 @@ Parameters
       .. raw:: html
 
         </div>
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
 
   * - .. raw:: html
 
@@ -212,7 +235,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The api_filter to use. Filters should be key value pairs separated by a space.
+      The api\_filter to use. Filters should be key value pairs separated by a space.
 
 
       .. raw:: html
@@ -367,8 +390,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
       .. raw:: html
 
@@ -457,7 +480,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
 
       .. raw:: html
 
@@ -532,9 +555,8 @@ Examples
 
 .. Return values
 
-Return Values
--------------
-Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this lookup:
+Return Value
+------------
 
 .. rst-class:: ansible-option-table
 
@@ -555,7 +577,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-title
 
-      **_list**
+      **Return value**
 
       .. raw:: html
 

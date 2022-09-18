@@ -5,6 +5,20 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.8.0
+======
+
+Minor Changes
+-------------
+
+- Add action_group to enable module defaults groups [#800](https://github.com/netbox-community/ansible_modules/pull/800)
+- Expand on query_filter for site [#824](https://github.com/netbox-community/ansible_modules/pull/824)
+- nb_inventory - Allow API token to be templated [#806](https://github.com/netbox-community/ansible_modules/pull/806)
+- netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
+- netbox_device_interface - Add PoE attribute [#820](https://github.com/netbox-community/ansible_modules/pull/820)
+- netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)
+- netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
+
 v3.7.1
 ======
 

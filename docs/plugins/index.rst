@@ -1,11 +1,12 @@
 
 
+
 .. _plugins_in_netbox.netbox:
 
 Netbox.Netbox
 =============
 
-Collection version 3.7.1
+Collection version 3.8.0
 
 .. contents::
    :local:
@@ -101,7 +102,7 @@ Modules
 * :ref:`netbox_tenant module <ansible_collections.netbox.netbox.netbox_tenant_module>` -- Creates or removes tenants from NetBox
 * :ref:`netbox_tenant_group module <ansible_collections.netbox.netbox.netbox_tenant_group_module>` -- Creates or removes tenant groups from NetBox
 * :ref:`netbox_virtual_chassis module <ansible_collections.netbox.netbox.netbox_virtual_chassis_module>` -- Create, update or delete virtual chassis within NetBox
-* :ref:`netbox_virtual_machine module <ansible_collections.netbox.netbox.netbox_virtual_machine_module>` -- Create, update or delete virtual_machines within NetBox
+* :ref:`netbox_virtual_machine module <ansible_collections.netbox.netbox.netbox_virtual_machine_module>` -- Create, update or delete virtual\_machines within NetBox
 * :ref:`netbox_vlan module <ansible_collections.netbox.netbox.netbox_vlan_module>` -- Create, update or delete vlans within NetBox
 * :ref:`netbox_vlan_group module <ansible_collections.netbox.netbox.netbox_vlan_group_module>` -- Create, update or delete vlans groups within NetBox
 * :ref:`netbox_vm_interface module <ansible_collections.netbox.netbox.netbox_vm_interface_module>` -- Creates or removes interfaces from virtual machines in NetBox
