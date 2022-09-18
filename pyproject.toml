@@ -7,7 +7,7 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-ansible-core = "^2.12.0"
+ansible-core = "2.12.*"
 black = "*"
 codecov = "*"
 coverage = "^4.0"
@@ -22,7 +22,7 @@ pytest-xdist = "*"
 pyyaml = "*"
 mock = "^4.0.2"
 antsibull = "*"
-importlib-metadata = "1.7.0"
+importlib-metadata = "*"
 pylint = "*"
 packaging = "*"
 

@@ -88,6 +88,12 @@ options:
           - All IP Addresses within this prefix are considered usable
         required: false
         type: bool
+      mark_utilized:
+        description:
+          - Treat as 100% utilized
+        required: false
+        type: bool
+        version_added: "3.8.0"
       description:
         description:
           - The description of the prefix
@@ -247,6 +253,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     prefix_role=dict(required=False, type="raw"),
                     is_pool=dict(required=False, type="bool"),
+                    mark_utilized=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

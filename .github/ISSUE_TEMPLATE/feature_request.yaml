@@ -2,7 +2,7 @@
 name: ✨ Feature Request
 description: Propose a new NetBox Ansible modules feature or enhancement
 title: "[Feature]: "
-labels: ["enhancement"]
+labels: ["Enhancement"]
 body:
   - type: markdown
     attributes:

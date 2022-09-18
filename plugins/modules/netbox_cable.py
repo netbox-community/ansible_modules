@@ -120,7 +120,7 @@ options:
         description:
           - The length of the cable
         required: false
-        type: int
+        type: float
       length_unit:
         description:
           - The unit in which the length of the cable is measured
@@ -304,7 +304,7 @@ def main():
                     ),
                     label=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
-                    length=dict(required=False, type="int"),
+                    length=dict(required=False, type="float"),
                     length_unit=dict(
                         required=False, choices=["m", "cm", "ft", "in"], type="str"
                     ),
