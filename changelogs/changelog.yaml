@@ -695,3 +695,14 @@ releases:
         - nb_inventory - Fix netbox_inventory site_group group_by @ryanmerolle in [#780](https://github.com/netbox-community/ansible_modules/pull/780)
         - nb_inventory - Ensure inventory works on NetBox versions without the site group model [#781](https://github.com/netbox-community/ansible_modules/pull/781)
     release_date: '2022-04-26'
+  3.8.0:
+    changes:
+      minor_changes:
+        - Add action_group to enable module defaults groups [#800](https://github.com/netbox-community/ansible_modules/pull/800)
+        - netbox_device_interface - Add PoE attribute [#820](https://github.com/netbox-community/ansible_modules/pull/820)
+        - Expand on query_filter for site [#824](https://github.com/netbox-community/ansible_modules/pull/824)
+        - nb_inventory - Allow API token to be templated [#806](https://github.com/netbox-community/ansible_modules/pull/806)
+        - netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
+        - netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
+        - netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)      
+    release_date: '2022-09-19'
