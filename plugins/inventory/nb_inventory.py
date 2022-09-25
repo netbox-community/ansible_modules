@@ -174,15 +174,21 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         query_filters:
-            description: List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         device_query_filters:
-            description: List of parameters passed to the query string for devices (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for devices (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         vm_query_filters:
-            description: List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for VMs (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         timeout:
