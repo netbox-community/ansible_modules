@@ -29,4 +29,4 @@ group_by:
   - status
 
 query_filters:
-  - site: test-site
+  - site: "{{ 'TEST-SITE' | lower }}"

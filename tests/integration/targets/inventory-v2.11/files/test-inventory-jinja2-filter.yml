@@ -27,3 +27,6 @@ group_by:
   - is_virtual
   - services
   - status
+
+query_filters:
+  - site: "{{ 'TEST-SITE' | lower }}"
