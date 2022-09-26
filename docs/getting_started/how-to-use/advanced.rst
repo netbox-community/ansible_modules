@@ -299,3 +299,35 @@ IP address to be within **Test VRF 2**.
 We can now see that the IP address is now within VRF with ID 2.
 
 Hopefully this shines some light on this useful feature to allow you, as the user, to define your specific needs for finding a unique object within your NetBox instance.
+
+
+Using Module defaults groups
+--------------------------------------------
+
+Ansible-core >= 2.12 provide a useful feature called [Module defaults groups](https://docs.ansible.com/ansible/latest/user_guide/playbooks_module_defaults.html#module-defaults-groups) that lets us specify default parameters for a group of modules in a single place. We can use the action_group ``netbox`` that contains all modules from this collection to avoid setting e.g. ``token`` and ``url`` on each task and thus reduce boilerplate code.
+
+.. code-block:: yaml
+
+   ---
+   - hosts: "localhost"
+
+     module_defaults:
+       group/netbox.netbox.netbox:
+         netbox_url: "http://netbox.local"
+         netbox_token: "thisIsMyToken"
+
+     tasks:
+       - name: "Create device type"
+         netbox.netbox.netbox_device_type:
+           data:
+             model: "test-device-type"
+             slug: "c9410r"
+
+       - name: "Create device"
+         netbox.netbox.netbox_device:
+           data:
+             name: "Test Device"
+             device_type: "C9410R"
+             device_role: "Core Switch"
+             site: "Main"
+

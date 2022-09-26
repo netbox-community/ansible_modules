@@ -282,6 +282,7 @@
             "contact_name": "John Smith"
         },
         "expected": {
+            "name": "Test Site",
             "slug": "test-site"
         }
     },
