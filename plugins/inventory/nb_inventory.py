@@ -315,7 +315,6 @@ import uuid
 import math
 import os
 import datetime
-import pytz
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -334,6 +333,14 @@ from ansible.module_utils._text import to_text, to_native
 from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
+from ansible.module_utils.six import raise_from
+
+try:
+    import pytz
+except ImportError as imp_exc:
+    PYTZ_IMPORT_ERROR = imp_exc
+else:
+    PYTZ_IMPORT_ERROR = None
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
@@ -1823,6 +1830,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return master.get("id", None)
 
     def main(self):
+        # Check if pytz lib is install, and give error if not
+        if PYTZ_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("pytz must be installed to use this plugin"),
+                PYTZ_IMPORT_ERROR,
+            )
+
         # Get info about the API - version, allowed query parameters
         self.fetch_api_docs()
 
