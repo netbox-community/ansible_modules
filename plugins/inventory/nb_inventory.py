@@ -245,16 +245,6 @@ device_query_filters:
 
 # has_primary_ip is a useful way to filter out patch panels and other passive devices
 
-# If you group by time_zone, utc_offset etc. it will group devices in ansible groups depending on time zone configured on site.
-# time_zone gives grouping like:
-# - "time_zone_Europe_Bucharest"
-# - "time_zone_Europe_Copenhagen"
-# - "time_zone_America_Denver"
-# utc_offset gives grouping like:
-# - "time_zone_utc_minus_7"
-# - "time_zone_utc_plus_1"
-# - "time_zone_utc_plus_10"
-
 # Query filters are passed directly as an argument to the fetching queries.
 # You can repeat tags in the query string.
 
@@ -308,6 +298,32 @@ required:
 env:
   NETBOX_API: '{{ NETBOX_API }}'
   NETBOX_TOKEN: '{{ NETBOX_TOKEN }}'
+
+# Example of time_zone and utc_offset usage
+
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8000
+token: <insert token>
+validate_certs: True
+config_context: True
+group_by:
+  - site
+  - role
+  - time_zone
+  - utc_offset
+device_query_filters:
+  - has_primary_ip: 'true'
+  - manufacturer_id: 1
+
+# using group by time_zone, utc_offset it will group devices in ansible groups depending on time zone configured on site.
+# time_zone gives grouping like:
+# - "time_zone_Europe_Bucharest"
+# - "time_zone_Europe_Copenhagen"
+# - "time_zone_America_Denver"
+# utc_offset gives grouping like:
+# - "time_zone_utc_minus_7"
+# - "time_zone_utc_plus_1"
+# - "time_zone_utc_plus_10"
 """
 
 import json
