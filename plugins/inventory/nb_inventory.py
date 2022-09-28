@@ -167,6 +167,8 @@ DOCUMENTATION = """
                 - is_virtual
                 - services
                 - status
+                - time_zone
+                - utc_offset
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -296,12 +298,39 @@ required:
 env:
   NETBOX_API: '{{ NETBOX_API }}'
   NETBOX_TOKEN: '{{ NETBOX_TOKEN }}'
+
+# Example of time_zone and utc_offset usage
+
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8000
+token: <insert token>
+validate_certs: True
+config_context: True
+group_by:
+  - site
+  - role
+  - time_zone
+  - utc_offset
+device_query_filters:
+  - has_primary_ip: 'true'
+  - manufacturer_id: 1
+
+# using group by time_zone, utc_offset it will group devices in ansible groups depending on time zone configured on site.
+# time_zone gives grouping like:
+# - "time_zone_Europe_Bucharest"
+# - "time_zone_Europe_Copenhagen"
+# - "time_zone_America_Denver"
+# utc_offset gives grouping like:
+# - "time_zone_utc_minus_7"
+# - "time_zone_utc_plus_1"
+# - "time_zone_utc_plus_10"
 """
 
 import json
 import uuid
 import math
 import os
+import datetime
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -320,6 +349,14 @@ from ansible.module_utils._text import to_text, to_native
 from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
+from ansible.module_utils.six import raise_from
+
+try:
+    import pytz
+except ImportError as imp_exc:
+    PYTZ_IMPORT_ERROR = imp_exc
+else:
+    PYTZ_IMPORT_ERROR = None
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
@@ -474,6 +511,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
+            "time_zone": self.extract_site_time_zone,
+            "utc_offset": self.extract_site_utc_offset,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -679,6 +718,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             elif "role" in host:
                 return self._pluralize(self.device_roles_lookup[host["role"]["id"]])
+        except Exception:
+            return
+
+    def extract_site_time_zone(self, host):
+        try:
+            return self.sites_time_zone_lookup[host["site"]["id"]]
+        except Exception:
+            return
+
+    def extract_site_utc_offset(self, host):
+        try:
+            return self.sites_utc_offset_lookup[host["site"]["id"]]
         except Exception:
             return
 
@@ -943,6 +994,38 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         # Dictionary of site id to site_group id
         self.sites_site_group_lookup = dict(map(get_site_group_for_site, sites))
+
+        def get_time_zone_for_site(site):
+            # Will fail if site does not have a time_zone defined in NetBox
+            try:
+                return (site["id"], site["time_zone"].replace("/", "_", 2))
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to time_zone name (if group by time_zone is used)
+        if "time_zone" in self.group_by:
+            self.sites_time_zone_lookup = dict(map(get_time_zone_for_site, sites))
+
+        def get_utc_offset_for_site(site):
+            # Will fail if site does not have a time_zone defined in NetBox
+            try:
+                utc = round(
+                    datetime.datetime.now(pytz.timezone(site["time_zone"]))
+                    .utcoffset()
+                    .total_seconds()
+                    / 60
+                    / 60
+                )
+                if utc < 0:
+                    return (site["id"], str(utc).replace("-", "minus_"))
+                else:
+                    return (site["id"], f"plus_{utc}")
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to utc_offset name (if group by utc_offset is used)
+        if "utc_offset" in self.group_by:
+            self.sites_utc_offset_lookup = dict(map(get_utc_offset_for_site, sites))
 
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
@@ -1763,6 +1846,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return master.get("id", None)
 
     def main(self):
+        # Check if pytz lib is install, and give error if not
+        if PYTZ_IMPORT_ERROR:
+            raise_from(
+                AnsibleError("pytz must be installed to use this plugin"),
+                PYTZ_IMPORT_ERROR,
+            )
+
         # Get info about the API - version, allowed query parameters
         self.fetch_api_docs()
 
