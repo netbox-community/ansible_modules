@@ -176,15 +176,21 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.0"
         query_filters:
-            description: List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         device_query_filters:
-            description: List of parameters passed to the query string for devices (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for devices (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         vm_query_filters:
-            description: List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
+            description:
+                - List of parameters passed to the query string for VMs (Multiple values may be separated by commas).
+                - You can also use Jinja2 templates.
             type: list
             default: []
         timeout:
@@ -1941,6 +1947,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         super(InventoryModule, self).parse(inventory, loader, path)
         self._read_config_data(path=path)
         self.use_cache = cache
+        self.templar.available_variables = self._vars
 
         # NetBox access
         token = self.templar.template(self.get_option("token"), fail_on_undefined=False)
@@ -1974,9 +1981,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
         self.group_names_raw = self.get_option("group_names_raw")
-        self.query_filters = self.get_option("query_filters")
-        self.device_query_filters = self.get_option("device_query_filters")
-        self.vm_query_filters = self.get_option("vm_query_filters")
+        self.query_filters = self.templar.template(self.get_option("query_filters"))
+        self.device_query_filters = self.templar.template(
+            self.get_option("device_query_filters")
+        )
+        self.vm_query_filters = self.templar.template(
+            self.get_option("vm_query_filters")
+        )
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
