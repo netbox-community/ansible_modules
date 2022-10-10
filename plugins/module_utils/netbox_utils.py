@@ -1272,6 +1272,13 @@ class NetboxModule(object):
         if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
             updated_obj["vcpus"] = "{0:.2f}".format(data["vcpus"])
 
+        if serialized_nb_obj.get("custom_fields"):
+            serialized_nb_obj["custom_fields"] = {
+                key: value
+                for key, value in serialized_nb_obj["custom_fields"].items()
+                if value is not None
+            }
+
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
         else:
