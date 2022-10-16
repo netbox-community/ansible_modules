@@ -706,3 +706,13 @@ releases:
         - netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
         - netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)      
     release_date: '2022-09-19'
+  3.8.1:
+    changes:
+      bugfixes:
+        - Fix idempotency with custom_fields [#839](https://github.com/netbox-community/ansible_modules/pull/839)
+      minor_changes:      
+        - nb_inventory - Allow for jinja templating [#834](https://github.com/netbox-community/ansible_modules/pull/834)
+      trivial:
+        - Update CI to include NetBox 3.3 [#841](https://github.com/netbox-community/ansible_modules/pull/841)
+        - Update documentation to show exclusion filter [#837](https://github.com/netbox-community/ansible_modules/pull/837)
+    release_date: '2022-10-17'
