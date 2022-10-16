@@ -5,6 +5,19 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.8.1
+======
+
+Minor Changes
+-------------
+
+- nb_inventory - Allow for jinja templating [#834](https://github.com/netbox-community/ansible_modules/pull/834)
+
+Bugfixes
+--------
+
+- Fix idempotency with custom_fields [#839](https://github.com/netbox-community/ansible_modules/pull/839)
+
 v3.8.0
 ======
 
