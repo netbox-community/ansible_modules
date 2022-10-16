@@ -76,8 +76,8 @@
       - test_three['diff']['after']['mac_address'] == "00:00:00:AA:AA:01"
       - test_three['diff']['after']['description'] == "Updated test100-vm"
       - test_three['diff']['after']['mode'] == "tagged"
-      - test_three['diff']['after']['untagged_vlan'] == 1
-      - test_three['diff']['after']['tagged_vlans'] == [2, 3]
+      #- test_three['diff']['after']['untagged_vlan'] == 1
+      #- test_three['diff']['after']['tagged_vlans'] == [2, 3]
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['interface']['name'] == "Eth10"
       - test_three['interface']['virtual_machine'] == 1
@@ -143,8 +143,8 @@
       - test_five['diff']['after']['mac_address'] == "00:00:00:AA:AA:01"
       - test_five['diff']['after']['description'] == "Updated test100-vm Eth0 intf"
       - test_five['diff']['after']['mode'] == "tagged"
-      - test_five['diff']['after']['untagged_vlan'] == 1
-      - test_five['diff']['after']['tagged_vlans'] == [2, 3]
+      #- test_five['diff']['after']['untagged_vlan'] == 1
+      #- test_five['diff']['after']['tagged_vlans'] == [2, 3]
       - test_five['diff']['after']['tags'][0] == 4
       - test_five['interface']['name'] == "Eth0"
       - test_five['interface']['virtual_machine'] == 1
