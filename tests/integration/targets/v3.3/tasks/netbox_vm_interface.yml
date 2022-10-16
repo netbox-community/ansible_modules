@@ -54,9 +54,9 @@
       mac_address: "00:00:00:AA:AA:01"
       description: "Updated test100-vm"
       mode: Tagged
-      untagged_vlan:
-        name: Wireless
-        site: Test Site
+      #untagged_vlan:
+      #  name: Wireless
+      #  site: Test Site
       #tagged_vlans:
       #  - name: Data
       #    site: Test Site
@@ -86,7 +86,7 @@
       - test_three['interface']['mac_address'] == "00:00:00:AA:AA:01"
       - test_three['interface']['description'] == "Updated test100-vm"
       - test_three['interface']['mode'] == "tagged"
-      - test_three['interface']['untagged_vlan'] == 1
+      #- test_three['interface']['untagged_vlan'] == 1
       #- test_three['interface']['tagged_vlans'] == [2, 3]
       - test_three['interface']['tags'][0] == 4
       - test_three['msg'] == "interface Eth10 updated"
@@ -121,9 +121,9 @@
       mac_address: "00:00:00:AA:AA:01"
       description: "Updated test100-vm Eth0 intf"
       mode: Tagged
-      untagged_vlan:
-        name: Wireless
-        site: Test Site
+      #untagged_vlan:
+      #  name: Wireless
+      #  site: Test Site
       #tagged_vlans:
       #  - name: Data
       #    site: Test Site
@@ -153,7 +153,7 @@
       - test_five['interface']['mac_address'] == "00:00:00:AA:AA:01"
       - test_five['interface']['description'] == "Updated test100-vm Eth0 intf"
       - test_five['interface']['mode'] == "tagged"
-      - test_five['interface']['untagged_vlan'] == 1
+      #- test_five['interface']['untagged_vlan'] == 1
       #- test_five['interface']['tagged_vlans'] == [2, 3]
       - test_five['interface']['tags'][0] == 4
       - test_five['msg'] == "interface Eth0 updated"
