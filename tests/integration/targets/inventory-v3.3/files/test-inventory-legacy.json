@@ -23,10 +23,10 @@
                 ],
                 "regions": [],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site2"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -82,10 +82,10 @@
                         "virtual_machine": null
                     }
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -160,10 +160,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -256,10 +256,10 @@
                         "virtual_machine": null
                     }
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -276,14 +276,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -301,14 +295,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -326,14 +314,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -351,14 +333,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",

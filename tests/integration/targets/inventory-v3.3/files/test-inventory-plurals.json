@@ -27,10 +27,10 @@
                 ],
                 "regions": [],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site2"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -55,9 +55,10 @@
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
@@ -84,7 +85,7 @@
                                 },
                                 "id": 3,
                                 "nat_inside": null,
-                                "nat_outside": null,
+                                "nat_outside": [],
                                 "role": null,
                                 "status": {
                                     "label": "Active",
@@ -95,18 +96,21 @@
                                 "vrf": null
                             }
                         ],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                       "mode": null,
+                        "mode": null,
                         "module": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -120,18 +124,19 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     },
                     {
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
@@ -158,7 +163,7 @@
                                 },
                                 "id": 4,
                                 "nat_inside": null,
-                                "nat_outside": null,
+                                "nat_outside": [],
                                 "role": null,
                                 "status": {
                                     "label": "Active",
@@ -169,18 +174,21 @@
                                 "vrf": null
                             }
                         ],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                       "mode": null,
+                        "mode": null,
                         "module": null,
                         "mtu": null,
                         "name": "Ethernet2/1",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -194,18 +202,19 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     },
                     {
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
@@ -220,18 +229,21 @@
                         "enabled": true,
                         "id": 6,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                       "mode": null,
+                        "mode": null,
                         "module": null,
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -245,10 +257,10 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     }
                 ],
                 "is_virtual": false,
@@ -291,10 +303,10 @@
                         "virtual_machine": null
                     }
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -319,6 +331,7 @@
                         "enabled": true,
                         "id": 11,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -344,6 +357,7 @@
                         "enabled": true,
                         "id": 12,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -428,10 +442,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -458,9 +472,10 @@
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
@@ -487,7 +502,7 @@
                                 },
                                 "id": 1,
                                 "nat_inside": null,
-                                "nat_outside": null,
+                                "nat_outside": [],
                                 "role": null,
                                 "status": {
                                     "label": "Active",
@@ -498,10 +513,11 @@
                                 "vrf": null
                             }
                         ],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -510,6 +526,8 @@
                         "mtu": null,
                         "name": "GigabitEthernet1",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -523,18 +541,19 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     },
                     {
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
@@ -561,7 +580,7 @@
                                 },
                                 "id": 2,
                                 "nat_inside": null,
-                                "nat_outside": null,
+                                "nat_outside": [],
                                 "role": null,
                                 "status": {
                                     "label": "Active",
@@ -572,10 +591,11 @@
                                 "vrf": null
                             }
                         ],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -584,6 +604,8 @@
                         "mtu": null,
                         "name": "GigabitEthernet2",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -597,18 +619,19 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     },
                     {
                         "_occupied": false,
                         "bridge": null,
                         "cable": null,
-                        "connected_endpoint": null,
-                        "connected_endpoint_reachable": null,
-                        "connected_endpoint_type": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
@@ -623,10 +646,11 @@
                         "enabled": true,
                         "id": 5,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
-                        "link_peer": null,
-                        "link_peer_type": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
@@ -635,6 +659,8 @@
                         "mtu": null,
                         "name": "wlink1",
                         "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
                         "rf_channel": null,
                         "rf_channel_frequency": null,
                         "rf_channel_width": null,
@@ -648,10 +674,10 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
-                        "wwn": null,
-                        "vrf": null
+                        "wwn": null
                     }
                 ],
                 "is_virtual": false,
@@ -732,10 +758,10 @@
                         "virtual_machine": null
                     }
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -761,6 +787,7 @@
                         "enabled": true,
                         "id": 1,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -786,6 +813,7 @@
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -811,6 +839,7 @@
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -836,6 +865,7 @@
                         "enabled": true,
                         "id": 4,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -861,6 +891,7 @@
                         "enabled": true,
                         "id": 5,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -882,14 +913,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -916,6 +941,7 @@
                         "enabled": true,
                         "id": 6,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -941,6 +967,7 @@
                         "enabled": true,
                         "id": 7,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -966,6 +993,7 @@
                         "enabled": true,
                         "id": 8,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -991,6 +1019,7 @@
                         "enabled": true,
                         "id": 9,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1016,6 +1045,7 @@
                         "enabled": true,
                         "id": 10,
                         "ip_addresses": [],
+                        "l2vpn_termination": null,
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1037,14 +1067,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1066,14 +1090,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1095,14 +1113,8 @@
                     null
                 ],
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
+                "regions": [],
                 "services": [],
-                "sites": [
-                    "test-site"
-                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1272,12 +1284,6 @@
     "sites_test_site": {
         "children": [
             "location_parent_rack_group"
-        ],
-        "hosts": [
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm"
         ]
     },
     "sites_test_site2": {

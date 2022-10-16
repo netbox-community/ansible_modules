@@ -141,11 +141,7 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "site": "test-site",
+                "regions": [],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -160,11 +156,7 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "site": "test-site",
+                "regions": [],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -179,11 +171,7 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "site": "test-site",
+                "regions": [],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -198,11 +186,7 @@
                 "custom_fields": {},
                 "is_virtual": true,
                 "locations": [],
-                "regions": [
-                    "test-region",
-                    "parent-region"
-                ],
-                "site": "test-site",
+                "regions": [],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -308,11 +292,6 @@
             "VC1"
         ]
     },
-    "parent_site_group": {
-        "children": [
-            "test_site_group"
-        ]
-    },
     "parent_rack_group": {
         "children": [
             "test_rack_group"
@@ -321,6 +300,11 @@
     "parent_region": {
         "children": [
             "test_region"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "test_cluster_group": {
@@ -361,12 +345,6 @@
     "test_site": {
         "children": [
             "parent_rack_group"
-        ],
-        "hosts": [
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm"
         ]
     },
     "test_site2": {
