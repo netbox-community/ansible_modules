@@ -14,11 +14,17 @@
 - name: "NETBOX_PREFIX TESTS"
   include_tasks: "netbox_prefix.yml"
 
+- name: "NETBOX_SITE TESTS"
+  include_tasks: "netbox_site.yml"
+
 - name: "NETBOX_SITE_GROUP TESTS"
   include_tasks: "netbox_site_group.yml"
 
-- name: "NETBOX_SITE TESTS"
-  include_tasks: "netbox_site.yml"
+- name: "NETBOX_CONTACT TESTS"
+  include_tasks: "netbox_contact.yml"
+
+- name: "NETBOX_CONTACT_ROLE TESTS"
+  include_tasks: "netbox_contact_role.yml"
 
 - name: "NETBOX_TENTANT TESTS"
   include_tasks: "netbox_tenant.yml"
@@ -95,6 +101,9 @@
 - name: "NETBOX_PROVIDER TESTS"
   include_tasks: "netbox_provider.yml"
 
+- name: "NETBOX_PROVIDER_NETWORK TESTS"
+  include_tasks: "netbox_provider_network.yml"
+
 - name: "NETBOX_CIRCUIT_TYPE TESTS"
   include_tasks: "netbox_circuit_type.yml"
 
@@ -163,3 +172,66 @@
 
 - name: "NETBOX_ROUTE_TARGET_TESTS"
   include_tasks: "netbox_route_target.yml"
+
+- name: "NETBOX_WIRELESS_LAN TESTS"
+  include_tasks:
+    file: "netbox_wireless_lan.yml"
+    apply:
+      tags:
+        - netbox_wireless_lan
+  tags:
+    - netbox_wireless_lan
+
+- name: "NETBOX_WIRELESS_LAN_GROUP TESTS"
+  include_tasks:
+    file: "netbox_wireless_lan_group.yml"
+    apply:
+      tags:
+        - netbox_wireless_lan_group
+  tags:
+    - netbox_wireless_lan_group
+
+- name: "NETBOX_WIRELESS_LINK TESTS"
+  include_tasks:
+    file: "netbox_wireless_link.yml"
+    apply:
+      tags:
+        - netbox_wireless_link
+  tags:
+    - netbox_wireless_link
+
+- name: "NETBOX_CUSTOM_FIELD TESTS"
+  include_tasks:
+    file: "netbox_custom_field.yml"
+    apply:
+      tags:
+        - netbox_custom_field
+  tags:
+    - netbox_custom_field
+
+- name: "NETBOX_CUSTOM_LINK TESTS"
+  include_tasks:
+    file: "netbox_custom_link.yml"
+    apply:
+      tags:
+        - netbox_custom_link
+  tags:
+    - netbox_custom_link
+
+- name: "NETBOX_EXPORT_TEMPLATE TESTS"
+  include_tasks:
+    file: "netbox_export_template.yml"
+    apply:
+      tags:
+        - netbox_export_template
+  tags:
+    - netbox_export_template
+
+- name: "NETBOX_WEBHOOK TESTS"
+  include_tasks:
+    file: "netbox_webhook.yml"
+    apply:
+      tags:
+        - netbox_webhook
+  tags:
+    - netbox_webhook

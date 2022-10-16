@@ -12,13 +12,13 @@
 
 - name: "NETBOX_LOOKUP 2: Query doesn't return Wibble (sanity check json_query)"
   assert:
-    that: "{{ query_result|community.general.json_query('[?value.display_name==`Wibble`]')|count }} == 0"
+    that: "{{ query_result|community.general.json_query('[?value.display==`Wibble`]')|count }} == 0"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
 - name: "NETBOX_LOOKUP 3: Device query returns exactly one TestDeviceR1"
   assert:
-    that: "{{ query_result|community.general.json_query('[?value.display_name==`TestDeviceR1`]')|count }} == 1"
+    that: "{{ query_result|community.general.json_query('[?value.display==`TestDeviceR1`]')|count }} == 1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
@@ -58,21 +58,21 @@
 
 - name: "NETBOX_LOOKUP 7: Device query returns exactly the L2 device"
   assert:
-    that: "{{ query_result|community.general.json_query('[?value.display_name==`L2`]')|count }} == 1"
+    that: "{{ query_result|community.general.json_query('[?value.display==`L2`]')|count }} == 1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') }}"
 
 - name: "NETBOX_LOOKUP 8: Device query specifying raw data returns payload without key/value dict"
   assert:
-    that: "{{ query_result|community.general.json_query('[?display_name==`L2`]')|count }} == 1"
+    that: "{{ query_result|community.general.json_query('[?display==`L2`]')|count }} == 1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
 
 - name: "NETBOX_LOOKUP 9: Device query specifying multiple sites, Make sure L1 and L2 are in the results"
   assert:
     that:
-      - "'L1' in {{ query_result |community.general.json_query('[*].display_name') }}"
-      - "'L2' in {{ query_result |community.general.json_query('[*].display_name') }}"
+      - "'L1' in {{ query_result |community.general.json_query('[*].display') }}"
+      - "'L2' in {{ query_result |community.general.json_query('[*].display') }}"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch site=test-site site=test-site2', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True) }}"
 

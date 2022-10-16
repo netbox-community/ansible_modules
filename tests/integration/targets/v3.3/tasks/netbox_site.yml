@@ -46,7 +46,6 @@
       name: Test - Colorado
       status: Planned
       region: Test Region
-      contact_name: Mikhail
     state: present
   register: test_three
 
@@ -55,12 +54,10 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['status'] == "planned"
-      - test_three['diff']['after']['contact_name'] == "Mikhail"
       - test_three['diff']['after']['region'] == 1
       - test_three['msg'] == "site Test - Colorado updated"
       - test_three['site']['name'] == "Test - Colorado"
       - test_three['site']['status'] == "planned"
-      - test_three['site']['contact_name'] == "Mikhail"
       - test_three['site']['region'] == 1
 
 - name: "4 - Create site with all parameters"
@@ -74,16 +71,12 @@
       site_group: Test Site Group
       tenant: Test Tenant
       facility: EquinoxCA7
-      asn: 65001
       time_zone: America/Los Angeles
       description: This is a test description
       physical_address: Hollywood, CA, 90210
       shipping_address: Hollywood, CA, 90210
       latitude: "22.169141"
       longitude: "-100.994041"
-      contact_name: Jenny
-      contact_phone: 867-5309
-      contact_email: jenny@changednumber.com
       comments: "### Placeholder"
       slug: "test_california"
     state: present
@@ -102,16 +95,12 @@
       - test_four['site']['group'] == 4
       - test_four['site']['tenant'] == 1
       - test_four['site']['facility'] == "EquinoxCA7"
-      - test_four['site']['asn'] == 65001
       - test_four['site']['time_zone'] == "America/Los_Angeles"
       - test_four['site']['description'] == "This is a test description"
       - test_four['site']['physical_address'] == "Hollywood, CA, 90210"
       - test_four['site']['shipping_address'] == "Hollywood, CA, 90210"
-      - test_four['site']['latitude'] == "22.169141"
-      - test_four['site']['longitude'] == "-100.994041"
-      - test_four['site']['contact_name'] == "Jenny"
-      - test_four['site']['contact_phone'] == "867-5309"
-      - test_four['site']['contact_email'] == "jenny@changednumber.com"
+      - test_four['site']['latitude'] == 22.169141
+      - test_four['site']['longitude'] == -100.994041
       - test_four['site']['comments'] == "### Placeholder"
       - test_four['site']['slug'] == "test_california"
 
@@ -126,16 +115,12 @@
       site_group: Test Site Group
       tenant: Test Tenant
       facility: EquinoxCA7
-      asn: 65001
       time_zone: America/Los Angeles
       description: This is a test description
       physical_address: Hollywood, CA, 90210
       shipping_address: Hollywood, CA, 90210
       latitude: "22.169141"
       longitude: "-100.994041"
-      contact_name: Jenny
-      contact_phone: 867-5309
-      contact_email: jenny@changednumber.com
       comments: "### Placeholder"
       slug: "test_california"
     state: present
@@ -152,16 +137,12 @@
       - test_results['site']['group'] == 4
       - test_results['site']['tenant'] == 1
       - test_results['site']['facility'] == "EquinoxCA7"
-      - test_results['site']['asn'] == 65001
       - test_results['site']['time_zone'] == "America/Los_Angeles"
       - test_results['site']['description'] == "This is a test description"
       - test_results['site']['physical_address'] == "Hollywood, CA, 90210"
       - test_results['site']['shipping_address'] == "Hollywood, CA, 90210"
-      - test_results['site']['latitude'] == "22.169141"
-      - test_results['site']['longitude'] == "-100.994041"
-      - test_results['site']['contact_name'] == "Jenny"
-      - test_results['site']['contact_phone'] == "867-5309"
-      - test_results['site']['contact_email'] == "jenny@changednumber.com"
+      - test_results['site']['latitude'] == 22.169141
+      - test_results['site']['longitude'] == -100.994041
       - test_results['site']['comments'] == "### Placeholder"
       - test_results['site']['slug'] == "test_california"
 

@@ -121,6 +121,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       address: 172.16.1.20/24
       vrf: Test VRF
       tenant: Test Tenant
@@ -141,6 +142,7 @@
       - test_seven['msg'] == "ip_address 172.16.1.20/24 created"
       - test_seven['ip_address']['address'] == "172.16.1.20/24"
       - test_seven['ip_address']['description'] == "Test description"
+      - test_seven['ip_address']['family'] == 4
       - test_seven['ip_address']['role'] == "loopback"
       - test_seven['ip_address']['status'] == "reserved"
       - test_seven['ip_address']['tags'][0] == 4
@@ -152,6 +154,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       address: 10.10.1.30/16
       vrf: Test VRF
       nat_inside:
@@ -167,6 +170,7 @@
       - test_eight['diff']['after']['state'] == "present"
       - test_eight['msg'] == "ip_address 10.10.1.30/16 created"
       - test_eight['ip_address']['address'] == "10.10.1.30/16"
+      - test_eight['ip_address']['family'] == 4
       - test_eight['ip_address'].get('nat_inside')
       - test_eight['ip_address']['vrf'] == 1
 
@@ -175,6 +179,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       address: 10.10.200.30/16
       assigned_object:
         name: GigabitEthernet2
@@ -189,6 +194,7 @@
       - test_nine['diff']['after']['state'] == "present"
       - test_nine['msg'] == "ip_address 10.10.200.30/16 created"
       - test_nine['ip_address']['address'] == "10.10.200.30/16"
+      - test_nine['ip_address']['family'] == 4
       - test_nine['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_nine['ip_address']['assigned_object_id'] == 4
 
@@ -197,6 +203,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       prefix: 10.10.0.0/16
       assigned_object:
         name: GigabitEthernet2
@@ -212,6 +219,7 @@
       - test_ten['diff']['after']['state'] == "present"
       - test_ten['msg'] == "ip_address 10.10.0.1/16 created"
       - test_ten['ip_address']['address'] == "10.10.0.1/16"
+      - test_ten['ip_address']['family'] == 4
       - test_ten['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_ten['ip_address']['assigned_object_id'] == 4
 
@@ -220,6 +228,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       prefix: 192.168.100.0/24
       assigned_object:
         name: GigabitEthernet2
@@ -278,6 +287,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       address: 10.188.1.100/24
       assigned_object:
         name: Eth0
@@ -292,6 +302,7 @@
       - test_fourteen['diff']['after']['state'] == "present"
       - test_fourteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fourteen['ip_address']['address'] == "10.188.1.100/24"
+      - test_fourteen['ip_address']['family'] == 4
       - test_fourteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
       - test_fourteen['ip_address']['assigned_object_id'] == 1
 
@@ -300,6 +311,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
+      family: 4
       address: 10.188.1.100/24
       assigned_object:
         name: Eth0
@@ -315,6 +327,7 @@
       - test_fifteen['diff']['after']['state'] == "present"
       - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
       - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
+      - test_fifteen['ip_address']['family'] == 4
       - test_fifteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
       - test_fifteen['ip_address']['assigned_object_id'] == 6
 

@@ -1,31 +1,9 @@
 {
-    "Test_Cluster": {
-        "hosts": [
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm"
-        ]
-    },
-    "Test_Cluster_2": {
-        "hosts": [
-            "Test VM With Spaces",
-            "test104-vm"
-        ]
-    },
-    "Test_Rack": {
-        "hosts": [
-            "TestDeviceR1"
-        ]
-    },
-    "Test_Rack_Site_2": {
-        "hosts": [
-            "R1-Device"
-        ]
-    },
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
@@ -46,27 +24,29 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
                 "interfaces": [
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One"
                         },
                         "display": "Ethernet1/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 1,
                         "ip_addresses": [
@@ -95,39 +75,52 @@
                         ],
                         "label": "",
                         "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
                         "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet1/1",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
-                        "untagged_vlan": null
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "Test Nexus Child One",
-                            "display_name": "Test Nexus Child One",
                             "id": 5,
                             "name": "Test Nexus Child One"
                         },
                         "display": "Ethernet2/1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 2,
                         "ip_addresses": [
@@ -156,20 +149,84 @@
                         ],
                         "label": "",
                         "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "Ethernet2/1",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
-                        "untagged_vlan": null
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
+                    },
+                    {
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
+                        "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
+                        },
+                        "display": "wlink1",
+                        "duplex": null,
+                        "enabled": true,
+                        "id": 6,
+                        "ip_addresses": [],
+                        "label": "",
+                        "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                       "mode": null,
+                        "module": null,
+                        "mtu": null,
+                        "name": "wlink1",
+                        "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "IEEE 802.11a",
+                            "value": "ieee802.11a"
+                        },
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
@@ -190,7 +247,6 @@
                         "description": "",
                         "device": {
                             "display": "Test Nexus One",
-                            "display_name": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One"
                         },
@@ -220,8 +276,12 @@
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -241,9 +301,12 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -263,7 +326,8 @@
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
@@ -301,6 +365,8 @@
                 "tags": []
             },
             "TestDeviceR1": {
+                "config_context": {},
+                "custom_fields": {},
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
@@ -325,26 +391,32 @@
                 "tags": []
             },
             "test100": {
+                "config_context": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
+                "custom_fields": {},
                 "device_type": "cisco-test",
                 "interfaces": [
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
                         "display": "GigabitEthernet1",
+                        "duplex": null,
                         "enabled": true,
                         "id": 3,
                         "ip_addresses": [
@@ -373,39 +445,52 @@
                         ],
                         "label": "",
                         "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet1",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
-                        "untagged_vlan": null
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
                     },
                     {
                         "_occupied": false,
+                        "bridge": null,
                         "cable": null,
-                        "cable_peer": null,
-                        "cable_peer_type": null,
                         "connected_endpoint": null,
                         "connected_endpoint_reachable": null,
                         "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
                         "display": "GigabitEthernet2",
+                        "duplex": null,
                         "enabled": true,
                         "id": 4,
                         "ip_addresses": [
@@ -434,31 +519,97 @@
                         ],
                         "label": "",
                         "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
                         "mac_address": null,
                         "mark_connected": false,
                         "mgmt_only": false,
-                        "mode": null,
+                       "mode": null,
+                        "module": null,
                         "mtu": null,
                         "name": "GigabitEthernet2",
                         "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
                         "tagged_vlans": [],
                         "tags": [],
+                        "tx_power": null,
                         "type": {
                             "label": "1000BASE-T (1GE)",
                             "value": "1000base-t"
                         },
-                        "untagged_vlan": null
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
+                    },
+                    {
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "connected_endpoint": null,
+                        "connected_endpoint_reachable": null,
+                        "connected_endpoint_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "test100",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "display": "wlink1",
+                        "duplex": null,
+                        "enabled": true,
+                        "id": 5,
+                        "ip_addresses": [],
+                        "label": "",
+                        "lag": null,
+                        "link_peer": null,
+                        "link_peer_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                       "mode": null,
+                        "module": null,
+                        "mtu": null,
+                        "name": "wlink1",
+                        "parent": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "IEEE 802.11a",
+                            "value": "ieee802.11a"
+                        },
+                        "untagged_vlan": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null,
+                        "vrf": null
                     }
                 ],
                 "is_virtual": false,
+                "local_context_data": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
                 "locations": [
                     "test-rack-group",
                     "parent-rack-group"
                 ],
                 "manufacturer": "cisco",
-                "ntp_servers": [
-                    "pool.ntp.org"
-                ],
                 "regions": [
                     "test-region",
                     "parent-region"
@@ -470,7 +621,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
@@ -493,7 +643,6 @@
                         "description": "",
                         "device": {
                             "display": "test100",
-                            "display_name": "test100",
                             "id": 1,
                             "name": "test100"
                         },
@@ -537,8 +686,12 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -558,9 +711,12 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -580,9 +736,12 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -602,9 +761,12 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -624,9 +786,12 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -646,7 +811,8 @@
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
@@ -668,8 +834,12 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -689,9 +859,12 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -711,9 +884,12 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -733,9 +909,12 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -755,9 +934,12 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     },
                     {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
                         "custom_fields": {},
                         "description": "",
@@ -777,7 +959,8 @@
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm"
-                        }
+                        },
+                        "vrf": null
                     }
                 ],
                 "is_virtual": true,
@@ -799,6 +982,8 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
                 "locations": [],
@@ -819,6 +1004,8 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
                 "locations": [],
@@ -838,6 +1025,8 @@
             "test104-vm": {
                 "cluster": "Test Cluster 2",
                 "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
                 "interfaces": [],
                 "is_virtual": true,
                 "locations": [],
@@ -852,13 +1041,57 @@
             }
         }
     },
-    "active": {
+"all": {
+    "children": [
+        "cluster_Test_Cluster",
+        "cluster_Test_Cluster_2",
+        "cluster_group_test_cluster_group",
+        "cluster_type_test_cluster_type",
+        "device_type_cisco_test",
+        "device_type_nexus_parent",
+        "is_virtual",
+        "manufacturer_cisco",
+        "rack_Test_Rack",
+        "rack_Test_Rack_Site_2",
+        "rack_role_test_rack_role",
+        "region_other_region",
+        "region_parent_region",
+        "role_core_switch",
+        "service_http",
+        "service_ssh",
+        "service_telnet",
+        "site_group_other_site_group",
+        "site_group_parent_site_group",
+        "site_test_site2",
+        "status_active",
+        "ungrouped"
+    ]
+    },
+    "cluster_Test_Cluster": {
         "hosts": [
-            "R1-Device",
-            "Test Nexus One",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "cluster_Test_Cluster_2": {
+        "hosts": [
             "Test VM With Spaces",
-            "TestDeviceR1",
-            "test100",
+            "test104-vm"
+        ]
+    },
+    "cluster_group_test_cluster_group": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "cluster_type_test_cluster_type": {
+        "hosts": [
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -866,50 +1099,16 @@
             "test104-vm"
         ]
     },
-    "all": {
-        "children": [
-            "Test_Cluster",
-            "Test_Cluster_2",
-            "Test_Rack",
-            "Test_Rack_Site_2",
-            "active",
-            "cisco",
-            "cisco_test",
-            "core_switch",
-            "is_virtual",
-            "nexus_parent",
-            "other_region",
-            "other_site_group",
-            "parent_region",
-            "parent_site_group",
-            "test_cluster_group",
-            "test_cluster_type",
-            "test_rack_role",
-            "test_site2",
-            "ungrouped"
-        ]
-    },
-    "cisco": {
-        "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100"
-        ]
-    },
-    "cisco_test": {
+    "device_type_cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "core_switch": {
+    "device_type_nexus_parent": {
         "hosts": [
-            "R1-Device",
-            "Test Nexus One",
-            "TestDeviceR1",
-            "test100"
+            "Test Nexus One"
         ]
     },
     "is_virtual": {
@@ -922,64 +1121,83 @@
             "test104-vm"
         ]
     },
-    "nexus_parent": {
-        "hosts": [
-            "Test Nexus One"
-        ]
-    },
-    "parent_site_group": {
+    "location_parent_rack_group": {
         "children": [
-            "test_site_group"
+            "location_test_rack_group"
         ]
     },
-    "parent_rack_group": {
-        "children": [
-            "test_rack_group"
-        ]
-    },
-    "parent_region": {
-        "children": [
-            "test_region"
-        ]
-    },
-    "test_cluster_group": {
-        "hosts": [
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm"
-        ]
-    },
-    "test_cluster_type": {
-        "hosts": [
-            "Test VM With Spaces",
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm",
-            "test104-vm"
-        ]
-    },
-    "test_rack_group": {
+    "location_test_rack_group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "test_rack_role": {
+    "manufacturer_cisco": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "rack_Test_Rack": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "rack_Test_Rack_Site_2": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "test_region": {
-        "children": [
-            "test_site"
+    "rack_role_test_rack_role": {
+        "hosts": [
+            "R1-Device"
         ]
     },
-    "test_site": {
+    "region_parent_region": {
         "children": [
-            "parent_rack_group"
+            "region_test_region"
+        ]
+    },
+    "region_test_region": {
+        "children": [
+            "site_test_site"
+        ]
+    },
+    "role_core_switch": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "TestDeviceR1",
+            "test100"
+        ]
+    },
+    "service_http": {
+        "hosts": [
+            "test100"
+        ]
+    },
+    "service_ssh": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100"
+        ]
+    },
+    "service_telnet": {
+        "hosts": [
+            "Test Nexus One"
+        ]
+    },
+    "site_group_parent_site_group": {
+        "children": [
+            "site_group_test_site_group"
+        ]
+    },
+    "site_test_site": {
+        "children": [
+            "location_parent_rack_group"
         ],
         "hosts": [
             "test100-vm",
@@ -988,9 +1206,23 @@
             "test103-vm"
         ]
     },
-    "test_site2": {
+    "site_test_site2": {
         "hosts": [
             "R1-Device"
+        ]
+    },
+    "status_active": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus One",
+            "Test VM With Spaces",
+            "TestDeviceR1",
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
         ]
     }
 }

@@ -50,7 +50,6 @@ vm_query_filters:
 # https://docs.ansible.com/ansible/latest/plugins/inventory/constructed.html
 
 compose:
-  display: display_name
   rack_id: rack.id
   ntp_servers: config_context.ntp_servers
 
