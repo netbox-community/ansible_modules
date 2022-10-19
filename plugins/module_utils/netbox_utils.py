@@ -85,6 +85,8 @@ API_APPS_ENDPOINTS = dict(
     ipam=[
         "aggregates",
         "ip_addresses",
+        "l2vpns",
+        "l2vpn_terminations",
         "prefixes",
         "rirs",
         "roles",
@@ -126,6 +128,7 @@ QUERY_TYPES = dict(
     group="slug",
     installed_device="name",
     import_targets="name",
+    l2vpn="name",
     location="slug",
     manufacturer="slug",
     nat_inside="address",
@@ -306,6 +309,7 @@ ENDPOINT_NAME_MAPPING = {
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
     "ip_addresses": "ip_address",
+    "l2vpns": "l2vpn",
     "locations": "location",
     "manufacturers": "manufacturer",
     "platforms": "platform",
@@ -408,6 +412,7 @@ ALLOWED_QUERY_PARAMS = {
     "ipaddresses": set(
         ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
     ),
+    "l2vpn": set(["name"]),
     "lag": set(["name"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
@@ -556,6 +561,7 @@ SLUG_REQUIRED = {
     "device_roles",
     "device_types",
     "ipam_roles",
+    "l2vpns",
     "locations",
     "rack_groups",
     "rack_roles",
