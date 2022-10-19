@@ -6,8 +6,8 @@
 ##
 - name: "L2VPN 1: Necessary info creation"
   netbox.netbox.netbox_l2vpn:
-    #netbox_url: http://localhost:32768
-    #netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test L2VPN
       type: vxlan
@@ -73,7 +73,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: "Test L2VPN"            
+      name: "Test L2VPN"
+      type: vxlan          
     state: absent
   register: test_six
 
@@ -83,6 +84,7 @@
       - test_six is changed
       - test_six['l2vpn']['name'] == "Test L2VPN"
       - test_six['l2vpn']['tenant'] == 1
+      - test_six['l2vpn']['type'] == "vxlan"
       - test_six['l2vpn']['description'] == "Updated description"
       - test_six['l2vpn']['tags'][0] == 4
       - test_six['msg'] == "l2vpn Test L2VPN deleted"

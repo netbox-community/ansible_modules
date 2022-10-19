@@ -171,8 +171,8 @@ def main():
         )
     )
     required_if = [
-        ("state", "present", ["name"]),
-        ("state", "absent", ["name"]),
+        ("state", "present", ["name", "type"]),
+        ("state", "absent", ["name", "type"]),
     ]
 
     module = NetboxAnsibleModule(
