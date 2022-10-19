@@ -524,7 +524,7 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
-    "contact_group": "group",    
+    "contact_group": "group",
     "parent_contact_group": "parent",
     "parent_location": "parent",
     "parent_interface": "parent",

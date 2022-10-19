@@ -157,7 +157,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     type=dict(required=True, type="raw"),
-                    identifier=dict(required=False, type="int"),                                                            
+                    identifier=dict(required=False, type="int"),
                     import_targets=dict(required=False, type="list", elements="raw"),
                     export_targets=dict(required=False, type="list", elements="raw"),
                     description=dict(required=False, type="str"),
@@ -181,5 +181,5 @@ def main():
     netbox_l2vpn.run()
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()
