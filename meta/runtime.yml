@@ -41,6 +41,7 @@ action_groups:
     - netbox_inventory_item
     - netbox_ip_address
     - netbox_ipam_role
+    - netbox_l2vpn
     - netbox_location
     - netbox_manufacturer
     - netbox_platform

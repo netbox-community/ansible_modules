@@ -1,4 +1,9 @@
 ---
+module_defaults:
+  group/netbox.netbox.netbox:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    
 - name: "NETBOX_DEVICE TESTS"
   include_tasks: "netbox_device.yml"
 
@@ -236,3 +241,12 @@
         - netbox_webhook
   tags:
     - netbox_webhook
+
+- name: "NETBOX_L2VPN TESTS"
+  include_tasks:
+    file: "netbox_l2vpn.yml"
+    apply:
+      tags:
+        - netbox_l2vpn
+  tags:
+    - netbox_l2vpn
