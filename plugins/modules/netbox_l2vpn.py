@@ -41,26 +41,38 @@ options:
         description:
           - The identifier of the L2VPN
         required: false
-        type: str            
+        type: int     
+      import_targets:
+        description:
+          - Route targets to import
+        required: false
+        type: list
+        elements: raw
+      export_targets:
+        description:
+          - Route targets to export
+        required: false
+        type: list
+        elements: raw       
       description:
         description:
-          - The description of the vlan
+          - The description of the L2VPN
         required: false
         type: str
       tenant:
         description:
-          - The tenant that the vlan will be assigned to
+          - The tenant that the L2VPN will be assigned to
         required: false
         type: raw
       tags:
         description:
-          - Any tags that the vlan may need to be associated with
+          - Any tags that the L2VPN may need to be associated with
         required: false
         type: list
         elements: raw
       custom_fields:
         description:
-          - must exist in NetBox
+          - Must exist in NetBox
         required: false
         type: dict
     required: true
@@ -73,36 +85,37 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create vlan within NetBox with only required information
-      netbox_vlan:
+    - name: Create L2VPN within NetBox with only required information
+      netbox_l2vpn:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test VLAN
-          vid: 400
+          name: Test L2VPN
+          type: vxlan
         state: present
 
-    - name: Delete vlan within netbox
+    - name: Delete L2VPN within netbox
       netbox_vlan:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test VLAN
-          vid: 400
+          name: Test L2VPN
+          type: vxlan
         state: absent
 
-    - name: Create vlan with all information
+    - name: Create L2VPN with all required information
       netbox_vlan:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test VLAN
-          vid: 400
-          site: Test Site
-          group: Test VLAN Group
-          tenant: Test Tenant
-          status: Deprecated
-          vlan_role: Test VLAN Role
+          name: Test L2VPN
+          type: vpls
+          identifier: 43256
+          import_targets:
+            - "65000:1"
+          export_targets:
+            - "65000:2"            
+          tenant: Test Tenant                    
           description: Just a test
           tags:
             - Schnozzberry
@@ -110,7 +123,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-vlan:
+l2vpn:
   description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
@@ -144,7 +157,9 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     type=dict(required=True, type="raw"),
-                    identifier=dict(required=False, type="str"),                                                            
+                    identifier=dict(required=False, type="int"),                                                            
+                    import_targets=dict(required=False, type="list", elements="raw"),
+                    export_targets=dict(required=False, type="list", elements="raw"),
                     description=dict(required=False, type="str"),
                     tenant=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
@@ -166,5 +181,5 @@ def main():
     netbox_l2vpn.run()
 
 
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == "__main__": 
     main()
