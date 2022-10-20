@@ -84,6 +84,11 @@ options:
           - Disk of the virtual machine (GB)
         required: false
         type: int
+      device:
+        description:
+          - The device the virtual machine is pinned to in the cluster
+        required: false
+        type: raw
       status:
         description:
           - The status of the virtual machine
@@ -205,6 +210,7 @@ def main():
                     primary_ip6=dict(required=False, type="raw"),
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
+                    device=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
