@@ -221,3 +221,36 @@ that specify fields that are unique to each tag. Name can be used, but we always
           state: "present"
 
 .. warning:: Everything discussed above can be applied to each module, but may need to swap out any arguments for module specific arguments.
+
+Using module default groups
++++++++++++++++++++++++++++++
+
+To avoid having to define the ``netbox_url`` and ``netbox_token`` in each task you can use the module default group feature. 
+
+.. code-block:: yaml
+
+  ---
+  ...
+    module_defaults:
+      group/netbox.netbox.netbox:
+        netbox_url: "http://netbox.local"
+        netbox_token: "thisIsMyToken"
+    tasks:
+      - name: "Example using tags"
+        netbox.netbox.netbox_device:
+          data:
+            name: "Test Device"
+            tags:
+              - slug: "my-new-tag1"
+              - slug: "my-new-tag2"
+          state: "present"
+
+      - name: "Example state: present - Update"
+        netbox.netbox.netbox_device:          
+          data:
+            name: "Test Device"
+            serial: "FXS110011"
+          state: "present"
+
+.. note::
+  Module default groups are available from Ansible 2.12.
