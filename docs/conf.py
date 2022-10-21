@@ -15,7 +15,7 @@ import sys
 import re
 import stat
 from pathlib import Path
-from antsibull.cli import antsibull_docs
+from antsibull_docs.cli import antsibull_docs
 
 sys.path.insert(0, os.path.abspath("../"))
 
