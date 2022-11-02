@@ -1298,7 +1298,7 @@ class NetboxModule(object):
                         data_after[key] = updated_obj[key]
                 except KeyError:
                     if key == "form_factor":
-                        msg = "form_factor is not valid for NetBox 2.7 onword. Please use the type key instead."
+                        msg = "form_factor is not valid for NetBox 2.7 onward. Please use the type key instead."
                     else:
                         msg = (
                             "%s does not exist on existing object. Check to make sure valid field."
