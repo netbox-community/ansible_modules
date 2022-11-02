@@ -676,6 +676,8 @@ class NetboxModule(object):
         elif g_major == l_major and g_minor > l_minor:
             return True
 
+        return False
+
     def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
             session = requests.Session()
