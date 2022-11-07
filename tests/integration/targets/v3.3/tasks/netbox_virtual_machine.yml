@@ -76,24 +76,53 @@
       - test_three['virtual_machine']['tags'][0] == 4
       - test_three['msg'] == "virtual_machine Test VM One updated"
 
-- name: "VIRTUAL_MACHINE 4: Delete"
+- name: "VIRTUAL_MACHINE 4: Test idempotence"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test VM One"
+      cluster: "Test Cluster"
+      vcpus: 8.5
+      memory: 8
+      status: "Planned"
+      virtual_machine_role: "Test VM Role"
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_four_idempotence
+
+- name: "VIRTUAL_MACHINE 4: ASSERT - Not changed"
+  assert:
+    that:
+      - test_four_idempotence is not changed
+      - test_four_idempotence['virtual_machine']['name'] == "Test VM One"
+      - test_four_idempotence['virtual_machine']['cluster'] == 1
+      - test_four_idempotence['virtual_machine']['vcpus'] == 8.5
+      - test_four_idempotence['virtual_machine']['memory'] == 8
+      - test_four_idempotence['virtual_machine']['status'] == "planned"
+      - test_four_idempotence['virtual_machine']['role'] == 2
+      - test_four_idempotence['virtual_machine']['tags'][0] == 4
+      - test_four_idempotence['msg'] == "virtual_machine Test VM One already exists"
+
+- name: "VIRTUAL_MACHINE 5: Delete"
   netbox.netbox.netbox_virtual_machine:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "Test VM One"
     state: absent
-  register: test_four
+  register: test_five
 
-- name: "VIRTUAL_MACHINE 4: ASSERT - Delete"
+- name: "VIRTUAL_MACHINE 5: ASSERT - Delete"
   assert:
     that:
-      - test_four is changed
-      - test_four['virtual_machine']['name'] == "Test VM One"
-      - test_four['virtual_machine']['cluster'] == 1
-      - test_four['virtual_machine']['vcpus'] == 8.5
-      - test_four['virtual_machine']['memory'] == 8
-      - test_four['virtual_machine']['status'] == "planned"
-      - test_four['virtual_machine']['role'] == 2
-      - test_four['virtual_machine']['tags'][0] == 4
-      - test_four['msg'] == "virtual_machine Test VM One deleted"
+      - test_five is changed
+      - test_five['virtual_machine']['name'] == "Test VM One"
+      - test_five['virtual_machine']['cluster'] == 1
+      - test_five['virtual_machine']['vcpus'] == 8.5
+      - test_five['virtual_machine']['memory'] == 8
+      - test_five['virtual_machine']['status'] == "planned"
+      - test_five['virtual_machine']['role'] == 2
+      - test_five['virtual_machine']['tags'][0] == 4
+      - test_five['msg'] == "virtual_machine Test VM One deleted"
