@@ -275,7 +275,9 @@ def get_endpoint(netbox, term):
         netbox_endpoint_map["wireless-lan-groups"] = {
             "endpoint": netbox.wireless.wireless_lan_groups
         }
-        netbox_endpoint_map["wireless-lans"] = {"endpoint": netbox.wireless.wireless_lans}
+        netbox_endpoint_map["wireless-lans"] = {
+            "endpoint": netbox.wireless.wireless_lans
+        }
         netbox_endpoint_map["wireless-links"] = {
             "endpoint": netbox.wireless.wireless_links
         }
