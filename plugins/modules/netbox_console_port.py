@@ -50,6 +50,7 @@ options:
           - rj-11
           - rj-12
           - rj-45
+          - mini-din-8
           - usb-a
           - usb-b
           - usb-c
@@ -90,7 +91,7 @@ options:
         description:
           - module that provides the console port.
         required: false
-        type: raw
+        type: int
       speed:
         description:
           - the port speed
@@ -200,7 +201,7 @@ def main():
                     cable=dict(required=False, type="dict"),
                     custom_fields=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
-                    module=dict(required=False, type="str"),
+                    module=dict(required=False, type="int"),
                     label=dict(required=False, type="str"),
                     mark_connected=dict(required=False, type="bool"),
                     speed=dict(required=False, type="int"),
