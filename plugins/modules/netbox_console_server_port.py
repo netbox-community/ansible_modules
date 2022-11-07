@@ -50,6 +50,7 @@ options:
           - rj-11
           - rj-12
           - rj-45
+          - mini-din-8
           - usb-a
           - usb-b
           - usb-c
@@ -57,14 +58,40 @@ options:
           - usb-mini-b
           - usb-micro-a
           - usb-micro-b
+          - usb-micro-ab
           - other
         required: false
         type: str
+      cable:
+        description:
+          - cable to attach port to.  Must exist.
+        type: dict
+        required: false
+      custom_fields:
+        description:
+          - must exist in netbox
+        type: dict
+        required: false
       description:
         description:
           - Description of the console server port
         required: false
         type: str
+      label:
+        description:
+          - label of the conserver server port
+        required: false
+        type: str
+      mark_connected:
+        description:
+          - Treats as if a cable is connected to the port
+        required: false
+        type: bool
+      speed:
+        description:
+          - sets the port speed
+        required: false
+        type: int
       tags:
         description:
           - Any tags that the console server port may need to be associated with
@@ -97,6 +124,7 @@ EXAMPLES = r"""
           name: Test Console Server Port
           device: Test Device
           type: usb-a
+          speed: 11500
           description: console server port description
         state: present
 
@@ -153,6 +181,7 @@ def main():
                             "rj-11",
                             "rj-12",
                             "rj-45",
+                            "mini-din-8",
                             "usb-a",
                             "usb-b",
                             "usb-c",
@@ -160,11 +189,17 @@ def main():
                             "usb-mini-b",
                             "usb-micro-a",
                             "usb-micro-b",
+                            "usb-micro-ab",
                             "other",
                         ],
                         type="str",
                     ),
+                    cable=dict(required=False, type="dict"),
+                    custom_fields=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
+                    speed=dict(required=False, type="int"),
+                    mark_connected=dict(required=False, type="bool"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
