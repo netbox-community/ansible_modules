@@ -169,6 +169,7 @@ def get_endpoint(netbox, term):
         "circuits": {"endpoint": netbox.circuits.circuits},
         "circuit-providers": {"endpoint": netbox.circuits.providers},
         "cables": {"endpoint": netbox.dcim.cables},
+        "cable-terminations": {"endpoint": netbox.dcim.cable_terminations},
         "cluster-groups": {"endpoint": netbox.virtualization.cluster_groups},
         "cluster-types": {"endpoint": netbox.virtualization.cluster_types},
         "clusters": {"endpoint": netbox.virtualization.clusters},
@@ -206,12 +207,20 @@ def get_endpoint(netbox, term):
         "interface-templates": {"endpoint": netbox.dcim.interface_templates},
         "interfaces": {"endpoint": netbox.dcim.interfaces},
         "inventory-items": {"endpoint": netbox.dcim.inventory_items},
+        "inventory-item-roles": {"endpoint": netbox.dcim.inventory_item_roles},
+        "inventory-item-templates": {"endpoint": netbox.dcim.inventory_item_templates},
         "ip-addresses": {"endpoint": netbox.ipam.ip_addresses},
         "ip-ranges": {"endpoint": netbox.ipam.ip_ranges},
         "job-results": {"endpoint": netbox.extras.job_results},
         "journal-entries": {"endpoint": netbox.extras.journal_entries},
         "locations": {"endpoint": netbox.dcim.locations},
+        "l2vpn-terminations": {"endpoint": netbox.ipam.l2vpn_terminations},
+        "l2vpns": {"endpoint": netbox.ipam.l2vpns},
         "manufacturers": {"endpoint": netbox.dcim.manufacturers},
+        "module-bays": {"endpoint": netbox.dcim.module_bays},
+        "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
+        "module-bay-types": {"endpoint": netbox.dcim.module_bay_types},
+        "modules": {"endpoint": netbox.dcim.modules},
         "object-changes": {"endpoint": netbox.extras.object_changes},
         "permissions": {"endpoint": netbox.users.permissions},
         "platforms": {"endpoint": netbox.dcim.platforms},
@@ -239,6 +248,7 @@ def get_endpoint(netbox, term):
         "secret-roles": {"endpoint": netbox.secrets.secret_roles},
         "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
+        "service-templates": {"endpoint": netbox.ipam.service_templates},
         "site-groups": {"endpoint": netbox.dcim.site_groups},
         "sites": {"endpoint": netbox.dcim.sites},
         "tags": {"endpoint": netbox.extras.tags},
@@ -265,7 +275,7 @@ def get_endpoint(netbox, term):
         netbox_endpoint_map["wireless-lan-groups"] = {
             "endpoint": netbox.wireless.wireless_lan_groups
         }
-        netbox_endpoint_map["wireless-lan"] = {"endpoint": netbox.wireless.wireless_lan}
+        netbox_endpoint_map["wireless-lans"] = {"endpoint": netbox.wireless.wireless_lans}
         netbox_endpoint_map["wireless-links"] = {
             "endpoint": netbox.wireless.wireless_links
         }
