@@ -5,6 +5,29 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.9.0
+======
+
+Minor Changes
+-------------
+
+- nb_lookup - Add 3.3 endpoints for lookup [#865](https://github.com/netbox-community/ansible_modules/pull/865)
+- netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)
+- netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
+- netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
+
+Bugfixes
+--------
+
+- nb_inventory - Fix site_group in inventory plugin [#872](https://github.com/netbox-community/ansible_modules/pull/872)
+- nb_inventory - Make sure inventory works with ansible < 2.11 [#861](https://github.com/netbox-community/ansible_modules/pull/861)
+- netbox_virtual_machine - Fix idempotency with virtual machine and NetBox 3.0 [#859](https://github.com/netbox-community/ansible_modules/pull/859)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_l2vpn - Create, update or delete L2VPN objects in NetBox
+
 v3.8.1
 ======
 

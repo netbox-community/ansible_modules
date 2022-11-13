@@ -716,3 +716,19 @@ releases:
         - Update CI to include NetBox 3.3 [#841](https://github.com/netbox-community/ansible_modules/pull/841)
         - Update documentation to show exclusion filter [#837](https://github.com/netbox-community/ansible_modules/pull/837)
     release_date: '2022-10-17'
+  3.9.0:
+    changes:
+      bugfixes:
+        - netbox_virtual_machine - Fix idempotency with virtual machine and NetBox 3.0 [#859](https://github.com/netbox-community/ansible_modules/pull/859)
+        - nb_inventory - Make sure inventory works with ansible < 2.11 [#861](https://github.com/netbox-community/ansible_modules/pull/861)
+        - nb_inventory - Fix site_group in inventory plugin [#872](https://github.com/netbox-community/ansible_modules/pull/872)
+      minor_changes:
+        - netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
+        - nb_lookup - Add 3.3 endpoints for lookup [#865](https://github.com/netbox-community/ansible_modules/pull/865)
+        - netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
+        - netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)        
+    modules:
+      - description: Create, update or delete L2VPN objects in NetBox 
+        name: netbox_l2vpn
+        namespace: ''
+    release_date: '2022-11-14'

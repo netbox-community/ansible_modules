@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.8.1
+Collection version 3.9.0
 
 .. contents::
    :local:
@@ -75,6 +75,7 @@ Modules
 * :ref:`netbox_inventory_item module <ansible_collections.netbox.netbox.netbox_inventory_item_module>` -- Creates or removes inventory items from NetBox
 * :ref:`netbox_ip_address module <ansible_collections.netbox.netbox.netbox_ip_address_module>` -- Creates or removes IP addresses from NetBox
 * :ref:`netbox_ipam_role module <ansible_collections.netbox.netbox.netbox_ipam_role_module>` -- Creates or removes ipam roles from NetBox
+* :ref:`netbox_l2vpn module <ansible_collections.netbox.netbox.netbox_l2vpn_module>` -- Create, update or delete L2VPNs within NetBox
 * :ref:`netbox_location module <ansible_collections.netbox.netbox.netbox_location_module>` -- Create, update or delete locations within NetBox
 * :ref:`netbox_manufacturer module <ansible_collections.netbox.netbox.netbox_manufacturer_module>` -- Create or delete manufacturers within NetBox
 * :ref:`netbox_platform module <ansible_collections.netbox.netbox.netbox_platform_module>` -- Create or delete platforms within NetBox
@@ -167,6 +168,7 @@ Lookup Plugins
     netbox_inventory_item_module
     netbox_ip_address_module
     netbox_ipam_role_module
+    netbox_l2vpn_module
     netbox_location_module
     netbox_manufacturer_module
     netbox_platform_module
