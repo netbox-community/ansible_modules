@@ -67,11 +67,13 @@ options:
           - cable to connect port to.
         required: false
         type: dict
+        version_added: "3.9.0"
       custom_fields:
         description:
           - must exist in netbox
         required: false
         type: dict
+        version_added: "3.9.0"
       description:
         description:
           - Description of the console port
@@ -82,21 +84,25 @@ options:
           - label of the console port
         required: false
         type: str
+        version_added: "3.9.0"
       mark_connected:
         description:
           - Treats as if a cable is connected to the port
         required: false
         type: bool
+        version_added: "3.9.0"
       module:
         description:
           - module that provides the console port.
         required: false
         type: int
+        version_added: "3.9.0"
       speed:
         description:
           - the port speed
         required: false
         type: int
+        version_added: "3.9.0"
       tags:
         description:
           - Any tags that the console port may need to be associated with

@@ -43,7 +43,7 @@ netbox.netbox.netbox_console_port module -- Create, update or delete console por
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -175,6 +175,80 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/cable"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/cable:
+
+      .. rst-class:: ansible-option-title
+
+      **cable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/cable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      cable to connect port to.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/custom_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      must exist in netbox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/description:
@@ -243,6 +317,124 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      label of the console port
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/mark_connected"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/mark_connected:
+
+      .. rst-class:: ansible-option-title
+
+      **mark_connected**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/mark_connected" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Treats as if a cable is connected to the port
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/module"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/module:
+
+      .. rst-class:: ansible-option-title
+
+      **module**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/module" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      module that provides the console port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/name:
@@ -268,6 +460,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The name of the console port
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/speed"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_port_module__parameter-data/speed:
+
+      .. rst-class:: ansible-option-title
+
+      **speed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/speed" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      the port speed
 
 
       .. raw:: html
@@ -347,6 +576,7 @@ Parameters
       - :ansible-option-choices-entry:`rj-11`
       - :ansible-option-choices-entry:`rj-12`
       - :ansible-option-choices-entry:`rj-45`
+      - :ansible-option-choices-entry:`mini-din-8`
       - :ansible-option-choices-entry:`usb-a`
       - :ansible-option-choices-entry:`usb-b`
       - :ansible-option-choices-entry:`usb-c`
@@ -354,6 +584,7 @@ Parameters
       - :ansible-option-choices-entry:`usb-mini-b`
       - :ansible-option-choices-entry:`usb-micro-a`
       - :ansible-option-choices-entry:`usb-micro-b`
+      - :ansible-option-choices-entry:`usb-micro-ab`
       - :ansible-option-choices-entry:`other`
 
       .. raw:: html
