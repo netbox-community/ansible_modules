@@ -85,6 +85,8 @@ API_APPS_ENDPOINTS = dict(
     ipam=[
         "aggregates",
         "ip_addresses",
+        "l2vpns",
+        "l2vpn_terminations",
         "prefixes",
         "rirs",
         "roles",
@@ -126,6 +128,7 @@ QUERY_TYPES = dict(
     group="slug",
     installed_device="name",
     import_targets="name",
+    l2vpn="name",
     location="slug",
     manufacturer="slug",
     nat_inside="address",
@@ -306,6 +309,7 @@ ENDPOINT_NAME_MAPPING = {
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
     "ip_addresses": "ip_address",
+    "l2vpns": "l2vpn",
     "locations": "location",
     "manufacturers": "manufacturer",
     "platforms": "platform",
@@ -408,6 +412,7 @@ ALLOWED_QUERY_PARAMS = {
     "ipaddresses": set(
         ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
     ),
+    "l2vpn": set(["name"]),
     "lag": set(["name"]),
     "location": set(["slug"]),
     "manufacturer": set(["slug"]),
@@ -556,6 +561,7 @@ SLUG_REQUIRED = {
     "device_roles",
     "device_types",
     "ipam_roles",
+    "l2vpns",
     "locations",
     "rack_groups",
     "rack_roles",
@@ -669,6 +675,8 @@ class NetboxModule(object):
         # If major versions are equal, and minor version is higher, return True
         elif g_major == l_major and g_minor > l_minor:
             return True
+
+        return False
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
@@ -1249,12 +1257,28 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
+
+        if serialized_nb_obj.get("custom_fields"):
+            serialized_nb_obj["custom_fields"] = {
+                key: value
+                for key, value in serialized_nb_obj["custom_fields"].items()
+                if value is not None
+            }
+
+        if updated_obj.get("custom_fields"):
+            updated_obj["custom_fields"] = {
+                key: value
+                for key, value in updated_obj["custom_fields"].items()
+                if value is not None
+            }
+
         updated_obj.update(data)
+
         if serialized_nb_obj.get("tags") and data.get("tags"):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
 
-        # Ensure idempotency for site and virtual machine on version pre-3.0
+        # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.version)
         if (
             serialized_nb_obj.get("latitude")
@@ -1269,15 +1293,13 @@ class NetboxModule(object):
         ):
             updated_obj["longitude"] = str(data["longitude"])
 
-        if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
-            updated_obj["vcpus"] = "{0:.2f}".format(data["vcpus"])
-
-        if serialized_nb_obj.get("custom_fields"):
-            serialized_nb_obj["custom_fields"] = {
-                key: value
-                for key, value in serialized_nb_obj["custom_fields"].items()
-                if value is not None
-            }
+        # Ensure idempotency for virtual machine on older netbox versions
+        version_pre_211 = self._version_check_greater("2.11", self.version)
+        if serialized_nb_obj.get("vcpus") and data.get("vcpus"):
+            if version_pre_211:
+                updated_obj["vcpus"] = int(data["vcpus"])
+            else:
+                updated_obj["vcpus"] = float(data["vcpus"])
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
@@ -1290,7 +1312,7 @@ class NetboxModule(object):
                         data_after[key] = updated_obj[key]
                 except KeyError:
                     if key == "form_factor":
-                        msg = "form_factor is not valid for NetBox 2.7 onword. Please use the type key instead."
+                        msg = "form_factor is not valid for NetBox 2.7 onward. Please use the type key instead."
                     else:
                         msg = (
                             "%s does not exist on existing object. Check to make sure valid field."

@@ -43,7 +43,7 @@ netbox.netbox.netbox_virtual_machine module -- Create, update or delete virtual\
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -268,6 +268,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Must exist in NetBox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/device"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_virtual_machine_module__parameter-data/device:
+
+      .. rst-class:: ansible-option-title
+
+      **device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The device the virtual machine is pinned to in the cluster
 
 
       .. raw:: html

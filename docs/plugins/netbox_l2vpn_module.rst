@@ -27,7 +27,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_rack_role_module:
+.. _ansible_collections.netbox.netbox.netbox_l2vpn_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -37,8 +37,8 @@
 
 .. Title
 
-netbox.netbox.netbox_rack_role module -- Create, update or delete racks roles within NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_l2vpn module -- Create, update or delete L2VPNs within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -47,13 +47,13 @@ netbox.netbox.netbox_rack_role module -- Create, update or delete racks roles wi
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_rack_role_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_l2vpn_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_rack_role`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_l2vpn`.
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.1.0
+.. versionadded:: netbox.netbox 3.9.0
 
 .. contents::
    :local:
@@ -67,7 +67,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes racks roles from NetBox
+- Creates, updates or removes L2VPNs from NetBox
 
 
 .. Aliases
@@ -75,7 +75,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_rack_role_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_l2vpn_module_requirements:
 
 Requirements
 ------------
@@ -109,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -143,7 +143,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -165,7 +165,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the rack role configuration
+      Defines the L2VPN configuration
 
 
       .. raw:: html
@@ -175,43 +175,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/color"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data/color:
-
-      .. rst-class:: ansible-option-title
-
-      **color**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/color" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Hexidecimal code for a color, ex. FFFFFF
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -224,9 +190,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
 
       .. raw:: html
 
@@ -246,9 +209,145 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The description of the L2VPN
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/export_targets"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/export_targets:
+
+      .. rst-class:: ansible-option-title
+
+      **export_targets**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/export_targets" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Route targets to export
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/identifier"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/identifier:
+
+      .. rst-class:: ansible-option-title
+
+      **identifier**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/identifier" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The identifier of the L2VPN
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/import_targets"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/import_targets:
+
+      .. rst-class:: ansible-option-title
+
+      **import_targets**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/import_targets" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Route targets to import
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -270,43 +369,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the rack role
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data/slug:
-
-      .. rst-class:: ansible-option-title
-
-      **slug**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The slugified version of the name or custom slug.
-
-      This is auto-generated following NetBox rules if not provided
+      The name of the L2VPN
 
 
       .. raw:: html
@@ -318,7 +381,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -332,8 +395,39 @@ Parameters
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
+      .. raw:: html
 
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Any tags that the L2VPN may need to be associated with
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tenant"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/tenant:
+
+      .. rst-class:: ansible-option-title
+
+      **tenant**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tenant" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -343,7 +437,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The tags to add/update
+      The tenant that the L2VPN will be assigned to
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-data/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of L2VPN
 
 
       .. raw:: html
@@ -356,7 +484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -390,7 +518,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -426,7 +554,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -464,7 +592,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -505,7 +633,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -570,22 +698,41 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create rack role within NetBox with only required information
-          netbox_rack_role:
+        - name: Create L2VPN within NetBox with only required information
+          netbox_l2vpn:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test rack role
-              color: FFFFFF
+              name: Test L2VPN
+              type: vxlan
             state: present
 
-        - name: Delete rack role within netbox
-          netbox_rack_role:
+        - name: Delete L2VPN within netbox
+          netbox_vlan:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Rack role
+              name: Test L2VPN
+              type: vxlan
             state: absent
+
+        - name: Create L2VPN with all required information
+          netbox_vlan:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test L2VPN
+              type: vpls
+              identifier: 43256
+              import_targets:
+                - "65000:1"
+              export_targets:
+                - "65000:2"            
+              tenant: Test Tenant                    
+              description: Just a test
+              tags:
+                - Schnozzberry
+            state: present
 
 
 
@@ -612,9 +759,49 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-l2vpn"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__return-l2vpn:
+
+      .. rst-class:: ansible-option-title
+
+      **l2vpn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-l2vpn" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created or already existent within NetBox
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -649,46 +836,6 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-rack_role"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_rack_role_module__return-rack_role:
-
-      .. rst-class:: ansible-option-title
-
-      **rack_role**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-rack_role" title="Permalink to this return value"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Serialized object as created or already existent within NetBox
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
-
-
-      .. raw:: html
-
-        </div>
-
-
 
 ..  Status (Presently only deprecated)
 
@@ -698,7 +845,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Martin Rødvand (@rodvand)
 
 
 

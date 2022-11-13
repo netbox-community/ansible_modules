@@ -1,4 +1,5 @@
 ---
+
 - name: "NETBOX_DEVICE TESTS"
   include_tasks: "netbox_device.yml"
 
@@ -236,3 +237,12 @@
         - netbox_webhook
   tags:
     - netbox_webhook
+
+- name: "NETBOX_L2VPN TESTS"
+  include_tasks:
+    file: "netbox_l2vpn.yml"
+    apply:
+      tags:
+        - netbox_l2vpn
+  tags:
+    - netbox_l2vpn

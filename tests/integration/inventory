@@ -1,0 +1,2 @@
+[testgroup]
+testhost ansible_connection="local" ansible_pipelining="yes" ansible_python_interpreter="/Users/rodvand/collections/ansible_collections/netbox/netbox/venv/bin/python3.9"

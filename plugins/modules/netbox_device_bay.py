@@ -45,9 +45,15 @@ options:
         type: str
       installed_device:
         description:
-          - The ddevice that will be installed into the bay. The device type must be "child".
+          - The device that will be installed into the bay. The device type must be "child".
         required: false
         type: raw
+      label:
+        description:
+          - Label for the device bay
+        required: false
+        type: str
+        version_added: "3.9.0"
       tags:
         description:
           - Any tags that the device bay may need to be associated with
@@ -132,6 +138,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     installed_device=dict(required=False, type="raw"),
+                    label=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
