@@ -50,6 +50,7 @@ options:
           - rj-11
           - rj-12
           - rj-45
+          - mini-din-8
           - usb-a
           - usb-b
           - usb-c
@@ -57,14 +58,45 @@ options:
           - usb-mini-b
           - usb-micro-a
           - usb-micro-b
+          - usb-micro-ab
           - other
         required: false
         type: str
+      cable:
+        description:
+          - cable to connect port to.
+        required: false
+        type: dict
+      custom_fields:
+        description:
+          - must exist in netbox
+        required: false
+        type: dict
       description:
         description:
           - Description of the console port
         required: false
         type: str
+      label:
+        description:
+          - label of the console port
+        required: false
+        type: str
+      mark_connected:
+        description:
+          - Treats as if a cable is connected to the port
+        required: false
+        type: bool
+      module:
+        description:
+          - module that provides the console port.
+        required: false
+        type: int
+      speed:
+        description:
+          - the port speed
+        required: false
+        type: int
       tags:
         description:
           - Any tags that the console port may need to be associated with
@@ -153,6 +185,7 @@ def main():
                             "rj-11",
                             "rj-12",
                             "rj-45",
+                            "mini-din-8",
                             "usb-a",
                             "usb-b",
                             "usb-c",
@@ -160,11 +193,18 @@ def main():
                             "usb-mini-b",
                             "usb-micro-a",
                             "usb-micro-b",
+                            "usb-micro-ab",
                             "other",
                         ],
                         type="str",
                     ),
+                    cable=dict(required=False, type="dict"),
+                    custom_fields=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
+                    module=dict(required=False, type="int"),
+                    label=dict(required=False, type="str"),
+                    mark_connected=dict(required=False, type="bool"),
+                    speed=dict(required=False, type="int"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),
