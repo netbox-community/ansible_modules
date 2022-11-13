@@ -67,11 +67,13 @@ options:
           - cable to attach port to.  Must exist.
         type: dict
         required: false
+        version_added: "3.9.0"
       custom_fields:
         description:
           - must exist in netbox
         type: dict
         required: false
+        version_added: "3.9.0"
       description:
         description:
           - Description of the console server port
@@ -82,16 +84,19 @@ options:
           - label of the conserver server port
         required: false
         type: str
+        version_added: "3.9.0"
       mark_connected:
         description:
           - Treats as if a cable is connected to the port
         required: false
         type: bool
+        version_added: "3.9.0"
       speed:
         description:
           - sets the port speed
         required: false
         type: int
+        version_added: "3.9.0"
       tags:
         description:
           - Any tags that the console server port may need to be associated with

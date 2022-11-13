@@ -53,6 +53,7 @@ options:
           - Label for the device bay
         required: false
         type: str
+        version_added: "3.9.0"
       tags:
         description:
           - Any tags that the device bay may need to be associated with

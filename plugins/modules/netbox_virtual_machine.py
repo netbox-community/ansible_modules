@@ -89,6 +89,7 @@ options:
           - The device the virtual machine is pinned to in the cluster
         required: false
         type: raw
+        version_added: "3.9.0"
       status:
         description:
           - The status of the virtual machine
