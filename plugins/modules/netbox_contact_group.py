@@ -70,7 +70,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create contact group within NetBox with only required information
-      netbox_contact_group:
+      netbox.netbox.netbox_contact_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -79,7 +79,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete contact group within netbox
-      netbox_contact_group:
+      netbox.netbox.netbox_contact_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

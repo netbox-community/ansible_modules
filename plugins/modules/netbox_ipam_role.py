@@ -73,7 +73,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create ipam role within NetBox with only required information
-      netbox_ipam_role:
+      netbox.netbox.netbox_ipam_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -81,7 +81,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete ipam role within netbox
-      netbox_ipam_role:
+      netbox.netbox.netbox_ipam_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

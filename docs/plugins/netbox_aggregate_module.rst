@@ -43,7 +43,7 @@ netbox.netbox.netbox_aggregate module -- Creates or removes aggregates from NetB
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -597,7 +597,7 @@ Examples
 
       tasks:
         - name: Create aggregate within NetBox with only required information
-          netbox_aggregate:
+          netbox.netbox.netbox_aggregate:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -606,7 +606,7 @@ Examples
             state: present
 
         - name: Create aggregate with several specified options
-          netbox_aggregate:
+          netbox.netbox.netbox_aggregate:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -619,7 +619,7 @@ Examples
             state: present
 
         - name: Delete aggregate within netbox
-          netbox_aggregate:
+          netbox.netbox.netbox_aggregate:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

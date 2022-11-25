@@ -98,7 +98,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create device type within NetBox with only required information
-      netbox_device_type:
+      netbox.netbox.netbox_device_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -108,7 +108,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create device type within NetBox with only required information
-      netbox_device_type:
+      netbox.netbox.netbox_device_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -122,7 +122,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete device type within netbox
-      netbox_device_type:
+      netbox.netbox.netbox_device_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

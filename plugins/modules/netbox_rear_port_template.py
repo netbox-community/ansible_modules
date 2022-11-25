@@ -88,7 +88,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create rear port template within NetBox with only required information
-      netbox_rear_port_template:
+      netbox.netbox.netbox_rear_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -98,7 +98,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update rear port template with other fields
-      netbox_rear_port_template:
+      netbox.netbox.netbox_rear_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +109,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete rear port template within netbox
-      netbox_rear_port_template:
+      netbox.netbox.netbox_rear_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

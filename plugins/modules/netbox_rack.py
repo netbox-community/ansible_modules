@@ -157,7 +157,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create rack within NetBox with only required information
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -166,7 +166,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create rack within NetBox with only required information - Pre 2.11
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -176,7 +176,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create rack within NetBox with only required information - Post 2.11
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -186,7 +186,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete rack within netbox
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

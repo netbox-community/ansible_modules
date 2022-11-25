@@ -129,7 +129,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create prefix within NetBox with only required information
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -137,7 +137,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete prefix within netbox
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -145,7 +145,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create prefix with several specified options
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -168,7 +168,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Get a new /24 inside 10.156.0.0/19 within NetBox - Parent doesn't exist
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -178,7 +178,7 @@ EXAMPLES = r"""
         first_available: yes
 
     - name: Create prefix within NetBox with only required information
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -186,7 +186,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Get a new /24 inside 10.156.0.0/19 within NetBox
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -196,7 +196,7 @@ EXAMPLES = r"""
         first_available: yes
 
     - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
-      netbox_prefix:
+      netbox.netbox.netbox_prefix:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

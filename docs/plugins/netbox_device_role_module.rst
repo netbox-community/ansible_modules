@@ -43,7 +43,7 @@ netbox.netbox.netbox_device_role module -- Create, update or delete devices role
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -646,7 +646,7 @@ Examples
 
       tasks:
         - name: Create device role within NetBox with only required information
-          netbox_device_role:
+          netbox.netbox.netbox_device_role:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -655,7 +655,7 @@ Examples
             state: present
 
         - name: Delete device role within netbox
-          netbox_device_role:
+          netbox.netbox.netbox_device_role:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

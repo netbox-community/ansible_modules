@@ -69,7 +69,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create manufacturer within NetBox with only required information
-      netbox_manufacturer:
+      netbox.netbox.netbox_manufacturer:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -77,7 +77,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete manufacturer within netbox
-      netbox_manufacturer:
+      netbox.netbox.netbox_manufacturer:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

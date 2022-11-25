@@ -43,7 +43,7 @@ netbox.netbox.netbox_rir module -- Create, update or delete RIRs within NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -612,7 +612,7 @@ Examples
 
       tasks:
         - name: Create RIR within NetBox with only required information
-          netbox_rir:
+          netbox.netbox.netbox_rir:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -620,7 +620,7 @@ Examples
             state: present
 
         - name: Update Test RIR One
-          netbox_rir:
+          netbox.netbox.netbox_rir:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -629,7 +629,7 @@ Examples
             state: present
 
         - name: Delete RIR within netbox
-          netbox_rir:
+          netbox.netbox.netbox_rir:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

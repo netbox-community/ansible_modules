@@ -121,7 +121,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create power feed within NetBox with only required information
-      netbox_power_feed:
+      netbox.netbox.netbox_power_feed:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -130,7 +130,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update power feed with other fields
-      netbox_power_feed:
+      netbox.netbox.netbox_power_feed:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -147,7 +147,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete power feed within netbox
-      netbox_power_feed:
+      netbox.netbox.netbox_power_feed:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

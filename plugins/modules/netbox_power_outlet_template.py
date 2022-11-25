@@ -125,7 +125,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create power outlet template within NetBox with only required information
-      netbox_power_outlet_template:
+      netbox.netbox.netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -134,7 +134,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update power outlet template with other fields
-      netbox_power_outlet_template:
+      netbox.netbox.netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -146,7 +146,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete power outlet template within netbox
-      netbox_power_outlet_template:
+      netbox.netbox.netbox_power_outlet_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

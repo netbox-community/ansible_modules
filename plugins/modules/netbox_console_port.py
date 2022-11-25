@@ -119,7 +119,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create console port within NetBox with only required information
-      netbox_console_port:
+      netbox.netbox.netbox_console_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -128,7 +128,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update console port with other fields
-      netbox_console_port:
+      netbox.netbox.netbox_console_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -139,7 +139,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete console port within netbox
-      netbox_console_port:
+      netbox.netbox.netbox_console_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

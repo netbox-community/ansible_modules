@@ -88,7 +88,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create L2VPN within NetBox with only required information
-      netbox_l2vpn:
+      netbox.netbox.netbox_l2vpn:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -97,7 +97,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete L2VPN within netbox
-      netbox_vlan:
+      netbox.netbox.netbox_l2vpn:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -106,7 +106,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create L2VPN with all required information
-      netbox_vlan:
+      netbox.netbox.netbox_l2vpn:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

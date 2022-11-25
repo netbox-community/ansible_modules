@@ -136,7 +136,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create power port within NetBox with only required information
-      netbox_power_outlet:
+      netbox.netbox.netbox_power_outlet:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -145,7 +145,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update power port with other fields
-      netbox_power_outlet:
+      netbox.netbox.netbox_power_outlet:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -158,7 +158,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete power port within netbox
-      netbox_power_outlet:
+      netbox.netbox.netbox_power_outlet:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

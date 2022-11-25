@@ -81,7 +81,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create cluster within NetBox with only required information
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -90,7 +90,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete cluster within netbox
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -98,7 +98,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create cluster with tags
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +109,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update the group and site of an existing cluster
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

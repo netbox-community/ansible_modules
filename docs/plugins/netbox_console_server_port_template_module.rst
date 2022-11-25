@@ -43,7 +43,7 @@ netbox.netbox.netbox_console_server_port_template module -- Create, update or de
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -513,7 +513,7 @@ Examples
 
       tasks:
         - name: Create console server port template within NetBox with only required information
-          netbox_console_server_port_template:
+          netbox.netbox.netbox_console_server_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -522,7 +522,7 @@ Examples
             state: present
 
         - name: Update console server port template with other fields
-          netbox_console_server_port_template:
+          netbox.netbox.netbox_console_server_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -532,7 +532,7 @@ Examples
             state: present
 
         - name: Delete console server port template within netbox
-          netbox_console_server_port_template:
+          netbox.netbox.netbox_console_server_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

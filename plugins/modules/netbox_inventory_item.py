@@ -104,7 +104,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create inventory item within NetBox with only required information
-      netbox_inventory_item:
+      netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -113,7 +113,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update inventory item
-      netbox_inventory_item:
+      netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -127,7 +127,7 @@ EXAMPLES = r"""
         state: present
         
     - name: Create inventory item with parent
-      netbox_inventory_item:
+      netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -139,7 +139,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete inventory item within netbox
-      netbox_inventory_item:
+      netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

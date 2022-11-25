@@ -60,7 +60,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create tags
-      netbox_tag:
+      netbox.netbox.netbox_tag:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -71,7 +71,7 @@ EXAMPLES = r"""
         - { name: tun, description: "tunnel" }
 
     - name: Delete tags
-      netbox_tag:
+      netbox.netbox.netbox_tag:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

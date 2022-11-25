@@ -163,35 +163,39 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create IP address within NetBox with only required information
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           address: 192.168.1.10
         state: present
+
     - name: Force to create (even if it already exists) the IP
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           address: 192.168.1.10
         state: new
+
     - name: Get a new available IP inside 192.168.1.0/24
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           prefix: 192.168.1.0/24
         state: new
+
     - name: Delete IP address within netbox
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           address: 192.168.1.10
         state: absent
+
     - name: Create IP address with several specified options
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -204,8 +208,9 @@ EXAMPLES = r"""
           tags:
             - Schnozzberry
         state: present
+
     - name: Create IP address and assign a nat_inside IP
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -217,8 +222,9 @@ EXAMPLES = r"""
           interface:
             name: GigabitEthernet1
             device: test100
+
     - name: Ensure that an IP inside 192.168.1.0/24 is attached to GigabitEthernet1
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -228,8 +234,9 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: present
+
     - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -239,8 +246,9 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: new
+
     - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1 (NetBox 2.9+)
-      netbox_ip_address:
+      netbox.netbox.netbox_ip_address:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

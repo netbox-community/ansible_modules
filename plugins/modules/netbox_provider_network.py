@@ -78,7 +78,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create provider network within NetBox with only required information
-      netbox_provider_network:
+      netbox.netbox.netbox_provider_network:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -87,7 +87,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update provider with other fields
-      netbox_provider_network:
+      netbox.netbox.netbox_provider_network:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -98,7 +98,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete provider within netbox
-      netbox_provider_network:
+      netbox.netbox.netbox_provider_network:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

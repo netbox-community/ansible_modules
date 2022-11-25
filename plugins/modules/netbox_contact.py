@@ -91,7 +91,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create contact within NetBox with only required information
-      netbox_contact:
+      netbox.netbox.netbox_contact:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -99,7 +99,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete contact within netbox
-      netbox_contact:
+      netbox.netbox.netbox_contact:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -107,7 +107,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create contact with all parameters
-      netbox_contact:
+      netbox.netbox.netbox_contact:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

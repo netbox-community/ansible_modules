@@ -43,7 +43,7 @@ netbox.netbox.netbox_site module -- Creates or removes sites from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -1075,7 +1075,7 @@ Examples
       gather_facts: False
       tasks:
         - name: Create site within NetBox with only required information
-          netbox_site:
+          netbox.netbox.netbox_site:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1083,7 +1083,7 @@ Examples
             state: present
 
         - name: Delete site within netbox
-          netbox_site:
+          netbox.netbox.netbox_site:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1091,7 +1091,7 @@ Examples
             state: absent
 
         - name: Create site with all parameters
-          netbox_site:
+          netbox.netbox.netbox_site:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
