@@ -84,7 +84,7 @@ EXAMPLES = r"""
   hosts: localhost  
   tasks:
     - name: Create a custom link on device
-      netbox_custom_link:
+      netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -94,7 +94,7 @@ EXAMPLES = r"""
           link_url: !unsafe https://{{ obj.name }}.domain.local                        
 
     - name: Delete the custom link
-      netbox_custom_field:
+      netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

@@ -185,23 +185,25 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create interface within NetBox with only required information
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           device: test100
           name: GigabitEthernet1
         state: present
+
     - name: Delete interface within netbox
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           device: test100
           name: GigabitEthernet1
         state: absent
+
     - name: Create LAG with several specified options
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -212,8 +214,9 @@ EXAMPLES = r"""
           mgmt_only: false
           mode: Access
         state: present
+
     - name: Create interface and assign it to parent LAG
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -227,8 +230,9 @@ EXAMPLES = r"""
           mgmt_only: false
           mode: Access
         state: present
+
     - name: Create interface as a trunk port
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -248,8 +252,9 @@ EXAMPLES = r"""
           mgmt_only: true
           mode: Tagged
         state: present
+
     - name: Update interface on child device on virtual chassis
-      netbox_device_interface:
+      netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -257,6 +262,7 @@ EXAMPLES = r"""
           name: GigabitEthernet2/0/1
           enabled: false
         update_vc_child: True
+
     - name: Mark interface as connected without a cable (netbox >= 2.11 required)
       netbox.netbox.netbox_device_interface:
         netbox_url: http://netbox.local

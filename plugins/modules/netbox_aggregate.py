@@ -71,7 +71,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create aggregate within NetBox with only required information
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -80,7 +80,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create aggregate with several specified options
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -93,7 +93,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete aggregate within netbox
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

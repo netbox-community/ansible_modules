@@ -43,7 +43,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -892,7 +892,7 @@ Examples
       hosts: localhost  
       tasks:
         - name: Create a custom field on device and virtual machine
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -903,7 +903,7 @@ Examples
               type: text
 
         - name: Update the custom field to make it required
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -911,7 +911,7 @@ Examples
               required: yes          
 
         - name: Delete the custom field
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

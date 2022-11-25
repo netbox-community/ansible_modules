@@ -78,7 +78,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create device role within NetBox with only required information
-      netbox_device_role:
+      netbox.netbox.netbox_device_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -87,7 +87,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete device role within netbox
-      netbox_device_role:
+      netbox.netbox.netbox_device_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

@@ -93,7 +93,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create rear port within NetBox with only required information
-      netbox_rear_port:
+      netbox.netbox.netbox_rear_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -103,7 +103,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update rear port with other fields
-      netbox_rear_port:
+      netbox.netbox.netbox_rear_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -115,7 +115,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete rear port within netbox
-      netbox_rear_port:
+      netbox.netbox.netbox_rear_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

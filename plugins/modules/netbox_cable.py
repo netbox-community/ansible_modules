@@ -153,7 +153,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create cable within NetBox with only required information
-      netbox_cable:
+      netbox.netbox.netbox_cable:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -168,7 +168,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update cable with other fields
-      netbox_cable:
+      netbox.netbox.netbox_cable:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -191,7 +191,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete cable within netbox
-      netbox_cable:
+      netbox.netbox.netbox_cable:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

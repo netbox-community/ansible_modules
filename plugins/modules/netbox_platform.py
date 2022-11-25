@@ -84,7 +84,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create platform within NetBox with only required information
-      netbox_platform:
+      netbox.netbox.netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -92,7 +92,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create platform within NetBox with only required information
-      netbox_platform:
+      netbox.netbox.netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -104,7 +104,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete platform within netbox
-      netbox_platform:
+      netbox.netbox.netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

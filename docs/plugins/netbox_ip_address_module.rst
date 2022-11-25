@@ -43,7 +43,7 @@ netbox.netbox.netbox_ip_address module -- Creates or removes IP addresses from N
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -1010,35 +1010,39 @@ Examples
 
       tasks:
         - name: Create IP address within NetBox with only required information
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               address: 192.168.1.10
             state: present
+
         - name: Force to create (even if it already exists) the IP
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               address: 192.168.1.10
             state: new
+
         - name: Get a new available IP inside 192.168.1.0/24
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               prefix: 192.168.1.0/24
             state: new
+
         - name: Delete IP address within netbox
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               address: 192.168.1.10
             state: absent
+
         - name: Create IP address with several specified options
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1051,8 +1055,9 @@ Examples
               tags:
                 - Schnozzberry
             state: present
+
         - name: Create IP address and assign a nat_inside IP
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1064,8 +1069,9 @@ Examples
               interface:
                 name: GigabitEthernet1
                 device: test100
+
         - name: Ensure that an IP inside 192.168.1.0/24 is attached to GigabitEthernet1
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1075,8 +1081,9 @@ Examples
                 name: GigabitEthernet1
                 device: test100
             state: present
+
         - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1086,8 +1093,9 @@ Examples
                 name: GigabitEthernet1
                 device: test100
             state: new
+
         - name: Attach a new available IP of 192.168.1.0/24 to GigabitEthernet1 (NetBox 2.9+)
-          netbox_ip_address:
+          netbox.netbox.netbox_ip_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

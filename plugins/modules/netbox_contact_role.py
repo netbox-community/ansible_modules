@@ -66,7 +66,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create contact role within NetBox with only required information
-      netbox_contact_role:
+      netbox.netbox.netbox_contact_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -74,7 +74,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete contact role within netbox
-      netbox_contact_role:
+      netbox.netbox.netbox_contact_role:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

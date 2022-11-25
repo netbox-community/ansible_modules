@@ -122,7 +122,7 @@ EXAMPLES = r"""
   hosts: localhost  
   tasks:
     - name: Create a custom field on device and virtual machine
-      netbox_custom_field:
+      netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -133,7 +133,7 @@ EXAMPLES = r"""
           type: text
 
     - name: Update the custom field to make it required
-      netbox_custom_field:
+      netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -141,7 +141,7 @@ EXAMPLES = r"""
           required: yes          
 
     - name: Delete the custom field
-      netbox_custom_field:
+      netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

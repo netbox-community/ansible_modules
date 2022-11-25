@@ -43,7 +43,7 @@ netbox.netbox.netbox_prefix module -- Creates or removes prefixes from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -963,7 +963,7 @@ Examples
 
       tasks:
         - name: Create prefix within NetBox with only required information
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -971,7 +971,7 @@ Examples
             state: present
 
         - name: Delete prefix within netbox
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -979,7 +979,7 @@ Examples
             state: absent
 
         - name: Create prefix with several specified options
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1002,7 +1002,7 @@ Examples
             state: present
 
         - name: Get a new /24 inside 10.156.0.0/19 within NetBox - Parent doesn't exist
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1012,7 +1012,7 @@ Examples
             first_available: yes
 
         - name: Create prefix within NetBox with only required information
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1020,7 +1020,7 @@ Examples
             state: present
 
         - name: Get a new /24 inside 10.156.0.0/19 within NetBox
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1030,7 +1030,7 @@ Examples
             first_available: yes
 
         - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

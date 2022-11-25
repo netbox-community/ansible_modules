@@ -43,7 +43,7 @@ netbox.netbox.netbox_contact_group module -- Creates or removes contact groups f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -596,7 +596,7 @@ Examples
       gather_facts: False
       tasks:
         - name: Create contact group within NetBox with only required information
-          netbox_contact_group:
+          netbox.netbox.netbox_contact_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -605,7 +605,7 @@ Examples
             state: present
 
         - name: Delete contact group within netbox
-          netbox_contact_group:
+          netbox.netbox.netbox_contact_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

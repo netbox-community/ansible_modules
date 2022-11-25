@@ -96,7 +96,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create circuit within NetBox with only required information
-      netbox_circuit:
+      netbox.netbox.netbox_circuit:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -106,7 +106,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update circuit with other fields
-      netbox_circuit:
+      netbox.netbox.netbox_circuit:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -122,7 +122,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete circuit within netbox
-      netbox_circuit:
+      netbox.netbox.netbox_circuit:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

@@ -64,7 +64,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create type within NetBox with only required information
-      netbox_circuit_type:
+      netbox.netbox.netbox_circuit_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -72,7 +72,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete circuit type within netbox
-      netbox_circuit_type:
+      netbox.netbox.netbox_circuit_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

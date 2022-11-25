@@ -43,7 +43,7 @@ netbox.netbox.netbox_config_context module -- Creates, updates or deletes config
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -977,7 +977,7 @@ Examples
       gather_facts: False
       tasks:
         - name: Create config context and apply it to sites euc1-az1, euc1-az2 with the default weight of 1000
-          netbox_config_context:
+          netbox.netbox.netbox_config_context:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -987,7 +987,7 @@ Examples
               sites: [ euc1-az1, euc1-az2 ]
 
         - name: Detach config context from euc1-az1, euc1-az2 and attach to euc1-az3
-          netbox_config_context:
+          netbox.netbox.netbox_config_context:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -996,7 +996,7 @@ Examples
               sites: [ euc1-az3 ]
 
         - name: Delete config context
-          netbox_config_context:
+          netbox.netbox.netbox_config_context:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

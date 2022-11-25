@@ -76,7 +76,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create power panel within NetBox with only required information
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -85,7 +85,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update power panel with other fields - Pre 2.11
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -95,7 +95,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create power panel within NetBox with only required information - Post 2.11
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -105,7 +105,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete power panel within netbox
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
