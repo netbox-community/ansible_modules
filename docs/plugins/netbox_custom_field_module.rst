@@ -43,7 +43,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -336,6 +336,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Filter logic of the custom field
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/group_name"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/group_name:
+
+      .. rst-class:: ansible-option-title
+
+      **group_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/group_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The group to associate the custom field with
 
 
       .. raw:: html
