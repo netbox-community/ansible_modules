@@ -28,6 +28,7 @@ NB_FRONT_PORT_TEMPLATES = "front_port_templates"
 NB_INTERFACES = "interfaces"
 NB_INTERFACE_TEMPLATES = "interface_templates"
 NB_INVENTORY_ITEMS = "inventory_items"
+NB_INVENTORY_ITEM_ROLES = "inventory_item_roles"
 NB_LOCATIONS = "locations"
 NB_MANUFACTURERS = "manufacturers"
 NB_PLATFORMS = "platforms"
@@ -79,6 +80,7 @@ class NetboxDcimModule(NetboxModule):
         - interfaces
         - interface_templates
         - inventory_items
+        - inventory_item_roles
         - locations
         - manufacturers
         - platforms
