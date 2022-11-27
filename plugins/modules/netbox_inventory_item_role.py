@@ -124,7 +124,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
-                    slug=dict(required=False, type="str"),                    
+                    slug=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
