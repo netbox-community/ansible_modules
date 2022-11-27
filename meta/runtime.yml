@@ -39,6 +39,7 @@ action_groups:
     - netbox_front_port
     - netbox_front_port_template
     - netbox_inventory_item
+    - netbox_inventory_item_role
     - netbox_ip_address
     - netbox_ipam_role
     - netbox_l2vpn
