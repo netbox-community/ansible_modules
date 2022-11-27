@@ -142,7 +142,10 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["model", "manufacturer"]), ("state", "absent", ["model"])]
+    required_if = [
+        ("state", "present", ["model", "manufacturer"]),
+        ("state", "absent", ["model"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
