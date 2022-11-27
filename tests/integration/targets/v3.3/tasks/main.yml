@@ -255,3 +255,12 @@
         - netbox_inventory_item_role
   tags:
     - netbox_inventory_item_role
+
+- name: "NETBOX_MODULE_TYPE TESTS"
+  include_tasks: 
+    file: "netbox_module_type.yml"
+    apply:
+      tags:
+        - netbox_module_type
+  tags:
+    - netbox_module_type
