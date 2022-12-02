@@ -264,6 +264,10 @@ DOCUMENTATION = """
                 - By default, the inventory hostname is the netbox device name
                 - If set, sets the inventory hostname from this field in custom_fields instead
             default: False
+        headers:
+            description: Dictionary of headers to be passed to the NetBox API.
+            type: dict
+            default: {}
 """
 
 EXAMPLES = """
@@ -281,6 +285,8 @@ query_filters:
 device_query_filters:
   - has_primary_ip: 'true'
   - tenant__n: internal
+headers:
+  Cookie: "{{ auth_cookie }}"
 
 # has_primary_ip is a useful way to filter out patch panels and other passive devices
 # Adding '__n' to a field searches for the negation of the value.
@@ -2142,6 +2148,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
+            **self.get_option("headers"),
         }
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
