@@ -634,6 +634,14 @@ setproctitle = ["setproctitle"]
 testing = ["filelock"]
 
 [[package]]
+name = "pytz"
+version = "2022.6"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
@@ -873,7 +881,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "698d59b1e5664f15432682872ca6e8bae0eb6ad1880df1002120bd8a20b11678"
+content-hash = "0627816c557f64c306cc66886b8dd70b174acddc83190a896bbb1efdb03b53ab"
 
 [metadata.files]
 aiofiles = []
@@ -930,6 +938,7 @@ pytest = []
 pytest-forked = []
 pytest-mock = []
 pytest-xdist = []
+pytz = []
 pyyaml = []
 requests = []
 resolvelib = []

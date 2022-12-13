@@ -25,6 +25,7 @@ mock = "^4.0.2"
 antsibull = "*"
 importlib-metadata = "*"
 pylint = "*"
+pytz = "*"
 packaging = "*"
 
 [tool.poetry.dev-dependencies]
