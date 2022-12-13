@@ -33,7 +33,14 @@ options:
         description:
           - The content type to apply this export template to
         required: false
-        type: raw        
+        type: raw
+      content_types:
+        description:
+          - The content type to apply this export template to (NetBox 3.4+)
+        required: false
+        type: list
+        elements: raw 
+        version_added: "3.10.0"     
       name: 
         description: 
           - The name of the export template
@@ -128,6 +135,7 @@ def main():
                 required=True,
                 options=dict(
                     content_type=dict(required=False, type="raw"),
+                    content_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     template_code=dict(required=True, type="raw"),
@@ -140,12 +148,17 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["content_type", "name", "template_code"]),
+        ("state", "present", ["name", "template_code"]),
         ("state", "absent", ["name"]),
     ]
 
+    required_one_of = [("state", "present", ["content_type", "content_types"])]
+
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_export_template = NetboxExtrasModule(module, NB_EXPORT_TEMPLATES)
