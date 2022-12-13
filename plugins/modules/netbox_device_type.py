@@ -60,13 +60,18 @@ options:
           - The weight of the device type
         required: false
         type: float
-        version_added: "3.10"
+        version_added: "3.10.0"
       weight_unit:
         description:
           - The weight unit
+        choices:
+          - kg
+          - g
+          - lb
+          - oz
         required: false
-        type: raw
-        version_added: "3.10"
+        type: str
+        version_added: "3.10.0"
       is_full_depth:
         description:
           - Whether or not the device consumes both front and rear rack faces
@@ -181,7 +186,16 @@ def main():
                     part_number=dict(required=False, type="str"),
                     u_height=dict(required=False, type="int"),
                     weight=dict(required=False, type="float"),
-                    weight_unit=dict(required=False, type="raw"),
+                    weight_unit=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "kg",
+                            "g",
+                            "lb",
+                            "oz",
+                        ],
+                    ),
                     is_full_depth=dict(required=False, type="bool"),
                     subdevice_role=dict(
                         required=False,

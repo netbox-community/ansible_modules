@@ -135,25 +135,30 @@ options:
           - The weight of the rack
         required: false
         type: float
-        version_added: "3.10"
+        version_added: "3.10.0"
       weight_unit:
         description:
           - The weight unit
+        choices:
+          - kg
+          - g
+          - lb
+          - oz
         required: false
-        type: raw
-        version_added: "3.10"
+        type: str
+        version_added: "3.10.0"
       max_weight:
         description:
           - Maximum load capacity of the rack
         required: false
         type: int
-        version_added: "3.10"
+        version_added: "3.10.0"
       mounting_depth:
         description:
           - The mounting depth of the rack
         required: false
         type: int
-        version_added: "3.10"
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the rack
@@ -300,7 +305,16 @@ def main():
                         ],
                     ),
                     weight=dict(required=False, type="float"),
-                    weight_unit=dict(required=False, type="raw"),
+                    weight_unit=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "kg",
+                            "g",
+                            "lb",
+                            "oz",
+                        ],
+                    ),
                     max_weight=dict(required=False, type="int"),
                     mounting_depth=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
