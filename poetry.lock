@@ -494,6 +494,14 @@ testing = ["pytest-benchmark", "pytest"]
 dev = ["tox", "pre-commit"]
 
 [[package]]
+name = "py"
+version = "1.11.0"
+description = "library with cross-python path, ini-parsing, io, code, log facilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
@@ -581,6 +589,18 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
+
+[[package]]
+name = "pytest-forked"
+version = "1.4.0"
+description = "run tests in isolated forked subprocesses"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+py = "*"
+pytest = ">=3.10"
 
 [[package]]
 name = "pytest-mock"
@@ -853,7 +873,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "0247f957bf6aef7b77b494b787b23048afd5e31a69ce428984d100f26b6da8c8"
+content-hash = "698d59b1e5664f15432682872ca6e8bae0eb6ad1880df1002120bd8a20b11678"
 
 [metadata.files]
 aiofiles = []
@@ -900,12 +920,14 @@ pathspec = []
 perky = []
 platformdirs = []
 pluggy = []
+py = []
 pycparser = []
 pydantic = []
 pygments = []
 pylint = []
 pynetbox = []
 pytest = []
+pytest-forked = []
 pytest-mock = []
 pytest-xdist = []
 pyyaml = []
