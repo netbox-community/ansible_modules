@@ -43,6 +43,16 @@ options:
           - The part number of the module type
         required: false
         type: str      
+      weight:
+        description:
+          - The weight of the device type
+        required: false
+        type: float        
+      weight_unit:
+        description:
+          - The weight unit
+        required: false
+        type: raw        
       comments:
         description:
           - Comments that may include additional information in regards to the module type
@@ -134,6 +144,8 @@ def main():
                     manufacturer=dict(required=False, type="raw"),
                     model=dict(required=True, type="raw"),
                     part_number=dict(required=False, type="str"),
+                    weight=dict(required=False, type="float"),
+                    weight_unit=dict(required=False, type="raw"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

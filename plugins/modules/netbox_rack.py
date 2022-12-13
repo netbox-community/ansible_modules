@@ -130,6 +130,30 @@ options:
           - Inches
         required: false
         type: str
+      weight:
+        description:
+          - The weight of the rack
+        required: false
+        type: float
+        version_added: "3.10"
+      weight_unit:
+        description:
+          - The weight unit
+        required: false
+        type: raw
+        version_added: "3.10"
+      max_weight:
+        description:
+          - Maximum load capacity of the rack
+        required: false
+        type: int
+        version_added: "3.10"
+      mounting_depth
+        description:
+          - The mounting depth of the rack
+        required: false
+        type: int
+        version_added: "3.10"
       comments:
         description:
           - Comments that may include additional information in regards to the rack
@@ -275,6 +299,10 @@ def main():
                             "Inches",
                         ],
                     ),
+                    weight=dict(required=False, type="float"),
+                    weight_unit=dict(required=False, type="raw"),
+                    max_weight=dict(required=False, type="int"),
+                    mounting_depth=dict(required=False, type="int"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

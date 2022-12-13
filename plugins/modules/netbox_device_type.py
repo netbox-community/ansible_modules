@@ -55,6 +55,18 @@ options:
           - The height of the device type in rack units
         required: false
         type: int
+      weight:
+        description:
+          - The weight of the device type
+        required: false
+        type: float
+        version_added: "3.10"
+      weight_unit:
+        description:
+          - The weight unit
+        required: false
+        type: raw
+        version_added: "3.10"
       is_full_depth:
         description:
           - Whether or not the device consumes both front and rear rack faces
@@ -168,6 +180,8 @@ def main():
                     slug=dict(required=False, type="str"),
                     part_number=dict(required=False, type="str"),
                     u_height=dict(required=False, type="int"),
+                    weight=dict(required=False, type="float"),
+                    weight_unit=dict(required=False, type="raw"),
                     is_full_depth=dict(required=False, type="bool"),
                     subdevice_role=dict(
                         required=False,
