@@ -152,7 +152,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    required_one_of = [("state", "present", ["content_type", "content_types"])]
+    required_one_of = [["content_type", "content_types"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
