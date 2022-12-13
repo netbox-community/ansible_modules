@@ -159,6 +159,12 @@ options:
         required: false
         type: int
         version_added: "3.10.0"
+      description:
+        description:
+          - Description of the rack
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the rack
@@ -317,6 +323,7 @@ def main():
                     ),
                     max_weight=dict(required=False, type="int"),
                     mounting_depth=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

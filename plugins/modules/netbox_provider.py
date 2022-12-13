@@ -60,6 +60,12 @@ options:
           - The admin contact of the provider
         required: false
         type: str
+      description:
+        description:
+          - Description of the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments related to the provider
@@ -156,6 +162,7 @@ def main():
                     portal_url=dict(required=False, type="str"),
                     noc_contact=dict(required=False, type="str"),
                     admin_contact=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

@@ -111,6 +111,12 @@ options:
           - configuration context of the virtual machine
         required: false
         type: dict
+      description:
+        description:
+          - The description of the virtual machine
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments of the virtual machine
@@ -216,6 +222,7 @@ def main():
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                 ),
             ),

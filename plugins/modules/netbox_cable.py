@@ -131,6 +131,18 @@ options:
           - in
         required: false
         type: str
+      description:
+        description:
+          - Description of the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
+      comments:
+        description:
+          - Comments related to the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the cable may need to be associated with
@@ -308,6 +320,8 @@ def main():
                     length_unit=dict(
                         required=False, choices=["m", "cm", "ft", "in"], type="str"
                     ),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
