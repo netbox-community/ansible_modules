@@ -148,7 +148,7 @@ options:
         required: false
         type: int
         version_added: "3.10"
-      mounting_depth
+      mounting_depth:
         description:
           - The mounting depth of the rack
         required: false
