@@ -92,6 +92,12 @@ options:
           - Fields with higher weights appear lower in a form
         required: false
         type: int
+      search_weight:
+        description:
+          - Weighting for search. Lower values are considered more important. Fields with a search weight of zero will be ignored.
+        required: false
+        type: int
+        version_added: "3.10.0"
       group_name:
         description:
           - The group to associate the custom field with
@@ -214,6 +220,7 @@ def main():
                     filter_logic=dict(required=False, type="raw"),
                     default=dict(required=False, type="raw"),
                     weight=dict(required=False, type="int"),
+                    search_weight=dict(required=False, type="int"),
                     group_name=dict(required=False, type="str"),
                     validation_minimum=dict(required=False, type="int"),
                     validation_maximum=dict(required=False, type="int"),
