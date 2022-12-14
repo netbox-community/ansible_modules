@@ -42,6 +42,7 @@ options:
           - text
           - longtext
           - integer
+          - decimal
           - boolean
           - date
           - url
@@ -219,6 +220,7 @@ def main():
                             "text",
                             "longtext",
                             "integer",
+                            "decimal",
                             "boolean",
                             "date",
                             "url",
