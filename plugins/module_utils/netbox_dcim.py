@@ -6,6 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+from ansible.module_utils.basic import missing_required_lib
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
@@ -51,14 +52,19 @@ NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
 try:
     from packaging.version import Version
+
+    HAS_PACKAGING = True
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
-else:
-    PACKAGING_IMPORT_ERROR = None
+    HAS_PACKAGING = False
 
 
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
+        if not HAS_PACKAGING:
+            self.module.fail_json(
+                msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
+            )
         super().__init__(module, endpoint)
 
     def run(self):
