@@ -163,12 +163,12 @@ EXAMPLES = r"""
           required: yes    
 
     - name: Update the custom field to make it read only
-       netbox.netbox.netbox_custom_field:
-         netbox_url: http://netbox.local
-         netbox_token: thisIsMyToken
-         data:
-           name: A Custom Field
-           ui_visibility: read-only      
+      netbox.netbox.netbox_custom_field:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: A Custom Field
+          ui_visibility: read-only      
 
     - name: Delete the custom field
       netbox.netbox.netbox_custom_field:
