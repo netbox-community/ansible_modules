@@ -98,6 +98,16 @@ options:
         required: false
         type: str      
         version_added: "3.10.0"
+      ui_visibility:
+        description:
+          - The UI visibility  of the custom field
+        required: falase
+        choices: 
+          - read-write
+          - read-only
+          - hidden
+        type: str      
+        version_added: "3.10.0"
       validation_minimum:
         description:
           - The minimum allowed value (for numeric fields)
@@ -145,6 +155,14 @@ EXAMPLES = r"""
         data:
           name: A Custom Field
           required: yes          
+
+    - name: Update the custom field to make it read only
+      netbox.netbox.netbox_custom_field:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: A Custom Field
+          ui_visibility: read-only          
 
     - name: Delete the custom field
       netbox.netbox.netbox_custom_field:
@@ -219,6 +237,15 @@ def main():
                     validation_maximum=dict(required=False, type="int"),
                     validation_regex=dict(required=False, type="str"),
                     choices=dict(required=False, type="list", elements="str"),
+                    ui_visibility=dict(
+                        required=False,
+                        choices=[
+                            "read-write",
+                            "read-only",
+                            "hidden",
+                        ],
+                        type="str",
+                    ),
                 ),
             )
         )
