@@ -77,6 +77,20 @@ options:
           - Whether or not the device consumes both front and rear rack faces
         required: false
         type: bool
+      airflow:
+        description:
+          - Airflow of the device
+        choices:
+          - front-to-rear 
+          - rear-to-front 
+          - left-to-right 
+          - right-to-left 
+          - side-to-rear
+          - passive
+          - mixed                    
+        required: false
+        type: str
+        version_added: "3.10.0"
       subdevice_role:
         description:
           - Whether the device type is parent, child, or neither
@@ -203,6 +217,19 @@ def main():
                         ],
                     ),
                     is_full_depth=dict(required=False, type="bool"),
+                    airflow=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "front-to-rear",
+                            "rear-to-front",
+                            "left-to-right",
+                            "right-to-left",
+                            "side-to-rear",
+                            "passive",
+                            "mixed",
+                        ],
+                    ),
                     subdevice_role=dict(
                         required=False,
                         choices=["Parent", "parent", "Child", "child"],

@@ -96,6 +96,20 @@ options:
           - rear
         required: false
         type: str
+      airflow:
+        description:
+          - Airflow of the device
+        choices:
+          - front-to-rear 
+          - rear-to-front 
+          - left-to-right 
+          - right-to-left 
+          - side-to-rear
+          - passive
+          - mixed                    
+        required: false
+        type: str
+        version_added: "3.10.0"
       status:
         description:
           - The status of the device
@@ -275,6 +289,19 @@ def main():
                         required=False,
                         type="str",
                         choices=["Front", "front", "Rear", "rear"],
+                    ),
+                    airflow=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "front-to-rear",
+                            "rear-to-front",
+                            "left-to-right",
+                            "right-to-left",
+                            "side-to-rear",
+                            "passive",
+                            "mixed",
+                        ],
                     ),
                     status=dict(required=False, type="raw"),
                     primary_ip4=dict(required=False, type="raw"),
