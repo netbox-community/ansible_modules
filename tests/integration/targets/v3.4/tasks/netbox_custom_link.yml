@@ -9,7 +9,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_types: 
+        - "dcim.device"
       name: Custom Link
       link_text: Open Web management
       link_url: !unsafe https://{{ obj.name }}.domain.local/
@@ -23,7 +24,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['custom_link']['name'] == "Custom Link"
-      - test_one['custom_link']['content_type'] == "dcim.device"
+      - test_one['custom_link']['content_types'] == ["dcim.device"]
       - test_one['custom_link']['link_text'] == "Open Web management"
       - test_one['msg'] == "custom_link Custom Link created"
 
@@ -32,7 +33,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_type: 
+        - "dcim.device"
       name: Custom Link
       link_text: Open Web management
       link_url: !unsafe https://{{ obj.name }}.domain.local/
@@ -51,7 +53,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_types: 
+        - "dcim.device"
       name: Custom Link
       link_text: Open Web management
       link_url: !unsafe https://{{ obj.name }}.domain.local/
@@ -72,7 +75,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "virtualization.virtualmachine"
+      content_types: 
+        - "virtualization.virtualmachine"
       name: Custom Link
       link_text: Open Web management
       link_url: !unsafe https://{{ obj.name }}.domain.local/
@@ -83,7 +87,7 @@
   assert:
     that:
       - test_four is changed
-      - test_four['diff']['after']['content_type'] == "virtualization.virtualmachine"
+      - test_four['diff']['after']['content_types'] == ["virtualization.virtualmachine"]
       - test_four['custom_link']['name'] == "Custom Link"
       - test_four['msg'] == "custom_link Custom Link updated"
 
@@ -92,7 +96,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "virtualization.virtualmachine"
+      content_types: 
+        - "virtualization.virtualmachine"
       name: Custom Link
       link_text: Open Web management
       link_url: !unsafe https://{{ obj.name }}.domain.local/
