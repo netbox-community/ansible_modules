@@ -1136,26 +1136,25 @@
     },
     "all": {
         "children": [
-            "cluster_Test Cluster",
-            "cluster_Test Cluster 2",
-            "cluster_group_test-cluster-group",
-            "cluster_type_test-cluster-type",
-            "device_roles_core-switch",
-            "device_types_cisco-test",
-            "device_types_nexus-parent",
+            "cluster_Test_Cluster",
+            "cluster_Test_Cluster_2",
+            "cluster_group_test_cluster_group",
+            "cluster_type_test_cluster_type",
+            "device_roles_core_switch",
+            "device_types_cisco_test",
+            "device_types_nexus_parent",
             "is_virtual",
             "manufacturers_cisco",
-            "region_other-region",
-            "region_parent-region",
-            "site_group_other-site_group",
-            "site_group_parent-site_group",
-            "site_group_test-site-group",
-            "sites_test-site2",
+            "region_other_region",
+            "region_parent_region",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
+            "sites_test_site2",
             "status_active",
             "ungrouped"
         ]
     },
-    "cluster_Test Cluster": {
+    "cluster_Test_Cluster": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -1163,13 +1162,13 @@
             "test103-vm"
         ]
     },
-    "cluster_Test Cluster 2": {
+    "cluster_Test_Cluster_2": {
         "hosts": [
             "Test VM With Spaces",
             "test104-vm"
         ]
     },
-    "cluster_group_test-cluster-group": {
+    "cluster_group_test_cluster_group": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -1177,7 +1176,7 @@
             "test103-vm"
         ]
     },
-    "cluster_type_test-cluster-type": {
+    "cluster_type_test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
             "test100-vm",
@@ -1187,7 +1186,7 @@
             "test104-vm"
         ]
     },
-    "device_roles_core-switch": {
+    "device_roles_core_switch": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
@@ -1195,14 +1194,14 @@
             "test100"
         ]
     },
-    "device_types_cisco-test": {
+    "device_types_cisco_test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_types_nexus-parent": {
+    "device_types_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
@@ -1217,12 +1216,12 @@
             "test104-vm"
         ]
     },
-    "location_parent-rack-group": {
+    "location_parent_rack_group": {
         "children": [
-            "location_test-rack-group"
+            "location_test_rack_group"
         ]
     },
-    "location_test-rack-group": {
+    "location_test_rack_group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -1237,27 +1236,27 @@
             "test100"
         ]
     },
-    "region_parent-region": {
+    "region_parent_region": {
         "children": [
-            "region_test-region"
+            "region_test_region"
         ]
     },
-    "region_test-region": {
+    "region_test_region": {
         "children": [
-            "sites_test-site"
+            "sites_test_site"
         ]
     },
-    "site_group_parent-site_group": {
+    "site_group_parent_site_group": {
         "children": [
-            "site_group_test-site_group"
+            "site_group_test_site_group"
         ]
     },
-    "sites_test-site": {
+    "sites_test_site": {
         "children": [
-            "location_parent-rack-group"
+            "location_parent_rack_group"
         ]
     },
-    "sites_test-site2": {
+    "sites_test_site2": {
         "hosts": [
             "R1-Device"
         ]

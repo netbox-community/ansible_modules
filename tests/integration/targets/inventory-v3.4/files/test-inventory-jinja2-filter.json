@@ -611,41 +611,40 @@
     },
     "all": {
         "children": [
-            "device_type_cisco-test",
-            "device_type_nexus-parent",
+            "device_type_cisco_test",
+            "device_type_nexus_parent",
             "manufacturer_cisco",
-            "rack_Test Rack",
-            "region_other-region",
-            "region_parent-region",
-            "role_core-switch",
+            "rack_Test_Rack",
+            "region_other_region",
+            "region_parent_region",
+            "role_core_switch",
             "service_http",
             "service_ssh",
             "service_telnet",
-            "site_group_other-site_group",
-            "site_group_parent-site_group",
-            "site_group_test-site-group",
-            "site_test-site2",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
+            "site_test_site2",
             "status_active",
             "ungrouped"
         ]
     },
-    "device_type_cisco-test": {
+    "device_type_cisco_test": {
         "hosts": [
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_type_nexus-parent": {
+    "device_type_nexus_parent": {
         "hosts": [
             "Test Nexus One"
         ]
     },
-    "location_parent-rack-group": {
+    "location_parent_rack_group": {
         "children": [
-            "location_test-rack-group"
+            "location_test_rack_group"
         ]
     },
-    "location_test-rack-group": {
+    "location_test_rack_group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -659,22 +658,22 @@
             "test100"
         ]
     },
-    "rack_Test Rack": {
+    "rack_Test_Rack": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "region_parent-region": {
+    "region_parent_region": {
         "children": [
-            "region_test-region"
+            "region_test_region"
         ]
     },
-    "region_test-region": {
+    "region_test_region": {
         "children": [
-            "site_test-site"
+            "site_test_site"
         ]
     },
-    "role_core-switch": {
+    "role_core_switch": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -696,14 +695,14 @@
             "Test Nexus One"
         ]
     },
-    "site_group_parent-site_group": {
+    "site_group_parent_site_group": {
         "children": [
-            "site_group_test-site_group"
+            "site_group_test_site_group"
         ]
     },
-    "site_test-site": {
+    "site_test_site": {
         "children": [
-            "location_parent-rack-group"
+            "location_parent_rack_group"
         ]
     },
     "status_active": {
