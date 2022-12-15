@@ -60,6 +60,7 @@
                 ],
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -104,6 +105,7 @@
                 "regions": [],
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
@@ -199,6 +201,7 @@
                 ],
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -221,6 +224,7 @@
                         "virtual_machine": null
                     },
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {

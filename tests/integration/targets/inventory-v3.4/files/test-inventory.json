@@ -53,6 +53,7 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.11/24",
+                                "comments": "",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.11/24",
@@ -102,6 +103,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -131,6 +133,7 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.12/24",
+                                "comments": "",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.12/24",
@@ -180,6 +183,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -235,6 +239,7 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -255,6 +260,7 @@
                 "role": "core-switch",
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -349,6 +355,7 @@
                 "regions": [],
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
@@ -437,6 +444,7 @@
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.1/24",
+                                "comments": "",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.1/24",
@@ -486,6 +494,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -515,6 +524,7 @@
                         "ip_addresses": [
                             {
                                 "address": "2001::1:1/64",
+                                "comments": "",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "2001::1:1/64",
@@ -564,6 +574,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -619,6 +630,7 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
                         "wireless_link": null,
@@ -643,6 +655,7 @@
                 "role": "core-switch",
                 "services": [
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -665,6 +678,7 @@
                         "virtual_machine": null
                     },
                     {
+                        "comments": "",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -1063,31 +1077,32 @@
     },
     "all": {
         "children": [
-            "cluster_Test_Cluster",
-            "cluster_Test_Cluster_2",
-            "cluster_group_test_cluster_group",
-            "cluster_type_test_cluster_type",
-            "device_type_cisco_test",
-            "device_type_nexus_parent",
+            "cluster_Test Cluster",
+            "cluster_Test Cluster 2",
+            "cluster_group_test-cluster-group",
+            "cluster_type_test-cluster-type",
+            "device_type_cisco-test",
+            "device_type_nexus-parent",
             "is_virtual",
             "manufacturer_cisco",
-            "rack_Test_Rack",
-            "rack_Test_Rack_Site_2",
-            "rack_role_test_rack_role",
-            "region_other_region",
-            "region_parent_region",
-            "role_core_switch",
+            "rack_Test Rack",
+            "rack_Test Rack Site 2",
+            "rack_role_test-rack-role",
+            "region_other-region",
+            "region_parent-region",
+            "role_core-switch",
             "service_http",
             "service_ssh",
             "service_telnet",
-            "site_group_other_site_group",
-            "site_group_parent_site_group",
-            "site_test_site2",
+            "site_group_other-site_group",
+            "site_group_parent-site_group",
+            "site_group_test-site-group",
+            "site_test-site2",
             "status_active",
             "ungrouped"
         ]
     },
-    "cluster_Test_Cluster": {
+    "cluster_Test Cluster": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -1095,13 +1110,13 @@
             "test103-vm"
         ]
     },
-    "cluster_Test_Cluster_2": {
+    "cluster_Test Cluster 2": {
         "hosts": [
             "Test VM With Spaces",
             "test104-vm"
         ]
     },
-    "cluster_group_test_cluster_group": {
+    "cluster_group_test-cluster-group": {
         "hosts": [
             "test100-vm",
             "test101-vm",
@@ -1109,7 +1124,7 @@
             "test103-vm"
         ]
     },
-    "cluster_type_test_cluster_type": {
+    "cluster_type_test-cluster-type": {
         "hosts": [
             "Test VM With Spaces",
             "test100-vm",
@@ -1119,14 +1134,14 @@
             "test104-vm"
         ]
     },
-    "device_type_cisco_test": {
+    "device_type_cisco-test": {
         "hosts": [
             "R1-Device",
             "TestDeviceR1",
             "test100"
         ]
     },
-    "device_type_nexus_parent": {
+    "device_type_nexus-parent": {
         "hosts": [
             "Test Nexus One"
         ]
@@ -1141,12 +1156,12 @@
             "test104-vm"
         ]
     },
-    "location_parent_rack_group": {
+    "location_parent-rack-group": {
         "children": [
-            "location_test_rack_group"
+            "location_test-rack-group"
         ]
     },
-    "location_test_rack_group": {
+    "location_test-rack-group": {
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
@@ -1161,32 +1176,32 @@
             "test100"
         ]
     },
-    "rack_Test_Rack": {
+    "rack_Test Rack": {
         "hosts": [
             "TestDeviceR1"
         ]
     },
-    "rack_Test_Rack_Site_2": {
+    "rack_Test Rack Site 2": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "rack_role_test_rack_role": {
+    "rack_role_test-rack-role": {
         "hosts": [
             "R1-Device"
         ]
     },
-    "region_parent_region": {
+    "region_parent-region": {
         "children": [
-            "region_test_region"
+            "region_test-region"
         ]
     },
-    "region_test_region": {
+    "region_test-region": {
         "children": [
-            "site_test_site"
+            "site_test-site"
         ]
     },
-    "role_core_switch": {
+    "role_core-switch": {
         "hosts": [
             "R1-Device",
             "Test Nexus One",
@@ -1210,17 +1225,17 @@
             "Test Nexus One"
         ]
     },
-    "site_group_parent_site_group": {
+    "site_group_parent-site_group": {
         "children": [
-            "site_group_test_site_group"
+            "site_group_test-site_group"
         ]
     },
-    "site_test_site": {
+    "site_test-site": {
         "children": [
-            "location_parent_rack_group"
+            "location_parent-rack-group"
         ]
     },
-    "site_test_site2": {
+    "site_test-site2": {
         "hosts": [
             "R1-Device"
         ]
