@@ -131,6 +131,12 @@ options:
           - Priority in the assigned virtual chassis
         required: false
         type: int
+      description:
+        description:
+          - Description of the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the device
@@ -277,6 +283,7 @@ def main():
                     virtual_chassis=dict(required=False, type="raw"),
                     vc_position=dict(required=False, type="int"),
                     vc_priority=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     local_context_data=dict(required=False, type="dict"),

@@ -83,6 +83,12 @@ options:
           - must exist in NetBox
         required: false
         type: dict    
+      comments:
+        description:
+          - Comments of the wireless LAN
+        required: false
+        type: str
+        version_added: "3.10.0"
     required: true
 """
 
@@ -173,6 +179,7 @@ def main():
                     auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
+                    comments=dict(required=False, type="str"),
                 ),
             ),
         )

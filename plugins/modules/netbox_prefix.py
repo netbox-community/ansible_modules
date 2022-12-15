@@ -99,6 +99,12 @@ options:
           - The description of the prefix
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the prefix
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the prefix may need to be associated with
@@ -255,6 +261,7 @@ def main():
                     is_pool=dict(required=False, type="bool"),
                     mark_utilized=dict(required=False, type="bool"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

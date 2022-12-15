@@ -95,6 +95,12 @@ options:
           - The maximum permissible draw of the power feed in percent
         required: false
         type: int
+      description:
+        description:
+          - Description of the power feed
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments related to the power feed
@@ -209,6 +215,7 @@ def main():
                     voltage=dict(required=False, type="int"),
                     amperage=dict(required=False, type="int"),
                     max_utilization=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

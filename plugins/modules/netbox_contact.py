@@ -54,6 +54,12 @@ options:
           - The address of the contact
         required: false
         type: str
+      description:
+        description:
+          - The description of the contact
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments on the contact
@@ -69,7 +75,7 @@ options:
           - URL associated with the contact
         required: false
         type: str
-        version_added: "3.7.0"
+        version_added: "3.7.0"    
       tags:
         description:
           - Any tags that the contact may need to be associated with
@@ -160,6 +166,7 @@ def main():
                     phone=dict(required=False, type="str"),
                     email=dict(required=False, type="str"),
                     address=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     contact_group=dict(required=False, type="raw"),
                     link=dict(required=False, type="str"),

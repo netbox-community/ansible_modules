@@ -61,6 +61,12 @@ options:
           - The description of the L2VPN
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the L2VPN
+        required: false
+        type: str
+        version_added: "3.10.0"
       tenant:
         description:
           - The tenant that the L2VPN will be assigned to
@@ -163,6 +169,7 @@ def main():
                     import_targets=dict(required=False, type="list", elements="raw"),
                     export_targets=dict(required=False, type="list", elements="raw"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tenant=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

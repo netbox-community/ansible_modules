@@ -42,6 +42,7 @@ options:
           - text
           - longtext
           - integer
+          - decimal
           - boolean
           - date
           - url
@@ -92,12 +93,28 @@ options:
           - Fields with higher weights appear lower in a form
         required: false
         type: int
+      search_weight:
+        description:
+          - Weighting for search. Lower values are considered more important. Fields with a search weight of zero will be ignored.
+        required: false
+        type: int
+        version_added: "3.10.0"
       group_name:
         description:
           - The group to associate the custom field with
         required: false
         type: str      
         version_added: "3.10.0"
+      ui_visibility:
+         description:
+           - The UI visibility of the custom field
+         required: false
+         choices: 
+           - read-write
+           - read-only
+           - hidden
+         type: str      
+         version_added: "3.10.0"
       validation_minimum:
         description:
           - The minimum allowed value (for numeric fields)
@@ -144,7 +161,15 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: A Custom Field
-          required: yes          
+          required: yes    
+
+    - name: Update the custom field to make it read only
+      netbox.netbox.netbox_custom_field:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: A Custom Field
+          ui_visibility: read-only      
 
     - name: Delete the custom field
       netbox.netbox.netbox_custom_field:
@@ -195,6 +220,7 @@ def main():
                             "text",
                             "longtext",
                             "integer",
+                            "decimal",
                             "boolean",
                             "date",
                             "url",
@@ -214,7 +240,17 @@ def main():
                     filter_logic=dict(required=False, type="raw"),
                     default=dict(required=False, type="raw"),
                     weight=dict(required=False, type="int"),
+                    search_weight=dict(required=False, type="int"),
                     group_name=dict(required=False, type="str"),
+                    ui_visibility=dict(
+                        required=False,
+                        choices=[
+                            "read-write",
+                            "read-only",
+                            "hidden",
+                        ],
+                        type="str",
+                    ),
                     validation_minimum=dict(required=False, type="int"),
                     validation_maximum=dict(required=False, type="int"),
                     validation_regex=dict(required=False, type="str"),

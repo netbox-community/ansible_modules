@@ -131,6 +131,12 @@ options:
               - The virtual machine the interface is attached to.
             type: str
             required: False
+      comments:
+        description:
+          - Comments that may include additional information in regards to the IP Address
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the IP address may need to be associated with
@@ -336,6 +342,7 @@ def main():
                             virtual_machine=dict(required=False, type="str"),
                         ),
                     ),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

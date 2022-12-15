@@ -53,6 +53,18 @@ options:
           - The name of the power panel
         required: true
         type: str
+      description:
+        description:
+          - Description of the power panel
+        required: false
+        type: str
+        version_added: "3.10.0"
+      comments:
+        description:
+          - Comments related to the power panel
+        required: false
+        type: str
+        version_added: "3.10.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -156,6 +168,8 @@ def main():
                     ),
                     location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     custom_fields=dict(required=False, type="dict"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
