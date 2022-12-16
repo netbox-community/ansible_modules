@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_device_bay_template_module:
+.. _ansible_collections.netbox.netbox.netbox_service_template_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_device_bay_template module -- Create, update or delete device bay templates within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_service_template module -- Create, update or delete service templates within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,15 +46,15 @@ netbox.netbox.netbox_device_bay_template module -- Create, update or delete devi
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_device_bay_template_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_service_template_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_device_bay_template`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_service_template`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.3.0
+New in netbox.netbox 3.10.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes device bay templates from NetBox
+- Creates, updates or removes service templates from NetBox
 
 
 .. Aliases
@@ -76,7 +76,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_device_bay_template_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_service_template_module_requirements:
 
 Requirements
 ------------
@@ -110,7 +110,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -144,7 +144,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -166,7 +166,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the device bay template configuration
+      Defines the service template configuration
 
 
       .. raw:: html
@@ -176,21 +176,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-data/device_type:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/comments:
 
       .. rst-class:: ansible-option-title
 
-      **device_type**
+      **comments**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/device_type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`any` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -200,7 +200,75 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The device type the device bay template will be associated to. The device type must be "parent".
+      Comments
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/custom_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Must exist in NetBox and in key/value format
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the service template
 
 
       .. raw:: html
@@ -212,7 +280,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -234,7 +302,118 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the device bay template
+      The name of the service template
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ports"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/ports:
+
+      .. rst-class:: ansible-option-title
+
+      **ports**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ports" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The ports attached to the service template
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/protocol"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The protocol
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"tcp"`
+      - :ansible-option-choices-entry:`"udp"`
+      - :ansible-option-choices-entry:`"sctp"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-data/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Any tags that the service template may need to be associated with
 
 
       .. raw:: html
@@ -247,7 +426,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -281,7 +460,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -317,7 +496,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -355,7 +534,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -397,7 +576,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -462,24 +641,36 @@ Examples
       gather_facts: False
 
       tasks:
-        - name: Create device bay template within NetBox with only required information
-          netbox.netbox.netbox_device_bay_template:
+        - name: Create service template within NetBox with only required information
+          netbox.netbox.netbox_service_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: device bay template One
-              device_type: Device Type One
+              name: SSH
+              ports:
+                - 22
+              protocol: tcp
             state: present
 
-        - name: Delete device bay template within netbox
-          netbox.netbox.netbox_device_bay_template:
+        - name: Update service template with other fields
+          netbox.netbox.netbox_service_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: device bay template One
-              device_type: Device Type One
-            state: absent
+              name: SSH
+              ports:
+                - 22
+              protocol: tcp
+              description: SSH service template
+            state: present
 
+        - name: Delete service template within netbox
+          netbox.netbox.netbox_service_template:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: SSH          
+            state: absent
 
 
 
@@ -506,49 +697,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-device_bay_template"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__return-device_bay_template:
-
-      .. rst-class:: ansible-option-title
-
-      **device_bay_template**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-device_bay_template" title="Permalink to this return value"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Serialized object as created or already existent within NetBox
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_bay_template_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -583,6 +734,46 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-service_template"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_service_template_module__return-service_template:
+
+      .. rst-class:: ansible-option-title
+
+      **service_template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-service_template" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created or already existent within NetBox
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
@@ -592,7 +783,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Martin Rødvand (@rodvand)
 
 
 
