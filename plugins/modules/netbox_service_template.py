@@ -145,8 +145,8 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    name=dict(required=True, type="str"),                    
-                    ports=dict(required=False, type="list", elements="int"),                    
+                    name=dict(required=True, type="str"),
+                    ports=dict(required=False, type="list", elements="int"),
                     protocol=dict(
                         required=False,
                         choices=[
