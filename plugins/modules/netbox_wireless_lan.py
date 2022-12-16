@@ -43,6 +43,11 @@ options:
           - The wireless LAN group
         required: false
         type: raw
+      status:
+        description:
+          - Status of the wireless LAN
+        required: false
+        type: raw
       vlan:
         description:
           - The VLAN of the Wireless LAN
@@ -167,6 +172,7 @@ def main():
                     ssid=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     wireless_lan_group=dict(required=False, type="raw"),
+                    status=dict(required=False, type="raw"),
                     vlan=dict(required=False, type="raw"),
                     auth_type=dict(
                         required=False,

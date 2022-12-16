@@ -264,3 +264,12 @@
         - netbox_module_type
   tags:
     - netbox_module_type
+
+- name: "NETBOX_SERVICE_TEMPLATE TESTS"
+  include_tasks: 
+    file: "netbox_service_template.yml"
+    apply:
+      tags:
+        - netbox_service_template
+  tags:
+    - netbox_service_template

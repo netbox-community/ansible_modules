@@ -28,6 +28,7 @@ NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
 NB_SERVICES = "services"
+NB_SERVICE_TEMPLATES = "service_templates"
 NB_L2VPNS = "l2vpns"
 NB_L2VPN_TERMINATIONS = "l2vpn_terminations"
 
