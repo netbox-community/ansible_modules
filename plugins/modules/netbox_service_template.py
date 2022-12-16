@@ -28,7 +28,7 @@ options:
     type: dict
     required: true
     description:
-      - Defines the rear port template configuration
+      - Defines the service template configuration
     suboptions:
       name:
         description:
