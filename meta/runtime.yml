@@ -65,6 +65,7 @@ action_groups:
     - netbox_rir
     - netbox_route_target
     - netbox_service
+    - netbox_service_template
     - netbox_site
     - netbox_site_group
     - netbox_tag
