@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_device_interface_template module -- Creates or removes inte
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_device_interface_template module -- Creates or removes inte
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.3.0
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.3.0
 
 .. contents::
    :local:
@@ -242,6 +243,7 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -535,8 +537,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -576,7 +579,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -612,7 +615,7 @@ Examples
       gather_facts: False
       tasks:
         - name: Create interface template within NetBox with only required information
-          netbox_device_interface_template:
+          netbox.netbox.netbox_device_interface_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -621,7 +624,7 @@ Examples
               type: 10gbase-t
             state: present
         - name: Delete interface template within netbox
-          netbox_device_interface_template:
+          netbox.netbox.netbox_device_interface_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

@@ -98,7 +98,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create front port within NetBox with only required information
-      netbox_front_port:
+      netbox.netbox.netbox_front_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +109,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update front port with other fields
-      netbox_front_port:
+      netbox.netbox.netbox_front_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -122,7 +122,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete front port within netbox
-      netbox_front_port:
+      netbox.netbox.netbox_front_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

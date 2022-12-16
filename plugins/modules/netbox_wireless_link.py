@@ -81,6 +81,12 @@ options:
           - The PSK of the wireless link
         required: false
         type: str    
+      comments:
+        description:
+          - Comments of the wireless link
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the wireless link may need to be associated with
@@ -200,6 +206,7 @@ def main():
                     auth_cipher=dict(
                         required=False, choices=["auto", "tkip", "aes"], type="str"
                     ),
+                    comments=dict(required=False, type="str"),
                     auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

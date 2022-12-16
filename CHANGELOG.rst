@@ -5,6 +5,31 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.10.0
+=======
+
+Minor Changes
+-------------
+
+- Add options for NetBox 3.4 [#905](https://github.com/netbox-community/ansible_modules/pull/905)
+- netbox_custom_field - Add group_name [#882](https://github.com/netbox-community/ansible_modules/pull/882)
+- netbox_device_type and netbox_device - Add airflow [#907](https://github.com/netbox-community/ansible_modules/pull/907)
+- netbox_invventory_item_role - Add module [#885](https://github.com/netbox-community/ansible_modules/pull/885)
+- netbox_module_type - Add module [#887](https://github.com/netbox-community/ansible_modules/pull/887)
+- netbox_service_template - Add module [#908](https://github.com/netbox-community/ansible_modules/pull/908)
+
+Bugfixes
+--------
+
+- nb_inventory - Raise exception on missing packaging [#900](https://github.com/netbox-community/ansible_modules/pull/900)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_inventory_item_role - Create, update or delete inventory item roles in NetBox
+- netbox.netbox.netbox_module_type - Create, update or delete module types in NetBox
+- netbox.netbox.netbox_service_template - Create, update or delete service templates in NetBox
+
 v3.9.0
 ======
 

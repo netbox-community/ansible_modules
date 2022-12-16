@@ -6,6 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+from ansible.module_utils.basic import missing_required_lib
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
@@ -28,8 +29,10 @@ NB_FRONT_PORT_TEMPLATES = "front_port_templates"
 NB_INTERFACES = "interfaces"
 NB_INTERFACE_TEMPLATES = "interface_templates"
 NB_INVENTORY_ITEMS = "inventory_items"
+NB_INVENTORY_ITEM_ROLES = "inventory_item_roles"
 NB_LOCATIONS = "locations"
 NB_MANUFACTURERS = "manufacturers"
+NB_MODULE_TYPES = "module_types"
 NB_PLATFORMS = "platforms"
 NB_POWER_FEEDS = "power_feeds"
 NB_POWER_OUTLETS = "power_outlets"
@@ -49,14 +52,19 @@ NB_VIRTUAL_CHASSIS = "virtual_chassis"
 
 try:
     from packaging.version import Version
+
+    HAS_PACKAGING = True
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
-else:
-    PACKAGING_IMPORT_ERROR = None
+    HAS_PACKAGING = False
 
 
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
+        if not HAS_PACKAGING:
+            self.module.fail_json(
+                msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
+            )
         super().__init__(module, endpoint)
 
     def run(self):
@@ -79,6 +87,7 @@ class NetboxDcimModule(NetboxModule):
         - interfaces
         - interface_templates
         - inventory_items
+        - inventory_item_roles
         - locations
         - manufacturers
         - platforms

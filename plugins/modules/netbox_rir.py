@@ -74,7 +74,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create RIR within NetBox with only required information
-      netbox_rir:
+      netbox.netbox.netbox_rir:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -82,7 +82,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update Test RIR One
-      netbox_rir:
+      netbox.netbox.netbox_rir:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -91,7 +91,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete RIR within netbox
-      netbox_rir:
+      netbox.netbox.netbox_rir:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

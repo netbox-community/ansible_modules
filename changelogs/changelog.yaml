@@ -732,3 +732,28 @@ releases:
         name: netbox_l2vpn
         namespace: ''
     release_date: '2022-11-14'
+  3.10.0:
+      changes:
+        bugfixes:
+          - nb_inventory - Raise exception on missing packaging [#900](https://github.com/netbox-community/ansible_modules/pull/900)
+        minor_changes:
+          - netbox_service_template - Add module [#908](https://github.com/netbox-community/ansible_modules/pull/908)
+          - netbox_module_type - Add module [#887](https://github.com/netbox-community/ansible_modules/pull/887)
+          - netbox_invventory_item_role - Add module [#885](https://github.com/netbox-community/ansible_modules/pull/885)
+          - Add options for NetBox 3.4 [#905](https://github.com/netbox-community/ansible_modules/pull/905)
+          - netbox_custom_field - Add group_name [#882](https://github.com/netbox-community/ansible_modules/pull/882)
+          - netbox_device_type and netbox_device - Add airflow [#907](https://github.com/netbox-community/ansible_modules/pull/907)
+        trivial:
+          - Update CI for NetBox 3.4 [#906](https://github.com/netbox-community/ansible_modules/pull/906)
+          - Update documentation to use FQCN [#881](https://github.com/netbox-community/ansible_modules/pull/881)
+      modules:
+        - description: Create, update or delete service templates in NetBox 
+          name: netbox_service_template
+          namespace: ''
+        - description: Create, update or delete module types in NetBox 
+          name: netbox_module_type
+          namespace: ''
+        - description: Create, update or delete inventory item roles in NetBox 
+          name: netbox_inventory_item_role
+          namespace: ''
+      release_date: '2022-12-16'

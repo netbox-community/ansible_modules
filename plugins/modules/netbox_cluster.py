@@ -50,6 +50,12 @@ options:
           - Required if I(state=present) and the cluster does not exist yet
         required: false
         type: raw
+      description:
+        description:
+          - The description of the cluster
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the cluster
@@ -81,7 +87,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create cluster within NetBox with only required information
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -90,7 +96,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete cluster within netbox
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -98,7 +104,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create cluster with tags
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +115,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update the group and site of an existing cluster
-      netbox_cluster:
+      netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -158,6 +164,7 @@ def main():
                     cluster_group=dict(required=False, type="raw"),
                     site=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

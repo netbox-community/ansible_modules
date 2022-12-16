@@ -25,7 +25,7 @@ body:
     attributes:
       label: Ansible NetBox Collection version
       description: What version of the Ansible NetBox Collection are you currently running?
-      placeholder: v3.5.1
+      placeholder: v3.10.0
     validations:
       required: true
   - type: textarea
@@ -46,7 +46,7 @@ body:
     attributes:
       label: NetBox version
       description: What version of NetBox are you currently running?
-      placeholder: v3.1.6
+      placeholder: v3.4.0
     validations:
       required: true
   - type: dropdown
@@ -57,6 +57,7 @@ body:
         - "3.8"
         - "3.9"
         - "3.10"
+        - "3.11"
     validations:
       required: true
   - type: textarea

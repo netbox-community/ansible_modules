@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_device_type module -- Create, update or delete device types
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_device_type module -- Create, update or delete device types
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.1.0
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.1.0
 
 .. contents::
    :local:
@@ -175,6 +176,56 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/airflow"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/airflow:
+
+      .. rst-class:: ansible-option-title
+
+      **airflow**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/airflow" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Airflow of the device
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"front-to-rear"`
+      - :ansible-option-choices-entry:`"rear-to-front"`
+      - :ansible-option-choices-entry:`"left-to-right"`
+      - :ansible-option-choices-entry:`"right-to-left"`
+      - :ansible-option-choices-entry:`"side-to-rear"`
+      - :ansible-option-choices-entry:`"passive"`
+      - :ansible-option-choices-entry:`"mixed"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/comments:
@@ -243,6 +294,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the provider
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/is_full_depth"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/is_full_depth:
@@ -276,6 +364,7 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -455,10 +544,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`Parent`
-      - :ansible-option-choices-entry:`parent`
-      - :ansible-option-choices-entry:`Child`
-      - :ansible-option-choices-entry:`child`
+      - :ansible-option-choices-entry:`"Parent"`
+      - :ansible-option-choices-entry:`"parent"`
+      - :ansible-option-choices-entry:`"Child"`
+      - :ansible-option-choices-entry:`"child"`
+
 
       .. raw:: html
 
@@ -526,6 +616,90 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The height of the device type in rack units
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/weight"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/weight:
+
+      .. rst-class:: ansible-option-title
+
+      **weight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/weight" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The weight of the device type
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/weight_unit"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_type_module__parameter-data/weight_unit:
+
+      .. rst-class:: ansible-option-title
+
+      **weight_unit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/weight_unit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The weight unit
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"kg"`
+      - :ansible-option-choices-entry:`"g"`
+      - :ansible-option-choices-entry:`"lb"`
+      - :ansible-option-choices-entry:`"oz"`
 
 
       .. raw:: html
@@ -675,8 +849,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -716,7 +891,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -753,7 +928,7 @@ Examples
 
       tasks:
         - name: Create device type within NetBox with only required information
-          netbox_device_type:
+          netbox.netbox.netbox_device_type:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -763,7 +938,7 @@ Examples
             state: present
 
         - name: Create device type within NetBox with only required information
-          netbox_device_type:
+          netbox.netbox.netbox_device_type:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -777,7 +952,7 @@ Examples
             state: present
 
         - name: Delete device type within netbox
-          netbox_device_type:
+          netbox.netbox.netbox_device_type:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

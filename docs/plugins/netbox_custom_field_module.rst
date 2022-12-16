@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 
 .. version_added
 
-.. versionadded:: netbox.netbox 3.6.0
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 3.6.0
 
 .. contents::
    :local:
@@ -345,6 +346,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/group_name"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/group_name:
+
+      .. rst-class:: ansible-option-title
+
+      **group_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/group_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The group to associate the custom field with
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/label:
@@ -484,6 +522,44 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/search_weight"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/search_weight:
+
+      .. rst-class:: ansible-option-title
+
+      **search_weight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/search_weight" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Weighting for search. Lower values are considered more important. Fields with a search weight of zero will be ignored.
+
+
       .. raw:: html
 
         </div>
@@ -522,17 +598,65 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`text`
-      - :ansible-option-choices-entry:`longtext`
-      - :ansible-option-choices-entry:`integer`
-      - :ansible-option-choices-entry:`boolean`
-      - :ansible-option-choices-entry:`date`
-      - :ansible-option-choices-entry:`url`
-      - :ansible-option-choices-entry:`json`
-      - :ansible-option-choices-entry:`select`
-      - :ansible-option-choices-entry:`multiselect`
-      - :ansible-option-choices-entry:`object`
-      - :ansible-option-choices-entry:`multiobject`
+      - :ansible-option-choices-entry:`"text"`
+      - :ansible-option-choices-entry:`"longtext"`
+      - :ansible-option-choices-entry:`"integer"`
+      - :ansible-option-choices-entry:`"decimal"`
+      - :ansible-option-choices-entry:`"boolean"`
+      - :ansible-option-choices-entry:`"date"`
+      - :ansible-option-choices-entry:`"url"`
+      - :ansible-option-choices-entry:`"json"`
+      - :ansible-option-choices-entry:`"select"`
+      - :ansible-option-choices-entry:`"multiselect"`
+      - :ansible-option-choices-entry:`"object"`
+      - :ansible-option-choices-entry:`"multiobject"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ui_visibility"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/ui_visibility:
+
+      .. rst-class:: ansible-option-title
+
+      **ui_visibility**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ui_visibility" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The UI visibility of the custom field
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"read-write"`
+      - :ansible-option-choices-entry:`"read-only"`
+      - :ansible-option-choices-entry:`"hidden"`
+
 
       .. raw:: html
 
@@ -817,8 +941,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -858,7 +983,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -892,7 +1017,7 @@ Examples
       hosts: localhost  
       tasks:
         - name: Create a custom field on device and virtual machine
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -903,15 +1028,23 @@ Examples
               type: text
 
         - name: Update the custom field to make it required
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               name: A Custom Field
-              required: yes          
+              required: yes    
+
+        - name: Update the custom field to make it read only
+          netbox.netbox.netbox_custom_field:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: A Custom Field
+              ui_visibility: read-only      
 
         - name: Delete the custom field
-          netbox_custom_field:
+          netbox.netbox.netbox_custom_field:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

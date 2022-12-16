@@ -130,6 +130,41 @@ options:
           - Inches
         required: false
         type: str
+      weight:
+        description:
+          - The weight of the rack
+        required: false
+        type: float
+        version_added: "3.10.0"
+      weight_unit:
+        description:
+          - The weight unit
+        choices:
+          - kg
+          - g
+          - lb
+          - oz
+        required: false
+        type: str
+        version_added: "3.10.0"
+      max_weight:
+        description:
+          - Maximum load capacity of the rack
+        required: false
+        type: int
+        version_added: "3.10.0"
+      mounting_depth:
+        description:
+          - The mounting depth of the rack
+        required: false
+        type: int
+        version_added: "3.10.0"
+      description:
+        description:
+          - Description of the rack
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the rack
@@ -157,7 +192,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create rack within NetBox with only required information
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -166,7 +201,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create rack within NetBox with only required information - Pre 2.11
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -176,7 +211,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create rack within NetBox with only required information - Post 2.11
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -186,7 +221,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete rack within netbox
-      netbox_rack:
+      netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -275,6 +310,20 @@ def main():
                             "Inches",
                         ],
                     ),
+                    weight=dict(required=False, type="float"),
+                    weight_unit=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "kg",
+                            "g",
+                            "lb",
+                            "oz",
+                        ],
+                    ),
+                    max_weight=dict(required=False, type="int"),
+                    mounting_depth=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

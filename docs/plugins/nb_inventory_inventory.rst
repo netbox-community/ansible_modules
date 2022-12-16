@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -130,8 +129,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -174,7 +174,7 @@ Parameters
 
       :ansible-option-configuration:`Configuration:`
 
-      - Environment variable: NETBOX\_API
+      - Environment variable: :envvar:`NETBOX\_API`
 
 
       .. raw:: html
@@ -216,7 +216,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"false"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -259,8 +259,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. rst-class:: ansible-option-line
 
@@ -274,7 +275,7 @@ Parameters
           cache = false
 
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE`
 
 
       .. raw:: html
@@ -323,19 +324,19 @@ Parameters
         .. code-block::
 
           [defaults]
-          fact_caching_connection = None
+          fact_caching_connection = VALUE
 
 
 
         .. code-block::
 
           [inventory]
-          cache_connection = None
+          cache_connection = VALUE
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_CONNECTION
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_CONNECTION`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_CONNECTION
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_CONNECTION`
 
 
       .. raw:: html
@@ -398,9 +399,9 @@ Parameters
           cache_plugin = memory
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_PLUGIN
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_PLUGIN`
 
 
       .. raw:: html
@@ -478,9 +479,9 @@ Parameters
           cache_prefix = ansible_inventory_
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_PREFIX
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_PREFIX`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_PLUGIN\_PREFIX
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_PLUGIN\_PREFIX`
 
 
       .. raw:: html
@@ -543,9 +544,9 @@ Parameters
           cache_timeout = 3600
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_TIMEOUT
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_TIMEOUT`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_TIMEOUT
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_TIMEOUT`
 
 
       .. raw:: html
@@ -587,7 +588,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"false"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -673,8 +674,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -762,8 +764,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -818,7 +821,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -866,8 +870,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -915,8 +920,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -964,8 +970,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1010,11 +1017,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`urllib2` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`all`
-      - :ansible-option-choices-entry:`yes`
-      - :ansible-option-choices-entry:`safe`
-      - :ansible-option-choices-entry:`none`
+      - :ansible-option-choices-entry-default:`"urllib2"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"all"`
+      - :ansible-option-choices-entry:`"yes"`
+      - :ansible-option-choices-entry:`"safe"`
+      - :ansible-option-choices-entry:`"none"`
+
 
       .. raw:: html
 
@@ -1061,35 +1069,36 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`sites`
-      - :ansible-option-choices-entry:`site`
-      - :ansible-option-choices-entry:`location`
-      - :ansible-option-choices-entry:`tenants`
-      - :ansible-option-choices-entry:`tenant`
-      - :ansible-option-choices-entry:`racks`
-      - :ansible-option-choices-entry:`rack`
-      - :ansible-option-choices-entry:`rack\_group`
-      - :ansible-option-choices-entry:`rack\_role`
-      - :ansible-option-choices-entry:`tags`
-      - :ansible-option-choices-entry:`tag`
-      - :ansible-option-choices-entry:`device\_roles`
-      - :ansible-option-choices-entry:`role`
-      - :ansible-option-choices-entry:`device\_types`
-      - :ansible-option-choices-entry:`device\_type`
-      - :ansible-option-choices-entry:`manufacturers`
-      - :ansible-option-choices-entry:`manufacturer`
-      - :ansible-option-choices-entry:`platforms`
-      - :ansible-option-choices-entry:`platform`
-      - :ansible-option-choices-entry:`region`
-      - :ansible-option-choices-entry:`site\_group`
-      - :ansible-option-choices-entry:`cluster`
-      - :ansible-option-choices-entry:`cluster\_type`
-      - :ansible-option-choices-entry:`cluster\_group`
-      - :ansible-option-choices-entry:`is\_virtual`
-      - :ansible-option-choices-entry:`services`
-      - :ansible-option-choices-entry:`status`
-      - :ansible-option-choices-entry:`time\_zone`
-      - :ansible-option-choices-entry:`utc\_offset`
+      - :ansible-option-choices-entry:`"sites"`
+      - :ansible-option-choices-entry:`"site"`
+      - :ansible-option-choices-entry:`"location"`
+      - :ansible-option-choices-entry:`"tenants"`
+      - :ansible-option-choices-entry:`"tenant"`
+      - :ansible-option-choices-entry:`"racks"`
+      - :ansible-option-choices-entry:`"rack"`
+      - :ansible-option-choices-entry:`"rack\_group"`
+      - :ansible-option-choices-entry:`"rack\_role"`
+      - :ansible-option-choices-entry:`"tags"`
+      - :ansible-option-choices-entry:`"tag"`
+      - :ansible-option-choices-entry:`"device\_roles"`
+      - :ansible-option-choices-entry:`"role"`
+      - :ansible-option-choices-entry:`"device\_types"`
+      - :ansible-option-choices-entry:`"device\_type"`
+      - :ansible-option-choices-entry:`"manufacturers"`
+      - :ansible-option-choices-entry:`"manufacturer"`
+      - :ansible-option-choices-entry:`"platforms"`
+      - :ansible-option-choices-entry:`"platform"`
+      - :ansible-option-choices-entry:`"region"`
+      - :ansible-option-choices-entry:`"site\_group"`
+      - :ansible-option-choices-entry:`"cluster"`
+      - :ansible-option-choices-entry:`"cluster\_type"`
+      - :ansible-option-choices-entry:`"cluster\_group"`
+      - :ansible-option-choices-entry:`"is\_virtual"`
+      - :ansible-option-choices-entry:`"services"`
+      - :ansible-option-choices-entry:`"status"`
+      - :ansible-option-choices-entry:`"time\_zone"`
+      - :ansible-option-choices-entry:`"utc\_offset"`
+
 
       .. rst-class:: ansible-option-line
 
@@ -1139,8 +1148,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1227,8 +1237,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1269,7 +1280,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"false"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -1557,7 +1568,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1615,7 +1627,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1704,7 +1717,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`netbox.netbox.nb\_inventory`
+      - :ansible-option-choices-entry:`"netbox.netbox.nb\_inventory"`
+
 
       .. raw:: html
 
@@ -1755,7 +1769,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1803,8 +1818,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1896,7 +1912,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1943,7 +1960,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1989,8 +2007,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -2035,8 +2054,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -2122,9 +2142,9 @@ Parameters
 
       :ansible-option-configuration:`Configuration:`
 
-      - Environment variable: NETBOX\_TOKEN
+      - Environment variable: :envvar:`NETBOX\_TOKEN`
 
-      - Environment variable: NETBOX\_API\_KEY
+      - Environment variable: :envvar:`NETBOX\_API\_KEY`
 
 
       .. raw:: html
@@ -2171,8 +2191,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. rst-class:: ansible-option-line
 
@@ -2186,7 +2207,7 @@ Parameters
           use_extra_vars = false
 
 
-      - Environment variable: ANSIBLE\_INVENTORY\_USE\_EXTRA\_VARS
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_USE\_EXTRA\_VARS`
 
 
       .. raw:: html
@@ -2231,7 +2252,8 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
-      - :ansible-option-default-bold:`true` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -2276,8 +2298,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`false` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 

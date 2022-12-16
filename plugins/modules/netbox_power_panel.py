@@ -53,6 +53,18 @@ options:
           - The name of the power panel
         required: true
         type: str
+      description:
+        description:
+          - Description of the power panel
+        required: false
+        type: str
+        version_added: "3.10.0"
+      comments:
+        description:
+          - Comments related to the power panel
+        required: false
+        type: str
+        version_added: "3.10.0"
       custom_fields:
         description:
           - Must exist in NetBox
@@ -76,7 +88,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create power panel within NetBox with only required information
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -85,7 +97,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update power panel with other fields - Pre 2.11
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -95,7 +107,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create power panel within NetBox with only required information - Post 2.11
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -105,7 +117,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete power panel within netbox
-      netbox_power_panel:
+      netbox.netbox.netbox_power_panel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -156,6 +168,8 @@ def main():
                     ),
                     location=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     custom_fields=dict(required=False, type="dict"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),

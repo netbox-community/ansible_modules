@@ -72,7 +72,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create device bay within NetBox with only required information
-      netbox_device_bay:
+      netbox.netbox.netbox_device_bay:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -81,7 +81,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Add device into device bay
-      netbox_device_bay:
+      netbox.netbox.netbox_device_bay:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -92,7 +92,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Delete device bay within netbox
-      netbox_device_bay:
+      netbox.netbox.netbox_device_bay:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

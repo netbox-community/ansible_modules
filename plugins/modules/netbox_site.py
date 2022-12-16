@@ -142,7 +142,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create site within NetBox with only required information
-      netbox_site:
+      netbox.netbox.netbox_site:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -150,7 +150,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete site within netbox
-      netbox_site:
+      netbox.netbox.netbox_site:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -158,7 +158,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create site with all parameters
-      netbox_site:
+      netbox.netbox.netbox_site:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

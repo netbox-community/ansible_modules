@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.9.0
+Collection version 3.10.0
 
 .. contents::
    :local:
@@ -21,6 +21,10 @@ This is a collection of NetBox Ansible modules
 
 * Mikhail Yohman <mikhail.yohman@gmail.com>
 * Martin Rødvand <martin@rodvand.net>
+
+**Supported ansible-core versions:**
+
+* 2.9.10 or newer
 
 .. raw:: html
 
@@ -73,11 +77,13 @@ Modules
 * :ref:`netbox_front_port module <ansible_collections.netbox.netbox.netbox_front_port_module>` -- Create, update or delete front ports within NetBox
 * :ref:`netbox_front_port_template module <ansible_collections.netbox.netbox.netbox_front_port_template_module>` -- Create, update or delete front port templates within NetBox
 * :ref:`netbox_inventory_item module <ansible_collections.netbox.netbox.netbox_inventory_item_module>` -- Creates or removes inventory items from NetBox
+* :ref:`netbox_inventory_item_role module <ansible_collections.netbox.netbox.netbox_inventory_item_role_module>` -- Create, update or delete devices roles within NetBox
 * :ref:`netbox_ip_address module <ansible_collections.netbox.netbox.netbox_ip_address_module>` -- Creates or removes IP addresses from NetBox
 * :ref:`netbox_ipam_role module <ansible_collections.netbox.netbox.netbox_ipam_role_module>` -- Creates or removes ipam roles from NetBox
 * :ref:`netbox_l2vpn module <ansible_collections.netbox.netbox.netbox_l2vpn_module>` -- Create, update or delete L2VPNs within NetBox
 * :ref:`netbox_location module <ansible_collections.netbox.netbox.netbox_location_module>` -- Create, update or delete locations within NetBox
 * :ref:`netbox_manufacturer module <ansible_collections.netbox.netbox.netbox_manufacturer_module>` -- Create or delete manufacturers within NetBox
+* :ref:`netbox_module_type module <ansible_collections.netbox.netbox.netbox_module_type_module>` -- Create, update or delete module types within NetBox
 * :ref:`netbox_platform module <ansible_collections.netbox.netbox.netbox_platform_module>` -- Create or delete platforms within NetBox
 * :ref:`netbox_power_feed module <ansible_collections.netbox.netbox.netbox_power_feed_module>` -- Create, update or delete power feeds within NetBox
 * :ref:`netbox_power_outlet module <ansible_collections.netbox.netbox.netbox_power_outlet_module>` -- Create, update or delete power outlets within NetBox
@@ -97,6 +103,7 @@ Modules
 * :ref:`netbox_rir module <ansible_collections.netbox.netbox.netbox_rir_module>` -- Create, update or delete RIRs within NetBox
 * :ref:`netbox_route_target module <ansible_collections.netbox.netbox.netbox_route_target_module>` -- Creates or removes route targets from NetBox
 * :ref:`netbox_service module <ansible_collections.netbox.netbox.netbox_service_module>` -- Creates or removes service from NetBox
+* :ref:`netbox_service_template module <ansible_collections.netbox.netbox.netbox_service_template_module>` -- Create, update or delete service templates within NetBox
 * :ref:`netbox_site module <ansible_collections.netbox.netbox.netbox_site_module>` -- Creates or removes sites from NetBox
 * :ref:`netbox_site_group module <ansible_collections.netbox.netbox.netbox_site_group_module>` -- Create, update, or delete site groups within NetBox
 * :ref:`netbox_tag module <ansible_collections.netbox.netbox.netbox_tag_module>` -- Creates or removes tags from NetBox
@@ -126,10 +133,6 @@ Lookup Plugins
 * :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- Queries and returns elements from NetBox
 
 
-
-.. seealso::
-
-    List of :ref:`collections <list_of_collections>` with docs hosted here.
 
 .. toctree::
     :maxdepth: 1
@@ -166,11 +169,13 @@ Lookup Plugins
     netbox_front_port_module
     netbox_front_port_template_module
     netbox_inventory_item_module
+    netbox_inventory_item_role_module
     netbox_ip_address_module
     netbox_ipam_role_module
     netbox_l2vpn_module
     netbox_location_module
     netbox_manufacturer_module
+    netbox_module_type_module
     netbox_platform_module
     netbox_power_feed_module
     netbox_power_outlet_module
@@ -190,6 +195,7 @@ Lookup Plugins
     netbox_rir_module
     netbox_route_target_module
     netbox_service_module
+    netbox_service_template_module
     netbox_site_module
     netbox_site_group_module
     netbox_tag_module

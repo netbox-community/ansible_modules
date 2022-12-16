@@ -96,6 +96,20 @@ options:
           - rear
         required: false
         type: str
+      airflow:
+        description:
+          - Airflow of the device
+        choices:
+          - front-to-rear 
+          - rear-to-front 
+          - left-to-right 
+          - right-to-left 
+          - side-to-rear
+          - passive
+          - mixed                    
+        required: false
+        type: str
+        version_added: "3.10.0"
       status:
         description:
           - The status of the device
@@ -131,6 +145,12 @@ options:
           - Priority in the assigned virtual chassis
         required: false
         type: int
+      description:
+        description:
+          - Description of the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the device
@@ -164,7 +184,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create device within NetBox with only required information
-      netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -175,7 +195,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create device within NetBox with empty string name to generate UUID
-      netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -186,7 +206,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete device within netbox
-      netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -194,7 +214,7 @@ EXAMPLES = r"""
         state: absent
 
     - name: Create device with tags
-      netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -209,7 +229,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update the rack and position of an existing device
-      netbox_device:
+      netbox.netbox.netbox_device:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -270,6 +290,19 @@ def main():
                         type="str",
                         choices=["Front", "front", "Rear", "rear"],
                     ),
+                    airflow=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "front-to-rear",
+                            "rear-to-front",
+                            "left-to-right",
+                            "right-to-left",
+                            "side-to-rear",
+                            "passive",
+                            "mixed",
+                        ],
+                    ),
                     status=dict(required=False, type="raw"),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
@@ -277,6 +310,7 @@ def main():
                     virtual_chassis=dict(required=False, type="raw"),
                     vc_position=dict(required=False, type="int"),
                     vc_priority=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     local_context_data=dict(required=False, type="dict"),

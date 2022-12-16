@@ -56,7 +56,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create rack group within NetBox with only required information
-      netbox_rack_group:
+      netbox.netbox.netbox_rack_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -65,7 +65,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete rack group within netbox
-      netbox_rack_group:
+      netbox.netbox.netbox_rack_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_console_port_template module -- Create, update or delete co
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_console_port_template module -- Create, update or delete co
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.2.3
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.2.3
 
 .. contents::
    :local:
@@ -274,19 +275,20 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`de-9`
-      - :ansible-option-choices-entry:`db-25`
-      - :ansible-option-choices-entry:`rj-11`
-      - :ansible-option-choices-entry:`rj-12`
-      - :ansible-option-choices-entry:`rj-45`
-      - :ansible-option-choices-entry:`usb-a`
-      - :ansible-option-choices-entry:`usb-b`
-      - :ansible-option-choices-entry:`usb-c`
-      - :ansible-option-choices-entry:`usb-mini-a`
-      - :ansible-option-choices-entry:`usb-mini-b`
-      - :ansible-option-choices-entry:`usb-micro-a`
-      - :ansible-option-choices-entry:`usb-micro-b`
-      - :ansible-option-choices-entry:`other`
+      - :ansible-option-choices-entry:`"de-9"`
+      - :ansible-option-choices-entry:`"db-25"`
+      - :ansible-option-choices-entry:`"rj-11"`
+      - :ansible-option-choices-entry:`"rj-12"`
+      - :ansible-option-choices-entry:`"rj-45"`
+      - :ansible-option-choices-entry:`"usb-a"`
+      - :ansible-option-choices-entry:`"usb-b"`
+      - :ansible-option-choices-entry:`"usb-c"`
+      - :ansible-option-choices-entry:`"usb-mini-a"`
+      - :ansible-option-choices-entry:`"usb-mini-b"`
+      - :ansible-option-choices-entry:`"usb-micro-a"`
+      - :ansible-option-choices-entry:`"usb-micro-b"`
+      - :ansible-option-choices-entry:`"other"`
+
 
       .. raw:: html
 
@@ -435,8 +437,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -476,7 +479,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -513,7 +516,7 @@ Examples
 
       tasks:
         - name: Create console port template within NetBox with only required information
-          netbox_console_port_template:
+          netbox.netbox.netbox_console_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -522,7 +525,7 @@ Examples
             state: present
 
         - name: Update console port template with other fields
-          netbox_console_port_template:
+          netbox.netbox.netbox_console_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -532,7 +535,7 @@ Examples
             state: present
 
         - name: Delete console port template within netbox
-          netbox_console_port_template:
+          netbox.netbox.netbox_console_port_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

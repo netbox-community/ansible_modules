@@ -246,3 +246,21 @@
         - netbox_l2vpn
   tags:
     - netbox_l2vpn
+
+- name: "NETBOX_INVENTORY_ITEM_ROLE TESTS"
+  include_tasks: 
+    file: "netbox_inventory_item_role.yml"
+    apply:
+      tags:
+        - netbox_inventory_item_role
+  tags:
+    - netbox_inventory_item_role
+
+- name: "NETBOX_MODULE_TYPE TESTS"
+  include_tasks: 
+    file: "netbox_module_type.yml"
+    apply:
+      tags:
+        - netbox_module_type
+  tags:
+    - netbox_module_type
