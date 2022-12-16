@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_power_feed module -- Create, update or delete power feeds w
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_power_feed module -- Create, update or delete power feeds w
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.2.3
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.2.3
 
 .. contents::
    :local:
@@ -277,6 +278,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_power_feed_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the power feed
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/max_utilization"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_power_feed_module__parameter-data/max_utilization:
@@ -376,8 +414,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`single-phase`
-      - :ansible-option-choices-entry:`three-phase`
+      - :ansible-option-choices-entry:`"single-phase"`
+      - :ansible-option-choices-entry:`"three-phase"`
+
 
       .. raw:: html
 
@@ -485,10 +524,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`offline`
-      - :ansible-option-choices-entry:`active`
-      - :ansible-option-choices-entry:`planned`
-      - :ansible-option-choices-entry:`failed`
+      - :ansible-option-choices-entry:`"offline"`
+      - :ansible-option-choices-entry:`"active"`
+      - :ansible-option-choices-entry:`"planned"`
+      - :ansible-option-choices-entry:`"failed"`
+
 
       .. raw:: html
 
@@ -528,8 +568,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`ac`
-      - :ansible-option-choices-entry:`dc`
+      - :ansible-option-choices-entry:`"ac"`
+      - :ansible-option-choices-entry:`"dc"`
+
 
       .. raw:: html
 
@@ -603,8 +644,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`primary`
-      - :ansible-option-choices-entry:`redundant`
+      - :ansible-option-choices-entry:`"primary"`
+      - :ansible-option-choices-entry:`"redundant"`
+
 
       .. raw:: html
 
@@ -787,8 +829,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -828,7 +871,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 

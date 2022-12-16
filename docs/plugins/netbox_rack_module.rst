@@ -18,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -43,7 +42,7 @@ netbox.netbox.netbox_rack module -- Create, update or delete racks within NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.9.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -53,7 +52,9 @@ netbox.netbox.netbox_rack module -- Create, update or delete racks within NetBox
 
 .. version_added
 
-.. versionadded:: netbox.netbox 0.1.0
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.1.0
 
 .. contents::
    :local:
@@ -311,6 +312,44 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_rack_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the rack
+
+
       .. raw:: html
 
         </div>
@@ -380,6 +419,80 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The location the rack will be associated to (NetBox 2.11+)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/max_weight"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_rack_module__parameter-data/max_weight:
+
+      .. rst-class:: ansible-option-title
+
+      **max_weight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/max_weight" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Maximum load capacity of the rack
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/mounting_depth"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_rack_module__parameter-data/mounting_depth:
+
+      .. rst-class:: ansible-option-title
+
+      **mounting_depth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/mounting_depth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The mounting depth of the rack
 
 
       .. raw:: html
@@ -488,8 +601,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`Millimeters`
-      - :ansible-option-choices-entry:`Inches`
+      - :ansible-option-choices-entry:`"Millimeters"`
+      - :ansible-option-choices-entry:`"Inches"`
+
 
       .. raw:: html
 
@@ -803,11 +917,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`2-post frame`
-      - :ansible-option-choices-entry:`4-post frame`
-      - :ansible-option-choices-entry:`4-post cabinet`
-      - :ansible-option-choices-entry:`Wall-mounted frame`
-      - :ansible-option-choices-entry:`Wall-mounted cabinet`
+      - :ansible-option-choices-entry:`"2-post frame"`
+      - :ansible-option-choices-entry:`"4-post frame"`
+      - :ansible-option-choices-entry:`"4-post cabinet"`
+      - :ansible-option-choices-entry:`"Wall-mounted frame"`
+      - :ansible-option-choices-entry:`"Wall-mounted cabinet"`
+
 
       .. raw:: html
 
@@ -841,6 +956,90 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The height of the rack in rack units
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/weight"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_rack_module__parameter-data/weight:
+
+      .. rst-class:: ansible-option-title
+
+      **weight**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/weight" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The weight of the rack
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/weight_unit"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_rack_module__parameter-data/weight_unit:
+
+      .. rst-class:: ansible-option-title
+
+      **weight_unit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/weight_unit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The weight unit
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"kg"`
+      - :ansible-option-choices-entry:`"g"`
+      - :ansible-option-choices-entry:`"lb"`
+      - :ansible-option-choices-entry:`"oz"`
 
 
       .. raw:: html
@@ -885,6 +1084,7 @@ Parameters
       - :ansible-option-choices-entry:`19`
       - :ansible-option-choices-entry:`21`
       - :ansible-option-choices-entry:`23`
+
 
       .. raw:: html
 
@@ -1033,8 +1233,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -1074,7 +1275,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"true"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
