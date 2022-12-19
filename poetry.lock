@@ -39,18 +39,18 @@ frozenlist = ">=1.1.0"
 
 [[package]]
 name = "ansible-core"
-version = "2.12.10"
+version = "2.14.1"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 
 [package.dependencies]
 cryptography = "*"
-jinja2 = "*"
+jinja2 = ">=3.0.0"
 packaging = "*"
-PyYAML = "*"
-resolvelib = ">=0.5.3,<0.6.0"
+PyYAML = ">=5.1"
+resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "antsibull"
@@ -68,11 +68,11 @@ jinja2 = "*"
 
 [[package]]
 name = "antsibull-changelog"
-version = "0.17.0"
+version = "0.18.0"
 description = "Changelog tool for Ansible-base and Ansible collections"
 category = "main"
 optional = false
-python-versions = ">=3.6.0,<4.0.0"
+python-versions = ">=3.9.0,<4.0.0"
 
 [package.dependencies]
 docutils = "*"
@@ -350,16 +350,16 @@ python-versions = "*"
 
 [[package]]
 name = "isort"
-version = "5.11.2"
+version = "5.11.3"
 description = "A Python utility / library to sort Python imports."
 category = "main"
 optional = false
 python-versions = ">=3.7.0"
 
 [package.extras]
-pipfile-deprecated-finder = ["pipreqs", "requirementslib"]
-requirements-deprecated-finder = ["pipreqs", "pip-api"]
 colors = ["colorama (>=0.4.3,<0.5.0)"]
+requirements-deprecated-finder = ["pip-api", "pipreqs"]
+pipfile-deprecated-finder = ["pipreqs", "requirementslib"]
 plugins = ["setuptools"]
 
 [[package]]
@@ -537,7 +537,7 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pylint"
-version = "2.15.8"
+version = "2.15.9"
 description = "python code static checker"
 category = "main"
 optional = false
@@ -546,7 +546,10 @@ python-versions = ">=3.7.2"
 [package.dependencies]
 astroid = ">=2.12.13,<=2.14.0-dev0"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
-dill = ">=0.2"
+dill = [
+    {version = ">=0.2", markers = "python_version < \"3.11\""},
+    {version = ">=0.3.6", markers = "python_version >= \"3.11\""},
+]
 isort = ">=4.2.5,<6"
 mccabe = ">=0.6,<0.8"
 platformdirs = ">=2.2.0"
@@ -669,17 +672,17 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "resolvelib"
-version = "0.5.5"
+version = "0.8.1"
 description = "Resolve abstract dependencies into concrete ones"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.extras]
-examples = ["html5lib", "packaging", "pygraphviz", "requests"]
-lint = ["black", "flake8"]
-release = ["setl", "towncrier"]
-test = ["commentjson", "packaging", "pytest"]
+test = ["pytest", "packaging", "commentjson"]
+release = ["twine", "towncrier", "build"]
+lint = ["types-requests", "isort", "mypy", "flake8", "black"]
+examples = ["requests", "pygraphviz", "packaging", "html5lib"]
 
 [[package]]
 name = "rich"
@@ -692,7 +695,6 @@ python-versions = ">=3.6.3,<4.0.0"
 [package.dependencies]
 commonmark = ">=0.9.0,<0.10.0"
 pygments = ">=2.6.0,<3.0.0"
-typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.9\""}
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
@@ -880,8 +882,8 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "0627816c557f64c306cc66886b8dd70b174acddc83190a896bbb1efdb03b53ab"
+python-versions = "^3.9"
+content-hash = "785fa3a586b49cbd1f647008b48a6d9b1e73d41b046108b7fb56f22d5cc93dc8"
 
 [metadata.files]
 aiofiles = []

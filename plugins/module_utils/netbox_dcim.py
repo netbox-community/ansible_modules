@@ -54,6 +54,7 @@ try:
     from packaging.version import Version
 
     HAS_PACKAGING = True
+    PACKAGING_IMPORT_ERROR = ""
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
     HAS_PACKAGING = False

@@ -6,8 +6,8 @@ authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-ansible-core = "2.12.*"
+python = "^3.9"
+ansible-core = "2.14.*"
 black = "*"
 codecov = "*"
 coverage = "^4.0"
