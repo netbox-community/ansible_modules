@@ -351,7 +351,7 @@ from typing import Iterable
 from itertools import chain
 from collections import defaultdict
 from ipaddress import ip_interface
-from packaging import specifiers, version
+
 
 from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
@@ -362,6 +362,13 @@ from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six import raise_from
+
+try:
+    from packaging import specifiers, version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
 
 try:
     import pytz
