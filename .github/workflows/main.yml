@@ -122,7 +122,7 @@ jobs:
           cd ..
         if: matrix.VERSION == 'v3.4'
       - name: Install and configure Poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.3.3
         with:
           virtualenvs-create: false
       - name: Install Python packages
