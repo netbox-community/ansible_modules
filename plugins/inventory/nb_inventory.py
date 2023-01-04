@@ -6,8 +6,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-    name: nb_inventory
-    plugin_type: inventory
+    name: nb_inventory    
     author:
         - Remy Leone (@sieben)
         - Anthony Ruhier (@Anthony25)
@@ -139,6 +138,7 @@ DOCUMENTATION = """
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
+            elements: str
             choices:
                 - sites
                 - site
@@ -180,18 +180,21 @@ DOCUMENTATION = """
                 - List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         device_query_filters:
             description:
                 - List of parameters passed to the query string for devices (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         vm_query_filters:
             description:
                 - List of parameters passed to the query string for VMs (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         timeout:
             description: Timeout for NetBox requests in seconds
@@ -348,7 +351,7 @@ from typing import Iterable
 from itertools import chain
 from collections import defaultdict
 from ipaddress import ip_interface
-from packaging import specifiers, version
+
 
 from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
@@ -359,6 +362,13 @@ from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six import raise_from
+
+try:
+    from packaging import specifiers, version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
 
 try:
     import pytz
