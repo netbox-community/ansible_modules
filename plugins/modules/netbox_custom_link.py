@@ -33,7 +33,14 @@ options:
         description:
           - The content type to apply this custom link to
         required: false
-        type: raw        
+        type: raw   
+      content_types:
+        description:
+          - The content type to apply this custom link to (NetBox 3.4+)
+        required: false
+        type: list
+        elements: raw 
+        version_added: "3.10.0"
       name: 
         description: 
           - The name of the custom link
@@ -84,7 +91,7 @@ EXAMPLES = r"""
   hosts: localhost  
   tasks:
     - name: Create a custom link on device
-      netbox_custom_link:
+      netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -94,7 +101,7 @@ EXAMPLES = r"""
           link_url: !unsafe https://{{ obj.name }}.domain.local                        
 
     - name: Delete the custom link
-      netbox_custom_field:
+      netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -139,6 +146,7 @@ def main():
                 required=True,
                 options=dict(
                     content_type=dict(required=False, type="raw"),
+                    content_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
                     link_text=dict(required=True, type="raw"),
                     link_url=dict(required=True, type="raw"),
@@ -153,12 +161,17 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["content_type", "name", "link_text", "link_url"]),
+        ("state", "present", ["name", "link_text", "link_url"]),
         ("state", "absent", ["name"]),
     ]
 
+    required_one_of = [("content_type", "content_types")]
+
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_custom_link = NetboxExtrasModule(module, NB_CUSTOM_LINKS)

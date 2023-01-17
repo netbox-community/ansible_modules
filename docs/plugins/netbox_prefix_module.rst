@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -17,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -42,19 +42,19 @@ netbox.netbox.netbox_prefix module -- Creates or removes prefixes from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_prefix_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`netbox.netbox.netbox_prefix`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.1.0
 
 .. contents::
    :local:
@@ -76,6 +76,8 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.netbox.netbox.netbox_prefix_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
@@ -83,10 +85,15 @@ The below requirements are needed on the host that executes this module.
 - pynetbox
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +122,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -166,6 +173,43 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_prefix_module__parameter-data/comments:
+
+      .. rst-class:: ansible-option-title
+
+      **comments**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Comments that may include additional information in regards to the prefix
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -302,8 +346,54 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/mark_utilized"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_prefix_module__parameter-data/mark_utilized:
+
+      .. rst-class:: ansible-option-title
+
+      **mark_utilized**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/mark_utilized" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Treat as 100% utilized
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -326,7 +416,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -336,7 +426,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\  and first_available is \ :literal:`yes`\ . Will get a new available prefix in this parent prefix.
+      Required if state is \ :literal:`present`\  and first\_available is \ :literal:`yes`\ . Will get a new available prefix in this parent prefix.
 
 
       .. raw:: html
@@ -360,7 +450,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -370,7 +460,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\  and first_available is False. Will allocate or free this prefix.
+      Required if state is \ :literal:`present`\  and first\_available is False. Will allocate or free this prefix.
 
 
       .. raw:: html
@@ -404,8 +494,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required ONLY if state is \ :literal:`present`\  and first_available is \ :literal:`yes`\ .
-          Will get a new available prefix of the given prefix_length in this parent prefix.
+      Required ONLY if state is \ :literal:`present`\  and first\_available is \ :literal:`yes`\ .
+          Will get a new available prefix of the given prefix\_length in this parent prefix.
           
 
 
@@ -430,7 +520,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -464,7 +554,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -498,7 +588,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -532,7 +622,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
       .. raw:: html
 
@@ -566,7 +656,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -600,7 +690,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -634,7 +724,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -679,15 +769,16 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`yes`\  and state \ :literal:`present`\ , if an parent is given, it will get the first available prefix of the given prefix_length inside the given parent (and vrf, if given). Unused with state \ :literal:`absent`\ .
+      If \ :literal:`yes`\  and state \ :literal:`present`\ , if an parent is given, it will get the first available prefix of the given prefix\_length inside the given parent (and vrf, if given). Unused with state \ :literal:`absent`\ .
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -790,9 +881,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined
+      This can be used to override the specified values in ALLOWED\_QUERY\_PARAMS that are defined
 
-      in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      in plugins/module\_utils/netbox\_utils.py and provides control to users on what may make
 
       an object unique in their environment.
 
@@ -835,8 +926,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -859,7 +951,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -876,7 +968,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -913,7 +1005,7 @@ Examples
 
       tasks:
         - name: Create prefix within NetBox with only required information
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -921,7 +1013,7 @@ Examples
             state: present
 
         - name: Delete prefix within netbox
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -929,7 +1021,7 @@ Examples
             state: absent
 
         - name: Create prefix with several specified options
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -952,7 +1044,7 @@ Examples
             state: present
 
         - name: Get a new /24 inside 10.156.0.0/19 within NetBox - Parent doesn't exist
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -962,7 +1054,7 @@ Examples
             first_available: yes
 
         - name: Create prefix within NetBox with only required information
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -970,7 +1062,7 @@ Examples
             state: present
 
         - name: Get a new /24 inside 10.156.0.0/19 within NetBox
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -980,7 +1072,7 @@ Examples
             first_available: yes
 
         - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
-          netbox_prefix:
+          netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

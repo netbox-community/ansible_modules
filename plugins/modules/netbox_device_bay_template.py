@@ -51,7 +51,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create device bay template within NetBox with only required information
-      netbox_device_bay_template:
+      netbox.netbox.netbox_device_bay_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -60,7 +60,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete device bay template within netbox
-      netbox_device_bay_template:
+      netbox.netbox.netbox_device_bay_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

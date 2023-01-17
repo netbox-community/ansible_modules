@@ -44,87 +44,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - python-version: 3.8
-            VERSION: "v2.11"
-            INTEGRATION_TESTS: "v2.11"
-          - python-version: 3.8
-            VERSION: "v3.0"
-            INTEGRATION_TESTS: "v3.0"
-          - python-version: 3.8
-            VERSION: "v3.1"
-            INTEGRATION_TESTS: "v3.1"
+        include:          
           - python-version: 3.8
             VERSION: "v3.2"
             INTEGRATION_TESTS: "v3.2"
+          - python-version: 3.8
+            VERSION: "v3.3"
+            INTEGRATION_TESTS: "v3.3"
+          - python-version: 3.8
+            VERSION: "v3.4"
+            INTEGRATION_TESTS: "v3.4"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
-        if: matrix.VERSION == 'v2.11'
-      - name: Clone & Start netbox-docker containers - 2.11
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.2.0
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v2.11
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v2.11'
-      - name: Clone & Start netbox-docker containers - 3.0
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.3.1
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v3.0
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v3.0'
-      - name: Clone & Start netbox-docker containers - 3.1
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.4.1
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v3.1
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v3.1'
+          python-version: ${{ matrix.python-version }}    
       - name: Clone & Start netbox-docker containers - 3.2
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -145,8 +81,48 @@ jobs:
           docker container ls
           cd ..
         if: matrix.VERSION == 'v3.2'
+      - name: Clone & Start netbox-docker containers - 3.3
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 2.2.0
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              image: netboxcommunity/netbox:v3.3
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v3.3'
+      - name: Clone & Start netbox-docker containers - 3.4
+        env:
+          VERSION: ${{ matrix.VERSION }}
+        run: |
+          cd ..
+          git clone https://github.com/netbox-community/netbox-docker.git
+          cd netbox-docker
+          git checkout 2.3.0
+          tee docker-compose.override.yml <<EOF
+          version: '3.4'
+          services:
+            netbox:
+              image: netboxcommunity/netbox:v3.4
+              ports:
+                - 32768:8080
+          EOF
+          docker-compose up -d --quiet-pull
+          docker container ls
+          cd ..
+        if: matrix.VERSION == 'v3.4'
       - name: Install and configure Poetry
-        uses: snok/install-poetry@v1.1.1
+        uses: snok/install-poetry@v1.3.3
         with:
           virtualenvs-create: false
       - name: Install Python packages

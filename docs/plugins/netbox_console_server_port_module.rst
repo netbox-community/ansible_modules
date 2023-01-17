@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -17,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -42,19 +42,19 @@ netbox.netbox.netbox_console_server_port module -- Create, update or delete cons
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_console_server_port_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`netbox.netbox.netbox_console_server_port`.
 
 .. version_added
 
-.. versionadded:: 0.2.3 of netbox.netbox
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.2.3
 
 .. contents::
    :local:
@@ -76,6 +76,8 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.netbox.netbox.netbox_console_server_port_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
@@ -83,10 +85,15 @@ The below requirements are needed on the host that executes this module.
 - pynetbox
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +122,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -169,6 +176,80 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/cable"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/cable:
+
+      .. rst-class:: ansible-option-title
+
+      **cable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/cable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      cable to attach port to.  Must exist.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/custom_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      must exist in netbox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/description:
@@ -217,7 +298,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw` / :ansible-option-required:`required`
+      :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -228,6 +309,88 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The device the console server port is attached to
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      label of the conserver server port
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/mark_connected"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/mark_connected:
+
+      .. rst-class:: ansible-option-title
+
+      **mark_connected**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/mark_connected" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Treats as if a cable is connected to the port
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -271,6 +434,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/speed"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/speed:
+
+      .. rst-class:: ansible-option-title
+
+      **speed**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/speed" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.9.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      sets the port speed
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_console_server_port_module__parameter-data/tags:
@@ -285,7 +485,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
       .. raw:: html
 
@@ -336,19 +536,22 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`de-9`
-      - :ansible-option-choices-entry:`db-25`
-      - :ansible-option-choices-entry:`rj-11`
-      - :ansible-option-choices-entry:`rj-12`
-      - :ansible-option-choices-entry:`rj-45`
-      - :ansible-option-choices-entry:`usb-a`
-      - :ansible-option-choices-entry:`usb-b`
-      - :ansible-option-choices-entry:`usb-c`
-      - :ansible-option-choices-entry:`usb-mini-a`
-      - :ansible-option-choices-entry:`usb-mini-b`
-      - :ansible-option-choices-entry:`usb-micro-a`
-      - :ansible-option-choices-entry:`usb-micro-b`
-      - :ansible-option-choices-entry:`other`
+      - :ansible-option-choices-entry:`"de-9"`
+      - :ansible-option-choices-entry:`"db-25"`
+      - :ansible-option-choices-entry:`"rj-11"`
+      - :ansible-option-choices-entry:`"rj-12"`
+      - :ansible-option-choices-entry:`"rj-45"`
+      - :ansible-option-choices-entry:`"mini-din-8"`
+      - :ansible-option-choices-entry:`"usb-a"`
+      - :ansible-option-choices-entry:`"usb-b"`
+      - :ansible-option-choices-entry:`"usb-c"`
+      - :ansible-option-choices-entry:`"usb-mini-a"`
+      - :ansible-option-choices-entry:`"usb-mini-b"`
+      - :ansible-option-choices-entry:`"usb-micro-a"`
+      - :ansible-option-choices-entry:`"usb-micro-b"`
+      - :ansible-option-choices-entry:`"usb-micro-ab"`
+      - :ansible-option-choices-entry:`"other"`
+
 
       .. raw:: html
 
@@ -452,9 +655,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined
+      This can be used to override the specified values in ALLOWED\_QUERY\_PARAMS that are defined
 
-      in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      in plugins/module\_utils/netbox\_utils.py and provides control to users on what may make
 
       an object unique in their environment.
 
@@ -497,8 +700,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -521,7 +725,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -538,7 +742,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -575,7 +779,7 @@ Examples
 
       tasks:
         - name: Create console server port within NetBox with only required information
-          netbox_console_server_port:
+          netbox.netbox.netbox_console_server_port:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -584,18 +788,19 @@ Examples
             state: present
 
         - name: Update console server port with other fields
-          netbox_console_server_port:
+          netbox.netbox.netbox_console_server_port:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               name: Test Console Server Port
               device: Test Device
               type: usb-a
+              speed: 11500
               description: console server port description
             state: present
 
         - name: Delete console server port within netbox
-          netbox_console_server_port:
+          netbox.netbox.netbox_console_server_port:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

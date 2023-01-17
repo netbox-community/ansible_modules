@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -17,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -42,19 +42,19 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_device_interface_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`netbox.netbox.netbox_device_interface`.
 
 .. version_added
 
-.. versionadded:: 0.1.0 of netbox.netbox
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.1.0
 
 .. contents::
    :local:
@@ -76,6 +76,8 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.netbox.netbox.netbox_device_interface_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
@@ -83,10 +85,15 @@ The below requirements are needed on the host that executes this module.
 - pynetbox
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +122,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -183,9 +190,9 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
-      :ansible-option-versionadded:`added in 3.6.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
 
 
       .. raw:: html
@@ -288,7 +295,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -324,7 +331,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.7.0`
 
 
       .. raw:: html
@@ -342,9 +349,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`half`
-      - :ansible-option-choices-entry:`full`
-      - :ansible-option-choices-entry:`auto`
+      - :ansible-option-choices-entry:`"half"`
+      - :ansible-option-choices-entry:`"full"`
+      - :ansible-option-choices-entry:`"auto"`
+
 
       .. raw:: html
 
@@ -384,8 +392,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -408,7 +417,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -479,7 +488,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -557,15 +566,16 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mark an interface as connected without a cable attached (netbox >= 2.11 required)
+      Mark an interface as connected without a cable attached (netbox \>= 2.11 required)
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -605,8 +615,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -629,7 +640,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -731,9 +742,9 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
-      :ansible-option-versionadded:`added in 3.2.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.2.0`
 
 
       .. raw:: html
@@ -745,6 +756,80 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The device's parent interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/poe_mode"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/poe_mode:
+
+      .. rst-class:: ansible-option-title
+
+      **poe_mode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/poe_mode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This interface has PoE ability (NetBox release 3.3 and later)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/poe_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_interface_module__parameter-data/poe_type:
+
+      .. rst-class:: ansible-option-title
+
+      **poe_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/poe_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This interface's power type (NetBox release 3.3 and later)
 
 
       .. raw:: html
@@ -770,7 +855,7 @@ Parameters
 
       :ansible-option-type:`integer`
 
-      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.7.0`
 
 
       .. raw:: html
@@ -805,7 +890,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -839,7 +924,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
       .. raw:: html
 
@@ -910,7 +995,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -944,9 +1029,9 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
-      :ansible-option-versionadded:`added in 3.7.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.7.0`
 
 
       .. raw:: html
@@ -1062,9 +1147,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined
+      This can be used to override the specified values in ALLOWED\_QUERY\_PARAMS that are defined
 
-      in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      in plugins/module\_utils/netbox\_utils.py and provides control to users on what may make
 
       an object unique in their environment.
 
@@ -1107,8 +1192,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -1150,8 +1236,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1174,7 +1261,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -1191,7 +1278,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -1227,23 +1314,25 @@ Examples
       gather_facts: False
       tasks:
         - name: Create interface within NetBox with only required information
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               device: test100
               name: GigabitEthernet1
             state: present
+
         - name: Delete interface within netbox
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               device: test100
               name: GigabitEthernet1
             state: absent
+
         - name: Create LAG with several specified options
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1254,8 +1343,9 @@ Examples
               mgmt_only: false
               mode: Access
             state: present
+
         - name: Create interface and assign it to parent LAG
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1269,8 +1359,9 @@ Examples
               mgmt_only: false
               mode: Access
             state: present
+
         - name: Create interface as a trunk port
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1290,8 +1381,9 @@ Examples
               mgmt_only: true
               mode: Tagged
             state: present
+
         - name: Update interface on child device on virtual chassis
-          netbox_device_interface:
+          netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -1299,6 +1391,7 @@ Examples
               name: GigabitEthernet2/0/1
               enabled: false
             update_vc_child: True
+
         - name: Mark interface as connected without a cable (netbox >= 2.11 required)
           netbox.netbox.netbox_device_interface:
             netbox_url: http://netbox.local

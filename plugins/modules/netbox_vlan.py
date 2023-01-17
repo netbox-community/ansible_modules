@@ -69,6 +69,12 @@ options:
           - The description of the vlan
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the VLAN
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the vlan may need to be associated with
@@ -167,6 +173,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     vlan_role=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

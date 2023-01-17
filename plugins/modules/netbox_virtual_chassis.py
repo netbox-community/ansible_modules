@@ -46,6 +46,18 @@ options:
           - domain of the virtual chassis
         required: false
         type: str
+      description:
+        description:
+          - Description of the virtual chassis
+        required: false
+        type: str
+        version_added: "3.10.0"
+      comments:
+        description:
+          - Comments that may include additional information in regards to the virtual chassis
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the virtual chassis may need to be associated with
@@ -129,6 +141,8 @@ def main():
                     name=dict(required=False, type="str"),
                     master=dict(required=False, type="raw"),
                     domain=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

@@ -69,7 +69,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create cluster type within NetBox with only required information
-      netbox_cluster_type:
+      netbox.netbox.netbox_cluster_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -77,7 +77,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete cluster within netbox
-      netbox_cluster_type:
+      netbox.netbox.netbox_cluster_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

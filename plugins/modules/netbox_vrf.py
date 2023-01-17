@@ -68,6 +68,12 @@ options:
           - The description of the vrf
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the VRF
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - Any tags that the vrf may need to be associated with
@@ -164,6 +170,7 @@ def main():
                     import_targets=dict(required=False, type="list", elements="str"),
                     export_targets=dict(required=False, type="list", elements="str"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

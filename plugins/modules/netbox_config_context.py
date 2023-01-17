@@ -136,7 +136,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create config context and apply it to sites euc1-az1, euc1-az2 with the default weight of 1000
-      netbox_config_context:
+      netbox.netbox.netbox_config_context:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -146,7 +146,7 @@ EXAMPLES = r"""
           sites: [ euc1-az1, euc1-az2 ]
 
     - name: Detach config context from euc1-az1, euc1-az2 and attach to euc1-az3
-      netbox_config_context:
+      netbox.netbox.netbox_config_context:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -155,7 +155,7 @@ EXAMPLES = r"""
           sites: [ euc1-az3 ]
 
     - name: Delete config context
-      netbox_config_context:
+      netbox.netbox.netbox_config_context:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

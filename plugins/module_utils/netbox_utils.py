@@ -55,8 +55,10 @@ API_APPS_ENDPOINTS = dict(
         "interfaces",
         "interface_templates",
         "inventory_items",
+        "inventory_item_roles",
         "locations",
         "manufacturers",
+        "module_types",
         "platforms",
         "power_feeds",
         "power_outlets",
@@ -85,10 +87,13 @@ API_APPS_ENDPOINTS = dict(
     ipam=[
         "aggregates",
         "ip_addresses",
+        "l2vpns",
+        "l2vpn_terminations",
         "prefixes",
         "rirs",
         "roles",
         "route_targets",
+        "service_templates",
         "vlans",
         "vlan_groups",
         "vrfs",
@@ -125,9 +130,12 @@ QUERY_TYPES = dict(
     export_template="name",
     group="slug",
     installed_device="name",
+    inventory_item_role="name",
     import_targets="name",
+    l2vpn="name",
     location="slug",
     manufacturer="slug",
+    module_type="model",
     nat_inside="address",
     nat_outside="address",
     parent_contact_group="name",
@@ -154,6 +162,7 @@ QUERY_TYPES = dict(
     region="slug",
     rir="slug",
     route_targets="name",
+    service_templates="name",
     slug="slug",
     site="slug",
     site_group="slug",
@@ -249,6 +258,7 @@ CONVERT_TO_ID = {
     # Just a placeholder as scope can be several different types including sites.
     "scope": "sites",
     "services": "services",
+    "service_templates": "service_templates",
     "site": "sites",
     "site_groups": "site_groups",
     "site_group": "site_groups",
@@ -305,9 +315,12 @@ ENDPOINT_NAME_MAPPING = {
     "interfaces": "interface",
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
+    "inventory_item_roles": "inventory_item_role",
     "ip_addresses": "ip_address",
+    "l2vpns": "l2vpn",
     "locations": "location",
     "manufacturers": "manufacturer",
+    "module_types": "module_type",
     "platforms": "platform",
     "power_feeds": "power_feed",
     "power_outlets": "power_outlet",
@@ -327,6 +340,7 @@ ENDPOINT_NAME_MAPPING = {
     "rirs": "rir",
     "roles": "role",
     "route_targets": "route_target",
+    "service_templates": "service_template",
     "services": "services",
     "sites": "site",
     "site_groups": "site_group",
@@ -403,13 +417,16 @@ ALLOWED_QUERY_PARAMS = {
     "interface_b": set(["name", "device"]),
     "interface_template": set(["name", "device_type"]),
     "inventory_item": set(["name", "device"]),
+    "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ipaddresses": set(
         ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
     ),
+    "l2vpn": set(["name"]),
     "lag": set(["name"]),
     "location": set(["slug"]),
+    "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
@@ -443,6 +460,7 @@ ALLOWED_QUERY_PARAMS = {
     "role": set(["slug"]),
     "route_target": set(["name"]),
     "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
+    "service_template": set(["name"]),
     "site": set(["slug", "name"]),
     "site_group": set(["slug"]),
     "tags": set(["slug"]),
@@ -555,7 +573,9 @@ SLUG_REQUIRED = {
     "contact_roles",
     "device_roles",
     "device_types",
+    "inventory_item_roles",
     "ipam_roles",
+    "l2vpns",
     "locations",
     "rack_groups",
     "rack_roles",
@@ -669,6 +689,8 @@ class NetboxModule(object):
         # If major versions are equal, and minor version is higher, return True
         elif g_major == l_major and g_minor > l_minor:
             return True
+
+        return False
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert):
         try:
@@ -1249,12 +1271,28 @@ class NetboxModule(object):
         """
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
+
+        if serialized_nb_obj.get("custom_fields"):
+            serialized_nb_obj["custom_fields"] = {
+                key: value
+                for key, value in serialized_nb_obj["custom_fields"].items()
+                if value is not None
+            }
+
+        if updated_obj.get("custom_fields"):
+            updated_obj["custom_fields"] = {
+                key: value
+                for key, value in updated_obj["custom_fields"].items()
+                if value is not None
+            }
+
         updated_obj.update(data)
+
         if serialized_nb_obj.get("tags") and data.get("tags"):
             serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
             updated_obj["tags"] = set(data["tags"])
 
-        # Ensure idempotency for site and virtual machine on version pre-3.0
+        # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.version)
         if (
             serialized_nb_obj.get("latitude")
@@ -1269,8 +1307,13 @@ class NetboxModule(object):
         ):
             updated_obj["longitude"] = str(data["longitude"])
 
-        if serialized_nb_obj.get("vcpus") and data.get("vcpus") and version_pre_30:
-            updated_obj["vcpus"] = "{0:.2f}".format(data["vcpus"])
+        # Ensure idempotency for virtual machine on older netbox versions
+        version_pre_211 = self._version_check_greater("2.11", self.version)
+        if serialized_nb_obj.get("vcpus") and data.get("vcpus"):
+            if version_pre_211:
+                updated_obj["vcpus"] = int(data["vcpus"])
+            else:
+                updated_obj["vcpus"] = float(data["vcpus"])
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
@@ -1283,7 +1326,7 @@ class NetboxModule(object):
                         data_after[key] = updated_obj[key]
                 except KeyError:
                     if key == "form_factor":
-                        msg = "form_factor is not valid for NetBox 2.7 onword. Please use the type key instead."
+                        msg = "form_factor is not valid for NetBox 2.7 onward. Please use the type key instead."
                     else:
                         msg = (
                             "%s does not exist on existing object. Check to make sure valid field."

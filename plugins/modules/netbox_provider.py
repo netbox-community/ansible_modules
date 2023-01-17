@@ -60,6 +60,12 @@ options:
           - The admin contact of the provider
         required: false
         type: str
+      description:
+        description:
+          - Description of the provider
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments related to the provider
@@ -87,7 +93,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create provider within NetBox with only required information
-      netbox_provider:
+      netbox.netbox.netbox_provider:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -95,7 +101,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update provider with other fields
-      netbox_provider:
+      netbox.netbox.netbox_provider:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -109,7 +115,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete provider within netbox
-      netbox_provider:
+      netbox.netbox.netbox_provider:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -156,6 +162,7 @@ def main():
                     portal_url=dict(required=False, type="str"),
                     noc_contact=dict(required=False, type="str"),
                     admin_contact=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

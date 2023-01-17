@@ -94,7 +94,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create circuit termination within NetBox with only required information
-      netbox_circuit_termination:
+      netbox.netbox.netbox_circuit_termination:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -105,7 +105,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update circuit termination with other fields
-      netbox_circuit_termination:
+      netbox.netbox.netbox_circuit_termination:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -118,7 +118,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete circuit termination within netbox
-      netbox_circuit_termination:
+      netbox.netbox.netbox_circuit_termination:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

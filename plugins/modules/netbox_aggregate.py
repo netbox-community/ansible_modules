@@ -49,6 +49,12 @@ options:
           - "The description of the aggregate"
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the aggregate
+        required: false
+        type: str
+        version_added: "3.10.0"
       tags:
         description:
           - "Any tags that the aggregate may need to be associated with"
@@ -71,7 +77,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create aggregate within NetBox with only required information
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -80,7 +86,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Create aggregate with several specified options
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -93,7 +99,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete aggregate within netbox
-      netbox_aggregate:
+      netbox.netbox.netbox_aggregate:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -138,6 +144,7 @@ def main():
                     rir=dict(required=False, type="raw"),
                     date_added=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

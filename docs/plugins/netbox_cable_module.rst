@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -17,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -42,19 +42,19 @@ netbox.netbox.netbox_cable module -- Create, update or delete cables within NetB
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_cable_module_requirements>` for details.
 
     To use it in a playbook, specify: :code:`netbox.netbox.netbox_cable`.
 
 .. version_added
 
-.. versionadded:: 0.3.0 of netbox.netbox
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 0.3.0
 
 .. contents::
    :local:
@@ -76,6 +76,8 @@ Synopsis
 
 .. Requirements
 
+.. _ansible_collections.netbox.netbox.netbox_cable_module_requirements:
+
 Requirements
 ------------
 The below requirements are needed on the host that executes this module.
@@ -83,10 +85,15 @@ The below requirements are needed on the host that executes this module.
 - pynetbox
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -115,7 +122,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -203,6 +210,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_cable_module__parameter-data/comments:
+
+      .. rst-class:: ansible-option-title
+
+      **comments**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Comments related to the provider
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_cable_module__parameter-data/custom_fields:
@@ -219,7 +263,7 @@ Parameters
 
       :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in 3.6.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
 
 
       .. raw:: html
@@ -231,6 +275,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Must exist in NetBox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_cable_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the provider
 
 
       .. raw:: html
@@ -288,7 +369,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -339,10 +420,11 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`m`
-      - :ansible-option-choices-entry:`cm`
-      - :ansible-option-choices-entry:`ft`
-      - :ansible-option-choices-entry:`in`
+      - :ansible-option-choices-entry:`"m"`
+      - :ansible-option-choices-entry:`"cm"`
+      - :ansible-option-choices-entry:`"ft"`
+      - :ansible-option-choices-entry:`"in"`
+
 
       .. raw:: html
 
@@ -382,9 +464,10 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`connected`
-      - :ansible-option-choices-entry:`planned`
-      - :ansible-option-choices-entry:`decommissioning`
+      - :ansible-option-choices-entry:`"connected"`
+      - :ansible-option-choices-entry:`"planned"`
+      - :ansible-option-choices-entry:`"decommissioning"`
+
 
       .. raw:: html
 
@@ -407,7 +490,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=raw`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
       .. raw:: html
 
@@ -441,7 +524,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw` / :ansible-option-required:`required`
+      :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -492,15 +575,16 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`circuits.circuittermination`
-      - :ansible-option-choices-entry:`dcim.consoleport`
-      - :ansible-option-choices-entry:`dcim.consoleserverport`
-      - :ansible-option-choices-entry:`dcim.frontport`
-      - :ansible-option-choices-entry:`dcim.interface`
-      - :ansible-option-choices-entry:`dcim.powerfeed`
-      - :ansible-option-choices-entry:`dcim.poweroutlet`
-      - :ansible-option-choices-entry:`dcim.powerport`
-      - :ansible-option-choices-entry:`dcim.rearport`
+      - :ansible-option-choices-entry:`"circuits.circuittermination"`
+      - :ansible-option-choices-entry:`"dcim.consoleport"`
+      - :ansible-option-choices-entry:`"dcim.consoleserverport"`
+      - :ansible-option-choices-entry:`"dcim.frontport"`
+      - :ansible-option-choices-entry:`"dcim.interface"`
+      - :ansible-option-choices-entry:`"dcim.powerfeed"`
+      - :ansible-option-choices-entry:`"dcim.poweroutlet"`
+      - :ansible-option-choices-entry:`"dcim.powerport"`
+      - :ansible-option-choices-entry:`"dcim.rearport"`
+
 
       .. raw:: html
 
@@ -523,7 +607,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw` / :ansible-option-required:`required`
+      :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -574,15 +658,16 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`circuits.circuittermination`
-      - :ansible-option-choices-entry:`dcim.consoleport`
-      - :ansible-option-choices-entry:`dcim.consoleserverport`
-      - :ansible-option-choices-entry:`dcim.frontport`
-      - :ansible-option-choices-entry:`dcim.interface`
-      - :ansible-option-choices-entry:`dcim.powerfeed`
-      - :ansible-option-choices-entry:`dcim.poweroutlet`
-      - :ansible-option-choices-entry:`dcim.powerport`
-      - :ansible-option-choices-entry:`dcim.rearport`
+      - :ansible-option-choices-entry:`"circuits.circuittermination"`
+      - :ansible-option-choices-entry:`"dcim.consoleport"`
+      - :ansible-option-choices-entry:`"dcim.consoleserverport"`
+      - :ansible-option-choices-entry:`"dcim.frontport"`
+      - :ansible-option-choices-entry:`"dcim.interface"`
+      - :ansible-option-choices-entry:`"dcim.powerfeed"`
+      - :ansible-option-choices-entry:`"dcim.poweroutlet"`
+      - :ansible-option-choices-entry:`"dcim.powerport"`
+      - :ansible-option-choices-entry:`"dcim.rearport"`
+
 
       .. raw:: html
 
@@ -622,26 +707,27 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`cat3`
-      - :ansible-option-choices-entry:`cat5`
-      - :ansible-option-choices-entry:`cat5e`
-      - :ansible-option-choices-entry:`cat6`
-      - :ansible-option-choices-entry:`cat6a`
-      - :ansible-option-choices-entry:`cat7`
-      - :ansible-option-choices-entry:`dac-active`
-      - :ansible-option-choices-entry:`dac-passive`
-      - :ansible-option-choices-entry:`mrj21-trunk`
-      - :ansible-option-choices-entry:`coaxial`
-      - :ansible-option-choices-entry:`mmf`
-      - :ansible-option-choices-entry:`mmf-om1`
-      - :ansible-option-choices-entry:`mmf-om2`
-      - :ansible-option-choices-entry:`mmf-om3`
-      - :ansible-option-choices-entry:`mmf-om4`
-      - :ansible-option-choices-entry:`smf`
-      - :ansible-option-choices-entry:`smf-os1`
-      - :ansible-option-choices-entry:`smf-os2`
-      - :ansible-option-choices-entry:`aoc`
-      - :ansible-option-choices-entry:`power`
+      - :ansible-option-choices-entry:`"cat3"`
+      - :ansible-option-choices-entry:`"cat5"`
+      - :ansible-option-choices-entry:`"cat5e"`
+      - :ansible-option-choices-entry:`"cat6"`
+      - :ansible-option-choices-entry:`"cat6a"`
+      - :ansible-option-choices-entry:`"cat7"`
+      - :ansible-option-choices-entry:`"dac-active"`
+      - :ansible-option-choices-entry:`"dac-passive"`
+      - :ansible-option-choices-entry:`"mrj21-trunk"`
+      - :ansible-option-choices-entry:`"coaxial"`
+      - :ansible-option-choices-entry:`"mmf"`
+      - :ansible-option-choices-entry:`"mmf-om1"`
+      - :ansible-option-choices-entry:`"mmf-om2"`
+      - :ansible-option-choices-entry:`"mmf-om3"`
+      - :ansible-option-choices-entry:`"mmf-om4"`
+      - :ansible-option-choices-entry:`"smf"`
+      - :ansible-option-choices-entry:`"smf-os1"`
+      - :ansible-option-choices-entry:`"smf-os2"`
+      - :ansible-option-choices-entry:`"aoc"`
+      - :ansible-option-choices-entry:`"power"`
+
 
       .. raw:: html
 
@@ -745,9 +831,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This can be used to override the specified values in ALLOWED_QUERY_PARAMS that are defined
+      This can be used to override the specified values in ALLOWED\_QUERY\_PARAMS that are defined
 
-      in plugins/module_utils/netbox_utils.py and provides control to users on what may make
+      in plugins/module\_utils/netbox\_utils.py and provides control to users on what may make
 
       an object unique in their environment.
 
@@ -790,8 +876,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`present` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`absent`
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
 
       .. raw:: html
 
@@ -814,7 +901,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`raw`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -831,7 +918,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"yes"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
 
       .. raw:: html
 
@@ -868,7 +955,7 @@ Examples
 
       tasks:
         - name: Create cable within NetBox with only required information
-          netbox_cable:
+          netbox.netbox.netbox_cable:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -883,7 +970,7 @@ Examples
             state: present
 
         - name: Update cable with other fields
-          netbox_cable:
+          netbox.netbox.netbox_cable:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
@@ -906,7 +993,7 @@ Examples
             state: present
 
         - name: Delete cable within netbox
-          netbox_cable:
+          netbox.netbox.netbox_cable:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:

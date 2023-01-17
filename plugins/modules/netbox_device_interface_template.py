@@ -75,7 +75,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create interface template within NetBox with only required information
-      netbox_device_interface_template:
+      netbox.netbox.netbox_device_interface_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -84,7 +84,7 @@ EXAMPLES = r"""
           type: 10gbase-t
         state: present
     - name: Delete interface template within netbox
-      netbox_device_interface_template:
+      netbox.netbox.netbox_device_interface_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

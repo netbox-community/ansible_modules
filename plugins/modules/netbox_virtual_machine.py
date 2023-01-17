@@ -84,6 +84,12 @@ options:
           - Disk of the virtual machine (GB)
         required: false
         type: int
+      device:
+        description:
+          - The device the virtual machine is pinned to in the cluster
+        required: false
+        type: raw
+        version_added: "3.9.0"
       status:
         description:
           - The status of the virtual machine
@@ -105,6 +111,12 @@ options:
           - configuration context of the virtual machine
         required: false
         type: dict
+      description:
+        description:
+          - The description of the virtual machine
+        required: false
+        type: str
+        version_added: "3.10.0"
       comments:
         description:
           - Comments of the virtual machine
@@ -205,10 +217,12 @@ def main():
                     primary_ip6=dict(required=False, type="raw"),
                     memory=dict(required=False, type="int"),
                     disk=dict(required=False, type="int"),
+                    device=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
+                    description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                 ),
             ),

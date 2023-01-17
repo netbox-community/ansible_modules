@@ -43,6 +43,11 @@ options:
           - The wireless LAN group
         required: false
         type: raw
+      status:
+        description:
+          - Status of the wireless LAN
+        required: false
+        type: raw
       vlan:
         description:
           - The VLAN of the Wireless LAN
@@ -83,6 +88,12 @@ options:
           - must exist in NetBox
         required: false
         type: dict    
+      comments:
+        description:
+          - Comments of the wireless LAN
+        required: false
+        type: str
+        version_added: "3.10.0"
     required: true
 """
 
@@ -161,6 +172,7 @@ def main():
                     ssid=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     wireless_lan_group=dict(required=False, type="raw"),
+                    status=dict(required=False, type="raw"),
                     vlan=dict(required=False, type="raw"),
                     auth_type=dict(
                         required=False,
@@ -173,6 +185,7 @@ def main():
                     auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
+                    comments=dict(required=False, type="str"),
                 ),
             ),
         )

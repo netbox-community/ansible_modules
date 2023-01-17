@@ -15,7 +15,7 @@ import sys
 import re
 import stat
 from pathlib import Path
-from antsibull.cli import antsibull_docs
+from antsibull_docs.cli import antsibull_docs
 
 sys.path.insert(0, os.path.abspath("../"))
 
@@ -27,7 +27,7 @@ copyright = "2020, Mikhail Yohman"
 author = "Mikhail Yohman <@FragmentedPacket>"
 
 # The full version, including alpha/beta/rc tags
-release = "3.7.1"
+release = "3.10.0"
 
 
 # -- General configuration ---------------------------------------------------

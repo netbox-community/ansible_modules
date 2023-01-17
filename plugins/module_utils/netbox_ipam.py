@@ -28,6 +28,9 @@ NB_VLANS = "vlans"
 NB_VLAN_GROUPS = "vlan_groups"
 NB_VRFS = "vrfs"
 NB_SERVICES = "services"
+NB_SERVICE_TEMPLATES = "service_templates"
+NB_L2VPNS = "l2vpns"
+NB_L2VPN_TERMINATIONS = "l2vpn_terminations"
 
 
 class NetboxIpamModule(NetboxModule):
@@ -147,6 +150,8 @@ class NetboxIpamModule(NetboxModule):
         - aggregates
         - ipam_roles
         - ip_addresses
+        - l2vpns
+        - l2vpn_terminations
         - prefixes
         - rirs
         - route_targets

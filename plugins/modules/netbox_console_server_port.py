@@ -50,6 +50,7 @@ options:
           - rj-11
           - rj-12
           - rj-45
+          - mini-din-8
           - usb-a
           - usb-b
           - usb-c
@@ -57,14 +58,45 @@ options:
           - usb-mini-b
           - usb-micro-a
           - usb-micro-b
+          - usb-micro-ab
           - other
         required: false
         type: str
+      cable:
+        description:
+          - cable to attach port to.  Must exist.
+        type: dict
+        required: false
+        version_added: "3.9.0"
+      custom_fields:
+        description:
+          - must exist in netbox
+        type: dict
+        required: false
+        version_added: "3.9.0"
       description:
         description:
           - Description of the console server port
         required: false
         type: str
+      label:
+        description:
+          - label of the conserver server port
+        required: false
+        type: str
+        version_added: "3.9.0"
+      mark_connected:
+        description:
+          - Treats as if a cable is connected to the port
+        required: false
+        type: bool
+        version_added: "3.9.0"
+      speed:
+        description:
+          - sets the port speed
+        required: false
+        type: int
+        version_added: "3.9.0"
       tags:
         description:
           - Any tags that the console server port may need to be associated with
@@ -81,7 +113,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create console server port within NetBox with only required information
-      netbox_console_server_port:
+      netbox.netbox.netbox_console_server_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -90,18 +122,19 @@ EXAMPLES = r"""
         state: present
 
     - name: Update console server port with other fields
-      netbox_console_server_port:
+      netbox.netbox.netbox_console_server_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           name: Test Console Server Port
           device: Test Device
           type: usb-a
+          speed: 11500
           description: console server port description
         state: present
 
     - name: Delete console server port within netbox
-      netbox_console_server_port:
+      netbox.netbox.netbox_console_server_port:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -153,6 +186,7 @@ def main():
                             "rj-11",
                             "rj-12",
                             "rj-45",
+                            "mini-din-8",
                             "usb-a",
                             "usb-b",
                             "usb-c",
@@ -160,11 +194,17 @@ def main():
                             "usb-mini-b",
                             "usb-micro-a",
                             "usb-micro-b",
+                            "usb-micro-ab",
                             "other",
                         ],
                         type="str",
                     ),
+                    cable=dict(required=False, type="dict"),
+                    custom_fields=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
+                    label=dict(required=False, type="str"),
+                    speed=dict(required=False, type="int"),
+                    mark_connected=dict(required=False, type="bool"),
                     tags=dict(required=False, type="list", elements="raw"),
                 ),
             ),

@@ -50,6 +50,12 @@ options:
           - The parent location the location will be associated with
         required: false
         type: raw
+      tenant:
+        description:
+          - The tenant that the location will be associated with
+        required: false
+        type: raw
+        version_added: "3.8.0"
       description:
         description:
           - The description of the location
@@ -143,6 +149,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
                     parent_location=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

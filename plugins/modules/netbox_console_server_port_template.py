@@ -70,7 +70,7 @@ EXAMPLES = r"""
 
   tasks:
     - name: Create console server port template within NetBox with only required information
-      netbox_console_server_port_template:
+      netbox.netbox.netbox_console_server_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -79,7 +79,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Update console server port template with other fields
-      netbox_console_server_port_template:
+      netbox.netbox.netbox_console_server_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -89,7 +89,7 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete console server port template within netbox
-      netbox_console_server_port_template:
+      netbox.netbox.netbox_console_server_port_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:

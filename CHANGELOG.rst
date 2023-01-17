@@ -5,6 +5,81 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.10.0
+=======
+
+Minor Changes
+-------------
+
+- Add options for NetBox 3.4 [#905](https://github.com/netbox-community/ansible_modules/pull/905)
+- netbox_custom_field - Add group_name [#882](https://github.com/netbox-community/ansible_modules/pull/882)
+- netbox_device_type and netbox_device - Add airflow [#907](https://github.com/netbox-community/ansible_modules/pull/907)
+- netbox_invventory_item_role - Add module [#885](https://github.com/netbox-community/ansible_modules/pull/885)
+- netbox_module_type - Add module [#887](https://github.com/netbox-community/ansible_modules/pull/887)
+- netbox_service_template - Add module [#908](https://github.com/netbox-community/ansible_modules/pull/908)
+
+Bugfixes
+--------
+
+- nb_inventory - Raise exception on missing packaging [#900](https://github.com/netbox-community/ansible_modules/pull/900)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_inventory_item_role - Create, update or delete inventory item roles in NetBox
+- netbox.netbox.netbox_module_type - Create, update or delete module types in NetBox
+- netbox.netbox.netbox_service_template - Create, update or delete service templates in NetBox
+
+v3.9.0
+======
+
+Minor Changes
+-------------
+
+- nb_lookup - Add 3.3 endpoints for lookup [#865](https://github.com/netbox-community/ansible_modules/pull/865)
+- netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)
+- netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
+- netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
+
+Bugfixes
+--------
+
+- nb_inventory - Fix site_group in inventory plugin [#872](https://github.com/netbox-community/ansible_modules/pull/872)
+- nb_inventory - Make sure inventory works with ansible < 2.11 [#861](https://github.com/netbox-community/ansible_modules/pull/861)
+- netbox_virtual_machine - Fix idempotency with virtual machine and NetBox 3.0 [#859](https://github.com/netbox-community/ansible_modules/pull/859)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_l2vpn - Create, update or delete L2VPN objects in NetBox
+
+v3.8.1
+======
+
+Minor Changes
+-------------
+
+- nb_inventory - Allow for jinja templating [#834](https://github.com/netbox-community/ansible_modules/pull/834)
+
+Bugfixes
+--------
+
+- Fix idempotency with custom_fields [#839](https://github.com/netbox-community/ansible_modules/pull/839)
+
+v3.8.0
+======
+
+Minor Changes
+-------------
+
+- Add action_group to enable module defaults groups [#800](https://github.com/netbox-community/ansible_modules/pull/800)
+- Expand on query_filter for site [#824](https://github.com/netbox-community/ansible_modules/pull/824)
+- nb_inventory - Allow API token to be templated [#806](https://github.com/netbox-community/ansible_modules/pull/806)
+- netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
+- netbox_device_interface - Add PoE attribute [#820](https://github.com/netbox-community/ansible_modules/pull/820)
+- netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)
+- netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
+
 v3.7.1
 ======
 

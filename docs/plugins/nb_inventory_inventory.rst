@@ -1,3 +1,4 @@
+
 .. Document meta
 
 :orphan:
@@ -17,8 +18,7 @@
 .. role:: ansible-option-versionadded
 .. role:: ansible-option-aliases
 .. role:: ansible-option-choices
-.. role:: ansible-option-choices-entry
-.. role:: ansible-option-default
+.. role:: ansible-option-choices-default-mark
 .. role:: ansible-option-default-bold
 .. role:: ansible-option-configuration
 .. role:: ansible-option-returned-bold
@@ -42,11 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.7.1).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -76,10 +72,15 @@ Synopsis
 .. Requirements
 
 
+
+
+
+
 .. Options
 
 Parameters
 ----------
+
 
 .. rst-class:: ansible-option-table
 
@@ -121,15 +122,16 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If True, sets DNS Name (fetched from primary_ip) to be used in ansible_host variable, instead of IP Address.
+      If True, sets DNS Name (fetched from primary\_ip) to be used in ansible\_host variable, instead of IP Address.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -172,7 +174,7 @@ Parameters
 
       :ansible-option-configuration:`Configuration:`
 
-      - Environment variable: NETBOX\_API
+      - Environment variable: :envvar:`NETBOX\_API`
 
 
       .. raw:: html
@@ -214,7 +216,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"no"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -257,8 +259,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. rst-class:: ansible-option-line
 
@@ -269,10 +272,10 @@ Parameters
         .. code-block::
 
           [inventory]
-          cache = no
+          cache = false
 
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE`
 
 
       .. raw:: html
@@ -321,19 +324,19 @@ Parameters
         .. code-block::
 
           [defaults]
-          fact_caching_connection = None
+          fact_caching_connection = VALUE
 
 
 
         .. code-block::
 
           [inventory]
-          cache_connection = None
+          cache_connection = VALUE
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_CONNECTION
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_CONNECTION`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_CONNECTION
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_CONNECTION`
 
 
       .. raw:: html
@@ -396,9 +399,9 @@ Parameters
           cache_plugin = memory
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_PLUGIN
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_PLUGIN`
 
 
       .. raw:: html
@@ -476,9 +479,9 @@ Parameters
           cache_prefix = ansible_inventory_
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_PREFIX
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_PREFIX`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_PLUGIN\_PREFIX
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_PLUGIN\_PREFIX`
 
 
       .. raw:: html
@@ -541,9 +544,9 @@ Parameters
           cache_timeout = 3600
 
 
-      - Environment variable: ANSIBLE\_CACHE\_PLUGIN\_TIMEOUT
+      - Environment variable: :envvar:`ANSIBLE\_CACHE\_PLUGIN\_TIMEOUT`
 
-      - Environment variable: ANSIBLE\_INVENTORY\_CACHE\_TIMEOUT
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_CACHE\_TIMEOUT`
 
 
       .. raw:: html
@@ -585,7 +588,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"no"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -662,7 +665,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If True, it adds config_context in host vars.
+      If True, it adds config\_context in host vars.
 
       Config-context enables the association of arbitrary data to devices and virtual machines grouped by region, site, role, platform, and/or tenant. Please check official netbox docs for more info.
 
@@ -671,8 +674,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -708,7 +712,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of parameters passed to the query string for devices (Multiple values may be separated by commas)
+      List of parameters passed to the query string for devices (Multiple values may be separated by commas).
+
+      You can also use Jinja2 templates.
 
 
       .. rst-class:: ansible-option-line
@@ -749,17 +755,18 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Force IP Addresses to be fetched so that the dns_name for the primary_ip of each device or VM is set as a host_var.
+      Force IP Addresses to be fetched so that the dns\_name for the primary\_ip of each device or VM is set as a host\_var.
 
-      Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
+      Setting interfaces will also fetch IP addresses and the dns\_name host\_var will be set.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -784,7 +791,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.1 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
 
 
@@ -798,23 +805,24 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
+      By default, fetching interfaces and services will get all of the contents of NetBox regardless of query\_filters applied to devices and VMs.
 
-      When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
+      When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device\_id and virtual\_machine\_id.
 
-      If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
+      If you are using the various query\_filters options to reduce the number of devices, you may find querying NetBox faster with fetch\_all set to False.
 
-      For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
+      For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device\_id=1&device\_id=2&device\_id=3
 
-      These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
+      These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max\_uri\_length option to suit your web server.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -839,7 +847,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.1 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
 
 
@@ -853,17 +861,18 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :emphasis:`config\_context`\  is enabled, by default it's added as a host var named config_context.
+      If \ :emphasis:`config\_context`\  is enabled, by default it's added as a host var named config\_context.
 
-      If flatten_config_context is set to True, the config context variables will be added directly to the host instead.
+      If flatten\_config\_context is set to True, the config context variables will be added directly to the host instead.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -888,7 +897,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.1 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
 
 
@@ -902,17 +911,18 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      By default, host custom fields are added as a dictionary host var named custom_fields.
+      By default, host custom fields are added as a dictionary host var named custom\_fields.
 
-      If flatten_custom_fields is set to True, the fields will be added directly to the host instead.
+      If flatten\_custom\_fields is set to True, the fields will be added directly to the host instead.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -937,7 +947,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.3.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.3.0`
 
 
 
@@ -951,17 +961,18 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :emphasis:`local\_context\_data`\  is enabled, by default it's added as a host var named local_context_data.
+      If \ :emphasis:`local\_context\_data`\  is enabled, by default it's added as a host var named local\_context\_data.
 
-      If flatten_local_context_data is set to True, the config context variables will be added directly to the host instead.
+      If flatten\_local\_context\_data is set to True, the config context variables will be added directly to the host instead.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1006,11 +1017,12 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`urllib2` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`all`
-      - :ansible-option-choices-entry:`yes`
-      - :ansible-option-choices-entry:`safe`
-      - :ansible-option-choices-entry:`none`
+      - :ansible-option-choices-entry-default:`"urllib2"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"all"`
+      - :ansible-option-choices-entry:`"yes"`
+      - :ansible-option-choices-entry:`"safe"`
+      - :ansible-option-choices-entry:`"none"`
+
 
       .. raw:: html
 
@@ -1057,33 +1069,36 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`sites`
-      - :ansible-option-choices-entry:`site`
-      - :ansible-option-choices-entry:`location`
-      - :ansible-option-choices-entry:`tenants`
-      - :ansible-option-choices-entry:`tenant`
-      - :ansible-option-choices-entry:`racks`
-      - :ansible-option-choices-entry:`rack`
-      - :ansible-option-choices-entry:`rack\_group`
-      - :ansible-option-choices-entry:`rack\_role`
-      - :ansible-option-choices-entry:`tags`
-      - :ansible-option-choices-entry:`tag`
-      - :ansible-option-choices-entry:`device\_roles`
-      - :ansible-option-choices-entry:`role`
-      - :ansible-option-choices-entry:`device\_types`
-      - :ansible-option-choices-entry:`device\_type`
-      - :ansible-option-choices-entry:`manufacturers`
-      - :ansible-option-choices-entry:`manufacturer`
-      - :ansible-option-choices-entry:`platforms`
-      - :ansible-option-choices-entry:`platform`
-      - :ansible-option-choices-entry:`region`
-      - :ansible-option-choices-entry:`site\_group`
-      - :ansible-option-choices-entry:`cluster`
-      - :ansible-option-choices-entry:`cluster\_type`
-      - :ansible-option-choices-entry:`cluster\_group`
-      - :ansible-option-choices-entry:`is\_virtual`
-      - :ansible-option-choices-entry:`services`
-      - :ansible-option-choices-entry:`status`
+      - :ansible-option-choices-entry:`"sites"`
+      - :ansible-option-choices-entry:`"site"`
+      - :ansible-option-choices-entry:`"location"`
+      - :ansible-option-choices-entry:`"tenants"`
+      - :ansible-option-choices-entry:`"tenant"`
+      - :ansible-option-choices-entry:`"racks"`
+      - :ansible-option-choices-entry:`"rack"`
+      - :ansible-option-choices-entry:`"rack\_group"`
+      - :ansible-option-choices-entry:`"rack\_role"`
+      - :ansible-option-choices-entry:`"tags"`
+      - :ansible-option-choices-entry:`"tag"`
+      - :ansible-option-choices-entry:`"device\_roles"`
+      - :ansible-option-choices-entry:`"role"`
+      - :ansible-option-choices-entry:`"device\_types"`
+      - :ansible-option-choices-entry:`"device\_type"`
+      - :ansible-option-choices-entry:`"manufacturers"`
+      - :ansible-option-choices-entry:`"manufacturer"`
+      - :ansible-option-choices-entry:`"platforms"`
+      - :ansible-option-choices-entry:`"platform"`
+      - :ansible-option-choices-entry:`"region"`
+      - :ansible-option-choices-entry:`"site\_group"`
+      - :ansible-option-choices-entry:`"cluster"`
+      - :ansible-option-choices-entry:`"cluster\_type"`
+      - :ansible-option-choices-entry:`"cluster\_group"`
+      - :ansible-option-choices-entry:`"is\_virtual"`
+      - :ansible-option-choices-entry:`"services"`
+      - :ansible-option-choices-entry:`"status"`
+      - :ansible-option-choices-entry:`"time\_zone"`
+      - :ansible-option-choices-entry:`"utc\_offset"`
+
 
       .. rst-class:: ansible-option-line
 
@@ -1112,7 +1127,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.0`
 
 
 
@@ -1126,15 +1141,16 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Will not add the group_by choice name to the group names
+      Will not add the group\_by choice name to the group names
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1200,7 +1216,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.1.7 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.1.7`
 
 
 
@@ -1221,8 +1237,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1263,7 +1280,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"no"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
 
       .. raw:: html
 
@@ -1329,7 +1346,7 @@ Parameters
 
       :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in 2.12 of ansible.builtin`
+      :ansible-option-versionadded:`added in ansible-core 2.12`
 
 
 
@@ -1527,7 +1544,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 2.12 of ansible.builtin`
+      :ansible-option-versionadded:`added in ansible-core 2.12`
 
 
 
@@ -1550,8 +1567,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1577,7 +1595,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 2.11 of ansible.builtin`
+      :ansible-option-versionadded:`added in ansible-core 2.11`
 
 
 
@@ -1591,11 +1609,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use in conjunction with keyed_groups.
+      Use in conjunction with keyed\_groups.
 
       By default, a keyed group that does not have a prefix or a separator provided will have a name that starts with an underscore.
 
-      This is because the default prefix is "" and the default separator is "_".
+      This is because the default prefix is "" and the default separator is "\_".
 
       Set this option to False to omit the leading underscore (or other separator) if no prefix is given.
 
@@ -1608,8 +1626,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1634,7 +1653,7 @@ Parameters
 
       :ansible-option-type:`integer`
 
-      :ansible-option-versionadded:`added in 0.2.1 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
 
 
@@ -1648,7 +1667,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      When fetch_all is False, GET requests to NetBox may become quite long and return a HTTP 414 (URI Too Long).
+      When fetch\_all is False, GET requests to NetBox may become quite long and return a HTTP 414 (URI Too Long).
 
       You can adjust this option to be smaller to avoid 414 errors, or larger for a reduced number of requests.
 
@@ -1698,7 +1717,8 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`netbox.netbox.nb\_inventory`
+      - :ansible-option-choices-entry:`"netbox.netbox.nb\_inventory"`
+
 
       .. raw:: html
 
@@ -1723,7 +1743,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.1 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
 
 
@@ -1739,7 +1759,7 @@ Parameters
 
       If True, all host vars are contained inside single-element arrays for legacy compatibility with old versions of this plugin.
 
-      Group names will be plural (ie. "sites_mysite" instead of "site_mysite")
+      Group names will be plural (ie. "sites\_mysite" instead of "site\_mysite")
 
       The choices of \ :emphasis:`group\_by`\  will be changed by this option.
 
@@ -1748,8 +1768,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1774,7 +1795,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 3.5.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.5.0`
 
 
 
@@ -1790,15 +1811,16 @@ Parameters
 
       If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
 
-      Must match selection for "site_data", as this changes the structure of "site" in hostvars
+      Must match selection for "site\_data", as this changes the structure of "site" in hostvars
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -1834,7 +1856,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas)
+      List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
+
+      You can also use Jinja2 templates.
 
 
       .. rst-class:: ansible-option-line
@@ -1864,7 +1888,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 3.6.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
 
 
 
@@ -1887,8 +1911,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1913,7 +1938,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 0.2.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 0.2.0`
 
 
 
@@ -1934,8 +1959,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -1960,7 +1986,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 3.5.0 of netbox.netbox`
+      :ansible-option-versionadded:`added in netbox.netbox 3.5.0`
 
 
 
@@ -1981,8 +2007,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -2027,8 +2054,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -2114,9 +2142,9 @@ Parameters
 
       :ansible-option-configuration:`Configuration:`
 
-      - Environment variable: NETBOX\_TOKEN
+      - Environment variable: :envvar:`NETBOX\_TOKEN`
 
-      - Environment variable: NETBOX\_API\_KEY
+      - Environment variable: :envvar:`NETBOX\_API\_KEY`
 
 
       .. raw:: html
@@ -2142,7 +2170,7 @@ Parameters
 
       :ansible-option-type:`boolean`
 
-      :ansible-option-versionadded:`added in 2.11 of ansible.builtin`
+      :ansible-option-versionadded:`added in ansible-core 2.11`
 
 
 
@@ -2163,8 +2191,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. rst-class:: ansible-option-line
 
@@ -2175,10 +2204,10 @@ Parameters
         .. code-block::
 
           [inventory_plugins]
-          use_extra_vars = no
+          use_extra_vars = false
 
 
-      - Environment variable: ANSIBLE\_INVENTORY\_USE\_EXTRA\_VARS
+      - Environment variable: :envvar:`ANSIBLE\_INVENTORY\_USE\_EXTRA\_VARS`
 
 
       .. raw:: html
@@ -2222,8 +2251,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`no`
-      - :ansible-option-default-bold:`yes` :ansible-option-default:`← (default)`
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
 
       .. raw:: html
 
@@ -2268,8 +2298,9 @@ Parameters
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-default-bold:`no` :ansible-option-default:`← (default)`
-      - :ansible-option-choices-entry:`yes`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
 
       .. raw:: html
 
@@ -2305,7 +2336,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of parameters passed to the query string for VMs (Multiple values may be separated by commas)
+      List of parameters passed to the query string for VMs (Multiple values may be separated by commas).
+
+      You can also use Jinja2 templates.
 
 
       .. rst-class:: ansible-option-line
@@ -2347,8 +2380,11 @@ Examples
       - role: network-edge-router
     device_query_filters:
       - has_primary_ip: 'true'
+      - tenant__n: internal
 
     # has_primary_ip is a useful way to filter out patch panels and other passive devices
+    # Adding '__n' to a field searches for the negation of the value.
+    # The above searches for devices that are NOT "tenant = internal"
 
     # Query filters are passed directly as an argument to the fetching queries.
     # You can repeat tags in the query string.
@@ -2403,6 +2439,32 @@ Examples
     env:
       NETBOX_API: '{{ NETBOX_API }}'
       NETBOX_TOKEN: '{{ NETBOX_TOKEN }}'
+
+    # Example of time_zone and utc_offset usage
+
+    plugin: netbox.netbox.nb_inventory
+    api_endpoint: http://localhost:8000
+    token: <insert token>
+    validate_certs: True
+    config_context: True
+    group_by:
+      - site
+      - role
+      - time_zone
+      - utc_offset
+    device_query_filters:
+      - has_primary_ip: 'true'
+      - manufacturer_id: 1
+
+    # using group by time_zone, utc_offset it will group devices in ansible groups depending on time zone configured on site.
+    # time_zone gives grouping like:
+    # - "time_zone_Europe_Bucharest"
+    # - "time_zone_Europe_Copenhagen"
+    # - "time_zone_America_Denver"
+    # utc_offset gives grouping like:
+    # - "time_zone_utc_minus_7"
+    # - "time_zone_utc_plus_1"
+    # - "time_zone_utc_plus_10"
 
 
 
