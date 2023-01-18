@@ -290,6 +290,8 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site.id,
         "local_context_data": {"ntp_servers": ["pool.ntp.org"]},
+        "asset_tag": "123456789",
+        "setial": "FAB01234567",
     },
     {
         "name": "TestDeviceR1",

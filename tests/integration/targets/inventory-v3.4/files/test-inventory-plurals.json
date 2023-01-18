@@ -780,7 +780,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "FAB01234567",
+                "asset_tag": "123456789"
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
