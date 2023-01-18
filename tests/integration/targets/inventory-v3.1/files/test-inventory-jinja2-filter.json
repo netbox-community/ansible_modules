@@ -238,7 +238,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "",
+                "asset_tag": ""
             },
             "TestDeviceR1": {
                 "config_context": {},
@@ -264,7 +266,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "",
+                "asset_tag": ""
             },
             "test100": {
                 "config_context": {

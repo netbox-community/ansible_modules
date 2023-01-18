@@ -291,7 +291,7 @@ devices = [
         "site": test_site.id,
         "local_context_data": {"ntp_servers": ["pool.ntp.org"]},
         "asset_tag": "123456789",
-        "setial": "FAB01234567",
+        "serial": "FAB01234567",
     },
     {
         "name": "TestDeviceR1",
@@ -299,6 +299,8 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site.id,
         "rack": test_rack.id,
+        "asset_tag": "",
+        "serial": "",
     },
     {
         "name": "R1-Device",
@@ -306,12 +308,16 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site2.id,
         "rack": test_rack_site2.id,
+        "asset_tag": "",
+        "serial": "",
     },
     {
         "name": "Test Nexus One",
         "device_type": nexus_parent.id,
         "device_role": core_switch.id,
         "site": test_site.id,
+        "asset_tag": "",
+        "serial": "",
     },
     {
         "name": "Test Nexus Child One",
