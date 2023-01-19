@@ -42,9 +42,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "",
-                "asset_tag": ""
+                "tags": []
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -311,9 +309,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "",
-                "asset_tag": ""
+                "tags": []
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -429,9 +425,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "",
-                "asset_tag": ""
+                "tags": []
             },
             "test100": {
                 "device_type": "cisco-test",
