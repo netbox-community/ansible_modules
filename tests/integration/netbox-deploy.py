@@ -299,6 +299,8 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site.id,
         "rack": test_rack.id,
+        "serial": None,
+        "asset_tag": None,
     },
     {
         "name": "R1-Device",
@@ -306,12 +308,16 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site2.id,
         "rack": test_rack_site2.id,
+        "serial": None,
+        "asset_tag": None,
     },
     {
         "name": "Test Nexus One",
         "device_type": nexus_parent.id,
         "device_role": core_switch.id,
         "site": test_site.id,
+        "serial": None,
+        "asset_tag": None,
     },
     {
         "name": "Test Nexus Child One",
