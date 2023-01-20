@@ -966,7 +966,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_serial(self, host):
         try:
-            return host["serial"]
+            return host.get("serial","")
         except Exception:
             return
 
