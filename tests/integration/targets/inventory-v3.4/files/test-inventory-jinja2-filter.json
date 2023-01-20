@@ -269,7 +269,6 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": null,
                 "asset_tag": null
             },
             "TestDeviceR1": {
@@ -297,7 +296,6 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": null,
                 "asset_tag": null
             },
             "test100": {

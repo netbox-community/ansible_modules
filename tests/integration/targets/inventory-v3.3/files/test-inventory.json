@@ -21,7 +21,6 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": null,
                 "asset_tag": null
             },
             "Test Nexus One": {
@@ -286,7 +285,6 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": null,
                 "asset_tag": null
             },
             "Test VM With Spaces": {
@@ -407,7 +405,6 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": null,
                 "asset_tag": null
             },
             "test100": {
