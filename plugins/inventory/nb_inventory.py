@@ -965,10 +965,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return ip_address.get("dns_name")
 
     def extract_serial(self, host):
-        try:
-            return host.get("serial", "")
-        except Exception:
-            return
+        return host.get("serial", "")
 
     def extract_asset_tag(self, host):
         try:
