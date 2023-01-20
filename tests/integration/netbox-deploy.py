@@ -324,6 +324,8 @@ devices = [
         "device_type": nexus_child.id,
         "device_role": core_switch.id,
         "site": test_site.id,
+        "serial": None,
+        "asset_tag": None,
     },
 ]
 
