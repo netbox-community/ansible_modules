@@ -965,13 +965,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return ip_address.get("dns_name")
 
     def extract_serial(self, host):
-        return host.get("serial", None)
+        return host.get("serial", "")  # not nullable
 
     def extract_asset_tag(self, host):
-        try:
-            return host["asset_tag"]
-        except Exception:
-            return
+        return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"

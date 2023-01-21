@@ -43,7 +43,8 @@
                     "value": "active"
                 },
                 "tags": [],
-                "asset_tag": "234567890"
+                "asset_tag": "234567890",
+                "serial": ""
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -82,7 +83,8 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": "FAB12345678"
+                "serial": "FAB12345678",
+                "asset_tag": null
             },
             "VC1": {
                 "ansible_host": "nexus.example.com",
@@ -107,7 +109,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "",
+                "asset_tag": null
             },
             "test100": {
                 "custom_fields": {},

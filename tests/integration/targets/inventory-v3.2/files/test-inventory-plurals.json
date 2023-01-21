@@ -36,7 +36,8 @@
                     "value": "active"
                 },
                 "tags": [],
-                "asset_tag": "234567890"
+                "asset_tag": "234567890",
+                "serial": ""
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -300,7 +301,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "",
+                "asset_tag": null
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -438,7 +441,8 @@
                     "value": "active"
                 },
                 "tags": [],
-                "serial": "FAB12345678"
+                "serial": "FAB12345678",
+                "asset_tag": null
             },
             "test100": {
                 "config_context": [
