@@ -474,7 +474,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
                             "url": "http://localhost:8000/api/dcim/devices/1/"
@@ -551,7 +551,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
                             "url": "http://localhost:8000/api/dcim/devices/1/"
@@ -628,7 +628,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
                             "url": "http://localhost:8000/api/dcim/devices/1/"
@@ -688,7 +688,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
                             "url": "http://localhost:8000/api/dcim/devices/1/"
@@ -714,7 +714,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
                             "url": "http://localhost:8000/api/dcim/devices/1/"

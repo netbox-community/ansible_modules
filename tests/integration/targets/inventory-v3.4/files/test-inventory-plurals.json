@@ -492,7 +492,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -572,7 +572,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -652,7 +652,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -721,7 +721,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -744,7 +744,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
