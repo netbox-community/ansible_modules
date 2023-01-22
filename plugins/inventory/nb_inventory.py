@@ -969,7 +969,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         ###             return host["serial"]
         ###         except Exception:
         ###             return
-        return host.get("serial", "")
+        return host.get("serial", None)
 
     def extract_asset_tag(self, host):
         return host.get("asset_tag", None)
