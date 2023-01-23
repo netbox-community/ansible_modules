@@ -307,7 +307,7 @@ devices = [
         "device_role": core_switch.id,
         "site": test_site2.id,
         "rack": test_rack_site2.id,
-        "asset_tag": "234567890",
+        "asset_tag": "345678901",
     },
     {
         "name": "Test Nexus One",
