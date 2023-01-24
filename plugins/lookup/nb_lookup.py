@@ -21,7 +21,6 @@ DOCUMENTATION = """
     description:
         - Queries NetBox via its API to return virtually any information
           capable of being held in NetBox.
-        - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
     options:
         _terms:
             description:
@@ -57,14 +56,6 @@ DOCUMENTATION = """
                 - Whether or not to validate SSL of the NetBox instance
             required: False
             default: True
-        private_key:
-            description:
-                - The private key as a string. Mutually exclusive with I(key_file).
-            required: False
-        key_file:
-            description:
-                - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False
         raw_data:
             type: bool
             description:
@@ -100,12 +91,6 @@ tasks:
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
 
-# Obtain a secret for R1-device
-tasks:
-  - name: "Obtain secrets for R1-Device"
-    debug:
-      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
-
 # Fetch bgp sessions for R1-device
 tasks:
   - name: "Obtain bgp sessions for R1-Device"
@@ -115,8 +100,6 @@ tasks:
                      api_endpoint='http://localhost/',
                      token='<redacted>',
                      plugin='mycustomstuff') }}"
-
-      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
@@ -244,8 +227,6 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "route-targets": {"endpoint": netbox.ipam.route_targets},
-        "secret-roles": {"endpoint": netbox.secrets.secret_roles},
-        "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
         "service-templates": {"endpoint": netbox.ipam.service_templates},
         "site-groups": {"endpoint": netbox.dcim.site_groups},
@@ -392,8 +373,6 @@ class LookupModule(LookupBase):
             or os.getenv("NETBOX_URL")
         )
         netbox_ssl_verify = kwargs.get("validate_certs", True)
-        netbox_private_key = kwargs.get("private_key")
-        netbox_private_key_file = kwargs.get("key_file")
         netbox_api_filter = kwargs.get("api_filter")
         netbox_raw_return = kwargs.get("raw_data")
         netbox_plugin = kwargs.get("plugin")
@@ -401,22 +380,14 @@ class LookupModule(LookupBase):
         if not isinstance(terms, list):
             terms = [terms]
 
-        try:
-            session = requests.Session()
-            session.verify = netbox_ssl_verify
+        session = requests.Session()
+        session.verify = netbox_ssl_verify
 
-            netbox = pynetbox.api(
-                netbox_api_endpoint,
-                token=netbox_api_token if netbox_api_token else None,
-                private_key=netbox_private_key,
-                private_key_file=netbox_private_key_file,
-            )
-            netbox.http_session = session
-        except FileNotFoundError:
-            raise AnsibleError(
-                "%s cannot be found. Please make sure file exists."
-                % netbox_private_key_file
-            )
+        netbox = pynetbox.api(
+            netbox_api_endpoint,
+            token=netbox_api_token if netbox_api_token else None,
+        )
+        netbox.http_session = session
 
         results = []
         for term in terms:

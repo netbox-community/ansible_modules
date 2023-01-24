@@ -246,43 +246,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-key_file"></div>
-
-      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-key_file:
-
-      .. rst-class:: ansible-option-title
-
-      **key_file**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-key_file" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The location of the private key tied to user account. Mutually exclusive with \ :emphasis:`private\_key`\ .
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-plugin"></div>
 
       .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-plugin:
@@ -311,43 +274,6 @@ Parameters
         <div class="ansible-option-cell">
 
       The NetBox plugin to query
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-private_key"></div>
-
-      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-private_key:
-
-      .. rst-class:: ansible-option-title
-
-      **private_key**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-private_key" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The private key as a string. Mutually exclusive with \ :emphasis:`key\_file`\ .
 
 
       .. raw:: html
@@ -531,12 +457,6 @@ Examples
                         api_filter='role=management tag=Dell'),
                         token='<redacted>') }}"
 
-    # Obtain a secret for R1-device
-    tasks:
-      - name: "Obtain secrets for R1-Device"
-        debug:
-          msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
-
     # Fetch bgp sessions for R1-device
     tasks:
       - name: "Obtain bgp sessions for R1-Device"
@@ -546,8 +466,6 @@ Examples
                          api_endpoint='http://localhost/',
                          token='<redacted>',
                          plugin='mycustomstuff') }}"
-
-          msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 
 
 

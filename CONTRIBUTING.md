@@ -24,7 +24,6 @@ nb.circuits
 nb.dcim
 nb.extras
 nb.ipam
-nb.secrets
 nb.tenancy
 nb.virtualization
 
@@ -87,7 +86,6 @@ API_APPS_ENDPOINTS = dict(
     ],
     extras=[],
     ipam=["ip_addresses", "prefixes", "roles", "vlans", "vlan_groups", "vrfs"],
-    secrets=[],
     tenancy=["tenants", "tenant_groups"],
     virtualization=["clusters"],
 )
