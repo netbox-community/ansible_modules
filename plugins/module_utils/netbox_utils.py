@@ -99,7 +99,6 @@ API_APPS_ENDPOINTS = dict(
         "vrfs",
         "services",
     ],
-    secrets=[],
     tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
     virtualization=[
         "cluster_groups",

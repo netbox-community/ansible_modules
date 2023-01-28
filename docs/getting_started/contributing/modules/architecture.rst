@@ -19,7 +19,6 @@ Let's take a look at the output of the ``tree`` command within the ``plugins/`` 
   │   │   ├── netbox_dcim.py
   │   │   ├── netbox_extras.py
   │   │   ├── netbox_ipam.py
-  │   │   ├── netbox_secrets.py
   │   │   ├── netbox_tenancy.py
   │   │   ├── netbox_utils.py
   │   │   └── netbox_virtualization.py
