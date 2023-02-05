@@ -291,12 +291,8 @@ def get_endpoint(netbox, term):
         }
 
     if major < 7 and minor >= 0 and patch >= 1:
-        netbox_endpoint_map["secret-roles"] = {
-            "endpoint": netbox.secrets.secret_roles
-        }
-        netbox_endpoint_map["secrets"] = {
-            "endpoint": netbox.secrets.secrets
-        }        
+        netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
+        netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
 
     else:
         if "wireless" in term:
@@ -421,8 +417,8 @@ class LookupModule(LookupBase):
         try:
             session = requests.Session()
             session.verify = netbox_ssl_verify
-            
-            if Version(version('pynetbox')) < Version('7.0.0'):
+
+            if Version(version("pynetbox")) < Version("7.0.0"):
                 netbox = pynetbox.api(
                     netbox_api_endpoint,
                     token=netbox_api_token if netbox_api_token else None,
@@ -432,7 +428,7 @@ class LookupModule(LookupBase):
             else:
                 netbox = pynetbox.api(
                     netbox_api_endpoint,
-                    token=netbox_api_token if netbox_api_token else None,                    
+                    token=netbox_api_token if netbox_api_token else None,
                 )
             netbox.http_session = session
         except FileNotFoundError:

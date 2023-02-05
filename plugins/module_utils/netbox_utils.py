@@ -1097,18 +1097,22 @@ class NetboxModule(object):
                 elif isinstance(v, list):
                     id_list = list()
                     for list_item in v:
-                        if k in (
-                            "regions",
-                            "sites",
-                            "roles",
-                            "device_types",
-                            "platforms",
-                            "cluster_groups",
-                            "contact_groups",
-                            "tenant_groups",
-                            "tenants",
-                            "tags",
-                        ) and isinstance(list_item, str):
+                        if (
+                            k
+                            in (
+                                "regions",
+                                "sites",
+                                "roles",
+                                "device_types",
+                                "platforms",
+                                "cluster_groups",
+                                "contact_groups",
+                                "tenant_groups",
+                                "tenants",
+                                "tags",
+                            )
+                            and isinstance(list_item, str)
+                        ):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
