@@ -85,7 +85,6 @@ def allowed_vm_query_parameters_fixture():
     "parameter, expected", load_relative_test_data("validate_query_parameter")
 )
 def test_validate_query_parameter(inventory_fixture, parameter, expected):
-
     value = "some value, doesn't matter"
     result = inventory_fixture.validate_query_parameter(
         {parameter: value}, inventory_fixture.allowed_device_query_parameters
@@ -97,7 +96,6 @@ def test_validate_query_parameter(inventory_fixture, parameter, expected):
     "parameters, expected", load_relative_test_data("filter_query_parameters")
 )
 def test_filter_query_parameters(inventory_fixture, parameters, expected):
-
     result = inventory_fixture.filter_query_parameters(
         parameters, inventory_fixture.allowed_device_query_parameters
     )
@@ -117,7 +115,6 @@ def test_filter_query_parameters(inventory_fixture, parameters, expected):
 
 @pytest.mark.parametrize("options, expected", load_relative_test_data("refresh_url"))
 def test_refresh_url(inventory_fixture, options, expected):
-
     inventory_fixture.query_filters = options["query_filters"]
     inventory_fixture.device_query_filters = options["device_query_filters"]
     inventory_fixture.vm_query_filters = options["vm_query_filters"]
