@@ -130,7 +130,7 @@ Inventory Plugins
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
-* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- Queries and returns elements from NetBox
+* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- 
 
 
 

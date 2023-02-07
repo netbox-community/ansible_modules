@@ -513,7 +513,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     @property
     def group_extractors(self):
-
         # List of group_by options and hostvars to extract
 
         # Some keys are different depending on plurals option
@@ -817,7 +816,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_interfaces(self, host):
         try:
-
             interfaces_lookup = (
                 self.vm_interfaces_lookup
                 if host["is_virtual"]
@@ -1261,7 +1259,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 ] = service
 
     def refresh_interfaces(self):
-
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
             self.api_endpoint + "/api/virtualization/interfaces/?limit=0"
@@ -1438,7 +1435,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return lookups
 
     def refresh_lookups(self, lookups):
-
         # Exceptions that occur in threads by default are printed to stderr, and ignored by the main thread
         # They need to be caught, and raised in the main thread to prevent further execution of this plugin
 
@@ -1640,7 +1636,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
-
         # Check for special case - if group is a boolean, just return grouping name instead
         # eg. "is_virtual" - returns true for VMs, should put them in a group named "is_virtual", not "is_virtual_True"
         if isinstance(group, bool):
@@ -1667,7 +1662,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         site_group_by = self._pluralize_group_by("site")
 
         for grouping in self.group_by:
-
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
             if grouping in ["region", site_group_by, "location", "site_group"]:
@@ -1911,7 +1905,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._add_site_group_groups()
 
         for host in chain(self.devices_list, self.vms_list):
-
             virtual_chassis_master = self._get_host_virtual_chassis_master(host)
             if (
                 virtual_chassis_master is not None

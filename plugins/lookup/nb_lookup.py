@@ -20,8 +20,7 @@ DOCUMENTATION = """
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information
-          capable of being held in NetBox.
-        - If wanting to obtain the plaintext attribute of a secret, I(private_key) or I(key_file) must be provided.
+          capable of being held in NetBox.        
     options:
         _terms:
             description:
@@ -59,12 +58,14 @@ DOCUMENTATION = """
             default: True
         private_key:
             description:
+                - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The private key as a string. Mutually exclusive with I(key_file).
-            required: False
+            required: False            
         key_file:
             description:
+                - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False
+            required: False            
         raw_data:
             type: bool
             description:
@@ -135,6 +136,7 @@ from ansible.plugins.lookup import LookupBase
 from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
 from ansible.module_utils.six import raise_from
+from importlib.metadata import version
 
 try:
     import pynetbox
@@ -149,6 +151,15 @@ except ImportError as imp_exc:
     REQUESTS_LIBRARY_IMPORT_ERROR = imp_exc
 else:
     REQUESTS_LIBRARY_IMPORT_ERROR = None
+
+try:
+    from packaging.version import Version
+
+    HAS_PACKAGING = True
+    PACKAGING_IMPORT_ERROR = ""
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+    HAS_PACKAGING = False
 
 
 def get_endpoint(netbox, term):
@@ -244,8 +255,6 @@ def get_endpoint(netbox, term):
         "rirs": {"endpoint": netbox.ipam.rirs},
         "roles": {"endpoint": netbox.ipam.roles},
         "route-targets": {"endpoint": netbox.ipam.route_targets},
-        "secret-roles": {"endpoint": netbox.secrets.secret_roles},
-        "secrets": {"endpoint": netbox.secrets.secrets},
         "services": {"endpoint": netbox.ipam.services},
         "service-templates": {"endpoint": netbox.ipam.service_templates},
         "site-groups": {"endpoint": netbox.dcim.site_groups},
@@ -280,6 +289,10 @@ def get_endpoint(netbox, term):
         netbox_endpoint_map["wireless-links"] = {
             "endpoint": netbox.wireless.wireless_links
         }
+
+    if major < 7 and minor >= 0 and patch >= 1:
+        netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
+        netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
 
     else:
         if "wireless" in term:
@@ -405,12 +418,18 @@ class LookupModule(LookupBase):
             session = requests.Session()
             session.verify = netbox_ssl_verify
 
-            netbox = pynetbox.api(
-                netbox_api_endpoint,
-                token=netbox_api_token if netbox_api_token else None,
-                private_key=netbox_private_key,
-                private_key_file=netbox_private_key_file,
-            )
+            if Version(version("pynetbox")) < Version("7.0.0"):
+                netbox = pynetbox.api(
+                    netbox_api_endpoint,
+                    token=netbox_api_token if netbox_api_token else None,
+                    private_key=netbox_private_key,
+                    private_key_file=netbox_private_key_file,
+                )
+            else:
+                netbox = pynetbox.api(
+                    netbox_api_endpoint,
+                    token=netbox_api_token if netbox_api_token else None,
+                )
             netbox.http_session = session
         except FileNotFoundError:
             raise AnsibleError(
