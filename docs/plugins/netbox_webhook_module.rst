@@ -42,7 +42,7 @@ netbox.netbox.netbox_webhook module -- Creates, updates or deletes webhook confi
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -292,7 +292,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
