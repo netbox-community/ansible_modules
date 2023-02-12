@@ -6,8 +6,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-    name: nb_inventory
-    plugin_type: inventory
+    name: nb_inventory    
     author:
         - Remy Leone (@sieben)
         - Anthony Ruhier (@Anthony25)
@@ -139,6 +138,7 @@ DOCUMENTATION = """
                 - I(rack_group) is supported on NetBox versions 2.10 or lower only
                 - I(location) is supported on NetBox versions 2.11 or higher only
             type: list
+            elements: str
             choices:
                 - sites
                 - site
@@ -180,18 +180,21 @@ DOCUMENTATION = """
                 - List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         device_query_filters:
             description:
                 - List of parameters passed to the query string for devices (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         vm_query_filters:
             description:
                 - List of parameters passed to the query string for VMs (Multiple values may be separated by commas).
                 - You can also use Jinja2 templates.
             type: list
+            elements: str
             default: []
         timeout:
             description: Timeout for NetBox requests in seconds
@@ -348,7 +351,7 @@ from typing import Iterable
 from itertools import chain
 from collections import defaultdict
 from ipaddress import ip_interface
-from packaging import specifiers, version
+
 
 from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
@@ -359,6 +362,13 @@ from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six import raise_from
+
+try:
+    from packaging import specifiers, version
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
 
 try:
     import pytz
@@ -503,7 +513,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     @property
     def group_extractors(self):
-
         # List of group_by options and hostvars to extract
 
         # Some keys are different depending on plurals option
@@ -520,6 +529,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
+            "serial": self.extract_serial,
+            "asset_tag": self.extract_asset_tag,
             "time_zone": self.extract_site_time_zone,
             "utc_offset": self.extract_site_utc_offset,
             self._pluralize_group_by("site"): self.extract_site,
@@ -807,7 +818,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_interfaces(self, host):
         try:
-
             interfaces_lookup = (
                 self.vm_interfaces_lookup
                 if host["is_virtual"]
@@ -951,6 +961,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return None
 
         return ip_address.get("dns_name")
+
+    def extract_serial(self, host):
+        return host.get("serial", None)
+
+    def extract_asset_tag(self, host):
+        return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
@@ -1251,7 +1267,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 ] = service
 
     def refresh_interfaces(self):
-
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
             self.api_endpoint + "/api/virtualization/interfaces/?limit=0"
@@ -1428,7 +1443,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return lookups
 
     def refresh_lookups(self, lookups):
-
         # Exceptions that occur in threads by default are printed to stderr, and ignored by the main thread
         # They need to be caught, and raised in the main thread to prevent further execution of this plugin
 
@@ -1630,7 +1644,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
-
         # Check for special case - if group is a boolean, just return grouping name instead
         # eg. "is_virtual" - returns true for VMs, should put them in a group named "is_virtual", not "is_virtual_True"
         if isinstance(group, bool):
@@ -1657,7 +1670,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         site_group_by = self._pluralize_group_by("site")
 
         for grouping in self.group_by:
-
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
             if grouping in ["region", site_group_by, "location", "site_group"]:
@@ -1901,7 +1913,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._add_site_group_groups()
 
         for host in chain(self.devices_list, self.vms_list):
-
             virtual_chassis_master = self._get_host_virtual_chassis_master(host)
             if (
                 virtual_chassis_master is not None

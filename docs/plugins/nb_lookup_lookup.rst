@@ -42,7 +42,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.10.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.8.1).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this lookup plugin,
@@ -69,7 +69,6 @@ Synopsis
 .. Description
 
 - Queries NetBox via its API to return virtually any information capable of being held in NetBox.
-- If wanting to obtain the plaintext attribute of a secret, \ :emphasis:`private\_key`\  or \ :emphasis:`key\_file`\  must be provided.
 
 
 .. Aliases
@@ -273,6 +272,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
+      (DEPRECATED) - NetBox 2.11 and earlier only
+
       The location of the private key tied to user account. Mutually exclusive with \ :emphasis:`private\_key`\ .
 
 
@@ -346,6 +347,8 @@ Parameters
     - .. raw:: html
 
         <div class="ansible-option-cell">
+
+      (DEPRECATED) - NetBox 2.11 and earlier only
 
       The private key as a string. Mutually exclusive with \ :emphasis:`key\_file`\ .
 

@@ -1315,6 +1315,31 @@ class NetboxModule(object):
             else:
                 updated_obj["vcpus"] = float(data["vcpus"])
 
+        # Ensure idempotency for cable on netbox versions later than 3.3
+        version_post_33 = self._version_check_greater(self.version, "3.3", True)
+        if (
+            serialized_nb_obj.get("a_terminations")
+            and serialized_nb_obj.get("b_terminations")
+            and data.get("a_terminations")
+            and data.get("b_terminations")
+            and version_post_33
+        ):
+
+            def _convert_termination(termination):
+                object_app = self._find_app(termination.endpoint.name)
+                object_name = ENDPOINT_NAME_MAPPING[termination.endpoint.name]
+                return {
+                    "object_id": termination.id,
+                    "object_type": f"{object_app}.{object_name}",
+                }
+
+            serialized_nb_obj["a_terminations"] = list(
+                map(_convert_termination, self.nb_object.a_terminations)
+            )
+            serialized_nb_obj["b_terminations"] = list(
+                map(_convert_termination, self.nb_object.b_terminations)
+            )
+
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
         else:

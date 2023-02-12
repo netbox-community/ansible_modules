@@ -30,7 +30,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "",
+                "asset_tag": "345678901"
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -302,7 +304,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": ""
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -433,7 +436,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "FAB12345678"
             },
             "test100": {
                 "config_context": [
@@ -464,7 +468,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -542,7 +546,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -620,7 +624,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -683,7 +687,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -705,7 +709,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -745,7 +749,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "FAB01234567",
+                "asset_tag": "123456789"
             },
             "test100-vm": {
                 "cluster": "Test Cluster",

@@ -96,7 +96,7 @@ options:
         description:
           - A set of conditions which determine whether the webhook will be generated.
         required: false
-        type: str      
+        type: dict      
       ssl_verification:
         description:
           - Enable ssl verification. 
@@ -199,7 +199,7 @@ def main():
                     additional_headers=dict(required=False, type="str"),
                     body_template=dict(required=False, type="str"),
                     secret=dict(required=False, type="str", no_log=False),
-                    conditions=dict(required=False, type="str"),
+                    conditions=dict(required=False, type="dict"),
                     ssl_verification=dict(required=False, type="bool"),
                     ca_file_path=dict(required=False, type="str"),
                 ),

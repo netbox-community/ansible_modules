@@ -262,7 +262,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": ""
             },
             "TestDeviceR1": {
                 "config_context": {},
@@ -288,7 +289,8 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "FAB12345678"
             },
             "test100": {
                 "config_context": {
@@ -312,7 +314,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -390,7 +392,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -468,7 +470,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -532,7 +534,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -554,7 +556,7 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "test100",
+                            "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100"
                         },
@@ -592,7 +594,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [],
+                "serial": "FAB01234567",
+                "asset_tag": "123456789"
             }
         }
     },

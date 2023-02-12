@@ -54,6 +54,7 @@ try:
     from packaging.version import Version
 
     HAS_PACKAGING = True
+    PACKAGING_IMPORT_ERROR = ""
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
     HAS_PACKAGING = False
@@ -187,6 +188,20 @@ class NetboxDcimModule(NetboxModule):
                 self.nb_object = cables[0]
             else:
                 self._handle_errors(msg="More than one result returned for %s" % (name))
+
+            if Version(self.full_version) >= Version("3.3.0"):
+                data["a_terminations"] = [
+                    {
+                        "object_id": data.pop("termination_a_id"),
+                        "object_type": data.pop("termination_a_type"),
+                    }
+                ]
+                data["b_terminations"] = [
+                    {
+                        "object_id": data.pop("termination_b_id"),
+                        "object_type": data.pop("termination_b_type"),
+                    }
+                ]
         else:
             object_query_params = self._build_query_params(
                 endpoint_name, data, user_query_params

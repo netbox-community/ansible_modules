@@ -44,13 +44,12 @@ def all_keys_to_ignore(netbox_version):
 
 # Assume the object will not be recursive, as it originally came from JSON
 def remove_keys(obj, keys):
-
     if isinstance(obj, dict):
         keys_to_remove = keys.intersection(obj.keys())
         for key in keys_to_remove:
             del obj[key]
 
-        for (key, value) in obj.items():
+        for key, value in obj.items():
             remove_keys(value, keys)
 
     elif isinstance(obj, list):
