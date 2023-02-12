@@ -5,6 +5,21 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.11.0
+=======
+
+Minor Changes
+-------------
+
+- nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826)
+
+Bugfixes
+--------
+
+- nb_lookup - Fix pynetbox 7.0.1 compatibility [#934](https://github.com/netbox-community/ansible_modules/pull/934)
+- netbox_cable - Fix NetBox 3.3 compatibility [#938](https://github.com/netbox-community/ansible_modules/pull/938)
+- netbox_webhook - Fix conditions bug [#926](https://github.com/netbox-community/ansible_modules/pull/926)
+
 v3.10.0
 =======
 
