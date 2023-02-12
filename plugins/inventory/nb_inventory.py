@@ -529,6 +529,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
+            "serial": self.extract_serial,
+            "asset_tag": self.extract_asset_tag,
             "time_zone": self.extract_site_time_zone,
             "utc_offset": self.extract_site_utc_offset,
             self._pluralize_group_by("site"): self.extract_site,
@@ -959,6 +961,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return None
 
         return ip_address.get("dns_name")
+
+    def extract_serial(self, host):
+        return host.get("serial", None)
+
+    def extract_asset_tag(self, host):
+        return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
         url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
