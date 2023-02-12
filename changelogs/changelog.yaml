@@ -757,3 +757,12 @@ releases:
           name: netbox_inventory_item_role
           namespace: ''
       release_date: '2022-12-16'
+  3.11.0:
+    changes:
+      bugfixes:
+        - netbox_cable - Fix NetBox 3.3 compatibility [#938](https://github.com/netbox-community/ansible_modules/pull/938)
+        - netbox_webhook - Fix conditions bug [#926](https://github.com/netbox-community/ansible_modules/pull/926)
+        - nb_lookup - Fix pynetbox 7.0.1 compatibility [#934](https://github.com/netbox-community/ansible_modules/pull/934)
+      minor_changes:
+        - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826) 
+    release_date: '2023-02-12' 

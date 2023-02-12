@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.10.0
+Collection version 3.8.1
 
 .. contents::
    :local:
@@ -130,7 +130,7 @@ Inventory Plugins
 Lookup Plugins
 ~~~~~~~~~~~~~~
 
-* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- 
+* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- Queries and returns elements from NetBox
 
 
 
