@@ -1270,22 +1270,16 @@ class NetboxModule(object):
         NetBox object and the Ansible diff.
         """
         serialized_nb_obj = self.nb_object.serialize()
-        updated_obj = serialized_nb_obj.copy()
-
-        if serialized_nb_obj.get("custom_fields"):
+        if "custom_fields" in serialized_nb_obj:
+            custom_fields = serialized_nb_obj.get("custom_fields", {})
+            shared_keys = custom_fields.keys() & data.get("custom_fields", {}).keys()
             serialized_nb_obj["custom_fields"] = {
-                key: value
-                for key, value in serialized_nb_obj["custom_fields"].items()
-                if value is not None
+                key: custom_fields[key]
+                for key in shared_keys
+                if custom_fields[key] is not None
             }
 
-        if updated_obj.get("custom_fields"):
-            updated_obj["custom_fields"] = {
-                key: value
-                for key, value in updated_obj["custom_fields"].items()
-                if value is not None
-            }
-
+        updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
 
         if serialized_nb_obj.get("tags") and data.get("tags"):
