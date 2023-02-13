@@ -100,24 +100,6 @@ tasks:
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
-
-# Obtain a secret for R1-device
-tasks:
-  - name: "Obtain secrets for R1-Device"
-    debug:
-      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
-
-# Fetch bgp sessions for R1-device
-tasks:
-  - name: "Obtain bgp sessions for R1-Device"
-    debug:
-      msg: "{{ query('netbox.netbox.nb_lookup', 'bgp_sessions',
-                     api_filter='device=R1-Device',
-                     api_endpoint='http://localhost/',
-                     token='<redacted>',
-                     plugin='mycustomstuff') }}"
-
-      msg: "{{ query('netbox.netbox.nb_lookup', 'secrets', api_filter='device=R1-Device', api_endpoint='http://localhost/', token='<redacted>', key_file='~/.ssh/id_rsa') }}"
 """
 
 RETURN = """
