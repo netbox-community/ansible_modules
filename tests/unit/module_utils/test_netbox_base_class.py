@@ -54,6 +54,11 @@ def fixture_arg_spec():
             "manufacturer": "Cisco",
             "site": "Test Site",
             "asset_tag": "1001",
+            "custom_fields": {
+                "Key1": "Value1",
+                "Key2": "Value2",
+                "Key3": "Value3",
+            },
         },
         "state": "present",
         "validate_certs": False,
@@ -70,6 +75,11 @@ def normalized_data():
         "manufacturer": "cisco",
         "site": "test-site",
         "asset_tag": "1001",
+        "custom_fields": {
+            "Key1": "Value1",
+            "Key2": "Value2",
+            "Key3": "Value3",
+        },
     }
 
 
@@ -142,6 +152,9 @@ def mock_netbox_module(mocker, mock_ansible_module, find_ids_return):
 def changed_serialized_obj(nb_obj_mock):
     changed_serialized_obj = nb_obj_mock.serialize().copy()
     changed_serialized_obj["name"] += " (modified)"
+    changed_serialized_obj["custom_fields"] = {
+        "Key1": "NewValue1",
+    }
 
     return changed_serialized_obj
 
@@ -149,7 +162,18 @@ def changed_serialized_obj(nb_obj_mock):
 @pytest.fixture
 def on_update_diff(mock_netbox_module, nb_obj_mock, changed_serialized_obj):
     return mock_netbox_module._build_diff(
-        before={"name": "Test Device1"}, after={"name": "Test Device1 (modified)"}
+        before={
+            "name": "Test Device1",
+            "custom_fields": {
+                "Key1": "Value1",
+            },
+        },
+        after={
+            "name": "Test Device1 (modified)",
+            "custom_fields": {
+                "Key1": "NewValue1",
+            },
+        },
     )
 
 
