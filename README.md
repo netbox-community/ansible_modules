@@ -11,13 +11,13 @@ To keep the code simple, we only officially support the two latest releases of N
 
 ## Requirements
 
-- NetBox 2.11+ or the two latest NetBox releases
+- The two latest NetBox releases
 - Python 3.8+
 - Python modules:
   - `pytz`
-  - `pynetbox 5.0.4+`, `pynetbox 6.4.0+` if using 3.1 features
+  - `pynetbox`
   - `packaging` if using Ansible < 2.10, as it's included in Ansible 2.10+
-- Ansible 2.10+
+- Ansible 2.12+
 - NetBox write-enabled token when using modules or read-only token for `nb_lookup/nb_inventory`
 
 ## Docs
