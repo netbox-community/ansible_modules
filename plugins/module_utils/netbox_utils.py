@@ -1050,11 +1050,15 @@ class NetboxModule(object):
         :returns nb_app (str): The application the endpoint lives under
         :params endpoint (str): The endpoint requiring resolution to application
         """
+        nb_app = None
         for k, v in API_APPS_ENDPOINTS.items():
             if endpoint in v:
                 nb_app = k
 
-        return nb_app
+        if nb_app:
+            return nb_app
+        else:
+            raise Exception(f"{endpoint} not found in API_APPS_ENDPOINTS")
 
     def _find_ids(self, data, user_query_params):
         """Will find the IDs of all user specified data if resolvable
