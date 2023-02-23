@@ -86,6 +86,7 @@ API_APPS_ENDPOINTS = dict(
     ],
     ipam=[
         "aggregates",
+        "asns",
         "ip_addresses",
         "l2vpns",
         "l2vpn_terminations",
@@ -112,6 +113,7 @@ API_APPS_ENDPOINTS = dict(
 
 # Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
+    asn="asn",
     circuit="cid",
     circuit_termination="circuit",
     circuit_type="slug",
@@ -287,6 +289,7 @@ CONVERT_TO_ID = {
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "asns": "asn",
     "cables": "cable",
     "circuit_terminations": "circuit_termination",
     "circuit_types": "circuit_type",
@@ -360,6 +363,7 @@ ENDPOINT_NAME_MAPPING = {
 
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "asn": set(["asn"]),
     "assigned_object": set(["name", "device", "virtual_machine"]),
     "bridge": set(["name", "device"]),
     "circuit": set(["cid"]),
