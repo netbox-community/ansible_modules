@@ -273,3 +273,6 @@
         - netbox_service_template
   tags:
     - netbox_service_template
+
+- name: "NETBOX_ASN TESTS"
+  include_tasks: "netbox_asn.yml"
