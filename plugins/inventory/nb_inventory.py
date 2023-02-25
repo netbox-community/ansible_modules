@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = """
-    name: nb_inventory    
+    name: nb_inventory
     author:
         - Remy Leone (@sieben)
         - Anthony Ruhier (@Anthony25)
@@ -1668,11 +1668,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def add_host_to_groups(self, host, hostname):
         site_group_by = self._pluralize_group_by("site")
+        site_group_group_by = self._pluralize_group_by("site_group")
 
         for grouping in self.group_by:
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
-            if grouping in ["region", site_group_by, "location", "site_group"]:
+            if grouping in ["region", site_group_by, "location", site_group_group_by]:
                 continue
 
             if grouping not in self.group_extractors:
@@ -1892,11 +1893,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # - the location groups are added as sub-groups of sites
         # So, we need to make sure we're also grouping by sites if regions or locations are enabled
         site_group_by = self._pluralize_group_by("site")
+        site_group_group_by = self._pluralize_group_by("site")
         if (
             site_group_by in self.group_by
             or "location" in self.group_by
             or "region" in self.group_by
-            or "site_group" in self.group_by
+            or site_group_group_by in self.group_by
         ):
             self._add_site_groups()
 
