@@ -238,3 +238,6 @@
 
 - name: "NETBOX_ASN TESTS"
   include_tasks: "netbox_asn.yml"
+
+- name: "NETBOX_FHRP_GROUP TESTS"
+  include_tasks: "netbox_fhrp_group.yml"
