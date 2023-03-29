@@ -20,6 +20,10 @@ author:
   - Andrii Konts (@andrii-konts)
 requirements:
   - pynetbox
+seealso:
+  - name: FHRP Group Model reference
+    description: NetBox Documentation for FHRP Group Model.
+    link: https://docs.netbox.dev/en/stable/models/ipam/fhrpgroup/
 version_added: '3.12.0'
 extends_documentation_fragment:
   - netbox.netbox.common
@@ -78,16 +82,16 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox modules"
+- hosts: "localhost"
   connection: local
-  hosts: localhost
-  gather_facts: False
+  module_defaults:
+    group/netbox.netbox.netbox:
+      netbox_url: "http://netbox.local"
+      netbox_token: "thisIsMyToken"
 
   tasks:
     - name: "Create FHRP group within netbox"
-      netbox_fhrp_group:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+      netbox.netbox.netbox_fhrp_group:
         data:
           protocol: "glbp"
           group_id: 111
@@ -97,13 +101,10 @@ EXAMPLES = r"""
         state: present
 
     - name: Delete FHRP group within netbox
-      netbox_fhrp_group:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+      netbox.netbox.netbox_fhrp_group:
         data:
           group_id: 111
         state: absent
-
 """
 
 RETURN = r"""
