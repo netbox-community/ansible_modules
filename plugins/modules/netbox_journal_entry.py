@@ -21,7 +21,7 @@ author:
   - Martin Rødvand (@rodvand)
 requirements:
   - pynetbox
-version_added: '3.11.0'
+version_added: '3.12.0'
 extends_documentation_fragment:
   - netbox.netbox.common
 options:
@@ -63,7 +63,7 @@ options:
         elements: raw
       custom_fields:
         description:
-          - must exist in NetBox
+          - Must exist in NetBox
         required: false
         type: dict
     required: true
@@ -77,84 +77,30 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox IP address module"
+- name: "Test NetBox journal entry module"
   connection: local
   hosts: localhost
   gather_facts: False
 
   tasks:
-    - name: Create IP address within NetBox with only required information
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+    - name: Create journal entry
+      netbox.netbox.netbox_journal_entry:        
         data:
-          address: 192.168.1.10
-        state: present
-
-    - name: Force to create (even if it already exists) the IP
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          address: 192.168.1.10
+          assigned_object_type: dcim.device
+          assigned_object_id: 66
+          comments: |
+            This is a comment
         state: new
 
-    - name: Get a new available IP inside 192.168.1.0/24
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+    - name: Create a journal entry with success
+      netbox.netbox.netbox_journal_entry:
         data:
-          prefix: 192.168.1.0/24
-        state: new
-
-    - name: Delete IP address within netbox
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          address: 192.168.1.10
-        state: absent
-
-    - name: Create IP address with several specified options
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          address: 192.168.1.20
-          vrf: Test
-          tenant: Test Tenant
-          status: Reserved
-          role: Loopback
-          description: Test description
-          tags:
-            - Schnozzberry
-        state: present
-
-    - name: Create IP address and assign a nat_inside IP
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          address: 192.168.1.30
-          vrf: Test
-          nat_inside:
-            address: 192.168.1.20
-            vrf: Test
-          interface:
-            name: GigabitEthernet1
-            device: test100
-
-    - name: Ensure that an IP inside 192.168.1.0/24 is attached to GigabitEthernet1
-      netbox.netbox.netbox_ip_address:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          prefix: 192.168.1.0/24
-          vrf: Test
-          interface:
-            name: GigabitEthernet1
-            device: test100
-        state: present
+          assigned_object_type: virtualization.virtualmachine
+          assigned_object_id: 42
+          kind: success
+          comments: |
+            Changed SFP on server-side interfaces
+          state: new            
 """
 
 RETURN = r"""
