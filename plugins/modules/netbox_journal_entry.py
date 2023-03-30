@@ -77,7 +77,7 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test creating NetBox Journal Entry"
+- name: "Test NetBox Module"
   hosts: localhost
   connection: local
   gather_facts: false
@@ -93,14 +93,14 @@ EXAMPLES = r"""
       register: ip
 
     - name: Create a journal entry
-       netbox.netbox.netbox_journal_entry:
-         data:
-           assigned_object_type: ipam.ipaddress
-           assigned_object_id: "{{ ip.ip_address.id }}"
-           kind: success
-           comments: |
-             This is a journal entry
-       when: ip.changed
+      netbox.netbox.netbox_journal_entry:
+        data:
+          assigned_object_type: ipam.ipaddress
+          assigned_object_id: "{{ ip.ip_address.id }}"
+          kind: success
+          comments: |
+            This is a journal entry
+      when: ip.changed
 """
 
 RETURN = r"""
