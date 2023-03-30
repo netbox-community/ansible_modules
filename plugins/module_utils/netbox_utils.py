@@ -87,6 +87,7 @@ API_APPS_ENDPOINTS = dict(
     ipam=[
         "aggregates",
         "asns",
+        "fhrp_groups",
         "ip_addresses",
         "l2vpns",
         "l2vpn_terminations",
@@ -130,6 +131,7 @@ QUERY_TYPES = dict(
     device_type="slug",
     export_targets="name",
     export_template="name",
+    fhrp_groups="group_id",
     group="slug",
     installed_device="name",
     inventory_item_role="name",
@@ -313,6 +315,7 @@ ENDPOINT_NAME_MAPPING = {
     "device_roles": "device_role",
     "device_types": "device_type",
     "export_templates": "export_template",
+    "fhrp_groups": "fhrp_group",
     "front_ports": "front_port",
     "front_port_templates": "front_port_template",
     "interfaces": "interface",
@@ -413,6 +416,9 @@ ALLOWED_QUERY_PARAMS = {
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "export_template": set(["name"]),
+    "fhrp_group": set(
+        ["id", "group_id", "interface_type", "device", "virtual_machine"]
+    ),
     "front_port": set(["name", "device", "rear_port"]),
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
