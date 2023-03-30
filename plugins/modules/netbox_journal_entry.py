@@ -77,30 +77,30 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox journal entry module"
-  connection: local
+- name: "Test creating NetBox Journal Entry"
   hosts: localhost
-  gather_facts: False
-
+  connection: local
+  gather_facts: false
+  module_defaults:
+    group/netbox.netbox.netbox:
+      netbox_url: MYURL
+      netbox_token: MYTOKEN
   tasks:
-    - name: Create journal entry
-      netbox.netbox.netbox_journal_entry:        
+    - name: Create an IP Address
+      netbox.netbox.netbox_ip_address:
         data:
-          assigned_object_type: dcim.device
-          assigned_object_id: 66
-          comments: |
-            This is a comment
-        state: new
+          address: 192.168.8.14/24
+      register: ip
 
-    - name: Create a journal entry with success
-      netbox.netbox.netbox_journal_entry:
-        data:
-          assigned_object_type: virtualization.virtualmachine
-          assigned_object_id: 42
-          kind: success
-          comments: |
-            Changed SFP on server-side interfaces
-          state: new            
+    - name: Create a journal entry
+       netbox.netbox.netbox_journal_entry:
+         data:
+           assigned_object_type: ipam.ipaddress
+           assigned_object_id: "{{ ip.ip_address.id }}"
+           kind: success
+           comments: |
+             This is a journal entry
+       when: ip.changed
 """
 
 RETURN = r"""
