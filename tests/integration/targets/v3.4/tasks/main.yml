@@ -279,3 +279,12 @@
 
 - name: "NETBOX_FHRP_GROUP TESTS"
   include_tasks: "netbox_fhrp_group.yml"
+
+- name: "NETBOX_JOURNAL_ENTRY TESTS"
+  include_tasks: 
+    file: "netbox_journal_entry.yml"
+    apply:
+      tags:
+        - netbox_journal_entry
+  tags:
+    - netbox_journal_entry
