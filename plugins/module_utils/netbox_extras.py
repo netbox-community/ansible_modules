@@ -16,12 +16,20 @@ NB_TAGS = "tags"
 NB_CUSTOM_FIELDS = "custom_fields"
 NB_CUSTOM_LINKS = "custom_links"
 NB_EXPORT_TEMPLATES = "export_templates"
+NB_JOURNAL_ENTRIES = "journal_entries"
 NB_WEBHOOKS = "webhooks"
 
 
 class NetboxExtrasModule(NetboxModule):
     def __init__(self, module, endpoint):
         super().__init__(module, endpoint)
+
+    def _handle_state_new(self, nb_app, nb_endpoint, endpoint_name, data):
+        if self.state == "new":
+            self.nb_object, diff = self._create_netbox_object(nb_endpoint, data)
+            self.result["msg"] = "%s created" % (endpoint_name)
+            self.result["changed"] = True
+            self.result["diff"] = diff
 
     def run(self):
         """
@@ -30,6 +38,7 @@ class NetboxExtrasModule(NetboxModule):
         Supported endpoints:
         - config_contexts
         - tags
+        - journal entries
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
@@ -57,10 +66,16 @@ class NetboxExtrasModule(NetboxModule):
         if data.get("color"):
             data["color"] = data["color"].lower()
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
-        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
+        # Handle journal entry
+        if self.state == "new" and endpoint_name == "journal_entry":
+            self._handle_state_new(nb_app, nb_endpoint, endpoint_name, data)
+        else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
+            self.nb_object = self._nb_endpoint_get(
+                nb_endpoint, object_query_params, name
+            )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
