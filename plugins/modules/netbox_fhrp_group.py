@@ -82,7 +82,7 @@ options:
 """
 
 EXAMPLES = r"""
-- hosts: "localhost"
+- hosts: localhost
   connection: local
   module_defaults:
     group/netbox.netbox.netbox:
