@@ -75,7 +75,7 @@ class NetboxExtrasModule(NetboxModule):
             )
             self.nb_object = self._nb_endpoint_get(
                 nb_endpoint, object_query_params, name
-            )        
+            )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
