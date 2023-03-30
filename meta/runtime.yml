@@ -42,6 +42,7 @@ action_groups:
     - netbox_inventory_item_role
     - netbox_ip_address
     - netbox_ipam_role
+    - netbox_journal_entry
     - netbox_l2vpn
     - netbox_location
     - netbox_manufacturer
@@ -80,4 +81,4 @@ action_groups:
     - netbox_webhook
     - netbox_wireless_lan
     - netbox_wireless_lan_group
-    - netbox_wireless_link
+    - netbox_wireless_link    
