@@ -82,10 +82,13 @@ API_APPS_ENDPOINTS = dict(
         "custom_fields",
         "custom_links",
         "export_templates",
+        "journal_entries",
         "webhooks",
     ],
     ipam=[
         "aggregates",
+        "asns",
+        "fhrp_groups",
         "ip_addresses",
         "l2vpns",
         "l2vpn_terminations",
@@ -112,6 +115,7 @@ API_APPS_ENDPOINTS = dict(
 
 # Used to normalize data for the respective query types used to find endpoints
 QUERY_TYPES = dict(
+    asn="asn",
     circuit="cid",
     circuit_termination="circuit",
     circuit_type="slug",
@@ -128,6 +132,7 @@ QUERY_TYPES = dict(
     device_type="slug",
     export_targets="name",
     export_template="name",
+    fhrp_groups="group_id",
     group="slug",
     installed_device="name",
     inventory_item_role="name",
@@ -287,6 +292,7 @@ CONVERT_TO_ID = {
 
 ENDPOINT_NAME_MAPPING = {
     "aggregates": "aggregate",
+    "asns": "asn",
     "cables": "cable",
     "circuit_terminations": "circuit_termination",
     "circuit_types": "circuit_type",
@@ -310,8 +316,10 @@ ENDPOINT_NAME_MAPPING = {
     "device_roles": "device_role",
     "device_types": "device_type",
     "export_templates": "export_template",
+    "fhrp_groups": "fhrp_group",
     "front_ports": "front_port",
     "front_port_templates": "front_port_template",
+    "journal_entries": "journal_entry",
     "interfaces": "interface",
     "interface_templates": "interface_template",
     "inventory_items": "inventory_item",
@@ -360,6 +368,7 @@ ENDPOINT_NAME_MAPPING = {
 
 ALLOWED_QUERY_PARAMS = {
     "aggregate": set(["prefix", "rir"]),
+    "asn": set(["asn"]),
     "assigned_object": set(["name", "device", "virtual_machine"]),
     "bridge": set(["name", "device"]),
     "circuit": set(["cid"]),
@@ -409,6 +418,9 @@ ALLOWED_QUERY_PARAMS = {
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "export_template": set(["name"]),
+    "fhrp_group": set(
+        ["id", "group_id", "interface_type", "device", "virtual_machine"]
+    ),
     "front_port": set(["name", "device", "rear_port"]),
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
@@ -425,7 +437,7 @@ ALLOWED_QUERY_PARAMS = {
     ),
     "l2vpn": set(["name"]),
     "lag": set(["name"]),
-    "location": set(["slug"]),
+    "location": set(["name", "slug", "site"]),
     "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
@@ -1050,11 +1062,15 @@ class NetboxModule(object):
         :returns nb_app (str): The application the endpoint lives under
         :params endpoint (str): The endpoint requiring resolution to application
         """
+        nb_app = None
         for k, v in API_APPS_ENDPOINTS.items():
             if endpoint in v:
                 nb_app = k
 
-        return nb_app
+        if nb_app:
+            return nb_app
+        else:
+            raise Exception(f"{endpoint} not found in API_APPS_ENDPOINTS")
 
     def _find_ids(self, data, user_query_params):
         """Will find the IDs of all user specified data if resolvable
@@ -1270,22 +1286,16 @@ class NetboxModule(object):
         NetBox object and the Ansible diff.
         """
         serialized_nb_obj = self.nb_object.serialize()
-        updated_obj = serialized_nb_obj.copy()
-
-        if serialized_nb_obj.get("custom_fields"):
+        if "custom_fields" in serialized_nb_obj:
+            custom_fields = serialized_nb_obj.get("custom_fields", {})
+            shared_keys = custom_fields.keys() & data.get("custom_fields", {}).keys()
             serialized_nb_obj["custom_fields"] = {
-                key: value
-                for key, value in serialized_nb_obj["custom_fields"].items()
-                if value is not None
+                key: custom_fields[key]
+                for key in shared_keys
+                if custom_fields[key] is not None
             }
 
-        if updated_obj.get("custom_fields"):
-            updated_obj["custom_fields"] = {
-                key: value
-                for key, value in updated_obj["custom_fields"].items()
-                if value is not None
-            }
-
+        updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
 
         if serialized_nb_obj.get("tags") and data.get("tags"):

@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Fix nb_inventory group_by by site_group (#951)
