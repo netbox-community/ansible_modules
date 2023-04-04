@@ -437,7 +437,7 @@ ALLOWED_QUERY_PARAMS = {
     ),
     "l2vpn": set(["name"]),
     "lag": set(["name"]),
-    "location": set(["slug", "site"]),
+    "location": set(["name", "slug", "site"]),
     "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
