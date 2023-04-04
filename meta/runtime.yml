@@ -11,6 +11,7 @@ plugin_routing:
 action_groups:
   netbox:
     - netbox_aggregate
+    - netbox_asn
     - netbox_cable
     - netbox_circuit
     - netbox_circuit_termination
@@ -36,6 +37,7 @@ action_groups:
     - netbox_device_role
     - netbox_device_type
     - netbox_export_template
+    - netbox_fhrp_group
     - netbox_front_port
     - netbox_front_port_template
     - netbox_inventory_item
