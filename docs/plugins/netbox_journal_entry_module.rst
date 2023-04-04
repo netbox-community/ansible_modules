@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_manufacturer_module:
+.. _ansible_collections.netbox.netbox.netbox_journal_entry_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_manufacturer module -- Create or delete manufacturers within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_journal_entry module -- Creates a journal entry
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,15 +46,15 @@ netbox.netbox.netbox_manufacturer module -- Create or delete manufacturers withi
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_manufacturer_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_journal_entry_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_manufacturer`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_journal_entry`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.1.0
+New in netbox.netbox 3.12.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes manufacturers from NetBox
+- Creates a journal entry in NetBox
 
 
 .. Aliases
@@ -76,7 +76,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_manufacturer_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_journal_entry_module_requirements:
 
 Requirements
 ------------
@@ -110,7 +110,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -144,7 +144,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -166,7 +166,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the manufacturer configuration
+      Defines the journal entry
 
 
       .. raw:: html
@@ -176,9 +176,145 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object_id"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/assigned_object_id:
+
+      .. rst-class:: ansible-option-title
+
+      **assigned_object_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/assigned_object_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ID of the object to create the journal entry on
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/assigned_object_type:
+
+      .. rst-class:: ansible-option-title
+
+      **assigned_object_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/assigned_object_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The object type of the model
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/comments:
+
+      .. rst-class:: ansible-option-title
+
+      **comments**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The comment associated with the journal entry
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/created_by"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/created_by:
+
+      .. rst-class:: ansible-option-title
+
+      **created_by**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/created_by" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The user ID of the user creating the journal entry. Omit to use the API token user
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -191,9 +327,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
 
       .. raw:: html
 
@@ -213,17 +346,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/kind"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/kind:
 
       .. rst-class:: ansible-option-title
 
-      **description**
+      **kind**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/kind" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -237,77 +370,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The description of the manufacturer
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the manufacturer
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/slug:
-
-      .. rst-class:: ansible-option-title
-
-      **slug**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The slugified version of the name or custom slug.
-
-      This is auto-generated following NetBox rules if not provided
+      The kind of journal entry
 
 
       .. raw:: html
@@ -319,7 +382,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -333,9 +396,6 @@ Parameters
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
-
       .. raw:: html
 
         </div>
@@ -344,7 +404,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The tags to add/update
+      Any tags that the journal entry may need to be associated with
 
 
       .. raw:: html
@@ -357,7 +417,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -391,7 +451,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -427,7 +487,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -465,7 +525,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -487,15 +547,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of the object.
+      Use \ :literal:`new`\  for adding a journal entry.        
+          
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"absent"`
+      - :ansible-option-choices-entry-default:`"new"` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -507,7 +567,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -566,27 +626,30 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
-      connection: local
+    - name: "Test NetBox Module"
       hosts: localhost
-      gather_facts: False
-
+      connection: local
+      gather_facts: false
+      module_defaults:
+        group/netbox.netbox.netbox:
+          netbox_url: MYURL
+          netbox_token: MYTOKEN
       tasks:
-        - name: Create manufacturer within NetBox with only required information
-          netbox.netbox.netbox_manufacturer:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: Create an IP Address
+          netbox.netbox.netbox_ip_address:
             data:
-              name: Test Manufacturer
-            state: present
+              address: 192.168.8.14/24
+          register: ip
 
-        - name: Delete manufacturer within netbox
-          netbox.netbox.netbox_manufacturer:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: Create a journal entry
+          netbox.netbox.netbox_journal_entry:
             data:
-              name: Test Manufacturer
-            state: absent
+              assigned_object_type: ipam.ipaddress
+              assigned_object_id: "{{ ip.ip_address.id }}"
+              kind: success
+              comments: |
+                This is a journal entry
+          when: ip.changed
 
 
 
@@ -613,17 +676,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-manufacturer"></div>
+        <div class="ansibleOptionAnchor" id="return-journal_entry"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__return-manufacturer:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__return-journal_entry:
 
       .. rst-class:: ansible-option-title
 
-      **manufacturer**
+      **journal_entry**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-manufacturer" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-journal_entry" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -642,7 +705,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` on creation
 
 
       .. raw:: html
@@ -655,7 +718,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_journal_entry_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -699,7 +762,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Martin Rødvand (@rodvand)
 
 
 
