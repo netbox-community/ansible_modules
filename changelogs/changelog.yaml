@@ -766,3 +766,25 @@ releases:
       minor_changes:
         - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826) 
     release_date: '2023-02-12' 
+  3.12.0:
+    changes:
+      bugfixes:
+        - nb_inventory - Fix nb_inventory group_by by site_group [#952](https://github.com/netbox-community/ansible_modules/pull/952)
+        - netbox_location - Add multiple filter options to make sure we find the unique location [#963](https://github.com/netbox-community/ansible_modules/pull/963)
+        - Fix partial updates of custom_fields [#944](https://github.com/netbox-community/ansible_modules/pull/944)
+      minor_changes:
+        - netbox_asn - Add module [#947](https://github.com/netbox-community/ansible_modules/pull/947)
+        - netbox_journal_entry - Add module [#961](https://github.com/netbox-community/ansible_modules/pull/961)
+        - netbox_fhrp_group - Add module [#957](https://github.com/netbox-community/ansible_modules/pull/957)
+        - netbox_aggregate - Add tenant as parameter to module [#968](https://github.com/netbox-community/ansible_modules/pull/968)
+    modules:
+      - description: Create journal entries in NetBox
+        name: netbox_journal_entry
+        namespace: ''
+      - description: Create, update or delete FHRP groups in NetBox
+        name: netbox_fhrp_group
+        namespace: ''
+      - description: Create, update or delete ASN in NetBox
+        name: netbox_asn
+        namespace: ''
+    release_date: '2023-04-04'

@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_manufacturer_module:
+.. _ansible_collections.netbox.netbox.netbox_fhrp_group_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_manufacturer module -- Create or delete manufacturers within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_fhrp_group module -- Create, update or delete FHRP groups within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,15 +46,15 @@ netbox.netbox.netbox_manufacturer module -- Create or delete manufacturers withi
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_manufacturer_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_fhrp_group_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_manufacturer`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_fhrp_group`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.1.0
+New in netbox.netbox 3.12.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes manufacturers from NetBox
+- Creates, updates or removes FHRP groups from NetBox
 
 
 .. Aliases
@@ -76,7 +76,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_manufacturer_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_fhrp_group_module_requirements:
 
 Requirements
 ------------
@@ -110,7 +110,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -144,7 +144,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -166,7 +166,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the manufacturer configuration
+      Defines the FHRP group configuration
 
 
       .. raw:: html
@@ -176,9 +176,85 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/auth_key"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/auth_key:
+
+      .. rst-class:: ansible-option-title
+
+      **auth_key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/auth_key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication key (max length 255)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/auth_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/auth_type:
+
+      .. rst-class:: ansible-option-title
+
+      **auth_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/auth_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication type
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"plaintext"`
+      - :ansible-option-choices-entry:`"md5"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -191,9 +267,6 @@ Parameters
       .. rst-class:: ansible-option-type-line
 
       :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
 
       .. raw:: html
 
@@ -215,7 +288,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
@@ -237,7 +310,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The description of the manufacturer
+      Description (max length 200)
 
 
       .. raw:: html
@@ -247,21 +320,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/group_id"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/group_id:
 
       .. rst-class:: ansible-option-title
 
-      **name**
+      **group_id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/group_id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -271,7 +344,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the manufacturer
+      Group ID (0 .. 32767)
 
 
       .. raw:: html
@@ -281,17 +354,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/slug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/protocol"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/slug:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/protocol:
 
       .. rst-class:: ansible-option-title
 
-      **slug**
+      **protocol**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/slug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/protocol" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -305,9 +378,20 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The slugified version of the name or custom slug.
+      Protocol
 
-      This is auto-generated following NetBox rules if not provided
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"vrrp2"`
+      - :ansible-option-choices-entry:`"vrrp3"`
+      - :ansible-option-choices-entry:`"carp"`
+      - :ansible-option-choices-entry:`"clusterxl"`
+      - :ansible-option-choices-entry:`"hsrp"`
+      - :ansible-option-choices-entry:`"glbp"`
+      - :ansible-option-choices-entry:`"other"`
 
 
       .. raw:: html
@@ -319,7 +403,7 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -333,9 +417,6 @@ Parameters
 
       :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
-
       .. raw:: html
 
         </div>
@@ -344,7 +425,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The tags to add/update
+      Any tags that the FHRP group may need to be associated with
 
 
       .. raw:: html
@@ -357,7 +438,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -391,7 +472,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -427,7 +508,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -465,7 +546,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -507,7 +588,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -557,6 +638,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `FHRP Group Model reference <https://docs.netbox.dev/en/stable/models/ipam/fhrpgroup/>`_
+       NetBox Documentation for FHRP Group Model.
 
 .. Examples
 
@@ -566,26 +654,28 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - hosts: localhost
       connection: local
-      hosts: localhost
-      gather_facts: False
+      module_defaults:
+        group/netbox.netbox.netbox:
+          netbox_url: "http://netbox.local"
+          netbox_token: "thisIsMyToken"
 
       tasks:
-        - name: Create manufacturer within NetBox with only required information
-          netbox.netbox.netbox_manufacturer:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: "Create FHRP group within netbox"
+          netbox.netbox.netbox_fhrp_group:
             data:
-              name: Test Manufacturer
+              protocol: "glbp"
+              group_id: 111
+              auth_type: md5
+              auth_key: 11111
+              description: test FHRP group
             state: present
 
-        - name: Delete manufacturer within netbox
-          netbox.netbox.netbox_manufacturer:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: Delete FHRP group within netbox
+          netbox.netbox.netbox_fhrp_group:
             data:
-              name: Test Manufacturer
+              group_id: 111
             state: absent
 
 
@@ -613,17 +703,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-manufacturer"></div>
+        <div class="ansibleOptionAnchor" id="return-fhrp_group"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__return-manufacturer:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__return-fhrp_group:
 
       .. rst-class:: ansible-option-title
 
-      **manufacturer**
+      **fhrp_group**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-manufacturer" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-fhrp_group" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -655,7 +745,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_manufacturer_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -699,7 +789,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Andrii Konts (@andrii-konts)
 
 
 

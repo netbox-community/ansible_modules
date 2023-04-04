@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.8.1
+Collection version 3.12.0
 
 .. contents::
    :local:
@@ -49,6 +49,7 @@ Modules
 ~~~~~~~
 
 * :ref:`netbox_aggregate module <ansible_collections.netbox.netbox.netbox_aggregate_module>` -- Creates or removes aggregates from NetBox
+* :ref:`netbox_asn module <ansible_collections.netbox.netbox.netbox_asn_module>` -- Create, update or delete ASNs within NetBox
 * :ref:`netbox_cable module <ansible_collections.netbox.netbox.netbox_cable_module>` -- Create, update or delete cables within NetBox
 * :ref:`netbox_circuit module <ansible_collections.netbox.netbox.netbox_circuit_module>` -- Create, update or delete circuits within NetBox
 * :ref:`netbox_circuit_termination module <ansible_collections.netbox.netbox.netbox_circuit_termination_module>` -- Create, update or delete circuit terminations within NetBox
@@ -74,12 +75,14 @@ Modules
 * :ref:`netbox_device_role module <ansible_collections.netbox.netbox.netbox_device_role_module>` -- Create, update or delete devices roles within NetBox
 * :ref:`netbox_device_type module <ansible_collections.netbox.netbox.netbox_device_type_module>` -- Create, update or delete device types within NetBox
 * :ref:`netbox_export_template module <ansible_collections.netbox.netbox.netbox_export_template_module>` -- Creates, updates or deletes export templates within NetBox
+* :ref:`netbox_fhrp_group module <ansible_collections.netbox.netbox.netbox_fhrp_group_module>` -- Create, update or delete FHRP groups within NetBox
 * :ref:`netbox_front_port module <ansible_collections.netbox.netbox.netbox_front_port_module>` -- Create, update or delete front ports within NetBox
 * :ref:`netbox_front_port_template module <ansible_collections.netbox.netbox.netbox_front_port_template_module>` -- Create, update or delete front port templates within NetBox
 * :ref:`netbox_inventory_item module <ansible_collections.netbox.netbox.netbox_inventory_item_module>` -- Creates or removes inventory items from NetBox
 * :ref:`netbox_inventory_item_role module <ansible_collections.netbox.netbox.netbox_inventory_item_role_module>` -- Create, update or delete devices roles within NetBox
 * :ref:`netbox_ip_address module <ansible_collections.netbox.netbox.netbox_ip_address_module>` -- Creates or removes IP addresses from NetBox
 * :ref:`netbox_ipam_role module <ansible_collections.netbox.netbox.netbox_ipam_role_module>` -- Creates or removes ipam roles from NetBox
+* :ref:`netbox_journal_entry module <ansible_collections.netbox.netbox.netbox_journal_entry_module>` -- Creates a journal entry
 * :ref:`netbox_l2vpn module <ansible_collections.netbox.netbox.netbox_l2vpn_module>` -- Create, update or delete L2VPNs within NetBox
 * :ref:`netbox_location module <ansible_collections.netbox.netbox.netbox_location_module>` -- Create, update or delete locations within NetBox
 * :ref:`netbox_manufacturer module <ansible_collections.netbox.netbox.netbox_manufacturer_module>` -- Create or delete manufacturers within NetBox
@@ -141,6 +144,7 @@ Lookup Plugins
     nb_inventory_inventory
     nb_lookup_lookup
     netbox_aggregate_module
+    netbox_asn_module
     netbox_cable_module
     netbox_circuit_module
     netbox_circuit_termination_module
@@ -166,12 +170,14 @@ Lookup Plugins
     netbox_device_role_module
     netbox_device_type_module
     netbox_export_template_module
+    netbox_fhrp_group_module
     netbox_front_port_module
     netbox_front_port_template_module
     netbox_inventory_item_module
     netbox_inventory_item_role_module
     netbox_ip_address_module
     netbox_ipam_role_module
+    netbox_journal_entry_module
     netbox_l2vpn_module
     netbox_location_module
     netbox_manufacturer_module
