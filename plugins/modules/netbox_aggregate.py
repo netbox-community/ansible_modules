@@ -55,6 +55,12 @@ options:
         required: false
         type: str
         version_added: "3.10.0"
+      tenant:
+        description:
+          - Tenant the aggregate will be assigned to.
+        required: false
+        type: raw
+        version_added: "3.12.0"
       tags:
         description:
           - "Any tags that the aggregate may need to be associated with"
@@ -145,6 +151,7 @@ def main():
                     date_added=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    tenant=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
