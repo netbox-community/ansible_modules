@@ -173,6 +173,20 @@ vlans = [
 ]
 created_vlans = make_netbox_calls(nb.ipam.vlans, vlans)
 
+## Create FHRP GROUPS
+fhrp_groups = [
+    {
+        "protocol": "other",
+        "group_id": 1,
+        "description": "Test FHRP Group 1",
+    },
+    {
+        "protocol": "glbp",
+        "group_id": 2,
+        "description": "Test FHRP Group 2",
+    },
+]
+created_fhrp_groups = make_netbox_calls(nb.ipam.fhrp_groups, fhrp_groups)
 
 ## Create IPAM Roles
 ipam_roles = [{"name": "Network of care", "slug": "network-of-care"}]
