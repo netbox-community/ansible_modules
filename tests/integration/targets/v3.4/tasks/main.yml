@@ -288,3 +288,12 @@
         - netbox_journal_entry
   tags:
     - netbox_journal_entry
+
+- name: "NETBOX_FHRP_GROUP_ASSIGNMENT TESTS"
+  include_tasks:
+    file: "netbox_fhrp_group_assignment.yml"
+    apply:
+      tags:
+        - netbox_fhrp_group_assignmen
+  tags:
+    - netbox_fhrp_group_assignmen

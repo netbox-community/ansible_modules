@@ -38,6 +38,7 @@ action_groups:
     - netbox_device_type
     - netbox_export_template
     - netbox_fhrp_group
+    - netbox_fhrp_group_assignment
     - netbox_front_port
     - netbox_front_port_template
     - netbox_inventory_item
