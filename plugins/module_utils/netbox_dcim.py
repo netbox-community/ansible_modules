@@ -91,6 +91,7 @@ class NetboxDcimModule(NetboxModule):
         - inventory_item_roles
         - locations
         - manufacturers
+        - module_types
         - platforms
         - power_feeds
         - power_outlets

@@ -230,6 +230,8 @@ CONVERT_TO_ID = {
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
+    "module_type": "module_types",
+    "module_types": "module_types",
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
@@ -389,6 +391,7 @@ ALLOWED_QUERY_PARAMS = {
             "sites",
             "roles",
             "device_types",
+            "module_types",
             "platforms",
             "cluster_types",
             "cluster_groups",
@@ -431,7 +434,7 @@ ALLOWED_QUERY_PARAMS = {
     "interface": set(["name", "device", "virtual_machine"]),
     "interface_a": set(["name", "device"]),
     "interface_b": set(["name", "device"]),
-    "interface_template": set(["name", "device_type"]),
+    "interface_template": set(["name", "device_type", "module_type"]),
     "inventory_item": set(["name", "device"]),
     "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -1008,6 +1011,8 @@ class NetboxModule(object):
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")
+            if query_dict.get("module_type"):
+                query_dict["moduletype_id"] = query_dict.pop("module_type")
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
@@ -1123,6 +1128,7 @@ class NetboxModule(object):
                             "sites",
                             "roles",
                             "device_types",
+                            "module_types",
                             "platforms",
                             "cluster_groups",
                             "contact_groups",
