@@ -247,6 +247,15 @@
   tags:
     - netbox_l2vpn
 
+- name: "NETBOX_L2VPN_TERMINATION TESTS"
+  include_tasks:
+    file: "netbox_l2vpn_termination.yml"
+    apply:
+      tags:
+        - netbox_l2vpn_termination
+  tags:
+    - netbox_l2vpn_termination
+
 - name: "NETBOX_INVENTORY_ITEM_ROLE TESTS"
   include_tasks: 
     file: "netbox_inventory_item_role.yml"
