@@ -49,6 +49,7 @@ action_groups:
     - netbox_l2vpn
     - netbox_location
     - netbox_manufacturer
+    - netbox_module
     - netbox_module_bay
     - netbox_module_type
     - netbox_platform

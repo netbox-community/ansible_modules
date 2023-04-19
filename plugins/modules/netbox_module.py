@@ -9,10 +9,10 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_module_bay
-short_description: Create, update or delete module bay within NetBox
+module: netbox_module
+short_description: Create, update or delete module within NetBox
 description:
-  - Creates, updates or removes module bay from NetBox
+  - Creates, updates or removes module from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -26,26 +26,26 @@ extends_documentation_fragment:
 options:
   data:
     description:
-      - Defines the module bay configuration
+      - Defines the module configuration
     suboptions:
       device:
         description:
-          - The device of the module bay
+          - The device name of the module
         required: true
         type: raw
-      name:
+      module_bay:
         description:
-          - The model of the module type
+          - The module bay name of the module
         required: true
         type: raw
-      position:
+      module_type:
         description:
-          - The position of the module bay
+          - The module type model of the module
         required: true
         type: string
       tags:
         description:
-          - Any tags that the module bay may need to be associated with
+          - Any tags that the module may need to be associated with
         required: false
         type: list
         elements: raw
@@ -65,23 +65,20 @@ EXAMPLES = r"""
   gather_facts: False
 
   tasks:
-    - name: Create module bay within NetBox with only required information
-      netbox.netbox.netbox_module_bay:
+    - name: Create module within NetBox with only required information
+      netbox.netbox.netbox_module:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          device: ws-test-3750
-          name: ws-test-3750-slot-0
-          position: 0
-          manufacturer: Test Manufacturer
+          module_bay: ws-test-3750-slot-0
         state: present
 
-    - name: Delete module bay within netbox
-      netbox.netbox.netbox_module_bay:
+    - name: Delete module within netbox
+      netbox.netbox.netbox_module:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: ws-test-3750-slot-0
+          module_bay: ws-test-3750-slot-0
         state: absent
 """
 
@@ -102,7 +99,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
-    NB_MODULE_BAYS,
+    NB_MODULES,
 )
 from copy import deepcopy
 
@@ -118,9 +115,14 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    device=dict(required=True, type="raw"),
-                    name=dict(required=True, type="raw"),
-                    position=dict(required=True, type="str"),
+                    device=dict(required=False, type="raw"),
+                    module_bay=dict(required=False, type="raw"),
+                    module_type=dict(required=False, type="raw"),
+                    status=dict(required=False, type="raw"),
+                    serial=dict(required=False, type="str"),
+                    asset_tag=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
@@ -129,16 +131,16 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["device", "name", "position"]),
-        ("state", "absent", ["name"]),
+        ("state", "present", ["asset_tag", "device", "module_bay", "module_type"]),
+        ("state", "absent", ["asset_tag"]),
     ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_module_bay = NetboxDcimModule(module, NB_MODULE_BAYS)
-    netbox_module_bay.run()
+    netbox_module = NetboxDcimModule(module, NB_MODULES)
+    netbox_module.run()
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -32,6 +32,7 @@ NB_INVENTORY_ITEMS = "inventory_items"
 NB_INVENTORY_ITEM_ROLES = "inventory_item_roles"
 NB_LOCATIONS = "locations"
 NB_MANUFACTURERS = "manufacturers"
+NB_MODULES = "modules"
 NB_MODULE_BAYS = "module_bays"
 NB_MODULE_TYPES = "module_types"
 NB_PLATFORMS = "platforms"
@@ -92,6 +93,7 @@ class NetboxDcimModule(NetboxModule):
         - inventory_item_roles
         - locations
         - manufacturers
+        - modules
         - module_bays
         - module_types
         - platforms
@@ -153,6 +155,8 @@ class NetboxDcimModule(NetboxModule):
                 data.get("termination_b_type"),
                 termination_b_name,
             )
+        elif data.get("asset_tag"):
+            name = data["asset_tag"]
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):

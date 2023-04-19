@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# © 2023 Ciena
-# Licensed under the GNU General Public License v3.0 only
-# SPDX-License-Identifier: GPL-3.0-only
+# Copyright: (c) 2023, Jeff Groom (@jgroom33) <jgroom@ciena.com>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -21,7 +20,7 @@ author:
   - Jeff Groom (@jgroom33)
 requirements:
   - pynetbox
-version_added: "0.3.12"
+version_added: "3.13.0"
 extends_documentation_fragment:
   - netbox.netbox.common
 options:
@@ -57,13 +56,11 @@ options:
           - This interface has PoE ability (NetBox release 3.3 and later)
         required: false
         type: raw
-        version_added: "3.8.0"
       poe_type:
         description:
           - This interface's power type (NetBox release 3.3 and later)
         required: false
         type: raw
-        version_added: "3.8.0"
     required: true
     type: dict
 """
