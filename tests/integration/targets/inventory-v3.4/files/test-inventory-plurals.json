@@ -933,8 +933,14 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1087,8 +1093,14 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1110,8 +1122,14 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1133,8 +1151,14 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1302,6 +1326,12 @@
         ]
     },
     "sites_test_site": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ],
         "children": [
             "location_parent_rack_group"
         ]
