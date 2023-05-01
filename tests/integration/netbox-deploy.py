@@ -546,6 +546,23 @@ route_targets = [
 ]
 created_route_targets = make_netbox_calls(nb.ipam.route_targets, route_targets)
 
+## Create L2VPNs
+l2vpns = [
+    {
+        "identifier": 111111,
+        "name": "Test L2VPN 1",
+        "slug": "Test_L2VPN_1",
+        "type": "vxlan",
+    },
+    {
+        "identifier": 222222,
+        "name": "Test L2VPN 2",
+        "slug": "Test_L2VPN_2",
+        "type": "vxlan",
+    },
+]
+created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
+
 if ERRORS:
     sys.exit(
         "Errors have occurred when creating objects, and should have been printed out. Check previous output."

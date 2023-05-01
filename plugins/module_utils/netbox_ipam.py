@@ -198,6 +198,12 @@ class NetboxIpamModule(NetboxModule):
                 data.get("interface_type"),
                 data.get("interface_id"),
             )
+        elif self.endpoint == "l2vpn_terminations":
+            name = "l2vpn %s <> %s %s" % (
+                data.get("l2vpn"),
+                data.get("assigned_object_type"),
+                data.get("assigned_object_id"),
+            )
         else:
             name = data.get("name")
 
