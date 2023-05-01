@@ -868,8 +868,12 @@
                 ],
                 "is_virtual": true,
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "site": "test-site",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1017,8 +1021,12 @@
                 ],
                 "is_virtual": true,
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "site": "test-site",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1035,8 +1043,12 @@
                 "interfaces": [],
                 "is_virtual": true,
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "site": "test-site",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1053,8 +1065,12 @@
                 "interfaces": [],
                 "is_virtual": true,
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
                 "services": [],
+                "site": "test-site",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -1236,6 +1252,12 @@
         ]
     },
     "site_test_site": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ],
         "children": [
             "location_parent_rack_group"
         ]
