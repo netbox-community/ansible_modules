@@ -59,13 +59,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python-version: "3.8"
+          - python-version: "3.9"
             VERSION: "v3.2"
             INTEGRATION_TESTS: "v3.2"
-          - python-version: "3.8"
+          - python-version: "3.9"
             VERSION: "v3.3"
             INTEGRATION_TESTS: "v3.3"
-          - python-version: "3.8"
+          - python-version: "3.9"
             VERSION: "v3.4"
             INTEGRATION_TESTS: "v3.4"
     steps:
