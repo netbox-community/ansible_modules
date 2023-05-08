@@ -8,8 +8,8 @@ body:
     attributes:
       value: >
         **NOTE:** This form is only for reporting _reproducible bugs_ in a current NetBox Collection
-        installation. 
-        
+        installation.
+
         - See the latest ansible module documentation:
           https://netbox-ansible-collection.readthedocs.io
         - Check the release notes:
@@ -33,7 +33,7 @@ body:
       label: Ansible version
       description: >
         What version of the Ansible NetBox Collection are you currently running?
-        Paste the output of "ansible --version" 
+        Paste the output of "ansible --version"
       value: >
         ```bash
 

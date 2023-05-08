@@ -85,4 +85,4 @@ action_groups:
     - netbox_webhook
     - netbox_wireless_lan
     - netbox_wireless_lan_group
-    - netbox_wireless_link    
+    - netbox_wireless_link

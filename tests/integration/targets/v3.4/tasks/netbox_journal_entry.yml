@@ -12,7 +12,7 @@
       assigned_object_type: dcim.device
       assigned_object_id: 1
       comments: |
-        Comment on device        
+        Comment on device
     state: new
   register: test_one
 
@@ -22,5 +22,5 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['journal_entry']['kind'] == "info"      
+      - test_one['journal_entry']['kind'] == "info"
       - test_one['msg'] == "journal_entry created"

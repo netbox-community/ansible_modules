@@ -9,8 +9,8 @@ import sys
 import pynetbox
 from packaging import version
 
-# NOTE: If anything depends on specific versions of NetBox, can check INTEGRATION_TESTS in env
-# os.environ["INTEGRATION_TESTS"]
+# NOTE: If anything depends on specific versions of NetBox, can check VERSION in env
+# os.environ["VERSION"]
 
 
 # Set nb variable to connect to NetBox and use the veriable in future calls
