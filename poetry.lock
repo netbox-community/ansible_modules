@@ -157,63 +157,93 @@ resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "antsibull"
-version = "0.53.0"
+version = "0.56.1"
 description = "Tools for building the Ansible Distribution"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.9"
 files = [
-    {file = "antsibull-0.53.0-py3-none-any.whl", hash = "sha256:18fefab7f38834c0addd4f74916614bbdcae10e240186e858a99a55d3dac299d"},
-    {file = "antsibull-0.53.0.tar.gz", hash = "sha256:6835845cd91bc8d2dbe1feb13888a4586456f248fb03acd49bf7a15a690e0b90"},
-]
-
-[package.dependencies]
-antsibull-changelog = ">=0.14.0"
-antsibull-core = ">=1.5.0,<3.0.0"
-asyncio-pool = "*"
-jinja2 = "*"
-
-[[package]]
-name = "antsibull-changelog"
-version = "0.17.0"
-description = "Changelog tool for Ansible-base and Ansible collections"
-category = "main"
-optional = false
-python-versions = ">=3.6.0,<4.0.0"
-files = [
-    {file = "antsibull_changelog-0.17.0-py3-none-any.whl", hash = "sha256:74ffd3710ec258e81ce258a71335e9a012004136f55d64776b4047eeb0d44ed9"},
-    {file = "antsibull_changelog-0.17.0.tar.gz", hash = "sha256:8b156d7b0aaae502cfc04ccd3f4b1f5509963b6c8938d7ee22946d90d0762344"},
-]
-
-[package.dependencies]
-docutils = "*"
-packaging = "*"
-PyYAML = "*"
-rstcheck = ">=3.0.0,<7.0.0"
-semantic_version = "*"
-
-[[package]]
-name = "antsibull-core"
-version = "1.6.0"
-description = "Tools for building the Ansible Distribution"
-category = "main"
-optional = false
-python-versions = ">=3.6.1,<4.0.0"
-files = [
-    {file = "antsibull_core-1.6.0-py3-none-any.whl", hash = "sha256:057968e664eca9ec0f3f943a348a65dfeb94d40c4d2ce460b49fb930ec5513e7"},
-    {file = "antsibull_core-1.6.0.tar.gz", hash = "sha256:9c4b0a7b6e46168d45a117c27963ea09f3feb121e8a1e63bb319ae610ac7c932"},
+    {file = "antsibull-0.56.1-py3-none-any.whl", hash = "sha256:3c84cd100beb58d6a2ac2208cb198d26603591fdc0a5cee8a707cb5dfc2a0bf8"},
+    {file = "antsibull-0.56.1.tar.gz", hash = "sha256:1d01f6d3e5d31314118f986330844ef187f66c1c6f92c9e2514f4653a760c23d"},
 ]
 
 [package.dependencies]
 aiofiles = "*"
 aiohttp = ">=3.0.0"
+antsibull-changelog = ">=0.14.0"
+antsibull-core = ">=1.5.0,<3.0.0"
+asyncio-pool = "*"
+build = "*"
+jinja2 = "*"
+packaging = ">=20.0"
+semantic-version = "*"
+sh = ">=1.0.0,<2.0.0"
+twiggy = "*"
+
+[package.extras]
+codeqa = ["flake8 (>=3.8.0)", "pylint", "reuse"]
+coverage = ["coverage[toml]"]
+dev = ["antsibull[codeqa]", "antsibull[coverage]", "antsibull[test]", "antsibull[typing]", "nox"]
+test = ["asynctest", "cryptography", "pytest", "pytest-asyncio (>=0.12)", "pytest-cov", "pytest-error-for-skips"]
+typing = ["mypy", "pyre-check (>=0.9.15)", "types-aiofiles", "types-docutils", "types-pyyaml"]
+
+[[package]]
+name = "antsibull-changelog"
+version = "0.20.0"
+description = "Changelog tool for Ansible-base and Ansible collections"
+category = "main"
+optional = false
+python-versions = ">=3.9.0"
+files = [
+    {file = "antsibull_changelog-0.20.0-py3-none-any.whl", hash = "sha256:e9f976b37b824d78185f98427e3fa62e3e8b539b49c4e670886d1fab650583ee"},
+    {file = "antsibull_changelog-0.20.0.tar.gz", hash = "sha256:f473f9cb07c615dc3ae0522934166da9972a1bb5520349627daad5f47e7b0435"},
+]
+
+[package.dependencies]
+docutils = "*"
+packaging = "*"
+pyyaml = "*"
+rstcheck = ">=3.0.0,<7.0.0"
+semantic-version = "*"
+
+[package.extras]
+codeqa = ["flake8 (>=3.8.0)", "pylint", "reuse"]
+coverage = ["coverage[toml]"]
+dev = ["antsibull-changelog[codeqa]", "antsibull-changelog[coverage]", "antsibull-changelog[test]", "antsibull-changelog[typing]", "nox"]
+test = ["mock", "pytest", "pytest-cov", "pytest-error-for-skips"]
+typing = ["mypy", "pyre-check (>=0.9.17,<0.10.0)", "types-docutils", "types-pyyaml", "types-toml"]
+
+[[package]]
+name = "antsibull-core"
+version = "2.0.0"
+description = "Tools for building the Ansible Distribution"
+category = "main"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "antsibull_core-2.0.0-py3-none-any.whl", hash = "sha256:ed4931ade19bb314079659c72d1ff97b7a26fd452141b4fccc722edc943f2b00"},
+    {file = "antsibull_core-2.0.0.tar.gz", hash = "sha256:a9421d01748ac8b0186eb94535425ae614f8dfc2f48a52d8e8da97cde7cbb010"},
+]
+
+[package.dependencies]
+aiofiles = "*"
+aiohttp = ">=3.0.0"
+build = "*"
 packaging = ">=20.0"
 perky = "*"
 pydantic = ">=1.0.0,<2.0.0"
-PyYAML = "*"
-semantic_version = "*"
+pyyaml = "*"
+semantic-version = "*"
 sh = ">=1.0.0,<2.0.0"
 twiggy = ">=0.5.0"
+
+[package.extras]
+codeqa = ["antsibull-changelog", "flake8 (>=6.0.0)", "pylint (>=2.15.7)", "reuse"]
+coverage = ["coverage[toml]"]
+dev = ["antsibull-core[codeqa]", "antsibull-core[coverage]", "antsibull-core[formatters]", "antsibull-core[test]", "antsibull-core[typing]", "nox"]
+formatters = ["black", "isort"]
+test = ["asynctest", "cryptography", "pytest", "pytest-asyncio (>=0.20)", "pytest-cov", "pytest-error-for-skips"]
+typing = ["mypy", "pyre-check (>=0.9.17)", "types-aiofiles", "types-pyyaml"]
 
 [[package]]
 name = "astroid"
@@ -327,6 +357,30 @@ colorama = ["colorama (>=0.4.3)"]
 d = ["aiohttp (>=3.7.4)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
+
+[[package]]
+name = "build"
+version = "0.10.0"
+description = "A simple, correct Python build frontend"
+category = "main"
+optional = false
+python-versions = ">= 3.7"
+files = [
+    {file = "build-0.10.0-py3-none-any.whl", hash = "sha256:af266720050a66c893a6096a2f410989eeac74ff9a68ba194b3f6473e8e26171"},
+    {file = "build-0.10.0.tar.gz", hash = "sha256:d5b71264afdb5951d6704482aac78de887c80691c52b88a9ad195983ca2c9269"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "os_name == \"nt\""}
+packaging = ">=19.0"
+pyproject_hooks = "*"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+
+[package.extras]
+docs = ["furo (>=2021.08.31)", "sphinx (>=4.0,<5.0)", "sphinx-argparse-cli (>=1.5)", "sphinx-autodoc-typehints (>=1.10)"]
+test = ["filelock (>=3)", "pytest (>=6.2.4)", "pytest-cov (>=2.12)", "pytest-mock (>=2)", "pytest-rerunfailures (>=9.1)", "pytest-xdist (>=1.34)", "setuptools (>=42.0.0)", "setuptools (>=56.0.0)", "toml (>=0.10.0)", "wheel (>=0.36.0)"]
+typing = ["importlib-metadata (>=5.1)", "mypy (==0.991)", "tomli", "typing-extensions (>=3.7.4.3)"]
+virtualenv = ["virtualenv (>=20.0.35)"]
 
 [[package]]
 name = "certifi"
@@ -1326,6 +1380,21 @@ files = [
 requests = ">=2.20.0,<3.0"
 
 [[package]]
+name = "pyproject-hooks"
+version = "1.0.0"
+description = "Wrappers to call pyproject.toml-based build backend hooks."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pyproject_hooks-1.0.0-py3-none-any.whl", hash = "sha256:283c11acd6b928d2f6a7c73fa0d01cb2bdc5f07c57a2eeb6e83d5e56b97976f8"},
+    {file = "pyproject_hooks-1.0.0.tar.gz", hash = "sha256:f271b298b97f5955d53fb12b72c1fb1948c22c1a6b70b315c54cedaca0264ef5"},
+]
+
+[package.dependencies]
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+
+[[package]]
 name = "pytest"
 version = "7.3.1"
 description = "pytest: simple powerful testing with Python"
@@ -1520,7 +1589,6 @@ files = [
 [package.dependencies]
 commonmark = ">=0.9.0,<0.10.0"
 pygments = ">=2.6.0,<3.0.0"
-typing-extensions = {version = ">=4.0.0,<5.0", markers = "python_version < \"3.9\""}
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
@@ -1917,5 +1985,5 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.8"
-content-hash = "b3953eefd7e7d421edf04876eba03f790801472da76fadad7069ff14f9d072de"
+python-versions = "^3.9"
+content-hash = "80cb7bc416b65150b37e72a27e055f8193cf113e1fee29f4df74fc06783e52a5"
