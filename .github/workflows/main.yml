@@ -88,7 +88,7 @@ jobs:
 
       - run: cat ../ansible_modules/tests/netbox-docker/v3.3/docker-compose.override.yml
 
-      - run: cat $GITHUB_WORKSPACE /ansible_modules/tests/netbox-docker/v3.3/docker-compose.override.yml
+      - run: cat $GITHUB_WORKSPACE/ansible_modules/tests/netbox-docker/v3.3/docker-compose.override.yml
 
       - name: Clone & Start netbox-docker containers - ${{env.VERSION}}
         env:
@@ -98,7 +98,7 @@ jobs:
           cd ..
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
-          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
+          cp $GITHUB_WORKSPACE/ansible_modules/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
           docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
