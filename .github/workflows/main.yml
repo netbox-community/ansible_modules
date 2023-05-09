@@ -26,7 +26,7 @@ jobs:
 
   unit_testing:
     runs-on: ubuntu-latest
-    #needs: linting
+    needs: linting
     strategy:
       fail-fast: false
       matrix:
@@ -69,7 +69,7 @@ jobs:
 
   integration_testing:
     runs-on: ubuntu-latest
-    #needs: unit_testing
+    needs: unit_testing
     env:
       python-version: "3.9"
     strategy:
