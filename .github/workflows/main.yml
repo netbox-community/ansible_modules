@@ -86,15 +86,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Clone & Start netbox-docker containers - ${{ env.VERSION }}
-        env:
-          VERSION: ${{ matrix.VERSION }}
-          DOCKER_TAG: ${{ matrix.NETBOX_DOCKER_VERSION }}
+      - name: Clone & Start netbox-docker containers - ${{ matrix.VERSION }}
         run: |
           cd ..
           git clone https://github.com/netbox-community/netbox-docker.git
+          git checkout ${{ matrix.NETBOX_DOCKER_VERSION }}
           cd netbox-docker
-          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ env.VERSION }}/docker-compose.override.yml docker-compose.override.yml
+          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/docker-compose.override.yml docker-compose.override.yml
           docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
