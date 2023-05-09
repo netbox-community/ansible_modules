@@ -138,14 +138,14 @@ frozenlist = ">=1.1.0"
 
 [[package]]
 name = "ansible-core"
-version = "2.14.5"
+version = "2.13.9"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.8"
 files = [
-    {file = "ansible-core-2.14.5.tar.gz", hash = "sha256:8c4eed76ce458b4a37334a0802df29488ecf9f8af38c3111069c96b17b205530"},
-    {file = "ansible_core-2.14.5-py3-none-any.whl", hash = "sha256:bc1755f43bdddac574607e959010f98256ff87068ca7e23be5a9d335f6ebf01e"},
+    {file = "ansible-core-2.13.9.tar.gz", hash = "sha256:9c319eca0a9c53cde6f174812ddd7114edb1e5d0eb5e1df47bd0d8fefedac76c"},
+    {file = "ansible_core-2.13.9-py3-none-any.whl", hash = "sha256:8fcd6b915857e7a3167926bcfe5743f9b4e4abf3566d6d53028c1c1a7ffa3aa8"},
 ]
 
 [package.dependencies]
@@ -1986,4 +1986,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "bb8df3a9723052233495ff3002b7be0f0db58a6da1c3f631a04600dfad81fc0c"
+content-hash = "80cb7bc416b65150b37e72a27e055f8193cf113e1fee29f4df74fc06783e52a5"
