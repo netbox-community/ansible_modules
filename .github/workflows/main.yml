@@ -127,7 +127,7 @@ jobs:
           docker logs netbox-docker_netbox_1
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
-        if: matrix.VERSION in ['v3.2', 'v3.3']
+        if: matrix.VERSION == 'v3.2' or matrix.VERSION == 'v3.3'
 
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
