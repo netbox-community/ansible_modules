@@ -7,7 +7,7 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-ansible-core = "2.13.*"
+ansible-core = "^2.14"
 black = "*"
 codecov = "*"
 coverage = "^4.0"
