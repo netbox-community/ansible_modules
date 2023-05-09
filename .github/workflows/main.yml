@@ -32,9 +32,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Test
-        run: pwd
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -96,10 +93,9 @@ jobs:
           DOCKER_TAG: ${{ matrix.NETBOX_DOCKER_VERSION }}
         run: |
           cd ..
-          ls
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
-          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
+          cp /home/runner/work/ansible_modules/ansible_modules/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
           docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
