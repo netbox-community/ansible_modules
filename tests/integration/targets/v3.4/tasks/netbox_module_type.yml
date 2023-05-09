@@ -8,7 +8,7 @@
   netbox.netbox.netbox_module_type:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:      
+    data:
       model: ws-test-3750
       manufacturer: Test Manufacturer
     state: present
@@ -19,7 +19,7 @@
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
-      - test_one['diff']['after']['state'] == "present"      
+      - test_one['diff']['after']['state'] == "present"
       - test_one['module_type']['model'] == "ws-test-3750"
       - test_one['module_type']['manufacturer'] == 3
       - test_one['msg'] == "module_type ws-test-3750 created"
@@ -28,7 +28,7 @@
   netbox.netbox.netbox_module_type:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:      
+    data:
       model: "ws-test-3750"
       manufacturer: Test Manufacturer
     state: present
@@ -37,7 +37,7 @@
 - name: "MODULE_TYPE 2: ASSERT - Create duplicate"
   assert:
     that:
-      - not test_two['changed']      
+      - not test_two['changed']
       - test_one['module_type']['model'] == "ws-test-3750"
       - test_one['module_type']['manufacturer'] == 3
       - test_two['msg'] == "module_type ws-test-3750 already exists"
@@ -46,21 +46,21 @@
   netbox.netbox.netbox_module_type:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:      
+    data:
       model: ws-test-3750
       manufacturer: Test Manufacturer
-      part_number: ws-3750g-v2      
+      part_number: ws-3750g-v2
     state: present
   register: test_three
 
 - name: "MODULE_TYPE 3: ASSERT - Update"
   assert:
     that:
-      - test_three is changed      
-      - test_three['diff']['after']['part_number'] == "ws-3750g-v2"            
+      - test_three is changed
+      - test_three['diff']['after']['part_number'] == "ws-3750g-v2"
       - test_three['module_type']['model'] == "ws-test-3750"
       - test_three['module_type']['manufacturer'] == 3
-      - test_three['module_type']['part_number'] == "ws-3750g-v2"      
+      - test_three['module_type']['part_number'] == "ws-3750g-v2"
       - test_three['msg'] == "module_type ws-test-3750 updated"
 
 - name: "MODULE_TYPE 4: ASSERT - Delete"
