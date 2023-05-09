@@ -1,0 +1,9 @@
+---
+version: '3.4'
+services:
+  netbox-worker:  &netbox-override
+    image: netboxcommunity/netbox:$VERSION
+  netbox:
+    <<: *netbox-override
+    ports:
+      - 32768:8080
