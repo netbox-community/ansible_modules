@@ -92,6 +92,7 @@ jobs:
           DOCKER_TAG: ${{ matrix.NETBOX_DOCKER_VERSION }}
         run: |
           cd ..
+          ls
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
           cp ../ansible_modules/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
