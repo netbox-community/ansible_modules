@@ -86,27 +86,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Clone & Start netbox-docker containers - 3.2
-        env:
-          VERSION: ${{ matrix.VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout 1.6.1
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:v3.2
-              ports:
-                - 32768:8080
-          EOF
-          docker-compose up -d --quiet-pull
-          docker container ls
-          cd ..
-        if: matrix.VERSION == 'v3.2'
-
       - name: Clone & Start netbox-docker containers - ${{env.VERSION}}
         env:
           VERSION: ${{ matrix.VERSION }}
@@ -115,46 +94,10 @@ jobs:
           cd ..
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
-          git checkout $DOCKER_TAG
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:$VERSION
-              ports:
-                - 32768:8080
-          EOF
+          cp ansible_modules/tests/netbox-docker/${{env.VERSION}}/docker-compose.override.yml docker-compose.override.yml
           docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
-        if: matrix.VERSION == 'v3.2'
-
-      - name: Clone & Start netbox-docker containers - 3.4
-        env:
-          VERSION: ${{ matrix.VERSION }}
-          DOCKER_TAG: ${{ matrix.NETBOX_DOCKER_VERSION }}
-        run: |
-          cd ..
-          git clone https://github.com/netbox-community/netbox-docker.git
-          cd netbox-docker
-          git checkout $DOCKER_TAG
-          tee docker-compose.override.yml <<EOF
-          version: '3.4'
-          services:
-            netbox:
-              image: netboxcommunity/netbox:$VERSION
-              ports:
-                - 32768:8080
-              healthcheck:
-                start_period: 300s
-                timeout: 3s
-                interval: 15s
-                test: "curl -f http://localhost:8080/api/ || exit 1"
-          EOF
-          docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
-          docker container ls
-          cd ..
-        if: matrix.VERSION != 'v3.2'
 
       - name: Set up Python ${{ env.python-version }}
         uses: actions/setup-python@v4
