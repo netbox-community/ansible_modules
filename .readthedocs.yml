@@ -8,7 +8,7 @@ build:
   tools:
     python: "3.9"
 
-python:
-  version: 3.9
-  install:
-    - requirements: docs/requirements.txt
+#python:
+#  version: "3.9"
+#  install:
+#    - requirements: docs/requirements.txt
