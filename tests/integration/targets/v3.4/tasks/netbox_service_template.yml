@@ -12,7 +12,7 @@
       name: Service Template for SSH
       ports:
         - 22
-      protocol: tcp        
+      protocol: tcp
     state: present
   register: test_one
 
@@ -22,7 +22,7 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['service_template']['name'] == "Service Template for SSH"      
+      - test_one['service_template']['name'] == "Service Template for SSH"
       - test_one['service_template']['ports'] == [22]
       - test_one['service_template']['protocol'] == "tcp"
       - test_one['msg'] == "service_template Service Template for SSH created"
@@ -43,7 +43,7 @@
   assert:
     that:
       - not test_two['changed']
-      - test_two['service_template']['name'] == "Service Template for SSH"      
+      - test_two['service_template']['name'] == "Service Template for SSH"
       - test_two['service_template']['ports'] == [22]
       - test_two['service_template']['protocol'] == "tcp"
       - test_two['msg'] == "service_template Service Template for SSH already exists"
@@ -102,7 +102,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      name: Service Template for DNS      
+      name: Service Template for DNS
     state: absent
   register: test_five
 

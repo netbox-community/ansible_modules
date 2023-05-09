@@ -55,7 +55,7 @@
       description: "Updated test context"
       data: "{ \"testkey\": { \"testsubkey\": [ \"updatedvaule\" ] } }"
       weight: 100
-      sites: [ test-site ]
+      sites: [test-site]
     state: present
   register: test_three
 

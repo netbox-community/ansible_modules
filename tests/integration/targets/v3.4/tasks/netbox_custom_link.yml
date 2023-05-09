@@ -9,7 +9,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types: 
+      content_types:
         - "dcim.device"
       name: Custom Link
       link_text: Open Web management
@@ -33,7 +33,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types: 
+      content_types:
         - "dcim.device"
       name: Custom Link
       link_text: Open Web management
@@ -53,7 +53,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types: 
+      content_types:
         - "dcim.device"
       name: Custom Link
       link_text: Open Web management
@@ -75,7 +75,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types: 
+      content_types:
         - "virtualization.virtualmachine"
       name: Custom Link
       link_text: Open Web management
@@ -96,7 +96,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types: 
+      content_types:
         - "virtualization.virtualmachine"
       name: Custom Link
       link_text: Open Web management

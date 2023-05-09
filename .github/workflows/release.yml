@@ -1,3 +1,4 @@
+---
 name: Deploy collection to Ansible Galaxy
 on:
   create:

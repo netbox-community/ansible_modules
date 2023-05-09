@@ -1,3 +1,4 @@
+---
 ancestor: null
 releases:
   0.1.0:
@@ -553,7 +554,7 @@ releases:
         "This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates.
         \nThis release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI.
         \nThe next release will idenify and resolve any issues with NetBox 3.0."
-    release_date: '2021-09-20' 
+    release_date: '2021-09-20'
   3.2.0:
     changes:
       minor_changes:
@@ -582,7 +583,7 @@ releases:
     - description: Create, update or delete Config Context in NetBox
       name: netbox_config_context
       namespace: ''
-    release_date: '2021-10-25' 
+    release_date: '2021-10-25'
   3.4.0:
     changes:
       minor_changes:
@@ -622,21 +623,21 @@ releases:
         - Use individual list items when looking for objects  [#570](https://github.com/netbox-community/ansible_modules/pull/570)
 
     modules:
-      - description: Create, update or delete Contact objects in NetBox 
+      - description: Create, update or delete Contact objects in NetBox
         name: netbox_contact
         namespace: ''
-      - description: Create, update or delete Contact Group objects in NetBox 
+      - description: Create, update or delete Contact Group objects in NetBox
         name: netbox_contact_group
         namespace: ''
-      - description: Create, update or delete Contact Role objects in NetBox 
+      - description: Create, update or delete Contact Role objects in NetBox
         name: netbox_contact_role
-      - description: Create, update or delete Wireless LAN objects in NetBox 
+      - description: Create, update or delete Wireless LAN objects in NetBox
         name: netbox_wireless_lan
         namespace: ''
-      - description: Create, update or delete Wireless LAN Group objects in NetBox 
+      - description: Create, update or delete Wireless LAN Group objects in NetBox
         name: netbox_wireless_lan_group
         namespace: ''
-      - description: Create, update or delete Wireless Link objects in NetBox 
+      - description: Create, update or delete Wireless Link objects in NetBox
         name: netbox_wireless_link
         namespace: ''
     release_date: '2022-01-11'
@@ -704,13 +705,13 @@ releases:
         - nb_inventory - Allow API token to be templated [#806](https://github.com/netbox-community/ansible_modules/pull/806)
         - netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
         - netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
-        - netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)      
+        - netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)
     release_date: '2022-09-19'
   3.8.1:
     changes:
       bugfixes:
         - Fix idempotency with custom_fields [#839](https://github.com/netbox-community/ansible_modules/pull/839)
-      minor_changes:      
+      minor_changes:
         - nb_inventory - Allow for jinja templating [#834](https://github.com/netbox-community/ansible_modules/pull/834)
       trivial:
         - Update CI to include NetBox 3.3 [#841](https://github.com/netbox-community/ansible_modules/pull/841)
@@ -726,9 +727,9 @@ releases:
         - netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
         - nb_lookup - Add 3.3 endpoints for lookup [#865](https://github.com/netbox-community/ansible_modules/pull/865)
         - netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
-        - netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)        
+        - netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)
     modules:
-      - description: Create, update or delete L2VPN objects in NetBox 
+      - description: Create, update or delete L2VPN objects in NetBox
         name: netbox_l2vpn
         namespace: ''
     release_date: '2022-11-14'
@@ -747,13 +748,13 @@ releases:
           - Update CI for NetBox 3.4 [#906](https://github.com/netbox-community/ansible_modules/pull/906)
           - Update documentation to use FQCN [#881](https://github.com/netbox-community/ansible_modules/pull/881)
       modules:
-        - description: Create, update or delete service templates in NetBox 
+        - description: Create, update or delete service templates in NetBox
           name: netbox_service_template
           namespace: ''
-        - description: Create, update or delete module types in NetBox 
+        - description: Create, update or delete module types in NetBox
           name: netbox_module_type
           namespace: ''
-        - description: Create, update or delete inventory item roles in NetBox 
+        - description: Create, update or delete inventory item roles in NetBox
           name: netbox_inventory_item_role
           namespace: ''
       release_date: '2022-12-16'
@@ -764,8 +765,8 @@ releases:
         - netbox_webhook - Fix conditions bug [#926](https://github.com/netbox-community/ansible_modules/pull/926)
         - nb_lookup - Fix pynetbox 7.0.1 compatibility [#934](https://github.com/netbox-community/ansible_modules/pull/934)
       minor_changes:
-        - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826) 
-    release_date: '2023-02-12' 
+        - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826)
+    release_date: '2023-02-12'
   3.12.0:
     changes:
       bugfixes:
