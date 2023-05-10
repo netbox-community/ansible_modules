@@ -454,14 +454,6 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "jsondiff"
-version = "2.0.0"
-description = "Diff JSON and JSON-like structures in Python"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "lazy-object-proxy"
 version = "1.9.0"
 description = "A fast and thorough lazy object proxy."
@@ -973,7 +965,7 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "6ca77d2cb04c909f6e8dc62122be717318c0e4f28599ffab6cadf994077ee0d7"
+content-hash = "089edab81a1c4ada15b283f79f3c461e74b8ce139522f6ef375a7040e9f3ba84"
 
 [metadata.files]
 aiofiles = [
@@ -1491,10 +1483,6 @@ jinja2 = [
 jmespath = [
     {file = "jmespath-1.0.1-py3-none-any.whl", hash = "sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980"},
     {file = "jmespath-1.0.1.tar.gz", hash = "sha256:90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"},
-]
-jsondiff = [
-    {file = "jsondiff-2.0.0-py3-none-any.whl", hash = "sha256:689841d66273fc88fc79f7d33f4c074774f4f214b6466e3aff0e5adaf889d1e0"},
-    {file = "jsondiff-2.0.0.tar.gz", hash = "sha256:2795844ef075ec8a2b8d385c4d59f5ea48b08e7180fce3cb2787be0db00b1fb4"},
 ]
 lazy-object-proxy = [
     {file = "lazy-object-proxy-1.9.0.tar.gz", hash = "sha256:659fb5809fa4629b8a1ac5106f669cfc7bef26fbb389dda53b3e010d1ac4ebae"},
