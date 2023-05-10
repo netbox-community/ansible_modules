@@ -70,6 +70,7 @@ API_APPS_ENDPOINTS = dict(
         "rack_groups",
         "rack_roles",
         "rear_ports",
+        "rear-ports",
         "rear_port_templates",
         "regions",
         "sites",
@@ -89,6 +90,7 @@ API_APPS_ENDPOINTS = dict(
         "aggregates",
         "asns",
         "fhrp_groups",
+        "fhrp_group_assignments",
         "ip_addresses",
         "l2vpns",
         "l2vpn_terminations",
@@ -133,11 +135,13 @@ QUERY_TYPES = dict(
     export_targets="name",
     export_template="name",
     fhrp_groups="group_id",
+    fhrp_group_assignments="id",
     group="slug",
     installed_device="name",
     inventory_item_role="name",
     import_targets="name",
     l2vpn="name",
+    l2vpn_termination="id",
     location="slug",
     manufacturer="slug",
     module_type="model",
@@ -317,6 +321,7 @@ ENDPOINT_NAME_MAPPING = {
     "device_types": "device_type",
     "export_templates": "export_template",
     "fhrp_groups": "fhrp_group",
+    "fhrp_group_assignments": "fhrp_group_assignment",
     "front_ports": "front_port",
     "front_port_templates": "front_port_template",
     "journal_entries": "journal_entry",
@@ -326,6 +331,7 @@ ENDPOINT_NAME_MAPPING = {
     "inventory_item_roles": "inventory_item_role",
     "ip_addresses": "ip_address",
     "l2vpns": "l2vpn",
+    "l2vpn_terminations": "l2vpn_termination",
     "locations": "location",
     "manufacturers": "manufacturer",
     "module_types": "module_type",
@@ -343,6 +349,7 @@ ENDPOINT_NAME_MAPPING = {
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
     "rear_ports": "rear_port",
+    "rear-ports": "rearport",
     "rear_port_templates": "rear_port_template",
     "regions": "region",
     "rirs": "rir",
@@ -421,6 +428,7 @@ ALLOWED_QUERY_PARAMS = {
     "fhrp_group": set(
         ["id", "group_id", "interface_type", "device", "virtual_machine"]
     ),
+    "fhrp_group_assignment": set(["group", "interface_type", "interface_id"]),
     "front_port": set(["name", "device", "rear_port"]),
     "front_port_template": set(["name", "device_type", "rear_port"]),
     "installed_device": set(["name"]),
@@ -436,6 +444,9 @@ ALLOWED_QUERY_PARAMS = {
         ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
     ),
     "l2vpn": set(["name"]),
+    "l2vpn_termination": set(
+        ["l2vpn", "assigned_object_type", "interface_id", "vlan_id", "vminterface_id"]
+    ),
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
     "module_type": set(["model"]),
@@ -550,6 +561,7 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "contact_group": "group",
+    "fhrp_group": "group",
     "parent_contact_group": "parent",
     "parent_location": "parent",
     "parent_interface": "parent",
@@ -999,7 +1011,19 @@ class NetboxModule(object):
                     "name": module_data.get("power_port_template"),
                 }
                 query_dict.update(power_port_template)
-
+        elif parent == "l2vpn_termination":
+            query_param_mapping = {
+                "dcim.interface": "interface_id",
+                "ipam.vlan": "vlan_id",
+                "virtualization.vminterface": "vminterface_id",
+            }
+            query_key = query_param_mapping[module_data.get("assigned_object_type")]
+            query_dict.update(
+                {
+                    "l2vpn_id": query_dict.pop("l2vpn"),
+                    query_key: module_data.get("assigned_object_id"),
+                }
+            )
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")

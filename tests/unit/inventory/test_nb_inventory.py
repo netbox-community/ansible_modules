@@ -6,10 +6,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import pytest
 import os
 from functools import partial
-from unittest.mock import patch, MagicMock, Mock, call, mock_open
+from unittest.mock import Mock, call, mock_open, patch
+
+import pytest
 from packaging import version
 
 try:

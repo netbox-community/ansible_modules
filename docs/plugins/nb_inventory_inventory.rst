@@ -42,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.12.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.13.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -80,7 +80,6 @@ Synopsis
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 

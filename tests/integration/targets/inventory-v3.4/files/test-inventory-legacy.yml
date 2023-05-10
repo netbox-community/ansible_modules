@@ -1,3 +1,4 @@
+---
 # To generate the json result, I checked out nb_inventory.yml from the v0.2.0 release 2d6894b,
 # and then ran it against this inventory with the latest test data.
 

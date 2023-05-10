@@ -28,7 +28,7 @@
       - test_one['webhook']['name'] == "Example Webhook"
       - test_one['webhook']['type_create'] == True
       - test_one['webhook']['payload_url'] == "https://payload.url"
-      - test_one['webhook']['content_types'] == ["dcim.device"]      
+      - test_one['webhook']['content_types'] == ["dcim.device"]
       - test_one['msg'] == "webhook Example Webhook created"
 
 - name: "WEBHOOK 2: Create duplicate"

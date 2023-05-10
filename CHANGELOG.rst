@@ -5,6 +5,27 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.13.0
+=======
+
+Minor Changes
+-------------
+
+- nb_inventory - Enable NetBox 3.5 support [#999](https://github.com/netbox-community/ansible_modules/pull/999)
+- netbox_fhrp_group_assignment - Add module [#974](https://github.com/netbox-community/ansible_modules/pull/974)
+- netbox_lsvpn_termination - Add module [#994](https://github.com/netbox-community/ansible_modules/pull/994)
+
+Bugfixes
+--------
+
+- netbox_cable - Fix idempotency [#990](https://github.com/netbox-community/ansible_modules/pull/990)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_fhrp_group_assignment - Creates, updates or removes FHRP group assignments from NetBox
+- netbox.netbox.netbox_lsvpn_termination - Creates, updates or removes L2VPNs terminations from NetBox
+
 v3.12.0
 =======
 

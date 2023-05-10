@@ -1,0 +1,15 @@
+---
+version: '3.4'
+services:
+  netbox-worker: &netbox-override
+    image: netboxcommunity/netbox:v3.2
+  netbox:
+    <<: *netbox-override
+    ports:
+      - 32768:8080
+    environment:
+      SKIP_SUPERUSER: "false"
+      SUPERUSER_API_TOKEN: "0123456789abcdef0123456789abcdef01234567"
+      SUPERUSER_EMAIL: "admin@localhost.com"
+      SUPERUSER_NAME: "admin"
+      SUPERUSER_PASSWORD: "admin"

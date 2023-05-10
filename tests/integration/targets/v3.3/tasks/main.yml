@@ -247,8 +247,17 @@
   tags:
     - netbox_l2vpn
 
+- name: "NETBOX_L2VPN_TERMINATION TESTS"
+  include_tasks:
+    file: "netbox_l2vpn_termination.yml"
+    apply:
+      tags:
+        - netbox_l2vpn_termination
+  tags:
+    - netbox_l2vpn_termination
+
 - name: "NETBOX_INVENTORY_ITEM_ROLE TESTS"
-  include_tasks: 
+  include_tasks:
     file: "netbox_inventory_item_role.yml"
     apply:
       tags:
@@ -257,7 +266,7 @@
     - netbox_inventory_item_role
 
 - name: "NETBOX_MODULE_TYPE TESTS"
-  include_tasks: 
+  include_tasks:
     file: "netbox_module_type.yml"
     apply:
       tags:
@@ -270,3 +279,12 @@
 
 - name: "NETBOX_FHRP_GROUP TESTS"
   include_tasks: "netbox_fhrp_group.yml"
+
+- name: "NETBOX_FHRP_GROUP_ASSIGNMENT TESTS"
+  include_tasks:
+    file: "netbox_fhrp_group_assignment.yml"
+    apply:
+      tags:
+        - netbox_fhrp_group_assignmen
+  tags:
+    - netbox_fhrp_group_assignmen

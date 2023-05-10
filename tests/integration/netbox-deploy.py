@@ -6,11 +6,12 @@ __metaclass__ = type
 
 import os
 import sys
+
 import pynetbox
 from packaging import version
 
-# NOTE: If anything depends on specific versions of NetBox, can check INTEGRATION_TESTS in env
-# os.environ["INTEGRATION_TESTS"]
+# NOTE: If anything depends on specific versions of NetBox, can check VERSION in env
+# os.environ["VERSION"]
 
 
 # Set nb variable to connect to NetBox and use the veriable in future calls
@@ -173,6 +174,20 @@ vlans = [
 ]
 created_vlans = make_netbox_calls(nb.ipam.vlans, vlans)
 
+## Create FHRP GROUPS
+fhrp_groups = [
+    {
+        "protocol": "other",
+        "group_id": 1,
+        "description": "Test FHRP Group 1",
+    },
+    {
+        "protocol": "glbp",
+        "group_id": 2,
+        "description": "Test FHRP Group 2",
+    },
+]
+created_fhrp_groups = make_netbox_calls(nb.ipam.fhrp_groups, fhrp_groups)
 
 ## Create IPAM Roles
 ipam_roles = [{"name": "Network of care", "slug": "network-of-care"}]
@@ -531,6 +546,23 @@ route_targets = [
     {"name": "6000:6000"},
 ]
 created_route_targets = make_netbox_calls(nb.ipam.route_targets, route_targets)
+
+## Create L2VPNs
+l2vpns = [
+    {
+        "identifier": 111111,
+        "name": "Test L2VPN 1",
+        "slug": "Test_L2VPN_1",
+        "type": "vxlan",
+    },
+    {
+        "identifier": 222222,
+        "name": "Test L2VPN 2",
+        "slug": "Test_L2VPN_2",
+        "type": "vxlan",
+    },
+]
+created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
 
 if ERRORS:
     sys.exit(

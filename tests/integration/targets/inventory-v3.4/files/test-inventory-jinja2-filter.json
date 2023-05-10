@@ -610,13 +610,367 @@
                 "tags": [],
                 "serial": "FAB01234567",
                 "asset_tag": "123456789"
+            },
+            "test100-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth0",
+                        "enabled": true,
+                        "id": 1,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth0",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth1",
+                        "enabled": true,
+                        "id": 2,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth1",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth2",
+                        "enabled": true,
+                        "id": 3,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth2",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth3",
+                        "enabled": true,
+                        "id": 4,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth3",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth4",
+                        "enabled": true,
+                        "id": 5,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth4",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "vrf": null
+                    }
+                ],
+                "is_virtual": true,
+                "locations": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth0",
+                        "enabled": true,
+                        "id": 6,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth0",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test101-vm",
+                            "id": 2,
+                            "name": "test101-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth1",
+                        "enabled": true,
+                        "id": 7,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth1",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test101-vm",
+                            "id": 2,
+                            "name": "test101-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth2",
+                        "enabled": true,
+                        "id": 8,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth2",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test101-vm",
+                            "id": 2,
+                            "name": "test101-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth3",
+                        "enabled": true,
+                        "id": 9,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth3",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test101-vm",
+                            "id": 2,
+                            "name": "test101-vm"
+                        },
+                        "vrf": null
+                    },
+                    {
+                        "bridge": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 0,
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "Eth4",
+                        "enabled": true,
+                        "id": 10,
+                        "ip_addresses": [],
+                        "l2vpn_termination": null,
+                        "mac_address": null,
+                        "mode": null,
+                        "mtu": null,
+                        "name": "Eth4",
+                        "parent": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "untagged_vlan": null,
+                        "virtual_machine": {
+                            "display": "test101-vm",
+                            "id": 2,
+                            "name": "test101-vm"
+                        },
+                        "vrf": null
+                    }
+                ],
+                "is_virtual": true,
+                "locations": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test102-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [],
+                "is_virtual": true,
+                "locations": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test103-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "config_context": {},
+                "custom_fields": {},
+                "interfaces": [],
+                "is_virtual": true,
+                "locations": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "services": [],
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
             }
         }
     },
     "all": {
         "children": [
+            "cluster_Test_Cluster",
+            "cluster_group_test_cluster_group",
+            "cluster_type_test_cluster_type",
             "device_type_cisco_test",
             "device_type_nexus_parent",
+            "is_virtual",
             "manufacturer_cisco",
             "rack_Test_Rack",
             "region_other_region",
@@ -630,6 +984,38 @@
             "site_test_site2",
             "status_active",
             "ungrouped"
+        ]
+    },
+    "cluster_Test_Cluster": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "cluster_group_test_cluster_group": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "cluster_type_test_cluster_type": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "is_virtual": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
         ]
     },
     "device_type_cisco_test": {
@@ -705,6 +1091,12 @@
         ]
     },
     "site_test_site": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ],        
         "children": [
             "location_parent_rack_group"
         ]
@@ -713,7 +1105,11 @@
         "hosts": [
             "Test Nexus One",
             "TestDeviceR1",
-            "test100"
+            "test100",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
         ]
     }
 }

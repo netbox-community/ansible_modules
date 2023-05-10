@@ -1,3 +1,4 @@
+---
 plugin: netbox.netbox.nb_inventory
 api_endpoint: "http://localhost:32768"
 token: "0123456789abcdef0123456789abcdef01234567"
@@ -38,7 +39,7 @@ group_by:
   - is_virtual
   - status
 
-query_filters:
+query_filters: ""
 
 device_query_filters:
   - role: core-switch

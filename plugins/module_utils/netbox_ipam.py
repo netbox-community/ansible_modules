@@ -21,6 +21,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 NB_AGGREGATES = "aggregates"
 NB_ASNS = "asns"
 NB_FHRP_GROUPS = "fhrp_groups"
+NB_FHRP_GROUP_ASSIGNMENTS = "fhrp_group_assignments"
 NB_IP_ADDRESSES = "ip_addresses"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
@@ -152,6 +153,7 @@ class NetboxIpamModule(NetboxModule):
         - aggregates
         - asns
         - fhrp_groups
+        - fhrp_group_assignments
         - ipam_roles
         - ip_addresses
         - l2vpns
@@ -190,6 +192,18 @@ class NetboxIpamModule(NetboxModule):
             name = data.get("asn")
         elif self.endpoint == "fhrp_groups":
             name = data.get("group_id")
+        elif self.endpoint == "fhrp_group_assignments":
+            name = "fhrp_group %s > %s %s" % (
+                data.get("group"),
+                data.get("interface_type"),
+                data.get("interface_id"),
+            )
+        elif self.endpoint == "l2vpn_terminations":
+            name = "l2vpn %s <> %s %s" % (
+                data.get("l2vpn"),
+                data.get("assigned_object_type"),
+                data.get("assigned_object_id"),
+            )
         else:
             name = data.get("name")
 

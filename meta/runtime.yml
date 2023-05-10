@@ -38,6 +38,7 @@ action_groups:
     - netbox_device_type
     - netbox_export_template
     - netbox_fhrp_group
+    - netbox_fhrp_group_assignment
     - netbox_front_port
     - netbox_front_port_template
     - netbox_inventory_item
@@ -46,6 +47,7 @@ action_groups:
     - netbox_ipam_role
     - netbox_journal_entry
     - netbox_l2vpn
+    - netbox_l2vpn_termination
     - netbox_location
     - netbox_manufacturer
     - netbox_module_type
@@ -83,4 +85,4 @@ action_groups:
     - netbox_webhook
     - netbox_wireless_lan
     - netbox_wireless_lan_group
-    - netbox_wireless_link    
+    - netbox_wireless_link
