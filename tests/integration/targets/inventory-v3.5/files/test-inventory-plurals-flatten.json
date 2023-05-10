@@ -26,6 +26,7 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "asset_tag": "345678901",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -45,6 +46,7 @@
                     "Test Rack Site 2"
                 ],
                 "regions": [],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site2"
@@ -53,9 +55,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "",
-                "asset_tag": "345678901"
+                "tags": []
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -81,6 +81,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -89,8 +90,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": ""
+                "tags": []
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -133,6 +133,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "FAB12345678",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -141,10 +142,10 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB12345678"
+                "tags": []
             },
             "test100": {
+                "asset_tag": "123456789",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -173,6 +174,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "FAB01234567",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -181,9 +183,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB01234567",
-                "asset_tag": "123456789"
+                "tags": []
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
@@ -198,10 +198,10 @@
                     "test-region",
                     "parent-region"
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -221,10 +221,10 @@
                     "test-region",
                     "parent-region"
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -244,10 +244,10 @@
                     "test-region",
                     "parent-region"
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -267,10 +267,10 @@
                     "test-region",
                     "parent-region"
                 ],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -299,9 +299,9 @@
         "hosts": [
             "R1-Device",
             "Test Nexus One",
-            "Test VM With Spaces",
             "TestDeviceR1",
             "test100",
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -311,25 +311,25 @@
     },
     "all": {
         "children": [
-            "Test_Cluster",
-            "Test_Cluster_2",
-            "Test_Rack",
-            "Test_Rack_Site_2",
-            "active",
-            "cisco",
-            "cisco_test",
-            "core_switch",
-            "is_virtual",
-            "nexus_parent",
-            "other_region",
-            "other_site_group",
-            "parent_region",
-            "parent_site_group",
-            "test_cluster_group",
-            "test_cluster_type",
-            "test_rack_role",
+            "ungrouped",
             "test_site2",
-            "ungrouped"
+            "other_region",
+            "parent_region",
+            "other_site_group",
+            "parent_site_group",
+            "Test_Rack_Site_2",
+            "test_rack_role",
+            "core_switch",
+            "cisco_test",
+            "cisco",
+            "active",
+            "nexus_parent",
+            "Test_Rack",
+            "Test_Cluster_2",
+            "test_cluster_type",
+            "is_virtual",
+            "Test_Cluster",
+            "test_cluster_group"
         ]
     },
     "cisco": {
@@ -421,14 +421,14 @@
         ]
     },
     "test_site": {
+        "children": [
+            "parent_rack_group"
+        ],
         "hosts": [
             "test100-vm",
             "test101-vm",
             "test102-vm",
             "test103-vm"
-        ],
-        "children": [
-            "parent_rack_group"
         ]
     },
     "test_site2": {
