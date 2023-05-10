@@ -7,12 +7,12 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import sys
-import json
 import argparse
-from jsondiff import diff
-from typing import Iterable
+import json
+import sys
 from operator import itemgetter
+
+from deepdiff import DeepDiff
 
 # NetBox includes "created" and "last_updated" times on objects. These end up in the interfaces objects that are included verbatim from the NetBox API.
 # "url" may be different if local tests use a different host/port
@@ -31,15 +31,6 @@ KEYS_IGNORE_27 = frozenset(
         "parent_rack_group",  # group, group_names_raw = True
     ]
 )
-
-
-def all_keys_to_ignore(netbox_version):
-    keys = KEYS_REMOVE.union(KEYS_IGNORE)
-
-    if netbox_version == "v2.7":
-        return keys.union(KEYS_IGNORE_27)
-    else:
-        return keys
 
 
 # Assume the object will not be recursive, as it originally came from JSON
@@ -71,24 +62,22 @@ def sort_hostvar_arrays(obj):
     if not hostvars:
         return
 
-    for hostname, host in hostvars.items():
-        interfaces = host.get("interfaces")
-        if interfaces:
+    for _, host in hostvars.items():
+        if interfaces := host.get("interfaces"):
             host["interfaces"] = sorted(interfaces, key=itemgetter("id"))
 
-        services = host.get("services")
-        if services:
+        if services := host.get("services"):
             host["services"] = sorted(services, key=itemgetter("id"))
 
 
 def read_json(filename):
-    with open(filename, "r") as f:
-        return json.loads(f.read())
+    with open(filename, "r", encoding="utf-8") as file:
+        return json.loads(file.read())
 
 
 def write_json(filename, data):
-    with open(filename, "w") as f:
-        json.dump(data, f, indent=4)
+    with open(filename, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
 
 def main():
@@ -140,7 +129,7 @@ def main():
         data_b = read_json(args.filename_b)
 
         # Ignore keys that we don't want to diff, in addition to the ones removed that change on every commit
-        keys = all_keys_to_ignore(args.netbox_version)
+        keys = KEYS_REMOVE.union(KEYS_IGNORE)
         remove_keys(data_a, keys)
         remove_keys(data_b, keys)
 
@@ -148,9 +137,7 @@ def main():
         sort_hostvar_arrays(data_b)
 
         # Perform the diff
-        # syntax='symmetric' will produce output that prints both the before and after as "$insert" and "$delete"
-        # marshal=True removes any special types, allowing to be dumped as json
-        result = diff(data_a, data_b, marshal=True, syntax="symmetric")
+        result = DeepDiff(data_a, data_b, ignore_order=True)
 
         if result:
             # Dictionary is not empty - print differences

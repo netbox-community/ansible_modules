@@ -6,6 +6,7 @@ __metaclass__ = type
 
 import os
 import sys
+
 import pynetbox
 from packaging import version
 
@@ -33,7 +34,6 @@ def make_netbox_calls(endpoint, payload):
         created = endpoint.create(payload)
     except pynetbox.RequestError as e:
         print(e.error)
-        ERRORS = True
         return
 
     return created
