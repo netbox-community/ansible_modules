@@ -789,3 +789,19 @@ releases:
         name: netbox_asn
         namespace: ''
     release_date: '2023-04-04'
+  3.13.0:
+    changes:
+      bugfixes:
+        - netbox_cable - Fix idempotency [#990](https://github.com/netbox-community/ansible_modules/pull/990)
+      minor_changes:
+        - netbox_fhrp_group_assignment - Add module [#974](https://github.com/netbox-community/ansible_modules/pull/974)
+        - netbox_lsvpn_termination - Add module [#994](https://github.com/netbox-community/ansible_modules/pull/994)
+        - nb_inventory - Enable NetBox 3.5 support [#999](https://github.com/netbox-community/ansible_modules/pull/999)
+    modules:
+      - description: Creates, updates or removes FHRP group assignments from NetBox
+        name: netbox_fhrp_group_assignment
+        namespace: ''
+      - description: Creates, updates or removes L2VPNs terminations from NetBox
+        name: netbox_lsvpn_termination
+        namespace: ''
+    release_date: '2023-05-11'
