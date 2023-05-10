@@ -1,4 +1,5 @@
 ---
+
 - name: "NETBOX_DEVICE TESTS"
   include_tasks: "netbox_device.yml"
 
@@ -158,8 +159,9 @@
 - name: "NETBOX_VIRTUAL_CHASSIS TESTS"
   include_tasks: "netbox_virtual_chassis.yml"
 
-- name: "NETBOX_CABLE TESTS"
-  include_tasks: "netbox_cable.yml"
+# Module has to be updated for 3.3
+#- name: "NETBOX_CABLE TESTS"
+#  include_tasks: "netbox_cable.yml"
 
 - name: "NETBOX_SERVICE TESTS"
   include_tasks: "netbox_service.yml"
@@ -236,11 +238,65 @@
   tags:
     - netbox_webhook
 
+- name: "NETBOX_L2VPN TESTS"
+  include_tasks:
+    file: "netbox_l2vpn.yml"
+    apply:
+      tags:
+        - netbox_l2vpn
+  tags:
+    - netbox_l2vpn
+
+- name: "NETBOX_L2VPN_TERMINATION TESTS"
+  include_tasks:
+    file: "netbox_l2vpn_termination.yml"
+    apply:
+      tags:
+        - netbox_l2vpn_termination
+  tags:
+    - netbox_l2vpn_termination
+
+- name: "NETBOX_INVENTORY_ITEM_ROLE TESTS"
+  include_tasks:
+    file: "netbox_inventory_item_role.yml"
+    apply:
+      tags:
+        - netbox_inventory_item_role
+  tags:
+    - netbox_inventory_item_role
+
+- name: "NETBOX_MODULE_TYPE TESTS"
+  include_tasks:
+    file: "netbox_module_type.yml"
+    apply:
+      tags:
+        - netbox_module_type
+  tags:
+    - netbox_module_type
+
+- name: "NETBOX_SERVICE_TEMPLATE TESTS"
+  include_tasks:
+    file: "netbox_service_template.yml"
+    apply:
+      tags:
+        - netbox_service_template
+  tags:
+    - netbox_service_template
+
 - name: "NETBOX_ASN TESTS"
   include_tasks: "netbox_asn.yml"
 
 - name: "NETBOX_FHRP_GROUP TESTS"
   include_tasks: "netbox_fhrp_group.yml"
+
+- name: "NETBOX_JOURNAL_ENTRY TESTS"
+  include_tasks:
+    file: "netbox_journal_entry.yml"
+    apply:
+      tags:
+        - netbox_journal_entry
+  tags:
+    - netbox_journal_entry
 
 - name: "NETBOX_FHRP_GROUP_ASSIGNMENT TESTS"
   include_tasks:

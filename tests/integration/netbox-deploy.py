@@ -6,6 +6,7 @@ __metaclass__ = type
 
 import os
 import sys
+
 import pynetbox
 from packaging import version
 
