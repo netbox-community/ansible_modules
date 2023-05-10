@@ -237,6 +237,7 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
+                "serial": "",
                 "services": [
                     {
                         "comments": "",
@@ -268,8 +269,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": ""
+                "tags": []
             },
             "TestDeviceR1": {
                 "config_context": {},
@@ -288,6 +288,7 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
+                "serial": "FAB12345678",
                 "services": [],
                 "site": "test-site",
                 "site_groups": [],
@@ -295,10 +296,10 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB12345678"
+                "tags": []
             },
             "test100": {
+                "asset_tag": "123456789",
                 "config_context": {
                     "ntp_servers": [
                         "pool.ntp.org"
@@ -540,6 +541,7 @@
                     "parent-region"
                 ],
                 "role": "core-switch",
+                "serial": "FAB01234567",
                 "services": [
                     {
                         "comments": "",
@@ -607,9 +609,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB01234567",
-                "asset_tag": "123456789"
+                "tags": []
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
@@ -965,25 +965,25 @@
     },
     "all": {
         "children": [
+            "ungrouped",
+            "site_test_site2",
+            "region_other_region",
+            "region_parent_region",
+            "site_group_other_site_group",
+            "site_group_parent_site_group",
+            "role_core_switch",
+            "device_type_nexus_parent",
+            "manufacturer_cisco",
+            "service_telnet",
+            "status_active",
+            "rack_Test_Rack",
+            "device_type_cisco_test",
+            "service_ssh",
+            "service_http",
             "cluster_Test_Cluster",
             "cluster_group_test_cluster_group",
             "cluster_type_test_cluster_type",
-            "device_type_cisco_test",
-            "device_type_nexus_parent",
-            "is_virtual",
-            "manufacturer_cisco",
-            "rack_Test_Rack",
-            "region_other_region",
-            "region_parent_region",
-            "role_core_switch",
-            "service_http",
-            "service_ssh",
-            "service_telnet",
-            "site_group_other_site_group",
-            "site_group_parent_site_group",
-            "site_test_site2",
-            "status_active",
-            "ungrouped"
+            "is_virtual"
         ]
     },
     "cluster_Test_Cluster": {
@@ -1010,14 +1010,6 @@
             "test103-vm"
         ]
     },
-    "is_virtual": {
-        "hosts": [
-            "test100-vm",
-            "test101-vm",
-            "test102-vm",
-            "test103-vm"
-        ]
-    },
     "device_type_cisco_test": {
         "hosts": [
             "TestDeviceR1",
@@ -1027,6 +1019,14 @@
     "device_type_nexus_parent": {
         "hosts": [
             "Test Nexus One"
+        ]
+    },
+    "is_virtual": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
         ]
     },
     "location_parent_rack_group": {
@@ -1091,14 +1091,14 @@
         ]
     },
     "site_test_site": {
+        "children": [
+            "location_parent_rack_group"
+        ],
         "hosts": [
             "test100-vm",
             "test101-vm",
             "test102-vm",
             "test103-vm"
-        ],        
-        "children": [
-            "location_parent_rack_group"
         ]
     },
     "status_active": {
