@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_front_port_template_module:
+.. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_front_port_template module -- Create, update or delete front port templates within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_l2vpn_termination module -- Create, update or delete L2VPNs terminations within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,15 +46,15 @@ netbox.netbox.netbox_front_port_template module -- Create, update or delete fron
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_front_port_template_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_l2vpn_termination_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_front_port_template`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_l2vpn_termination`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.2.3
+New in netbox.netbox 3.13.0
 
 .. contents::
    :local:
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes front port templates from NetBox
+- Creates, updates or removes L2VPNs terminations from NetBox
 
 
 .. Aliases
@@ -76,7 +76,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_front_port_template_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module_requirements:
 
 Requirements
 ------------
@@ -109,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -143,7 +143,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -165,7 +165,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the front port template configuration
+      Defines the L2VPN termination configuration
 
 
       .. raw:: html
@@ -175,24 +175,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object_id"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data/assigned_object_id:
 
       .. rst-class:: ansible-option-title
 
-      **description**
+      **assigned_object_id**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/assigned_object_id" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.7.0`
-
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -202,7 +199,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Description of the front port
+      Assigned object id
 
 
       .. raw:: html
@@ -212,88 +209,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object_type"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/device_type:
-
-      .. rst-class:: ansible-option-title
-
-      **device_type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/device_type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The device type the front port template is attached to
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/label:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data/assigned_object_type:
 
       .. rst-class:: ansible-option-title
 
-      **label**
+      **assigned_object_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.7.0`
-
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Label of the front port
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/assigned_object_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -307,129 +233,118 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the front port template
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/rear_port_template"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/rear_port_template:
-
-      .. rst-class:: ansible-option-title
-
-      **rear_port_template**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/rear_port_template" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`any` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The rear\_port\_template the front port template is attached to
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/rear_port_template_position"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/rear_port_template_position:
-
-      .. rst-class:: ansible-option-title
-
-      **rear_port_template_position**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/rear_port_template_position" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The position of the rear port template this front port template is connected to
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The type of the front port template
+      Assigned object type
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"8p8c"`
-      - :ansible-option-choices-entry:`"110-punch"`
-      - :ansible-option-choices-entry:`"bnc"`
-      - :ansible-option-choices-entry:`"mrj21"`
-      - :ansible-option-choices-entry:`"fc"`
-      - :ansible-option-choices-entry:`"lc"`
-      - :ansible-option-choices-entry:`"lc-apc"`
-      - :ansible-option-choices-entry:`"lsh"`
-      - :ansible-option-choices-entry:`"lsh-apc"`
-      - :ansible-option-choices-entry:`"mpo"`
-      - :ansible-option-choices-entry:`"mtrj"`
-      - :ansible-option-choices-entry:`"sc"`
-      - :ansible-option-choices-entry:`"sc-apc"`
-      - :ansible-option-choices-entry:`"st"`
+      - :ansible-option-choices-entry:`"dcim.interface"`
+      - :ansible-option-choices-entry:`"ipam.vlan"`
+      - :ansible-option-choices-entry:`"virtualization.vminterface"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data/custom_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Must exist in NetBox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/l2vpn"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data/l2vpn:
+
+      .. rst-class:: ansible-option-title
+
+      **l2vpn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/l2vpn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      L2vpn object id
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-data/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Any tags that the L2VPN termination may need to be associated with
 
 
       .. raw:: html
@@ -442,7 +357,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -476,7 +391,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -512,7 +427,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -550,7 +465,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -592,7 +507,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -642,6 +557,13 @@ Notes
 
 .. Seealso
 
+See Also
+--------
+
+.. seealso::
+
+   `FHRP Group Model reference <https://docs.netbox.dev/en/stable/models/ipam/l2vpntermination/>`_
+       NetBox Documentation for FHRP Group Model.
 
 .. Examples
 
@@ -651,45 +573,29 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - hosts: localhost
       connection: local
-      hosts: localhost
-      gather_facts: False
-
+      module_defaults:
+        group/netbox.netbox.netbox:
+          netbox_url: "http://netbox.local"
+          netbox_token: "thisIsMyToken"
       tasks:
-        - name: Create front port template within NetBox with only required information
-          netbox.netbox.netbox_front_port_template:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: Create L2VPN termination within NetBox with only required information
+          netbox.netbox.netbox_l2vpn_termination:
             data:
-              name: Test Front Port Template
-              device_type: Test Device Type
-              type: bnc
-              rear_port_template: Test Rear Port Template
+              l2vpn: 1
+              assigned_object_type: dcim.interface
+              assigned_object_id: 32
             state: present
 
-        - name: Update front port template with other fields
-          netbox.netbox.netbox_front_port_template:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
+        - name: Delete L2VPN termination within netbox
+          netbox.netbox.netbox_l2vpn_termination:
             data:
-              name: Test Front Port Template
-              device_type: Test Device Type
-              type: bnc
-              rear_port_template: Test Rear Port Template
-              rear_port_template_position: 5
-            state: present
-
-        - name: Delete front port template within netbox
-          netbox.netbox.netbox_front_port_template:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Front Port Template
-              device_type: Test Device Type
-              type: bnc
-              rear_port_template: Test Rear Port Template
+              l2vpn: 1
+              assigned_object_type: dcim.interface
+              assigned_object_id: 32
             state: absent
+
 
 
 
@@ -716,17 +622,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-front_port_template"></div>
+        <div class="ansibleOptionAnchor" id="return-l2vpn_termination"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__return-front_port_template:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__return-l2vpn_termination:
 
       .. rst-class:: ansible-option-title
 
-      **front_port_template**
+      **l2vpn_termination**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-front_port_template" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-l2vpn_termination" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -758,7 +664,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_l2vpn_termination_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -802,7 +708,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Andrii Konts (@andrii-konts)
 
 
 

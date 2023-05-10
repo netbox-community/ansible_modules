@@ -7,7 +7,7 @@ Index of all Collection Environment Variables
 =============================================
 
 The following index documents all environment variables declared by plugins in collections.
-Environment variables used by the ansible-core configuation are documented in :ref:`ansible_configuration_settings`.
+Environment variables used by the ansible-core configuration are documented in :ref:`ansible_configuration_settings`.
 
 .. envvar:: ANSIBLE_INVENTORY_USE_EXTRA_VARS
 
