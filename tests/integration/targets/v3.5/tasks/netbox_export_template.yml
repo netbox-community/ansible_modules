@@ -9,7 +9,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_types:
+        - "dcim.device"
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -24,7 +25,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['export_template']['name'] == "Example Export Template"
-      - test_one['export_template']['content_type'] == "dcim.device"
+      - test_one['export_template']['content_types'] == ["dcim.device"]
       - test_one['export_template']['description'] == "Export Devices"
       - test_one['msg'] == "export_template Example Export Template created"
 
@@ -33,7 +34,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_types:
+        - "dcim.device"
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -53,7 +55,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "dcim.device"
+      content_types:
+        - "dcim.device"
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -75,7 +78,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "virtualization.virtualmachine"
+      content_types:
+        - "virtualization.virtualmachine"
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -87,7 +91,7 @@
   assert:
     that:
       - test_four is changed
-      - test_four['diff']['after']['content_type'] == "virtualization.virtualmachine"
+      - test_four['diff']['after']['content_types'] == ["virtualization.virtualmachine"]
       - test_four['export_template']['name'] == "Example Export Template"
       - test_four['msg'] == "export_template Example Export Template updated"
 
@@ -96,7 +100,8 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_type: "virtualization.virtualmachine"
+      content_types:
+        - "virtualization.virtualmachine"
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-

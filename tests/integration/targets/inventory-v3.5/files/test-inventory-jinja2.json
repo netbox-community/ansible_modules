@@ -314,11 +314,6 @@
             "VC1"
         ]
     },
-    "parent_site_group": {
-        "children": [
-            "test_site_group"
-        ]
-    },
     "parent_rack_group": {
         "children": [
             "test_rack_group"
@@ -327,6 +322,11 @@
     "parent_region": {
         "children": [
             "test_region"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
         ]
     },
     "test_cluster_group": {
@@ -365,14 +365,14 @@
         ]
     },
     "test_site": {
-        "children": [
-            "parent_rack_group"
-        ],
         "hosts": [
             "test100-vm",
             "test101-vm",
             "test102-vm",
             "test103-vm"
+        ],
+        "children": [
+            "parent_rack_group"
         ]
     },
     "test_site2": {

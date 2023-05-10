@@ -264,3 +264,20 @@
         that:
           - test_results | community.general.json_query('results[?ip_address.address==`1.121.121.121/32`]') | length == 2
           - test_results | community.general.json_query('results[?ip_address.address==`121.121.121.121/32`]') | length == 2
+
+    - name: "Issue #958 - Make sure we can add same location with different sites"
+      netbox.netbox.netbox_location:
+        netbox_url: "http://localhost:32768"
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: Office Building
+          site: "{{ item }}"
+      loop:
+        - Test Site
+        - Test Site2
+      register: test_results
+
+    - name: "ASSERT ISSUE #957 - Location has different IDs"
+      ansible.builtin.assert:
+        that:
+          - test_results.results.0.location.id != test_results.results.1.location.id
