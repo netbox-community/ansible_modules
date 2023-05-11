@@ -12,17 +12,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Run yamllint
+        uses: karancode/yamllint-github-action@master
+
+      - name: Run isort
+        uses: jamescurtin/isort-action@master
+
       - name: Run black
         uses: psf/black@stable
 
-      - name: 'Yamllint'
-        uses: karancode/yamllint-github-action@master
-
-      #- name: Run isort
-      #  uses: jamescurtin/isort-action@master
-
-      #- name: Run ruff
-      #  uses: chartboost/ruff-action@v1
+      - name: Run ruff
+        uses: chartboost/ruff-action@v1
 
   unit_testing:
     runs-on: ubuntu-latest
