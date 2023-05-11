@@ -12,7 +12,7 @@ import json
 
 # Load test data from a json file, for a pytest parametrize
 def load_test_data(path, test_path):
-    with open(f"{path}/test_data/{test_path}/data.json", "r") as f:
+    with open(f"{path}/test_data/{test_path}/data.json", "r", encoding="utf-8") as f:
         data = json.loads(f.read())
     tests = []
     for test in data:

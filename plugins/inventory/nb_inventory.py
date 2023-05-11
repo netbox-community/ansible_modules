@@ -1490,7 +1490,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
 
         try:
-            with open(tmp_file) as file:
+            with open(tmp_file, encoding="utf-8") as file:
                 openapi = json.load(file)
         except Exception:
             openapi = {}
@@ -1504,7 +1504,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
 
             openapi = self._fetch_information(endpoint_url)
-            with open(tmp_file, "w") as file:
+            with open(tmp_file, "w", encoding="utf-8") as file:
                 json.dump(openapi, file)
 
         self.api_version = version.parse(netbox_api_version)
