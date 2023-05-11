@@ -44,7 +44,7 @@ options:
         required: true
         type: str
       mark_connected:
-        description: 
+        description:
           - Treat as if cable is connected
         required: false
         type: bool
@@ -138,15 +138,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import (
-    NetboxCircuitsModule,
-    NB_CIRCUIT_TERMINATIONS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import NB_CIRCUIT_TERMINATIONS, NetboxCircuitsModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -180,9 +175,7 @@ def main():
         ("state", "absent", ["circuit", "term_side"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_circuit_termination = NetboxCircuitsModule(module, NB_CIRCUIT_TERMINATIONS)
     netbox_circuit_termination.run()

@@ -34,7 +34,6 @@ def make_netbox_calls(endpoint, payload):
         created = endpoint.create(payload)
     except pynetbox.RequestError as e:
         print(e.error)
-        ERRORS = True
         return
 
     return created
@@ -416,16 +415,12 @@ created_rirs = make_netbox_calls(nb.ipam.rirs, rirs)
 
 ## Create Cluster Group
 cluster_groups = [{"name": "Test Cluster Group", "slug": "test-cluster-group"}]
-created_cluster_groups = make_netbox_calls(
-    nb.virtualization.cluster_groups, cluster_groups
-)
+created_cluster_groups = make_netbox_calls(nb.virtualization.cluster_groups, cluster_groups)
 test_cluster_group = nb.virtualization.cluster_groups.get(slug="test-cluster-group")
 
 ## Create Cluster Type
 cluster_types = [{"name": "Test Cluster Type", "slug": "test-cluster-type"}]
-created_cluster_types = make_netbox_calls(
-    nb.virtualization.cluster_types, cluster_types
-)
+created_cluster_types = make_netbox_calls(nb.virtualization.cluster_types, cluster_types)
 test_cluster_type = nb.virtualization.cluster_types.get(slug="test-cluster-type")
 
 ## Create Cluster
@@ -454,9 +449,7 @@ virtual_machines = [
     {"name": "test104-vm", "cluster": test_cluster2.id},
     {"name": "Test VM With Spaces", "cluster": test_cluster2.id},
 ]
-created_virtual_machines = make_netbox_calls(
-    nb.virtualization.virtual_machines, virtual_machines
-)
+created_virtual_machines = make_netbox_calls(nb.virtualization.virtual_machines, virtual_machines)
 test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
 test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
@@ -479,9 +472,7 @@ virtual_machines_intfs = [
     {"name": "Eth0", "virtual_machine": test_spaces_vm.id},
     {"name": "Eth1", "virtual_machine": test_spaces_vm.id},
 ]
-created_virtual_machines_intfs = make_netbox_calls(
-    nb.virtualization.interfaces, virtual_machines_intfs
-)
+created_virtual_machines_intfs = make_netbox_calls(nb.virtualization.interfaces, virtual_machines_intfs)
 
 
 ## Create Services
@@ -536,9 +527,7 @@ circuit_terms = [
         "site": test_site.id,
     }
 ]
-created_circuit_terms = make_netbox_calls(
-    nb.circuits.circuit_terminations, circuit_terms
-)
+created_circuit_terms = make_netbox_calls(nb.circuits.circuit_terminations, circuit_terms)
 
 route_targets = [
     {"name": "4000:4000"},
@@ -565,6 +554,4 @@ l2vpns = [
 created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
 
 if ERRORS:
-    sys.exit(
-        "Errors have occurred when creating objects, and should have been printed out. Check previous output."
-    )
+    sys.exit("Errors have occurred when creating objects, and should have been printed out. Check previous output.")

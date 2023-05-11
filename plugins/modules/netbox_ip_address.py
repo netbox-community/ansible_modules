@@ -277,15 +277,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
-    NetboxIpamModule,
-    NB_IP_ADDRESSES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import NB_IP_ADDRESSES, NetboxIpamModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -294,9 +289,7 @@ def main():
     """
     argument_spec = deepcopy(NETBOX_ARG_SPEC)
     # state choices present, absent, new
-    argument_spec["state"] = dict(
-        required=False, default="present", choices=["present", "absent", "new"]
-    )
+    argument_spec["state"] = dict(required=False, default="present", choices=["present", "absent", "new"])
     argument_spec.update(
         dict(
             data=dict(

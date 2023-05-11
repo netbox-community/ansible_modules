@@ -105,15 +105,10 @@ msg:
   returned: always
   type: str
 """
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_DEVICE_ROLES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_DEVICE_ROLES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -141,9 +136,7 @@ def main():
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_device_role = NetboxDcimModule(module, NB_DEVICE_ROLES)
     netbox_device_role.run()

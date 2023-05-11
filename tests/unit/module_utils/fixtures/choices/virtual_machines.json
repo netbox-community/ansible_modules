@@ -1,16 +1,16 @@
 {
-    "status": [
-        {
-            "value": "active",
-            "display_name": "Active"
-        },
-        {
-            "value": "offline",
-            "display_name": "Offline"
-        },
-        {
-            "value": "staged",
-            "display_name": "Staged"
-        }
-    ]
+  "status": [
+    {
+      "display_name": "Active",
+      "value": "active"
+    },
+    {
+      "display_name": "Offline",
+      "value": "offline"
+    },
+    {
+      "display_name": "Staged",
+      "value": "staged"
+    }
+  ]
 }

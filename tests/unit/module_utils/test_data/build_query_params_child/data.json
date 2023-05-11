@@ -1,261 +1,261 @@
 [
-    {
-        "parent": "primary_ip4",
-        "module_data": {
-            "name": "test100",
-            "serial": "FXS1001",
-            "comments": "Temp device",
-            "primary_ip4": {
-                "address": "172.16.180.1/24",
-                "vrf": "Test VRF"
-            }
-        },
-        "child": {
-            "address": "172.16.180.1/24",
-            "vrf": "Test VRF"
-        },
-        "expected": {
-            "address": "172.16.180.1/24",
-            "vrf_id": 1
-        }
+  {
+    "child": {
+      "address": "172.16.180.1/24",
+      "vrf": "Test VRF"
     },
-    {
-        "parent": "primary_ip6",
-        "module_data": {
-            "name": "test100",
-            "serial": "FXS1001",
-            "comments": "Temp device",
-            "primary_ip4": {
-                "address": "2001::1:1/64",
-                "vrf": "Test VRF"
-            }
-        },
-        "child": {
-            "address": "2001::1:1/64",
-            "vrf": "Test VRF"
-        },
-        "expected": {
-            "address": "2001::1:1/64",
-            "vrf_id": 1
-        }
+    "expected": {
+      "address": "172.16.180.1/24",
+      "vrf_id": 1
     },
-    {
-        "parent": "assigned_object",
-        "module_data": {
-            "address": "10.10.10.1/24",
-            "description": "Test description",
-            "assigned_object": {
-                "device": "test100",
-                "name": "Ethernet1/1"
-            }
-        },
-        "child": {
-            "device": "test100",
-            "name": "Ethernet1/1"
-        },
-        "expected": {
-            "device_id": 1,
-            "name": "Ethernet1/1"
-        }
+    "module_data": {
+      "comments": "Temp device",
+      "name": "test100",
+      "primary_ip4": {
+        "address": "172.16.180.1/24",
+        "vrf": "Test VRF"
+      },
+      "serial": "FXS1001"
     },
-    {
-        "parent": "assigned_object",
-        "module_data": {
-            "address": "10.10.10.1/24",
-            "description": "Test description",
-            "assigned_object": {
-                "virtual_machine": "test100-vm",
-                "name": "Ethernet1/1"
-            }
-        },
-        "child": {
-            "virtual_machine": "test100-vm",
-            "name": "Ethernet1/1"
-        },
-        "expected": {
-            "virtual_machine_id": 1,
-            "name": "Ethernet1/1"
-        }
+    "parent": "primary_ip4"
+  },
+  {
+    "child": {
+      "address": "2001::1:1/64",
+      "vrf": "Test VRF"
     },
-    {
-        "parent": "lag",
-        "module_data": {
-            "name": "GigabitEthernet1",
-            "device": 1,
-            "lag": {
-                "name": "port-channel1"
-            }
-        },
-        "child": {
-            "name": "port-channel1"
-        },
-        "expected": {
-            "device_id": 1,
-            "type": 200,
-            "name": "port-channel1"
-        }
+    "expected": {
+      "address": "2001::1:1/64",
+      "vrf_id": 1
     },
-    {
-        "parent": "lag",
-        "module_data": {
-            "name": "GigabitEthernet1",
-            "device": "Test Device",
-            "lag": {
-                "name": "port-channel1"
-            }
-        },
-        "child": {
-            "name": "port-channel1"
-        },
-        "expected": {
-            "device": "Test Device",
-            "type": 200,
-            "name": "port-channel1"
-        }
+    "module_data": {
+      "comments": "Temp device",
+      "name": "test100",
+      "primary_ip4": {
+        "address": "2001::1:1/64",
+        "vrf": "Test VRF"
+      },
+      "serial": "FXS1001"
     },
-    {
-        "parent": "nat_inside",
-        "module_data": {
-            "address": "10.10.10.1/24",
-            "nat_inside": {
-                "address": "192.168.1.1/24",
-                "vrf": "Test VRF"
-            }
-        },
-        "child": {
-            "address": "192.168.1.1/24",
-            "vrf": "Test VRF"
-        },
-        "expected": {
-            "address": "192.168.1.1/24",
-            "vrf_id": 1
-        }
+    "parent": "primary_ip6"
+  },
+  {
+    "child": {
+      "device": "test100",
+      "name": "Ethernet1/1"
     },
-    {
-        "parent": "vlan",
-        "module_data": {
-            "prefix": "10.10.10.0/24",
-            "description": "Test Prefix",
-            "vlan": {
-                "name": "Test VLAN",
-                "site": "Test Site",
-                "tenant": "Test Tenant",
-                "vid": 1,
-                "vlan_group": "Test VLAN group"
-            }
-        },
-        "child": {
-            "name": "Test VLAN",
-            "site": "Test Site",
-            "tenant": "Test Tenant",
-            "vid": 1,
-            "vlan_group": "Test VLAN group"
-        },
-        "expected": {
-            "name": "Test VLAN",
-            "site_id": 1,
-            "tenant_id": 1,
-            "vid": 1,
-            "group": "Test VLAN group"
-        }
+    "expected": {
+      "device_id": 1,
+      "name": "Ethernet1/1"
     },
-    {
-        "parent": "vlan_group",
-        "module_data": {
-            "prefix": "10.10.10.0/24",
-            "description": "Test Prefix",
-            "vlan_group": {
-                "name": "Test VLAN Group",
-                "slug": "test-vlan-group",
-                "site": "Test Site"
-            }
-        },
-        "child": {
-            "name": "Test VLAN Group",
-            "slug": "test-vlan-group",
-            "site": "Test Site"
-        },
-        "expected": {
-            "name": "Test VLAN Group",
-            "slug": "test-vlan-group",
-            "site": 1
-        }
+    "module_data": {
+      "address": "10.10.10.1/24",
+      "assigned_object": {
+        "device": "test100",
+        "name": "Ethernet1/1"
+      },
+      "description": "Test description"
     },
-    {
-        "parent": "untagged_vlan",
-        "module_data": {
-            "prefix": "10.10.10.0/24",
-            "description": "Test Prefix",
-            "untagged_vlan": {
-                "name": "Test VLAN",
-                "site": "Test Site",
-                "vid": 1
-            }
-        },
-        "child": {
-            "name": "Test VLAN",
-            "site": "Test Site",
-            "vid": 1
-        },
-        "expected": {
-            "name": "Test VLAN",
-            "site_id": 1,
-            "vid": 1
-        }
+    "parent": "assigned_object"
+  },
+  {
+    "child": {
+      "name": "Ethernet1/1",
+      "virtual_machine": "test100-vm"
     },
-    {
-        "parent": "vrf",
-        "module_data": {
-            "prefix": "10.10.10.0/24",
-            "description": "Test Prefix",
-            "vrf": {
-                "name": "Test VRF",
-                "tenant": "Test Tenant"
-            }
-        },
-        "child": {
-            "name": "Test VRF",
-            "tenant": "Test Tenant"
-        },
-        "expected": {
-            "name": "Test VRF",
-            "tenant_id": 1
-        }
+    "expected": {
+      "name": "Ethernet1/1",
+      "virtual_machine_id": 1
     },
-    {
-        "parent": "termination_a",
-        "module_data": {
-            "termination_a_type": "circuits.circuittermination",
-            "termination_a": {
-                "circuit": "Circuit1",
-                "term_side": "A"
-            }
-        },
-        "child": {
-            "circuit": "Circuit1",
-            "term_side": "A"
-        },
-        "expected": {
-            "circuit_id": 1,
-            "term_side": "A"
-        }
+    "module_data": {
+      "address": "10.10.10.1/24",
+      "assigned_object": {
+        "name": "Ethernet1/1",
+        "virtual_machine": "test100-vm"
+      },
+      "description": "Test description"
     },
-    {
-        "parent": "termination_b",
-        "module_data": {
-            "termination_b_type": "dcim.interface",
-            "termination_b": {
-                "device": "device1",
-                "name": "Ethernet1/1"
-            }
-        },
-        "child": {
-            "device": "device1",
-            "name": "Ethernet1/1"
-        },
-        "expected": {
-            "device_id": 1,
-            "name": "Ethernet1/1"
-        }
-    }
+    "parent": "assigned_object"
+  },
+  {
+    "child": {
+      "name": "port-channel1"
+    },
+    "expected": {
+      "device_id": 1,
+      "name": "port-channel1",
+      "type": 200
+    },
+    "module_data": {
+      "device": 1,
+      "lag": {
+        "name": "port-channel1"
+      },
+      "name": "GigabitEthernet1"
+    },
+    "parent": "lag"
+  },
+  {
+    "child": {
+      "name": "port-channel1"
+    },
+    "expected": {
+      "device": "Test Device",
+      "name": "port-channel1",
+      "type": 200
+    },
+    "module_data": {
+      "device": "Test Device",
+      "lag": {
+        "name": "port-channel1"
+      },
+      "name": "GigabitEthernet1"
+    },
+    "parent": "lag"
+  },
+  {
+    "child": {
+      "address": "192.168.1.1/24",
+      "vrf": "Test VRF"
+    },
+    "expected": {
+      "address": "192.168.1.1/24",
+      "vrf_id": 1
+    },
+    "module_data": {
+      "address": "10.10.10.1/24",
+      "nat_inside": {
+        "address": "192.168.1.1/24",
+        "vrf": "Test VRF"
+      }
+    },
+    "parent": "nat_inside"
+  },
+  {
+    "child": {
+      "name": "Test VLAN",
+      "site": "Test Site",
+      "tenant": "Test Tenant",
+      "vid": 1,
+      "vlan_group": "Test VLAN group"
+    },
+    "expected": {
+      "group": "Test VLAN group",
+      "name": "Test VLAN",
+      "site_id": 1,
+      "tenant_id": 1,
+      "vid": 1
+    },
+    "module_data": {
+      "description": "Test Prefix",
+      "prefix": "10.10.10.0/24",
+      "vlan": {
+        "name": "Test VLAN",
+        "site": "Test Site",
+        "tenant": "Test Tenant",
+        "vid": 1,
+        "vlan_group": "Test VLAN group"
+      }
+    },
+    "parent": "vlan"
+  },
+  {
+    "child": {
+      "name": "Test VLAN Group",
+      "site": "Test Site",
+      "slug": "test-vlan-group"
+    },
+    "expected": {
+      "name": "Test VLAN Group",
+      "site": 1,
+      "slug": "test-vlan-group"
+    },
+    "module_data": {
+      "description": "Test Prefix",
+      "prefix": "10.10.10.0/24",
+      "vlan_group": {
+        "name": "Test VLAN Group",
+        "site": "Test Site",
+        "slug": "test-vlan-group"
+      }
+    },
+    "parent": "vlan_group"
+  },
+  {
+    "child": {
+      "name": "Test VLAN",
+      "site": "Test Site",
+      "vid": 1
+    },
+    "expected": {
+      "name": "Test VLAN",
+      "site_id": 1,
+      "vid": 1
+    },
+    "module_data": {
+      "description": "Test Prefix",
+      "prefix": "10.10.10.0/24",
+      "untagged_vlan": {
+        "name": "Test VLAN",
+        "site": "Test Site",
+        "vid": 1
+      }
+    },
+    "parent": "untagged_vlan"
+  },
+  {
+    "child": {
+      "name": "Test VRF",
+      "tenant": "Test Tenant"
+    },
+    "expected": {
+      "name": "Test VRF",
+      "tenant_id": 1
+    },
+    "module_data": {
+      "description": "Test Prefix",
+      "prefix": "10.10.10.0/24",
+      "vrf": {
+        "name": "Test VRF",
+        "tenant": "Test Tenant"
+      }
+    },
+    "parent": "vrf"
+  },
+  {
+    "child": {
+      "circuit": "Circuit1",
+      "term_side": "A"
+    },
+    "expected": {
+      "circuit_id": 1,
+      "term_side": "A"
+    },
+    "module_data": {
+      "termination_a": {
+        "circuit": "Circuit1",
+        "term_side": "A"
+      },
+      "termination_a_type": "circuits.circuittermination"
+    },
+    "parent": "termination_a"
+  },
+  {
+    "child": {
+      "device": "device1",
+      "name": "Ethernet1/1"
+    },
+    "expected": {
+      "device_id": 1,
+      "name": "Ethernet1/1"
+    },
+    "module_data": {
+      "termination_b": {
+        "device": "device1",
+        "name": "Ethernet1/1"
+      },
+      "termination_b_type": "dcim.interface"
+    },
+    "parent": "termination_b"
+  }
 ]

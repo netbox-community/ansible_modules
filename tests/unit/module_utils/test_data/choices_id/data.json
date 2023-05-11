@@ -1,202 +1,202 @@
 [
-    {
-        "endpoint": "circuits",
-        "data": {
-            "status": "Active"
-        },
-        "expected": {
-            "status": "temp"
-        }
+  {
+    "data": {
+      "status": "Active"
     },
-    {
-        "endpoint": "circuits",
-        "data": {
-            "status": 1
-        },
-        "expected": {
-            "status": 1
-        }
-    },
-    {
-        "endpoint": "devices",
-        "data": {
-            "status": "Active",
-            "face": "Front"
-        },
-        "expected": {
-            "status": "temp",
-            "face": "temp"
-        }
-    },
-    {
-        "endpoint": "devices",
-        "data": {
-            "status": 5,
-            "face": 1
-        },
-        "expected": {
-            "status": 5,
-            "face": 1
-        }
-    },
-    {
-        "endpoint": "device_types",
-        "data": {
-            "subdevice_role": "Parent"
-        },
-        "expected": {
-            "subdevice_role": "temp"
-        }
-    },
-    {
-        "endpoint": "device_types",
-        "data": {
-            "subdevice_role": "Child"
-        },
-        "expected": {
-            "subdevice_role": "temp"
-        }
-    },
-    {
-        "endpoint": "interfaces",
-        "data": {
-            "form_factor": "1000base-t (1ge)",
-            "mode": "Access"
-        },
-        "expected": {
-            "form_factor": "temp",
-            "mode": "temp"
-        }
-    },
-    {
-        "endpoint": "interfaces",
-        "data": {
-            "mode": 100
-        },
-        "expected": {
-            "mode": 100
-        }
-    },
-    {
-        "endpoint": "ip_addresses",
-        "data": {
-            "status": "Active",
-            "role": "Loopback"
-        },
-        "expected": {
-            "status": "temp",
-            "role": "temp"
-        }
-    },
-    {
-        "endpoint": "ip_addresses",
-        "data": {
-            "status": 1,
-            "role": 30
-        },
-        "expected": {
-            "status": 1,
-            "role": 30
-        }
-    },
-    {
-        "endpoint": "prefixes",
-        "data": {
-            "status": "Active"
-        },
-        "expected": {
-            "status": "temp"
-        }
-    },
-    {
-        "endpoint": "prefixes",
-        "data": {
-            "status": 2
-        },
-        "expected": {
-            "status": 2
-        }
-    },
-    {
-        "endpoint": "racks",
-        "data": {
-            "status": "Active",
-            "outer_unit": "Inches",
-            "type": "2-post Frame"
-        },
-        "expected": {
-            "status": "temp",
-            "outer_unit": "temp",
-            "type": "temp"
-        }
-    },
-    {
-        "endpoint": "racks",
-        "data": {
-            "status": 0,
-            "type": 1100
-        },
-        "expected": {
-            "status": 0,
-            "type": 1100
-        }
-    },
-    {
-        "endpoint": "sites",
-        "data": {
-            "status": "Active"
-        },
-        "expected": {
-            "status": "temp"
-        }
-    },
-    {
-        "endpoint": "sites",
-        "data": {
-            "status": 2
-        },
-        "expected": {
-            "status": 2
-        }
-    },
-    {
-        "endpoint": "virtual_machines",
-        "data": {
-            "status": "Offline",
-            "face": "Front"
-        },
-        "expected": {
-            "status": "temp",
-            "face": "temp"
-        }
-    },
-    {
-        "endpoint": "virtual_machines",
-        "data": {
-            "status": 1,
-            "face": 0
-        },
-        "expected": {
-            "status": 1,
-            "face": 0
-        }
-    },
-    {
-        "endpoint": "vlans",
-        "data": {
-            "status": "Active"
-        },
-        "expected": {
-            "status": "temp"
-        }
-    },
-    {
-        "endpoint": "vlans",
-        "data": {
-            "status": 2
-        },
-        "expected": {
-            "status": 2
-        }
+    "endpoint": "circuits",
+    "expected": {
+      "status": "temp"
     }
+  },
+  {
+    "data": {
+      "status": 1
+    },
+    "endpoint": "circuits",
+    "expected": {
+      "status": 1
+    }
+  },
+  {
+    "data": {
+      "face": "Front",
+      "status": "Active"
+    },
+    "endpoint": "devices",
+    "expected": {
+      "face": "temp",
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "face": 1,
+      "status": 5
+    },
+    "endpoint": "devices",
+    "expected": {
+      "face": 1,
+      "status": 5
+    }
+  },
+  {
+    "data": {
+      "subdevice_role": "Parent"
+    },
+    "endpoint": "device_types",
+    "expected": {
+      "subdevice_role": "temp"
+    }
+  },
+  {
+    "data": {
+      "subdevice_role": "Child"
+    },
+    "endpoint": "device_types",
+    "expected": {
+      "subdevice_role": "temp"
+    }
+  },
+  {
+    "data": {
+      "form_factor": "1000base-t (1ge)",
+      "mode": "Access"
+    },
+    "endpoint": "interfaces",
+    "expected": {
+      "form_factor": "temp",
+      "mode": "temp"
+    }
+  },
+  {
+    "data": {
+      "mode": 100
+    },
+    "endpoint": "interfaces",
+    "expected": {
+      "mode": 100
+    }
+  },
+  {
+    "data": {
+      "role": "Loopback",
+      "status": "Active"
+    },
+    "endpoint": "ip_addresses",
+    "expected": {
+      "role": "temp",
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "role": 30,
+      "status": 1
+    },
+    "endpoint": "ip_addresses",
+    "expected": {
+      "role": 30,
+      "status": 1
+    }
+  },
+  {
+    "data": {
+      "status": "Active"
+    },
+    "endpoint": "prefixes",
+    "expected": {
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "status": 2
+    },
+    "endpoint": "prefixes",
+    "expected": {
+      "status": 2
+    }
+  },
+  {
+    "data": {
+      "outer_unit": "Inches",
+      "status": "Active",
+      "type": "2-post Frame"
+    },
+    "endpoint": "racks",
+    "expected": {
+      "outer_unit": "temp",
+      "status": "temp",
+      "type": "temp"
+    }
+  },
+  {
+    "data": {
+      "status": 0,
+      "type": 1100
+    },
+    "endpoint": "racks",
+    "expected": {
+      "status": 0,
+      "type": 1100
+    }
+  },
+  {
+    "data": {
+      "status": "Active"
+    },
+    "endpoint": "sites",
+    "expected": {
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "status": 2
+    },
+    "endpoint": "sites",
+    "expected": {
+      "status": 2
+    }
+  },
+  {
+    "data": {
+      "face": "Front",
+      "status": "Offline"
+    },
+    "endpoint": "virtual_machines",
+    "expected": {
+      "face": "temp",
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "face": 0,
+      "status": 1
+    },
+    "endpoint": "virtual_machines",
+    "expected": {
+      "face": 0,
+      "status": 1
+    }
+  },
+  {
+    "data": {
+      "status": "Active"
+    },
+    "endpoint": "vlans",
+    "expected": {
+      "status": "temp"
+    }
+  },
+  {
+    "data": {
+      "status": 2
+    },
+    "endpoint": "vlans",
+    "expected": {
+      "status": 2
+    }
+  }
 ]

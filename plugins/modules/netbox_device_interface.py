@@ -75,7 +75,7 @@ options:
           - Bridge the interface will connected to
         required: false
         type: raw
-        version_added: "3.6.0" 
+        version_added: "3.6.0"
       mtu:
         description:
           - The MTU of the interface
@@ -285,15 +285,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_INTERFACES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_INTERFACES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -330,9 +325,7 @@ def main():
                     mode=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     speed=dict(required=False, type="int"),
-                    duplex=dict(
-                        required=False, choices=["half", "full", "auto"], type="str"
-                    ),
+                    duplex=dict(required=False, choices=["half", "full", "auto"], type="str"),
                     parent_interface=dict(required=False, type="raw"),
                     untagged_vlan=dict(required=False, type="raw"),
                     tagged_vlans=dict(required=False, type="raw"),
@@ -350,9 +343,7 @@ def main():
         ("update_vc_child", True, ["device"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_device_interface = NetboxDcimModule(module, NB_INTERFACES)
     netbox_device_interface.run()

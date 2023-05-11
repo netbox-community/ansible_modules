@@ -174,15 +174,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_POWER_PORTS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_POWER_PORTS, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -272,9 +267,7 @@ def main():
         ("state", "absent", ["device", "name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_power_port = NetboxDcimModule(module, NB_POWER_PORTS)
     netbox_power_port.run()

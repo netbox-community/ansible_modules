@@ -7,12 +7,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from ansible.module_utils.basic import missing_required_lib
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxModule,
-    ENDPOINT_NAME_MAPPING,
-    SLUG_REQUIRED,
-)
-
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import ENDPOINT_NAME_MAPPING, SLUG_REQUIRED, NetboxModule
 
 NB_CABLES = "cables"
 NB_CONSOLE_PORTS = "console_ports"
@@ -63,9 +58,7 @@ except ImportError as imp_exc:
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
         if not HAS_PACKAGING:
-            self.module.fail_json(
-                msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
-            )
+            self.module.fail_json(msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR)
         super().__init__(module, endpoint)
 
     def run(self):
@@ -174,11 +167,7 @@ class NetboxDcimModule(NetboxModule):
                 # relationship
                 interface_a = self.nb.dcim.interfaces.get(data["termination_a_id"])
                 interface_b = self.nb.dcim.interfaces.get(data["termination_b_id"])
-                if (
-                    interface_a.cable
-                    and interface_b.cable
-                    and interface_a.cable.id == interface_b.cable.id
-                ):
+                if interface_a.cable and interface_b.cable and interface_a.cable.id == interface_b.cable.id:
                     cables = [self.nb.dcim.cables.get(interface_a.cable.id)]
                 else:
                     cables = []
@@ -203,27 +192,18 @@ class NetboxDcimModule(NetboxModule):
                     }
                 ]
         else:
-            object_query_params = self._build_query_params(
-                endpoint_name, data, user_query_params
-            )
-            self.nb_object = self._nb_endpoint_get(
-                nb_endpoint, object_query_params, name
-            )
+            object_query_params = self._build_query_params(endpoint_name, data, user_query_params)
+            self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         # This is logic to handle interfaces on a VC
         if self.endpoint == "interfaces":
             if self.nb_object:
                 device = self.nb.dcim.devices.get(self.nb_object.device.id)
-                if (
-                    device["virtual_chassis"]
-                    and self.nb_object.device.id != self.data["device"]
-                ):
+                if device["virtual_chassis"] and self.nb_object.device.id != self.data["device"]:
                     if self.module.params.get("update_vc_child"):
                         data["device"] = self.nb_object.device.id
                     else:
-                        self._handle_errors(
-                            msg="Must set update_vc_child to True to allow child device interface modification"
-                        )
+                        self._handle_errors(msg="Must set update_vc_child to True to allow child device interface modification")
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)

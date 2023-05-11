@@ -43,8 +43,8 @@ options:
         description:
           - The parent inventory item the inventory item will be associated with
         required: false
-        type: raw     
-        version_added: "3.5.0"   
+        type: raw
+        version_added: "3.5.0"
       label:
         description:
           - The physical label of the inventory item
@@ -125,7 +125,7 @@ EXAMPLES = r"""
           asset_tag: "1234"
           description: "New SFP"
         state: present
-        
+
     - name: Create inventory item with parent
       netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
@@ -159,15 +159,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_INVENTORY_ITEMS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_INVENTORY_ITEMS, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -203,9 +198,7 @@ def main():
         ("state", "absent", ["device", "name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_inventory_item = NetboxDcimModule(module, NB_INVENTORY_ITEMS)
     netbox_inventory_item.run()

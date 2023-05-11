@@ -1,26 +1,26 @@
 [
-    {
-        "parameter": "name",
-        "expected": true
-    },
-    {
-        "parameter": "platform",
-        "expected": true
-    },
-    {
-        "parameter": "region",
-        "expected": true
-    },
-    {
-        "parameter": "x",
-        "expected": false
-    },
-    {
-        "parameter": "y",
-        "expected": false
-    },
-    {
-        "parameter": "z",
-        "expected": false
-    }
+  {
+    "expected": true,
+    "parameter": "name"
+  },
+  {
+    "expected": true,
+    "parameter": "platform"
+  },
+  {
+    "expected": true,
+    "parameter": "region"
+  },
+  {
+    "expected": false,
+    "parameter": "x"
+  },
+  {
+    "expected": false,
+    "parameter": "y"
+  },
+  {
+    "expected": false,
+    "parameter": "z"
+  }
 ]

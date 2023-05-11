@@ -8,16 +8,17 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import json
+import re
+
 # Import necessary packages
 import traceback
-import re
-import json
 from itertools import chain
 
-from ansible.module_utils.common.text.converters import to_text
 from ansible.module_utils._text import to_native
+from ansible.module_utils.basic import AnsibleModule, _load_params, missing_required_lib
 from ansible.module_utils.common.collections import is_iterable
-from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
+from ansible.module_utils.common.text.converters import to_text
 from ansible.module_utils.urls import open_url
 
 PYNETBOX_IMP_ERR = None
@@ -425,9 +426,7 @@ ALLOWED_QUERY_PARAMS = {
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
     "export_template": set(["name"]),
-    "fhrp_group": set(
-        ["id", "group_id", "interface_type", "device", "virtual_machine"]
-    ),
+    "fhrp_group": set(["id", "group_id", "interface_type", "device", "virtual_machine"]),
     "fhrp_group_assignment": set(["group", "interface_type", "interface_id"]),
     "front_port": set(["name", "device", "rear_port"]),
     "front_port_template": set(["name", "device_type", "rear_port"]),
@@ -440,13 +439,9 @@ ALLOWED_QUERY_PARAMS = {
     "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
-    "ipaddresses": set(
-        ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
-    ),
+    "ipaddresses": set(["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]),
     "l2vpn": set(["name"]),
-    "l2vpn_termination": set(
-        ["l2vpn", "assigned_object_type", "interface_id", "vlan_id", "vminterface_id"]
-    ),
+    "l2vpn_termination": set(["l2vpn", "assigned_object_type", "interface_id", "vlan_id", "vminterface_id"]),
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
     "module_type": set(["model"]),
@@ -655,9 +650,7 @@ class NetboxModule(object):
         query_params = self.module.params.get("query_params")
 
         if not HAS_PYNETBOX:
-            self.module.fail_json(
-                msg=missing_required_lib("pynetbox"), exception=PYNETBOX_IMP_ERR
-            )
+            self.module.fail_json(msg=missing_required_lib("pynetbox"), exception=PYNETBOX_IMP_ERR)
         # These should not be required after making connection to NetBox
         url = self.module.params["netbox_url"]
         token = self.module.params["netbox_token"]
@@ -734,9 +727,7 @@ class NetboxModule(object):
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
-                self.module.fail_json(
-                    msg="Failed to establish connection to NetBox API"
-                )
+                self.module.fail_json(msg="Failed to establish connection to NetBox API")
             return nb
         except Exception:
             self.module.fail_json(msg="Failed to establish connection to NetBox API")
@@ -747,9 +738,7 @@ class NetboxModule(object):
         except pynetbox.RequestError as e:
             self._handle_errors(msg=e.error)
         except ValueError:
-            self._handle_errors(
-                msg="More than one result returned for %s" % (search_item)
-            )
+            self._handle_errors(msg="More than one result returned for %s" % (search_item))
 
         return response
 
@@ -770,9 +759,7 @@ class NetboxModule(object):
         try:
             raw_data = to_text(response.read(), errors="surrogate_or_strict")
         except UnicodeError:
-            self._handle_errors(
-                msg="Incorrect encoding of fetched payload from NetBox API."
-            )
+            self._handle_errors(msg="Incorrect encoding of fetched payload from NetBox API.")
 
         try:
             openapi = json.loads(raw_data)
@@ -787,11 +774,7 @@ class NetboxModule(object):
                 invalid_query_params.append(param)
 
         if invalid_query_params:
-            self._handle_errors(
-                "The following query_params are invalid: {0}".format(
-                    ", ".join(invalid_query_params)
-                )
-            )
+            self._handle_errors("The following query_params are invalid: {0}".format(", ".join(invalid_query_params)))
 
     def _handle_errors(self, msg):
         """
@@ -867,9 +850,7 @@ class NetboxModule(object):
             else:
                 return data
 
-    def _build_query_params(
-        self, parent, module_data, user_query_params=None, child=None
-    ):
+    def _build_query_params(self, parent, module_data, user_query_params=None, child=None):
         """
         :returns dict(query_dict): Returns a query dictionary built using mappings to dynamically
         build available query params for NetBox endpoints
@@ -945,9 +926,7 @@ class NetboxModule(object):
         elif parent == "lag":
             if not child:
                 query_dict["name"] = module_data["lag"]
-            intf_type = self._fetch_choice_value(
-                "Link Aggregation Group (LAG)", "interfaces"
-            )
+            intf_type = self._fetch_choice_value("Link Aggregation Group (LAG)", "interfaces")
             query_dict.update({"form_factor": intf_type})
             if isinstance(module_data["device"], int):
                 query_dict.update({"device_id": module_data["device"]})
@@ -960,19 +939,11 @@ class NetboxModule(object):
             else:
                 query_dict.update({"device": module_data["device"]})
 
-        elif (
-            parent == "ip_address"
-            and "assigned_object" in matches
-            and module_data.get("assigned_object_type")
-        ):
+        elif parent == "ip_address" and "assigned_object" in matches and module_data.get("assigned_object_type"):
             if module_data["assigned_object_type"] == "virtualization.vminterface":
-                query_dict.update(
-                    {"vminterface_id": module_data.get("assigned_object_id")}
-                )
+                query_dict.update({"vminterface_id": module_data.get("assigned_object_id")})
             elif module_data["assigned_object_type"] == "dcim.interface":
-                query_dict.update(
-                    {"interface_id": module_data.get("assigned_object_id")}
-                )
+                query_dict.update({"interface_id": module_data.get("assigned_object_id")})
 
         elif parent == "virtual_chassis":
             query_dict.update({"master": self.module.params["data"].get("master")})
@@ -1001,10 +972,7 @@ class NetboxModule(object):
                 }
                 query_dict.update(power_port)
 
-        elif (
-            parent == "power_port_template"
-            and self.endpoint == "power_outlet_templates"
-        ):
+        elif parent == "power_port_template" and self.endpoint == "power_outlet_templates":
             if isinstance(module_data.get("power_port_template"), str):
                 power_port_template = {
                     "devicetype_id": module_data.get("device_type"),
@@ -1030,11 +998,11 @@ class NetboxModule(object):
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
-            acceptable_query_params = (
-                user_query_params if user_query_params else query_params
-            )
+            acceptable_query_params = user_query_params if user_query_params else query_params
             self._handle_errors(
-                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: {', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
+                f"One or more of the kwargs provided are invalid for {parent}, "
+                f"provided kwargs: {', '.join(sorted(provided_kwargs))}. "
+                f"Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
             )
 
         query_dict = self._convert_identical_keys(query_dict)
@@ -1048,7 +1016,11 @@ class NetboxModule(object):
             endpoint_choices = nb_endpoint.choices()
         except ValueError:
             self._handle_errors(
-                msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
+                msg=(
+                    "Failed to fetch endpoint choices to validate against. "
+                    "This requires a write-enabled token. Make sure the token is write-enabled. "
+                    "If looking to fetch only information, use either the inventory or lookup plugin."
+                )
             )
 
         choices = list(chain.from_iterable(endpoint_choices.values()))
@@ -1058,9 +1030,7 @@ class NetboxModule(object):
                 return item["value"]
             elif item["value"] == search.lower():
                 return item["value"]
-        self._handle_errors(
-            msg="%s was not found as a valid choice for %s" % (search, endpoint)
-        )
+        self._handle_errors(msg="%s was not found as a valid choice for %s" % (search, endpoint))
 
     def _change_choices_id(self, endpoint, data):
         """Used to change data that is static and under _choices for the application.
@@ -1103,12 +1073,9 @@ class NetboxModule(object):
         """
         for k, v in data.items():
             if k in CONVERT_TO_ID:
-                if (
-                    not self._version_check_greater(
-                        self.version, "2.9", greater_or_equal=True
-                    )
-                    and k == "tags"
-                ) or (self.endpoint == "config_contexts" and k == "tags"):
+                if (not self._version_check_greater(self.version, "2.9", greater_or_equal=True) and k == "tags") or (
+                    self.endpoint == "config_contexts" and k == "tags"
+                ):
                     continue
                 if k == "termination_a":
                     endpoint = CONVERT_TO_ID[data.get("termination_a_type")]
@@ -1127,9 +1094,7 @@ class NetboxModule(object):
                 nb_endpoint = getattr(nb_app, endpoint)
 
                 if isinstance(v, dict):
-                    if (k == "interface" or k == "assigned_object") and v.get(
-                        "virtual_machine"
-                    ):
+                    if (k == "interface" or k == "assigned_object") and v.get("virtual_machine"):
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
                     query_params = self._build_query_params(k, data, child=v)
@@ -1152,9 +1117,7 @@ class NetboxModule(object):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
                             norm_data = self._normalize_data(list_item)
-                            temp_dict = self._build_query_params(
-                                k, data, child=norm_data
-                            )
+                            temp_dict = self._build_query_params(k, data, child=norm_data)
                         # If user passes in an integer, add to ID list to id_list as user
                         # should have passed in a tag ID
                         elif isinstance(list_item, int):
@@ -1177,27 +1140,17 @@ class NetboxModule(object):
                         "power_port",
                         "power_port_template",
                     ]:
-                        query_params = self._build_query_params(
-                            k, data, user_query_params
-                        )
+                        query_params = self._build_query_params(k, data, user_query_params)
                     elif k == "scope":
-                        query_params = {
-                            QUERY_TYPES.get(
-                                ENDPOINT_NAME_MAPPING[endpoint], "q"
-                            ): search
-                        }
+                        query_params = {QUERY_TYPES.get(ENDPOINT_NAME_MAPPING[endpoint], "q"): search}
                     elif k == "parent_vm_interface":
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
-                        query_params = self._build_query_params(
-                            k, data, user_query_params
-                        )
+                        query_params = self._build_query_params(k, data, user_query_params)
                     elif k == "vm_bridge":
                         nb_app = getattr(self.nb, "virtualization")
                         nb_endpoint = getattr(nb_app, endpoint)
-                        query_params = self._build_query_params(
-                            k, data, user_query_params
-                        )
+                        query_params = self._build_query_params(k, data, user_query_params)
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
@@ -1313,11 +1266,7 @@ class NetboxModule(object):
         if "custom_fields" in serialized_nb_obj:
             custom_fields = serialized_nb_obj.get("custom_fields", {})
             shared_keys = custom_fields.keys() & data.get("custom_fields", {}).keys()
-            serialized_nb_obj["custom_fields"] = {
-                key: custom_fields[key]
-                for key in shared_keys
-                if custom_fields[key] is not None
-            }
+            serialized_nb_obj["custom_fields"] = {key: custom_fields[key] for key in shared_keys if custom_fields[key] is not None}
 
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
@@ -1328,17 +1277,9 @@ class NetboxModule(object):
 
         # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.version)
-        if (
-            serialized_nb_obj.get("latitude")
-            and data.get("latitude")
-            and version_pre_30
-        ):
+        if serialized_nb_obj.get("latitude") and data.get("latitude") and version_pre_30:
             updated_obj["latitude"] = str(data["latitude"])
-        if (
-            serialized_nb_obj.get("longitude")
-            and data.get("longitude")
-            and version_pre_30
-        ):
+        if serialized_nb_obj.get("longitude") and data.get("longitude") and version_pre_30:
             updated_obj["longitude"] = str(data["longitude"])
 
         # Ensure idempotency for virtual machine on older netbox versions
@@ -1367,12 +1308,8 @@ class NetboxModule(object):
                     "object_type": f"{object_app}.{object_name}",
                 }
 
-            serialized_nb_obj["a_terminations"] = list(
-                map(_convert_termination, self.nb_object.a_terminations)
-            )
-            serialized_nb_obj["b_terminations"] = list(
-                map(_convert_termination, self.nb_object.b_terminations)
-            )
+            serialized_nb_obj["a_terminations"] = list(map(_convert_termination, self.nb_object.a_terminations))
+            serialized_nb_obj["b_terminations"] = list(map(_convert_termination, self.nb_object.b_terminations))
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
@@ -1387,10 +1324,7 @@ class NetboxModule(object):
                     if key == "form_factor":
                         msg = "form_factor is not valid for NetBox 2.7 onward. Please use the type key instead."
                     else:
-                        msg = (
-                            "%s does not exist on existing object. Check to make sure valid field."
-                            % (key)
-                        )
+                        msg = "%s does not exist on existing object. Check to make sure valid field." % (key)
 
                     self._handle_errors(msg=msg)
 
@@ -1418,9 +1352,7 @@ class NetboxModule(object):
         else:
             self.nb_object, diff = self._update_netbox_object(data)
             if self.nb_object is False:
-                self._handle_errors(
-                    msg="Request failed, couldn't update device: %s" % name
-                )
+                self._handle_errors(msg="Request failed, couldn't update device: %s" % name)
             if diff:
                 self.result["msg"] = "%s %s updated" % (endpoint_name, name)
                 self.result["changed"] = True
@@ -1673,9 +1605,7 @@ class NetboxAnsibleModule(AnsibleModule):
             return results
 
         for term in terms:
-            counts = [
-                self.count_terms(field, module_parameters["data"]) for field in term
-            ]
+            counts = [self.count_terms(field, module_parameters["data"]) for field in term]
             non_zero = [c for c in counts if c > 0]
             if len(non_zero) > 0:
                 if 0 in counts:

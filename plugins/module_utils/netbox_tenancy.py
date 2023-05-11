@@ -5,12 +5,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxModule,
-    ENDPOINT_NAME_MAPPING,
-    SLUG_REQUIRED,
-)
-
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import ENDPOINT_NAME_MAPPING, SLUG_REQUIRED, NetboxModule
 
 NB_TENANTS = "tenants"
 NB_TENANT_GROUPS = "tenant_groups"
@@ -55,9 +50,7 @@ class NetboxTenancyModule(NetboxModule):
             if not data.get("slug"):
                 data["slug"] = self._to_slug(name)
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
+        object_query_params = self._build_query_params(endpoint_name, data, user_query_params)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":

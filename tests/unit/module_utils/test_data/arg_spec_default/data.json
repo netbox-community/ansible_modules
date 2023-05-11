@@ -1,17 +1,17 @@
 [
-    {
-        "data": {
-            "name": "Test Device",
-            "enabled": true,
-            "site": null,
-            "description": null,
-            "platform": null,
-            "status": 0
-        },
-        "expected": {
-            "name": "Test Device",
-            "enabled": true,
-            "status": 0
-        }
+  {
+    "data": {
+      "description": null,
+      "enabled": true,
+      "name": "Test Device",
+      "platform": null,
+      "site": null,
+      "status": 0
+    },
+    "expected": {
+      "enabled": true,
+      "name": "Test Device",
+      "status": 0
     }
+  }
 ]

@@ -122,15 +122,10 @@ EXAMPLES = r"""
         state: absent
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
-    NetboxIpamModule,
-    NB_SERVICES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import NB_SERVICES, NetboxIpamModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -178,9 +173,7 @@ def main():
     netbox_service = NetboxIpamModule(module, NB_SERVICES)
 
     # Change port to ports for 2.10+ and convert to a list with the single integer
-    if netbox_service.data.get("port") and netbox_service._version_check_greater(
-        netbox_service.version, "2.10", greater_or_equal=True
-    ):
+    if netbox_service.data.get("port") and netbox_service._version_check_greater(netbox_service.version, "2.10", greater_or_equal=True):
         netbox_service.data["ports"] = [netbox_service.data.pop("port")]
 
     # Run the normal run() method

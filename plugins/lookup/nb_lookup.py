@@ -20,7 +20,7 @@ DOCUMENTATION = """
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information
-          capable of being held in NetBox.        
+          capable of being held in NetBox.
     options:
         _terms:
             description:
@@ -60,12 +60,12 @@ DOCUMENTATION = """
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The private key as a string. Mutually exclusive with I(key_file).
-            required: False            
+            required: False
         key_file:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False            
+            required: False
         raw_data:
             type: bool
             description:
@@ -109,16 +109,16 @@ RETURN = """
     type: list
 """
 
-import os
 import functools
+import os
+from importlib.metadata import version
 from pprint import pformat
 
 from ansible.errors import AnsibleError
-from ansible.plugins.lookup import LookupBase
-from ansible.parsing.splitter import parse_kv, split_args
-from ansible.utils.display import Display
 from ansible.module_utils.six import raise_from
-from importlib.metadata import version
+from ansible.parsing.splitter import parse_kv, split_args
+from ansible.plugins.lookup import LookupBase
+from ansible.utils.display import Display
 
 try:
     import pynetbox
@@ -175,9 +175,7 @@ def get_endpoint(netbox, term):
         "console-connections": {"endpoint": netbox.dcim.console_connections},
         "console-port-templates": {"endpoint": netbox.dcim.console_port_templates},
         "console-ports": {"endpoint": netbox.dcim.console_ports},
-        "console-server-port-templates": {
-            "endpoint": netbox.dcim.console_server_port_templates
-        },
+        "console-server-port-templates": {"endpoint": netbox.dcim.console_server_port_templates},
         "console-server-ports": {"endpoint": netbox.dcim.console_server_ports},
         "content-types": {"endpoint": netbox.extras.content_types},
         "custom-fields": {"endpoint": netbox.extras.custom_fields},
@@ -259,18 +257,10 @@ def get_endpoint(netbox, term):
     major, minor, patch = map(int, pynetbox.__version__.split("."))
 
     if major >= 6 and minor >= 4 and patch >= 0:
-        netbox_endpoint_map["wireless-lan-groups"] = {
-            "endpoint": netbox.wireless.wireless_lan_groups
-        }
-        netbox_endpoint_map["wireless-lan-groups"] = {
-            "endpoint": netbox.wireless.wireless_lan_groups
-        }
-        netbox_endpoint_map["wireless-lans"] = {
-            "endpoint": netbox.wireless.wireless_lans
-        }
-        netbox_endpoint_map["wireless-links"] = {
-            "endpoint": netbox.wireless.wireless_links
-        }
+        netbox_endpoint_map["wireless-lan-groups"] = {"endpoint": netbox.wireless.wireless_lan_groups}
+        netbox_endpoint_map["wireless-lan-groups"] = {"endpoint": netbox.wireless.wireless_lan_groups}
+        netbox_endpoint_map["wireless-lans"] = {"endpoint": netbox.wireless.wireless_lans}
+        netbox_endpoint_map["wireless-links"] = {"endpoint": netbox.wireless.wireless_links}
 
     if major < 7 and minor >= 0 and patch >= 1:
         netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
@@ -278,10 +268,7 @@ def get_endpoint(netbox, term):
 
     else:
         if "wireless" in term:
-            Display().v(
-                "pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer."
-                % (major, minor, patch)
-            )
+            Display().v("pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer." % (major, minor, patch))
 
     return netbox_endpoint_map[term]["endpoint"]
 
@@ -347,11 +334,7 @@ def make_netbox_call(nb_endpoint, filters=None):
             results = nb_endpoint.all()
     except pynetbox.RequestError as e:
         if e.req.status_code == 404 and "plugins" in e:
-            raise AnsibleError(
-                "{0} - Not a valid plugin endpoint, please make sure to provide valid plugin endpoint.".format(
-                    e.error
-                )
-            )
+            raise AnsibleError("{0} - Not a valid plugin endpoint, please make sure to provide valid plugin endpoint.".format(e.error))
         else:
             raise AnsibleError(e.error)
 
@@ -376,16 +359,8 @@ class LookupModule(LookupBase):
                 REQUESTS_LIBRARY_IMPORT_ERROR,
             )
 
-        netbox_api_token = (
-            kwargs.get("token")
-            or os.getenv("NETBOX_TOKEN")
-            or os.getenv("NETBOX_API_TOKEN")
-        )
-        netbox_api_endpoint = (
-            kwargs.get("api_endpoint")
-            or os.getenv("NETBOX_API")
-            or os.getenv("NETBOX_URL")
-        )
+        netbox_api_token = kwargs.get("token") or os.getenv("NETBOX_TOKEN") or os.getenv("NETBOX_API_TOKEN")
+        netbox_api_endpoint = kwargs.get("api_endpoint") or os.getenv("NETBOX_API") or os.getenv("NETBOX_URL")
         netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
@@ -414,10 +389,7 @@ class LookupModule(LookupBase):
                 )
             netbox.http_session = session
         except FileNotFoundError:
-            raise AnsibleError(
-                "%s cannot be found. Please make sure file exists."
-                % netbox_private_key_file
-            )
+            raise AnsibleError("%s cannot be found. Please make sure file exists." % netbox_private_key_file)
 
         results = []
         for term in terms:
@@ -427,23 +399,15 @@ class LookupModule(LookupBase):
                 try:
                     endpoint = get_endpoint(netbox, term)
                 except KeyError:
-                    raise AnsibleError(
-                        "Unrecognised term %s. Check documentation" % term
-                    )
+                    raise AnsibleError("Unrecognised term %s. Check documentation" % term)
 
-            Display().vvvv(
-                "NetBox lookup for %s to %s using token %s filter %s"
-                % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter)
-            )
+            Display().vvvv("NetBox lookup for %s to %s using token %s filter %s" % (term, netbox_api_endpoint, netbox_api_token, netbox_api_filter))
 
             if netbox_api_filter:
                 filter = build_filters(netbox_api_filter)
 
                 if "id" in filter:
-                    Display().vvvv(
-                        "Filter is: %s and includes id, will use .get instead of .filter"
-                        % (filter)
-                    )
+                    Display().vvvv("Filter is: %s and includes id, will use .get instead of .filter" % (filter))
                     try:
                         id = int(filter["id"][0])
                         nb_data = endpoint.get(id)
@@ -456,9 +420,7 @@ class LookupModule(LookupBase):
                 Display().vvvv("filter is %s" % filter)
 
             # Make call to NetBox API and capture any failures
-            nb_data = make_netbox_call(
-                endpoint, filters=filter if netbox_api_filter else None
-            )
+            nb_data = make_netbox_call(endpoint, filters=filter if netbox_api_filter else None)
 
             for data in nb_data:
                 data = dict(data)

@@ -91,15 +91,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import (
-    NetboxCircuitsModule,
-    NB_CIRCUIT_TYPES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import NB_CIRCUIT_TYPES, NetboxCircuitsModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -124,9 +119,7 @@ def main():
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_circuit_type = NetboxCircuitsModule(module, NB_CIRCUIT_TYPES)
     netbox_circuit_type.run()

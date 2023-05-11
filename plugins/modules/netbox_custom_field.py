@@ -13,7 +13,7 @@ module: netbox_custom_field
 short_description: Creates, updates or deletes custom fields within NetBox
 description:
   - Creates, updates or removes custom fields from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -34,11 +34,11 @@ options:
         required: false
         type: list
         elements: raw
-      type: 
-        description: 
+      type:
+        description:
           - The type of custom field
         required: false
-        choices: 
+        choices:
           - text
           - longtext
           - integer
@@ -52,8 +52,8 @@ options:
           - object
           - multiobject
         type: str
-      object_type: 
-        description: 
+      object_type:
+        description:
           - The object type of the custom field (if any)
         required: false
         type: str
@@ -103,17 +103,17 @@ options:
         description:
           - The group to associate the custom field with
         required: false
-        type: str      
+        type: str
         version_added: "3.10.0"
       ui_visibility:
          description:
            - The UI visibility of the custom field
          required: false
-         choices: 
+         choices:
            - read-write
            - read-only
            - hidden
-         type: str      
+         type: str
          version_added: "3.10.0"
       validation_minimum:
         description:
@@ -129,20 +129,20 @@ options:
         description:
           - The regular expression to enforce on text fields
         required: false
-        type: str      
+        type: str
       choices:
         description:
-          - List of available choices (for selection fields) 
+          - List of available choices (for selection fields)
         required: false
         type: list
-        elements: str                                  
+        elements: str
     required: true
 """
 
 EXAMPLES = r"""
 - name: "Test NetBox custom_fields module"
   connection: local
-  hosts: localhost  
+  hosts: localhost
   tasks:
     - name: Create a custom field on device and virtual machine
       netbox.netbox.netbox_custom_field:
@@ -161,7 +161,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: A Custom Field
-          required: yes    
+          required: yes
 
     - name: Update the custom field to make it read only
       netbox.netbox.netbox_custom_field:
@@ -169,7 +169,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: A Custom Field
-          ui_visibility: read-only      
+          ui_visibility: read-only
 
     - name: Delete the custom field
       netbox.netbox.netbox_custom_field:
@@ -191,15 +191,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import (
-    NetboxExtrasModule,
-    NB_CUSTOM_FIELDS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import NB_CUSTOM_FIELDS, NetboxExtrasModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -265,9 +260,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_custom_field = NetboxExtrasModule(module, NB_CUSTOM_FIELDS)
     netbox_custom_field.run()

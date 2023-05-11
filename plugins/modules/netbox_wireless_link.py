@@ -13,7 +13,7 @@ module: netbox_wireless_link
 short_description: Creates or removes Wireless links from NetBox
 description:
   - Creates or removes wireless links from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -47,7 +47,7 @@ options:
         description:
           - Description of the wireless link
         required: false
-        type: str    
+        type: str
       status:
         description:
           - The status of the wireless link
@@ -56,7 +56,7 @@ options:
           - planned
           - decommissioning
         required: false
-        type: str          
+        type: str
       auth_type:
         description:
           - The authentication type of the wireless link
@@ -80,7 +80,7 @@ options:
         description:
           - The PSK of the wireless link
         required: false
-        type: str    
+        type: str
       comments:
         description:
           - Comments of the wireless link
@@ -97,7 +97,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
     required: true
 """
 
@@ -144,11 +144,11 @@ EXAMPLES = r"""
           interface_b:
             device: Device Two
             name: wireless_link_0
-          ssid: Wireless Network One          
+          ssid: Wireless Network One
           description: Cool Wireless Network
           auth_type: wpa-enterprise
           auth_cipher: aes
-          auth_psk: psk123456                    
+          auth_psk: psk123456
           tags:
             - tagA
             - tagB
@@ -167,15 +167,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import (
-    NetboxWirelessModule,
-    NB_WIRELESS_LINKS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import NB_WIRELESS_LINKS, NetboxWirelessModule
 
 
 def main():
@@ -203,9 +198,7 @@ def main():
                         choices=["open", "wep", "wpa-enterprise", "wpa-personal"],
                         type="str",
                     ),
-                    auth_cipher=dict(
-                        required=False, choices=["auto", "tkip", "aes"], type="str"
-                    ),
+                    auth_cipher=dict(required=False, choices=["auto", "tkip", "aes"], type="str"),
                     comments=dict(required=False, type="str"),
                     auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
@@ -220,9 +213,7 @@ def main():
         ("state", "absent", ["interface_a", "interface_b"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_wireless_link = NetboxWirelessModule(module, NB_WIRELESS_LINKS)
     netbox_wireless_link.run()
