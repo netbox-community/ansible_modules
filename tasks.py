@@ -18,18 +18,19 @@ def lint_update(context):
     """Update linters"""
     run("pre-commit autoupdate", echo=True)
 
+
 # TODO: Integration Testing w/ docker
 
 # TODO: Unit Testing w/ docker
 
 # TODO: Build Collection
-#@task
-#def build(context):
+# @task
+# def build(context):
 #    """Build the collection"""
 #    run("ansible-galaxy collection build .", echo=True)
 
 # TODO: Install Collection
-#@task
-#def install(context):
+# @task
+# def install(context):
 #    """Install the collection"""
 #    run("ansible-galaxy collection install netbox_ansible-*.tar.gz", echo=True)
