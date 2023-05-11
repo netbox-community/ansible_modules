@@ -4,6 +4,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-toml
+        exclude: (^docs/|CHANGELOG.rst)
       - id: check-shebang-scripts-are-executable
         exclude: (.*).py
       - id: end-of-file-fixer
@@ -11,7 +12,11 @@ repos:
       - id: trailing-whitespace
         exclude: (^docs/|CHANGELOG.rst)
       - id: check-json
+        exclude: (^docs/|CHANGELOG.rst)
       - id: pretty-format-json
+        exclude: (^docs/|CHANGELOG.rst)
+        args:
+          - "--autofix"
   - repo: https://github.com/adrienverge/yamllint
     rev: "v1.31.0"
     hooks:
