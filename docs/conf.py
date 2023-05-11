@@ -102,7 +102,7 @@ def create_antsibull_docs(files, plugin_type=None):
         args = args_string.split(" ")
         try:
             antsibull_docs.run(args)
-        except Exception as e:
+        except Exception:
             sys.exit(1)
 
 
