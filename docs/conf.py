@@ -11,10 +11,11 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-import sys
 import re
 import stat
+import sys
 from pathlib import Path
+
 from antsibull_docs.cli import antsibull_docs
 
 sys.path.insert(0, os.path.abspath("../"))
