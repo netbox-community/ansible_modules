@@ -21,22 +21,18 @@ repos:
     rev: "v1.31.0"
     hooks:
       - id: yamllint
-        exclude: (^docs/|CHANGELOG.rst)
   - repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
       - id: black
-        exclude: (^docs/|CHANGELOG.rst)
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
         name: isort (python)
-        exclude: (^docs/|CHANGELOG.rst)
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: "v0.0.265"
     hooks:
       - id: ruff
-        exclude: (^docs/|CHANGELOG.rst)
         args:
           - "--fix"
