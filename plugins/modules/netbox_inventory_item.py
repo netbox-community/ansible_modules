@@ -82,6 +82,24 @@ options:
         required: false
         default: false
         type: bool
+      component_type:
+        description:
+          - The type of the component
+        choices:
+          - dcim.consoleport
+          - dcim.consoleserverport
+          - dcim.frontport
+          - dcim.interface
+          - dcim.poweroutlet
+          - dcim.powerport
+          - dcim.rearport
+        required: false
+        type: str
+      component:
+        description:
+          - The component
+        required: false
+        type: raw
       tags:
         description:
           - Any tags that the device may need to be associated with
@@ -191,6 +209,15 @@ def main():
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
+                    component_type=dict(required=False, type="str"),
+                    component=dict(
+                        required=False,
+                        type="dict",
+                        options=dict(
+                            name=dict(required=False, type="str"),
+                            device=dict(required=False, type="str"),
+                        ),
+                    ),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
