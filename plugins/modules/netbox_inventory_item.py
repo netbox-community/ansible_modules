@@ -99,7 +99,18 @@ options:
         description:
           - The component
         required: false
-        type: raw
+        type: dict
+        suboptions:
+          name:
+            description:
+              - The name of the interface
+            type: str
+            required: False
+          device:
+            description:
+              - The device the interface is attached to.
+            type: str
+            required: False
       tags:
         description:
           - Any tags that the device may need to be associated with
@@ -209,7 +220,19 @@ def main():
                     asset_tag=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     discovered=dict(required=False, type="bool", default=False),
-                    component_type=dict(required=False, type="str"),
+                    component_type=dict(
+                        required=False,
+                        choices=[
+                            "dcim.consoleport",
+                            "dcim.consoleserverport",
+                            "dcim.frontport",
+                            "dcim.interface",
+                            "dcim.poweroutlet",
+                            "dcim.powerport",
+                            "dcim.rearport",
+                        ],
+                        type="str",
+                    ),
                     component=dict(
                         required=False,
                         type="dict",

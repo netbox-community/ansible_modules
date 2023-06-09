@@ -356,6 +356,155 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component:
+
+      .. rst-class:: ansible-option-title
+
+      **component**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The component
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component/device"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component/device:
+
+      .. rst-class:: ansible-option-title
+
+      **device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component/device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The device the interface is attached to.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object/name"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/assigned_object/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the interface
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component_type:
+
+      .. rst-class:: ansible-option-title
+
+      **component_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of the component
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"dcim.consoleport"`
+      - :ansible-option-choices-entry:`"dcim.consoleserverport"`
+      - :ansible-option-choices-entry:`"dcim.frontport"`
+      - :ansible-option-choices-entry:`"dcim.interface"`
+      - :ansible-option-choices-entry:`"dcim.poweroutlet"`
+      - :ansible-option-choices-entry:`"dcim.powerport"`
+      - :ansible-option-choices-entry:`"dcim.rearport"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/label:
