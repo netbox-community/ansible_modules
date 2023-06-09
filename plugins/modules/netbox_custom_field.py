@@ -45,6 +45,7 @@ options:
           - decimal
           - boolean
           - date
+          - datetime
           - url
           - json
           - select
@@ -223,6 +224,7 @@ def main():
                             "decimal",
                             "boolean",
                             "date",
+                            "datetime",
                             "url",
                             "json",
                             "select",
