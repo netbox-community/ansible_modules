@@ -2014,7 +2014,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
         if token:
-            self.headers.update({"Authorization": "Token %s" % token})
+            # add possibility to use Bearer token for proxyfied connexion to NB
+            if "bearer" in token.lower():
+                self.headers.update({"Authorization": "Bearer %s" % token.split(" ", maxsplit=1)[1]})
+            else:
+                self.headers.update({"Authorization": "Token %s" % token})
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
