@@ -109,6 +109,12 @@ options:
         required: false
         type: raw
         version_added: "3.8.0"
+      tx_power:
+        description:
+          - The interface's configured output power, in dBm
+        required: false
+        type: int
+        version_added: "3.14.0"
       description:
         description:
           - The description of the interface
@@ -333,6 +339,7 @@ def main():
                     mgmt_only=dict(required=False, type="bool"),
                     poe_type=dict(required=False, type="raw"),
                     poe_mode=dict(required=False, type="raw"),
+                    tx_power=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
