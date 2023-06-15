@@ -86,6 +86,12 @@ options:
           - The MAC address of the interface
         required: false
         type: str
+      wwn:
+        description:
+          - The WWN of the interface
+        required: false
+        type: str
+        version_added: "3.14.0"
       mgmt_only:
         description:
           - This interface is used only for out-of-band management
@@ -323,6 +329,7 @@ def main():
                     bridge=dict(required=False, type="raw"),
                     mtu=dict(required=False, type="int"),
                     mac_address=dict(required=False, type="str"),
+                    wwn=dict(required=False, type="str"),
                     mgmt_only=dict(required=False, type="bool"),
                     poe_type=dict(required=False, type="raw"),
                     poe_mode=dict(required=False, type="raw"),
