@@ -1,73 +1,73 @@
 [
-    {
-        "api_url": "https://netbox:1234?limit=0",
-        "max_uri_length": 35,
-        "query_key": "key",
-        "query_values": [
-            1,
-            2,
-            3,
-            4
-        ],
-        "expected": [
-            "https://netbox:1234?limit=0&key=1",
-            "https://netbox:1234?limit=0&key=2",
-            "https://netbox:1234?limit=0&key=3",
-            "https://netbox:1234?limit=0&key=4"
-        ]
-    },
-    {
-        "api_url": "https://netbox:1234?limit=0",
-        "max_uri_length": -5,
-        "query_key": "key",
-        "query_values": [
-            1,
-            2,
-            3,
-            4
-        ],
-        "expected": [
-            "https://netbox:1234?limit=0&key=1",
-            "https://netbox:1234?limit=0&key=2",
-            "https://netbox:1234?limit=0&key=3",
-            "https://netbox:1234?limit=0&key=4"
-        ]
-    },
-    {
-        "api_url": "https://netbox:1234?limit=0",
-        "max_uri_length": 50,
-        "query_key": "key",
-        "query_values": [
-            1,
-            2,
-            3000,
-            4
-        ],
-        "expected": [
-            "https://netbox:1234?limit=0&key=1&key=2",
-            "https://netbox:1234?limit=0&key=3000&key=4"
-        ]
-    },
-    {
-        "api_url": "https://netbox:1234",
-        "max_uri_length": 42,
-        "query_key": "key",
-        "query_values": [
-            1,
-            2,
-            3,
-            4
-        ],
-        "expected": [
-            "https://netbox:1234?key=1&key=2&key=3",
-            "https://netbox:1234?key=4"
-        ]
-    },
-    {
-        "api_url": "https://netbox:1234?limit=0",
-        "max_uri_length": 4000,
-        "query_key": "key",
-        "query_values": [],
-        "expected": []
-    }
+  {
+    "api_url": "https://netbox:1234?limit=0",
+    "expected": [
+      "https://netbox:1234?limit=0&key=1",
+      "https://netbox:1234?limit=0&key=2",
+      "https://netbox:1234?limit=0&key=3",
+      "https://netbox:1234?limit=0&key=4"
+    ],
+    "max_uri_length": 35,
+    "query_key": "key",
+    "query_values": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "api_url": "https://netbox:1234?limit=0",
+    "expected": [
+      "https://netbox:1234?limit=0&key=1",
+      "https://netbox:1234?limit=0&key=2",
+      "https://netbox:1234?limit=0&key=3",
+      "https://netbox:1234?limit=0&key=4"
+    ],
+    "max_uri_length": -5,
+    "query_key": "key",
+    "query_values": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "api_url": "https://netbox:1234?limit=0",
+    "expected": [
+      "https://netbox:1234?limit=0&key=1&key=2",
+      "https://netbox:1234?limit=0&key=3000&key=4"
+    ],
+    "max_uri_length": 50,
+    "query_key": "key",
+    "query_values": [
+      1,
+      2,
+      3000,
+      4
+    ]
+  },
+  {
+    "api_url": "https://netbox:1234",
+    "expected": [
+      "https://netbox:1234?key=1&key=2&key=3",
+      "https://netbox:1234?key=4"
+    ],
+    "max_uri_length": 42,
+    "query_key": "key",
+    "query_values": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "api_url": "https://netbox:1234?limit=0",
+    "expected": [],
+    "max_uri_length": 4000,
+    "query_key": "key",
+    "query_values": []
+  }
 ]

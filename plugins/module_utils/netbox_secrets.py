@@ -5,10 +5,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxModule,
-    ENDPOINT_NAME_MAPPING,
-)
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import ENDPOINT_NAME_MAPPING, NetboxModule
 
 
 class NetboxSecretsModule(NetboxModule):
@@ -38,9 +35,7 @@ class NetboxSecretsModule(NetboxModule):
 
         data["slug"] = self._to_slug(name)
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
+        object_query_params = self._build_query_params(endpoint_name, data, user_query_params)
         self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":

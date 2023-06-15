@@ -14,9 +14,7 @@ import pytest
 from packaging import version
 
 try:
-    from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
-        InventoryModule,
-    )
+    from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import InventoryModule
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
 except ImportError:
@@ -29,15 +27,11 @@ except ImportError:
     sys.path.append("tests")
     from test_data import load_test_data
 
-load_relative_test_data = partial(
-    load_test_data, os.path.dirname(os.path.abspath(__file__))
-)
+load_relative_test_data = partial(load_test_data, os.path.dirname(os.path.abspath(__file__)))
 
 
 @pytest.fixture
-def inventory_fixture(
-    allowed_device_query_parameters_fixture, allowed_vm_query_parameters_fixture
-):
+def inventory_fixture(allowed_device_query_parameters_fixture, allowed_vm_query_parameters_fixture):
     inventory = InventoryModule()
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
 
@@ -82,24 +76,16 @@ def allowed_vm_query_parameters_fixture():
     ]
 
 
-@pytest.mark.parametrize(
-    "parameter, expected", load_relative_test_data("validate_query_parameter")
-)
+@pytest.mark.parametrize("parameter, expected", load_relative_test_data("validate_query_parameter"))
 def test_validate_query_parameter(inventory_fixture, parameter, expected):
     value = "some value, doesn't matter"
-    result = inventory_fixture.validate_query_parameter(
-        {parameter: value}, inventory_fixture.allowed_device_query_parameters
-    )
+    result = inventory_fixture.validate_query_parameter({parameter: value}, inventory_fixture.allowed_device_query_parameters)
     assert (result == (parameter, value)) == expected
 
 
-@pytest.mark.parametrize(
-    "parameters, expected", load_relative_test_data("filter_query_parameters")
-)
+@pytest.mark.parametrize("parameters, expected", load_relative_test_data("filter_query_parameters"))
 def test_filter_query_parameters(inventory_fixture, parameters, expected):
-    result = inventory_fixture.filter_query_parameters(
-        parameters, inventory_fixture.allowed_device_query_parameters
-    )
+    result = inventory_fixture.filter_query_parameters(parameters, inventory_fixture.allowed_device_query_parameters)
 
     # Result is iterators of tuples
     # expected from json file is an array of dicts
@@ -174,18 +160,14 @@ def test_group_extractors(
     "api_url, max_uri_length, query_key, query_values, expected",
     load_relative_test_data("get_resource_list_chunked"),
 )
-def test_get_resource_list_chunked(
-    inventory_fixture, api_url, max_uri_length, query_key, query_values, expected
-):
+def test_get_resource_list_chunked(inventory_fixture, api_url, max_uri_length, query_key, query_values, expected):
     mock_get_resource_list = Mock()
     mock_get_resource_list.return_value = ["resource"]
 
     inventory_fixture.get_resource_list = mock_get_resource_list
     inventory_fixture.max_uri_length = max_uri_length
 
-    resources = inventory_fixture.get_resource_list_chunked(
-        api_url, query_key, query_values
-    )
+    resources = inventory_fixture.get_resource_list_chunked(api_url, query_key, query_values)
 
     mock_get_resource_list.assert_has_calls(map(call, expected))
     assert mock_get_resource_list.call_count == len(expected)
@@ -208,9 +190,7 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
     with pytest.raises(KeyError, match="paths"):
         with patch("builtins.open", mock_open()) as filemock:
-            with patch(
-                "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.json"
-            ) as json_mock:
+            with patch("ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.json") as json_mock:
                 json_mock.load.return_value = {"info": {"version": "2.0"}}
                 inventory_fixture.fetch_api_docs()
 

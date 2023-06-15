@@ -13,7 +13,7 @@ module: netbox_wireless_lan
 short_description: Creates or removes Wireless LANs from NetBox
 description:
   - Creates or removes wireless LANs from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -76,7 +76,7 @@ options:
         description:
           - The PSK of the Wireless LAN
         required: false
-        type: str    
+        type: str
       tags:
         description:
           - Any tags that the Wireless LAN may need to be associated with
@@ -87,7 +87,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
       comments:
         description:
           - Comments of the wireless LAN
@@ -124,11 +124,11 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One          
+          ssid: Wireless Network One
           description: Cool Wireless Network
           auth_type: wpa-enterprise
           auth_cipher: aes
-          auth_psk: psk123456                    
+          auth_psk: psk123456
           tags:
             - tagA
             - tagB
@@ -147,15 +147,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import (
-    NetboxWirelessModule,
-    NB_WIRELESS_LANS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import NB_WIRELESS_LANS, NetboxWirelessModule
 
 
 def main():
@@ -179,9 +174,7 @@ def main():
                         choices=["open", "wep", "wpa-enterprise", "wpa-personal"],
                         type="str",
                     ),
-                    auth_cipher=dict(
-                        required=False, choices=["auto", "tkip", "aes"], type="str"
-                    ),
+                    auth_cipher=dict(required=False, choices=["auto", "tkip", "aes"], type="str"),
                     auth_psk=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
@@ -193,9 +186,7 @@ def main():
 
     required_if = [("state", "present", ["ssid"]), ("state", "absent", ["ssid"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_wireless_lan = NetboxWirelessModule(module, NB_WIRELESS_LANS)
     netbox_wireless_lan.run()

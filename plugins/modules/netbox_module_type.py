@@ -37,17 +37,17 @@ options:
         description:
           - The model of the module type
         required: true
-        type: raw      
+        type: raw
       part_number:
         description:
           - The part number of the module type
         required: false
-        type: str      
+        type: str
       weight:
         description:
           - The weight of the device type
         required: false
-        type: float        
+        type: float
       weight_unit:
         description:
           - The weight unit
@@ -58,7 +58,7 @@ options:
           - oz
         required: false
         type: str
-        version_added: "3.10.0" 
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the module type
@@ -90,7 +90,7 @@ EXAMPLES = r"""
       netbox.netbox.netbox_module_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           model: ws-test-3750
           manufacturer: Test Manufacturer
         state: present
@@ -99,10 +99,10 @@ EXAMPLES = r"""
       netbox.netbox.netbox_module_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           model: ws-test-3750
           manufacturer: Test Manufacturer
-          part_number: ws-3750g-v2          
+          part_number: ws-3750g-v2
         state: present
 
     - name: Delete module type within netbox
@@ -125,15 +125,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_MODULE_TYPES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_MODULE_TYPES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -174,9 +169,7 @@ def main():
         ("state", "absent", ["model"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_device_type = NetboxDcimModule(module, NB_MODULE_TYPES)
     netbox_device_type.run()

@@ -150,7 +150,7 @@ EXAMPLES = r"""
           mtu: 1600
           mode: Tagged
         state: present
-        
+
     - name: Create bridge interface within NetBox
       netbox_vm_interface:
         netbox_url: http://netbox.local
@@ -159,7 +159,7 @@ EXAMPLES = r"""
           virtual_machine: test100
           name: br1000
         state: present
-        
+
     - name: Connect bridge interface within NetBox
       netbox_vm_interface:
         netbox_url: http://netbox.local
@@ -167,7 +167,7 @@ EXAMPLES = r"""
         data:
           virtual_machine: test100
           name: br1001
-          vm_bridge: br1000                        
+          vm_bridge: br1000
         state: present
 """
 
@@ -182,15 +182,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualization import (
-    NetboxVirtualizationModule,
-    NB_VM_INTERFACES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualization import NB_VM_INTERFACES, NetboxVirtualizationModule
 
 
 def main():
@@ -228,9 +223,7 @@ def main():
         ("state", "absent", ["virtual_machine", "name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_vm_interface = NetboxVirtualizationModule(module, NB_VM_INTERFACES)
     netbox_vm_interface.run()

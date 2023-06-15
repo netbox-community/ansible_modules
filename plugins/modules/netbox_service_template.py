@@ -47,19 +47,19 @@ options:
         choices:
           - tcp
           - udp
-          - sctp          
+          - sctp
         required: false
-        type: str      
+        type: str
       description:
         description:
           - Description of the service template
         required: false
-        type: str        
+        type: str
       comments:
         description:
           - Comments
         required: false
-        type: str        
+        type: str
       tags:
         description:
           - Any tags that the service template may need to be associated with
@@ -108,7 +108,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: SSH          
+          name: SSH
         state: absent
 """
 
@@ -123,15 +123,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
-    NetboxIpamModule,
-    NB_SERVICE_TEMPLATES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import NB_SERVICE_TEMPLATES, NetboxIpamModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -170,9 +165,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_service_template = NetboxIpamModule(module, NB_SERVICE_TEMPLATES)
     netbox_service_template.run()

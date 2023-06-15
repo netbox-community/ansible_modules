@@ -6,17 +6,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 # Import necessary packages
-import traceback
 from ipaddress import ip_interface
+
 from ansible.module_utils._text import to_text
-from ansible.module_utils.basic import missing_required_lib
-
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxModule,
-    ENDPOINT_NAME_MAPPING,
-    SLUG_REQUIRED,
-)
-
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import ENDPOINT_NAME_MAPPING, SLUG_REQUIRED, NetboxModule
 
 NB_AGGREGATES = "aggregates"
 NB_ASNS = "asns"
@@ -51,15 +44,11 @@ class NetboxIpamModule(NetboxModule):
                 self.result["diff"] = diff
         else:
             if self.state == "present":
-                self._ensure_ip_in_prefix_present_on_netif(
-                    nb_app, nb_endpoint, data, endpoint_name
-                )
+                self._ensure_ip_in_prefix_present_on_netif(nb_app, nb_endpoint, data, endpoint_name)
             elif self.state == "new":
                 self._get_new_available_ip_address(nb_app, data, endpoint_name)
 
-    def _ensure_ip_in_prefix_present_on_netif(
-        self, nb_app, nb_endpoint, data, endpoint_name
-    ):
+    def _ensure_ip_in_prefix_present_on_netif(self, nb_app, nb_endpoint, data, endpoint_name):
         query_params = {
             "parent": data["prefix"],
         }
@@ -101,13 +90,9 @@ class NetboxIpamModule(NetboxModule):
         prefix = self._nb_endpoint_get(nb_app.prefixes, prefix_query, data["prefix"])
         if not prefix:
             self.result["changed"] = False
-            self.result["msg"] = "%s does not exist - please create first" % (
-                data["prefix"]
-            )
+            self.result["msg"] = "%s does not exist - please create first" % (data["prefix"])
         elif prefix.available_ips.list():
-            self.nb_object, diff = self._create_netbox_object(
-                prefix.available_ips, data
-            )
+            self.nb_object, diff = self._create_netbox_object(prefix.available_ips, data)
             self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
@@ -117,9 +102,7 @@ class NetboxIpamModule(NetboxModule):
             self.result["diff"] = diff
         else:
             self.result["changed"] = False
-            self.result["msg"] = "No available IPs available within %s" % (
-                data["prefix"]
-            )
+            self.result["msg"] = "No available IPs available within %s" % (data["prefix"])
 
     def _get_new_available_prefix(self, data, endpoint_name):
         if not self.nb_object:
@@ -131,9 +114,7 @@ class NetboxIpamModule(NetboxModule):
                 self.result["msg"] = "New prefix created within %s" % (data["parent"])
                 self.module.exit_json(**self.result)
 
-            self.nb_object, diff = self._create_netbox_object(
-                self.nb_object.available_prefixes, data
-            )
+            self.nb_object, diff = self._create_netbox_object(self.nb_object.available_prefixes, data)
             self.nb_object = self.nb_object.serialize()
             self.result["changed"] = True
             self.result["msg"] = "%s %s created" % (
@@ -180,9 +161,7 @@ class NetboxIpamModule(NetboxModule):
         if self.endpoint == "ip_addresses":
             if data.get("address"):
                 try:
-                    data["address"] = to_text(
-                        ip_interface(data["address"]).with_prefixlen
-                    )
+                    data["address"] = to_text(ip_interface(data["address"]).with_prefixlen)
                 except ValueError:
                     pass
             name = data.get("address")
@@ -218,21 +197,13 @@ class NetboxIpamModule(NetboxModule):
 
         if data.get("prefix") and self.endpoint == "ip_addresses":
             object_query_params = self._build_query_params("prefix", data)
-            self.nb_object = self._nb_endpoint_get(
-                nb_app.prefixes, object_query_params, name
-            )
+            self.nb_object = self._nb_endpoint_get(nb_app.prefixes, object_query_params, name)
         else:
-            object_query_params = self._build_query_params(
-                endpoint_name, data, user_query_params
-            )
-            self.nb_object = self._nb_endpoint_get(
-                nb_endpoint, object_query_params, name
-            )
+            object_query_params = self._build_query_params(endpoint_name, data, user_query_params)
+            self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state in ("new", "present") and endpoint_name == "ip_address":
-            self._handle_state_new_present(
-                nb_app, nb_endpoint, endpoint_name, name, data
-            )
+            self._handle_state_new_present(nb_app, nb_endpoint, endpoint_name, name, data)
         elif self.state == "present" and first_available and data.get("parent"):
             self._get_new_available_prefix(data, endpoint_name)
         elif self.state == "present":

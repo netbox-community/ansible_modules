@@ -13,7 +13,7 @@ module: netbox_wireless_lan_group
 short_description: Creates or removes Wireless LAN Groups from NetBox
 description:
   - Creates or removes Wireless LAN Groups from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -47,7 +47,7 @@ options:
         description:
           - Description of the Wireless LAN Group
         required: false
-        type: str          
+        type: str
       tags:
         description:
           - Any tags that the Wireless LAN Group may need to be associated with
@@ -58,7 +58,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
     required: true
 """
 
@@ -90,7 +90,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Wireless LAN Group One
-          description: Wireless LAN Group description            
+          description: Wireless LAN Group description
           tags:
             - tagA
             - tagB
@@ -109,15 +109,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import (
-    NetboxWirelessModule,
-    NB_WIRELESS_LAN_GROUPS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_wireless import NB_WIRELESS_LAN_GROUPS, NetboxWirelessModule
 
 
 def main():
@@ -144,9 +139,7 @@ def main():
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_wireless_lan_group = NetboxWirelessModule(module, NB_WIRELESS_LAN_GROUPS)
     netbox_wireless_lan_group.run()

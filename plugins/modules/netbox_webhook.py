@@ -13,7 +13,7 @@ module: netbox_webhook
 short_description: Creates, updates or deletes webhook configuration within NetBox
 description:
   - Creates, updates or removes webhook configuration within NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
   - Use C(!unsafe) when adding jinja2 code to C(additional_headers) or C(body_template)
 author:
@@ -35,12 +35,12 @@ options:
           - Required when I(state=present)
         required: false
         type: list
-        elements: raw      
+        elements: raw
       name:
         description:
           - Name of the webhook
         required: true
-        type: str      
+        type: str
       type_create:
         description:
           - Call this webhook when a matching object is created
@@ -91,29 +91,29 @@ options:
         description:
           - Secret key to generate X-Hook-Signature to include in the payload.
         required: false
-        type: str        
+        type: str
       conditions:
         description:
           - A set of conditions which determine whether the webhook will be generated.
         required: false
-        type: dict      
+        type: dict
       ssl_verification:
         description:
-          - Enable ssl verification. 
+          - Enable ssl verification.
         required: false
         type: bool
       ca_file_path:
         description:
           - CA certificate file to use for SSL verification
         required: false
-        type: str                                          
+        type: str
     required: true
 """
 
 EXAMPLES = r"""
 - name: "Test NetBox webhook module"
   connection: local
-  hosts: localhost  
+  hosts: localhost
   tasks:
     - name: Create a webhook
       netbox_webhook:
@@ -121,7 +121,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           content_types:
-            - dcim.device            
+            - dcim.device
           name: Example Webhook
           type_create: yes
           payload_url: https://payload.url/
@@ -138,7 +138,7 @@ EXAMPLES = r"""
           type_delete: yes
           payload_url: https://payload.url/
           body_template: !unsafe >-
-            {{ data }}         
+            {{ data }}
 
     - name: Delete the webhook
       netbox_webhook:
@@ -150,7 +150,7 @@ EXAMPLES = r"""
           type_delete: yes
           payload_url: https://payload.url/
           body_template: !unsafe >-
-            {{ data }}  
+            {{ data }}
         state: absent
 """
 
@@ -165,15 +165,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import (
-    NetboxExtrasModule,
-    NB_WEBHOOKS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import NB_WEBHOOKS, NetboxExtrasModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -212,9 +207,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_webhook = NetboxExtrasModule(module, NB_WEBHOOKS)
     netbox_webhook.run()

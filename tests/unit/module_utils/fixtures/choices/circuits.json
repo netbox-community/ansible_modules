@@ -1,28 +1,28 @@
 {
-    "status": [
-        {
-            "value": "planned",
-            "display_name": "Planned"
-        },
-        {
-            "value": "provisioning",
-            "display_name": "Provisioning"
-        },
-        {
-            "value": "active",
-            "display_name": "Active"
-        },
-        {
-            "value": "offline",
-            "display_name": "Offline"
-        },
-        {
-            "value": "deprovisioning",
-            "display_name": "Deprovisioning"
-        },
-        {
-            "value": "decommissioned",
-            "display_name": "Decommissioned"
-        }
-    ]
+  "status": [
+    {
+      "display_name": "Planned",
+      "value": "planned"
+    },
+    {
+      "display_name": "Provisioning",
+      "value": "provisioning"
+    },
+    {
+      "display_name": "Active",
+      "value": "active"
+    },
+    {
+      "display_name": "Offline",
+      "value": "offline"
+    },
+    {
+      "display_name": "Deprovisioning",
+      "value": "deprovisioning"
+    },
+    {
+      "display_name": "Decommissioned",
+      "value": "decommissioned"
+    }
+  ]
 }

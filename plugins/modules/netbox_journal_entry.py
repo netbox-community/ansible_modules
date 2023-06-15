@@ -70,7 +70,7 @@ options:
   state:
     description:
       - |
-        Use C(new) for adding a journal entry.        
+        Use C(new) for adding a journal entry.
     choices: [new]
     default: new
     type: str
@@ -114,15 +114,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import (
-    NetboxExtrasModule,
-    NB_JOURNAL_ENTRIES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import NB_JOURNAL_ENTRIES, NetboxExtrasModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():

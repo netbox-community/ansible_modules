@@ -1,16 +1,16 @@
 {
-    "status": [
-        {
-            "value": "active",
-            "display_name": "Active"
-        },
-        {
-            "value": "reserved",
-            "display_name": "Reserved"
-        },
-        {
-            "value": "deprecated",
-            "display_name": "Deprecated"
-        }
-    ]
+  "status": [
+    {
+      "display_name": "Active",
+      "value": "active"
+    },
+    {
+      "display_name": "Reserved",
+      "value": "reserved"
+    },
+    {
+      "display_name": "Deprecated",
+      "value": "deprecated"
+    }
+  ]
 }

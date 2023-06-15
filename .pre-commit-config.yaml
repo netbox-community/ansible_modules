@@ -1,0 +1,38 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-toml
+        exclude: (^docs/|CHANGELOG.rst)
+      - id: check-shebang-scripts-are-executable
+        exclude: (.*).py
+      - id: end-of-file-fixer
+        exclude: (^docs/|CHANGELOG.rst)
+      - id: trailing-whitespace
+        exclude: (^docs/|CHANGELOG.rst)
+      - id: check-json
+        exclude: (^docs/|CHANGELOG.rst)
+      - id: pretty-format-json
+        exclude: (^docs/|CHANGELOG.rst)
+        args:
+          - "--autofix"
+  - repo: https://github.com/adrienverge/yamllint
+    rev: "v1.31.0"
+    hooks:
+      - id: yamllint
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.265"
+    hooks:
+      - id: ruff
+        args:
+          - "--fix"

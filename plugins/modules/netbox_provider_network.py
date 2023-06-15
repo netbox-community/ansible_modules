@@ -118,15 +118,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import (
-    NetboxCircuitsModule,
-    NB_PROVIDER_NETWORKS,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import NB_PROVIDER_NETWORKS, NetboxCircuitsModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -157,9 +152,7 @@ def main():
         ("state", "absent", ["provider", "name"]),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_provider_network = NetboxCircuitsModule(module, NB_PROVIDER_NETWORKS)
     netbox_provider_network.run()

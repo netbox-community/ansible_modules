@@ -229,15 +229,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_CABLES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_CABLES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -317,9 +312,7 @@ def main():
                     label=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
                     length=dict(required=False, type="float"),
-                    length_unit=dict(
-                        required=False, choices=["m", "cm", "ft", "in"], type="str"
-                    ),
+                    length_unit=dict(required=False, choices=["m", "cm", "ft", "in"], type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
@@ -352,9 +345,7 @@ def main():
         ),
     ]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_cable = NetboxDcimModule(module, NB_CABLES)
     netbox_cable.run()

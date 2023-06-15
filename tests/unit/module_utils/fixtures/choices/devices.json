@@ -1,42 +1,42 @@
 {
-    "face": [
-        {
-            "value": "front",
-            "display_name": "Front"
-        },
-        {
-            "value": "rear",
-            "display_name": "Rear"
-        }
-    ],
-    "status": [
-        {
-            "value": "offline",
-            "display_name": "Offline"
-        },
-        {
-            "value": "active",
-            "display_name": "Active"
-        },
-        {
-            "value": "planned",
-            "display_name": "Planned"
-        },
-        {
-            "value": "staged",
-            "display_name": "Staged"
-        },
-        {
-            "value": "failed",
-            "display_name": "Failed"
-        },
-        {
-            "value": "inventory",
-            "display_name": "Inventory"
-        },
-        {
-            "value": "decommissioning",
-            "display_name": "Decommissioning"
-        }
-    ]
+  "face": [
+    {
+      "display_name": "Front",
+      "value": "front"
+    },
+    {
+      "display_name": "Rear",
+      "value": "rear"
+    }
+  ],
+  "status": [
+    {
+      "display_name": "Offline",
+      "value": "offline"
+    },
+    {
+      "display_name": "Active",
+      "value": "active"
+    },
+    {
+      "display_name": "Planned",
+      "value": "planned"
+    },
+    {
+      "display_name": "Staged",
+      "value": "staged"
+    },
+    {
+      "display_name": "Failed",
+      "value": "failed"
+    },
+    {
+      "display_name": "Inventory",
+      "value": "inventory"
+    },
+    {
+      "display_name": "Decommissioning",
+      "value": "decommissioning"
+    }
+  ]
 }

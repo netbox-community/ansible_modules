@@ -81,13 +81,13 @@ options:
         description:
           - Airflow of the device
         choices:
-          - front-to-rear 
-          - rear-to-front 
-          - left-to-right 
-          - right-to-left 
+          - front-to-rear
+          - rear-to-front
+          - left-to-right
+          - right-to-left
           - side-to-rear
           - passive
-          - mixed                    
+          - mixed
         required: false
         type: str
         version_added: "3.10.0"
@@ -178,15 +178,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_DEVICE_TYPES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_DEVICE_TYPES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -246,9 +241,7 @@ def main():
 
     required_if = [("state", "present", ["model"]), ("state", "absent", ["model"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_device_type = NetboxDcimModule(module, NB_DEVICE_TYPES)
     netbox_device_type.run()

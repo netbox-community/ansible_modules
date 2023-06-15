@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "netbox_ansible_modules"
-version = "3.12.0"
+version = "3.13.0"
 description = "Ansible collection to interact with NetBox's API"
-authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
+authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>", "Martin Rødvand <martin@rodvand.net>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
@@ -33,3 +33,16 @@ packaging = "*"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 155
+
+[tool.black]
+line-length = 155
+
+[tool.ruff]
+# Same as Black.
+line-length = 155
+# Never enforce `E402` Module level import not at top of file.
+ignore = ["E402"]

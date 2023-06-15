@@ -48,18 +48,18 @@ options:
           - The slugified version of the name or custom slug.
           - This is auto-generated following NetBox rules if not provided
         required: false
-        type: str      
+        type: str
       tags:
         description:
           - The tags to add/update
         required: false
         type: list
-        elements: raw        
+        elements: raw
       custom_fields:
         description:
           - Must exist in NetBox
         required: false
-        type: dict        
+        type: dict
     required: true
     type: dict
 """
@@ -99,15 +99,10 @@ msg:
   returned: always
   type: str
 """
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
-    NetboxDcimModule,
-    NB_INVENTORY_ITEM_ROLES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import NB_INVENTORY_ITEM_ROLES, NetboxDcimModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
@@ -134,9 +129,7 @@ def main():
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
-    module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
-    )
+    module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True, required_if=required_if)
 
     netbox_inventory_item_role = NetboxDcimModule(module, NB_INVENTORY_ITEM_ROLES)
     netbox_inventory_item_role.run()

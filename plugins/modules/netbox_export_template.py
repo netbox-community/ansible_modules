@@ -13,7 +13,7 @@ module: netbox_export_template
 short_description: Creates, updates or deletes export templates within NetBox
 description:
   - Creates, updates or removes export templates from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
   - Use the C(!unsafe) data type if you want jinja2 code in template_code
 author:
@@ -39,10 +39,10 @@ options:
           - The content type to apply this export template to (NetBox 3.4+)
         required: false
         type: list
-        elements: raw 
-        version_added: "3.10.0"     
-      name: 
-        description: 
+        elements: raw
+        version_added: "3.10.0"
+      name:
+        description:
           - The name of the export template
         required: true
         type: str
@@ -55,7 +55,7 @@ options:
         description:
           - Template code of the export template
         required: true
-        type: raw                
+        type: raw
       mime_type:
         description:
           - MIME type of the export template
@@ -65,36 +65,36 @@ options:
         description:
           - The file extension of the export template
         required: false
-        type: str            
+        type: str
       as_attachment:
         description:
-          - Download file as attachment 
+          - Download file as attachment
         required: false
-        type: bool                                          
+        type: bool
     required: true
 """
 
 EXAMPLES = r"""
 - name: "Test NetBox custom_link module"
   connection: local
-  hosts: localhost  
+  hosts: localhost
   tasks:
     - name: Create a custom link on device
       netbox.netbox.netbox_export_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_type: "dcim.device"            
+          content_type: "dcim.device"
           name: Custom Link
           link_text: "Open Web Management"
-          link_url: !unsafe https://{{ obj.name }}.domain.local                        
+          link_url: !unsafe https://{{ obj.name }}.domain.local
 
     - name: Delete the custom link
       netbox.netbox.netbox_export_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_type: "dcim.device"            
+          content_type: "dcim.device"
           name: Custom Link
           link_text: "Open Web Management"
           link_url: !unsafe https://{{ obj.name }}.domain.local
@@ -112,15 +112,10 @@ msg:
   type: str
 """
 
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-    NetboxAnsibleModule,
-    NETBOX_ARG_SPEC,
-)
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import (
-    NetboxExtrasModule,
-    NB_EXPORT_TEMPLATES,
-)
 from copy import deepcopy
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import NB_EXPORT_TEMPLATES, NetboxExtrasModule
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import NETBOX_ARG_SPEC, NetboxAnsibleModule
 
 
 def main():
