@@ -2014,9 +2014,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
         if token:
-            # add possibility to use Bearer token for proxyfied connexion to NB
+            # add possibility to use Bearer token (JWT)
             if "bearer" in token.lower():
-                self.headers.update({"Authorization": "Bearer %s" % token.split(" ", maxsplit=1)[1]})
+                self.headers.update(
+                    {"Authorization": "Bearer %s" % token.split(" ", maxsplit=1)[1]}
+                )
             else:
                 self.headers.update({"Authorization": "Token %s" % token})
 
