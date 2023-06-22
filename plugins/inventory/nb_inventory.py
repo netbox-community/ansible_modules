@@ -86,7 +86,7 @@ DOCUMENTATION = """
               - NetBox API token to be able to read against NetBox.
               - This may not be required depending on the NetBox setup.
               - Token can be of two type: (see examples)
-                - "token" : default - If not information of token type is given, this token type will be used.
+                - "token" : (default) If not information of token type is given, this token type will be used.
                 - "Bearer" : You have to specify "bearer" or "Bearer" before the token to use this type of token.
             env:
                 # in order of precedence
