@@ -79,3 +79,4 @@ Please put an x into the brackets (like `[x]`) if you've completed that task.
 * [ ] I have read the comments and followed the [CONTRIBUTING.md](https://github.com/netbox-community/ansible_modules/blob/devel/CONTRIBUTING.md).
 * [ ] I have explained my PR according to the information in the comments or in a linked issue.
 * [ ] My PR targets the `devel` branch.
+* [ ] My PR contains at least one unit test exercising any new code (if applicable)
