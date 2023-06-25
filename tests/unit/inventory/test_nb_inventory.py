@@ -232,15 +232,19 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 def test_new_token(inventory_fixture, templar_fixture):
 
     mock_get_option_token = Mock()
-    mock_get_option_token.return_value = {'type': "foo", "value": "bar" }
+
+    mock_templar_template_token = Mock()
+    mock_templar_template_token.return_value = {"type": "foo", "value": "bar"}
 
     inventory_fixture.templar = templar_fixture
+    inventory_fixture.templar.template = mock_templar_template_token
 
     inventory_fixture.get_option = mock_get_option_token
 
     inventory_fixture.headers = {}
 
     inventory_fixture._set_authorization()
+    print(inventory_fixture.headers)
 
     assert 'Authorization' in inventory_fixture.headers
     assert inventory_fixture.headers['Authorization'] == 'foo bar'
