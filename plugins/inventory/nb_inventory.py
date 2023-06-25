@@ -2000,7 +2000,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
         if token:
             # check if token is new format
-            if type(token) == dict:
+            if isinstance(token, dict):
                 self.headers.update(
                     {"Authorization": f"{token['type']} {token['value']}"}
                 )
