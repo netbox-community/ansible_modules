@@ -244,7 +244,6 @@ def test_new_token(inventory_fixture, templar_fixture):
     inventory_fixture.headers = {}
 
     inventory_fixture._set_authorization()
-    print(inventory_fixture.headers)
 
     assert 'Authorization' in inventory_fixture.headers
     assert inventory_fixture.headers['Authorization'] == 'foo bar'
