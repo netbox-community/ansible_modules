@@ -1989,11 +1989,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     host=hostname,
                 )
 
-    def parse(self, inventory, loader, path, cache=True):
-        super(InventoryModule, self).parse(inventory, loader, path)
-        self._read_config_data(path=path)
-        self.use_cache = cache
-
+    def _set_authorization(self):
         # NetBox access
         if version.parse(ansible_version) < version.parse("2.11"):
             token = self.get_option("token")
@@ -2002,6 +1998,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             token = self.templar.template(
                 self.get_option("token"), fail_on_undefined=False
             )
+        if token:
+            # check if token is new format
+            if type(token) == dict:
+                self.headers.update(
+                    {"Authorization": f"{token.type} {token.value}"}
+                )
+            else:
+                self.headers.update({"Authorization": "Token %s" % token})
+
+    def parse(self, inventory, loader, path, cache=True):
+        super(InventoryModule, self).parse(inventory, loader, path)
+        self._read_config_data(path=path)
+        self.use_cache = cache
 
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
@@ -2027,14 +2036,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
-        if token:
-            # add possibility to use Bearer token (JWT)
-            if "bearer" in token.lower():
-                self.headers.update(
-                    {"Authorization": "Bearer %s" % token.split(" ", maxsplit=1)[1]}
-                )
-            else:
-                self.headers.update({"Authorization": "Token %s" % token})
+
+        self._set_authorization()
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
