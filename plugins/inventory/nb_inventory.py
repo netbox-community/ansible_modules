@@ -81,13 +81,13 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.1"
         token:
+            type: dict
             required: False
             description:
-              - NetBox API token to be able to read against NetBox.
-              - This may not be required depending on the NetBox setup.
-              - Token can be of two type (see examples)
-              - "token" : (default) If not information of token type is given, this token type will be used.
-              - "Bearer" : You have to specify "bearer" or "Bearer" before the token to use this type of token.
+                - NetBox API token to be able to read against NetBox.
+                - This may not be required depending on the NetBox setup.
+                - You can provide a "type" and "value" for a token if your NetBox deployment is using a more advanced authentication like OAUTH.
+                - If you do not provide a "type" and "value" parameter, the HTTP authorization header will be set to "Token", which is the NetBox default
             env:
                 # in order of precedence
                 - name: NETBOX_TOKEN
@@ -340,16 +340,13 @@ device_query_filters:
 # - "time_zone_utc_plus_1"
 # - "time_zone_utc_plus_10"
 
-# Example of token type
+# Example of using a token type
 
 plugin: netbox.netbox.nb_inventory
 api_endpoint: http://localhost:8000
-token: <insert token>
-
-# <insert token> = thisismytoken -> this will use the default "token" type
-# <insert token> = bearer thisismytoken -> this will use "Bearer" type
-# <insert token> = Bearer thisismytoken -> this will also use "Bearer" type
- 
+token:
+  type: Bearer
+  value: test123456
 """
 
 import json
