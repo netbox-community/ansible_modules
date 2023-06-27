@@ -48,9 +48,9 @@ def inventory_fixture(
 
     return inventory
 
+
 @pytest.fixture
 def templar_fixture():
-
     templar = Mock()
 
     return templar
@@ -230,7 +230,6 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
 
 def test_new_token(inventory_fixture, templar_fixture):
-
     mock_get_option = Mock()
 
     mock_templar_template_token = Mock()
@@ -245,5 +244,5 @@ def test_new_token(inventory_fixture, templar_fixture):
 
     inventory_fixture._set_authorization()
 
-    assert 'Authorization' in inventory_fixture.headers
-    assert inventory_fixture.headers['Authorization'] == 'Foo bar'
+    assert "Authorization" in inventory_fixture.headers
+    assert inventory_fixture.headers["Authorization"] == "Foo bar"
