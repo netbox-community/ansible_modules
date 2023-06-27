@@ -81,7 +81,6 @@ DOCUMENTATION = """
             type: boolean
             version_added: "0.2.1"
         token:
-            type: dict
             required: False
             description:
                 - NetBox API token to be able to read against NetBox.
