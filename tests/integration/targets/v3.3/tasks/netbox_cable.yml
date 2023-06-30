@@ -82,6 +82,7 @@
       length_unit: m
       tags:
         - "Schnozzberry"
+      tenant: "Test Tenant"
     state: present
   register: test_three
 
@@ -96,6 +97,7 @@
       - test_three['diff']['after']['length'] == 30
       - test_three['diff']['after']['length_unit'] == "m"
       - test_three['diff']['after']['tags'][0] == 4
+      - test_three['diff']['after']['tenant'] == 1
       - test_three['cable']['termination_a_type'] == "dcim.interface"
       - test_three['cable']['termination_a_id'] == 15
       - test_three['cable']['termination_b_type'] == "dcim.interface"
@@ -107,6 +109,7 @@
       - test_three['cable']['length'] == 30
       - test_three['cable']['length_unit'] == "m"
       - test_three['cable']['tags'][0] == 4
+      - test_three['cable']['tenant'] == 1
       - test_three['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 updated"
 
 - name: "CABLE 4: ASSERT - Delete"
