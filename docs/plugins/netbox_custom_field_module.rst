@@ -655,6 +655,7 @@ Parameters
       - :ansible-option-choices-entry:`"read-write"`
       - :ansible-option-choices-entry:`"read-only"`
       - :ansible-option-choices-entry:`"hidden"`
+      - :ansible-option-choices-entry:`"hidden-ifunset"`
 
 
       .. raw:: html

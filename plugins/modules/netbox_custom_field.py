@@ -114,6 +114,7 @@ options:
            - read-write
            - read-only
            - hidden
+           - hidden-ifunset
          type: str      
          version_added: "3.10.0"
       validation_minimum:
@@ -250,6 +251,7 @@ def main():
                             "read-write",
                             "read-only",
                             "hidden",
+                            "hidden-ifunset",
                         ],
                         type="str",
                     ),
