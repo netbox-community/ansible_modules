@@ -69,7 +69,7 @@
       - test_three.diff.after.description == "New SFP"
       - test_three.diff.after.manufacturer == 1
       - test_three.diff.after.part_id == "10G-SFP+"
-      - test_three.diff.after.tags.[0] == 4
+      - test_three.diff.after.tags[0] == 4
       - test_three.diff.after.discovered == True
       - test_three.inventory_item.name == "10G-SFP+"
       - test_three.inventory_item.device == 1
@@ -78,7 +78,7 @@
       - test_three.inventory_item.description == "New SFP"
       - test_three.inventory_item.manufacturer == 1
       - test_three.inventory_item.part_id == "10G-SFP+"
-      - test_three.inventory_item.tags.[0] == 4
+      - test_three.inventory_item.tags[0] == 4
       - test_three.inventory_item.discovered == True
       - test_three.msg == "inventory_item 10G-SFP+ updated"
 
@@ -103,7 +103,7 @@
       - test_four.inventory_item.description == "New SFP"
       - test_four.inventory_item.manufacturer == 1
       - test_four.inventory_item.part_id == "10G-SFP+"
-      - test_four.inventory_item.tags.[0] == 4
+      - test_four.inventory_item.tags[0] == 4
       - test_four.msg == "inventory_item 10G-SFP+ deleted"
 
 - name: "INVENTORY_ITEM 5: PREWORK - Create inventory item role"
