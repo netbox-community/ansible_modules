@@ -150,7 +150,7 @@
   ignore_errors: true
   register: test_six
 
-- name: "INVENTORY_ITEM 6: ASSERT - Inventory item creation with role"
+- name: "INVENTORY_ITEM 6: ASSERT - Inventory item creation with missing role"
   ansible.builtin.assert:
     that:
       - test_six.failed
