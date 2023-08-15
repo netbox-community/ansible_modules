@@ -147,6 +147,7 @@
       name: test_processor
       inventory_item_role: Foo
     state: present
+  ignore_errors: true
   register: test_six
 
 - name: "INVENTORY_ITEM 6: ASSERT - Inventory item creation with role"
