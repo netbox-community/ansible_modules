@@ -1505,7 +1505,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             openapi = {}
 
-        cached_api_version = openapi.get("info", {}).get("version")
+        cached_api_version = ".".join(openapi.get("info", {}).get("version").split(".")[:2])
 
         if netbox_api_version != cached_api_version:
             if version.parse(netbox_api_version) >= version.parse("3.5.0"):
