@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.13.0
+Collection version 3.14.0
 
 .. contents::
    :local:
