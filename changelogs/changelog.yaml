@@ -805,3 +805,16 @@ releases:
         name: netbox_lsvpn_termination
         namespace: ''
     release_date: '2023-05-11'
+  3.14.0:
+    changes:
+      bugfixes:
+        - Fix schema caching [#1053](https://github.com/netbox-community/ansible_modules/pull/1053)
+      minor_changes:
+        - custom fields - Add datetime as an custom field option [#1019](https://github.com/netbox-community/ansible_modules/pull/1019)
+        - API - Add possibility to use Bearer token [#1023](https://github.com/netbox-community/ansible_modules/pull/1023)
+        - netbox_circuit_type, netbox_device_interface - Add missing options [#1025](https://github.com/netbox-community/ansible_modules/pull/1025)
+        - netbox_cable - Add tenant [#1027](https://github.com/netbox-community/ansible_modules/pull/1027)
+        - netbox_custom_field - Add hidden-ifunset option [#1048](https://github.com/netbox-community/ansible_modules/pull/1048)
+        - netbox_power_port - Add missing power port option [#1049](https://github.com/netbox-community/ansible_modules/pull/1049)
+        - netbox_inventory_item - Add role to module [#1050](https://github.com/netbox-community/ansible_modules/pull/1050)
+    release_date: '2023-08-18'
