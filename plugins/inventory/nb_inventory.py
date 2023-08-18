@@ -1506,6 +1506,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             openapi = {}
 
         cached_api_version = openapi.get("info", {}).get("version")
+        if cached_api_version:
+            cached_api_version = ".".join(cached_api_version.split(".")[:2])
 
         if netbox_api_version != cached_api_version:
             if version.parse(netbox_api_version) >= version.parse("3.5.0"):
