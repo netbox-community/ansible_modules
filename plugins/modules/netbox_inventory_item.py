@@ -94,6 +94,11 @@ options:
         required: false
         type: dict
         version_added: "3.4.0"
+      inventory_item_role:
+        description:
+          - Set the inventory item role
+        required: false
+        type: raw
     required: true
 """
 
@@ -124,6 +129,7 @@ EXAMPLES = r"""
           serial: "1234"
           asset_tag: "1234"
           description: "New SFP"
+          inventory_item_role: NIC
         state: present
         
     - name: Create inventory item with parent
@@ -193,6 +199,7 @@ def main():
                     discovered=dict(required=False, type="bool", default=False),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
+                    inventory_item_role=dict(required=False, type="raw"),
                 ),
             ),
         )
