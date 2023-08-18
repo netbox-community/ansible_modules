@@ -99,6 +99,7 @@ options:
           - Set the inventory item role
         required: false
         type: raw
+        version_added: "3.14.0"
     required: true
 """
 

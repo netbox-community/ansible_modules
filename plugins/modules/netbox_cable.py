@@ -160,7 +160,7 @@ options:
           - Tenant who the cable will be assigned to
         required: false
         type: raw
-        version_added: "3.13.0"
+        version_added: "3.14.0"
 """
 
 EXAMPLES = r"""
