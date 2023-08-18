@@ -42,7 +42,7 @@ netbox.netbox.netbox_power_port_template module -- Create, update or delete powe
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.13.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -347,6 +347,7 @@ Parameters
       - :ansible-option-choices-entry:`"iec-60320-c14"`
       - :ansible-option-choices-entry:`"iec-60320-c16"`
       - :ansible-option-choices-entry:`"iec-60320-c20"`
+      - :ansible-option-choices-entry:`"iec-60320-c22"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-4h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-6h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-9h"`
@@ -359,6 +360,10 @@ Parameters
       - :ansible-option-choices-entry:`"iec-60309-3p-n-e-4h"`
       - :ansible-option-choices-entry:`"iec-60309-3p-n-e-6h"`
       - :ansible-option-choices-entry:`"iec-60309-3p-n-e-9h"`
+      - :ansible-option-choices-entry:`"iec-60906-1"`
+      - :ansible-option-choices-entry:`"nbr-14136-10a"`
+      - :ansible-option-choices-entry:`"nbr-14136-20a"`
+      - :ansible-option-choices-entry:`"nema-1-15p"`
       - :ansible-option-choices-entry:`"nema-5-15p"`
       - :ansible-option-choices-entry:`"nema-5-20p"`
       - :ansible-option-choices-entry:`"nema-5-30p"`
@@ -367,23 +372,45 @@ Parameters
       - :ansible-option-choices-entry:`"nema-6-20p"`
       - :ansible-option-choices-entry:`"nema-6-30p"`
       - :ansible-option-choices-entry:`"nema-6-50p"`
+      - :ansible-option-choices-entry:`"nema-10-30p"`
+      - :ansible-option-choices-entry:`"nema-10-50p"`
+      - :ansible-option-choices-entry:`"nema-14-20p"`
+      - :ansible-option-choices-entry:`"nema-14-30p"`
+      - :ansible-option-choices-entry:`"nema-14-50p"`
+      - :ansible-option-choices-entry:`"nema-14-60p"`
+      - :ansible-option-choices-entry:`"nema-15-15p"`
+      - :ansible-option-choices-entry:`"nema-15-20p"`
+      - :ansible-option-choices-entry:`"nema-15-30p"`
+      - :ansible-option-choices-entry:`"nema-15-50p"`
+      - :ansible-option-choices-entry:`"nema-15-60p"`
+      - :ansible-option-choices-entry:`"nema-l1-15p"`
       - :ansible-option-choices-entry:`"nema-l5-15p"`
       - :ansible-option-choices-entry:`"nema-l5-20p"`
       - :ansible-option-choices-entry:`"nema-l5-30p"`
       - :ansible-option-choices-entry:`"nema-l5-50p"`
+      - :ansible-option-choices-entry:`"nema-l6-15p"`
       - :ansible-option-choices-entry:`"nema-l6-20p"`
       - :ansible-option-choices-entry:`"nema-l6-30p"`
       - :ansible-option-choices-entry:`"nema-l6-50p"`
+      - :ansible-option-choices-entry:`"nema-l10-30p"`
       - :ansible-option-choices-entry:`"nema-l14-20p"`
       - :ansible-option-choices-entry:`"nema-l14-30p"`
+      - :ansible-option-choices-entry:`"nema-l14-50p"`
+      - :ansible-option-choices-entry:`"nema-l14-60p"`
+      - :ansible-option-choices-entry:`"nema-l15-20p"`
+      - :ansible-option-choices-entry:`"nema-l15-30p"`
+      - :ansible-option-choices-entry:`"nema-l15-50p"`
+      - :ansible-option-choices-entry:`"nema-l15-60p"`
       - :ansible-option-choices-entry:`"nema-l21-20p"`
       - :ansible-option-choices-entry:`"nema-l21-30p"`
+      - :ansible-option-choices-entry:`"nema-l22-30p"`
       - :ansible-option-choices-entry:`"cs6361c"`
       - :ansible-option-choices-entry:`"cs6365c"`
       - :ansible-option-choices-entry:`"cs8165c"`
       - :ansible-option-choices-entry:`"cs8265c"`
       - :ansible-option-choices-entry:`"cs8365c"`
       - :ansible-option-choices-entry:`"cs8465c"`
+      - :ansible-option-choices-entry:`"ita-c"`
       - :ansible-option-choices-entry:`"ita-e"`
       - :ansible-option-choices-entry:`"ita-f"`
       - :ansible-option-choices-entry:`"ita-ef"`
@@ -396,6 +423,25 @@ Parameters
       - :ansible-option-choices-entry:`"ita-m"`
       - :ansible-option-choices-entry:`"ita-n"`
       - :ansible-option-choices-entry:`"ita-o"`
+      - :ansible-option-choices-entry:`"usb-a"`
+      - :ansible-option-choices-entry:`"usb-b"`
+      - :ansible-option-choices-entry:`"usb-c"`
+      - :ansible-option-choices-entry:`"usb-mini-a"`
+      - :ansible-option-choices-entry:`"usb-mini-b"`
+      - :ansible-option-choices-entry:`"usb-micro-a"`
+      - :ansible-option-choices-entry:`"usb-micro-b"`
+      - :ansible-option-choices-entry:`"usb-micro-ab"`
+      - :ansible-option-choices-entry:`"usb-3-b"`
+      - :ansible-option-choices-entry:`"usb-3-micro-b"`
+      - :ansible-option-choices-entry:`"dc-terminal"`
+      - :ansible-option-choices-entry:`"saf-d-grid"`
+      - :ansible-option-choices-entry:`"neutrik-powercon-20"`
+      - :ansible-option-choices-entry:`"neutrik-powercon-32"`
+      - :ansible-option-choices-entry:`"neutrik-powercon-true1"`
+      - :ansible-option-choices-entry:`"neutrik-powercon-true1-top"`
+      - :ansible-option-choices-entry:`"ubiquiti-smartpower"`
+      - :ansible-option-choices-entry:`"hardwired"`
+      - :ansible-option-choices-entry:`"other"`
 
 
       .. raw:: html

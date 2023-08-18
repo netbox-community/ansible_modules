@@ -28,6 +28,10 @@ Environment variables used by the ansible-core configuration are documented in :
 
     This may not be required depending on the NetBox setup.
 
+    You can provide a "type" and "value" for a token if your NetBox deployment is using a more advanced authentication like OAUTH.
+
+    If you do not provide a "type" and "value" parameter, the HTTP authorization header will be set to "Token", which is the NetBox default
+
     *Used by:*
     :ref:`netbox.netbox.nb\_inventory inventory plugin <ansible_collections.netbox.netbox.nb_inventory_inventory>`
 .. envvar:: NETBOX_API_TOKEN
