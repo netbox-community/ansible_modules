@@ -42,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.13.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -2136,6 +2136,10 @@ Parameters
 
       This may not be required depending on the NetBox setup.
 
+      You can provide a "type" and "value" for a token if your NetBox deployment is using a more advanced authentication like OAUTH.
+
+      If you do not provide a "type" and "value" parameter, the HTTP authorization header will be set to "Token", which is the NetBox default
+
 
       .. rst-class:: ansible-option-line
 
@@ -2464,6 +2468,14 @@ Examples
     # - "time_zone_utc_minus_7"
     # - "time_zone_utc_plus_1"
     # - "time_zone_utc_plus_10"
+
+    # Example of using a token type
+
+    plugin: netbox.netbox.nb_inventory
+    api_endpoint: http://localhost:8000
+    token:
+      type: Bearer
+      value: test123456
 
 
 
