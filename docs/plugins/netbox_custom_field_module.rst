@@ -42,7 +42,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.12.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -93,7 +93,6 @@ The below requirements are needed on the host that executes this module.
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -604,6 +603,7 @@ Parameters
       - :ansible-option-choices-entry:`"decimal"`
       - :ansible-option-choices-entry:`"boolean"`
       - :ansible-option-choices-entry:`"date"`
+      - :ansible-option-choices-entry:`"datetime"`
       - :ansible-option-choices-entry:`"url"`
       - :ansible-option-choices-entry:`"json"`
       - :ansible-option-choices-entry:`"select"`
@@ -656,6 +656,7 @@ Parameters
       - :ansible-option-choices-entry:`"read-write"`
       - :ansible-option-choices-entry:`"read-only"`
       - :ansible-option-choices-entry:`"hidden"`
+      - :ansible-option-choices-entry:`"hidden-ifunset"`
 
 
       .. raw:: html

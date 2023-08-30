@@ -27,7 +27,7 @@ copyright = "2020, Mikhail Yohman"
 author = "Mikhail Yohman <@FragmentedPacket>"
 
 # The full version, including alpha/beta/rc tags
-release = "3.12.0"
+release = "3.14.0"
 
 
 # -- General configuration ---------------------------------------------------

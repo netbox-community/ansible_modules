@@ -42,7 +42,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.12.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this lookup plugin,
@@ -145,9 +145,11 @@ Terms
 
 .. Options
 
-Parameters
-----------
+Keyword parameters
+------------------
 
+This describes keyword parameters of the lookup. These are the values ``key1=value1``, ``key2=value2`` and so on in the following
+examples: ``lookup('netbox.netbox.nb_lookup', key1=value1, key2=value2, ...)`` and ``query('netbox.netbox.nb_lookup', key1=value1, key2=value2, ...)``
 
 .. rst-class:: ansible-option-table
 
@@ -497,6 +499,12 @@ Parameters
 
 .. Notes
 
+Notes
+-----
+
+.. note::
+   - When keyword and positional parameters are used together, positional parameters must be listed before keyword parameters:
+     ``lookup('netbox.netbox.nb_lookup', term1, term2, key1=value1, key2=value2)`` and ``query('netbox.netbox.nb_lookup', term1, term2, key1=value1, key2=value2)``
 
 .. Seealso
 

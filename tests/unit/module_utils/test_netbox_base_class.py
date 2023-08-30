@@ -7,18 +7,18 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import pytest
 import os
 from functools import partial
-from unittest.mock import patch, MagicMock, Mock
-from ansible.module_utils.basic import AnsibleModule
+from unittest.mock import MagicMock
+
+import pytest
 
 try:
-    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
-        NetboxModule,
-    )
     from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
         NB_DEVICES,
+    )
+    from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+        NetboxModule,
     )
     from ansible_collections.netbox.netbox.tests.test_data import load_test_data
 
@@ -31,8 +31,8 @@ except ImportError:
 
     sys.path.append("plugins/module_utils")
     sys.path.append("tests")
-    from netbox_utils import NetboxModule
     from netbox_dcim import NB_DEVICES
+    from netbox_utils import NetboxModule
     from test_data import load_test_data
 
     MOCKER_PATCH_PATH = "netbox_utils.NetboxModule"

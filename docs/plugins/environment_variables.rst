@@ -7,7 +7,7 @@ Index of all Collection Environment Variables
 =============================================
 
 The following index documents all environment variables declared by plugins in collections.
-Environment variables used by the ansible-core configuation are documented in :ref:`ansible_configuration_settings`.
+Environment variables used by the ansible-core configuration are documented in :ref:`ansible_configuration_settings`.
 
 .. envvar:: ANSIBLE_INVENTORY_USE_EXTRA_VARS
 
@@ -27,6 +27,10 @@ Environment variables used by the ansible-core configuation are documented in :r
     NetBox API token to be able to read against NetBox.
 
     This may not be required depending on the NetBox setup.
+
+    You can provide a "type" and "value" for a token if your NetBox deployment is using a more advanced authentication like OAUTH.
+
+    If you do not provide a "type" and "value" parameter, the HTTP authorization header will be set to "Token", which is the NetBox default
 
     *Used by:*
     :ref:`netbox.netbox.nb\_inventory inventory plugin <ansible_collections.netbox.netbox.nb_inventory_inventory>`

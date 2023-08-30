@@ -194,7 +194,13 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -211,7 +217,13 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -228,7 +240,13 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -245,7 +263,13 @@
                     null
                 ],
                 "locations": [],
-                "regions": [],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "sites": [
+                    "test-site"
+                ],
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -397,6 +421,12 @@
         ]
     },
     "test_site": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ],
         "children": [
             "parent_rack_group"
         ]

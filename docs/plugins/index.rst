@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.12.0
+Collection version 3.14.0
 
 .. contents::
    :local:
@@ -76,6 +76,7 @@ Modules
 * :ref:`netbox_device_type module <ansible_collections.netbox.netbox.netbox_device_type_module>` -- Create, update or delete device types within NetBox
 * :ref:`netbox_export_template module <ansible_collections.netbox.netbox.netbox_export_template_module>` -- Creates, updates or deletes export templates within NetBox
 * :ref:`netbox_fhrp_group module <ansible_collections.netbox.netbox.netbox_fhrp_group_module>` -- Create, update or delete FHRP groups within NetBox
+* :ref:`netbox_fhrp_group_assignment module <ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module>` -- Create, update or delete FHRP group assignments within NetBox
 * :ref:`netbox_front_port module <ansible_collections.netbox.netbox.netbox_front_port_module>` -- Create, update or delete front ports within NetBox
 * :ref:`netbox_front_port_template module <ansible_collections.netbox.netbox.netbox_front_port_template_module>` -- Create, update or delete front port templates within NetBox
 * :ref:`netbox_inventory_item module <ansible_collections.netbox.netbox.netbox_inventory_item_module>` -- Creates or removes inventory items from NetBox
@@ -84,6 +85,7 @@ Modules
 * :ref:`netbox_ipam_role module <ansible_collections.netbox.netbox.netbox_ipam_role_module>` -- Creates or removes ipam roles from NetBox
 * :ref:`netbox_journal_entry module <ansible_collections.netbox.netbox.netbox_journal_entry_module>` -- Creates a journal entry
 * :ref:`netbox_l2vpn module <ansible_collections.netbox.netbox.netbox_l2vpn_module>` -- Create, update or delete L2VPNs within NetBox
+* :ref:`netbox_l2vpn_termination module <ansible_collections.netbox.netbox.netbox_l2vpn_termination_module>` -- Create, update or delete L2VPNs terminations within NetBox
 * :ref:`netbox_location module <ansible_collections.netbox.netbox.netbox_location_module>` -- Create, update or delete locations within NetBox
 * :ref:`netbox_manufacturer module <ansible_collections.netbox.netbox.netbox_manufacturer_module>` -- Create or delete manufacturers within NetBox
 * :ref:`netbox_module_type module <ansible_collections.netbox.netbox.netbox_module_type_module>` -- Create, update or delete module types within NetBox
@@ -123,26 +125,10 @@ Modules
 * :ref:`netbox_wireless_lan_group module <ansible_collections.netbox.netbox.netbox_wireless_lan_group_module>` -- Creates or removes Wireless LAN Groups from NetBox
 * :ref:`netbox_wireless_link module <ansible_collections.netbox.netbox.netbox_wireless_link_module>` -- Creates or removes Wireless links from NetBox
 
-
-Inventory Plugins
-~~~~~~~~~~~~~~~~~
-
-* :ref:`nb_inventory inventory <ansible_collections.netbox.netbox.nb_inventory_inventory>` -- NetBox inventory source
-
-
-Lookup Plugins
-~~~~~~~~~~~~~~
-
-* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- Queries and returns elements from NetBox
-
-
-
 .. toctree::
     :maxdepth: 1
     :hidden:
 
-    nb_inventory_inventory
-    nb_lookup_lookup
     netbox_aggregate_module
     netbox_asn_module
     netbox_cable_module
@@ -171,6 +157,7 @@ Lookup Plugins
     netbox_device_type_module
     netbox_export_template_module
     netbox_fhrp_group_module
+    netbox_fhrp_group_assignment_module
     netbox_front_port_module
     netbox_front_port_template_module
     netbox_inventory_item_module
@@ -179,6 +166,7 @@ Lookup Plugins
     netbox_ipam_role_module
     netbox_journal_entry_module
     netbox_l2vpn_module
+    netbox_l2vpn_termination_module
     netbox_location_module
     netbox_manufacturer_module
     netbox_module_type_module
@@ -217,3 +205,29 @@ Lookup Plugins
     netbox_wireless_lan_module
     netbox_wireless_lan_group_module
     netbox_wireless_link_module
+
+
+Inventory Plugins
+~~~~~~~~~~~~~~~~~
+
+* :ref:`nb_inventory inventory <ansible_collections.netbox.netbox.nb_inventory_inventory>` -- NetBox inventory source
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    nb_inventory_inventory
+
+
+Lookup Plugins
+~~~~~~~~~~~~~~
+
+* :ref:`nb_lookup lookup <ansible_collections.netbox.netbox.nb_lookup_lookup>` -- Queries and returns elements from NetBox
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    nb_lookup_lookup
+
+

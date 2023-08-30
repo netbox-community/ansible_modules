@@ -6,10 +6,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import pytest
 import os
 from functools import partial
-from unittest.mock import patch, MagicMock, Mock, call, mock_open
+from unittest.mock import Mock, call, mock_open, patch
+
+import pytest
 from packaging import version
 
 try:
@@ -46,6 +47,13 @@ def inventory_fixture(
     inventory.allowed_vm_query_parameters = allowed_vm_query_parameters_fixture
 
     return inventory
+
+
+@pytest.fixture
+def templar_fixture():
+    templar = Mock()
+
+    return templar
 
 
 @pytest.fixture
@@ -219,3 +227,22 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
     assert filemock.call_args_list == ref_args_list
     assert str(inventory_fixture.api_version) == netbox_ver[:-2]
+
+
+def test_new_token(inventory_fixture, templar_fixture):
+    mock_get_option = Mock()
+
+    mock_templar_template_token = Mock()
+    mock_templar_template_token.return_value = {"type": "foo", "value": "bar"}
+
+    inventory_fixture.templar = templar_fixture
+    inventory_fixture.templar.template = mock_templar_template_token
+
+    inventory_fixture.get_option = mock_get_option
+
+    inventory_fixture.headers = {}
+
+    inventory_fixture._set_authorization()
+
+    assert "Authorization" in inventory_fixture.headers
+    assert inventory_fixture.headers["Authorization"] == "Foo bar"

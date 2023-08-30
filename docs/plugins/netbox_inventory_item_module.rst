@@ -42,7 +42,7 @@ netbox.netbox.netbox_inventory_item module -- Creates or removes inventory items
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.12.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -93,7 +93,6 @@ The below requirements are needed on the host that executes this module.
 
 Parameters
 ----------
-
 
 .. rst-class:: ansible-option-table
 
@@ -348,6 +347,43 @@ Parameters
 
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/inventory_item_role"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/inventory_item_role:
+
+      .. rst-class:: ansible-option-title
+
+      **inventory_item_role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/inventory_item_role" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.14.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set the inventory item role
 
 
       .. raw:: html
@@ -839,6 +875,7 @@ Examples
               serial: "1234"
               asset_tag: "1234"
               description: "New SFP"
+              inventory_item_role: NIC
             state: present
             
         - name: Create inventory item with parent

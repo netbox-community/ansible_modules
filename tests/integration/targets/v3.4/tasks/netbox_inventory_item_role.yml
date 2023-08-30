@@ -50,7 +50,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "Test Inventory Item Role"
-      color: "003EFF"      
+      color: "003EFF"
     state: present
   register: test_three
 
@@ -58,10 +58,10 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['color'] == "003eff"      
+      - test_three['diff']['after']['color'] == "003eff"
       - test_three['inventory_item_role']['name'] == "Test Inventory Item Role"
       - test_three['inventory_item_role']['slug'] == "test-inventory-item-role"
-      - test_three['inventory_item_role']['color'] == "003eff"      
+      - test_three['inventory_item_role']['color'] == "003eff"
       - test_three['msg'] == "inventory_item_role Test Inventory Item Role updated"
 
 - name: "INVENTORY_ITEM_ROLE 4: ASSERT - Delete"

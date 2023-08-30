@@ -83,8 +83,10 @@ DOCUMENTATION = """
         token:
             required: False
             description:
-              - NetBox API token to be able to read against NetBox.
-              - This may not be required depending on the NetBox setup.
+                - NetBox API token to be able to read against NetBox.
+                - This may not be required depending on the NetBox setup.
+                - You can provide a "type" and "value" for a token if your NetBox deployment is using a more advanced authentication like OAUTH.
+                - If you do not provide a "type" and "value" parameter, the HTTP authorization header will be set to "Token", which is the NetBox default
             env:
                 # in order of precedence
                 - name: NETBOX_TOKEN
@@ -346,6 +348,14 @@ device_query_filters:
 # - "time_zone_utc_minus_7"
 # - "time_zone_utc_plus_1"
 # - "time_zone_utc_plus_10"
+
+# Example of using a token type
+
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:8000
+token:
+  type: Bearer
+  value: test123456
 """
 
 import json
@@ -1506,25 +1516,43 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             openapi = {}
 
         cached_api_version = openapi.get("info", {}).get("version")
+        if cached_api_version:
+            cached_api_version = ".".join(cached_api_version.split(".")[:2])
 
         if netbox_api_version != cached_api_version:
-            openapi = self._fetch_information(
-                self.api_endpoint + "/api/docs/?format=openapi"
-            )
+            if version.parse(netbox_api_version) >= version.parse("3.5.0"):
+                endpoint_url = self.api_endpoint + "/api/schema/?format=json"
+            else:
+                endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
 
+            openapi = self._fetch_information(endpoint_url)
             with open(tmp_file, "w") as file:
                 json.dump(openapi, file)
 
-        self.api_version = version.parse(openapi["info"]["version"])
-        self.allowed_device_query_parameters = [
-            p["name"] for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
-        ]
-        self.allowed_vm_query_parameters = [
-            p["name"]
-            for p in openapi["paths"]["/virtualization/virtual-machines/"]["get"][
-                "parameters"
+        self.api_version = version.parse(netbox_api_version)
+
+        if self.api_version >= version.parse("3.5.0"):
+            self.allowed_device_query_parameters = [
+                p["name"]
+                for p in openapi["paths"]["/api/dcim/devices/"]["get"]["parameters"]
             ]
-        ]
+            self.allowed_vm_query_parameters = [
+                p["name"]
+                for p in openapi["paths"]["/api/virtualization/virtual-machines/"][
+                    "get"
+                ]["parameters"]
+            ]
+        else:
+            self.allowed_device_query_parameters = [
+                p["name"]
+                for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
+            ]
+            self.allowed_vm_query_parameters = [
+                p["name"]
+                for p in openapi["paths"]["/virtualization/virtual-machines/"]["get"][
+                    "parameters"
+                ]
+            ]
 
     def validate_query_parameter(self, parameter, allowed_query_parameters):
         if not (isinstance(parameter, dict) and len(parameter) == 1):
@@ -1990,11 +2018,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     host=hostname,
                 )
 
-    def parse(self, inventory, loader, path, cache=True):
-        super(InventoryModule, self).parse(inventory, loader, path)
-        self._read_config_data(path=path)
-        self.use_cache = cache
-
+    def _set_authorization(self):
         # NetBox access
         if version.parse(ansible_version) < version.parse("2.11"):
             token = self.get_option("token")
@@ -2003,6 +2027,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             token = self.templar.template(
                 self.get_option("token"), fail_on_undefined=False
             )
+        if token:
+            # check if token is new format
+            if isinstance(token, dict):
+                self.headers.update(
+                    {"Authorization": f"{token['type'].capitalize()} {token['value']}"}
+                )
+            else:
+                self.headers.update({"Authorization": "Token %s" % token})
+
+    def parse(self, inventory, loader, path, cache=True):
+        super(InventoryModule, self).parse(inventory, loader, path)
+        self._read_config_data(path=path)
+        self.use_cache = cache
 
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
@@ -2028,8 +2065,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
-        if token:
-            self.headers.update({"Authorization": "Token %s" % token})
+
+        self._set_authorization()
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
