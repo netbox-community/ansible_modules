@@ -1706,7 +1706,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.group_names_prefix:
             group_name = "netbox_" + group_name
-        
+
         return group_name
 
     def add_host_to_groups(self, host, hostname):
