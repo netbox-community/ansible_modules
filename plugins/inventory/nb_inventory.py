@@ -171,6 +171,7 @@ DOCUMENTATION = """
                 - status
                 - time_zone
                 - utc_offset
+                - facility
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -543,6 +544,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "asset_tag": self.extract_asset_tag,
             "time_zone": self.extract_site_time_zone,
             "utc_offset": self.extract_site_utc_offset,
+            "facility": self.extract_site_facility,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -760,6 +762,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_site_utc_offset(self, host):
         try:
             return self.sites_utc_offset_lookup[host["site"]["id"]]
+        except Exception:
+            return
+        
+    def extract_site_facility(self, host):
+        try:
+            return self.sites_facility_lookup[host["site"]["id"]]
         except Exception:
             return
 
@@ -1061,6 +1069,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Dictionary of site id to utc_offset name (if group by utc_offset is used)
         if "utc_offset" in self.group_by:
             self.sites_utc_offset_lookup = dict(map(get_utc_offset_for_site, sites))
+
+        def get_facility_for_site(site):
+            # Will fail if site does not have a facility defined in NetBox
+            try:
+                return (site["id"], site["facility"])
+            except Exception:
+                return (site["id"], None)
+            
+        # Dictionary of site id to facility (if group by facility is used)
+        if "facility" in self.group_by:
+            self.sites_facility_lookup = dict(map(get_facility_for_site, sites))
 
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
