@@ -764,7 +764,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return self.sites_utc_offset_lookup[host["site"]["id"]]
         except Exception:
             return
-        
+
     def extract_site_facility(self, host):
         try:
             return self.sites_facility_lookup[host["site"]["id"]]
@@ -1076,7 +1076,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return (site["id"], site["facility"])
             except Exception:
                 return (site["id"], None)
-            
+
         # Dictionary of site id to facility (if group by facility is used)
         if "facility" in self.group_by:
             self.sites_facility_lookup = dict(map(get_facility_for_site, sites))
