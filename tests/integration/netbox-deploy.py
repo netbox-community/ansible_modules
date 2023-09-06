@@ -343,6 +343,11 @@ if nb_version >= version.parse("2.11"):
     devices[0]["location"] = created_rack_groups[0].id
     devices[1]["location"] = created_rack_groups[0].id
     devices[3]["location"] = created_rack_groups[0].id
+# TODO: Remove this logic and adjust payload from device_role -> role once Netbox 3.6 or greater is supported.
+if nb_version >= version.parse("3.6"):
+    for device in devices:
+        if "device_role" in device:
+            device["role"] = device.pop("device_role")
 
 created_devices = make_netbox_calls(nb.dcim.devices, devices)
 ### Device variables to be used later on

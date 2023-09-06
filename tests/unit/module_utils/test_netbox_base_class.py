@@ -96,7 +96,7 @@ def mock_ansible_module(fixture_arg_spec):
 def find_ids_return():
     return {
         "name": "Test Device1",
-        "device_role": 1,
+        "role": 1,
         "device_type": 1,
         "manufacturer": 1,
         "site": 1,
@@ -235,7 +235,7 @@ def test_build_query_params_no_child(
     )
     get_query_param_id.return_value = 1
     query_params = mock_netbox_module._build_query_params(parent, module_data)
-    assert query_params == expected
+    assert query_params == expected, query_params
 
 
 @pytest.mark.parametrize(
