@@ -562,6 +562,7 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "contact_group": "group",
+    "device_role": "role",
     "fhrp_group": "group",
     "inventory_item_role": "role",
     "parent_contact_group": "parent",
