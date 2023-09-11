@@ -921,7 +921,6 @@ class NetboxModule(object):
                     and self._version_check_greater(
                         self.version, "3.6", greater_or_equal=True
                     )
-                    and self.module.params.get("update_vc_child")
                 ):
                     query_dict.update(
                         {"virtual_chassis_member_id": module_data["device"]}
