@@ -120,7 +120,7 @@
       - test_five['interface']['enabled'] == false
       - test_five['interface']['type'] == "1000base-t"
       - test_five['interface']['mgmt_only'] == false
-      - test_five['interface']['lag'] == 10
+      - test_five['interface']['lag'] == test_four["interface"]["id"]
       - test_five['interface']['mode'] == "access"
       - test_five['interface']['mtu'] == 1600
 
