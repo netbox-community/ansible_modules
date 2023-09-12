@@ -1,0 +1,108 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_CONSOLE_PORT
+##
+##
+- name: "CONSOLE_PORT 1: Necessary info creation"
+  netbox.netbox.netbox_console_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Console Port
+      device: test100
+    state: present
+  register: test_one
+
+- name: "CONSOLE_PORT 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['console_port']['name'] == "Console Port"
+      - test_one['console_port']['device'] == 1
+      - test_one['msg'] == "console_port Console Port created"
+
+- name: "CONSOLE_PORT 2: Create duplicate"
+  netbox.netbox.netbox_console_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Console Port
+      device: test100
+    state: present
+  register: test_two
+
+- name: "CONSOLE_PORT 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['console_port']['name'] == "Console Port"
+      - test_two['console_port']['device'] == 1
+      - test_two['msg'] == "console_port Console Port already exists"
+
+- name: "CONSOLE_PORT 3: Update Console Port with other fields"
+  netbox.netbox.netbox_console_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Console Port
+      device: test100
+      type: usb-a
+      description: test description
+    state: present
+  register: test_three
+
+- name: "CONSOLE_PORT 3: ASSERT - Update Console Port with other fields"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['type'] == "usb-a"
+      - test_three['diff']['after']['description'] == "test description"
+      - test_three['console_port']['name'] == "Console Port"
+      - test_three['console_port']['device'] == 1
+      - test_three['console_port']['type'] == "usb-a"
+      - test_three['console_port']['description'] == "test description"
+      - test_three['msg'] == "console_port Console Port updated"
+
+- name: "CONSOLE_PORT 4: Create Console Port for Delete Test"
+  netbox.netbox.netbox_console_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Console Port 2
+      device: test100
+    state: present
+  register: test_four
+
+- name: "CONSOLE_PORT 4: ASSERT - Create Console Port for Delete Test"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['console_port']['name'] == "Console Port 2"
+      - test_four['console_port']['device'] == 1
+      - test_four['msg'] == "console_port Console Port 2 created"
+
+- name: "CONSOLE_PORT 5: Delete Console Port"
+  netbox.netbox.netbox_console_port:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: Console Port 2
+      device: test100
+    state: absent
+  register: test_five
+
+- name: "CONSOLE_PORT 5: ASSERT - Delete Console Port"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "console_port Console Port 2 deleted"
