@@ -46,10 +46,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test Platform
-      manufacturer: Test Manufacturer
-      napalm_driver: ios
-      napalm_args:
-        global_delay_factor: 2
+      manufacturer: Test Manufacturer            
     state: present
   register: test_three
 
@@ -58,11 +55,7 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['manufacturer'] == 3
-      - test_three['diff']['after']['napalm_args']['global_delay_factor'] == 2
-      - test_three['diff']['after']['napalm_driver'] == "ios"
       - test_three['platform']['manufacturer'] == 3
-      - test_three['platform']['napalm_args']['global_delay_factor'] == 2
-      - test_three['platform']['napalm_driver'] == "ios"
       - test_three['msg'] == "platform Test Platform updated"
 
 - name: "PLATFORM 4: ASSERT - Delete"
