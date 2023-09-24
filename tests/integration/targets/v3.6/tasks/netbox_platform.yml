@@ -46,7 +46,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test Platform
-      manufacturer: Test Manufacturer            
+      manufacturer: Test Manufacturer   
     state: present
   register: test_three
 
