@@ -58,6 +58,8 @@ API_APPS_ENDPOINTS = dict(
         "inventory_item_roles",
         "locations",
         "manufacturers",
+        "modules",
+        "module_bays",
         "module_types",
         "platforms",
         "power_feeds",
@@ -144,6 +146,8 @@ QUERY_TYPES = dict(
     l2vpn_termination="id",
     location="slug",
     manufacturer="slug",
+    module="asset_tag",
+    module_bay="name",
     module_type="model",
     nat_inside="address",
     nat_outside="address",
@@ -233,6 +237,12 @@ CONVERT_TO_ID = {
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
+    "module": "modules",
+    "modules": "modules",
+    "module_bay": "module_bays",
+    "module_bays": "module_bays",
+    "module_type": "module_types",
+    "module_types": "module_types",
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
@@ -335,6 +345,8 @@ ENDPOINT_NAME_MAPPING = {
     "l2vpn_terminations": "l2vpn_termination",
     "locations": "location",
     "manufacturers": "manufacturer",
+    "modules": "module",
+    "module_bays": "module_bay",
     "module_types": "module_type",
     "platforms": "platform",
     "power_feeds": "power_feed",
@@ -394,6 +406,8 @@ ALLOWED_QUERY_PARAMS = {
             "sites",
             "roles",
             "device_types",
+            "module_bays",
+            "module_types",
             "platforms",
             "cluster_types",
             "cluster_groups",
@@ -436,7 +450,7 @@ ALLOWED_QUERY_PARAMS = {
     "interface": set(["name", "device", "virtual_machine"]),
     "interface_a": set(["name", "device"]),
     "interface_b": set(["name", "device"]),
-    "interface_template": set(["name", "device_type"]),
+    "interface_template": set(["name", "device_type", "module_type"]),
     "inventory_item": set(["name", "device"]),
     "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -450,6 +464,8 @@ ALLOWED_QUERY_PARAMS = {
     ),
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
+    "module": set(["asset_tag"]),
+    "module_bay": set(["name"]),
     "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
@@ -1045,6 +1061,8 @@ class NetboxModule(object):
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 query_dict["devicetype_id"] = query_dict.pop("device_type")
+            if query_dict.get("module_type"):
+                query_dict["moduletype_id"] = query_dict.pop("module_type")
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
@@ -1160,6 +1178,7 @@ class NetboxModule(object):
                             "sites",
                             "roles",
                             "device_types",
+                            "module_types",
                             "platforms",
                             "cluster_groups",
                             "contact_groups",
