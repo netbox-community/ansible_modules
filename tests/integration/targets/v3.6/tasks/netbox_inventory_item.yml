@@ -193,6 +193,7 @@
         name: GigabitEthernet2
         device: "test100"
     state: present
+  ignore_errors: true
   register: test_eight
 
 - name: "INVENTORY_ITEM 8: ASSERT - Inventory item creation with missing component_type"
