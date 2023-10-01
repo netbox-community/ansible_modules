@@ -103,12 +103,12 @@ options:
         suboptions:
           name:
             description:
-              - The name of the interface
+              - The name of the component
             type: str
             required: False
           device:
             description:
-              - The device the interface is attached to.
+              - The device the component is attached to.
             type: str
             required: False
       tags:
