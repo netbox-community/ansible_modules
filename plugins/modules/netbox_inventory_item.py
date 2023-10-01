@@ -263,10 +263,10 @@ def main():
     required_together = [("component_type", "component")]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, 
-        supports_check_mode=True, 
+        argument_spec=argument_spec,
+        supports_check_mode=True,
         required_if=required_if,
-        required_together=required_together
+        required_together=required_together,
     )
 
     netbox_inventory_item = NetboxDcimModule(module, NB_INVENTORY_ITEMS)
