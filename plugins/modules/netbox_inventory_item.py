@@ -174,6 +174,19 @@ EXAMPLES = r"""
           device: test100
         state: present
 
+    - name: Create inventory item with component
+      netbox.netbox.netbox_inventory_item:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "10G-SFP+"
+          device: test100
+          component_type: "dcim.interface"
+          component:
+            name: GigabitEthernet2
+            device: "test100"
+        state: present
+
     - name: Delete inventory item within netbox
       netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local
