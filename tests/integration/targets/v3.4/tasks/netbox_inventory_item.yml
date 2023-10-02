@@ -170,7 +170,7 @@
     state: present
   register: test_seven
 
-- name: "INVENTORY_ITEM 7: ASSERT - Inventory item creation with role"
+- name: "INVENTORY_ITEM 7: ASSERT - Inventory item creation with component"
   ansible.builtin.assert:
     that:
       - test_seven is changed
@@ -182,7 +182,7 @@
       - test_seven.inventory_item.device == 1
       - test_seven.msg == "inventory_item test_component created"
 
-- name: "INVENTORY_ITEM 8: Create inventory item with component_type"
+- name: "INVENTORY_ITEM 8: Create inventory item creation with missing component_type"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
