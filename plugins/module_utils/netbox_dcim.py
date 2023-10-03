@@ -210,6 +210,13 @@ class NetboxDcimModule(NetboxModule):
                 nb_endpoint, object_query_params, name
             )
 
+        if (
+            self.endpoint == "devices"
+            and data.get("device_role")
+            and Version(self.full_version) >= Version("3.6.0")
+        ):
+            data["role"] = data.pop("device_role")
+
         # This is logic to handle interfaces on a VC
         if self.endpoint == "interfaces" and self.nb_object:
             child = self.nb.dcim.devices.get(self.nb_object.device.id)
