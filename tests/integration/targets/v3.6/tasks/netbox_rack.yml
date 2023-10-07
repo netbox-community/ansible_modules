@@ -206,7 +206,7 @@
   assert:
     that:
       - test_seven is failed
-      - "'Asset tag already exists' in test_seven['msg']"
+      - "'asset tag already exists' in test_seven['msg']"
 
 - name: "8 - Test delete"
   netbox.netbox.netbox_rack:
