@@ -125,6 +125,12 @@ options:
           - Primary IPv6 address assigned to the device
         required: false
         type: raw
+      oob_ip:
+        description:
+          - Out-of-band (OOB) IP address assigned to the device
+        required: false
+        type: raw
+        version_added: "3.15.0"
       cluster:
         description:
           - Cluster that the device will be assigned to
@@ -306,6 +312,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
+                    oob_ip=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),
                     virtual_chassis=dict(required=False, type="raw"),
                     vc_position=dict(required=False, type="int"),
