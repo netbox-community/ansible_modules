@@ -204,6 +204,7 @@ CONVERT_TO_ID = {
     "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
     "cluster_types": "cluster_types",
+    "component": "interfaces",
     "config_context": "config_contexts",
     "contact_groups": "contact_groups",
     "dcim.consoleport": "console_ports",
@@ -386,6 +387,7 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
+    "component": set(["name", "device"]),
     "config_context": set(
         [
             "name",
@@ -437,7 +439,7 @@ ALLOWED_QUERY_PARAMS = {
     "interface_a": set(["name", "device"]),
     "interface_b": set(["name", "device"]),
     "interface_template": set(["name", "device_type"]),
-    "inventory_item": set(["name", "device"]),
+    "inventory_item": set(["name", "device", "component", "component_type"]),
     "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -561,6 +563,7 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
+    "component": "component_id",
     "contact_group": "group",
     "device_role": "role",
     "fhrp_group": "group",
@@ -831,7 +834,7 @@ class NetboxModule(object):
                 temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
                 # This will keep the original key for keys in list, but also convert it.
-                if key in ("assigned_object", "scope"):
+                if key in ("assigned_object", "scope", "component"):
                     temp_dict[key] = data[key]
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
@@ -1134,6 +1137,8 @@ class NetboxModule(object):
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
                 elif k == "assigned_object":
                     endpoint = "interfaces"
+                elif k == "component":
+                    endpoint = CONVERT_TO_ID[data.get("component_type")]
                 elif k == "scope":
                     # Determine endpoint name for scope ID resolution
                     endpoint = SCOPE_TO_ENDPOINT[data["scope_type"]]
