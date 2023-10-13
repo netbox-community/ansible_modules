@@ -305,3 +305,8 @@
         - netbox_fhrp_group_assignmen
   tags:
     - netbox_fhrp_group_assignmen
+
+- name: "NETBOX_CONFIG_TEMPLATE"
+  include_tasks: "netbox_config_template.yml"
+  tags:
+    - netbox_config_template
