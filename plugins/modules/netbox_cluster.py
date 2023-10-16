@@ -65,7 +65,7 @@ options:
         description:
           - Tenant the cluster will be assigned to.
         required: false
-        type: raw
+        type: int
       tags:
         description:
           - Any tags that the cluster may need to be associated with
@@ -163,7 +163,7 @@ def main():
                     cluster_type=dict(required=False, type="raw"),
                     cluster_group=dict(required=False, type="raw"),
                     site=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),

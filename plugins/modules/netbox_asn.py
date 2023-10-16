@@ -43,7 +43,7 @@ options:
         description:
           - Tenant
         required: false
-        type: raw
+        type: int
       description:
         description:
           - Description
@@ -127,7 +127,7 @@ def main():
                 options=dict(
                     asn=dict(required=True, type="int"),
                     rir=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

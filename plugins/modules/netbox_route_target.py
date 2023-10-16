@@ -38,7 +38,7 @@ options:
         description:
           - The tenant that the route target will be assigned to
         required: false
-        type: raw
+        type: int
       description:
         description:
           - Tag description
@@ -143,7 +143,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),

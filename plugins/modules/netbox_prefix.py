@@ -67,7 +67,7 @@ options:
         description:
           - The tenant that the prefix will be assigned to
         required: false
-        type: raw
+        type: int
       vlan:
         description:
           - The VLAN the prefix will be assigned to
@@ -254,7 +254,7 @@ def main():
                     prefix_length=dict(required=False, type="int"),
                     site=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     vlan=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     prefix_role=dict(required=False, type="raw"),

@@ -54,7 +54,7 @@ options:
         description:
           - The tenant assigned to the circuit
         required: false
-        type: raw
+        type: int
       install_date:
         description:
           - The date the circuit was installed. e.g. YYYY-MM-DD
@@ -167,7 +167,7 @@ def main():
                     provider=dict(required=False, type="raw"),
                     circuit_type=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     install_date=dict(required=False, type="str"),
                     commit_rate=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),

@@ -60,7 +60,7 @@ options:
         description:
           - The tenant that the device will be assigned to
         required: false
-        type: raw
+        type: int
       status:
         description:
           - The status of the rack
@@ -272,7 +272,7 @@ def main():
                         removed_in_version="5.0.0",
                         removed_from_collection="netbox.netbox",
                     ),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
                     rack_role=dict(required=False, type="raw"),
                     serial=dict(required=False, type="str"),

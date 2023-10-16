@@ -55,7 +55,7 @@ options:
         description:
           - The tenant the site will be assigned to
         required: false
-        type: raw
+        type: int
       facility:
         description:
           - Data center provider or facility, ex. Equinix NY7
@@ -220,7 +220,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     region=dict(required=False, type="raw"),
                     site_group=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     facility=dict(required=False, type="str"),
                     asn=dict(required=False, type="int"),
                     time_zone=dict(required=False, type="str"),

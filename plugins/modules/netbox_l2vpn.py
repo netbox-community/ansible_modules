@@ -71,7 +71,7 @@ options:
         description:
           - The tenant that the L2VPN will be assigned to
         required: false
-        type: raw
+        type: int
       tags:
         description:
           - Any tags that the L2VPN may need to be associated with
@@ -170,7 +170,7 @@ def main():
                     export_targets=dict(required=False, type="list", elements="raw"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

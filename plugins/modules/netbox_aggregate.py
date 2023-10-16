@@ -59,7 +59,7 @@ options:
         description:
           - Tenant the aggregate will be assigned to.
         required: false
-        type: raw
+        type: int
         version_added: "3.12.0"
       tags:
         description:
@@ -151,7 +151,7 @@ def main():
                     date_added=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

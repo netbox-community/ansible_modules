@@ -43,7 +43,7 @@ options:
         description:
           - The tenant that the vrf will be assigned to
         required: false
-        type: raw
+        type: int
       enforce_unique:
         description:
           - Prevent duplicate prefixes/IP addresses within this VRF
@@ -165,7 +165,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     rd=dict(required=False, type="str"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     enforce_unique=dict(required=False, type="bool"),
                     import_targets=dict(required=False, type="list", elements="str"),
                     export_targets=dict(required=False, type="list", elements="str"),

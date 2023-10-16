@@ -38,7 +38,7 @@ options:
         description:
           - The VLAN group the VLAN will be associated to
         required: false
-        type: raw
+        type: int
       vid:
         description:
           - The VLAN ID
@@ -53,7 +53,7 @@ options:
         description:
           - The tenant that the vlan will be assigned to
         required: false
-        type: raw
+        type: int
       status:
         description:
           - The status of the vlan
@@ -166,10 +166,10 @@ def main():
                 required=True,
                 options=dict(
                     site=dict(required=False, type="raw"),
-                    vlan_group=dict(required=False, type="raw"),
+                    vlan_group=dict(required=False, type="int"),
                     vid=dict(required=False, type="int"),
                     name=dict(required=True, type="str"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
                     vlan_role=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),

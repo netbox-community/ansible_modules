@@ -68,7 +68,7 @@ options:
         description:
           - The tenant that the device will be assigned to
         required: false
-        type: raw
+        type: int
       status:
         description:
           - The status of the IP address
@@ -313,7 +313,7 @@ def main():
                     ),
                     prefix=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
+                    tenant=dict(required=False, type="int"),
                     status=dict(required=False, type="raw"),
                     role=dict(
                         required=False,
