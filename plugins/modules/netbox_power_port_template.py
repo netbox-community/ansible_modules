@@ -34,7 +34,12 @@ options:
       device_type:
         description:
           - The device type the power port is attached to
-        required: true
+          - Either I(device_type) or I(module_type) are required
+        type: raw
+      module_type:
+        description:
+          - The module type the power port is attached to
+          - Either I(device_type) or I(module_type) are required
         type: raw
       name:
         description:
@@ -175,6 +180,17 @@ EXAMPLES = r"""
           device_type: Test Device Type
         state: present
 
+    - name: Create power port for a module type within NetBox
+      netbox.netbox.netbox_power_port_template:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Power Port Template
+          module_type: Test Module Type
+          type: iec-60320-c6
+          maximum_draw: 750
+        state: present
+
     - name: Update power port with other fields
       netbox.netbox.netbox_power_port_template:
         netbox_url: http://netbox.local
@@ -230,7 +246,8 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    device_type=dict(required=True, type="raw"),
+                    device_type=dict(required=False, type="raw"),
+                    module_type=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     type=dict(
                         required=False,
@@ -346,12 +363,19 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["device_type", "name"]),
-        ("state", "absent", ["device_type", "name"]),
+        ("state", "present", ["name"]),
+        ("state", "absent", ["name"]),
+    ]
+
+    required_one_of = [
+        ("device_type", "module_type"),
     ]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_power_port_template = NetboxDcimModule(module, NB_POWER_PORT_TEMPLATES)

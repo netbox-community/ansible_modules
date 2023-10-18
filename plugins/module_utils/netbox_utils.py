@@ -239,6 +239,7 @@ CONVERT_TO_ID = {
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
+    "module_type": "module_types",
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
     "platform": "platforms",
