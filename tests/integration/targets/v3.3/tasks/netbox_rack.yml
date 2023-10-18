@@ -88,7 +88,7 @@
       rack_role: "Test Rack Role"
       location: "Test Rack Group"
       facility_id: "EQUI10291"
-      tenant: "Test Tenant"
+      tenant: 1
       status: Available
       serial: "FXS10001"
       asset_tag: "1234"
@@ -151,7 +151,7 @@
       rack_role: "Test Rack Role"
       location: "Test Rack Group"
       facility_id: "EQUI10291"
-      tenant: "Test Tenant"
+      tenant: 1
       status: Available
       serial: "FXS10001"
       asset_tag: "1234"

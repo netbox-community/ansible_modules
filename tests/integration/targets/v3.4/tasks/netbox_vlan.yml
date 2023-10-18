@@ -51,7 +51,7 @@
       vid: 500
       site: Test Site
       tenant: Test Tenant
-      vlan_group: "Test VLAN Group"
+      vlan_group: 1
     state: present
   register: test_three
 
@@ -74,8 +74,8 @@
     data:
       name: "Test VLAN 500"
       vid: 500
-      tenant: "Test Tenant"
-      vlan_group: "Test VLAN Group"
+      tenant: 1
+      vlan_group: 1
       status: Reserved
       vlan_role: Network of care
       description: Updated description
@@ -110,8 +110,8 @@
     data:
       name: "Test VLAN 500"
       vid: 500
-      tenant: "Test Tenant"
-      vlan_group: "Test VLAN Group"
+      tenant: 1
+      vlan_group: 1
       status: Reserved
       vlan_role: Network of care
       description: Updated description
@@ -135,7 +135,7 @@
       vid: 500
       site: Test Site
       tenant: Test Tenant
-      vlan_group: "Test VLAN Group 2"
+      vlan_group: 2
     state: present
   register: new_vlan_group
 
@@ -174,7 +174,7 @@
     data:
       name: "Test VLAN 500"
       site: Test Site
-      vlan_group: "Test VLAN Group"
+      vlan_group: 1
     state: absent
   register: test_six
 

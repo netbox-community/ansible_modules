@@ -66,7 +66,7 @@
       name: "Test VRF One"
       rd: "65001:1"
       enforce_unique: False
-      tenant: "Test Tenant"
+      tenant: 1
       description: Updated description
       import_targets:
         - "4000:4000"

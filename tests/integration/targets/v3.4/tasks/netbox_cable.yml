@@ -82,7 +82,7 @@
       length_unit: m
       tags:
         - "Schnozzberry"
-      tenant: "Test Tenant"
+      tenant: 1
     state: present
   register: test_three
 

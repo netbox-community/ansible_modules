@@ -52,7 +52,7 @@
       cluster_group: "Test Cluster Group"
       site: "Test Site"
       comments: "Updated cluster"
-      tenant: "Test Tenant"
+      tenant: 1
       tags:
         - "Schnozzberry"
     state: present

@@ -49,7 +49,7 @@
     data:
       name: "Test L2VPN"
       type: vxlan
-      tenant: "Test Tenant"
+      tenant: 1
       description: Updated description
       import_targets:
         - "4000:4000"
