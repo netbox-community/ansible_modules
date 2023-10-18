@@ -112,7 +112,7 @@ options:
               - The device the component is attached to.
             type: str
             required: False
-          version_added: "3.15.0"
+        version_added: "3.15.0"
       tags:
         description:
           - Any tags that the device may need to be associated with
