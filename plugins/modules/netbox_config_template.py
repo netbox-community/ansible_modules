@@ -64,7 +64,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create config template
-      netbox.netbox.netbox_route_target:
+      netbox.netbox.netbox_config_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
@@ -77,7 +77,7 @@ EXAMPLES = r"""
               - ansible
 
     - name: Delete config template
-      netbox.netbox.netbox_route_target:
+      netbox.netbox.netbox_config_template:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
