@@ -18,6 +18,7 @@ NB_CUSTOM_LINKS = "custom_links"
 NB_EXPORT_TEMPLATES = "export_templates"
 NB_JOURNAL_ENTRIES = "journal_entries"
 NB_WEBHOOKS = "webhooks"
+NB_CONFIG_TEMPLATES = "config_templates"
 
 
 class NetboxExtrasModule(NetboxModule):
@@ -37,6 +38,7 @@ class NetboxExtrasModule(NetboxModule):
         to create/update/delete the endpoint objects
         Supported endpoints:
         - config_contexts
+        - config_templates
         - tags
         - journal entries
         """
