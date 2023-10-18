@@ -133,7 +133,7 @@
       face: "Front"
       tags:
         - "schnozzberry"
-      tenant: "Test Tenant"
+        tenant: 1
       asset_tag: "1234"
     state: present
   register: test_four
