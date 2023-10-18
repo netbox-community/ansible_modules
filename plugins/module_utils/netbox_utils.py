@@ -79,6 +79,7 @@ API_APPS_ENDPOINTS = dict(
     ],
     extras=[
         "config_contexts",
+        "config_templates",
         "tags",
         "custom_fields",
         "custom_links",
@@ -125,6 +126,7 @@ QUERY_TYPES = dict(
     cluster_group="slug",
     cluster_type="slug",
     config_context="name",
+    config_template="name",
     contact_group="name",
     contact_role="name",
     custom_field="name",
@@ -161,6 +163,7 @@ QUERY_TYPES = dict(
     primary_ip="address",
     primary_ip4="address",
     primary_ip6="address",
+    oob_ip="address",
     provider="slug",
     provider_network="name",
     rack="name",
@@ -204,7 +207,9 @@ CONVERT_TO_ID = {
     "cluster_groups": "cluster_groups",
     "cluster_type": "cluster_types",
     "cluster_types": "cluster_types",
+    "component": "interfaces",
     "config_context": "config_contexts",
+    "config_template": "config_templates",
     "contact_groups": "contact_groups",
     "dcim.consoleport": "console_ports",
     "dcim.consoleserverport": "console_server_ports",
@@ -214,6 +219,7 @@ CONVERT_TO_ID = {
     "dcim.poweroutlet": "power_outlets",
     "dcim.powerport": "power_ports",
     "dcim.rearport": "rear_ports",
+    "default_platform": "platforms",
     "device": "devices",
     "device_role": "device_roles",
     "device_type": "device_types",
@@ -253,6 +259,7 @@ CONVERT_TO_ID = {
     "primary_ip": "ip_addresses",
     "primary_ip4": "ip_addresses",
     "primary_ip6": "ip_addresses",
+    "oob_ip": "ip_addresses",
     "provider": "providers",
     "provider_network": "provider_networks",
     "rack": "racks",
@@ -306,6 +313,7 @@ ENDPOINT_NAME_MAPPING = {
     "cluster_groups": "cluster_group",
     "cluster_types": "cluster_type",
     "config_contexts": "config_context",
+    "config_templates": "config_template",
     "console_ports": "console_port",
     "console_port_templates": "console_port_template",
     "console_server_ports": "console_server_port",
@@ -386,6 +394,7 @@ ALLOWED_QUERY_PARAMS = {
     "cluster": set(["name", "type"]),
     "cluster_group": set(["slug"]),
     "cluster_type": set(["slug"]),
+    "component": set(["name", "device"]),
     "config_context": set(
         [
             "name",
@@ -403,6 +412,7 @@ ALLOWED_QUERY_PARAMS = {
             "tags",
         ]
     ),
+    "config_template": set(["name"]),
     "console_port": set(["name", "device"]),
     "console_port_template": set(["name", "device_type"]),
     "console_server_port": set(["name", "device"]),
@@ -437,7 +447,7 @@ ALLOWED_QUERY_PARAMS = {
     "interface_a": set(["name", "device"]),
     "interface_b": set(["name", "device"]),
     "interface_template": set(["name", "device_type"]),
-    "inventory_item": set(["name", "device"]),
+    "inventory_item": set(["name", "device", "component", "component_type"]),
     "inventory_item_role": set(["name"]),
     "ip_address": set(["address", "vrf", "device", "interface", "assigned_object"]),
     "ip_addresses": set(["address", "vrf", "device", "interface", "assigned_object"]),
@@ -472,6 +482,7 @@ ALLOWED_QUERY_PARAMS = {
     "prefix": set(["prefix", "vrf"]),
     "primary_ip4": set(["address", "vrf"]),
     "primary_ip6": set(["address", "vrf"]),
+    "oob_ip": set(["address", "vrf"]),
     "provider": set(["slug"]),
     "provider_network": set(["name"]),
     "rack": set(["name", "site", "location"]),
@@ -561,7 +572,9 @@ CONVERT_KEYS = {
     "circuit_type": "type",
     "cluster_type": "type",
     "cluster_group": "group",
+    "component": "component_id",
     "contact_group": "group",
+    "device_role": "role",
     "fhrp_group": "group",
     "inventory_item_role": "role",
     "parent_contact_group": "parent",
@@ -819,12 +832,18 @@ class NetboxModule(object):
         if self._version_check_greater(self.version, "2.7", greater_or_equal=True):
             if data.get("form_factor"):
                 temp_dict["type"] = data.pop("form_factor")
+
         for key in data:
             if self.endpoint == "power_panels" and key == "rack_group":
                 temp_dict[key] = data[key]
+            # TODO: Remove this once the lowest supported Netbox version is 3.6 or greater as we can use default logic of CONVERT_KEYS moving forward.
+            elif key == "device_role" and not self._version_check_greater(
+                self.version, "3.6", greater_or_equal=True
+            ):
+                temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
                 # This will keep the original key for keys in list, but also convert it.
-                if key in ("assigned_object", "scope"):
+                if key in ("assigned_object", "scope", "component"):
                     temp_dict[key] = data[key]
                 new_key = CONVERT_KEYS[key]
                 temp_dict[new_key] = data[key]
@@ -855,19 +874,18 @@ class NetboxModule(object):
         """
         if isinstance(data.get(match), int):
             return data[match]
+        endpoint = CONVERT_TO_ID[match]
+        app = self._find_app(endpoint)
+        nb_app = getattr(self.nb, app)
+        nb_endpoint = getattr(nb_app, endpoint)
+
+        query_params = {QUERY_TYPES.get(match): data[match]}
+        result = self._nb_endpoint_get(nb_endpoint, query_params, match)
+
+        if result:
+            return result.id
         else:
-            endpoint = CONVERT_TO_ID[match]
-            app = self._find_app(endpoint)
-            nb_app = getattr(self.nb, app)
-            nb_endpoint = getattr(nb_app, endpoint)
-
-            query_params = {QUERY_TYPES.get(match): data[match]}
-            result = self._nb_endpoint_get(nb_endpoint, query_params, match)
-
-            if result:
-                return result.id
-            else:
-                return data
+            return data
 
     def _build_query_params(
         self, parent, module_data, user_query_params=None, child=None
@@ -909,6 +927,16 @@ class NetboxModule(object):
 
                 if parent == "vlan_group" and match == "site":
                     query_dict.update({match: query_id})
+                elif (
+                    parent == "interface"
+                    and "device" in module_data
+                    and self._version_check_greater(
+                        self.version, "3.6", greater_or_equal=True
+                    )
+                ):
+                    query_dict.update(
+                        {"virtual_chassis_member_id": module_data["device"]}
+                    )
                 else:
                     query_dict.update({match + "_id": query_id})
             else:
@@ -1118,6 +1146,8 @@ class NetboxModule(object):
                     endpoint = CONVERT_TO_ID[data.get("termination_b_type")]
                 elif k == "assigned_object":
                     endpoint = "interfaces"
+                elif k == "component":
+                    endpoint = CONVERT_TO_ID[data.get("component_type")]
                 elif k == "scope":
                     # Determine endpoint name for scope ID resolution
                     endpoint = SCOPE_TO_ENDPOINT[data["scope_type"]]

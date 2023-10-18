@@ -818,3 +818,16 @@ releases:
         - netbox_power_port - Add missing power port option [#1049](https://github.com/netbox-community/ansible_modules/pull/1049)
         - netbox_inventory_item - Add role to module [#1050](https://github.com/netbox-community/ansible_modules/pull/1050)
     release_date: '2023-08-18'
+  3.15.0:
+    changes:
+      bugfixes:
+        - netbox_ device - Adjust device_role to role for NetBox 3.6 [#1066](https://github.com/netbox-community/ansible_modules/pull/1066)
+      minor_changes:
+        - netbox_device - Add oob_ip to device [#1085](https://github.com/netbox-community/ansible_modules/pull/1085)
+        - netbox_device_type - Add default_platform [#1092](https://github.com/netbox-community/ansible_modules/pull/1092)
+        - netbox_config_template - New module [#1090](https://github.com/netbox-community/ansible_modules/pull/1090)
+    modules:
+      - description: Creates, updates, or removed a config template from NetBox
+        name: netbox_config_template
+        namesapce: ''
+    release_date: '2023-10-18'

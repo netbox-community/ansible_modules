@@ -112,6 +112,12 @@ options:
           - Comments that may include additional information in regards to the device_type
         required: false
         type: str
+      default_platform:
+        description: 
+          - Set the default platform used by the device
+        required: false
+        type: raw
+        version_added: "3.15.0"
       tags:
         description:
           - Any tags that the device type may need to be associated with
@@ -237,6 +243,7 @@ def main():
                     ),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    default_platform=dict(required=False, type="raw"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

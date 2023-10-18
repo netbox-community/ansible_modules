@@ -1,0 +1,79 @@
+---
+##
+##
+### NETBOX_REGION
+##
+##
+- name: "REGION 1: Necessary info creation"
+  netbox.netbox.netbox_region:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Region One"
+    state: present
+  register: test_one
+
+- name: "REGION 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['region']['name'] == "Test Region One"
+      - test_one['region']['slug'] == "test-region-one"
+      - test_one['msg'] == "region Test Region One created"
+
+- name: "REGION 2: Create duplicate"
+  netbox.netbox.netbox_region:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Region One"
+    state: present
+  register: test_two
+
+- name: "REGION 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['region']['name'] == "Test Region One"
+      - test_two['region']['slug'] == "test-region-one"
+      - test_two['msg'] == "region Test Region One already exists"
+
+- name: "REGION 3: ASSERT - Update"
+  netbox.netbox.netbox_region:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Region One"
+      parent_region: "Test Region"
+    state: present
+  register: test_three
+
+- name: "REGION 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['parent'] == 1
+      - test_three['region']['name'] == "Test Region One"
+      - test_three['region']['slug'] == "test-region-one"
+      - test_three['region']['parent'] == 1
+      - test_three['msg'] == "region Test Region One updated"
+
+- name: "REGION 4: ASSERT - Delete"
+  netbox.netbox.netbox_region:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Region One"
+    state: absent
+  register: test_four
+
+- name: "REGION 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['region']['name'] == "Test Region One"
+      - test_four['region']['slug'] == "test-region-one"
+      - test_four['region']['parent'] == 1
+      - test_four['msg'] == "region Test Region One deleted"
