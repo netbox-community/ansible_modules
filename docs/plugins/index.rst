@@ -6,7 +6,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.14.0
+Collection version 3.15.0
 
 .. contents::
    :local:
@@ -58,6 +58,7 @@ Modules
 * :ref:`netbox_cluster_group module <ansible_collections.netbox.netbox.netbox_cluster_group_module>` -- Create, update or delete cluster groups within NetBox
 * :ref:`netbox_cluster_type module <ansible_collections.netbox.netbox.netbox_cluster_type_module>` -- Create, update or delete cluster types within NetBox
 * :ref:`netbox_config_context module <ansible_collections.netbox.netbox.netbox_config_context_module>` -- Creates, updates or deletes configuration contexts within NetBox
+* :ref:`netbox_config_template module <ansible_collections.netbox.netbox.netbox_config_template_module>` -- Creates or removes config templates from NetBox
 * :ref:`netbox_console_port module <ansible_collections.netbox.netbox.netbox_console_port_module>` -- Create, update or delete console ports within NetBox
 * :ref:`netbox_console_port_template module <ansible_collections.netbox.netbox.netbox_console_port_template_module>` -- Create, update or delete console port templates within NetBox
 * :ref:`netbox_console_server_port module <ansible_collections.netbox.netbox.netbox_console_server_port_module>` -- Create, update or delete console server ports within NetBox
@@ -139,6 +140,7 @@ Modules
     netbox_cluster_group_module
     netbox_cluster_type_module
     netbox_config_context_module
+    netbox_config_template_module
     netbox_console_port_module
     netbox_console_port_template_module
     netbox_console_server_port_module

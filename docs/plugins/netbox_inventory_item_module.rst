@@ -42,7 +42,7 @@ netbox.netbox.netbox_inventory_item module -- Creates or removes inventory items
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -200,6 +200,162 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The asset tag of the inventory item
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component:
+
+      .. rst-class:: ansible-option-title
+
+      **component**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.15.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The associated component
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component/device"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component/device:
+
+      .. rst-class:: ansible-option-title
+
+      **device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component/device" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The device the component is attached to.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component/name"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the component
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/component_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component_type:
+
+      .. rst-class:: ansible-option-title
+
+      **component_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/component_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.15.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of the component. Required if component is defined.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"dcim.consoleport"`
+      - :ansible-option-choices-entry:`"dcim.consoleserverport"`
+      - :ansible-option-choices-entry:`"dcim.frontport"`
+      - :ansible-option-choices-entry:`"dcim.interface"`
+      - :ansible-option-choices-entry:`"dcim.poweroutlet"`
+      - :ansible-option-choices-entry:`"dcim.powerport"`
+      - :ansible-option-choices-entry:`"dcim.rearport"`
 
 
       .. raw:: html
@@ -888,6 +1044,19 @@ Examples
                 device: test100
               name: "10G-SFP+"
               device: test100
+            state: present
+
+        - name: Create inventory item with component
+          netbox.netbox.netbox_inventory_item:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: "10G-SFP+"
+              device: test100
+              component_type: "dcim.interface"
+              component:
+                name: GigabitEthernet2
+                device: "test100"
             state: present
 
         - name: Delete inventory item within netbox

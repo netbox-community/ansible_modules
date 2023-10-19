@@ -26,7 +26,7 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module:
+.. _ansible_collections.netbox.netbox.netbox_config_template_module:
 
 .. Anchors: short name for ansible.builtin
 
@@ -36,8 +36,8 @@
 
 .. Title
 
-netbox.netbox.netbox_fhrp_group_assignment module -- Create, update or delete FHRP group assignments within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_config_template module -- Creates or removes config templates from NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -46,12 +46,15 @@ netbox.netbox.netbox_fhrp_group_assignment module -- Create, update or delete FH
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_config_template_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_fhrp_group_assignment`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_config_template`.
 
 .. version_added
 
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 3.15.0
 
 .. contents::
    :local:
@@ -65,7 +68,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes FHRP group assignments from NetBox
+- Creates or removes config templates from NetBox
 
 
 .. Aliases
@@ -73,7 +76,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_config_template_module_requirements:
 
 Requirements
 ------------
@@ -106,7 +109,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -140,7 +143,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -162,7 +165,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the FHRP group assignment configuration
+      Defines the config template configuration
 
 
       .. raw:: html
@@ -172,21 +175,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/fhrp_group"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-data/fhrp_group:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
-      **fhrp_group**
+      **description**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/fhrp_group" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -196,7 +199,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      FHRP Group ID
+      Template description. Max length 200 characters
 
 
       .. raw:: html
@@ -206,21 +209,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/interface_id"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/environment_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-data/interface_id:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data/environment_params:
 
       .. rst-class:: ansible-option-title
 
-      **interface_id**
+      **environment_params**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/interface_id" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/environment_params" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer` / :ansible-option-required:`required`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -230,7 +233,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface ID
+      Any additional parameters to pass when constructing the Jinja2 environment
 
 
       .. raw:: html
@@ -240,17 +243,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/interface_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-data/interface_type:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
-      **interface_type**
+      **name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/interface_type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -264,15 +267,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface type
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"dcim.interface"`
-      - :ansible-option-choices-entry:`"virtualization.vminterface"`
+      Config template name
 
 
       .. raw:: html
@@ -282,21 +277,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/priority"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-data/priority:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
-      **priority**
+      **tags**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/priority" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
       .. raw:: html
 
@@ -306,7 +301,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Priority (0 .. 255)
+      Any tags that the device may need to be associated with
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/template_code"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-data/template_code:
+
+      .. rst-class:: ansible-option-title
+
+      **template_code**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/template_code" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The template code to be rendered.
 
 
       .. raw:: html
@@ -319,7 +348,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -353,7 +382,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -389,7 +418,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -427,7 +456,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -469,7 +498,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -515,17 +544,9 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `FHRP Group Model reference <https://docs.netbox.dev/en/stable/models/ipam/fhrpgroupassignment/>`_
-       NetBox Documentation for FHRP Group Model.
 
 .. Examples
 
@@ -535,31 +556,31 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - hosts: localhost
+    - name: "Test config template creation/deletion"
       connection: local
-      module_defaults:
-        group/netbox.netbox.netbox:
-          netbox_url: "http://netbox.local"
-          netbox_token: "thisIsMyToken"
-
+      hosts: localhost
+      gather_facts: False
       tasks:
-        - name: "Create FHRP group assignment within netbox"
-          netbox.netbox.netbox_fhrp_group_assignment:
+        - name: Create config template
+          netbox.netbox.netbox_config_template:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
             data:
-              fhrp_group: 3
-              interface_type: dcim.interface
-              interface_id: 5
-              priority: 1
-            state: present
+              name: "thisIsMyTemplateName"
+              tags:
+                - Cloud
+              template_code: |
+                #cloud-config
+                packages: 
+                  - ansible
 
-        - name: Delete FHRP group assignment within netbox
-          netbox.netbox.netbox_fhrp_group_assignment:
+        - name: Delete config template
+          netbox.netbox.netbox_config_template:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
             data:
-              fhrp_group: 3
-              interface_type: dcim.interface
-              interface_id: 5
+              name: "thisIsMyTemplateName"
             state: absent
-
 
 
 
@@ -586,17 +607,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-fhrp_group"></div>
+        <div class="ansibleOptionAnchor" id="return-config_templates"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__return-fhrp_group:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__return-config_templates:
 
       .. rst-class:: ansible-option-title
 
-      **fhrp_group**
+      **config_templates**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-fhrp_group" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-config_templates" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -610,12 +631,12 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Serialized object as created or already existent within NetBox
+      Serialized object as created/existent/updated/deleted within NetBox
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` always
 
 
       .. raw:: html
@@ -628,7 +649,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_fhrp_group_assignment_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_config_template_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -672,7 +693,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Andrii Konts (@andrii-konts)
+- Antoine Dunn (@mindbreak)
 
 
 

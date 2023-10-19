@@ -5,6 +5,40 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.15.0
+=======
+
+Minor Changes
+-------------
+
+- netbox_config_template - New module [#1090](https://github.com/netbox-community/ansible_modules/pull/1090)
+- netbox_device - Add oob_ip to device [#1085](https://github.com/netbox-community/ansible_modules/pull/1085)
+- netbox_device_type - Add default_platform [#1092](https://github.com/netbox-community/ansible_modules/pull/1092)
+
+Bugfixes
+--------
+
+- netbox_ device - Adjust device_role to role for NetBox 3.6 [#1066](https://github.com/netbox-community/ansible_modules/pull/1066)
+
+v3.14.0
+=======
+
+Minor Changes
+-------------
+
+- API - Add possibility to use Bearer token [#1023](https://github.com/netbox-community/ansible_modules/pull/1023)
+- custom fields - Add datetime as an custom field option [#1019](https://github.com/netbox-community/ansible_modules/pull/1019)
+- netbox_cable - Add tenant [#1027](https://github.com/netbox-community/ansible_modules/pull/1027)
+- netbox_circuit_type, netbox_device_interface - Add missing options [#1025](https://github.com/netbox-community/ansible_modules/pull/1025)
+- netbox_custom_field - Add hidden-ifunset option [#1048](https://github.com/netbox-community/ansible_modules/pull/1048)
+- netbox_inventory_item - Add role to module [#1050](https://github.com/netbox-community/ansible_modules/pull/1050)
+- netbox_power_port - Add missing power port option [#1049](https://github.com/netbox-community/ansible_modules/pull/1049)
+
+Bugfixes
+--------
+
+- Fix schema caching [#1053](https://github.com/netbox-community/ansible_modules/pull/1053)
+
 v3.13.0
 =======
 
