@@ -1494,7 +1494,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             status = self._fetch_information(self.api_endpoint + "/api/status")
             netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
         except Exception:
-            netbox_api_version = 0
+            raise Exception("Failed to retrieve /api/status or parse netbox_api_version")
 
         tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
         tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
