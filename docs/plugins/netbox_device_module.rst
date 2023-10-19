@@ -42,7 +42,7 @@ netbox.netbox.netbox_device module -- Create, update or delete devices within Ne
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -606,6 +606,43 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The name of the device
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/oob_ip"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_device_module__parameter-data/oob_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **oob_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/oob_ip" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.15.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Out-of-band (OOB) IP address assigned to the device
 
 
       .. raw:: html
