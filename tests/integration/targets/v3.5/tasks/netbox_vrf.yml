@@ -44,7 +44,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test VRF One
-      tenant: Test Tenant
+      tenant: 1
     state: present
   register: test_three
 
@@ -120,7 +120,7 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: "Test VRF One"
-      tenant: Test Tenant
+      tenant: 1
     state: absent
   register: test_six
 

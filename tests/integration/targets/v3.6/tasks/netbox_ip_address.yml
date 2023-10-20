@@ -124,7 +124,7 @@
       family: 4
       address: 172.16.1.20/24
       vrf: Test VRF
-      tenant: Test Tenant
+      tenant: 1
       status: Reserved
       role: Loopback
       description: Test description

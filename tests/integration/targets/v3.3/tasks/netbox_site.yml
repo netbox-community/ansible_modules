@@ -69,7 +69,7 @@
       status: Planned
       region: Test Region
       site_group: Test Site Group
-      tenant: Test Tenant
+      tenant: 1
       facility: EquinoxCA7
       time_zone: America/Los Angeles
       description: This is a test description
@@ -113,7 +113,7 @@
       status: Planned
       region: Test Region
       site_group: Test Site Group
-      tenant: Test Tenant
+      tenant: 1
       facility: EquinoxCA7
       time_zone: America/Los Angeles
       description: This is a test description

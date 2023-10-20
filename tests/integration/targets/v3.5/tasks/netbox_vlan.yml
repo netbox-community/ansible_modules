@@ -50,7 +50,7 @@
       name: Test VLAN 500
       vid: 500
       site: Test Site
-      tenant: Test Tenant
+      tenant: 1
       vlan_group: 1
     state: present
   register: test_three
@@ -134,7 +134,7 @@
       name: Test VLAN 500
       vid: 500
       site: Test Site
-      tenant: Test Tenant
+      tenant: 1
       vlan_group: 2
     state: present
   register: new_vlan_group

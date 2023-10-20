@@ -55,7 +55,7 @@
       provider: Test Provider
       circuit_type: Test Circuit Type
       status: Planned
-      tenant: Test Tenant
+      tenant: 1
       install_date: "2018-12-25"
       commit_rate: 10000
       description: "Test circuit       "

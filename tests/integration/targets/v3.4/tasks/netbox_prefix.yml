@@ -89,11 +89,11 @@
       prefix: 10.156.32.0/19
       site: Test Site
       vrf: Test VRF
-      tenant: Test Tenant
+      tenant: 1
       vlan:
         name: Test VLAN
         site: Test Site
-        tenant: Test Tenant
+        tenant: 1
         vlan_group: Test Vlan Group
       status: Reserved
       prefix_role: Network of care
