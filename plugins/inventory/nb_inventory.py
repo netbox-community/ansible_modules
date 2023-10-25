@@ -1490,34 +1490,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             thread_exceptions = None
 
     def fetch_api_docs(self):
-        try:
-            status = self._fetch_information(self.api_endpoint + "/api/status")
-            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
-        except Exception:
-            netbox_api_version = 0
+        status = self._fetch_information(self.api_endpoint + "/api/status")
+        netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
-        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
-        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
+        if version.parse(netbox_api_version) >= version.parse("3.5.0"):
+            endpoint_url = self.api_endpoint + "/api/schema/?format=json"
+        else:
+            endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
 
-        try:
-            with open(tmp_file) as file:
-                openapi = json.load(file)
-        except Exception:
-            openapi = {}
-
-        cached_api_version = openapi.get("info", {}).get("version")
-        if cached_api_version:
-            cached_api_version = ".".join(cached_api_version.split(".")[:2])
-
-        if netbox_api_version != cached_api_version:
-            if version.parse(netbox_api_version) >= version.parse("3.5.0"):
-                endpoint_url = self.api_endpoint + "/api/schema/?format=json"
-            else:
-                endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
-
-            openapi = self._fetch_information(endpoint_url)
-            with open(tmp_file, "w") as file:
-                json.dump(openapi, file)
+        openapi = self._fetch_information(endpoint_url)
 
         self.api_version = version.parse(netbox_api_version)
 
