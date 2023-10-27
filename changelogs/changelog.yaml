@@ -829,5 +829,5 @@ releases:
     modules:
       - description: Creates, updates, or removed a config template from NetBox
         name: netbox_config_template
-        namesapce: ''
+        namespace: ''
     release_date: '2023-10-18'
