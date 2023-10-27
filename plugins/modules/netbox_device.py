@@ -40,7 +40,7 @@ options:
           - Required if I(state=present) and the device does not exist yet
         required: false
         type: raw
-      device_role:
+      role:
         description:
           - Required if I(state=present) and the device does not exist yet
         required: false
@@ -196,7 +196,7 @@ EXAMPLES = r"""
         data:
           name: Test Device
           device_type: C9410R
-          device_role: Core Switch
+          role: Core Switch
           site: Main
         state: present
 
@@ -207,7 +207,7 @@ EXAMPLES = r"""
         data:
           name: ""
           device_type: C9410R
-          device_role: Core Switch
+          role: Core Switch
           site: Main
         state: present
 
@@ -226,7 +226,7 @@ EXAMPLES = r"""
         data:
           name: Another Test Device
           device_type: C9410R
-          device_role: Core Switch
+          role: Core Switch
           site: Main
           local_context_data:
             bgp: "65000"
@@ -282,7 +282,7 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     device_type=dict(required=False, type="raw"),
-                    device_role=dict(required=False, type="raw"),
+                    role=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     platform=dict(required=False, type="raw"),
                     serial=dict(required=False, type="str"),
