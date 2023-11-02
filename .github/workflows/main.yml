@@ -75,9 +75,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - VERSION: "v3.3"
-            NETBOX_DOCKER_VERSION: 2.3.0
+        include:          
           - VERSION: "v3.4"
             NETBOX_DOCKER_VERSION: 2.5.3
           - VERSION: "v3.5"
