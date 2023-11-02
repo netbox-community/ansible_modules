@@ -212,6 +212,7 @@ def get_endpoint(netbox, term):
         "module-bays": {"endpoint": netbox.dcim.module_bays},
         "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
         "module-bay-types": {"endpoint": netbox.dcim.module_bay_types},
+        "module-types": {"endpoint": netbox.dcim.module_types},
         "modules": {"endpoint": netbox.dcim.modules},
         "object-changes": {"endpoint": netbox.extras.object_changes},
         "permissions": {"endpoint": netbox.users.permissions},
