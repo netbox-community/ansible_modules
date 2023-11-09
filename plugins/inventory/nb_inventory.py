@@ -237,7 +237,7 @@ DOCUMENTATION = """
             type: boolean
             default: True
             version_added: "3.6.0"
-        oob_ip_as_primary:
+        oob_ip_as_primary_ip:
             description: Use out of band IP as `ansible host`
             type: boolean
             default: False
