@@ -440,7 +440,7 @@ class LookupModule(LookupBase):
             if netbox_api_filter:
                 filter = build_filters(netbox_api_filter)
 
-                if "id" in filter:
+                if "id" in filter and len(filter["id"]) == 1:
                     Display().vvvv(
                         "Filter is: %s and includes id, will use .get instead of .filter"
                         % (filter)
