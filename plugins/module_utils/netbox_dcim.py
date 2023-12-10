@@ -63,7 +63,7 @@ except ImportError as imp_exc:
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
         if not HAS_PACKAGING:
-            self.module.fail_json(
+            module.fail_json(
                 msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
             )
         super().__init__(module, endpoint)
