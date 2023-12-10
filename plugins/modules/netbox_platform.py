@@ -55,6 +55,7 @@ options:
           - The configuration template the platform will use
         required: false
         type: raw
+        version_added: "3.16.0"
       napalm_driver:
         description:
           - The name of the NAPALM driver to be used when using the NAPALM plugin

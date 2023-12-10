@@ -42,7 +42,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -1097,6 +1097,7 @@ Parameters
       - :ansible-option-choices-entry:`"status"`
       - :ansible-option-choices-entry:`"time\_zone"`
       - :ansible-option-choices-entry:`"utc\_offset"`
+      - :ansible-option-choices-entry:`"facility"`
 
 
       .. rst-class:: ansible-option-line

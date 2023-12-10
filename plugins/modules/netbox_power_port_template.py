@@ -41,6 +41,7 @@ options:
           - The module type the power port is attached to
           - Either I(device_type) or I(module_type) are required
         type: raw
+        version_added: "3.16.0"
       name:
         description:
           - The name of the power port
