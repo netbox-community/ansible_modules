@@ -76,8 +76,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - VERSION: "v3.3"
-            NETBOX_DOCKER_VERSION: 2.3.0
           - VERSION: "v3.4"
             NETBOX_DOCKER_VERSION: 2.5.3
           - VERSION: "v3.5"
@@ -109,7 +107,7 @@ jobs:
           python-version: ${{ env.python-version }}
 
       - name: Install and configure Poetry
-        uses: snok/install-poetry@v1.3.3
+        uses: snok/install-poetry@v1.3.4
         with:
           virtualenvs-create: false
 

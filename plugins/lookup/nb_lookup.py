@@ -212,6 +212,7 @@ def get_endpoint(netbox, term):
         "module-bays": {"endpoint": netbox.dcim.module_bays},
         "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
         "module-bay-types": {"endpoint": netbox.dcim.module_bay_types},
+        "module-types": {"endpoint": netbox.dcim.module_types},
         "modules": {"endpoint": netbox.dcim.modules},
         "object-changes": {"endpoint": netbox.extras.object_changes},
         "permissions": {"endpoint": netbox.users.permissions},
@@ -439,7 +440,7 @@ class LookupModule(LookupBase):
             if netbox_api_filter:
                 filter = build_filters(netbox_api_filter)
 
-                if "id" in filter:
+                if "id" in filter and len(filter["id"]) == 1:
                     Display().vvvv(
                         "Filter is: %s and includes id, will use .get instead of .filter"
                         % (filter)

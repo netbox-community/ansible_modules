@@ -171,6 +171,7 @@ DOCUMENTATION = """
                 - status
                 - time_zone
                 - utc_offset
+                - facility
             default: []
         group_names_raw:
             description: Will not add the group_by choice name to the group names
@@ -453,7 +454,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
             try:
-                results = json.loads(raw_data)
+                results = self.loader.load(raw_data, json_only=True)
             except ValueError:
                 raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
 
@@ -543,6 +544,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "asset_tag": self.extract_asset_tag,
             "time_zone": self.extract_site_time_zone,
             "utc_offset": self.extract_site_utc_offset,
+            "facility": self.extract_site_facility,
             self._pluralize_group_by("site"): self.extract_site,
             self._pluralize_group_by("tenant"): self.extract_tenant,
             self._pluralize_group_by("tag"): self.extract_tags,
@@ -760,6 +762,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_site_utc_offset(self, host):
         try:
             return self.sites_utc_offset_lookup[host["site"]["id"]]
+        except Exception:
+            return
+
+    def extract_site_facility(self, host):
+        try:
+            return self.sites_facility_lookup[host["site"]["id"]]
         except Exception:
             return
 
@@ -1061,6 +1069,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Dictionary of site id to utc_offset name (if group by utc_offset is used)
         if "utc_offset" in self.group_by:
             self.sites_utc_offset_lookup = dict(map(get_utc_offset_for_site, sites))
+
+        def get_facility_for_site(site):
+            # Will fail if site does not have a facility defined in NetBox
+            try:
+                return (site["id"], site["facility"])
+            except Exception:
+                return (site["id"], None)
+
+        # Dictionary of site id to facility (if group by facility is used)
+        if "facility" in self.group_by:
+            self.sites_facility_lookup = dict(map(get_facility_for_site, sites))
 
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
@@ -1491,33 +1510,33 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def fetch_api_docs(self):
         try:
-            status = self._fetch_information(self.api_endpoint + "/api/status")
-            netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
-        except Exception:
-            netbox_api_version = 0
-
-        tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
-        tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
-
-        try:
+            tmp_dir = os.path.split(DEFAULT_LOCAL_TMP)[0]
+            tmp_file = os.path.join(tmp_dir, "netbox_api_dump.json")
             with open(tmp_file) as file:
-                openapi = json.load(file)
+                cache = json.load(file)
+            cached_api_version = ".".join(cache["info"]["version"].split(".")[:2])
         except Exception:
-            openapi = {}
+            cached_api_version = None
+            cache = None
 
-        cached_api_version = openapi.get("info", {}).get("version")
-        if cached_api_version:
-            cached_api_version = ".".join(cached_api_version.split(".")[:2])
+        status = self._fetch_information(self.api_endpoint + "/api/status")
+        netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
-        if netbox_api_version != cached_api_version:
-            if version.parse(netbox_api_version) >= version.parse("3.5.0"):
-                endpoint_url = self.api_endpoint + "/api/schema/?format=json"
-            else:
-                endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
+        if version.parse(netbox_api_version) >= version.parse("3.5.0"):
+            endpoint_url = self.api_endpoint + "/api/schema/?format=json"
+        else:
+            endpoint_url = self.api_endpoint + "/api/docs/?format=openapi"
 
+        if cache and cached_api_version == netbox_api_version:
+            openapi = cache
+        else:
             openapi = self._fetch_information(endpoint_url)
-            with open(tmp_file, "w") as file:
-                json.dump(openapi, file)
+
+            try:
+                with open(tmp_file, "w") as file:
+                    json.dump(openapi, file)
+            except Exception:
+                pass
 
         self.api_version = version.parse(netbox_api_version)
 

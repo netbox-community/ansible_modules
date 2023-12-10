@@ -5,6 +5,24 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.16.0
+=======
+
+Minor Changes
+-------------
+
+- nb_inventory - Add facility group_by option [#1059](https://github.com/netbox-community/ansible_modules/pull/1059)
+- nb_inventory - Enable ansible-vault strings in config-context data [#1114](https://github.com/netbox-community/ansible_modules/pull/1114)
+- netbox_platform - Add config_template option to netbox_platform [#1119](https://github.com/netbox-community/ansible_modules/pull/1119)
+- netbox_power_port_template - Add option module_type to netbox_power_port_template [#1105](https://github.com/netbox-community/ansible_modules/pull/1105)
+
+Bugfixes
+--------
+
+- Improve error reporting for missing module [#1126](https://github.com/netbox-community/ansible_modules/pull/1126)
+- nb_inventory - Fix API cache failure [#1111](https://github.com/netbox-community/ansible_modules/pull/1111)
+- nb_lookup - Allow multiple IDs in nb_lookup [#1042](https://github.com/netbox-community/ansible_modules/pull/1042)
+
 v3.15.0
 =======
 
@@ -19,6 +37,11 @@ Bugfixes
 --------
 
 - netbox_ device - Adjust device_role to role for NetBox 3.6 [#1066](https://github.com/netbox-community/ansible_modules/pull/1066)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_config_template - Creates, updates, or removed a config template from NetBox
 
 v3.14.0
 =======
