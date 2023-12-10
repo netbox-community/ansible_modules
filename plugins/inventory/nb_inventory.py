@@ -454,7 +454,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
             try:
-                results = json.loads(raw_data)
+                results = self.loader.load(raw_data, json_only=True)
             except ValueError:
                 raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
 
