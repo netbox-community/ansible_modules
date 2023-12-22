@@ -106,9 +106,30 @@ options:
         required: false
         type: str      
         version_added: "3.10.0"
+      ui_editable:
+         description:
+           - Whether the custom field is editable in the UI
+         required: false
+         choices: 
+           - yes
+           - no
+           - hidden
+         type: str      
+         version_added: "3.17.0"
+      ui_visible:
+         description:
+           - Whether the custom field is displayed in the UI
+         required: false
+         choices: 
+           - always
+           - if-set
+           - hidden
+         type: str      
+         version_added: "3.17.0"
       ui_visibility:
          description:
            - The UI visibility of the custom field
+           - Replaced by C(ui_visible) and C(ui_editabl)e in NetBox 3.7
          required: false
          choices: 
            - read-write
@@ -245,6 +266,24 @@ def main():
                     weight=dict(required=False, type="int"),
                     search_weight=dict(required=False, type="int"),
                     group_name=dict(required=False, type="str"),
+                    ui_editable=dict(
+                        required=False,
+                        choices=[
+                            "yes",
+                            "no",
+                            "hidden",
+                        ],
+                        type="str",
+                    ),
+                    ui_visible=dict(
+                        required=False,
+                        choices=[
+                            "always",
+                            "if-set",
+                            "hidden",
+                        ],
+                        type="str",
+                    ),
                     ui_visibility=dict(
                         required=False,
                         choices=[
