@@ -129,7 +129,7 @@ options:
       ui_visibility:
          description:
            - The UI visibility of the custom field
-           - Replaced by C(ui_visible) and C(ui_editabl)e in NetBox 3.7
+           - Replaced by O(ui_visible) and O(ui_editable) in NetBox 3.7
          required: false
          choices: 
            - read-write
