@@ -111,8 +111,8 @@ options:
            - Whether the custom field is editable in the UI
          required: false
          choices: 
-           - yes
-           - no
+           - "yes"
+           - "no"
            - hidden
          type: str      
          version_added: "3.17.0"
