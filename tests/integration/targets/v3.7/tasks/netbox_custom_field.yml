@@ -107,22 +107,23 @@
       - test_five['custom_field']['name'] == "A_CustomField"
       - test_five['msg'] == "custom_field A_CustomField deleted"
 
-- name: "CUSTOM_FIELD 6: UI Visibility (hidden-ifunset)"
-  netbox.netbox.netbox_custom_field:
-    netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:
-      content_types:
-        - "dcim.device"
-      name: A_CustomField
-      type: text
-      ui_visibility: hidden-ifunset
-    state: present
-  register: test_six
+# Change in NetBox 3.7
+#- name: "CUSTOM_FIELD 6: UI Visibility (hidden-ifunset)"
+#  netbox.netbox.netbox_custom_field:
+#   netbox_url: http://localhost:32768
+#   netbox_token: 0123456789abcdef0123456789abcdef01234567
+#   data:
+#     content_types:
+#       - "dcim.device"
+#     name: A_CustomField
+#     type: text
+#     ui_visibility: hidden-ifunset
+#   state: present
+# register: test_six
 
-- name: "CUSTOM_FIELD 6: UI Visibility (hidden-ifunset)"
-  assert:
-    that:
-      - test_six is changed
-      - test_six['custom_field']['name'] == "A_CustomField"
-      - test_six['custom_field']['ui_visibility'] == "hidden-ifunset"
+#- name: "CUSTOM_FIELD 6: UI Visibility (hidden-ifunset)"
+# assert:
+#   that:
+#     - test_six is changed
+#     - test_six['custom_field']['name'] == "A_CustomField"
+#     - test_six['custom_field']['ui_visibility'] == "hidden-ifunset"
