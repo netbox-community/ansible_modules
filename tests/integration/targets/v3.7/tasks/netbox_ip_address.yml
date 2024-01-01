@@ -80,23 +80,24 @@
       - test_four['msg'] == "ip_address 192.168.1.20/30 created"
       - test_four['ip_address']['address'] == "192.168.1.20/30"
 
-- name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
-  netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:
-      address: 192.168.1.20/30
-    state: new
-  register: test_five
+# Enforce uniqueness in NetBox 3.7
+#- name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
+#  netbox.netbox.netbox_ip_address:
+#    netbox_url: http://localhost:32768
+#    netbox_token: 0123456789abcdef0123456789abcdef01234567
+#    data:
+#      address: 192.168.1.20/30
+#    state: new
+#  register: test_five
 
-- name: "5 - ASSERT"
-  assert:
-    that:
-      - test_five is changed
-      - test_five['diff']['before']['state'] == "absent"
-      - test_five['diff']['after']['state'] == "present"
-      - test_five['msg'] == "ip_address 192.168.1.20/30 created"
-      - test_five['ip_address']['address'] == "192.168.1.20/30"
+#- name: "5 - ASSERT"
+#  assert:
+#    that:
+#      - test_five is changed
+#      - test_five['diff']['before']['state'] == "absent"
+#      - test_five['diff']['after']['state'] == "present"
+#      - test_five['msg'] == "ip_address 192.168.1.20/30 created"
+#      - test_five['ip_address']['address'] == "192.168.1.20/30"
 
 - name: "6 - Create new address with only prefix specified - State: new"
   netbox.netbox.netbox_ip_address:
