@@ -122,7 +122,7 @@ EXAMPLES = r"""
           name: Test VLAN
           vid: 400
           site: Test Site
-          group: Test VLAN Group
+          vlan_group: Test VLAN Group
           tenant: Test Tenant
           status: Deprecated
           vlan_role: Test VLAN Role

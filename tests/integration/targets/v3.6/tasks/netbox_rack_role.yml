@@ -50,6 +50,7 @@
     data:
       name: Rack Role
       color: "003EFF"
+      description: "This is a Rack Role test"
     state: present
   register: test_three
 
@@ -61,6 +62,7 @@
       - test_three['rack_role']['name'] == "Rack Role"
       - test_three['rack_role']['slug'] == "rack-role"
       - test_three['rack_role']['color'] == "003eff"
+      - test_three['rack_role']['description'] == "This is a Rack Role test"
       - test_three['msg'] == "rack_role Rack Role updated"
 
 - name: "RACK_ROLE 4: Delete"

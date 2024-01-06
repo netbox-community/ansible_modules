@@ -42,7 +42,7 @@ netbox.netbox.netbox_platform module -- Create or delete platforms within NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -172,6 +172,43 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/config_template"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_platform_module__parameter-data/config_template:
+
+      .. rst-class:: ansible-option-title
+
+      **config_template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/config_template" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.16.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The configuration template the platform will use
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -679,6 +716,15 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Test Platform
+            state: present
+        
+        - name: Create platform within NetBox with a config template
+          netbox.netbox.netbox_platform:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test Platform
+              config_template: "my_config_template_slug"
             state: present
 
         - name: Create platform within NetBox with only required information

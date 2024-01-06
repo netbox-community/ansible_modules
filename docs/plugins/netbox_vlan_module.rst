@@ -42,7 +42,7 @@ netbox.netbox.netbox_vlan module -- Create, update or delete vlans within NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -796,7 +796,7 @@ Examples
               name: Test VLAN
               vid: 400
               site: Test Site
-              group: Test VLAN Group
+              vlan_group: Test VLAN Group
               tenant: Test Tenant
               status: Deprecated
               vlan_role: Test VLAN Role

@@ -42,7 +42,7 @@ netbox.netbox.netbox_power_port_template module -- Create, update or delete powe
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.15.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.16.0).
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
@@ -223,7 +223,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`any` / :ansible-option-required:`required`
+      :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -234,6 +234,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The device type the power port is attached to
+
+      Either \ :emphasis:`device\_type`\  or \ :emphasis:`module\_type`\  are required
 
 
       .. raw:: html
@@ -268,6 +270,45 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The maximum permissible draw of the power port in watt
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/module_type"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_power_port_template_module__parameter-data/module_type:
+
+      .. rst-class:: ansible-option-title
+
+      **module_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/module_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.16.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The module type the power port is attached to
+
+      Either \ :emphasis:`device\_type`\  or \ :emphasis:`module\_type`\  are required
 
 
       .. raw:: html
@@ -676,6 +717,17 @@ Examples
             data:
               name: Test Power Port Template
               device_type: Test Device Type
+            state: present
+
+        - name: Create power port for a module type within NetBox
+          netbox.netbox.netbox_power_port_template:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test Power Port Template
+              module_type: Test Module Type
+              type: iec-60320-c6
+              maximum_draw: 750
             state: present
 
         - name: Update power port with other fields
