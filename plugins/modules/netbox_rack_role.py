@@ -45,6 +45,12 @@ options:
           - Hexidecimal code for a color, ex. FFFFFF
         required: false
         type: str
+      description:
+        description:
+          - Description of the rack role
+        required: false
+        type: str
+        version_added: "3.17.0"
       tags:
         description:
           - The tags to add/update
@@ -75,6 +81,16 @@ EXAMPLES = r"""
         data:
           name: Test rack role
           color: FFFFFF
+        state: present
+
+    - name: Create rack role within NetBox with a description
+      netbox.netbox.netbox_rack_role:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack role
+          color: FFFFFF
+          description: This is a test rack role
         state: present
 
     - name: Delete rack role within netbox
@@ -122,6 +138,7 @@ def main():
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
                     color=dict(required=False, type="str"),
+                    description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
