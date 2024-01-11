@@ -1,5 +1,5 @@
 ansible
 antsibull==0.48.0
 sphinx==3.4.2
-Jinja2<3.1
+Jinja2<3.2
 sphinx_rtd_theme
