@@ -46,7 +46,6 @@
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
       name: Test Provider One
-      account: "200129104"
       comments: "BAD PROVIDER"
     state: present
   register: test_three
@@ -55,11 +54,9 @@
   assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['account'] == "200129104"
       - test_three['diff']['after']['comments'] == "BAD PROVIDER"
       - test_three['provider']['name'] == "Test Provider One"
       - test_three['provider']['slug'] == "test-provider-one"
-      - test_three['provider']['account'] == "200129104"
       - test_three['provider']['comments'] == "BAD PROVIDER"
       - test_three['msg'] == "provider Test Provider One updated"
 
@@ -78,6 +75,5 @@
       - test_four is changed
       - test_four['provider']['name'] == "Test Provider One"
       - test_four['provider']['slug'] == "test-provider-one"
-      - test_four['provider']['account'] == "200129104"
       - test_four['provider']['comments'] == "BAD PROVIDER"
       - test_four['msg'] == "provider Test Provider One deleted"

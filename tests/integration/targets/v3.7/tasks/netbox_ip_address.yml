@@ -80,23 +80,24 @@
       - test_four['msg'] == "ip_address 192.168.1.20/30 created"
       - test_four['ip_address']['address'] == "192.168.1.20/30"
 
-- name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
-  netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:
-      address: 192.168.1.20/30
-    state: new
-  register: test_five
+# Enforce uniqueness in NetBox 3.7
+#- name: "5 - Create IP in global VRF - 192.168.1.20/30 - State: New"
+#  netbox.netbox.netbox_ip_address:
+#    netbox_url: http://localhost:32768
+#    netbox_token: 0123456789abcdef0123456789abcdef01234567
+#    data:
+#      address: 192.168.1.20/30
+#    state: new
+#  register: test_five
 
-- name: "5 - ASSERT"
-  assert:
-    that:
-      - test_five is changed
-      - test_five['diff']['before']['state'] == "absent"
-      - test_five['diff']['after']['state'] == "present"
-      - test_five['msg'] == "ip_address 192.168.1.20/30 created"
-      - test_five['ip_address']['address'] == "192.168.1.20/30"
+#- name: "5 - ASSERT"
+#  assert:
+#    that:
+#      - test_five is changed
+#      - test_five['diff']['before']['state'] == "absent"
+#      - test_five['diff']['after']['state'] == "present"
+#      - test_five['msg'] == "ip_address 192.168.1.20/30 created"
+#      - test_five['ip_address']['address'] == "192.168.1.20/30"
 
 - name: "6 - Create new address with only prefix specified - State: new"
   netbox.netbox.netbox_ip_address:
@@ -306,30 +307,31 @@
       - test_fourteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
       - test_fourteen['ip_address']['assigned_object_id'] == 1
 
-- name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
-  netbox.netbox.netbox_ip_address:
-    netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
-    data:
-      family: 4
-      address: 10.188.1.100/24
-      assigned_object:
-        name: Eth0
-        virtual_machine: test101-vm
-    state: "present"
-  register: test_fifteen
+# Enforce uniqueness in NetBox 3.7
+#- name: "15 - Create same IP address on Eth0 - test101-vm - State: present"
+#  netbox.netbox.netbox_ip_address:
+#    netbox_url: http://localhost:32768
+#    netbox_token: 0123456789abcdef0123456789abcdef01234567
+#    data:
+#      family: 4
+#      address: 10.188.1.100/24
+#      assigned_object:
+#        name: Eth0
+#        virtual_machine: test101-vm
+#    state: "present"
+#  register: test_fifteen
 
-- name: "15 - ASSERT"
-  assert:
-    that:
-      - test_fifteen is changed
-      - test_fifteen['diff']['before']['state'] == "absent"
-      - test_fifteen['diff']['after']['state'] == "present"
-      - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
-      - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
-      - test_fifteen['ip_address']['family'] == 4
-      - test_fifteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
-      - test_fifteen['ip_address']['assigned_object_id'] == 6
+#- name: "15 - ASSERT"
+#  assert:
+#    that:
+#      - test_fifteen is changed
+#      - test_fifteen['diff']['before']['state'] == "absent"
+#      - test_fifteen['diff']['after']['state'] == "present"
+#      - test_fifteen['msg'] == "ip_address 10.188.1.100/24 created"
+#      - test_fifteen['ip_address']['address'] == "10.188.1.100/24"
+#      - test_fifteen['ip_address']['family'] == 4
+#      - test_fifteen['ip_address']['assigned_object_type'] == "virtualization.vminterface"
+#      - test_fifteen['ip_address']['assigned_object_id'] == 6
 
 - name: "16 - Create IP address with no mask - State: Present"
   netbox.netbox.netbox_ip_address:

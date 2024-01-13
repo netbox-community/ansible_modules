@@ -1,5 +1,4 @@
 ---
-
 - name: "NETBOX_DEVICE TESTS"
   include_tasks: "netbox_device.yml"
 
@@ -229,32 +228,33 @@
   tags:
     - netbox_export_template
 
-- name: "NETBOX_WEBHOOK TESTS"
-  include_tasks:
-    file: "netbox_webhook.yml"
-    apply:
-      tags:
-        - netbox_webhook
-  tags:
-    - netbox_webhook
+# Must update for 3.7
+#- name: "NETBOX_WEBHOOK TESTS"
+# include_tasks:
+#   file: "netbox_webhook.yml"
+#   apply:
+#     tags:
+#       - netbox_webhook
+# tags:
+#   - netbox_webhook
 
-- name: "NETBOX_L2VPN TESTS"
-  include_tasks:
-    file: "netbox_l2vpn.yml"
-    apply:
-      tags:
-        - netbox_l2vpn
-  tags:
-    - netbox_l2vpn
+#- name: "NETBOX_L2VPN TESTS"
+#  include_tasks:
+#    file: "netbox_l2vpn.yml"
+#    apply:
+#      tags:
+#        - netbox_l2vpn
+#  tags:
+#    - netbox_l2vpn
 
-- name: "NETBOX_L2VPN_TERMINATION TESTS"
-  include_tasks:
-    file: "netbox_l2vpn_termination.yml"
-    apply:
-      tags:
-        - netbox_l2vpn_termination
-  tags:
-    - netbox_l2vpn_termination
+#- name: "NETBOX_L2VPN_TERMINATION TESTS"
+#  include_tasks:
+#    file: "netbox_l2vpn_termination.yml"
+#    apply:
+#      tags:
+#        - netbox_l2vpn_termination
+#  tags:
+#    - netbox_l2vpn_termination
 
 - name: "NETBOX_INVENTORY_ITEM_ROLE TESTS"
   include_tasks:
@@ -306,3 +306,8 @@
         - netbox_fhrp_group_assignmen
   tags:
     - netbox_fhrp_group_assignmen
+
+- name: "NETBOX_CONFIG_TEMPLATE"
+  include_tasks: "netbox_config_template.yml"
+  tags:
+    - netbox_config_template

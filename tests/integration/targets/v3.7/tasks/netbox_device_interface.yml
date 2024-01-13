@@ -1,9 +1,6 @@
 ---
-##
-##
-### NETBOX_DEVICE_INTERFACE
-##
-##
+# NETBOX_DEVICE_INTERFACE
+
 - name: "1 - Interface with required information"
   netbox.netbox.netbox_device_interface:
     netbox_url: "http://localhost:32768"
@@ -123,7 +120,7 @@
       - test_five['interface']['enabled'] == false
       - test_five['interface']['type'] == "1000base-t"
       - test_five['interface']['mgmt_only'] == false
-      - test_five['interface']['lag'] == 10
+      - test_five['interface']['lag'] == test_four["interface"]["id"]
       - test_five['interface']['mode'] == "access"
       - test_five['interface']['mtu'] == 1600
 
@@ -256,6 +253,7 @@
       device: Test Nexus One
       name: Ethernet2/2
       description: "Updated child interface from parent device"
+      type: 1000Base-T (1GE)
     update_vc_child: True
     state: present
   register: test_ten
@@ -280,6 +278,7 @@
       device: Test Nexus One
       name: Ethernet2/2
       description: "Updated child interface from parent device - test"
+      type: 1000Base-T (1GE)
     state: present
   ignore_errors: yes
   register: test_eleven

@@ -2,6 +2,7 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "asset_tag": "345678901",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -22,6 +23,7 @@
                     "Test Rack Site 2"
                 ],
                 "regions": [],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -31,9 +33,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "",
-                "asset_tag": "345678901"
+                "tags": []
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -60,6 +60,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "services": [
                     {
                         "comments": "",
@@ -93,8 +94,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": ""
+                "tags": []
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -164,6 +164,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "FAB12345678",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -173,10 +174,10 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB12345678"
+                "tags": []
             },
             "test100": {
+                "asset_tag": "123456789",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -203,6 +204,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "FAB01234567",
                 "services": [
                     {
                         "comments": "",
@@ -272,9 +274,7 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": [],
-                "serial": "FAB01234567",
-                "asset_tag": "123456789"
+                "tags": []
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
@@ -291,10 +291,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -316,10 +316,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -341,10 +341,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -366,10 +366,10 @@
                     "parent-region"
                 ],
                 "services": [],
+                "site_groups": [],
                 "sites": [
                     "test-site"
                 ],
-                "site_groups": [],
                 "status": {
                     "label": "Active",
                     "value": "active"
@@ -405,9 +405,9 @@
         "hosts": [
             "R1-Device",
             "Test Nexus One",
-            "Test VM With Spaces",
             "TestDeviceR1",
             "test100",
+            "Test VM With Spaces",
             "test100-vm",
             "test101-vm",
             "test102-vm",
