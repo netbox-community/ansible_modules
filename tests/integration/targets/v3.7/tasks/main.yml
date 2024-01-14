@@ -311,3 +311,8 @@
   include_tasks: "netbox_config_template.yml"
   tags:
     - netbox_config_template
+
+- name: "NETBOX_VIRTUAL_DISK"
+  include_tasks: "netbox_virtual_disk.yml"
+  tags:
+    - netbox_virtual_disk
