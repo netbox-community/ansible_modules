@@ -40,7 +40,7 @@
   assert:
     that:
       - not test_two['changed']
-      - test_two['virtual_disk']['name'] == "Eth10"
+      - test_two['virtual_disk']['name'] == "disk0"
       - test_two['virtual_disk']['virtual_machine'] == 1
       - test_two['msg'] == "virtual_disk disk0 already exists"
 
@@ -68,7 +68,7 @@
       - test_three['virtual_disk']['tags'][0] == 4
       - test_three['msg'] == "virtual_disk disk0 updated"
 
-- name: "NETBOX_VM_INTERFACE 4: ASSERT - Delete"
+- name: "NETBOX_VIRTUAL_DISK 4: ASSERT - Delete"
   netbox.netbox.netbox_virtual_disk:
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
