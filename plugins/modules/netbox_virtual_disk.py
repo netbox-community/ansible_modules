@@ -64,71 +64,22 @@ options:
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox interface module"
+- name: "Test NetBox virtual disk module"
   connection: local
   hosts: localhost
   gather_facts: False
   tasks:
-    - name: Create interface within NetBox with only required information
-      netbox_vm_interface:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+    - name: Create virtual disk
+      netbox_virtual_disk:        
         data:
           virtual_machine: test100
-          name: GigabitEthernet1
-        state: present
-
-    - name: Delete interface within netbox
-      netbox_vm_interface:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          virtual_machine: test100
-          name: GigabitEthernet1
-        state: absent
-
-    - name: Create interface as a trunk port
-      netbox_vm_interface:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          virtual_machine: test100
-          name: GigabitEthernet25
-          enabled: false
-          untagged_vlan:
-            name: Wireless
-            site: Test Site
-          tagged_vlans:
-            - name: Data
-              site: Test Site
-            - name: VoIP
-              site: Test Site
-          mtu: 1600
-          mode: Tagged
-        state: present
-        
-    - name: Create bridge interface within NetBox
-      netbox_vm_interface:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          virtual_machine: test100
-          name: br1000
-        state: present
-        
-    - name: Connect bridge interface within NetBox
-      netbox_vm_interface:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          virtual_machine: test100
-          name: br1001
-          vm_bridge: br1000                        
+          name: disk0
+          size: 50
         state: present
 """
 
 RETURN = r"""
-interface:
+virtual_disk:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
