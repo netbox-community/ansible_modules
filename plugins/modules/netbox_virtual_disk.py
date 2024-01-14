@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2019, Mikhail Yohman (@FragmentedPacket) <mikhail.yohman@gmail.com>
+# Copyright: (c) 2024, Martin Rødvand (@rodvand)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -9,93 +9,79 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_circuit_type
-short_description: Create, update or delete circuit types within NetBox
+module: netbox_virtual_disk
+short_description: Creates or removes disks from virtual machines in NetBox
 description:
-  - Creates, updates or removes circuit types from NetBox
+  - Creates or removes disks from virtual machines in NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Mikhail Yohman (@FragmentedPacket)
+  - Martin Rødvand (@rodvand)
 requirements:
   - pynetbox
-version_added: '0.1.0'
+version_added: "3.17.0"
 extends_documentation_fragment:
   - netbox.netbox.common
 options:
   data:
-    required: true
-    type: dict
     description:
-      - Defines the circuit type configuration
+      - Defines the vm disk configuration
     suboptions:
+      virtual_machine:
+        description:
+          - Name of the virtual machine the disk will be associated with (case-sensitive)
+        required: false
+        type: raw
       name:
         description:
-          - The name of the circuit type
+          - Name of the disk to be created
         required: true
-        type: str
+        type: str            
       description:
         description:
-          - The description of the circuit type
+          - The description of the disk
         required: false
         type: str
-        version_added: "3.14.0"
-      slug:
+      size:
         description:
-          - The slugified version of the name or custom slug.
-          - This is auto-generated following NetBox rules if not provided
+          - The size (in GB) of the disk
         required: false
-        type: str
-      color:
-        description:
-          - Color to associate the circuit type with
-        required: false
-        type: str
-        version_added: "3.17.0"
+        type: int      
       tags:
         description:
-          - The tags to add/update
+          - Any tags that the virtual disk may need to be associated with
         required: false
         type: list
         elements: raw
-        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
         required: false
-        type: dict
-        version_added: "3.6.0"
+        type: dict        
+    required: true
+    type: dict
 """
 
 EXAMPLES = r"""
-- name: "Test NetBox modules"
+- name: "Test NetBox virtual disk module"
   connection: local
   hosts: localhost
   gather_facts: False
-
   tasks:
-    - name: Create type within NetBox with only required information
-      netbox.netbox.netbox_circuit_type:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
+    - name: Create virtual disk
+      netbox_virtual_disk:        
         data:
-          name: Test Circuit Type
+          virtual_machine: test100
+          name: disk0
+          size: 50
         state: present
-
-    - name: Delete circuit type within netbox
-      netbox.netbox.netbox_circuit_type:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Test Circuit Type
-        state: absent
 """
 
 RETURN = r"""
-circuit_type:
+virtual_disk:
   description: Serialized object as created or already existent within NetBox
-  returned: success (when I(state=present))
+  returned: on creation
   type: dict
 msg:
   description: Message indicating failure or info about what has been achieved
@@ -107,9 +93,9 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
 )
-from ansible_collections.netbox.netbox.plugins.module_utils.netbox_circuits import (
-    NetboxCircuitsModule,
-    NB_CIRCUIT_TYPES,
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_virtualization import (
+    NetboxVirtualizationModule,
+    NB_VIRTUAL_DISKS,
 )
 from copy import deepcopy
 
@@ -125,10 +111,10 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    virtual_machine=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
-                    slug=dict(required=False, type="str"),
-                    color=dict(required=False, type="str"),
+                    size=dict(required=False, type="int"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
@@ -136,14 +122,17 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [
+        ("state", "present", ["virtual_machine", "name"]),
+        ("state", "absent", ["virtual_machine", "name"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_circuit_type = NetboxCircuitsModule(module, NB_CIRCUIT_TYPES)
-    netbox_circuit_type.run()
+    netbox_virtual_disk = NetboxVirtualizationModule(module, NB_VIRTUAL_DISKS)
+    netbox_virtual_disk.run()
 
 
 if __name__ == "__main__":  # pragma: no cover

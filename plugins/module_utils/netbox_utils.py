@@ -112,6 +112,7 @@ API_APPS_ENDPOINTS = dict(
         "cluster_types",
         "clusters",
         "virtual_machines",
+        "virtual_disks",
     ],
     wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
 )
@@ -374,6 +375,7 @@ ENDPOINT_NAME_MAPPING = {
     "tenant_groups": "tenant_group",
     "virtual_chassis": "virtual_chassis",
     "virtual_machines": "virtual_machine",
+    "virtual_disks": "virtual_disk",
     "vlans": "vlan",
     "vlan_groups": "vlan_group",
     "vrfs": "vrf",
@@ -508,6 +510,7 @@ ALLOWED_QUERY_PARAMS = {
     "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
     "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
+    "virtual_disk": set(["name", "virtual_machine"]),
     "vm_bridge": set(["name"]),
     "vlan": set(["group", "name", "site", "tenant", "vid", "vlan_group"]),
     "vlan_group": set(["name", "slug", "site", "scope"]),
