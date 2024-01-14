@@ -64,7 +64,7 @@
       - test_three['diff']['after']['size'] == 60
       - test_three['virtual_disk']['name'] == "disk0"
       - test_three['virtual_disk']['virtual_machine'] == 1
-      - test_three['virtual_disk']['size'] == false      
+      - test_three['virtual_disk']['size'] == 60
       - test_three['virtual_disk']['tags'][0] == 4
       - test_three['msg'] == "virtual_disk disk0 updated"
 
