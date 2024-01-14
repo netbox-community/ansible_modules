@@ -17,6 +17,7 @@ NB_CLUSTERS = "clusters"
 NB_CLUSTER_GROUP = "cluster_groups"
 NB_CLUSTER_TYPE = "cluster_types"
 NB_VM_INTERFACES = "interfaces"
+NB_VIRTUAL_DISKS = "virtual_disks"
 
 
 class NetboxVirtualizationModule(NetboxModule):
