@@ -161,9 +161,9 @@ def main():
                 required=True,
                 options=dict(
                     virtual_machine=dict(required=False, type="raw"),
-                    name=dict(required=True, type="str"),                                                            
+                    name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
-                    size=dict(required=False, type="int"),                    
+                    size=dict(required=False, type="int"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

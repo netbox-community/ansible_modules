@@ -919,7 +919,7 @@ class NetboxModule(object):
 
         if child:
             matches = query_params.intersection(set(child.keys()))
-        else:               
+        else:
             matches = query_params.intersection(set(module_data.keys()))
 
         for match in matches:
