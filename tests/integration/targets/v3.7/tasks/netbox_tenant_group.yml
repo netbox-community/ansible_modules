@@ -90,7 +90,7 @@
       - test_five['diff']['before']['state'] == "absent"
       - test_five['diff']['after']['state'] == "present"
       - test_five['tenant_group']['name'] == "Child Test Tenant Group"
-      - test_five['tenant_group']['parent'] == {{ test_four.tenant_group.id }}
+      - test_five['tenant_group']['parent'] == test_four.tenant_group.id
       - test_five['msg'] == "tenant_group Child Test Tenant Group created"
 
 - name: "6 - Test child tenant group deletion"
