@@ -6,19 +6,19 @@
 ##
 - name: "NETBOX_LOOKUP 1: Lookup returns exactly two sites"
   assert:
-    that: query_result == 3
+    that: query_result == "3"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')|count }}"
 
 - name: "NETBOX_LOOKUP 2: Query doesn't return Wibble (sanity check json_query)"
   assert:
-    that: query_result == 0
+    that: query_result == "0"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')|community.general.json_query('[?value.display==`Wibble`]')|count}}"
 
 - name: "NETBOX_LOOKUP 3: Device query returns exactly one TestDeviceR1"
   assert:
-    that: query_result == 1
+    that: query_result == "1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')|community.general.json_query('[?value.display==`TestDeviceR1`]')|count }}"
 
@@ -58,13 +58,13 @@
 
 - name: "NETBOX_LOOKUP 7: Device query returns exactly the L2 device"
   assert:
-    that: query_result == 1
+    that: query_result == "1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')|community.general.json_query('[?value.display==`L2`]')|count }}"
 
 - name: "NETBOX_LOOKUP 8: Device query specifying raw data returns payload without key/value dict"
   assert:
-    that: query_result == 1
+    that: query_result == "1"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='role=core-switch tag=lookup', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567', raw_data=True)|community.general.json_query('[?display==`L2`]')|count }}"
 
