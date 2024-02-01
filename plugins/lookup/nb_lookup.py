@@ -258,6 +258,7 @@ def get_endpoint(netbox, term):
     pynetbox_versiontuple = major, minor, patch = tuple(
         map(int, pynetbox.__version__.split("."))
     )
+    netbox_versiontuple = tuple(map(int, netbox.version.split(".")))
 
     if pynetbox_versiontuple >= (6, 4):
         netbox_endpoint_map["wireless-lan-groups"] = {
@@ -284,10 +285,8 @@ def get_endpoint(netbox, term):
         netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
         netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
 
-    if pynetbox_versiontuple >= (7, 3):
-        netbox_versiontuple = tuple(map(int, netbox.version.split(".")))
-
-        if netbox_versiontuple >= (3, 7):
+    if netbox_versiontuple >= (3, 7):
+        if pynetbox_versiontuple >= (7, 3):
             netbox_endpoint_map["l2vpn-terminations"] = {
                 "endpoint": netbox.vpn.l2vpn_terminations
             }
@@ -296,11 +295,19 @@ def get_endpoint(netbox, term):
                 "endpoint": netbox.vpn.tunnel_terminations
             }
             netbox_endpoint_map["tunnels"] = {"endpoint": netbox.vpn.tunnels}
+
         else:
-            netbox_endpoint_map["l2vpn-terminations"] = {
-                "endpoint": netbox.ipam.l2vpn_terminations
-            }
-            netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
+            if "l2vpn" in term:
+                Display().v(
+                    "pynetbox version %d.%d.%d does not support vpn app; please update to v7.3.0 or newer."
+                    % (major, minor, patch)
+                )
+
+    else:
+        netbox_endpoint_map["l2vpn-terminations"] = {
+            "endpoint": netbox.ipam.l2vpn_terminations
+        }
+        netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
 
     return netbox_endpoint_map[term]["endpoint"]
 
