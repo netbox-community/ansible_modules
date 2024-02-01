@@ -143,11 +143,16 @@ msg:
 
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NetboxModule,
     NETBOX_ARG_SPEC,
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
-    NB_L2VPNS,
+    NB_L2VPNS as NB_IPAM_L2VPNS,
+)
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_vpn import (
+    NetboxVpnModule,
+    NB_L2VPNS as NB_VPN_L2VPNS,
 )
 from copy import deepcopy
 
@@ -186,7 +191,12 @@ def main():
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_l2vpn = NetboxIpamModule(module, NB_L2VPNS)
+    netbox_l2vpn = NetboxModule(module, "")
+    if netbox_l2vpn._find_app(NB_IPAM_L2VPNS) == "ipam":
+        netbox_l2vpn = NetboxIpamModule(module, NB_IPAM_L2VPNS)
+    if netbox_l2vpn._find_app(NB_VPN_L2VPNS) == "vpn":
+        netbox_l2vpn = NetboxVpnModule(module, NB_VPN_L2VPNS)
+
     netbox_l2vpn.run()
 
 

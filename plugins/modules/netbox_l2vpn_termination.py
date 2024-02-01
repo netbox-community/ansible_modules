@@ -105,12 +105,17 @@ msg:
 
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
+    NetboxModule,
     NETBOX_ARG_SPEC,
 )
 
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_ipam import (
     NetboxIpamModule,
-    NB_L2VPN_TERMINATIONS,
+    NB_L2VPN_TERMINATIONS as NB_IPAM_L2VPN_TERMINATIONS,
+)
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_vpn import (
+    NetboxVpnModule,
+    NB_L2VPN_TERMINATIONS as NB_VPN_L2VPN_TERMINATIONS,
 )
 
 
@@ -146,7 +151,13 @@ def main():
     )
 
     module = NetboxAnsibleModule(argument_spec=argument_spec, supports_check_mode=True)
-    netbox_l2vpn_termination = NetboxIpamModule(module, NB_L2VPN_TERMINATIONS)
+
+    netbox_l2vpn_termination = NetboxModule(module, "")
+    if netbox_l2vpn_termination._find_app(NB_IPAM_L2VPN_TERMINATIONS) == "ipam":
+        netbox_l2vpn_termination = NetboxIpamModule(module, NB_IPAM_L2VPN_TERMINATIONS)
+    if netbox_l2vpn_termination._find_app(NB_VPN_L2VPN_TERMINATIONS) == "vpn":
+        netbox_l2vpn_termination = NetboxVpnModule(module, NB_VPN_L2VPN_TERMINATIONS)
+
     netbox_l2vpn_termination.run()
 
 

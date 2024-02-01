@@ -32,89 +32,103 @@ except ImportError:
 
 # Used to map endpoints to applications dynamically
 API_APPS_ENDPOINTS = dict(
-    circuits=[
-        "circuits",
-        "circuit_types",
-        "circuit_terminations",
-        "providers",
-        "provider_networks",
-    ],
-    dcim=[
-        "cables",
-        "console_ports",
-        "console_port_templates",
-        "console_server_ports",
-        "console_server_port_templates",
-        "device_bays",
-        "device_bay_templates",
-        "devices",
-        "device_roles",
-        "device_types",
-        "front_ports",
-        "front_port_templates",
-        "interfaces",
-        "interface_templates",
-        "inventory_items",
-        "inventory_item_roles",
-        "locations",
-        "manufacturers",
-        "module_types",
-        "platforms",
-        "power_feeds",
-        "power_outlets",
-        "power_outlet_templates",
-        "power_panels",
-        "power_ports",
-        "power_port_templates",
-        "racks",
-        "rack_groups",
-        "rack_roles",
-        "rear_ports",
-        "rear-ports",
-        "rear_port_templates",
-        "regions",
-        "sites",
-        "site_groups",
-        "virtual_chassis",
-    ],
-    extras=[
-        "config_contexts",
-        "config_templates",
-        "tags",
-        "custom_fields",
-        "custom_links",
-        "export_templates",
-        "journal_entries",
-        "webhooks",
-    ],
-    ipam=[
-        "aggregates",
-        "asns",
-        "fhrp_groups",
-        "fhrp_group_assignments",
-        "ip_addresses",
-        "l2vpns",
-        "l2vpn_terminations",
-        "prefixes",
-        "rirs",
-        "roles",
-        "route_targets",
-        "service_templates",
-        "vlans",
-        "vlan_groups",
-        "vrfs",
-        "services",
-    ],
-    secrets=[],
-    tenancy=["tenants", "tenant_groups", "contacts", "contact_groups", "contact_roles"],
-    virtualization=[
-        "cluster_groups",
-        "cluster_types",
-        "clusters",
-        "virtual_machines",
-        "virtual_disks",
-    ],
-    wireless=["wireless_lans", "wireless_lan_groups", "wireless_links"],
+    circuits={
+        "circuits": {},
+        "circuit_types": {},
+        "circuit_terminations": {},
+        "providers": {},
+        "provider_networks": {},
+    },
+    dcim={
+        "cables": {},
+        "console_ports": {},
+        "console_port_templates": {},
+        "console_server_ports": {},
+        "console_server_port_templates": {},
+        "device_bays": {},
+        "device_bay_templates": {},
+        "devices": {},
+        "device_roles": {},
+        "device_types": {},
+        "front_ports": {},
+        "front_port_templates": {},
+        "interfaces": {},
+        "interface_templates": {},
+        "inventory_items": {},
+        "inventory_item_roles": {},
+        "locations": {},
+        "manufacturers": {},
+        "module_types": {},
+        "platforms": {},
+        "power_feeds": {},
+        "power_outlets": {},
+        "power_outlet_templates": {},
+        "power_panels": {},
+        "power_ports": {},
+        "power_port_templates": {},
+        "racks": {},
+        "rack_groups": {},
+        "rack_roles": {},
+        "rear_ports": {},
+        "rear-ports": {},
+        "rear_port_templates": {},
+        "regions": {},
+        "sites": {},
+        "site_groups": {},
+        "virtual_chassis": {},
+    },
+    extras={
+        "config_contexts": {},
+        "config_templates": {},
+        "tags": {},
+        "custom_fields": {},
+        "custom_links": {},
+        "export_templates": {},
+        "journal_entries": {},
+        "webhooks": {},
+    },
+    ipam={
+        "aggregates": {},
+        "asns": {},
+        "fhrp_groups": {},
+        "fhrp_group_assignments": {},
+        "ip_addresses": {},
+        "l2vpns": {"deprecated": "3.7"},
+        "l2vpn_terminations": {"deprecated": "3.7"},
+        "prefixes": {},
+        "rirs": {},
+        "roles": {},
+        "route_targets": {},
+        "service_templates": {},
+        "vlans": {},
+        "vlan_groups": {},
+        "vrfs": {},
+        "services": {},
+    },
+    secrets={},
+    tenancy={
+        "tenants": {},
+        "tenant_groups": {},
+        "contacts": {},
+        "contact_groups": {},
+        "contact_roles": {},
+    },
+    virtualization={
+        "cluster_groups": {},
+        "cluster_types": {},
+        "clusters": {},
+        "virtual_machines": {},
+        "virtual_disks": {},
+    },
+    wireless={
+        "wireless_lans": {},
+        "wireless_lan_groups": {},
+        "wireless_links": {},
+    },
+    vpn={
+        "l2vpns": {"introduced": "3.7"},
+        "l2vpn_terminations": {"introduced": "3.7"},
+    },
 )
 
 # Used to normalize data for the respective query types used to find endpoints
@@ -1122,7 +1136,19 @@ class NetboxModule(object):
         """
         nb_app = None
         for k, v in API_APPS_ENDPOINTS.items():
-            if endpoint in v:
+            if endpoint in v.keys():
+                if "introduced" in v[endpoint]:
+                    pre_introduction = self._version_check_greater(
+                        v[endpoint]["introduced"], self.version
+                    )
+                    if pre_introduction:
+                        continue
+                if "deprecated" in v[endpoint]:
+                    after_deprecation = self._version_check_greater(
+                        self.version, v[endpoint]["deprecated"], greater_or_equal=True
+                    )
+                    if after_deprecation:
+                        continue
                 nb_app = k
 
         if nb_app:
