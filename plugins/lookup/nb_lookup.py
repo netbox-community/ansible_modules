@@ -255,12 +255,10 @@ def get_endpoint(netbox, term):
         "webhooks": {"endpoint": netbox.extras.webhooks},
     }
 
-    pynetbox_versiontuple = major, minor, patch = tuple(
-        map(int, pynetbox.__version__.split("."))
-    )
+    major, minor, patch = tuple(map(int, pynetbox.__version__.split(".")))
     netbox_versiontuple = tuple(map(int, netbox.version.split(".")))
 
-    if pynetbox_versiontuple >= (6, 4):
+    if (major, minor, patch) >= (6, 4):
         netbox_endpoint_map["wireless-lan-groups"] = {
             "endpoint": netbox.wireless.wireless_lan_groups
         }
@@ -281,12 +279,12 @@ def get_endpoint(netbox, term):
                 % (major, minor, patch)
             )
 
-    if pynetbox_versiontuple < (7, 0, 1):
+    if (major, minor, patch) < (7, 0, 1):
         netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
         netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
 
     if netbox_versiontuple >= (3, 7):
-        if pynetbox_versiontuple >= (7, 3):
+        if (major, minor, patch) >= (7, 3):
             netbox_endpoint_map["l2vpn-terminations"] = {
                 "endpoint": netbox.vpn.l2vpn_terminations
             }
