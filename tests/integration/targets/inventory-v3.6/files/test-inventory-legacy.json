@@ -278,6 +278,7 @@
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "test100",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -303,6 +304,7 @@
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -328,6 +330,7 @@
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -353,6 +356,7 @@
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -378,6 +382,7 @@
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
+                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
