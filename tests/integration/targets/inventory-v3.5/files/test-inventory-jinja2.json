@@ -1,6 +1,7 @@
 {
     "Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -27,6 +28,7 @@
         "hostvars": {
             "R1-Device": {
                 "asset_tag": "345678901",
+                "cluster_device": "",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "is_virtual": false,
@@ -48,6 +50,7 @@
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
+                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,
@@ -61,6 +64,7 @@
                 "tags": []
             },
             "TestDeviceR1": {
+                "cluster_device": "",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "is_virtual": false,
@@ -87,6 +91,7 @@
             },
             "VC1": {
                 "ansible_host": "nexus.example.com",
+                "cluster_device": "",
                 "custom_fields": {},
                 "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
@@ -113,6 +118,10 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_device": "",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "is_virtual": false,
@@ -336,6 +345,7 @@
     },
     "test_cluster_group": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -345,6 +355,7 @@
     "test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
