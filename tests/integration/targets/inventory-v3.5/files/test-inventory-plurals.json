@@ -3,6 +3,7 @@
         "hostvars": {
             "R1-Device": {
                 "asset_tag": "345678901",
+                "cluster_device": "",
                 "config_context": [
                     {}
                 ],
@@ -41,6 +42,7 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
+                "cluster_device": "",
                 "config_context": [
                     {}
                 ],
@@ -324,6 +326,7 @@
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
+                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "config_context": [
                     {}
@@ -422,6 +425,7 @@
                 "tags": []
             },
             "TestDeviceR1": {
+                "cluster_device": "",
                 "config_context": [
                     {}
                 ],
@@ -465,6 +469,10 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_device": "",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "config_context": [
                     {
                         "ntp_servers": [

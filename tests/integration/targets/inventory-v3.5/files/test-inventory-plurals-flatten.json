@@ -1,6 +1,7 @@
 {
     "Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -27,6 +28,7 @@
         "hostvars": {
             "R1-Device": {
                 "asset_tag": "345678901",
+                "cluster_device": "",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -59,6 +61,7 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
+                "cluster_device": "",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -94,6 +97,7 @@
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
+                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,
                 "local_context_data": [
@@ -109,6 +113,7 @@
                 "tags": []
             },
             "TestDeviceR1": {
+                "cluster_device": "",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -146,6 +151,10 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_device": "",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "device_roles": [
                     "core-switch"
                 ],
@@ -392,6 +401,7 @@
     },
     "test_cluster_group": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -401,6 +411,7 @@
     "test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
