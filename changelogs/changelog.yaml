@@ -842,4 +842,21 @@ releases:
         - netbox_power_port_template - Add option module_type to netbox_power_port_template [#1105](https://github.com/netbox-community/ansible_modules/pull/1105)
         - nb_inventory - Enable ansible-vault strings in config-context data [#1114](https://github.com/netbox-community/ansible_modules/pull/1114)
         - netbox_platform - Add config_template option to netbox_platform [#1119](https://github.com/netbox-community/ansible_modules/pull/1119)
+        - CI - CI adjustments [#1154](https://github.com/netbox-community/ansible_modules/pull/1154) [#1155](https://github.com/netbox-community/ansible_modules/pull/1155) [#1157](https://github.com/netbox-community/ansible_modules/pull/1157)
+        - netbox_virtual_machine and netbox_device - Add option config_template [#1171](https://github.com/netbox-community/ansible_modules/pull/1171)
     release_date: '2023-12-10'
+  3.17.0:
+    changes:
+      bugfixes:
+        - netbox_vlan - Fix documentation of vlan_group [#1138](https://github.com/netbox-community/ansible_modules/pull/1138)
+        
+      minor_changes:
+        - nb_lookup - Add new VPN endpoints for NetBox 3.7 support [#1162](https://github.com/netbox-community/ansible_modules/pull/1162)
+        - netbox_rack_role - Add description option [#1143](https://github.com/netbox-community/ansible_modules/pull/1143)
+        - netbox_virtual_disk - New module [#1153](https://github.com/netbox-community/ansible_modules/pull/1153)
+        - 
+    modules:
+      - description: Create, updates, or removes a disk from a Virtual Machine
+        name: netbox_virtual_disk
+        namespace: ''
+    release_date: '2024-02-14'
