@@ -3,6 +3,9 @@
 
 :orphan:
 
+.. meta::
+  :antsibull-docs: 2.7.0
+
 .. Anchors
 
 .. _ansible_collections.netbox.netbox.netbox_interface_module:
@@ -15,7 +18,7 @@ netbox.netbox.netbox_interface
 .. Collection note
 
 .. note::
-    This plugin was part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.16.0).
+    This plugin was part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
 
 This module has been removed
 in version 0.1.0 of netbox.netbox.
