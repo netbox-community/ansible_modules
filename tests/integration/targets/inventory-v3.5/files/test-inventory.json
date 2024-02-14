@@ -46,17 +46,17 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "Test Nexus One",
-                            "id": 4,
-                            "name": "Test Nexus One"
+                            "display": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
                         },
-                        "display": "Ethernet1/1",
+                        "display": "Ethernet2/1",
                         "duplex": null,
                         "enabled": true,
-                        "id": 1,
+                        "id": 2,
                         "ip_addresses": [
                             {
-                                "address": "172.16.180.11/24",
+                                "address": "172.16.180.12/24",
                                 "comments": "",
                                 "custom_fields": {},
                                 "description": "",
@@ -66,7 +66,7 @@
                                     "label": "IPv4",
                                     "value": 4
                                 },
-                                "id": 3,
+                                "id": 4,
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
