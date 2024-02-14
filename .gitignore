@@ -8,6 +8,8 @@ venv/
 changelogs/.plugin-cache.yaml
 docs/_build/*
 .python-version
+inventory/
+ansible.yml
 
 # https://github.com/ansible/ansible/issues/68499
 # ansible_collections/
