@@ -5,6 +5,28 @@ NetBox.NetBox Release Notes
 .. contents:: Topics
 
 
+v3.17.0
+=======
+
+Minor Changes
+-------------
+
+- CI - CI adjustments [#1154](https://github.com/netbox-community/ansible_modules/pull/1154) [#1155](https://github.com/netbox-community/ansible_modules/pull/1155) [#1157](https://github.com/netbox-community/ansible_modules/pull/1157)
+- nb_lookup - Add new VPN endpoints for NetBox 3.7 support [#1162](https://github.com/netbox-community/ansible_modules/pull/1162)
+- netbox_rack_role - Add description option [#1143](https://github.com/netbox-community/ansible_modules/pull/1143)
+- netbox_virtual_disk - New module [#1153](https://github.com/netbox-community/ansible_modules/pull/1153)
+- netbox_virtual_machine and netbox_device - Add option config_template [#1171](https://github.com/netbox-community/ansible_modules/pull/1171)
+
+Bugfixes
+--------
+
+- netbox_vlan - Fix documentation of vlan_group [#1138](https://github.com/netbox-community/ansible_modules/pull/1138)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_virtual_disk - Create, updates, or removes a disk from a Virtual Machine
+
 v3.16.0
 =======
 

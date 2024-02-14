@@ -47,6 +47,12 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      color:
+        description:
+          - Color to associate the circuit type with
+        required: false
+        type: str
+        version_added: "3.17.0"
       tags:
         description:
           - The tags to add/update
@@ -122,6 +128,7 @@ def main():
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
+                    color=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),

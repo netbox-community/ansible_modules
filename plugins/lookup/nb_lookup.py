@@ -206,8 +206,6 @@ def get_endpoint(netbox, term):
         "job-results": {"endpoint": netbox.extras.job_results},
         "journal-entries": {"endpoint": netbox.extras.journal_entries},
         "locations": {"endpoint": netbox.dcim.locations},
-        "l2vpn-terminations": {"endpoint": netbox.ipam.l2vpn_terminations},
-        "l2vpns": {"endpoint": netbox.ipam.l2vpns},
         "manufacturers": {"endpoint": netbox.dcim.manufacturers},
         "module-bays": {"endpoint": netbox.dcim.module_bays},
         "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
@@ -257,9 +255,10 @@ def get_endpoint(netbox, term):
         "webhooks": {"endpoint": netbox.extras.webhooks},
     }
 
-    major, minor, patch = map(int, pynetbox.__version__.split("."))
+    major, minor, patch = tuple(map(int, pynetbox.__version__.split(".")))
+    netbox_versiontuple = tuple(map(int, netbox.version.split(".")))
 
-    if major >= 6 and minor >= 4 and patch >= 0:
+    if (major, minor, patch) >= (6, 4):
         netbox_endpoint_map["wireless-lan-groups"] = {
             "endpoint": netbox.wireless.wireless_lan_groups
         }
@@ -273,16 +272,40 @@ def get_endpoint(netbox, term):
             "endpoint": netbox.wireless.wireless_links
         }
 
-    if major < 7 and minor >= 0 and patch >= 1:
-        netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
-        netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
-
     else:
         if "wireless" in term:
             Display().v(
                 "pynetbox version %d.%d.%d does not support wireless app; please update to v6.4.0 or newer."
                 % (major, minor, patch)
             )
+
+    if (major, minor, patch) < (7, 0, 1):
+        netbox_endpoint_map["secret-roles"] = {"endpoint": netbox.secrets.secret_roles}
+        netbox_endpoint_map["secrets"] = {"endpoint": netbox.secrets.secrets}
+
+    if netbox_versiontuple >= (3, 7):
+        if (major, minor, patch) >= (7, 3):
+            netbox_endpoint_map["l2vpn-terminations"] = {
+                "endpoint": netbox.vpn.l2vpn_terminations
+            }
+            netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.vpn.l2vpns}
+            netbox_endpoint_map["tunnel-terminations"] = {
+                "endpoint": netbox.vpn.tunnel_terminations
+            }
+            netbox_endpoint_map["tunnels"] = {"endpoint": netbox.vpn.tunnels}
+
+        else:
+            if "l2vpn" in term:
+                Display().v(
+                    "pynetbox version %d.%d.%d does not support vpn app; please update to v7.3.0 or newer."
+                    % (major, minor, patch)
+                )
+
+    else:
+        netbox_endpoint_map["l2vpn-terminations"] = {
+            "endpoint": netbox.ipam.l2vpn_terminations
+        }
+        netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
 
     return netbox_endpoint_map[term]["endpoint"]
 

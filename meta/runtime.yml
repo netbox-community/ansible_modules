@@ -81,6 +81,7 @@ action_groups:
     - netbox_vlan
     - netbox_vlan_group
     - netbox_vm_interface
+    - netbox_virtual_disk
     - netbox_vrf
     - netbox_webhook
     - netbox_wireless_lan

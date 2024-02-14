@@ -178,6 +178,12 @@ options:
           - Arbitrary JSON data to define the devices configuration variables.
         required: false
         type: dict
+      config_template:
+        description:
+          - Configuration template
+        required: false
+        type: raw
+        version_added: "3.17.0"
     required: true
     type: dict
 """
@@ -321,6 +327,7 @@ def main():
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     local_context_data=dict(required=False, type="dict"),
+                    config_template=dict(required=False, type="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
