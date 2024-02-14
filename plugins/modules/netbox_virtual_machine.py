@@ -122,6 +122,11 @@ options:
           - Comments of the virtual machine
         required: false
         type: str
+      config_template:
+        description:
+          - Configuration template
+        required: false
+        type: raw
     required: true
 """
 
@@ -223,6 +228,7 @@ def main():
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
+                    config_template=dict(required=False, type="raw"),
                     comments=dict(required=False, type="str"),
                 ),
             ),
