@@ -946,7 +946,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_cluster_device(self, host):
         # cluster device does not have a slug
-        if host.get("device", None) == None:
+        if host.get("device", None) is None:
             return ""
         else:
             return host.get("device", {"name": ""}).get("name", "")
