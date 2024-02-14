@@ -183,6 +183,7 @@ options:
           - Configuration template
         required: false
         type: raw
+        version_added: "3.17.0"
     required: true
     type: dict
 """
