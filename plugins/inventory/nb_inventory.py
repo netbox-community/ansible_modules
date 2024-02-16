@@ -945,10 +945,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_cluster_device(self, host):
-        # cluster device does not have a slug
-        if host.get("device", None) is None:
-            return ""
-        return host.get("device", {"name": ""}).get("name", "")
+        try:
+            # cluster device does not have a slug
+            if host.get("device") is None:
+                return
+            else:
+                return host["device"].get("name")
+        except TypeError:
+            return
 
     def extract_cluster_group(self, host):
         try:
