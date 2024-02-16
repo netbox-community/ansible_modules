@@ -247,6 +247,7 @@ def get_endpoint(netbox, term):
         "topology-maps": {"endpoint": netbox.extras.topology_maps},
         "users": {"endpoint": netbox.users.users},
         "virtual-chassis": {"endpoint": netbox.dcim.virtual_chassis},
+        "virtual-disks": {"endpoint": netbox.virtualization.virtual_disks},
         "virtual-machines": {"endpoint": netbox.virtualization.virtual_machines},
         "virtualization-interfaces": {"endpoint": netbox.virtualization.interfaces},
         "vlan-groups": {"endpoint": netbox.ipam.vlan_groups},
