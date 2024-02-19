@@ -178,6 +178,9 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -304,7 +307,6 @@
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -330,7 +332,6 @@
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -356,7 +357,6 @@
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -382,7 +382,6 @@
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
-                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "is_virtual": true,

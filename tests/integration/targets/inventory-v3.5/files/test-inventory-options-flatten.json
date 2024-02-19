@@ -28,7 +28,6 @@
         "hostvars": {
             "R1-Device": {
                 "asset_tag": "345678901",
-                "cluster_device": "",
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
@@ -50,7 +49,6 @@
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
-                "cluster_device": "",
                 "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
                 "interfaces": [
@@ -319,7 +317,6 @@
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
-                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "interfaces": [
                     {
@@ -411,7 +408,6 @@
                 "tags": []
             },
             "TestDeviceR1": {
-                "cluster_device": "",
                 "device_type": "cisco-test",
                 "interfaces": [],
                 "is_virtual": false,
@@ -439,7 +435,6 @@
             "test100": {
                 "asset_tag": "123456789",
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "device_type": "cisco-test",
@@ -899,7 +894,6 @@
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "interfaces": [
@@ -1051,7 +1045,6 @@
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "interfaces": [],
@@ -1072,7 +1065,6 @@
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "interfaces": [],
@@ -1093,7 +1085,6 @@
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
-                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "interfaces": [],
                 "is_virtual": true,

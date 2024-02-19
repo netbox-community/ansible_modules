@@ -1,6 +1,7 @@
 {
     "Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -211,7 +212,6 @@
             },
             "test101-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,
@@ -235,7 +235,6 @@
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,
@@ -259,7 +258,6 @@
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
-                "cluster_device": "",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,
@@ -283,7 +281,6 @@
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
-                "cluster_device": "",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,
                 "local_context_data": [
