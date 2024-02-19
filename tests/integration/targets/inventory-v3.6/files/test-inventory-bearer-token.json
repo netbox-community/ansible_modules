@@ -44,9 +44,9 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "Test Nexus One",
-                            "id": 4,
-                            "name": "Test Nexus One"
+                            "display": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
                         },
                         "display": "Ethernet2/1",
                         "duplex": null,
@@ -124,14 +124,14 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "Test Nexus Child One",
-                            "id": 5,
-                            "name": "Test Nexus Child One"
+                            "display": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One"
                         },
-                        "display": "Ethernet2/1",
+                        "display": "Ethernet1/1",
                         "duplex": null,
                         "enabled": true,
-                        "id": 2,
+                        "id": 1,
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.11/24",

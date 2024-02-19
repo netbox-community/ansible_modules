@@ -153,7 +153,7 @@
                         "display": "Ethernet1/1",
                         "duplex": null,
                         "enabled": true,
-                        "id": 2,
+                        "id": 1,
                         "ip_addresses": [
                             {
                                 "address": "172.16.180.11/24",

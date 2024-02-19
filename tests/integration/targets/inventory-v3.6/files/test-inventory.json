@@ -44,9 +44,9 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "Test Nexus One",
-                            "id": 4,
-                            "name": "Test Nexus One"
+                            "display": "Test Nexus Child One",
+                            "id": 5,
+                            "name": "Test Nexus Child One"
                         },
                         "display": "Ethernet2/1",
                         "duplex": null,
