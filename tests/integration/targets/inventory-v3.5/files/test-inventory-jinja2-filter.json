@@ -1102,7 +1102,6 @@
             "location_parent_rack_group"
         ],
         "hosts": [
-            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
