@@ -312,7 +312,7 @@ def test_create_netbox_object_check_mode_true(
     serialized_obj, diff = mock_netbox_module._create_netbox_object(
         endpoint_mock, normalized_data
     )
-    assert endpoint_mock.create.not_called()
+    endpoint_mock.create.assert_not_called()
     assert serialized_obj == normalized_data
     assert diff == on_creation_diff
 
@@ -322,7 +322,7 @@ def test_delete_netbox_object_check_mode_false(
 ):
     mock_netbox_module.nb_object = nb_obj_mock
     diff = mock_netbox_module._delete_netbox_object()
-    assert nb_obj_mock.delete.called_once()
+    nb_obj_mock.delete.assert_called_once()
     assert diff == on_deletion_diff
 
 
@@ -332,7 +332,7 @@ def test_delete_netbox_object_check_mode_true(
     mock_netbox_module.check_mode = True
     mock_netbox_module.nb_object = nb_obj_mock
     diff = mock_netbox_module._delete_netbox_object()
-    assert nb_obj_mock.delete.not_called()
+    nb_obj_mock.delete.assert_not_called()
     assert diff == on_deletion_diff
 
 
@@ -340,7 +340,7 @@ def test_update_netbox_object_no_changes(mock_netbox_module, nb_obj_mock):
     mock_netbox_module.nb_object = nb_obj_mock
     unchanged_data = nb_obj_mock.serialize()
     serialized_object, diff = mock_netbox_module._update_netbox_object(unchanged_data)
-    assert nb_obj_mock.update.not_called()
+    nb_obj_mock.update.assert_not_called()
     assert serialized_object == unchanged_data
     assert diff is None
 
@@ -352,7 +352,7 @@ def test_update_netbox_object_with_changes_check_mode_false(
     serialized_obj, diff = mock_netbox_module._update_netbox_object(
         changed_serialized_obj
     )
-    assert nb_obj_mock.update.called_once_with(changed_serialized_obj)
+    nb_obj_mock.update.assert_called_once_with(changed_serialized_obj)
     assert serialized_obj == nb_obj_mock.serialize()
     assert diff == on_update_diff
 
@@ -368,7 +368,7 @@ def test_update_netbox_object_with_changes_check_mode_true(
     serialized_obj, diff = mock_netbox_module._update_netbox_object(
         changed_serialized_obj
     )
-    assert nb_obj_mock.update.not_called()
+    nb_obj_mock.update.assert_not_called()
     assert serialized_obj == updated_serialized_obj
     assert diff == on_update_diff
 
