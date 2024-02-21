@@ -300,7 +300,7 @@ def test_create_netbox_object_check_mode_false(
     serialized_obj, diff = mock_netbox_module._create_netbox_object(
         endpoint_mock, normalized_data
     )
-    assert endpoint_mock.create.called_once_with(normalized_data)
+    endpoint_mock.create.assert_called_with(normalized_data)
     assert serialized_obj.serialize() == return_value
     assert diff == on_creation_diff
 
