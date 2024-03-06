@@ -246,3 +246,14 @@ def test_new_token(inventory_fixture, templar_fixture):
 
     assert "Authorization" in inventory_fixture.headers
     assert inventory_fixture.headers["Authorization"] == "Foo bar"
+
+
+@pytest.mark.parametrize(
+    "custom_fields, expected", load_relative_test_data("extract_custom_fields")
+)
+def test_extract_custom_fields(inventory_fixture, custom_fields, expected):
+    extracted_custom_fields = inventory_fixture.extract_custom_fields(
+        {"custom_fields": custom_fields}
+    )
+
+    assert extracted_custom_fields == expected

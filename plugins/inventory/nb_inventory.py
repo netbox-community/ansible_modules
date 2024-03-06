@@ -867,7 +867,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_custom_fields(self, host):
         try:
-            return host["custom_fields"]
+            return {
+                key: value
+                for key, value in host["custom_fields"].items()
+                if value is not None
+            }
         except Exception:
             return
 
