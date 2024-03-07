@@ -13,6 +13,7 @@ DOCUMENTATION = """
         - Nikhil Singh Baliyan (@nikkytub)
         - Sander Steffann (@steffann)
         - Douglas Heriot (@DouglasHeriot)
+        - Thore Knickrehm (@tkn2023)
     short_description: NetBox inventory source
     description:
         - Get inventory hosts from NetBox
@@ -99,6 +100,12 @@ DOCUMENTATION = """
             default: True
             type: boolean
             version_added: "0.2.1"
+        virtual_disks:
+            description:
+                - If True, it adds the virtual disks information in host vars.
+            default: False
+            type: boolean
+            version_added: "3.17.0"
         interfaces:
             description:
                 - If True, it adds the device or virtual machine interface information in host vars.
@@ -588,6 +595,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "services": self.extract_services,
                 }
             )
+        
+        if self.virtual_disks:
+            extractors.update(
+                {
+                    "virtual_disks": self.extract_virtual_disks,
+                }
+            )
 
         if self.interfaces:
             extractors.update(
@@ -833,6 +847,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # If tag_zero fails definition (no tags), return the empty array.
         except Exception:
             return host["tags"]
+    
+    def extract_virtual_disks(self, host):
+        try:
+            virtual_disks_lookup = (
+                self.vm_virtual_disks_lookup
+            )
+
+            virtual_disks = deepcopy(list(virtual_disks_lookup[host["id"]].values()))
+
+            return virtual_disks
+        except Exception:
+            return
 
     def extract_interfaces(self, host):
         try:
@@ -1295,6 +1321,37 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     service_id
                 ] = service
 
+    def refresh_virtual_disks(self):
+        url_vm_virtual_disks = (
+            self.api_endpoint + "/api/virtualization/virtual-disks/?limit=0"
+        )
+
+        vm_virtual_disks = []
+
+        if self.fetch_all:
+            vm_virtual_disks = self.get_resource_list(url_vm_virtual_disks)
+        else:
+            vm_virtual_disks = self.get_resource_list_chunked(
+                api_url=url_vm_virtual_disks,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+
+        # Construct a dictionary of dictionaries, separately for devices and vms.
+        # For a given device id or vm id, get a lookup of interface id to interface
+        # This is because interfaces may be returned multiple times when querying for virtual chassis parent and child in separate queries
+        self.vm_virtual_disks_lookup = defaultdict(dict)
+
+        # /dcim/interfaces gives count_ipaddresses per interface. /virtualization/interfaces does not
+        for virtual_disk in vm_virtual_disks:
+            virtual_disk_id = virtual_disk["id"]
+            vm_id = virtual_disk["virtual_machine"]["id"]
+
+            self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk
+    
+    
+    
+    
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
@@ -1441,6 +1498,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_manufacturers_lookup,
             self.refresh_clusters_lookup,
         ]
+
+        if self.virtual_disks:
+            lookups.append(self.refresh_virtual_disks)
 
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
@@ -2040,6 +2100,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.flatten_local_context_data = self.get_option("flatten_local_context_data")
         self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
+        self.virtual_disks = self.get_option("virtual_disks")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.site_data = self.get_option("site_data")
