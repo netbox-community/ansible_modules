@@ -1337,12 +1337,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 query_values=self.vms_lookup.keys(),
             )
 
-        # Construct a dictionary of dictionaries, separately for devices and vms.
-        # For a given device id or vm id, get a lookup of interface id to interface
-        # This is because interfaces may be returned multiple times when querying for virtual chassis parent and child in separate queries
+        # Construct a dictionary of dictionaries.
+        # This is because virtual_disks may be returned multiple times when querying for virtual_machines
         self.vm_virtual_disks_lookup = defaultdict(dict)
 
-        # /dcim/interfaces gives count_ipaddresses per interface. /virtualization/interfaces does not
         for virtual_disk in vm_virtual_disks:
             virtual_disk_id = virtual_disk["id"]
             vm_id = virtual_disk["virtual_machine"]["id"]
