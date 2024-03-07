@@ -595,14 +595,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "services": self.extract_services,
                 }
             )
-            
         if self.virtual_disks:
             extractors.update(
                 {
                     "virtual_disks": self.extract_virtual_disks,
                 }
-            )
-            
+            )            
         if self.interfaces:
             extractors.update(
                 {
@@ -853,13 +851,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             virtual_disks_lookup = (
                 self.vm_virtual_disks_lookup
             )
-
             virtual_disks = deepcopy(list(virtual_disks_lookup[host["id"]].values()))
 
             return virtual_disks
         except Exception:
             return
-            
+    
     def extract_interfaces(self, host):
         try:
             interfaces_lookup = (
@@ -1344,7 +1341,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             vm_id = virtual_disk["virtual_machine"]["id"]
 
             self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk    
-    
+            
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
@@ -1491,9 +1488,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_manufacturers_lookup,
             self.refresh_clusters_lookup,
         ]
-
+        
         if self.virtual_disks:
-            lookups.append(self.refresh_virtual_disks)
+            lookups.append(self.refresh_virtual_disks)        
         
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
