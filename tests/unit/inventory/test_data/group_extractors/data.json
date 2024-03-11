@@ -2,6 +2,7 @@
     {
         "plurals": false,
         "interfaces": false,
+        "virtual_disks": false,
         "services": false,
         "dns_name": false,
         "ansible_host_dns_name": false,
@@ -44,6 +45,7 @@
     {
         "plurals": true,
         "interfaces": true,
+        "virtual_disks": true,
         "services": true,
         "dns_name": true,
         "ansible_host_dns_name": true,
@@ -85,6 +87,7 @@
     {
         "plurals": true,
         "interfaces": true,
+        "virtual_disks": true,
         "services": true,
         "dns_name": false,
         "ansible_host_dns_name": true,
