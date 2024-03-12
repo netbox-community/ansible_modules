@@ -31,7 +31,6 @@
                 "custom_fields": {},
                 "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
-                "virtual_disks": [],
                 "interfaces": [
                     {
                         "_occupied": false,
