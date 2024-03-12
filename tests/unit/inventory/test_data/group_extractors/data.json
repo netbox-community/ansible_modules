@@ -37,6 +37,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name",
             "ansible_host_dns_name"
@@ -70,6 +71,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name"
         ],
@@ -112,6 +114,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name"
         ],
