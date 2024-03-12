@@ -23,7 +23,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks"; []
+                "virtual_disks": []
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -31,7 +31,7 @@
                 "custom_fields": {},
                 "device_type": "nexus-parent",
                 "dns_name": "nexus.example.com",
-                "virtual_disks:" [],
+                "virtual_disks": [],
                 "interfaces": [
                     {
                         "_occupied": false,
@@ -295,7 +295,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks"; []
+                "virtual_disks": []
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -390,7 +390,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             },
             "TestDeviceR1": {
                 "config_context": {},
@@ -418,7 +418,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             },
             "test100": {
                 "asset_tag": "123456789",
@@ -732,7 +732,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
@@ -1084,7 +1084,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             },
             "test102-vm": {
                 "cluster": "Test Cluster",
@@ -1107,7 +1107,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             },
             "test103-vm": {
                 "cluster": "Test Cluster",
@@ -1130,7 +1130,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" [],
+                "virtual_disks": [],
             },
             "test104-vm": {
                 "cluster": "Test Cluster 2",
@@ -1148,7 +1148,7 @@
                     "value": "active"
                 },
                 "tags": [],
-                "virtual_disks:" []
+                "virtual_disks": []
             }
         }
     },
