@@ -740,7 +740,7 @@
                 "cluster_type": "test-cluster-type",
                 "config_context": {},
                 "custom_fields": {},
-                "virtual_disks:" [
+                "virtual_disks": [
                     {
                         "custom_fields": {},
                         "description": "",
