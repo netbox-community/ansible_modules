@@ -1,0 +1,21 @@
+[
+    {
+        "custom_fields": {
+            "a_text_value": "value1",
+            "a_bool_value": false
+        },
+        "expected": {
+            "a_text_value": "value1",
+            "a_bool_value": false
+        }
+    },
+    {
+        "custom_fields": {
+            "an_unset_value": null,
+            "a_set_value": false
+        },
+        "expected": {
+            "a_set_value": false
+        }
+    }
+]
