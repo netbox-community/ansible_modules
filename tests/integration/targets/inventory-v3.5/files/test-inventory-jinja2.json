@@ -1,6 +1,7 @@
 {
     "Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -113,6 +114,9 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "is_virtual": false,
@@ -142,6 +146,7 @@
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "test100",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
@@ -331,6 +336,7 @@
     },
     "test_cluster_group": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -340,6 +346,7 @@
     "test_cluster_type": {
         "hosts": [
             "Test VM With Spaces",
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",

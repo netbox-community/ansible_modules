@@ -300,6 +300,9 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "config_context": {
                     "ntp_servers": [
                         "pool.ntp.org"
@@ -613,6 +616,7 @@
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "test100",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "config_context": {},
@@ -988,6 +992,7 @@
     },
     "cluster_Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -996,6 +1001,7 @@
     },
     "cluster_group_test_cluster_group": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -1004,6 +1010,7 @@
     },
     "cluster_type_test_cluster_type": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
