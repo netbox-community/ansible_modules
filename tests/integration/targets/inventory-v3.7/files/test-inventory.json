@@ -736,6 +736,30 @@
                 "cluster_type": "test-cluster-type",
                 "config_context": {},
                 "custom_fields": {},
+                "virtual_disks": [
+                    {
+                        "id": 1,
+                        "name": "disk1",
+                        "size": 60,
+                        "tags": [],
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        }
+                    },
+                    {
+                        "id": 2,
+                        "name": "disk2",
+                        "size": 110,
+                        "tags": [],
+                        "virtual_machine": {
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        }
+                    }
+                ],
                 "interfaces": [
                     {
                         "bridge": null,
