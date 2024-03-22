@@ -466,6 +466,15 @@ test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
 test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
 
+# Create Virtaul Disks
+virtual_disks = [
+    {"name": "disk1", "size": 60, "virtual_machine" : "test100-vm"},
+    {"name": "disk2", "size": 110, "virtual_machine" : "test100-vm"},
+]
+created_virtual_disks = make_netbox_calls(
+    nb.virtualization.virtual_disks, virtual_disks
+)
+
 ## Create Virtual Machine Interfaces
 virtual_machines_intfs = [
     # Create test100-vm intfs

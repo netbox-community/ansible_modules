@@ -2,6 +2,7 @@
     {
         "plurals": false,
         "interfaces": false,
+        "virtual_disks": false,
         "services": false,
         "dns_name": false,
         "ansible_host_dns_name": false,
@@ -36,6 +37,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name",
             "ansible_host_dns_name"
@@ -44,6 +46,7 @@
     {
         "plurals": true,
         "interfaces": true,
+        "virtual_disks": true,
         "services": true,
         "dns_name": true,
         "ansible_host_dns_name": true,
@@ -68,6 +71,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name"
         ],
@@ -85,6 +89,7 @@
     {
         "plurals": true,
         "interfaces": true,
+        "virtual_disks": true,
         "services": true,
         "dns_name": false,
         "ansible_host_dns_name": true,
@@ -109,6 +114,7 @@
             "device_types",
             "manufacturers",
             "services",
+            "virtual_disks",
             "interfaces",
             "dns_name"
         ],
