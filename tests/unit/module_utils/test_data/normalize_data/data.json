@@ -217,7 +217,7 @@
     },
     {
         "before": {
-            "slug": "Test to_slug"
+            "slug": "Test to_slug© ⅛ äüöß 👀"
         },
         "after": {
             "slug": "test-to_slug"
