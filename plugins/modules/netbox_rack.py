@@ -106,7 +106,7 @@ options:
         description:
           - The height of the rack in rack units
         required: false
-        type: int
+        type: float
       desc_units:
         description:
           - Rack units will be numbered top-to-bottom
@@ -298,7 +298,7 @@ def main():
                             23,
                         ],
                     ),
-                    u_height=dict(required=False, type="int"),
+                    u_height=dict(required=False, type="float"),
                     desc_units=dict(required=False, type="bool"),
                     outer_width=dict(required=False, type="int"),
                     outer_depth=dict(required=False, type="int"),
