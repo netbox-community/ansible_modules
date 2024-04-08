@@ -129,7 +129,7 @@
       device_role: "Core Switch"
       site: "Test Site2"
       rack: "Test Rack Site 2"
-      position: 35
+      position: 35.5
       face: "Front"
       tags:
         - "schnozzberry"
