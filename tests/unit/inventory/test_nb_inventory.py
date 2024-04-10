@@ -80,7 +80,6 @@ def allowed_vm_query_parameters_fixture():
         "id",
         "virtual_disks",
         "interfaces",
-        "virtual_disks",
         "disk",
         "mac_address",
         "name",
@@ -159,7 +158,6 @@ def test_group_extractors(
     services,
     virtual_disks,
     interfaces,
-    virtual_disks,
     dns_name,
     ansible_host_dns_name,
     racks,
@@ -170,7 +168,6 @@ def test_group_extractors(
     inventory_fixture.services = services
     inventory_fixture.virtual_disks = virtual_disks
     inventory_fixture.interfaces = interfaces
-    inventory_fixture.virtual_disks = virtual_disks
     inventory_fixture.dns_name = dns_name
     inventory_fixture.ansible_host_dns_name = ansible_host_dns_name
     inventory_fixture.racks = racks
