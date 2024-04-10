@@ -21,89 +21,10 @@
                         "custom_fields": {},
                         "description": "",
                         "device": {
-                            "display": "Test Nexus One",
-                            "id": 4,
-                            "name": "Test Nexus One"
-                        },
-                        "display": "Ethernet1/1",
-                        "duplex": null,
-                        "enabled": true,
-                        "id": 1,
-                        "ip_addresses": [
-                            {
-                                "address": "172.16.180.11/24",
-                                "comments": "",
-                                "custom_fields": {},
-                                "description": "",
-                                "display": "172.16.180.11/24",
-                                "dns_name": "",
-                                "family": {
-                                    "label": "IPv4",
-                                    "value": 4
-                                },
-                                "id": 3,
-                                "nat_inside": null,
-                                "nat_outside": [],
-                                "role": null,
-                                "status": {
-                                    "label": "Active",
-                                    "value": "active"
-                                },
-                                "tags": [],
-                                "tenant": null,
-                                "vrf": null
-                            }
-                        ],
-                        "l2vpn_termination": null,
-                        "label": "",
-                        "lag": null,
-                        "link_peers": [],
-                        "link_peers_type": null,
-                        "mac_address": null,
-                        "mark_connected": false,
-                        "mgmt_only": false,
-                        "mode": null,
-                        "module": null,
-                        "mtu": null,
-                        "name": "Ethernet1/1",
-                        "parent": null,
-                        "poe_mode": null,
-                        "poe_type": null,
-                        "rf_channel": null,
-                        "rf_channel_frequency": null,
-                        "rf_channel_width": null,
-                        "rf_role": null,
-                        "speed": null,
-                        "tagged_vlans": [],
-                        "tags": [],
-                        "tx_power": null,
-                        "type": {
-                            "label": "1000BASE-T (1GE)",
-                            "value": "1000base-t"
-                        },
-                        "untagged_vlan": null,
-                        "vdcs": [],
-                        "vrf": null,
-                        "wireless_lans": [],
-                        "wireless_link": null,
-                        "wwn": null
-                    },
-                    {
-                        "_occupied": false,
-                        "bridge": null,
-                        "cable": null,
-                        "cable_end": "",
-                        "connected_endpoints": null,
-                        "connected_endpoints_reachable": null,
-                        "connected_endpoints_type": null,
-                        "count_fhrp_groups": 0,
-                        "count_ipaddresses": 1,
-                        "custom_fields": {},
-                        "description": "",
-                        "device": {
                             "display": "Test Nexus Child One",
                             "id": 5,
-                            "name": "Test Nexus Child One"
+                            "name": "Test Nexus Child One",
+                            "url": "http://localhost:32768/api/dcim/devices/5/"
                         },
                         "display": "Ethernet2/1",
                         "duplex": null,
@@ -131,6 +52,7 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/4/",
                                 "vrf": null
                             }
                         ],
@@ -162,6 +84,90 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/2/",
+                        "vdcs": [],
+                        "vrf": null,
+                        "wireless_lans": [],
+                        "wireless_link": null,
+                        "wwn": null
+                    },
+                    {
+                        "_occupied": false,
+                        "bridge": null,
+                        "cable": null,
+                        "cable_end": "",
+                        "connected_endpoints": null,
+                        "connected_endpoints_reachable": null,
+                        "connected_endpoints_type": null,
+                        "count_fhrp_groups": 0,
+                        "count_ipaddresses": 1,
+                        "custom_fields": {},
+                        "description": "",
+                        "device": {
+                            "display": "Test Nexus One",
+                            "id": 4,
+                            "name": "Test Nexus One",
+                            "url": "http://localhost:32768/api/dcim/devices/4/"
+                        },
+                        "display": "Ethernet1/1",
+                        "duplex": null,
+                        "enabled": true,
+                        "id": 1,
+                        "ip_addresses": [
+                            {
+                                "address": "172.16.180.11/24",
+                                "comments": "",
+                                "custom_fields": {},
+                                "description": "",
+                                "display": "172.16.180.11/24",
+                                "dns_name": "",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 3,
+                                "nat_inside": null,
+                                "nat_outside": [],
+                                "role": null,
+                                "status": {
+                                    "label": "Active",
+                                    "value": "active"
+                                },
+                                "tags": [],
+                                "tenant": null,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/3/",
+                                "vrf": null
+                            }
+                        ],
+                        "l2vpn_termination": null,
+                        "label": "",
+                        "lag": null,
+                        "link_peers": [],
+                        "link_peers_type": null,
+                        "mac_address": null,
+                        "mark_connected": false,
+                        "mgmt_only": false,
+                        "mode": null,
+                        "module": null,
+                        "mtu": null,
+                        "name": "Ethernet1/1",
+                        "parent": null,
+                        "poe_mode": null,
+                        "poe_type": null,
+                        "rf_channel": null,
+                        "rf_channel_frequency": null,
+                        "rf_channel_width": null,
+                        "rf_role": null,
+                        "speed": null,
+                        "tagged_vlans": [],
+                        "tags": [],
+                        "tx_power": null,
+                        "type": {
+                            "label": "1000BASE-T (1GE)",
+                            "value": "1000base-t"
+                        },
+                        "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/1/",
                         "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
@@ -183,7 +189,8 @@
                         "device": {
                             "display": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One"
+                            "name": "Test Nexus One",
+                            "url": "http://localhost:32768/api/dcim/devices/4/"
                         },
                         "display": "wlink1",
                         "duplex": null,
@@ -218,6 +225,7 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/6/",
                         "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
@@ -246,7 +254,8 @@
                         "device": {
                             "display": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One"
+                            "name": "Test Nexus One",
+                            "url": "http://localhost:32768/api/dcim/devices/4/"
                         },
                         "display": "telnet (TCP/23)",
                         "id": 3,
@@ -260,6 +269,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
@@ -323,7 +333,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "GigabitEthernet1",
                         "duplex": null,
@@ -351,6 +362,7 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/",
                                 "vrf": null
                             }
                         ],
@@ -382,6 +394,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/3/",
                         "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
@@ -403,7 +416,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "GigabitEthernet2",
                         "duplex": null,
@@ -431,6 +445,7 @@
                                 },
                                 "tags": [],
                                 "tenant": null,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/",
                                 "vrf": null
                             }
                         ],
@@ -462,6 +477,7 @@
                             "value": "1000base-t"
                         },
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/4/",
                         "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
@@ -483,7 +499,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "wlink1",
                         "duplex": null,
@@ -518,6 +535,7 @@
                             "value": "ieee802.11a"
                         },
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/dcim/interfaces/5/",
                         "vdcs": [],
                         "vrf": null,
                         "wireless_lans": [],
@@ -550,7 +568,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "ssh (TCP/22)",
                         "id": 1,
@@ -564,6 +583,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
@@ -573,7 +593,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "http (TCP/80)",
                         "id": 2,
@@ -582,13 +603,15 @@
                                 "address": "172.16.180.1/24",
                                 "display": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1
+                                "id": 1,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "display": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2
+                                "id": 2,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
                             }
                         ],
                         "name": "http",
@@ -600,6 +623,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],
@@ -617,6 +641,7 @@
                 "cluster_type": "test-cluster-type",
                 "config_context": {},
                 "custom_fields": {},
+                "disk": 170,
                 "interfaces": [
                     {
                         "bridge": null,
@@ -637,10 +662,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/1/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm"
+                            "name": "test100-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
                         },
                         "vrf": null
                     },
@@ -663,10 +690,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/2/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm"
+                            "name": "test100-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
                         },
                         "vrf": null
                     },
@@ -689,10 +718,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/3/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm"
+                            "name": "test100-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
                         },
                         "vrf": null
                     },
@@ -715,10 +746,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/4/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm"
+                            "name": "test100-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
                         },
                         "vrf": null
                     },
@@ -741,10 +774,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/5/",
                         "virtual_machine": {
                             "display": "test100-vm",
                             "id": 1,
-                            "name": "test100-vm"
+                            "name": "test100-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/1/"
                         },
                         "vrf": null
                     }
@@ -790,10 +825,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/6/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm"
+                            "name": "test101-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
                         },
                         "vrf": null
                     },
@@ -816,10 +853,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/7/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm"
+                            "name": "test101-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
                         },
                         "vrf": null
                     },
@@ -842,10 +881,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/8/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm"
+                            "name": "test101-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
                         },
                         "vrf": null
                     },
@@ -868,10 +909,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/9/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm"
+                            "name": "test101-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
                         },
                         "vrf": null
                     },
@@ -894,10 +937,12 @@
                         "tagged_vlans": [],
                         "tags": [],
                         "untagged_vlan": null,
+                        "url": "http://localhost:32768/api/virtualization/interfaces/10/",
                         "virtual_machine": {
                             "display": "test101-vm",
                             "id": 2,
-                            "name": "test101-vm"
+                            "name": "test101-vm",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/2/"
                         },
                         "vrf": null
                     }

@@ -42,6 +42,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-04-10T12:55:46.117264Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -58,6 +59,7 @@
                             {
                                 "address": "172.16.180.12/24",
                                 "comments": "",
+                                "created": "2024-04-10T12:55:47.352870Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.12/24",
@@ -67,6 +69,7 @@
                                     "value": 4
                                 },
                                 "id": 4,
+                                "last_updated": "2024-04-10T12:55:47.352897Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -83,6 +86,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.117288Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -125,6 +129,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-04-10T12:55:46.039597Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -141,6 +146,7 @@
                             {
                                 "address": "172.16.180.11/24",
                                 "comments": "",
+                                "created": "2024-04-10T12:55:47.320197Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.11/24",
@@ -150,6 +156,7 @@
                                     "value": 4
                                 },
                                 "id": 3,
+                                "last_updated": "2024-04-10T12:55:47.320220Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -166,6 +173,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.039623Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -208,6 +216,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:46.563561Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -224,6 +233,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.563586Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -273,6 +283,7 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-04-10T12:55:50.975124Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -284,6 +295,7 @@
                         "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
+                        "last_updated": "2024-04-10T12:55:50.975148Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -316,6 +328,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.463620Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -323,6 +336,7 @@
                         "id": 11,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.463653Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -344,6 +358,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.509215Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -351,6 +366,7 @@
                         "id": 12,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.509242Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -375,12 +391,14 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-04-10T12:55:51.008597Z",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
+                        "last_updated": "2024-04-10T12:55:51.008622Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -455,6 +473,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-04-10T12:55:46.277746Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -471,6 +490,7 @@
                             {
                                 "address": "172.16.180.1/24",
                                 "comments": "",
+                                "created": "2024-04-10T12:55:47.245995Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.1/24",
@@ -480,6 +500,7 @@
                                     "value": 4
                                 },
                                 "id": 1,
+                                "last_updated": "2024-04-10T12:55:47.246027Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -496,6 +517,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.277783Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -538,6 +560,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-04-10T12:55:46.342494Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -554,6 +577,7 @@
                             {
                                 "address": "2001::1:1/64",
                                 "comments": "",
+                                "created": "2024-04-10T12:55:47.283463Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "2001::1:1/64",
@@ -563,6 +587,7 @@
                                     "value": 6
                                 },
                                 "id": 2,
+                                "last_updated": "2024-04-10T12:55:47.283489Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -579,6 +604,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.342519Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -621,6 +647,7 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:46.501948Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -637,6 +664,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-04-10T12:55:46.501983Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -690,6 +718,7 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-04-10T12:55:50.860141Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -701,6 +730,7 @@
                         "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
+                        "last_updated": "2024-04-10T12:55:50.860164Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -715,6 +745,7 @@
                     },
                     {
                         "comments": "",
+                        "created": "2024-04-10T12:55:50.898501Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
@@ -741,6 +772,7 @@
                                 "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
                             }
                         ],
+                        "last_updated": "2024-04-10T12:55:50.898528Z",
                         "name": "http",
                         "ports": [
                             80
@@ -763,10 +795,12 @@
                 "tags": [],
                 "virtual_disks": [
                     {
+                        "created": "2024-04-10T12:55:49.675995Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "disk1",
                         "id": 1,
+                        "last_updated": "2024-04-10T12:55:49.676030Z",
                         "name": "disk1",
                         "size": 60,
                         "tags": [],
@@ -779,10 +813,12 @@
                         }
                     },
                     {
+                        "created": "2024-04-10T12:55:49.707065Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "disk2",
                         "id": 2,
+                        "last_updated": "2024-04-10T12:55:49.707112Z",
                         "name": "disk2",
                         "size": 110,
                         "tags": [],
@@ -808,6 +844,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:49.971454Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -815,6 +852,7 @@
                         "id": 1,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:49.971497Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -836,6 +874,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.036225Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -843,6 +882,7 @@
                         "id": 2,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.036270Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -864,6 +904,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.084595Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
@@ -871,6 +912,7 @@
                         "id": 3,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.084623Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -892,6 +934,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.131287Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
@@ -899,6 +942,7 @@
                         "id": 4,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.131330Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -920,6 +964,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.177550Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
@@ -927,6 +972,7 @@
                         "id": 5,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.177580Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -961,10 +1007,12 @@
                 "tags": [],
                 "virtual_disks": [
                     {
+                        "created": "2024-04-10T12:55:49.675995Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "disk1",
                         "id": 1,
+                        "last_updated": "2024-04-10T12:55:49.676030Z",
                         "name": "disk1",
                         "size": 60,
                         "tags": [],
@@ -977,10 +1025,12 @@
                         }
                     },
                     {
+                        "created": "2024-04-10T12:55:49.707065Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "disk2",
                         "id": 2,
+                        "last_updated": "2024-04-10T12:55:49.707112Z",
                         "name": "disk2",
                         "size": 110,
                         "tags": [],
@@ -1005,6 +1055,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.222402Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -1012,6 +1063,7 @@
                         "id": 6,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.222435Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1033,6 +1085,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.268954Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -1040,6 +1093,7 @@
                         "id": 7,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.268981Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1061,6 +1115,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.329979Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
@@ -1068,6 +1123,7 @@
                         "id": 8,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.330023Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1089,6 +1145,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.378705Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
@@ -1096,6 +1153,7 @@
                         "id": 9,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.378744Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1117,6 +1175,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-04-10T12:55:50.419981Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
@@ -1124,6 +1183,7 @@
                         "id": 10,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-04-10T12:55:50.420007Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
