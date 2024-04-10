@@ -245,6 +245,10 @@ DOCUMENTATION = """
             type: boolean
             default: True
             version_added: "3.6.0"
+        oob_ip_as_primary_ip:
+            description: Use out of band IP as `ansible host`
+            type: boolean
+            default: False
 """
 
 EXAMPLES = """
@@ -828,6 +832,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def extract_primary_ip6(self, host):
         try:
             address = host["primary_ip6"]["address"]
+            return str(ip_interface(address).ip)
+        except Exception:
+            return
+
+    def extract_oob_ip(self, host):
+        try:
+            address = host["oob_ip"]["address"]
             return str(ip_interface(address).ip)
         except Exception:
             return
@@ -1911,6 +1922,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if extracted_primary_ip6:
             self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
+        extracted_oob_ip = self.extract_oob_ip(host=host)
+        if extracted_oob_ip and self.oob_ip_as_primary_ip:
+            self.inventory.set_variable(hostname, "ansible_host", extracted_oob_ip)
+
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
 
@@ -2102,6 +2117,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
+        self.oob_ip_as_primary_ip = self.get_option("oob_ip_as_primary_ip")
 
         self._set_authorization()
 

@@ -181,6 +181,9 @@ def get_endpoint(netbox, term):
         "console-server-ports": {"endpoint": netbox.dcim.console_server_ports},
         "content-types": {"endpoint": netbox.extras.content_types},
         "custom-fields": {"endpoint": netbox.extras.custom_fields},
+        "custom-field-choice-sets": {
+            "endpoint": netbox.extras.custom_field_choice_sets
+        },
         "custom-links": {"endpoint": netbox.extras.custom_links},
         "device-bay-templates": {"endpoint": netbox.dcim.device_bay_templates},
         "device-bays": {"endpoint": netbox.dcim.device_bays},
