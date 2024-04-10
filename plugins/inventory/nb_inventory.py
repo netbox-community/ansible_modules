@@ -1500,9 +1500,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.virtual_disks:
             lookups.append(self.refresh_virtual_disks)
 
-        if self.virtual_disks:
-            lookups.append(self.refresh_virtual_disks)
-
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
 
