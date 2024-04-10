@@ -6,6 +6,7 @@ validate_certs: False
 
 config_context: True
 plurals: False
+virtual_disks: True
 interfaces: True
 virtual_disks: True
 services: True

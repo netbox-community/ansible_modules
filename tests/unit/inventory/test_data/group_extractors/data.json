@@ -1,6 +1,7 @@
 [
     {
         "plurals": false,
+        "virtual_disks": false,
         "interfaces": false,
         "virtual_disks": false,
         "services": false,
@@ -45,6 +46,7 @@
     },
     {
         "plurals": true,
+        "virtual_disks": true,
         "interfaces": true,
         "virtual_disks": true,
         "services": true,
@@ -88,6 +90,7 @@
     },
     {
         "plurals": true,
+        "virtual_disks": true,
         "interfaces": true,
         "virtual_disks": true,
         "services": true,

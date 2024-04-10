@@ -78,6 +78,7 @@ def allowed_vm_query_parameters_fixture():
     # Subset of parameters - real list is fetched dynamically from NetBox openapi endpoint
     return [
         "id",
+        "virtual_disks",
         "interfaces",
         "virtual_disks",
         "disk",
@@ -149,13 +150,14 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, interfaces, virtual_disks, dns_name, ansible_host_dns_name, racks, expected, not_expected",
+    "plurals, services, virtual_disks, interfaces, dns_name, ansible_host_dns_name, racks, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
     inventory_fixture,
     plurals,
     services,
+    virtual_disks,
     interfaces,
     virtual_disks,
     dns_name,
@@ -166,6 +168,7 @@ def test_group_extractors(
 ):
     inventory_fixture.plurals = plurals
     inventory_fixture.services = services
+    inventory_fixture.virtual_disks = virtual_disks
     inventory_fixture.interfaces = interfaces
     inventory_fixture.virtual_disks = virtual_disks
     inventory_fixture.dns_name = dns_name
