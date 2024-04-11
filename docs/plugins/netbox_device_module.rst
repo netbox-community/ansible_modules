@@ -846,7 +846,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`integer`
+        :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -1602,7 +1602,7 @@ Examples
             data:
               name: Test Device
               rack: Test Rack
-              position: 10
+              position: 10.5
               face: Front
             state: present
 
