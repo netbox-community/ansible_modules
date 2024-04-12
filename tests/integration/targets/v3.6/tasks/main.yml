@@ -310,3 +310,8 @@
   include_tasks: "netbox_config_template.yml"
   tags:
     - netbox_config_template
+
+- name: "NETBOX_CUSTOM_FIELD_CHOICE_SET"
+  include_tasks: "netbox_custom_field_choice_set.yml"
+  tags:
+    - netbox_custom_field_choice_set
