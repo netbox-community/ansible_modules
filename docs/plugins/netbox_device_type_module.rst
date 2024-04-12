@@ -1087,7 +1087,7 @@ Examples
               model: ws-test-3750
               manufacturer: Test Manufacturer
               part_number: ws-3750g-v2
-              u_height: 1
+              u_height: 1.5
               is_full_depth: False
               subdevice_role: parent
             state: present
