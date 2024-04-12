@@ -50,6 +50,8 @@ action_groups:
     - netbox_l2vpn_termination
     - netbox_location
     - netbox_manufacturer
+    - netbox_module
+    - netbox_module_bay
     - netbox_module_type
     - netbox_platform
     - netbox_power_feed
