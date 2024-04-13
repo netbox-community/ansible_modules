@@ -178,6 +178,9 @@
             },
             "test100": {
                 "asset_tag": "123456789",
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
                 "custom_fields": {},
                 "device_roles": [
                     "core-switch"
@@ -278,6 +281,7 @@
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "test100",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},

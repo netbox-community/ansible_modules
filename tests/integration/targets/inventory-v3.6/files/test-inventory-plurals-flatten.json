@@ -1,6 +1,7 @@
 {
     "Test_Cluster": {
         "hosts": [
+            "test100",
             "test100-vm",
             "test101-vm",
             "test102-vm",
@@ -187,6 +188,7 @@
             },
             "test100-vm": {
                 "cluster": "Test Cluster",
+                "cluster_device": "test100",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "is_virtual": true,

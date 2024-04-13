@@ -541,6 +541,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "custom_fields": self.extract_custom_fields,
             "region": self.extract_regions,
             "cluster": self.extract_cluster,
+            "cluster_device": self.extract_cluster_device,
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
             "is_virtual": self.extract_is_virtual,
@@ -952,6 +953,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # cluster does not have a slug
             return host["cluster"]["name"]
         except Exception:
+            return
+
+    def extract_cluster_device(self, host):
+        try:
+            # cluster device does not have a slug
+            if host.get("device") is None:
+                return
+            else:
+                return host["device"].get("name")
+        except TypeError:
             return
 
     def extract_cluster_group(self, host):
