@@ -145,6 +145,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "disk": 170,
                 "is_virtual": true,
                 "locations": [],
                 "regions": [

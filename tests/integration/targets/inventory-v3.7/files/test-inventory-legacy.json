@@ -69,7 +69,8 @@
                         "device": {
                             "display": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One"
+                            "name": "Test Nexus One",
+                            "url": "http://localhost:32768/api/dcim/devices/4/"
                         },
                         "display": "telnet (TCP/23)",
                         "id": 3,
@@ -83,6 +84,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
@@ -124,10 +126,12 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/4/",
                         "virtual_machine": {
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces"
+                            "name": "Test VM With Spaces",
+                            "url": "http://localhost:32768/api/virtualization/virtual-machines/6/"
                         }
                     }
                 ],
@@ -213,7 +217,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "ssh (TCP/22)",
                         "id": 1,
@@ -227,6 +232,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
@@ -236,7 +242,8 @@
                         "device": {
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100"
+                            "name": "test100",
+                            "url": "http://localhost:32768/api/dcim/devices/1/"
                         },
                         "display": "http (TCP/80)",
                         "id": 2,
@@ -245,13 +252,15 @@
                                 "address": "172.16.180.1/24",
                                 "display": "172.16.180.1/24",
                                 "family": 4,
-                                "id": 1
+                                "id": 1,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
                             },
                             {
                                 "address": "2001::1:1/64",
                                 "display": "2001::1:1/64",
                                 "family": 6,
-                                "id": 2
+                                "id": 2,
+                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
                             }
                         ],
                         "name": "http",
@@ -263,6 +272,7 @@
                             "value": "tcp"
                         },
                         "tags": [],
+                        "url": "http://localhost:32768/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],
@@ -281,6 +291,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
+                "disk": 170,
                 "is_virtual": true,
                 "local_context_data": [
                     null

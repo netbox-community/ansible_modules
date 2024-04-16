@@ -189,6 +189,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
+                "disk": 170,
                 "is_virtual": true,
                 "local_context_data": [
                     null
