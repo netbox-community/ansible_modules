@@ -1922,8 +1922,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
         extracted_oob_ip = self.extract_oob_ip(host=host)
-        if extracted_oob_ip and self.oob_ip_as_primary_ip:
-            self.inventory.set_variable(hostname, "ansible_host", extracted_oob_ip)
+        if extracted_oob_ip:
+            self.inventory.set_variable(hostname, "oob_ip", extracted_oob_ip)
+            if self.oob_ip_as_primary_ip:
+                self.inventory.set_variable(hostname, "ansible_host", extracted_oob_ip)
 
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
