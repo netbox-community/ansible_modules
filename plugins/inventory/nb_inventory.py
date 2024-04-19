@@ -550,6 +550,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster": self.extract_cluster,
             "cluster_group": self.extract_cluster_group,
             "cluster_type": self.extract_cluster_type,
+            "cluster_device": self.extract_cluster_device,
             "is_virtual": self.extract_is_virtual,
             "serial": self.extract_serial,
             "asset_tag": self.extract_asset_tag,
@@ -986,6 +987,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return self.clusters_type_lookup[host["cluster"]["id"]]
         except Exception:
             return
+
+    def extract_cluster_device(self, host):
+        return host.get("device")
 
     def extract_is_virtual(self, host):
         return host.get("is_virtual")
