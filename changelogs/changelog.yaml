@@ -860,7 +860,7 @@ releases:
     release_date: '2024-02-14'
   3.18.0:
     changes:
-      bugfixes:    
+      bugfixes:
       minor_changes:
         - nb_lookup - Add endpoint for Virtual Disks [#1177](https://github.com/netbox-community/ansible_modules/pull/1177)
         - nb_lookup - Add custom field choice set [#1186](https://github.com/netbox-community/ansible_modules/pull/1186)
