@@ -1296,7 +1296,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1698,6 +1698,47 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-plurals"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-plurals:
+
+      .. rst-class:: ansible-option-title
+
+      **oob_ip_as_primary_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-plurals" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If True, `ansible_host` will be set to the out of band ip address if defined, else it will use the `primary_ip`.
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry-default:`true`
+
+
+      .. raw:: html
+
+        </div>
   * - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -2388,7 +2429,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     # netbox_inventory.yml file in YAML format
     # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
 
