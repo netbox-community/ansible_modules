@@ -23,7 +23,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -160,25 +160,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/choices"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/choice_set"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/choices:
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/choice_set:
 
       .. rst-class:: ansible-option-title
 
-      **choices**
+      **choice_set**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/choices" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/choice_set" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+        :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -192,7 +192,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of available choices (for selection fields)
+      The name of the choice set to use (for selection fields)
 
 
       .. raw:: html
@@ -1148,6 +1148,18 @@ Examples
                 - virtualization.virtualmachine
               name: A Custom Field
               type: text
+
+        - name: Create a custom field of type selection
+          netbox.netbox.netbox_custom_field:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: "Custom_Field"
+              content_types:
+                - dcim.device
+                - virtualization.virtualmachine
+              type: select
+              choice_set: A Choice Set name
 
         - name: Update the custom field to make it required
           netbox.netbox.netbox_custom_field:

@@ -23,7 +23,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1296,7 +1296,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1701,9 +1701,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-plurals"></div>
+        <div class="ansibleOptionAnchor" id="parameter-oob_ip_as_primary_ip"></div>
 
-      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-plurals:
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-oob_ip_as_primary_ip:
 
       .. rst-class:: ansible-option-title
 
@@ -1711,11 +1711,13 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-plurals" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-oob_ip_as_primary_ip" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
         :ansible-option-type:`boolean`
+
+
 
 
       .. raw:: html
@@ -1726,19 +1728,21 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If True, `ansible_host` will be set to the out of band ip address if defined, else it will use the `primary_ip`.
+      Use out of band IP as \`ansible host\`
+
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry-default:`true`
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
 
         </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-cell">
@@ -2372,6 +2376,54 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-virtual_disks"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-virtual_disks:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_disks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-virtual_disks" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.18.0`
+
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If True, it adds the virtual disks information in host vars.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vm_query_filters"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-vm_query_filters:
@@ -2429,7 +2481,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     # netbox_inventory.yml file in YAML format
     # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
 
@@ -2559,6 +2611,7 @@ Authors
 - Nikhil Singh Baliyan (@nikkytub)
 - Sander Steffann (@steffann)
 - Douglas Heriot (@DouglasHeriot)
+- Thore Knickrehm (@tkn2023)
 
 
 .. hint::

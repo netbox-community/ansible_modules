@@ -11,14 +11,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_inventory_item_module:
+.. _ansible_collections.netbox.netbox.netbox_module_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_inventory_item module -- Creates or removes inventory items from NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_module module -- Create, update or delete module within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -30,15 +30,15 @@ netbox.netbox.netbox_inventory_item module -- Creates or removes inventory items
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_inventory_item_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_module_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_inventory_item`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_module`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.1.0
+New in netbox.netbox 3.18.0
 
 .. contents::
    :local:
@@ -52,7 +52,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes inventory items from NetBox
+- Creates, updates or removes module from NetBox
 
 
 .. Aliases
@@ -60,7 +60,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_inventory_item_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_module_module_requirements:
 
 Requirements
 ------------
@@ -94,7 +94,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -128,7 +128,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +150,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the inventory item configuration
+      Defines the device type configuration
 
 
       .. raw:: html
@@ -166,7 +166,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/asset_tag:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/asset_tag:
 
       .. rst-class:: ansible-option-title
 
@@ -192,7 +192,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The asset tag of the inventory item
+      The asset tag of the modyle
 
 
       .. raw:: html
@@ -202,28 +202,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/component"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/comments:
 
       .. rst-class:: ansible-option-title
 
-      **component**
+      **comments**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/component" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.15.0`
-
+        :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -237,150 +234,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The associated component
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/component/device"></div>
-
-      .. raw:: latex
-
-        \hspace{0.04\textwidth}\begin{minipage}[t]{0.28\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component/device:
-
-      .. rst-class:: ansible-option-title
-
-      **device**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/component/device" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The device the component is attached to.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/component/name"></div>
-
-      .. raw:: latex
-
-        \hspace{0.04\textwidth}\begin{minipage}[t]{0.28\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/component/name" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The name of the component
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/component_type"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/component_type:
-
-      .. rst-class:: ansible-option-title
-
-      **component_type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/component_type" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.15.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The type of the component. Required if component is defined.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`"dcim.consoleport"`
-      - :ansible-option-choices-entry:`"dcim.consoleserverport"`
-      - :ansible-option-choices-entry:`"dcim.frontport"`
-      - :ansible-option-choices-entry:`"dcim.interface"`
-      - :ansible-option-choices-entry:`"dcim.poweroutlet"`
-      - :ansible-option-choices-entry:`"dcim.powerport"`
-      - :ansible-option-choices-entry:`"dcim.rearport"`
+      Comments that may include additional information in regards to the module
 
 
       .. raw:: html
@@ -396,7 +250,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -410,9 +264,6 @@ Parameters
 
         :ansible-option-type:`dictionary`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.4.0`
-
-
       .. raw:: html
 
         </div>
@@ -425,7 +276,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      must exist in Netbox
+      must exist in NetBox
 
 
       .. raw:: html
@@ -441,7 +292,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
@@ -467,7 +318,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The description of the inventory item
+      The description of the module
 
 
       .. raw:: html
@@ -483,7 +334,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/device:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/device:
 
       .. rst-class:: ansible-option-title
 
@@ -495,7 +346,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`any`
+        :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -509,7 +360,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the device the inventory item belongs to
+      The device of the module
 
 
       .. raw:: html
@@ -519,25 +370,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/discovered"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/module_bay"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/discovered:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/module_bay:
 
       .. rst-class:: ansible-option-title
 
-      **discovered**
+      **module_bay**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/discovered" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/module_bay" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`boolean`
+        :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -551,15 +402,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set the discovery flag for the inventory item
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
+      The module bay of the module
 
 
       .. raw:: html
@@ -569,28 +412,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/inventory_item_role"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/module_type"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/inventory_item_role:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/module_type:
 
       .. rst-class:: ansible-option-title
 
-      **inventory_item_role**
+      **module_type**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/inventory_item_role" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/module_type" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.14.0`
-
+        :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -604,223 +444,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set the inventory item role
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/label:
-
-      .. rst-class:: ansible-option-title
-
-      **label**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.4.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The physical label of the inventory item
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/manufacturer"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/manufacturer:
-
-      .. rst-class:: ansible-option-title
-
-      **manufacturer**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/manufacturer" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The manufacturer of the inventory item
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Name of the inventory item to be created
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/parent_inventory_item"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/parent_inventory_item:
-
-      .. rst-class:: ansible-option-title
-
-      **parent_inventory_item**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/parent_inventory_item" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.5.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The parent inventory item the inventory item will be associated with
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/part_id"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/part_id:
-
-      .. rst-class:: ansible-option-title
-
-      **part_id**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/part_id" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The part ID of the inventory item
+      The module type of the module
 
 
       .. raw:: html
@@ -836,7 +460,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/serial:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/serial:
 
       .. rst-class:: ansible-option-title
 
@@ -862,7 +486,62 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The serial number of the inventory item
+      The weight of the device type
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/status"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/status" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The status of the module
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"offline"`
+      - :ansible-option-choices-entry:`"active"`
+      - :ansible-option-choices-entry:`"planned"`
+      - :ansible-option-choices-entry:`"staged"`
+      - :ansible-option-choices-entry:`"side-to-rear"`
+      - :ansible-option-choices-entry:`"failed"`
+      - :ansible-option-choices-entry:`"decommissioning"`
 
 
       .. raw:: html
@@ -878,7 +557,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -904,7 +583,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Any tags that the device may need to be associated with
+      Any tags that the module may need to be associated with
 
 
       .. raw:: html
@@ -917,7 +596,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -951,7 +630,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -987,7 +666,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -1025,7 +704,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -1067,7 +746,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -1126,67 +805,48 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox inventory_item module"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
+
       tasks:
-        - name: Create inventory item within NetBox with only required information
-          netbox.netbox.netbox_inventory_item:
+        - name: Create module type within NetBox with only required information
+          netbox.netbox.netbox_module:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
-            data:
-              device: test100
-              name: "10G-SFP+"
+            data:          
+              device: C9300-DEMO
+              module_bay: Network Module
+              module_type: C9300-NM-8X
             state: present
 
-        - name: Update inventory item
-          netbox.netbox.netbox_inventory_item:
+        - name: Create module type within NetBox
+          netbox.netbox.netbox_module:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
-            data:
-              device: test100
-              name: "10G-SFP+"
-              manufacturer: "Cisco"
-              part_id: "10G-SFP+"
-              serial: "1234"
-              asset_tag: "1234"
-              description: "New SFP"
-              inventory_item_role: NIC
-            state: present
-            
-        - name: Create inventory item with parent
-          netbox.netbox.netbox_inventory_item:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              parent_inventory_item:
-                name: "Line Card 1"
-                device: test100
-              name: "10G-SFP+"
-              device: test100
+            data:          
+              device:
+                name: C9300-DEMO
+                site: EUPARIS
+              module_bay:
+                name: Network Module
+                position: 1
+              module_type:
+                manufacturer: Cisco
+                model: C9300-NM-8X
             state: present
 
-        - name: Create inventory item with component
-          netbox.netbox.netbox_inventory_item:
+        - name: Delete module type within netbox
+          netbox.netbox.netbox_module:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: "10G-SFP+"
-              device: test100
-              component_type: "dcim.interface"
-              component:
-                name: GigabitEthernet2
-                device: "test100"
-            state: present
-
-        - name: Delete inventory item within netbox
-          netbox.netbox.netbox_inventory_item:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              device: test100
-              name: "10G-SFP+"
+              device: C9300-DEMO
+              module_bay: Network Module
+              module_type: C9300-NM-8X
+              asset_tag: 00001
+              serial: XXXNNNNXXXX
             state: absent
 
 
@@ -1215,17 +875,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-inventory_item"></div>
+        <div class="ansibleOptionAnchor" id="return-module"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__return-inventory_item:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__return-module:
 
       .. rst-class:: ansible-option-title
 
-      **inventory_item**
+      **module**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-inventory_item" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-module" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 
@@ -1244,7 +904,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` on creation
+      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
 
 
       .. raw:: html
@@ -1257,7 +917,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_inventory_item_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_module_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -1301,7 +961,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Mikhail Yohman (@FragmentedPacket)
+- Erwan TONNERRE (@etonnerre)
 
 
 
