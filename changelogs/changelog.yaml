@@ -858,3 +858,26 @@ releases:
         name: netbox_virtual_disk
         namespace: ''
     release_date: '2024-02-14'
+  3.18.0:
+    changes:
+      bugfixes:    
+      minor_changes:
+        - nb_lookup - Add endpoint for Virtual Disks [#1177](https://github.com/netbox-community/ansible_modules/pull/1177)
+        - nb_lookup - Add custom field choice set [#1186](https://github.com/netbox-community/ansible_modules/pull/1186)
+        - nb_inventory - Don't extract null values from custom fields [#1184](https://github.com/netbox-community/ansible_modules/pull/1184)
+        - nb_inventory - Add Virtual Disks to inventory [#1188](https://github.com/netbox-community/ansible_modules/pull/1188)
+        - netbox_device_type and netbox_rack - Change u_height to float [#1200](https://github.com/netbox-community/ansible_modules/pull/1200)
+        - netbox_power_port - Add label [#1202](https://github.com/netbox-community/ansible_modules/pull/1202)
+        - nb_inventory - Make oob_ip available regardless of oob_ip_as_primary_ip option [#1211](https://github.com/netbox-community/ansible_modules/pull/1211)
+        - netbox_export_templates - Update documentation [#1214](https://github.com/netbox-community/ansible_modules/pull/1214)
+        - nb_inventory - Improve documentation for oob_ip_as_primary_ip [#1218](https://github.com/netbox-community/ansible_modules/pull/1218)
+    modules:
+      - description: Create, updates, or removes Custom Field Choice sets
+        name: netbox_custom_field_choice_set
+        namespace: ''
+      - description: Create, updates, or removes Module Bay
+        name: netbox_module_bay
+        namespace: ''
+      - description: Create, updates, or removes Module
+        namespace: ''
+    release_date: '2024-04-28'
