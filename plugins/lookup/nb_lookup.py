@@ -181,6 +181,9 @@ def get_endpoint(netbox, term):
         "console-server-ports": {"endpoint": netbox.dcim.console_server_ports},
         "content-types": {"endpoint": netbox.extras.content_types},
         "custom-fields": {"endpoint": netbox.extras.custom_fields},
+        "custom-field-choice-sets": {
+            "endpoint": netbox.extras.custom_field_choice_sets
+        },
         "custom-links": {"endpoint": netbox.extras.custom_links},
         "device-bay-templates": {"endpoint": netbox.dcim.device_bay_templates},
         "device-bays": {"endpoint": netbox.dcim.device_bays},
@@ -247,6 +250,7 @@ def get_endpoint(netbox, term):
         "topology-maps": {"endpoint": netbox.extras.topology_maps},
         "users": {"endpoint": netbox.users.users},
         "virtual-chassis": {"endpoint": netbox.dcim.virtual_chassis},
+        "virtual-disks": {"endpoint": netbox.virtualization.virtual_disks},
         "virtual-machines": {"endpoint": netbox.virtualization.virtual_machines},
         "virtualization-interfaces": {"endpoint": netbox.virtualization.interfaces},
         "vlan-groups": {"endpoint": netbox.ipam.vlan_groups},

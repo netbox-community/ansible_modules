@@ -58,6 +58,8 @@ API_APPS_ENDPOINTS = dict(
         "inventory_item_roles": {},
         "locations": {},
         "manufacturers": {},
+        "modules": {},
+        "module_bays": {},
         "module_types": {},
         "platforms": {},
         "power_feeds": {},
@@ -82,6 +84,7 @@ API_APPS_ENDPOINTS = dict(
         "config_templates": {},
         "tags": {},
         "custom_fields": {},
+        "custom_field_choice_sets": {},
         "custom_links": {},
         "export_templates": {},
         "journal_entries": {},
@@ -145,6 +148,7 @@ QUERY_TYPES = dict(
     contact_group="name",
     contact_role="name",
     custom_field="name",
+    choice_set="name",
     custom_link="name",
     device="name",
     device_role="slug",
@@ -161,6 +165,8 @@ QUERY_TYPES = dict(
     l2vpn_termination="id",
     location="slug",
     manufacturer="slug",
+    modules="id",
+    module_bays="name",
     module_type="model",
     nat_inside="address",
     nat_outside="address",
@@ -226,6 +232,7 @@ CONVERT_TO_ID = {
     "config_context": "config_contexts",
     "config_template": "config_templates",
     "contact_groups": "contact_groups",
+    "choice_set": "custom_field_choice_sets",
     "dcim.consoleport": "console_ports",
     "dcim.consoleserverport": "console_server_ports",
     "dcim.frontport": "front_ports",
@@ -254,6 +261,8 @@ CONVERT_TO_ID = {
     "lag": "interfaces",
     "manufacturer": "manufacturers",
     "master": "devices",
+    "module": "modules",
+    "module_bay": "module_bays",
     "module_type": "module_types",
     "nat_inside": "ip_addresses",
     "nat_outside": "ip_addresses",
@@ -338,6 +347,7 @@ ENDPOINT_NAME_MAPPING = {
     "contact_groups": "contact_group",
     "contact_roles": "contact_role",
     "custom_fields": "custom_field",
+    "custom_field_choice_sets": "choice_set",
     "custom_links": "custom_link",
     "device_bays": "device_bay",
     "device_bay_templates": "device_bay_template",
@@ -359,6 +369,8 @@ ENDPOINT_NAME_MAPPING = {
     "l2vpn_terminations": "l2vpn_termination",
     "locations": "location",
     "manufacturers": "manufacturer",
+    "modules": "module",
+    "module_bays": "module_bay",
     "module_types": "module_type",
     "platforms": "platform",
     "power_feeds": "power_feed",
@@ -438,6 +450,8 @@ ALLOWED_QUERY_PARAMS = {
     "contact_group": set(["name"]),
     "contact_role": set(["name"]),
     "custom_field": set(["name"]),
+    "custom_field_choice_set": set(["name"]),
+    "choice_set": set(["name"]),
     "custom_link": set(["name"]),
     "dcim.consoleport": set(["name", "device"]),
     "dcim.consoleserverport": set(["name", "device"]),
@@ -477,6 +491,8 @@ ALLOWED_QUERY_PARAMS = {
     ),
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
+    "module": set(["device", "module_bay", "module_type"]),
+    "module_bay": set(["name"]),
     "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
@@ -1070,6 +1086,13 @@ class NetboxModule(object):
                 {
                     "l2vpn_id": query_dict.pop("l2vpn"),
                     query_key: module_data.get("assigned_object_id"),
+                }
+            )
+        elif parent == "module":
+            query_dict.update(
+                {
+                    "module_bay_id": query_dict.pop("module_bay"),
+                    "module_type_id": query_dict.pop("module_type"),
                 }
             )
         elif "_template" in parent:

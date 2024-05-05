@@ -23,7 +23,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1701,6 +1701,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-oob_ip_as_primary_ip"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-oob_ip_as_primary_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **oob_ip_as_primary_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-oob_ip_as_primary_ip" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Use out of band IP as \`ansible host\`
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-plugin"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-plugin:
@@ -2331,6 +2376,54 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-virtual_disks"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-virtual_disks:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_disks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-virtual_disks" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.18.0`
+
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If True, it adds the virtual disks information in host vars.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vm_query_filters"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-vm_query_filters:
@@ -2518,6 +2611,7 @@ Authors
 - Nikhil Singh Baliyan (@nikkytub)
 - Sander Steffann (@steffann)
 - Douglas Heriot (@DouglasHeriot)
+- Thore Knickrehm (@tkn2023)
 
 
 .. hint::

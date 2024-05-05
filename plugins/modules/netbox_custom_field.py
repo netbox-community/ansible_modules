@@ -132,12 +132,11 @@ options:
           - The regular expression to enforce on text fields
         required: false
         type: str      
-      choices:
+      choice_set:
         description:
-          - List of available choices (for selection fields) 
+          - The name of the choice set to use (for selection fields) 
         required: false
-        type: list
-        elements: str                                  
+        type: str
     required: true
 """
 
@@ -156,6 +155,18 @@ EXAMPLES = r"""
             - virtualization.virtualmachine
           name: A Custom Field
           type: text
+
+    - name: Create a custom field of type selection
+      netbox.netbox.netbox_custom_field:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "Custom_Field"
+          content_types:
+            - dcim.device
+            - virtualization.virtualmachine
+          type: select
+          choice_set: A Choice Set name
 
     - name: Update the custom field to make it required
       netbox.netbox.netbox_custom_field:
@@ -258,7 +269,10 @@ def main():
                     validation_minimum=dict(required=False, type="int"),
                     validation_maximum=dict(required=False, type="int"),
                     validation_regex=dict(required=False, type="str"),
-                    choices=dict(required=False, type="list", elements="str"),
+                    choice_set=dict(
+                        required=False,
+                        type="str",
+                    ),
                 ),
             )
         )

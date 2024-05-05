@@ -23,7 +23,7 @@ netbox.netbox.netbox_device module -- Create, update or delete devices within Ne
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -846,7 +846,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`integer`
+        :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -1602,7 +1602,7 @@ Examples
             data:
               name: Test Device
               rack: Test Rack
-              position: 10
+              position: 10.5
               face: Front
             state: present
 

@@ -54,7 +54,7 @@ options:
         description:
           - The height of the device type in rack units
         required: false
-        type: int
+        type: float
       weight:
         description:
           - The weight of the device type
@@ -159,7 +159,7 @@ EXAMPLES = r"""
           model: ws-test-3750
           manufacturer: Test Manufacturer
           part_number: ws-3750g-v2
-          u_height: 1
+          u_height: 1.5
           is_full_depth: False
           subdevice_role: parent
         state: present
@@ -210,7 +210,7 @@ def main():
                     model=dict(required=True, type="raw"),
                     slug=dict(required=False, type="str"),
                     part_number=dict(required=False, type="str"),
-                    u_height=dict(required=False, type="int"),
+                    u_height=dict(required=False, type="float"),
                     weight=dict(required=False, type="float"),
                     weight_unit=dict(
                         required=False,

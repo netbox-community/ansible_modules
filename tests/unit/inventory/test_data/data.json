@@ -1,0 +1,12 @@
+[
+  {
+    "name": "disk1",
+    "vm_name": "test100-vm",
+    "size_gb": 100
+  },
+  {
+    "name": "disk2",
+    "vm_name": "test100-vm",
+    "size_gb": 200
+  }
+]

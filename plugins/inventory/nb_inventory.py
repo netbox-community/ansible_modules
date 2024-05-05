@@ -13,6 +13,7 @@ DOCUMENTATION = """
         - Nikhil Singh Baliyan (@nikkytub)
         - Sander Steffann (@steffann)
         - Douglas Heriot (@DouglasHeriot)
+        - Thore Knickrehm (@tkn2023)
     short_description: NetBox inventory source
     description:
         - Get inventory hosts from NetBox
@@ -99,6 +100,12 @@ DOCUMENTATION = """
             default: True
             type: boolean
             version_added: "0.2.1"
+        virtual_disks:
+            description:
+                - If True, it adds the virtual disks information in host vars.
+            default: False
+            type: boolean
+            version_added: "3.18.0"
         interfaces:
             description:
                 - If True, it adds the device or virtual machine interface information in host vars.
@@ -238,6 +245,10 @@ DOCUMENTATION = """
             type: boolean
             default: True
             version_added: "3.6.0"
+        oob_ip_as_primary_ip:
+            description: Use out of band IP as `ansible host`
+            type: boolean
+            default: False
 """
 
 EXAMPLES = """
@@ -588,7 +599,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "services": self.extract_services,
                 }
             )
-
+        if self.virtual_disks:
+            extractors.update(
+                {
+                    "virtual_disks": self.extract_virtual_disks,
+                }
+            )
         if self.interfaces:
             extractors.update(
                 {
@@ -820,6 +836,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             return
 
+    def extract_oob_ip(self, host):
+        try:
+            address = host["oob_ip"]["address"]
+            return str(ip_interface(address).ip)
+        except Exception:
+            return
+
     def extract_tags(self, host):
         try:
             tag_zero = host["tags"][0]
@@ -833,6 +856,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # If tag_zero fails definition (no tags), return the empty array.
         except Exception:
             return host["tags"]
+
+    def extract_virtual_disks(self, host):
+        try:
+            virtual_disks_lookup = self.vm_virtual_disks_lookup
+            virtual_disks = deepcopy(list(virtual_disks_lookup[host["id"]].values()))
+
+            return virtual_disks
+        except Exception:
+            return
 
     def extract_interfaces(self, host):
         try:
@@ -867,7 +899,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_custom_fields(self, host):
         try:
-            return host["custom_fields"]
+            return {
+                key: value
+                for key, value in host["custom_fields"].items()
+                if value is not None
+            }
         except Exception:
             return
 
@@ -1295,6 +1331,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     service_id
                 ] = service
 
+    def refresh_virtual_disks(self):
+        url_vm_virtual_disks = (
+            self.api_endpoint + "/api/virtualization/virtual-disks/?limit=0"
+        )
+
+        vm_virtual_disks = []
+
+        if self.fetch_all:
+            vm_virtual_disks = self.get_resource_list(url_vm_virtual_disks)
+        else:
+            vm_virtual_disks = self.get_resource_list_chunked(
+                api_url=url_vm_virtual_disks,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+
+        self.vm_virtual_disks_lookup = defaultdict(dict)
+
+        for virtual_disk in vm_virtual_disks:
+            virtual_disk_id = virtual_disk["id"]
+            vm_id = virtual_disk["virtual_machine"]["id"]
+
+            self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk
+
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
@@ -1441,6 +1501,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.refresh_manufacturers_lookup,
             self.refresh_clusters_lookup,
         ]
+        if self.virtual_disks:
+            lookups.append(self.refresh_virtual_disks)
 
         if self.interfaces:
             lookups.append(self.refresh_interfaces)
@@ -1863,6 +1925,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if extracted_primary_ip6:
             self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
+        extracted_oob_ip = self.extract_oob_ip(host=host)
+        if extracted_oob_ip:
+            self.inventory.set_variable(hostname, "oob_ip", extracted_oob_ip)
+            if self.oob_ip_as_primary_ip:
+                self.inventory.set_variable(hostname, "ansible_host", extracted_oob_ip)
+
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
 
@@ -2040,6 +2108,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.flatten_local_context_data = self.get_option("flatten_local_context_data")
         self.flatten_custom_fields = self.get_option("flatten_custom_fields")
         self.plurals = self.get_option("plurals")
+        self.virtual_disks = self.get_option("virtual_disks")
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.site_data = self.get_option("site_data")
@@ -2053,6 +2122,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
+        self.oob_ip_as_primary_ip = self.get_option("oob_ip_as_primary_ip")
 
         self._set_authorization()
 

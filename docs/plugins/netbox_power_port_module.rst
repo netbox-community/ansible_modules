@@ -23,7 +23,7 @@ netbox.netbox.netbox_power_port module -- Create, update or delete power ports w
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -277,6 +277,51 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The device the power port is attached to
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_power_port_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.18.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The label of the power port
 
 
       .. raw:: html

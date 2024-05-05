@@ -85,7 +85,7 @@ options:
         description:
           - The position of the device in the rack defined above
         required: false
-        type: int
+        type: float
       face:
         description:
           - Required if I(rack) is defined
@@ -247,7 +247,7 @@ EXAMPLES = r"""
         data:
           name: Test Device
           rack: Test Rack
-          position: 10
+          position: 10.5
           face: Front
         state: present
 """
@@ -296,7 +296,7 @@ def main():
                     site=dict(required=False, type="raw"),
                     location=dict(required=False, type="raw"),
                     rack=dict(required=False, type="raw"),
-                    position=dict(required=False, type="int"),
+                    position=dict(required=False, type="float"),
                     face=dict(
                         required=False,
                         type="str",

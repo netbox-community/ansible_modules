@@ -23,7 +23,7 @@ netbox.netbox.netbox_export_template module -- Creates, updates or deletes expor
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.17.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -719,29 +719,37 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox custom_link module"
+    - name: "Test NetBox export_templates module"
       connection: local
       hosts: localhost  
       tasks:
-        - name: Create a custom link on device
+        - name: "Ensure export template for /etc/hosts entries exists"
           netbox.netbox.netbox_export_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              content_type: "dcim.device"            
-              name: Custom Link
-              link_text: "Open Web Management"
-              link_url: !unsafe https://{{ obj.name }}.domain.local                        
+              content_types: ["dcim.device", "virtualization.virtualmachine"]
+              name: /etc/hosts
+              description: "Generate entries for /etc/hosts"
+              as_attachment: true
+              template_code: !unsafe |
+                {% for vm in queryset -%}
+                {%- if vm.primary_ip4 and vm.primary_ip6 %}
+                {{ vm.primary_ip4.address.ip }} {{ vm.primary_ip6.address.ip }} {{ vm }}
+                {%- elif vm.primary_ip4 %}
+                {{ vm.primary_ip4.address.ip }} {{ vm }}
+                {%- elif vm.primary_ip6 %}
+                {{ vm.primary_ip6.address.ip }} {{ vm }}
+                {%- endif -%}
+                {%- endfor %}
 
-        - name: Delete the custom link
+        - name: Delete the export template
           netbox.netbox.netbox_export_template:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              content_type: "dcim.device"            
-              name: Custom Link
-              link_text: "Open Web Management"
-              link_url: !unsafe https://{{ obj.name }}.domain.local
+              content_type: "dcim.device"
+              name: /etc/hosts
             state: absent
 
 

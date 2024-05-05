@@ -9,7 +9,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.17.0
+Collection version 3.18.0
 
 .. contents::
    :local:
@@ -73,6 +73,7 @@ Modules
 * :ansplugin:`netbox_contact_group module <netbox.netbox.netbox_contact_group#module>` -- Creates or removes contact groups from NetBox
 * :ansplugin:`netbox_contact_role module <netbox.netbox.netbox_contact_role#module>` -- Creates or removes contact roles from NetBox
 * :ansplugin:`netbox_custom_field module <netbox.netbox.netbox_custom_field#module>` -- Creates, updates or deletes custom fields within NetBox
+* :ansplugin:`netbox_custom_field_choice_set module <netbox.netbox.netbox_custom_field_choice_set#module>` -- Creates, updates or deletes custom field choice sets within Netbox
 * :ansplugin:`netbox_custom_link module <netbox.netbox.netbox_custom_link#module>` -- Creates, updates or deletes custom links within NetBox
 * :ansplugin:`netbox_device module <netbox.netbox.netbox_device#module>` -- Create, update or delete devices within NetBox
 * :ansplugin:`netbox_device_bay module <netbox.netbox.netbox_device_bay#module>` -- Create, update or delete device bays within NetBox
@@ -95,6 +96,8 @@ Modules
 * :ansplugin:`netbox_l2vpn_termination module <netbox.netbox.netbox_l2vpn_termination#module>` -- Create, update or delete L2VPNs terminations within NetBox
 * :ansplugin:`netbox_location module <netbox.netbox.netbox_location#module>` -- Create, update or delete locations within NetBox
 * :ansplugin:`netbox_manufacturer module <netbox.netbox.netbox_manufacturer#module>` -- Create or delete manufacturers within NetBox
+* :ansplugin:`netbox_module module <netbox.netbox.netbox_module#module>` -- Create, update or delete module within NetBox
+* :ansplugin:`netbox_module_bay module <netbox.netbox.netbox_module_bay#module>` -- Create, update or delete module bay within NetBox
 * :ansplugin:`netbox_module_type module <netbox.netbox.netbox_module_type#module>` -- Create, update or delete module types within NetBox
 * :ansplugin:`netbox_platform module <netbox.netbox.netbox_platform#module>` -- Create or delete platforms within NetBox
 * :ansplugin:`netbox_power_feed module <netbox.netbox.netbox_power_feed#module>` -- Create, update or delete power feeds within NetBox
@@ -156,6 +159,7 @@ Modules
     netbox_contact_group_module
     netbox_contact_role_module
     netbox_custom_field_module
+    netbox_custom_field_choice_set_module
     netbox_custom_link_module
     netbox_device_module
     netbox_device_bay_module
@@ -178,6 +182,8 @@ Modules
     netbox_l2vpn_termination_module
     netbox_location_module
     netbox_manufacturer_module
+    netbox_module_module
+    netbox_module_bay_module
     netbox_module_type_module
     netbox_platform_module
     netbox_power_feed_module
