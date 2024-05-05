@@ -19,7 +19,7 @@ author:
   - Philipp Rintz (@p-rintz)
 requirements:
   - pynetbox
-version_added: "3.6.0"
+version_added: "3.18.0"
 extends_documentation_fragment:
   - netbox.netbox.common
 options:

@@ -20,7 +20,7 @@ author:
   - Erwan TONNERRE (@etonnerre)
 requirements:
   - pynetbox
-version_added: '3.17.0'
+version_added: '3.18.0'
 extends_documentation_fragment:
   - netbox.netbox.common
 options:

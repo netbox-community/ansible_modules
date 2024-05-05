@@ -11,14 +11,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_device_interface_template_module:
+.. _ansible_collections.netbox.netbox.netbox_module_bay_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_device_interface_template module -- Creates or removes interfaces on devices from NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_module_bay module -- Create, update or delete module bay within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -30,15 +30,15 @@ netbox.netbox.netbox_device_interface_template module -- Creates or removes inte
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_device_interface_template_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_module_bay_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_device_interface_template`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_module_bay`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.3.0
+New in netbox.netbox 3.18.0
 
 .. contents::
    :local:
@@ -52,7 +52,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes interfaces from NetBox
+- Creates, updates or removes module bay from NetBox
 
 
 .. Aliases
@@ -60,7 +60,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_device_interface_template_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_module_bay_module_requirements:
 
 Requirements
 ------------
@@ -94,7 +94,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -128,7 +128,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +150,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the interface template configuration
+      Defines the module bay configuration
 
 
       .. raw:: html
@@ -160,21 +160,105 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/device_type:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
-      **device_type**
+      **custom_fields**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/device_type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      must exist in NetBox
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The description of the module bay
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/device"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/device:
+
+      .. rst-class:: ansible-option-title
+
+      **device**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
@@ -192,7 +276,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the device the interface template will be associated with (case-sensitive)
+      The device of the module bay
 
 
       .. raw:: html
@@ -202,25 +286,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/mgmt_only"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/mgmt_only:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/label:
 
       .. rst-class:: ansible-option-title
 
-      **mgmt_only**
+      **label**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/mgmt_only" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`boolean`
+        :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -234,15 +318,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      This interface template is used only for out-of-band management
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
+      The label of the module bay
 
 
       .. raw:: html
@@ -258,7 +334,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -270,7 +346,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`any` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -284,7 +360,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the interface template to be created
+      The model of the module bay
 
 
       .. raw:: html
@@ -294,111 +370,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/poe_mode"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/position"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/poe_mode:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/position:
 
       .. rst-class:: ansible-option-title
 
-      **poe_mode**
+      **position**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/poe_mode" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      This interface has PoE ability (NetBox release 3.3 and later)
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/poe_type"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/poe_type:
-
-      .. rst-class:: ansible-option-title
-
-      **poe_type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/poe_type" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      This interface's power type (NetBox release 3.3 and later)
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-data/type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/position" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
@@ -416,10 +402,49 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Form factor of the interface:
-          ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-          This has to be specified exactly as what is found within UI
-          
+      The position of the module bay
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-data/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Any tags that the module bay may need to be associated with
 
 
       .. raw:: html
@@ -432,7 +457,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -466,7 +491,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -502,7 +527,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -540,7 +565,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -582,7 +607,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -641,28 +666,28 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox interface template module"
+    - name: "Test NetBox modules"
       connection: local
       hosts: localhost
       gather_facts: False
+
       tasks:
-        - name: Create interface template within NetBox with only required information
-          netbox.netbox.netbox_device_interface_template:
+        - name: Create module bay within NetBox with only required information
+          netbox.netbox.netbox_module_bay:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              device_type: Arista Test
-              name: 10GBASE-T (10GE)
-              type: 10gbase-t
+              device: C9300-DEMO
+              name: C9300-DEMO-SLOT-0
+              position: 0
             state: present
-        - name: Delete interface template within netbox
-          netbox.netbox.netbox_device_interface_template:
+
+        - name: Delete module bay within netbox
+          netbox.netbox.netbox_module_bay:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              device_type: Arista Test
-              name: 10GBASE-T (10GE)
-              type: 10gbase-t
+              name: C9300-DEMO-SLOT-0
             state: absent
 
 
@@ -691,17 +716,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-interface_template"></div>
+        <div class="ansibleOptionAnchor" id="return-module_bay"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__return-interface_template:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__return-module_bay:
 
       .. rst-class:: ansible-option-title
 
-      **interface_template**
+      **module_bay**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-interface_template" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-module_bay" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 
@@ -720,7 +745,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` on creation
+      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
 
 
       .. raw:: html
@@ -733,7 +758,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_device_interface_template_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_module_bay_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -777,7 +802,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Erwan TONNERRE (@etonnerre)
 
 
 
