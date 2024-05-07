@@ -82,6 +82,8 @@ jobs:
             NETBOX_DOCKER_VERSION: 2.7.0
           - VERSION: "v3.7"
             NETBOX_DOCKER_VERSION: 2.7.0
+          - VERSION: "v4.0"
+            NETBOX_DOCKER_VERSION: 2.9.0
         # If we want to integration test wiht all supported Python:
         #python-version: ["3.9", "3.10", "3.11"]
 
