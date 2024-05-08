@@ -41,6 +41,11 @@ options:
           - The name of the power outlet
         required: true
         type: str
+      label:
+        description:
+          - The label of the power outlet
+        required: false
+        type: str
       type:
         description:
           - The type of the power outlet
@@ -202,6 +207,7 @@ def main():
                 options=dict(
                     device=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
+                    label=dict(required=False, type="str"),
                     type=dict(
                         required=False,
                         choices=[
