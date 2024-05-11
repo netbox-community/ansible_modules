@@ -492,7 +492,7 @@ ALLOWED_QUERY_PARAMS = {
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
     "module": set(["device", "module_bay", "module_type"]),
-    "module_bay": set(["name"]),
+    "module_bay": set(["device", "name"]),
     "module_type": set(["model"]),
     "manufacturer": set(["slug"]),
     "master": set(["name"]),
