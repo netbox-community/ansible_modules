@@ -41,9 +41,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-05-13T19:51:41.577667Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "Test Nexus Child One",
                             "id": 5,
                             "name": "Test Nexus Child One",
@@ -57,6 +59,7 @@
                             {
                                 "address": "172.16.180.12/24",
                                 "comments": "",
+                                "created": "2024-05-13T19:51:41.876821Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.12/24",
@@ -66,6 +69,7 @@
                                     "value": 4
                                 },
                                 "id": 4,
+                                "last_updated": "2024-05-13T19:51:41.876825Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -82,6 +86,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.577671Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -124,9 +129,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-05-13T19:51:41.564397Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One",
@@ -140,6 +147,7 @@
                             {
                                 "address": "172.16.180.11/24",
                                 "comments": "",
+                                "created": "2024-05-13T19:51:41.784351Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.11/24",
@@ -149,6 +157,7 @@
                                     "value": 4
                                 },
                                 "id": 3,
+                                "last_updated": "2024-05-13T19:51:41.784356Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -165,6 +174,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.564404Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -207,9 +217,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:41.659099Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One",
@@ -223,6 +235,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.659103Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -272,9 +285,11 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.463448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One",
@@ -283,6 +298,7 @@
                         "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.463452Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -314,6 +330,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.385426Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -321,6 +338,7 @@
                         "id": 11,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.385430Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -331,6 +349,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/11/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces",
@@ -342,6 +361,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.392103Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -349,6 +369,7 @@
                         "id": 12,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.392108Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -359,6 +380,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/12/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces",
@@ -373,12 +395,14 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.468448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.468451Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -390,6 +414,7 @@
                         "tags": [],
                         "url": "http://localhost:32768/api/ipam/services/4/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces",
@@ -451,9 +476,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-05-13T19:51:41.606846Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -467,6 +494,7 @@
                             {
                                 "address": "172.16.180.1/24",
                                 "comments": "",
+                                "created": "2024-05-13T19:51:41.771940Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "172.16.180.1/24",
@@ -476,6 +504,7 @@
                                     "value": 4
                                 },
                                 "id": 1,
+                                "last_updated": "2024-05-13T19:51:41.771946Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -492,6 +521,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.606851Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -534,9 +564,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 1,
+                        "created": "2024-05-13T19:51:41.617680Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -550,6 +582,7 @@
                             {
                                 "address": "2001::1:1/64",
                                 "comments": "",
+                                "created": "2024-05-13T19:51:41.778277Z",
                                 "custom_fields": {},
                                 "description": "",
                                 "display": "2001::1:1/64",
@@ -559,6 +592,7 @@
                                     "value": 6
                                 },
                                 "id": 2,
+                                "last_updated": "2024-05-13T19:51:41.778280Z",
                                 "nat_inside": null,
                                 "nat_outside": [],
                                 "role": null,
@@ -575,6 +609,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.617684Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -617,9 +652,11 @@
                         "connected_endpoints_type": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:41.648568Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -633,6 +670,7 @@
                         "l2vpn_termination": null,
                         "label": "",
                         "lag": null,
+                        "last_updated": "2024-05-13T19:51:41.648573Z",
                         "link_peers": [],
                         "link_peers_type": null,
                         "mac_address": null,
@@ -686,9 +724,11 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.443759Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -697,6 +737,7 @@
                         "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.443763Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -711,9 +752,11 @@
                     },
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.449954Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -724,19 +767,28 @@
                         "ipaddresses": [
                             {
                                 "address": "172.16.180.1/24",
+                                "description": "",
                                 "display": "172.16.180.1/24",
-                                "family": 4,
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
                                 "id": 1,
                                 "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
                             },
                             {
                                 "address": "2001::1:1/64",
+                                "description": "",
                                 "display": "2001::1:1/64",
-                                "family": 6,
+                                "family": {
+                                    "label": "IPv6",
+                                    "value": 6
+                                },
                                 "id": 2,
                                 "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
                             }
                         ],
+                        "last_updated": "2024-05-13T19:51:42.449957Z",
                         "name": "http",
                         "ports": [
                             80
@@ -770,6 +822,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.317118Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -777,6 +830,7 @@
                         "id": 1,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.317123Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -787,6 +841,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/1/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm",
@@ -798,6 +853,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.324758Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -805,6 +861,7 @@
                         "id": 2,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.324762Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -815,6 +872,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/2/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm",
@@ -826,6 +884,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.331470Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
@@ -833,6 +892,7 @@
                         "id": 3,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.331474Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -843,6 +903,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/3/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm",
@@ -854,6 +915,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.338401Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
@@ -861,6 +923,7 @@
                         "id": 4,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.338405Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -871,6 +934,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/4/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm",
@@ -882,6 +946,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.345785Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
@@ -889,6 +954,7 @@
                         "id": 5,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.345789Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -899,6 +965,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/5/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test100-vm",
                             "id": 1,
                             "name": "test100-vm",
@@ -933,6 +1000,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.352485Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth0",
@@ -940,6 +1008,7 @@
                         "id": 6,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.352489Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -950,6 +1019,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/6/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm",
@@ -961,6 +1031,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.359111Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth1",
@@ -968,6 +1039,7 @@
                         "id": 7,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.359115Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -978,6 +1050,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/7/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm",
@@ -989,6 +1062,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.365791Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth2",
@@ -996,6 +1070,7 @@
                         "id": 8,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.365795Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1006,6 +1081,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/8/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm",
@@ -1017,6 +1093,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.372298Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth3",
@@ -1024,6 +1101,7 @@
                         "id": 9,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.372302Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1034,6 +1112,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/9/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm",
@@ -1045,6 +1124,7 @@
                         "bridge": null,
                         "count_fhrp_groups": 0,
                         "count_ipaddresses": 0,
+                        "created": "2024-05-13T19:51:42.378872Z",
                         "custom_fields": {},
                         "description": "",
                         "display": "Eth4",
@@ -1052,6 +1132,7 @@
                         "id": 10,
                         "ip_addresses": [],
                         "l2vpn_termination": null,
+                        "last_updated": "2024-05-13T19:51:42.378876Z",
                         "mac_address": null,
                         "mode": null,
                         "mtu": null,
@@ -1062,6 +1143,7 @@
                         "untagged_vlan": null,
                         "url": "http://localhost:32768/api/virtualization/interfaces/10/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "test101-vm",
                             "id": 2,
                             "name": "test101-vm",

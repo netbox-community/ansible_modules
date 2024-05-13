@@ -64,9 +64,11 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.463448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "Test Nexus One",
                             "id": 4,
                             "name": "Test Nexus One",
@@ -75,6 +77,7 @@
                         "display": "telnet (TCP/23)",
                         "id": 3,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.463452Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -111,12 +114,14 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.468448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
                         "id": 4,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.468451Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -128,6 +133,7 @@
                         "tags": [],
                         "url": "http://localhost:32768/api/ipam/services/4/",
                         "virtual_machine": {
+                            "description": "",
                             "display": "Test VM With Spaces",
                             "id": 6,
                             "name": "Test VM With Spaces",
@@ -212,9 +218,11 @@
                 "services": [
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.443759Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -223,6 +231,7 @@
                         "display": "ssh (TCP/22)",
                         "id": 1,
                         "ipaddresses": [],
+                        "last_updated": "2024-05-13T19:51:42.443763Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -237,9 +246,11 @@
                     },
                     {
                         "comments": "",
+                        "created": "2024-05-13T19:51:42.449954Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
+                            "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
                             "name": "test100",
@@ -250,19 +261,28 @@
                         "ipaddresses": [
                             {
                                 "address": "172.16.180.1/24",
+                                "description": "",
                                 "display": "172.16.180.1/24",
-                                "family": 4,
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
                                 "id": 1,
                                 "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
                             },
                             {
                                 "address": "2001::1:1/64",
+                                "description": "",
                                 "display": "2001::1:1/64",
-                                "family": 6,
+                                "family": {
+                                    "label": "IPv6",
+                                    "value": 6
+                                },
                                 "id": 2,
                                 "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
                             }
                         ],
+                        "last_updated": "2024-05-13T19:51:42.449957Z",
                         "name": "http",
                         "ports": [
                             80
