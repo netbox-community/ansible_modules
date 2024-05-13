@@ -25,7 +25,7 @@
       - test_one['diff']['before']['state'] == 'absent'
       - test_one['diff']['after']['state'] == 'present'
       - test_one['device']['name'] == "R1"
-      - test_one['device']['device_role'] == 1
+      - test_one['device']['role'] == 1
       - test_one['device']['device_type'] == 1
       - test_one['device']['site'] == 1
       - test_one['device']['status'] == "staged"
@@ -50,7 +50,7 @@
     that:
       - not test_two['changed']
       - test_two['device']['name'] == "R1"
-      - test_two['device']['device_role'] == 1
+      - test_two['device']['role'] == 1
       - test_two['device']['device_type'] == 1
       - test_two['device']['site'] == 1
       - test_two['device']['status'] == "staged"
@@ -82,7 +82,7 @@
       - test_three['diff']['after']['vc_position'] == 3
       - test_three['diff']['after']['vc_priority'] == 15
       - test_three['device']['name'] == "R1"
-      - test_three['device']['device_role'] == 1
+      - test_three['device']['role'] == 1
       - test_three['device']['device_type'] == 1
       - test_three['device']['site'] == 1
       - test_three['device']['status'] == "staged"
@@ -111,7 +111,7 @@
     that:
       - test_three_dot_one is changed
       - test_three_dot_one['diff']['after']['name'] == "R1-changed-name"
-      - test_three_dot_one['device']['device_role'] == 1
+      - test_three_dot_one['device']['role'] == 1
       - test_three_dot_one['device']['device_type'] == 1
       - test_three_dot_one['device']['site'] == 1
       - test_three_dot_one['device']['status'] == "staged"
@@ -145,7 +145,7 @@
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
       - test_four['device']['name'] == "TestR1"
-      - test_four['device']['device_role'] == 1
+      - test_four['device']['role'] == 1
       - test_four['device']['device_type'] == 5
       - test_four['device']['site'] == 2
       - test_four['device']['status'] == "active"
@@ -207,7 +207,7 @@
       - test_seven['diff']['after']['primary_ip4'] == 1
       - test_seven['diff']['after']['primary_ip6'] == 2
       - test_seven['device']['name'] == "test100"
-      - test_seven['device']['device_role'] == 1
+      - test_seven['device']['role'] == 1
       - test_seven['device']['device_type'] == 1
       - test_seven['device']['site'] == 1
       - test_seven['device']['status'] == "active"
@@ -235,7 +235,7 @@
       - test_eight is changed
       - test_eight['diff']['before']['state'] == 'absent'
       - test_eight['diff']['after']['state'] == 'present'
-      - test_eight['device']['device_role'] == 1
+      - test_eight['device']['role'] == 1
       - test_eight['device']['device_type'] == 1
       - test_eight['device']['site'] == 1
       - test_eight['device']['status'] == "staged"
