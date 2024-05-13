@@ -577,9 +577,9 @@ l2vpns = [
     },
 ]
 if nb_version >= version.parse("3.7"):
-    created_l2vpns = make_netbox_calls(nb.vpns.l2vpns, l2vpns)
+    created_l2vpns = make_netbox_calls(nb.vpn.l2vpns, l2vpns)
 else:
-    created_l2vpns = make_netbox_calls(nb.ipams.l2vpns, l2vpns)
+    created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
 
 if ERRORS:
     sys.exit(
