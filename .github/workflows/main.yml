@@ -25,7 +25,7 @@ jobs:
       #  uses: chartboost/ruff-action@v1
 
   unit_testing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: linting
     strategy:
       fail-fast: false
