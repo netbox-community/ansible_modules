@@ -169,7 +169,7 @@
   include_tasks: "netbox_lookup.yml"
 
 - name: "NETBOX_TAG_TESTS"
-  include_tasks: 
+  include_tasks:
     file: "netbox_tag.yml"
     apply:
       tags:
@@ -178,7 +178,7 @@
     - netbox_tag
 
 - name: "NETBOX_ROUTE_TARGET_TESTS"
-  include_tasks: 
+  include_tasks:
     file: "netbox_route_target.yml"
     apply:
       tags:
