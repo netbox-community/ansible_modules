@@ -27,6 +27,7 @@ importlib-metadata = "*"
 pylint = "*"
 pytz = "*"
 packaging = "*"
+importlib-resources = "*"
 
 [tool.poetry.dev-dependencies]
 
