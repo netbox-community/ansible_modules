@@ -1,0 +1,98 @@
+---
+##
+##
+### NETBOX_CLUSTER
+##
+##
+- name: "CLUSTER 1: Necessary info creation"
+  netbox.netbox.netbox_cluster:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster One"
+      cluster_type: "Test Cluster Type"
+    state: present
+  register: test_one
+
+- name: "CLUSTER 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['cluster']['name'] == "Test Cluster One"
+      - test_one['cluster']['type'] == 1
+      - test_one['msg'] == "cluster Test Cluster One created"
+
+- name: "CLUSTER 2: Create duplicate"
+  netbox.netbox.netbox_cluster:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster One"
+      cluster_type: "Test Cluster Type"
+    state: present
+  register: test_two
+
+- name: "CLUSTER 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['cluster']['name'] == "Test Cluster One"
+      - test_two['cluster']['type'] == 1
+      - test_two['msg'] == "cluster Test Cluster One already exists"
+
+- name: "CLUSTER 3: Update"
+  netbox.netbox.netbox_cluster:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster One"
+      cluster_type: "Test Cluster Type"
+      cluster_group: "Test Cluster Group"
+      site: "Test Site"
+      comments: "Updated cluster"
+      tenant: "Test Tenant"
+      tags:
+        - "Schnozzberry"
+    state: present
+  register: test_three
+
+- name: "CLUSTER 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['group'] == 1
+      - test_three['diff']['after']['site'] == 1
+      - test_three['diff']['after']['comments'] == "Updated cluster"
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['diff']['after']['tenant'] == 1
+      - test_three['cluster']['name'] == "Test Cluster One"
+      - test_three['cluster']['type'] == 1
+      - test_three['cluster']['group'] == 1
+      - test_three['cluster']['site'] == 1
+      - test_three['cluster']['comments'] == "Updated cluster"
+      - test_three['cluster']['tags'][0] == 4
+      - test_three['cluster']['tenant'] == 1
+      - test_three['msg'] == "cluster Test Cluster One updated"
+
+- name: "CLUSTER 4: ASSERT - Delete"
+  netbox.netbox.netbox_cluster:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Cluster One"
+    state: absent
+  register: test_four
+
+- name: "CLUSTER 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['cluster']['name'] == "Test Cluster One"
+      - test_four['cluster']['type'] == 1
+      - test_four['cluster']['group'] == 1
+      - test_four['cluster']['site'] == 1
+      - test_four['cluster']['comments'] == "Updated cluster"
+      - test_four['cluster']['tags'][0] == 4
+      - test_four['msg'] == "cluster Test Cluster One deleted"

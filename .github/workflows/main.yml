@@ -25,12 +25,12 @@ jobs:
       #  uses: chartboost/ruff-action@v1
 
   unit_testing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: linting
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11"]
 
     steps:
 
@@ -71,19 +71,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: unit_testing
     env:
-      python-version: "3.9"
+      python-version: "3.10"
     strategy:
       fail-fast: false
       matrix:
         include:
-          - VERSION: "v3.5"
-            NETBOX_DOCKER_VERSION: 2.6.1
           - VERSION: "v3.6"
             NETBOX_DOCKER_VERSION: 2.7.0
           - VERSION: "v3.7"
             NETBOX_DOCKER_VERSION: 2.7.0
-        # If we want to integration test wiht all supported Python:
-        #python-version: ["3.9", "3.10", "3.11"]
+          - VERSION: "v4.0"
+            NETBOX_DOCKER_VERSION: 2.9.1
 
     steps:
 
