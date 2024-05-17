@@ -50,6 +50,7 @@ options:
           - iec-60320-c13
           - iec-60320-c15
           - iec-60320-c19
+          - iec-60320-c21
           - iec-60309-p-n-e-4h
           - iec-60309-p-n-e-6h
           - iec-60309-p-n-e-9h
@@ -198,6 +199,7 @@ def main():
                             "iec-60320-c13",
                             "iec-60320-c15",
                             "iec-60320-c19",
+                            "iec-60320-c21",
                             "iec-60309-p-n-e-4h",
                             "iec-60309-p-n-e-6h",
                             "iec-60309-p-n-e-9h",
