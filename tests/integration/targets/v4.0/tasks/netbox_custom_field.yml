@@ -9,7 +9,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types:
+      object_types:
         - "dcim.device"
       name: A_CustomField
       type: text
@@ -24,7 +24,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['custom_field']['name'] == "A_CustomField"
       - test_one['custom_field']['required'] == false
-      - test_one['custom_field']['content_types'] == ["dcim.device"]
+      - test_one['custom_field']['object_types'] == ["dcim.device"]
       - test_one['custom_field']['type'] == "text"
       - test_one['custom_field']['weight'] == 100
       - test_one['msg'] == "custom_field A_CustomField created"
@@ -34,7 +34,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types:
+      object_types:
         - "dcim.device"
       name: A_CustomField
     state: present
@@ -52,7 +52,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types:
+      object_types:
         - "dcim.device"
       name: "A_CustomField"
       description: "Added a description"
@@ -74,7 +74,7 @@
     netbox_url: http://localhost:32768
     netbox_token: 0123456789abcdef0123456789abcdef01234567
     data:
-      content_types:
+      object_types:
         - "virtualization.virtualmachine"
       name: "A_CustomField"
       description: "Added a description"
@@ -86,7 +86,7 @@
   assert:
     that:
       - test_four is changed
-      - test_four['diff']['after']['content_types'] == ["virtualization.virtualmachine"]
+      - test_four['diff']['after']['object_types'] == ["virtualization.virtualmachine"]
       - test_four['custom_field']['name'] == "A_CustomField"
       - test_four['msg'] == "custom_field A_CustomField updated"
 
@@ -113,7 +113,7 @@
 #   netbox_url: http://localhost:32768
 #   netbox_token: 0123456789abcdef0123456789abcdef01234567
 #   data:
-#     content_types:
+#     object_types:
 #       - "dcim.device"
 #     name: A_CustomField
 #     type: text
