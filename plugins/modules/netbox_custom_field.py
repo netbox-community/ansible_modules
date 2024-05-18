@@ -34,6 +34,13 @@ options:
         required: false
         type: list
         elements: raw
+      object_types:
+        description:
+          - The content type(s) to apply this custom field to (NetBox 4.0+)
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.19.0"
       type: 
         description: 
           - The type of custom field
@@ -227,6 +234,7 @@ def main():
                 required=True,
                 options=dict(
                     content_types=dict(required=False, type="list", elements="raw"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                     type=dict(
                         required=False,
                         choices=[
@@ -279,7 +287,7 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["content_types", "name"]),
+        ("state", "present", ["name"]),
         ("state", "absent", ["name"]),
     ]
 
