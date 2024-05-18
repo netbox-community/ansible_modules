@@ -40,7 +40,14 @@ options:
         required: false
         type: list
         elements: raw 
-        version_added: "3.10.0"     
+        version_added: "3.10.0"
+      object_types:
+        description:
+          - The object type to apply this export template to (NetBox 4.0+)
+        required: false
+        type: list
+        elements: raw 
+        version_added: "3.10.0"
       name: 
         description: 
           - The name of the export template
@@ -84,7 +91,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_types: ["dcim.device", "virtualization.virtualmachine"]
+          object_types: ["dcim.device", "virtualization.virtualmachine"]
           name: /etc/hosts
           description: "Generate entries for /etc/hosts"
           as_attachment: true
@@ -144,6 +151,7 @@ def main():
                 options=dict(
                     content_type=dict(required=False, type="raw"),
                     content_types=dict(required=False, type="list", elements="raw"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
                     template_code=dict(required=True, type="raw"),
@@ -160,7 +168,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    required_one_of = [["content_type", "content_types"]]
+    required_one_of = [["content_type", "content_types", "object_types"]]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
