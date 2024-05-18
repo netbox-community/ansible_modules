@@ -10,7 +10,7 @@ jobs:
     steps:
 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run black
         uses: psf/black@stable
@@ -35,10 +35,10 @@ jobs:
     steps:
 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -100,7 +100,7 @@ jobs:
           cd ..
 
       - name: Set up Python ${{ env.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python-version }}
 
