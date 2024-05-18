@@ -41,6 +41,13 @@ options:
         type: list
         elements: raw 
         version_added: "3.10.0"
+      object_types:
+        description:
+          - The object type(s) to apply this custom link to (NetBox 4.0+)
+        required: false
+        type: list
+        elements: raw 
+        version_added: "3.19.0"
       name: 
         description: 
           - The name of the custom link
@@ -147,6 +154,7 @@ def main():
                 options=dict(
                     content_type=dict(required=False, type="raw"),
                     content_types=dict(required=False, type="list", elements="raw"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
                     link_text=dict(required=True, type="raw"),
                     link_url=dict(required=True, type="raw"),
