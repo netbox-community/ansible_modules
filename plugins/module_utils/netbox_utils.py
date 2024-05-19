@@ -498,7 +498,7 @@ ALLOWED_QUERY_PARAMS = {
     "master": set(["name"]),
     "nat_inside": set(["vrf", "address"]),
     "parent_contact_group": set(["name"]),
-    "parent_location": set(["slug"]),
+    "parent_location": set(["slug", "name", "site"]),
     "parent_interface": set(["name"]),
     "parent_inventory_item": set(["name", "device"]),
     "parent_vm_interface": set(["name"]),
