@@ -85,7 +85,7 @@ options:
         description:
           - The position of the device in the rack defined above
         required: false
-        type: int
+        type: float
       face:
         description:
           - Required if I(rack) is defined
@@ -125,6 +125,12 @@ options:
           - Primary IPv6 address assigned to the device
         required: false
         type: raw
+      oob_ip:
+        description:
+          - Out-of-band (OOB) IP address assigned to the device
+        required: false
+        type: raw
+        version_added: "3.15.0"
       cluster:
         description:
           - Cluster that the device will be assigned to
@@ -172,6 +178,12 @@ options:
           - Arbitrary JSON data to define the devices configuration variables.
         required: false
         type: dict
+      config_template:
+        description:
+          - Configuration template
+        required: false
+        type: raw
+        version_added: "3.17.0"
     required: true
     type: dict
 """
@@ -235,7 +247,7 @@ EXAMPLES = r"""
         data:
           name: Test Device
           rack: Test Rack
-          position: 10
+          position: 10.5
           face: Front
         state: present
 """
@@ -284,7 +296,7 @@ def main():
                     site=dict(required=False, type="raw"),
                     location=dict(required=False, type="raw"),
                     rack=dict(required=False, type="raw"),
-                    position=dict(required=False, type="int"),
+                    position=dict(required=False, type="float"),
                     face=dict(
                         required=False,
                         type="str",
@@ -306,6 +318,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
+                    oob_ip=dict(required=False, type="raw"),
                     cluster=dict(required=False, type="raw"),
                     virtual_chassis=dict(required=False, type="raw"),
                     vc_position=dict(required=False, type="int"),
@@ -314,6 +327,7 @@ def main():
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     local_context_data=dict(required=False, type="dict"),
+                    config_template=dict(required=False, type="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),

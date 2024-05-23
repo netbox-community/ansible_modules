@@ -6,33 +6,14 @@
 .. |antsibull-internal-nbsp| unicode:: 0xA0
     :trim:
 
-.. role:: ansible-attribute-support-label
-.. role:: ansible-attribute-support-property
-.. role:: ansible-attribute-support-full
-.. role:: ansible-attribute-support-partial
-.. role:: ansible-attribute-support-none
-.. role:: ansible-attribute-support-na
-.. role:: ansible-option-type
-.. role:: ansible-option-elements
-.. role:: ansible-option-required
-.. role:: ansible-option-versionadded
-.. role:: ansible-option-aliases
-.. role:: ansible-option-choices
-.. role:: ansible-option-choices-default-mark
-.. role:: ansible-option-default-bold
-.. role:: ansible-option-configuration
-.. role:: ansible-option-returned-bold
-.. role:: ansible-option-sample-bold
+.. meta::
+  :antsibull-docs: 2.7.0
 
 .. Anchors
 
 .. _ansible_collections.netbox.netbox.nb_inventory_inventory:
 
 .. Anchors: short name for ansible.builtin
-
-.. Anchors: aliases
-
-
 
 .. Title
 
@@ -42,7 +23,10 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/netbox/netbox>`_ (version 3.14.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
 
@@ -81,12 +65,13 @@ Synopsis
 Parameters
 ----------
 
-.. rst-class:: ansible-option-table
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
 
 .. list-table::
   :width: 100%
   :widths: auto
   :header-rows: 1
+  :class: longtable ansible-option-table
 
   * - Parameter
     - Comments
@@ -106,9 +91,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-ansible_host_dns_name" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -151,9 +136,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-api_endpoint" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`string` / :ansible-option-required:`required`
 
 
 
@@ -195,9 +180,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-ca_path" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -236,9 +221,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cache" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -296,9 +281,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cache_connection" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -357,9 +342,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cache_plugin" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -422,9 +407,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cache_prefix" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -449,21 +434,6 @@ Parameters
       :ansible-option-configuration:`Configuration:`
 
       - INI entries:
-
-        .. code-block::
-
-          [default]
-          fact_caching_prefix = ansible_inventory_
-
-
-        Removed in: version 2.16 of ansible.builtin
-
-
-        Why: Fixes typing error in INI section name
-
-        Alternative: Use the 'defaults' section instead
-
-
 
         .. code-block::
 
@@ -502,9 +472,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cache_timeout" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`integer`
+        :ansible-option-type:`integer`
 
 
 
@@ -567,9 +537,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-cert" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -608,9 +578,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-compose" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary`
+        :ansible-option-type:`dictionary`
 
 
 
@@ -649,9 +619,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-config_context" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -696,9 +666,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-device_query_filters" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
 
 
@@ -739,9 +709,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-dns_name" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -786,9 +756,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-fetch_all" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
@@ -842,9 +812,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-flatten_config_context" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
@@ -892,9 +862,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-flatten_custom_fields" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
@@ -942,9 +912,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-flatten_local_context_data" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.3.0`
 
@@ -992,9 +962,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-follow_redirects" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1042,9 +1012,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-group_by" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
 
 
@@ -1097,6 +1067,7 @@ Parameters
       - :ansible-option-choices-entry:`"status"`
       - :ansible-option-choices-entry:`"time\_zone"`
       - :ansible-option-choices-entry:`"utc\_offset"`
+      - :ansible-option-choices-entry:`"facility"`
 
 
       .. rst-class:: ansible-option-line
@@ -1122,9 +1093,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-group_names_raw" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.0`
 
@@ -1170,9 +1141,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-groups" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`dictionary`
+        :ansible-option-type:`dictionary`
 
 
 
@@ -1211,9 +1182,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-interfaces" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.1.7`
 
@@ -1259,9 +1230,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-key" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1300,9 +1271,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
 
 
@@ -1331,6 +1302,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/default_value"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/default_value:
 
       .. rst-class:: ansible-option-title
@@ -1341,9 +1316,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/default_value" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
       :ansible-option-versionadded:`added in ansible-core 2.12`
 
@@ -1355,13 +1330,17 @@ Parameters
 
         </div>
 
+      .. raw:: latex
+
+        \end{minipage}
+
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The default value when the host variable's value is an empty string.
 
-      This option is mutually exclusive with \ :literal:`trailing\_separator`\ .
+      This option is mutually exclusive with \ :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].trailing\_separator`\ .
 
 
       .. raw:: html
@@ -1373,6 +1352,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/key"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/key:
 
       .. rst-class:: ansible-option-title
@@ -1383,9 +1366,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/key" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1393,6 +1376,10 @@ Parameters
       .. raw:: html
 
         </div>
+
+      .. raw:: latex
+
+        \end{minipage}
 
     - .. raw:: html
 
@@ -1410,6 +1397,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/parent_group"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/parent_group:
 
       .. rst-class:: ansible-option-title
@@ -1420,9 +1411,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/parent_group" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1430,6 +1421,10 @@ Parameters
       .. raw:: html
 
         </div>
+
+      .. raw:: latex
+
+        \end{minipage}
 
     - .. raw:: html
 
@@ -1447,6 +1442,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/prefix"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/prefix:
 
       .. rst-class:: ansible-option-title
@@ -1457,9 +1456,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/prefix" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1467,6 +1466,10 @@ Parameters
       .. raw:: html
 
         </div>
+
+      .. raw:: latex
+
+        \end{minipage}
 
     - .. raw:: html
 
@@ -1488,6 +1491,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/separator"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/separator:
 
       .. rst-class:: ansible-option-title
@@ -1498,9 +1505,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/separator" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -1508,6 +1515,10 @@ Parameters
       .. raw:: html
 
         </div>
+
+      .. raw:: latex
+
+        \end{minipage}
 
     - .. raw:: html
 
@@ -1529,6 +1540,10 @@ Parameters
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-keyed_groups/trailing_separator"></div>
 
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-keyed_groups/trailing_separator:
 
       .. rst-class:: ansible-option-title
@@ -1539,9 +1554,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-keyed_groups/trailing_separator" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in ansible-core 2.12`
 
@@ -1553,13 +1568,17 @@ Parameters
 
         </div>
 
+      .. raw:: latex
+
+        \end{minipage}
+
     - .. raw:: html
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this option to \ :emphasis:`False`\  to omit the \ :literal:`separator`\  after the host variable when the value is an empty string.
+      Set this option to \ :ansval:`False`\  to omit the \ :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].separator`\  after the host variable when the value is an empty string.
 
-      This option is mutually exclusive with \ :literal:`default\_value`\ .
+      This option is mutually exclusive with \ :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].default\_value`\ .
 
 
       .. rst-class:: ansible-option-line
@@ -1590,9 +1609,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-leading_separator" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in ansible-core 2.11`
 
@@ -1648,9 +1667,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-max_uri_length" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`integer`
+        :ansible-option-type:`integer`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
@@ -1682,6 +1701,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-oob_ip_as_primary_ip"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-oob_ip_as_primary_ip:
+
+      .. rst-class:: ansible-option-title
+
+      **oob_ip_as_primary_ip**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-oob_ip_as_primary_ip" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Use out of band IP as \`ansible host\`
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-plugin"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-plugin:
@@ -1694,9 +1758,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-plugin" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`string` / :ansible-option-required:`required`
 
 
 
@@ -1738,9 +1802,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-plurals" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.1`
 
@@ -1790,9 +1854,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-prefixes" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 3.5.0`
 
@@ -1840,9 +1904,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-query_filters" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
 
 
@@ -1883,9 +1947,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-racks" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
 
@@ -1933,9 +1997,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-services" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 0.2.0`
 
@@ -1981,9 +2045,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-site_data" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in netbox.netbox 3.5.0`
 
@@ -2029,9 +2093,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-strict" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -2044,7 +2108,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`yes`\  make invalid entries a fatal error, otherwise skip and continue.
+      If \ :ansval:`yes`\  make invalid entries a fatal error, otherwise skip and continue.
 
       Since it is possible to use facts in the expressions they might not always be available and we ignore those errors by default.
 
@@ -2076,9 +2140,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-timeout" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`integer`
+        :ansible-option-type:`integer`
 
 
 
@@ -2117,9 +2181,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-token" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`string`
+        :ansible-option-type:`string`
 
 
 
@@ -2169,9 +2233,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-use_extra_vars" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
       :ansible-option-versionadded:`added in ansible-core 2.11`
 
@@ -2232,9 +2296,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -2277,9 +2341,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-virtual_chassis_name" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`boolean`
+        :ansible-option-type:`boolean`
 
 
 
@@ -2312,6 +2376,54 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-virtual_disks"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-virtual_disks:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_disks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-virtual_disks" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.18.0`
+
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If True, it adds the virtual disks information in host vars.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-vm_query_filters"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-vm_query_filters:
@@ -2324,9 +2436,9 @@ Parameters
 
         <a class="ansibleOptionLink" href="#parameter-vm_query_filters" title="Permalink to this option"></a>
 
-      .. rst-class:: ansible-option-type-line
+      .. ansible-option-type-line::
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
 
 
@@ -2499,6 +2611,7 @@ Authors
 - Nikhil Singh Baliyan (@nikkytub)
 - Sander Steffann (@steffann)
 - Douglas Heriot (@DouglasHeriot)
+- Thore Knickrehm (@tkn2023)
 
 
 .. hint::
@@ -2509,12 +2622,15 @@ Authors
 Collection links
 ~~~~~~~~~~~~~~~~
 
-.. raw:: html
+.. ansible-links::
 
-  <p class="ansible-links">
-    <a href="https://github.com/netbox-community/ansible_modules/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
-    <a href="https://github.com/netbox-community/ansible_modules" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
-  </p>
+  - title: "Issue Tracker"
+    url: "https://github.com/netbox-community/ansible_modules/issues"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/netbox-community/ansible_modules"
+    external: true
+
 
 .. Parsing errors
 

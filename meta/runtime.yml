@@ -50,6 +50,8 @@ action_groups:
     - netbox_l2vpn_termination
     - netbox_location
     - netbox_manufacturer
+    - netbox_module
+    - netbox_module_bay
     - netbox_module_type
     - netbox_platform
     - netbox_power_feed
@@ -81,6 +83,7 @@ action_groups:
     - netbox_vlan
     - netbox_vlan_group
     - netbox_vm_interface
+    - netbox_virtual_disk
     - netbox_vrf
     - netbox_webhook
     - netbox_wireless_lan

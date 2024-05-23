@@ -41,6 +41,11 @@ options:
           - The name of the power outlet
         required: true
         type: str
+      label:
+        description:
+          - The label of the power outlet
+        required: false
+        type: str
       type:
         description:
           - The type of the power outlet
@@ -50,6 +55,7 @@ options:
           - iec-60320-c13
           - iec-60320-c15
           - iec-60320-c19
+          - iec-60320-c21
           - iec-60309-p-n-e-4h
           - iec-60309-p-n-e-6h
           - iec-60309-p-n-e-9h
@@ -202,6 +208,7 @@ def main():
                 options=dict(
                     device=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
+                    label=dict(required=False, type="str"),
                     type=dict(
                         required=False,
                         choices=[
@@ -210,6 +217,7 @@ def main():
                             "iec-60320-c13",
                             "iec-60320-c15",
                             "iec-60320-c19",
+                            "iec-60320-c21",
                             "iec-60309-p-n-e-4h",
                             "iec-60309-p-n-e-6h",
                             "iec-60309-p-n-e-9h",

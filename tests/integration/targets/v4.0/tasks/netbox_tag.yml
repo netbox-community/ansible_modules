@@ -1,0 +1,110 @@
+---
+##
+##
+### NETBOX_TAGS
+##
+##
+- name: "TAG 1: ASSERT - Necessary info creation"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 1"
+      description: "Tag 1 test"
+      color: "0000ff"
+    state: present
+  register: test_one
+
+- name: "TAG 1: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['tags']['color'] == "0000ff"
+      - test_one['tags']['description'] == "Tag 1 test"
+      - test_one['tags']['name'] == "Test Tag 1"
+      - test_one['tags']['slug'] == "test-tag-1"
+      - test_one['msg'] == "tags Test Tag 1 created"
+
+- name: "TAG 2: Create duplicate"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 1"
+      description: "Tag 1 test"
+      color: "0000ff"
+    state: present
+  register: test_two
+
+- name: "TAG 2: ASSERT - Create duplicate"
+  assert:
+    that:
+      - not test_two['changed']
+      - test_two['tags']['name'] == "Test Tag 1"
+      - test_two['msg'] == "tags Test Tag 1 already exists"
+
+- name: "TAG 3: ASSERT - Update"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 1"
+      description: "Tag 1 update test"
+      color: "00ff00"
+    state: present
+  register: test_three
+
+- name: "TAG 3: ASSERT - Updated"
+  assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['color'] == "00ff00"
+      - test_three['diff']['after']['description'] == "Tag 1 update test"
+      - test_three['tags']['name'] == "Test Tag 1"
+      - test_three['tags']['description'] == "Tag 1 update test"
+      - test_three['tags']['color'] == "00ff00"
+      - test_three['msg'] == "tags Test Tag 1 updated"
+
+- name: "TAG 4: ASSERT - Delete"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 1"
+    state: absent
+  register: test_four
+
+- name: "TAG 4: ASSERT - Delete"
+  assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['tags']['name'] == "Test Tag 1"
+      - test_four['tags']['slug'] == "test-tag-1"
+      - test_four['msg'] == "tags Test Tag 1 deleted"
+
+- name: "TAG 5: ASSERT - Necessary info creation"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    data:
+      name: "Test Tag 5"
+      slug: "test-tag-five"
+      description: "Tag 5 test"
+      color: "0000ff"
+    state: present
+  register: test_five
+
+- name: "TAG 5: ASSERT - Necessary info creation"
+  assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['tags']['color'] == "0000ff"
+      - test_five['tags']['description'] == "Tag 5 test"
+      - test_five['tags']['name'] == "Test Tag 5"
+      - test_five['tags']['slug'] == "test-tag-five"
+      - test_five['msg'] == "tags Test Tag 5 created"

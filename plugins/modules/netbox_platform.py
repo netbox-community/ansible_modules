@@ -50,6 +50,12 @@ options:
           - The manufacturer the platform will be tied to
         required: false
         type: raw
+      config_template:
+        description:
+          - The configuration template the platform will use
+        required: false
+        type: raw
+        version_added: "3.16.0"
       napalm_driver:
         description:
           - The name of the NAPALM driver to be used when using the NAPALM plugin
@@ -89,6 +95,15 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Platform
+        state: present
+    
+    - name: Create platform within NetBox with a config template
+      netbox.netbox.netbox_platform:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Platform
+          config_template: "my_config_template_slug"
         state: present
 
     - name: Create platform within NetBox with only required information
@@ -149,6 +164,7 @@ def main():
                     slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
+                    config_template=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
                     napalm_args=dict(required=False, type="dict"),
                     tags=dict(required=False, type="list", elements="raw"),

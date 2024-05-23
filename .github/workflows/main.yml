@@ -10,7 +10,7 @@ jobs:
     steps:
 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run black
         uses: psf/black@stable
@@ -25,20 +25,20 @@ jobs:
       #  uses: chartboost/ruff-action@v1
 
   unit_testing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: linting
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11"]
 
     steps:
 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -71,24 +71,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: unit_testing
     env:
-      python-version: "3.9"
+      python-version: "3.10"
     strategy:
       fail-fast: false
       matrix:
         include:
-          - VERSION: "v3.3"
-            NETBOX_DOCKER_VERSION: 2.3.0
-          - VERSION: "v3.4"
-            NETBOX_DOCKER_VERSION: 2.5.3
-          - VERSION: "v3.5"
-            NETBOX_DOCKER_VERSION: 2.6.1
-        # If we want to integration test wiht all supported Python:
-        #python-version: ["3.9", "3.10", "3.11"]
+          - VERSION: "v3.6"
+            NETBOX_DOCKER_VERSION: 2.7.0
+          - VERSION: "v3.7"
+            NETBOX_DOCKER_VERSION: 2.7.0
+          - VERSION: "v4.0"
+            NETBOX_DOCKER_VERSION: 2.9.1
 
     steps:
 
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Clone & Start netbox-docker containers - ${{ matrix.VERSION }}
         run: |
@@ -102,12 +100,12 @@ jobs:
           cd ..
 
       - name: Set up Python ${{ env.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ env.python-version }}
 
       - name: Install and configure Poetry
-        uses: snok/install-poetry@v1.3.3
+        uses: snok/install-poetry@v1.3.4
         with:
           virtualenvs-create: false
 

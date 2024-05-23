@@ -32,6 +32,8 @@ NB_INVENTORY_ITEMS = "inventory_items"
 NB_INVENTORY_ITEM_ROLES = "inventory_item_roles"
 NB_LOCATIONS = "locations"
 NB_MANUFACTURERS = "manufacturers"
+NB_MODULES = "modules"
+NB_MODULE_BAYS = "module_bays"
 NB_MODULE_TYPES = "module_types"
 NB_PLATFORMS = "platforms"
 NB_POWER_FEEDS = "power_feeds"
@@ -63,7 +65,7 @@ except ImportError as imp_exc:
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
         if not HAS_PACKAGING:
-            self.module.fail_json(
+            module.fail_json(
                 msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
             )
         super().__init__(module, endpoint)
@@ -91,6 +93,9 @@ class NetboxDcimModule(NetboxModule):
         - inventory_item_roles
         - locations
         - manufacturers
+        - modules
+        - module_bays
+        - module_types
         - platforms
         - power_feeds
         - power_outlets
@@ -150,6 +155,38 @@ class NetboxDcimModule(NetboxModule):
                 data.get("termination_b_type"),
                 termination_b_name,
             )
+        elif endpoint_name == "module":
+            if isinstance(
+                self.module.params["data"]["device"], dict
+            ) and self.module.params["data"]["device"].get("name"):
+                device_name = self.module.params["data"]["device"]["name"]
+            elif isinstance(
+                self.module.params["data"]["device"], dict
+            ) and self.module.params["data"]["device"].get("slug"):
+                device_name = self.module.params["data"]["device"]["slug"]
+            else:
+                device_name = self.module.params["data"]["device"]
+            if isinstance(
+                self.module.params["data"]["module_bay"], dict
+            ) and self.module.params["data"]["module_bay"].get("name"):
+                module_bay = self.module.params["data"]["module_bay"]["name"]
+            elif isinstance(
+                self.module.params["data"]["module_bay"], dict
+            ) and self.module.params["data"]["module_bay"].get("slug"):
+                module_bay = self.module.params["data"]["module_bay"]["slug"]
+            else:
+                module_bay = self.module.params["data"]["module_bay"]
+            if isinstance(
+                self.module.params["data"]["module_type"], dict
+            ) and self.module.params["data"]["module_bay"].get("model"):
+                module_type = self.module.params["data"]["module_type"]["model"]
+            elif isinstance(
+                self.module.params["data"]["module_type"], dict
+            ) and self.module.params["data"]["module_bay"].get("part_number"):
+                module_type = self.module.params["data"]["module_type"]["part_number"]
+            else:
+                module_type = self.module.params["data"]["module_type"]
+            name = "%s: %s (%s)" % (device_name, module_bay, module_type)
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
@@ -211,19 +248,15 @@ class NetboxDcimModule(NetboxModule):
             )
 
         # This is logic to handle interfaces on a VC
-        if self.endpoint == "interfaces":
-            if self.nb_object:
-                device = self.nb.dcim.devices.get(self.nb_object.device.id)
-                if (
-                    device["virtual_chassis"]
-                    and self.nb_object.device.id != self.data["device"]
-                ):
-                    if self.module.params.get("update_vc_child"):
-                        data["device"] = self.nb_object.device.id
-                    else:
-                        self._handle_errors(
-                            msg="Must set update_vc_child to True to allow child device interface modification"
-                        )
+        if self.endpoint == "interfaces" and self.nb_object:
+            child = self.nb.dcim.devices.get(self.nb_object.device.id)
+            if child["virtual_chassis"] and child.id != data["device"]:
+                if self.module.params.get("update_vc_child"):
+                    data["device"] = child.id
+                else:
+                    self._handle_errors(
+                        msg="Must set update_vc_child to True to allow child device interface modification"
+                    )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)

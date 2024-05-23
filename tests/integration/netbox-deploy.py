@@ -343,6 +343,11 @@ if nb_version >= version.parse("2.11"):
     devices[0]["location"] = created_rack_groups[0].id
     devices[1]["location"] = created_rack_groups[0].id
     devices[3]["location"] = created_rack_groups[0].id
+# TODO: Remove this logic and adjust payload from device_role -> role once Netbox 3.6 or greater is supported.
+if nb_version >= version.parse("3.6"):
+    for device in devices:
+        if "device_role" in device:
+            device["role"] = device.pop("device_role")
 
 created_devices = make_netbox_calls(nb.dcim.devices, devices)
 ### Device variables to be used later on
@@ -461,6 +466,15 @@ test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
 test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
 
+# Create Virtaul Disks
+virtual_disks = [
+    {"name": "disk1", "size": 60, "virtual_machine": test100_vm.id},
+    {"name": "disk2", "size": 110, "virtual_machine": test100_vm.id},
+]
+created_virtual_disks = make_netbox_calls(
+    nb.virtualization.virtual_disks, virtual_disks
+)
+
 ## Create Virtual Machine Interfaces
 virtual_machines_intfs = [
     # Create test100-vm intfs
@@ -562,7 +576,10 @@ l2vpns = [
         "type": "vxlan",
     },
 ]
-created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
+if nb_version >= version.parse("3.7"):
+    created_l2vpns = make_netbox_calls(nb.vpn.l2vpns, l2vpns)
+else:
+    created_l2vpns = make_netbox_calls(nb.ipam.l2vpns, l2vpns)
 
 if ERRORS:
     sys.exit(
