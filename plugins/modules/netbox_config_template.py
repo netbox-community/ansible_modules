@@ -50,7 +50,7 @@ options:
           - Any additional parameters to pass when constructing the Jinja2 environment
         required: false
         type: dict
-      template_code: 
+      template_code:
         description:
           - The template code to be rendered.
         required: false
@@ -73,7 +73,7 @@ EXAMPLES = r"""
             - Cloud
           template_code: |
             #cloud-config
-            packages: 
+            packages:
               - ansible
 
     - name: Delete config template

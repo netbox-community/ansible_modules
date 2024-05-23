@@ -37,7 +37,7 @@ options:
         description:
           - Name of the disk to be created
         required: true
-        type: str            
+        type: str
       description:
         description:
           - The description of the disk
@@ -47,7 +47,7 @@ options:
         description:
           - The size (in GB) of the disk
         required: false
-        type: int      
+        type: int
       tags:
         description:
           - Any tags that the virtual disk may need to be associated with
@@ -58,7 +58,7 @@ options:
         description:
           - Must exist in NetBox
         required: false
-        type: dict        
+        type: dict
     required: true
     type: dict
 """
@@ -70,7 +70,7 @@ EXAMPLES = r"""
   gather_facts: False
   tasks:
     - name: Create virtual disk
-      netbox_virtual_disk:        
+      netbox_virtual_disk:
         data:
           virtual_machine: test100
           name: disk0

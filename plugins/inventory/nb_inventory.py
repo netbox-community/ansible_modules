@@ -135,9 +135,9 @@ DOCUMENTATION = """
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
                 - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
-                - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.
+                - If you are using various query_filters options to reduce the number of devices, querying NetBox may be faster with fetch_all set to False.
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
-                - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.
+                - For large numbers of devices, GET URIs can become quite long. If you encounter HTTP 414 errors, adjust max_uri_length to suit your web server.
             default: True
             type: boolean
             version_added: "0.2.1"

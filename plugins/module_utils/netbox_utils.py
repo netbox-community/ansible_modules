@@ -1105,7 +1105,8 @@ class NetboxModule(object):
                 user_query_params if user_query_params else query_params
             )
             self._handle_errors(
-                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: {', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
+                f"One or more of the kwargs provided are invalid for {parent}, provided kwargs: " +
+                "{', '.join(sorted(provided_kwargs))}. Acceptable kwargs: {', '.join(sorted(acceptable_query_params))}"
             )
 
         query_dict = self._convert_identical_keys(query_dict)
@@ -1119,7 +1120,8 @@ class NetboxModule(object):
             endpoint_choices = nb_endpoint.choices()
         except ValueError:
             self._handle_errors(
-                msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. If looking to fetch only information, use either the inventory or lookup plugin."
+                msg="Failed to fetch endpoint choices to validate against. This requires a write-enabled token. Make sure the token is write-enabled. " +
+                "If looking to fetch only information, use either the inventory or lookup plugin."
             )
 
         choices = list(chain.from_iterable(endpoint_choices.values()))

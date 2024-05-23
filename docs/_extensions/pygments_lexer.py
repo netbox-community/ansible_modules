@@ -38,8 +38,6 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from pygments.lexer import (
-    LexerContext,
-    ExtendedRegexLexer,
     DelegatingLexer,
     RegexLexer,
     bygroups,
@@ -47,8 +45,6 @@ from pygments.lexer import (
 )
 from pygments.lexers import DiffLexer
 from pygments import token
-
-import re
 
 
 class AnsibleOutputPrimaryLexer(RegexLexer):

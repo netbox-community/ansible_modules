@@ -96,7 +96,7 @@ EXAMPLES = r"""
         data:
           name: Test Platform
         state: present
-    
+
     - name: Create platform within NetBox with a config template
       netbox.netbox.netbox_platform:
         netbox_url: http://netbox.local

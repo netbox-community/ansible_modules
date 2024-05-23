@@ -62,7 +62,7 @@ def sort_hostvar_arrays(obj):
     if not hostvars:
         return
 
-    for _, host in hostvars.items():
+    for _discard, host in hostvars.items():
         if interfaces := host.get("interfaces"):
             host["interfaces"] = sorted(interfaces, key=itemgetter("id"))
 

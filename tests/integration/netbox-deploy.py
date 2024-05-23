@@ -59,49 +59,49 @@ create_tags = make_netbox_calls(
 
 # ORDER OF OPERATIONS FOR THE MOST PART
 
-## Create TENANTS
+# Create TENANTS
 tenants = [{"name": "Test Tenant", "slug": "test-tenant"}]
 created_tenants = make_netbox_calls(nb.tenancy.tenants, tenants)
-### Test Tenant to be used later on
+# Test Tenant to be used later on
 test_tenant = nb.tenancy.tenants.get(slug="test-tenant")
 
 
-## Create TENANT GROUPS
+# Create TENANT GROUPS
 tenant_groups = [{"name": "Test Tenant Group", "slug": "test-tenant-group"}]
 created_tenant_groups = make_netbox_calls(nb.tenancy.tenant_groups, tenant_groups)
 
 
-## Create Regions
+# Create Regions
 regions = [
     {"name": "Test Region", "slug": "test-region"},
     {"name": "Parent Region", "slug": "parent-region"},
     {"name": "Other Region", "slug": "other-region"},
 ]
 created_regions = make_netbox_calls(nb.dcim.regions, regions)
-### Region variables to be used later on
+# Region variables to be used later on
 parent_region = nb.dcim.regions.get(slug="parent-region")
 test_region = nb.dcim.regions.get(slug="test-region")
 
-### Create relationship between regions
+# Create relationship between regions
 test_region.parent = parent_region
 test_region.save()
 
-## Create site_groups
+# Create site_groups
 site_groups = [
     {"name": "Test site_group", "slug": "test-site_group"},
     {"name": "Parent site_group", "slug": "parent-site_group"},
     {"name": "Other site_group", "slug": "other-site_group"},
 ]
 created_site_groups = make_netbox_calls(nb.dcim.site_groups, site_groups)
-### site_group variables to be used later on
+# site_group variables to be used later on
 parent_site_group = nb.dcim.site_groups.get(slug="parent-site_group")
 test_site_group = nb.dcim.site_groups.get(slug="test-site_group")
 
-### Create relationship between site_groups
+# Create relationship between site_groups
 test_site_group.parent = parent_site_group
 test_site_group.save()
 
-## Create SITES and register variables
+# Create SITES and register variables
 sites = [
     {
         "name": "Test Site",
@@ -113,20 +113,20 @@ sites = [
     {"name": "Test Site2", "slug": "test-site2"},
 ]
 created_sites = make_netbox_calls(nb.dcim.sites, sites)
-### Site variables to be used later on
+# Site variables to be used later on
 test_site = nb.dcim.sites.get(slug="test-site")
 test_site2 = nb.dcim.sites.get(slug="test-site2")
 
-## Create Site Groups
+# Create Site Groups
 site_groups = [{"name": "Test Site Group", "slug": "test-site-group"}]
 created_site_groups = make_netbox_calls(nb.dcim.site_groups, site_groups)
 
-## Create VRFs
+# Create VRFs
 vrfs = [{"name": "Test VRF", "rd": "1:1"}]
 created_vrfs = make_netbox_calls(nb.ipam.vrfs, vrfs)
 
 
-## Create PREFIXES
+# Create PREFIXES
 prefixes = [
     {"prefix": "192.168.100.0/24", "site": test_site2.id},
     {"prefix": "10.10.0.0/16"},
@@ -134,7 +134,7 @@ prefixes = [
 created_prefixes = make_netbox_calls(nb.ipam.prefixes, prefixes)
 
 
-## Create VLAN GROUPS
+# Create VLAN GROUPS
 vlan_groups = [
     {
         "name": "Test Vlan Group",
@@ -155,11 +155,11 @@ if nb_version >= version.parse("2.11"):
             vg["scope_type"] = "dcim.site"
             vg["scope_id"] = vg.pop("site")
 created_vlan_groups = make_netbox_calls(nb.ipam.vlan_groups, vlan_groups)
-## VLAN Group variables to be used later on
+# VLAN Group variables to be used later on
 test_vlan_group = nb.ipam.vlan_groups.get(slug="test-vlan-group")
 
 
-## Create VLANS
+# Create VLANS
 vlans = [
     {"name": "Wireless", "vid": 100, "site": test_site.id},
     {"name": "Data", "vid": 200, "site": test_site.id},
@@ -174,7 +174,7 @@ vlans = [
 ]
 created_vlans = make_netbox_calls(nb.ipam.vlans, vlans)
 
-## Create FHRP GROUPS
+# Create FHRP GROUPS
 fhrp_groups = [
     {
         "protocol": "other",
@@ -189,24 +189,24 @@ fhrp_groups = [
 ]
 created_fhrp_groups = make_netbox_calls(nb.ipam.fhrp_groups, fhrp_groups)
 
-## Create IPAM Roles
+# Create IPAM Roles
 ipam_roles = [{"name": "Network of care", "slug": "network-of-care"}]
 create_ipam_roles = make_netbox_calls(nb.ipam.roles, ipam_roles)
 
 
-## Create Manufacturers
+# Create Manufacturers
 manufacturers = [
     {"name": "Cisco", "slug": "cisco"},
     {"name": "Arista", "slug": "arista"},
     {"name": "Test Manufactuer", "slug": "test-manufacturer"},
 ]
 created_manufacturers = make_netbox_calls(nb.dcim.manufacturers, manufacturers)
-### Manufacturer variables to be used later on
+# Manufacturer variables to be used later on
 cisco_manu = nb.dcim.manufacturers.get(slug="cisco")
 arista_manu = nb.dcim.manufacturers.get(slug="arista")
 
 
-## Create Device Types
+# Create Device Types
 device_types = [
     {"model": "Cisco Test", "slug": "cisco-test", "manufacturer": cisco_manu.id},
     {"model": "Arista Test", "slug": "arista-test", "manufacturer": arista_manu.id},
@@ -232,13 +232,13 @@ device_types = [
 ]
 
 created_device_types = make_netbox_calls(nb.dcim.device_types, device_types)
-### Device type variables to be used later on
+# Device type variables to be used later on
 cisco_test = nb.dcim.device_types.get(slug="cisco-test")
 arista_test = nb.dcim.device_types.get(slug="arista-test")
 nexus_parent = nb.dcim.device_types.get(slug="nexus-parent")
 nexus_child = nb.dcim.device_types.get(slug="nexus-child")
 
-## Create Device Roles
+# Create Device Roles
 device_roles = [
     {"name": "Core Switch", "slug": "core-switch", "color": "aa1409", "vm_role": False},
     {
@@ -255,11 +255,11 @@ device_roles = [
     },
 ]
 created_device_roles = make_netbox_calls(nb.dcim.device_roles, device_roles)
-### Device role variables to be used later on
+# Device role variables to be used later on
 core_switch = nb.dcim.device_roles.get(slug="core-switch")
 
 
-## Create Rack Groups
+# Create Rack Groups
 rack_groups = [
     {"name": "Test Rack Group", "slug": "test-rack-group", "site": test_site.id},
     {"name": "Parent Rack Group", "slug": "parent-rack-group", "site": test_site.id},
@@ -269,15 +269,15 @@ if nb_version >= version.parse("2.11"):
 else:
     created_rack_groups = make_netbox_calls(nb.dcim.rack_groups, rack_groups)
 
-### Create Rack Group Parent relationship
+# Create Rack Group Parent relationship
 created_rack_groups[0].parent = created_rack_groups[1]
 created_rack_groups[0].save()
 
-## Create Rack Roles
+# Create Rack Roles
 rack_roles = [{"name": "Test Rack Role", "slug": "test-rack-role", "color": "4287f5"}]
 created_rack_roles = make_netbox_calls(nb.dcim.rack_roles, rack_roles)
 
-## Create Racks
+# Create Racks
 racks = [
     {
         "name": "Test Rack Site 2",
@@ -287,7 +287,7 @@ racks = [
     {"name": "Test Rack", "site": test_site.id, "group": created_rack_groups[0].id},
 ]
 
-## Use location instead of group for 2.11+
+# Use location instead of group for 2.11+
 if nb_version >= version.parse("2.11"):
     racks[1]["location"] = created_rack_groups[0].id
     del racks[1]["group"]
@@ -297,7 +297,7 @@ test_rack = nb.dcim.racks.get(name="Test Rack")  # racks don't have slugs
 test_rack_site2 = nb.dcim.racks.get(name="Test Rack Site 2")
 
 
-## Create Devices
+# Create Devices
 devices = [
     {
         "name": "test100",
@@ -338,7 +338,7 @@ devices = [
     },
 ]
 
-## Add some locations for 2.11+
+# Add some locations for 2.11+
 if nb_version >= version.parse("2.11"):
     devices[0]["location"] = created_rack_groups[0].id
     devices[1]["location"] = created_rack_groups[0].id
@@ -350,7 +350,7 @@ if nb_version >= version.parse("3.6"):
             device["role"] = device.pop("device_role")
 
 created_devices = make_netbox_calls(nb.dcim.devices, devices)
-### Device variables to be used later on
+# Device variables to be used later on
 test100 = nb.dcim.devices.get(name="test100")
 
 # Create VC, assign member, create initial interface
@@ -365,14 +365,14 @@ nexus_interfaces = [
 ]
 created_nexus_interfaces = make_netbox_calls(nb.dcim.interfaces, nexus_interfaces)
 
-## Create Interfaces
+# Create Interfaces
 dev_interfaces = [
     {"name": "GigabitEthernet1", "device": test100.id, "type": "1000base-t"},
     {"name": "GigabitEthernet2", "device": test100.id, "type": "1000base-t"},
 ]
 created_interfaces = make_netbox_calls(nb.dcim.interfaces, dev_interfaces)
 
-## Wireless Interfaces
+# Wireless Interfaces
 if nb_version >= version.parse("3.1"):
     wlink_interfaces = [
         {"name": "wlink1", "device": test100.id, "type": "ieee802.11a"},
@@ -380,12 +380,12 @@ if nb_version >= version.parse("3.1"):
     ]
     wireless_interfaces = make_netbox_calls(nb.dcim.interfaces, wlink_interfaces)
 
-## Interface variables to be used later on
+# Interface variables to be used later on
 test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
 test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
 
 
-## Create IP Addresses
+# Create IP Addresses
 ip_addresses = [
     {
         "address": "172.16.180.1/24",
@@ -415,25 +415,25 @@ created_ip_addresses = make_netbox_calls(nb.ipam.ip_addresses, ip_addresses)
 # Assign Primary IP
 nexus.update({"primary_ip4": 4})
 
-## Create RIRs
+# Create RIRs
 rirs = [{"name": "Example RIR", "slug": "example-rir"}]
 created_rirs = make_netbox_calls(nb.ipam.rirs, rirs)
 
-## Create Cluster Group
+# Create Cluster Group
 cluster_groups = [{"name": "Test Cluster Group", "slug": "test-cluster-group"}]
 created_cluster_groups = make_netbox_calls(
     nb.virtualization.cluster_groups, cluster_groups
 )
 test_cluster_group = nb.virtualization.cluster_groups.get(slug="test-cluster-group")
 
-## Create Cluster Type
+# Create Cluster Type
 cluster_types = [{"name": "Test Cluster Type", "slug": "test-cluster-type"}]
 created_cluster_types = make_netbox_calls(
     nb.virtualization.cluster_types, cluster_types
 )
 test_cluster_type = nb.virtualization.cluster_types.get(slug="test-cluster-type")
 
-## Create Cluster
+# Create Cluster
 clusters = [
     {
         "name": "Test Cluster",
@@ -450,7 +450,7 @@ created_clusters = make_netbox_calls(nb.virtualization.clusters, clusters)
 test_cluster = nb.virtualization.clusters.get(name="Test Cluster")
 test_cluster2 = nb.virtualization.clusters.get(name="Test Cluster 2")
 
-## Create Virtual Machine
+# Create Virtual Machine
 virtual_machines = [
     {"name": "test100-vm", "cluster": test_cluster.id},
     {"name": "test101-vm", "cluster": test_cluster.id},
@@ -475,7 +475,7 @@ created_virtual_disks = make_netbox_calls(
     nb.virtualization.virtual_disks, virtual_disks
 )
 
-## Create Virtual Machine Interfaces
+# Create Virtual Machine Interfaces
 virtual_machines_intfs = [
     # Create test100-vm intfs
     {"name": "Eth0", "virtual_machine": test100_vm.id},
@@ -498,7 +498,7 @@ created_virtual_machines_intfs = make_netbox_calls(
 )
 
 
-## Create Services
+# Create Services
 services = [
     {"device": test100.id, "name": "ssh", "ports": [22], "protocol": "tcp"},
     {
@@ -519,17 +519,17 @@ services = [
 created_services = make_netbox_calls(nb.ipam.services, services)
 
 
-## Create Circuit Provider
+# Create Circuit Provider
 providers = [{"name": "Test Provider", "slug": "test-provider"}]
 created_providers = make_netbox_calls(nb.circuits.providers, providers)
 test_provider = nb.circuits.providers.get(slug="test-provider")
 
-## Create Circuit Type
+# Create Circuit Type
 circuit_types = [{"name": "Test Circuit Type", "slug": "test-circuit-type"}]
 created_circuit_types = make_netbox_calls(nb.circuits.circuit_types, circuit_types)
 test_circuit_type = nb.circuits.circuit_types.get(slug="test-circuit-type")
 
-## Create Circuit
+# Create Circuit
 circuits = [
     {"cid": "Test Circuit", "provider": test_provider.id, "type": test_circuit_type.id},
     {
@@ -541,7 +541,7 @@ circuits = [
 created_circuits = make_netbox_calls(nb.circuits.circuits, circuits)
 test_circuit_two = nb.circuits.circuits.get(cid="Test Circuit Two")
 
-## Create Circuit Termination
+# Create Circuit Termination
 circuit_terms = [
     {
         "circuit": test_circuit_two.id,
@@ -561,7 +561,7 @@ route_targets = [
 ]
 created_route_targets = make_netbox_calls(nb.ipam.route_targets, route_targets)
 
-## Create L2VPNs
+# Create L2VPNs
 l2vpns = [
     {
         "identifier": 111111,

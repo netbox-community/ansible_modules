@@ -43,8 +43,8 @@ options:
         description:
           - The parent inventory item the inventory item will be associated with
         required: false
-        type: raw     
-        version_added: "3.5.0"   
+        type: raw
+        version_added: "3.5.0"
       label:
         description:
           - The physical label of the inventory item
@@ -163,7 +163,7 @@ EXAMPLES = r"""
           description: "New SFP"
           inventory_item_role: NIC
         state: present
-        
+
     - name: Create inventory item with parent
       netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local

@@ -44,7 +44,7 @@ options:
         required: true
         type: str
       mark_connected:
-        description: 
+        description:
           - Treat as if cable is connected
         required: false
         type: bool

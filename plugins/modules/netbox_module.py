@@ -42,7 +42,7 @@ options:
         description:
           - The module type of the module
         required: true
-        type: raw 
+        type: raw
       status:
         description:
           - The status of the module
@@ -65,7 +65,7 @@ options:
         description:
           - The description of the module
         required: false
-        type: str  
+        type: str
       asset_tag:
         description:
           - The asset tag of the modyle
@@ -102,7 +102,7 @@ EXAMPLES = r"""
       netbox.netbox.netbox_module:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           device: C9300-DEMO
           module_bay: Network Module
           module_type: C9300-NM-8X
@@ -112,7 +112,7 @@ EXAMPLES = r"""
       netbox.netbox.netbox_module:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           device:
             name: C9300-DEMO
             site: EUPARIS

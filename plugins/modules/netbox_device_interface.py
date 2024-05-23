@@ -75,7 +75,7 @@ options:
           - Bridge the interface will connected to
         required: false
         type: raw
-        version_added: "3.6.0" 
+        version_added: "3.6.0"
       mtu:
         description:
           - The MTU of the interface

@@ -48,18 +48,18 @@ options:
           - The slugified version of the name or custom slug.
           - This is auto-generated following NetBox rules if not provided
         required: false
-        type: str      
+        type: str
       tags:
         description:
           - The tags to add/update
         required: false
         type: list
-        elements: raw        
+        elements: raw
       custom_fields:
         description:
           - Must exist in NetBox
         required: false
-        type: dict        
+        type: dict
     required: true
     type: dict
 """

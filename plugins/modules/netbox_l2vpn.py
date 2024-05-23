@@ -33,7 +33,7 @@ options:
         description:
           - The name of the L2VPN
         required: true
-        type: str              
+        type: str
       type:
         description:
           - The type of L2VPN
@@ -43,7 +43,7 @@ options:
         description:
           - The identifier of the L2VPN
         required: false
-        type: int     
+        type: int
       import_targets:
         description:
           - Route targets to import
@@ -55,7 +55,7 @@ options:
           - Route targets to export
         required: false
         type: list
-        elements: raw       
+        elements: raw
       description:
         description:
           - The description of the L2VPN
@@ -122,8 +122,8 @@ EXAMPLES = r"""
           import_targets:
             - "65000:1"
           export_targets:
-            - "65000:2"            
-          tenant: Test Tenant                    
+            - "65000:2"
+          tenant: Test Tenant
           description: Just a test
           tags:
             - Schnozzberry

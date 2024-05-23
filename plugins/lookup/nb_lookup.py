@@ -20,7 +20,7 @@ DOCUMENTATION = """
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information
-          capable of being held in NetBox.        
+          capable of being held in NetBox.
     options:
         _terms:
             description:
@@ -60,12 +60,12 @@ DOCUMENTATION = """
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The private key as a string. Mutually exclusive with I(key_file).
-            required: False            
+            required: False
         key_file:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False            
+            required: False
         raw_data:
             type: bool
             description:
