@@ -1,0 +1,15 @@
+---
+profile: production
+
+exclude_paths:
+  - .cache/ # implicit unless exclude_paths is defined in config
+  - .venv/
+  - .github/
+
+skip_list:
+  - args[module]
+  - no-handler
+  - yaml[key-duplicates]
+  - yaml[line-length]
+
+offline: false
