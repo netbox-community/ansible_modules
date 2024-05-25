@@ -36,7 +36,7 @@ options:
       protocol:
         description:
           - Protocol
-        required: False
+        required: false
         type: str
         choices:
           - vrrp2
@@ -82,7 +82,8 @@ options:
 """
 
 EXAMPLES = r"""
-- hosts: localhost
+- name: "Test NetBox modules"
+  hosts: localhost
   connection: local
   module_defaults:
     group/netbox.netbox.netbox:

@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -286,6 +286,48 @@ Parameters
       - :ansible-option-choices-entry:`"A"`
       - :ansible-option-choices-entry:`"B"`
       - :ansible-option-choices-entry:`"C"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_power_outlet_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The label of the power outlet
 
 
       .. raw:: html
@@ -465,6 +507,7 @@ Parameters
       - :ansible-option-choices-entry:`"iec-60320-c13"`
       - :ansible-option-choices-entry:`"iec-60320-c15"`
       - :ansible-option-choices-entry:`"iec-60320-c19"`
+      - :ansible-option-choices-entry:`"iec-60320-c21"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-4h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-6h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-9h"`
@@ -722,7 +765,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -734,11 +777,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox modules"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create power port within NetBox with only required information

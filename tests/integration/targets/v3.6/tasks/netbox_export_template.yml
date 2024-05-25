@@ -7,10 +7,10 @@
 - name: "EXPORT_TEMPLATE 1: Necessary info creation"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       content_types:
-        - "dcim.device"
+        - dcim.device
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -19,7 +19,7 @@
   register: test_one
 
 - name: "EXPORT_TEMPLATE 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -32,10 +32,10 @@
 - name: "EXPORT_TEMPLATE 2: Create duplicate"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       content_types:
-        - "dcim.device"
+        - dcim.device
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -44,7 +44,7 @@
   register: test_two
 
 - name: "EXPORT_TEMPLATE 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['export_template']['name'] == "Example Export Template"
@@ -53,20 +53,20 @@
 - name: "EXPORT_TEMPLATE 3: Update data and remove as_attachment"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       content_types:
-        - "dcim.device"
+        - dcim.device
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
         {% for obj in queryset %}{{ obj.name }}{% endfor %}
-      as_attachment: no
+      as_attachment: false
     state: present
   register: test_three
 
 - name: "EXPORT_TEMPLATE 3: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['as_attachment'] == false
@@ -76,10 +76,10 @@
 - name: "EXPORT_TEMPLATE 4: Change content type"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       content_types:
-        - "virtualization.virtualmachine"
+        - virtualization.virtualmachine
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -88,7 +88,7 @@
   register: test_four
 
 - name: "EXPORT_TEMPLATE 4: ASSERT - Change content type"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['after']['content_types'] == ["virtualization.virtualmachine"]
@@ -98,10 +98,10 @@
 - name: "EXPORT_TEMPLATE 5: Delete"
   netbox.netbox.netbox_export_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       content_types:
-        - "virtualization.virtualmachine"
+        - virtualization.virtualmachine
       name: Example Export Template
       description: Export Devices
       template_code: !unsafe >-
@@ -110,7 +110,7 @@
   register: test_five
 
 - name: "EXPORT_TEMPLATE 5: ASSERT - Deleted"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['after']['state'] == "absent"

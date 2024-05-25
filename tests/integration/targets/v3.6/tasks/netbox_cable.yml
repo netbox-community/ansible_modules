@@ -10,7 +10,7 @@
 - name: "CABLE 1: Necessary info creation"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: dcim.interface
       termination_a:
@@ -24,7 +24,7 @@
   register: test_one
 
 - name: "CABLE 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -38,7 +38,7 @@
 - name: "CABLE 2: Create duplicate"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: dcim.interface
       termination_a:
@@ -52,7 +52,7 @@
   register: test_two
 
 - name: "CABLE 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['cable']['termination_a_type'] == "dcim.interface"
@@ -64,7 +64,7 @@
 - name: "CABLE 3: Update Cable with other fields"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: dcim.interface
       termination_a:
@@ -81,13 +81,13 @@
       length: 30
       length_unit: m
       tags:
-        - "Schnozzberry"
-      tenant: "Test Tenant"
+        - Schnozzberry
+      tenant: Test Tenant
     state: present
   register: test_three
 
 - name: "CABLE 3: ASSERT - Update Cable with other fields"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['type'] == "mmf-om4"
@@ -115,7 +115,7 @@
 - name: "CABLE 4: ASSERT - Delete"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: dcim.interface
       termination_a:
@@ -129,7 +129,7 @@
   register: test_four
 
 - name: "CABLE 4: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "present"
@@ -139,7 +139,7 @@
 - name: "CABLE 5: Connect Console Port and Console Server Port"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: dcim.consoleserverport
       termination_a:
@@ -153,7 +153,7 @@
   register: test_five
 
 - name: "CABLE 5: ASSERT - Connect Console Port and Console Server Port"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['before']['state'] == "absent"
@@ -167,21 +167,21 @@
 - name: "CABLE 6: Circuits Termination as side A"
   netbox.netbox.netbox_cable:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       termination_a_type: circuits.circuittermination
       termination_a:
-        circuit: "Test Circuit Two"
-        term_side: "A"
+        circuit: Test Circuit Two
+        term_side: A
       termination_b_type: dcim.interface
       termination_b:
-        device: "test100"
-        name: "GigabitEthernet2"
+        device: test100
+        name: GigabitEthernet2
     state: present
   register: test_six
 
 - name: "CABLE 6: ASSERT - Circuits Termination as side A"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_six is changed
       - test_six['diff']['before']['state'] == "absent"

@@ -13,7 +13,7 @@ module: netbox_wireless_link
 short_description: Creates or removes Wireless links from NetBox
 description:
   - Creates or removes wireless links from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -47,7 +47,7 @@ options:
         description:
           - Description of the wireless link
         required: false
-        type: str    
+        type: str
       status:
         description:
           - The status of the wireless link
@@ -56,7 +56,7 @@ options:
           - planned
           - decommissioning
         required: false
-        type: str          
+        type: str
       auth_type:
         description:
           - The authentication type of the wireless link
@@ -80,7 +80,7 @@ options:
         description:
           - The PSK of the wireless link
         required: false
-        type: str    
+        type: str
       comments:
         description:
           - Comments of the wireless link
@@ -97,7 +97,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
     required: true
 """
 
@@ -105,7 +105,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create wireless link within NetBox with only required information
       netbox_wireless_link:
@@ -144,11 +144,11 @@ EXAMPLES = r"""
           interface_b:
             device: Device Two
             name: wireless_link_0
-          ssid: Wireless Network One          
+          ssid: Wireless Network One
           description: Cool Wireless Network
           auth_type: wpa-enterprise
           auth_cipher: aes
-          auth_psk: psk123456                    
+          auth_psk: psk123456
           tags:
             - tagA
             - tagB

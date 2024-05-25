@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -560,6 +560,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/object_types"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_link_module__parameter-data/object_types:
+
+      .. rst-class:: ansible-option-title
+
+      **object_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/object_types" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.19.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The object type(s) to apply this custom link to (NetBox 4.0+)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/weight"></div>
 
       .. raw:: latex
@@ -800,7 +845,7 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
    - Use the \ :literal:`!unsafe`\  data type if you want jinja2 code in link\_text or link\_url
 
 .. Seealso
@@ -813,27 +858,27 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox custom_link module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a custom link on device
           netbox.netbox.netbox_custom_link:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              content_type: "dcim.device"            
+              content_type: "dcim.device"
               name: Custom Link
               link_text: "Open Web Management"
-              link_url: !unsafe https://{{ obj.name }}.domain.local                        
+              link_url: !unsafe https://{{ obj.name }}.domain.local
 
         - name: Delete the custom link
           netbox.netbox.netbox_custom_link:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              content_type: "dcim.device"            
+              content_type: "dcim.device"
               name: Custom Link
               link_text: "Open Web Management"
               link_url: !unsafe https://{{ obj.name }}.domain.local

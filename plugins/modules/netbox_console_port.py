@@ -115,7 +115,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create console port within NetBox with only required information

@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -792,7 +792,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -804,18 +804,18 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox modules"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create module type within NetBox with only required information
           netbox.netbox.netbox_module:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
-            data:          
+            data:
               device: C9300-DEMO
               module_bay: Network Module
               module_type: C9300-NM-8X
@@ -825,7 +825,7 @@ Examples
           netbox.netbox.netbox_module:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
-            data:          
+            data:
               device:
                 name: C9300-DEMO
                 site: EUPARIS
@@ -845,7 +845,7 @@ Examples
               device: C9300-DEMO
               module_bay: Network Module
               module_type: C9300-NM-8X
-              asset_tag: 00001
+              asset_tag: "00001"
               serial: XXXNNNNXXXX
             state: absent
 

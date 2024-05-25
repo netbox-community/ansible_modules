@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -502,7 +502,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     tasks:
       # query a list of devices
       - name: Obtain list of devices from NetBox
@@ -514,10 +514,7 @@ Examples
                         api_endpoint='http://localhost/',
                         token='<redacted>') }}"
 
-    # This example uses an API Filter
-
-    tasks:
-      # query a list of devices
+        # This example uses an API Filter
       - name: Obtain list of devices from NetBox
         debug:
           msg: >

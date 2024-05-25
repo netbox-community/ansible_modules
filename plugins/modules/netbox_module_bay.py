@@ -46,7 +46,7 @@ options:
       position:
         description:
           - The position of the module bay
-        required: true
+        required: false
         type: str
       description:
         description:
@@ -72,7 +72,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create module bay within NetBox with only required information
@@ -130,7 +130,7 @@ def main():
                     device=dict(required=True, type="raw"),
                     name=dict(required=True, type="raw"),
                     label=dict(required=False, type="str"),
-                    position=dict(required=True, type="str"),
+                    position=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

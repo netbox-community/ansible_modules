@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -542,7 +542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\ 
+      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\
 
 
       .. raw:: html
@@ -967,7 +967,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -979,11 +979,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create interface within NetBox with only required information
           netbox_vm_interface:
@@ -1022,7 +1022,7 @@ Examples
               mtu: 1600
               mode: Tagged
             state: present
-            
+
         - name: Create bridge interface within NetBox
           netbox_vm_interface:
             netbox_url: http://netbox.local
@@ -1031,7 +1031,7 @@ Examples
               virtual_machine: test100
               name: br1000
             state: present
-            
+
         - name: Connect bridge interface within NetBox
           netbox_vm_interface:
             netbox_url: http://netbox.local
@@ -1039,7 +1039,7 @@ Examples
             data:
               virtual_machine: test100
               name: br1001
-              vm_bridge: br1000                        
+              vm_bridge: br1000
             state: present
 
 

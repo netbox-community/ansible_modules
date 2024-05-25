@@ -7,17 +7,17 @@
 - name: "NETBOX_CIRCUIT_TERMINATION 1: Create provider within NetBox with only required information"
   netbox.netbox.netbox_circuit_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       circuit: Test Circuit
       term_side: A
-      site: "Test Site"
+      site: Test Site
       port_speed: 10000
     state: present
   register: test_one
 
 - name: "NETBOX_CIRCUIT_TERMINATION 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -31,7 +31,7 @@
 - name: "NETBOX_CIRCUIT_TERMINATION 2: Duplicate"
   netbox.netbox.netbox_circuit_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       circuit: Test Circuit
       term_side: A
@@ -39,7 +39,7 @@
   register: test_two
 
 - name: "NETBOX_CIRCUIT_TERMINATION 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['circuit_termination']['circuit'] == 1
@@ -51,19 +51,19 @@
 - name: "NETBOX_CIRCUIT_TERMINATION 3: Update provider with other fields"
   netbox.netbox.netbox_circuit_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       circuit: Test Circuit
       term_side: A
       upstream_speed: 1000
       xconnect_id: 10X100
       pp_info: PP10-24
-      description: "Test description"
+      description: Test description
     state: present
   register: test_three
 
 - name: "NETBOX_CIRCUIT_TERMINATION 3: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['upstream_speed'] == 1000
@@ -83,17 +83,17 @@
 - name: "NETBOX_CIRCUIT_TERMINATION 4: Create Z Side"
   netbox.netbox.netbox_circuit_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       circuit: Test Circuit
       term_side: Z
-      site: "Test Site"
+      site: Test Site
       port_speed: 10000
     state: present
   register: test_four
 
 - name: "NETBOX_CIRCUIT_TERMINATION 4: ASSERT - Create Z Side"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
@@ -107,7 +107,7 @@
 - name: "NETBOX_CIRCUIT_TERMINATION 5: Delete provider within netbox"
   netbox.netbox.netbox_circuit_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       circuit: Test Circuit
       term_side: A
@@ -115,7 +115,7 @@
   register: test_five
 
 - name: "NETBOX_CIRCUIT_TERMINATION 5: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['circuit_termination']['circuit'] == 1

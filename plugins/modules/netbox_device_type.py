@@ -81,13 +81,13 @@ options:
         description:
           - Airflow of the device
         choices:
-          - front-to-rear 
-          - rear-to-front 
-          - left-to-right 
-          - right-to-left 
+          - front-to-rear
+          - rear-to-front
+          - left-to-right
+          - right-to-left
           - side-to-rear
           - passive
-          - mixed                    
+          - mixed
         required: false
         type: str
         version_added: "3.10.0"
@@ -113,7 +113,7 @@ options:
         required: false
         type: str
       default_platform:
-        description: 
+        description:
           - Set the default platform used by the device
         required: false
         type: raw
@@ -137,7 +137,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create device type within NetBox with only required information
@@ -160,7 +160,7 @@ EXAMPLES = r"""
           manufacturer: Test Manufacturer
           part_number: ws-3750g-v2
           u_height: 1.5
-          is_full_depth: False
+          is_full_depth: false
           subdevice_role: parent
         state: present
 

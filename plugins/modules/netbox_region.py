@@ -71,7 +71,7 @@ EXAMPLES = r"""
 - name: "Test NetBox region module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create region within NetBox with only required information
       netbox.netbox.netbox_region:

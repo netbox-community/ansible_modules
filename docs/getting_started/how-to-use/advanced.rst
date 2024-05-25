@@ -35,9 +35,9 @@ Let's take a look at specifying just the IP address in CIDR notation and see wha
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] **********************************************************************************************************************
-  
+
   TASK [Add ip address to netbox] *******************************************************************************************************
   fatal: [localhost]: FAILED! => {"changed": false, "msg": "More than one result returned for nat_inside"}
 
@@ -117,12 +117,12 @@ Here are the results and they're identical to the when we specified a dictionary
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] **********************************************************************************************************************
-  
+
   TASK [Add ip address to netbox] *******************************************************************************************************
   changed: [localhost] => {"changed": true, "ip_address": {"address": "192.168.10.60/24", "assigned_object": null, "assigned_object_id": null, "assigned_object_type": null, "created": "2021-01-01", "custom_fields": {}, "description": "", "dns_name": "", "family": 4, "id": 12, "last_updated": "2021-01-01T17:28:29.770142Z", "nat_inside": 10, "nat_outside": null, "role": null, "status": "active", "tags": [], "tenant": null, "url": "http://192.168.50.10:8000/api/ipam/ip-addresses/12/", "vrf": 1}, "msg": "ip_address 192.168.10.60/24 created"}
-  
+
   PLAY RECAP ****************************************************************************************************************************
   localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
@@ -162,12 +162,12 @@ Let's go ahead and look at the first way by just passing in the complete object 
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] **********************************************************************************************************************
-  
+
   TASK [Add ip address to netbox] *******************************************************************************************************
   changed: [localhost] => {"changed": true, "ip_address": {"address": "192.168.10.60/24", "assigned_object": null, "assigned_object_id": null, "assigned_object_type": null, "created": "2021-01-01", "custom_fields": {}, "description": "", "dns_name": "", "family": 4, "id": 12, "last_updated": "2021-01-01T17:28:29.770142Z", "nat_inside": 10, "nat_outside": null, "role": null, "status": "active", "tags": [], "tenant": null, "url": "http://192.168.50.10:8000/api/ipam/ip-addresses/12/", "vrf": 1}, "msg": "ip_address 192.168.10.60/24 created"}
-  
+
   PLAY RECAP ****************************************************************************************************************************
   localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
@@ -206,12 +206,12 @@ The collection will actually convert the string it receives for the ``id`` and t
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] **********************************************************************************************************************
-  
+
   TASK [Add ip address to netbox] *******************************************************************************************************
   changed: [localhost] => {"changed": true, "ip_address": {"address": "192.168.10.60/24", "assigned_object": null, "assigned_object_id": null, "assigned_object_type": null, "created": "2021-01-01", "custom_fields": {}, "description": "", "dns_name": "", "family": 4, "id": 12, "last_updated": "2021-01-01T17:28:29.770142Z", "nat_inside": 10, "nat_outside": null, "role": null, "status": "active", "tags": [], "tenant": null, "url": "http://192.168.50.10:8000/api/ipam/ip-addresses/12/", "vrf": 1}, "msg": "ip_address 192.168.10.60/24 created"}
-  
+
   PLAY RECAP ****************************************************************************************************************************
   localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
@@ -245,13 +245,13 @@ the global IP address space within NetBox. This task should fail saying there wa
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] ****************************************************************************************************************************************************************************************************************
-  
+
   TASK [Update non-unique IP address] *********************************************************************************************************************************************************************************************
   [WARNING]: Skipping plugin (/Users/myohman/Documents/local-dev/ansible/filter_plugins/my_filter_plugin.py) as it seems to be invalid: expected an indented block (my_filter_plugin.py, line 19)
   fatal: [localhost]: FAILED! => {"changed": false, "msg": "More than one result returned for 192.168.100.1/24"}
-  
+
   PLAY RECAP **********************************************************************************************************************************************************************************************************************
   localhost                  : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
@@ -287,12 +287,12 @@ IP address to be within **Test VRF 2**.
   No config file found; using defaults
   [WARNING]: No inventory was parsed, only implicit localhost is available
   [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
-  
+
   PLAY [localhost] **********************************************************************************************************************
-  
+
   TASK [Update non-unique IP address] ***************************************************************************************************
   changed: [localhost] => {"changed": true, "ip_address": {"address": "192.168.100.1/24", "assigned_object": null, "assigned_object_id": null, "assigned_object_type": null, "created": "2021-01-01", "custom_fields": {}, "description": "", "dns_name": "docs.netbox-modules.com", "family": 4, "id": 15, "last_updated": "2021-01-01T19:16:49.756265Z", "nat_inside": null, "nat_outside": null, "role": null, "status": "active", "tags": [], "tenant": null, "url": "http://192.168.50.10:8000/api/ipam/ip-addresses/15/", "vrf": 2}, "msg": "ip_address 192.168.100.1/24 updated"}
-  
+
   PLAY RECAP ****************************************************************************************************************************
   localhost                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 

@@ -75,7 +75,7 @@ options:
           - Bridge the interface will connected to
         required: false
         type: raw
-        version_added: "3.6.0" 
+        version_added: "3.6.0"
       mtu:
         description:
           - The MTU of the interface
@@ -183,7 +183,7 @@ options:
     type: dict
   update_vc_child:
     type: bool
-    default: False
+    default: false
     description:
       - |
         Use when master device is specified for C(device) and the specified interface exists on a child device
@@ -194,7 +194,7 @@ EXAMPLES = r"""
 - name: "Test NetBox interface module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create interface within NetBox with only required information
       netbox.netbox.netbox_device_interface:
@@ -273,7 +273,7 @@ EXAMPLES = r"""
           device: test100
           name: GigabitEthernet2/0/1
           enabled: false
-        update_vc_child: True
+        update_vc_child: true
 
     - name: Mark interface as connected without a cable (netbox >= 2.11 required)
       netbox.netbox.netbox_device_interface:

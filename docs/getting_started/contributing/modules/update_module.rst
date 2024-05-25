@@ -129,7 +129,7 @@ Edit ``tests/integration/netbox-deploy.py``.
       {"name": "6000:6000"},
   ]
   created_route_targets = make_netbox_calls(nb.ipam.route_targets, route_targets)
-  
+
   if ERRORS:
       sys.exit(
           "Errors have occurred when creating objects, and should have been printed out. Check previous output."
@@ -147,7 +147,7 @@ Next we'll update ``netbox_vrf.yml`` for the **latest** integration target.
   │       ├── ...
   │       ├── netbox_vm_interface.yml
   │       └── netbox_vrf.yml
-  
+
   12 directories, 143 files
 
 .. code-block:: yaml
@@ -170,7 +170,7 @@ Next we'll update ``netbox_vrf.yml`` for the **latest** integration target.
           - "Schnozzberry"
       state: present
     register: test_four
-  
+
   - name: "VRF 4: ASSERT - Updated"
     assert:
       that:

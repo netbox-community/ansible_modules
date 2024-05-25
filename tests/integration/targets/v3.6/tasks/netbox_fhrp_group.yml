@@ -7,9 +7,9 @@
 - name: "FHRP group 1: Test FHRP group creation"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      protocol: "glbp"
+      protocol: glbp
       group_id: 111
     state: present
   register: test_one
@@ -27,9 +27,9 @@
 - name: "FHRP group 2: Create duplicate"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      protocol: "glbp"
+      protocol: glbp
       group_id: 111
     state: present
   register: test_two
@@ -45,15 +45,15 @@
 - name: "FHRP group 3: Update FHRP group with other fields"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      protocol: "glbp"
+      protocol: glbp
       group_id: 111
       auth_type: md5
       auth_key: 11111
       description: Test description
       tags:
-        - "Schnozzberry"
+        - Schnozzberry
     state: present
   register: test_three
 
@@ -76,7 +76,7 @@
 - name: "FHRP group 4: ASSERT - Delete"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       group_id: 111
     state: absent

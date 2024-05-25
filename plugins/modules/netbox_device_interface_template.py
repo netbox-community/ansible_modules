@@ -72,7 +72,7 @@ EXAMPLES = r"""
 - name: "Test NetBox interface template module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create interface template within NetBox with only required information
       netbox.netbox.netbox_device_interface_template:

@@ -70,7 +70,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create RIR within NetBox with only required information
@@ -87,7 +87,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test RIR One
-          is_private: True
+          is_private: true
         state: present
 
     - name: Delete RIR within netbox

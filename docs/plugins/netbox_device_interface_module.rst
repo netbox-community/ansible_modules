@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -470,7 +470,7 @@ Parameters
       Form factor of the interface:
           ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
           This has to be specified exactly as what is found within UI
-          
+
 
 
       .. raw:: html
@@ -1044,7 +1044,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\ 
+      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\
 
 
       .. raw:: html
@@ -1176,7 +1176,7 @@ Parameters
       Form factor of the interface:
           ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
           This has to be specified exactly as what is found within UI
-          
+
 
 
       .. raw:: html
@@ -1495,7 +1495,7 @@ Parameters
 
       Use when master device is specified for \ :literal:`device`\  and the specified interface exists on a child device
           and needs updated
-          
+
 
 
       .. rst-class:: ansible-option-line
@@ -1561,7 +1561,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -1573,11 +1573,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create interface within NetBox with only required information
           netbox.netbox.netbox_device_interface:
@@ -1656,7 +1656,7 @@ Examples
               device: test100
               name: GigabitEthernet2/0/1
               enabled: false
-            update_vc_child: True
+            update_vc_child: true
 
         - name: Mark interface as connected without a cable (netbox >= 2.11 required)
           netbox.netbox.netbox_device_interface:

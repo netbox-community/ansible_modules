@@ -5,6 +5,6 @@
 # Checks that substantial work on the inventory does not diverge from what existing users are using by default.
 
 plugin: netbox.netbox.nb_inventory
-api_endpoint: "http://localhost:32768"
+api_endpoint: http://localhost:32768
 token: "0123456789abcdef0123456789abcdef01234567"
 validate_certs: false

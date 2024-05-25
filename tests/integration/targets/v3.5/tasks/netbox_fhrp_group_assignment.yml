@@ -7,7 +7,7 @@
 - name: "FHRP group assignment 1: Test FHRP group assignment creation"
   netbox.netbox.netbox_fhrp_group_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       fhrp_group: 1
       interface_type: dcim.interface
@@ -31,7 +31,7 @@
 - name: "FHRP group assignment 2: Create duplicate"
   netbox.netbox.netbox_fhrp_group_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       fhrp_group: 1
       interface_type: dcim.interface
@@ -53,7 +53,7 @@
 - name: "FHRP group assignment 3: Update FHRP group assignment"
   netbox.netbox.netbox_fhrp_group_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       fhrp_group: 1
       interface_type: dcim.interface
@@ -75,7 +75,7 @@
 - name: "FHRP group assignment 4: Delete FHRP group assignment"
   netbox.netbox.netbox_fhrp_group_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       fhrp_group: 1
       interface_type: dcim.interface

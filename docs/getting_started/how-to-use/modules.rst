@@ -14,7 +14,7 @@ There are two methods when using a collection in a playbook (in preferred order)
 
   ---
   - hosts: "localhost"
-  
+
     tasks:
       - name: "Configure a device in NetBox"
         netbox.netbox.netbox_device:
@@ -27,7 +27,7 @@ There are two methods when using a collection in a playbook (in preferred order)
   - hosts: "localhost"
     collections:
       - netbox.netbox
-    
+
     tasks:
       - name: "Configure a device in NetBox"
         netbox_device:
@@ -52,7 +52,7 @@ Module Arguments & States
 
 This section will provide details on why some module arguments are required for certain states or even change if an object already exists.
 
-Before we go any further, let's provide some preliminary knowledge of how Ansible works when accepting arguments into a module. 
+Before we go any further, let's provide some preliminary knowledge of how Ansible works when accepting arguments into a module.
 
 Ansible provides several builtin methods when initializing the ``AnsibleModule`` to help build flexible module argument requirements. We aren't going to explore all the options in depth, but there are three that we currently use within this collection.
 
@@ -225,7 +225,7 @@ that specify fields that are unique to each tag. Name can be used, but we always
 Using module default groups
 +++++++++++++++++++++++++++++
 
-To avoid having to define the ``netbox_url`` and ``netbox_token`` in each task you can use the module default group feature. 
+To avoid having to define the ``netbox_url`` and ``netbox_token`` in each task you can use the module default group feature.
 
 .. code-block:: yaml
 
@@ -246,7 +246,7 @@ To avoid having to define the ``netbox_url`` and ``netbox_token`` in each task y
           state: "present"
 
       - name: "Example state: present - Update"
-        netbox.netbox.netbox_device:          
+        netbox.netbox.netbox_device:
           data:
             name: "Test Device"
             serial: "FXS110011"

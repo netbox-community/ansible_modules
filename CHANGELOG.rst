@@ -410,8 +410,8 @@ v3.1.2
 Release Summary
 ---------------
 
-This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates. 
-This release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI. 
+This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates.
+This release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI.
 The next release will idenify and resolve any issues with NetBox 3.0.
 
 Minor Changes

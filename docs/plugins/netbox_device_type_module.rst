@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1049,7 +1049,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -1061,11 +1061,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox modules"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create device type within NetBox with only required information
@@ -1088,7 +1088,7 @@ Examples
               manufacturer: Test Manufacturer
               part_number: ws-3750g-v2
               u_height: 1.5
-              is_full_depth: False
+              is_full_depth: false
               subdevice_role: parent
             state: present
 

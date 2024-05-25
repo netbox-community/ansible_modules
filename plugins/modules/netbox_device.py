@@ -100,13 +100,13 @@ options:
         description:
           - Airflow of the device
         choices:
-          - front-to-rear 
-          - rear-to-front 
-          - left-to-right 
-          - right-to-left 
+          - front-to-rear
+          - rear-to-front
+          - left-to-right
+          - right-to-left
           - side-to-rear
           - passive
-          - mixed                    
+          - mixed
         required: false
         type: str
         version_added: "3.10.0"
@@ -192,7 +192,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create device within NetBox with only required information

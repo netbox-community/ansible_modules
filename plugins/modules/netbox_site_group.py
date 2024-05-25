@@ -70,7 +70,7 @@ EXAMPLES = r"""
 - name: "Test NetBox site group module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create site group within NetBox with only required information
       netbox.netbox.netbox_site_group:

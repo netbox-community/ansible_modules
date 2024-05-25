@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -580,11 +580,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test config template creation/deletion"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create config template
           netbox.netbox.netbox_config_template:
@@ -596,7 +596,7 @@ Examples
                 - Cloud
               template_code: |
                 #cloud-config
-                packages: 
+                packages:
                   - ansible
 
         - name: Delete config template

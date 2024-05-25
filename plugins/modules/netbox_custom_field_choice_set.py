@@ -13,7 +13,7 @@ module: netbox_custom_field_choice_set
 short_description: Creates, updates or deletes custom field choice sets within Netbox
 description:
   - Creates, updates or removes custom fields choice sets from Netbox
-notes:  
+notes:
   - This should be run with connection C(local) and hosts C(localhost)
 author:
   - Philipp Rintz (@p-rintz)
@@ -40,11 +40,11 @@ options:
         type: str
       extra_choices:
         description:
-          - List of available choices in the choice set 
+          - List of available choices in the choice set
         required: false
         default: []
         type: list
-        elements: list                
+        elements: list
       base_choices:
         description:
          - Selection of base choice to use in the choice set
@@ -53,7 +53,7 @@ options:
         choices:
          - IATA
          - ISO_3166
-         - UN_LOCODE    
+         - UN_LOCODE
       order_alphabetically:
         description:
           - Order the choices alphabetically
@@ -65,7 +65,7 @@ options:
 EXAMPLES = r"""
 - name: "Test Netbox custom_field_choice_set module"
   connection: local
-  hosts: localhost  
+  hosts: localhost
   tasks:
     - name: Create a choice set with choices
       netbox.netbox.netbox_custom_field_choice_set:

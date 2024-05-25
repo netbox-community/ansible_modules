@@ -15,6 +15,7 @@ set -o pipefail # don't hide errors within pipes
 function main()
 {
     readonly template="$1"
+    # shellcheck disable=SC2155
     readonly content="$(cat "${template}")"
 
     eval "echo \"$content\""
