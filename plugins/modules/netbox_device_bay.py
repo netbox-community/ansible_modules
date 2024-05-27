@@ -68,7 +68,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create device bay within NetBox with only required information
@@ -98,7 +98,6 @@ EXAMPLES = r"""
         data:
           name: Device Bay One
         state: absent
-
 """
 
 RETURN = r"""

@@ -1,22 +1,22 @@
 ---
 plugin: netbox.netbox.nb_inventory
-api_endpoint: "http://localhost:32768"
+api_endpoint: http://localhost:32768
 token: "0123456789abcdef0123456789abcdef01234567"
 validate_certs: false
 
-cache: True
+cache: true
 cache_timeout: 3600
 cache_plugin: jsonfile
 cache_connection: /tmp/inventory_netbox
 
-config_context: True
-plurals: True
-interfaces: True
-services: True
+config_context: true
+plurals: true
+interfaces: true
+services: true
 
 # Enough to fit only 2 devices, so tests chunking logic
 max_uri_length: 80
-fetch_all: False
+fetch_all: false
 
 group_by:
   - sites

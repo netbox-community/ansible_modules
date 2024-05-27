@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -842,7 +842,7 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -854,11 +854,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create Wireless LAN within NetBox with only required information
           netbox_wireless_lan:
@@ -881,11 +881,11 @@ Examples
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              ssid: Wireless Network One          
+              ssid: Wireless Network One
               description: Cool Wireless Network
               auth_type: wpa-enterprise
               auth_cipher: aes
-              auth_psk: psk123456                    
+              auth_psk: psk123456
               tags:
                 - tagA
                 - tagB

@@ -37,17 +37,17 @@ options:
         description:
           - The model of the module type
         required: true
-        type: raw      
+        type: raw
       part_number:
         description:
           - The part number of the module type
         required: false
-        type: str      
+        type: str
       weight:
         description:
           - The weight of the device type
         required: false
-        type: float        
+        type: float
       weight_unit:
         description:
           - The weight unit
@@ -58,7 +58,7 @@ options:
           - oz
         required: false
         type: str
-        version_added: "3.10.0" 
+        version_added: "3.10.0"
       comments:
         description:
           - Comments that may include additional information in regards to the module type
@@ -83,14 +83,14 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create module type within NetBox with only required information
       netbox.netbox.netbox_module_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           model: ws-test-3750
           manufacturer: Test Manufacturer
         state: present
@@ -99,10 +99,10 @@ EXAMPLES = r"""
       netbox.netbox.netbox_module_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
-        data:          
+        data:
           model: ws-test-3750
           manufacturer: Test Manufacturer
-          part_number: ws-3750g-v2          
+          part_number: ws-3750g-v2
         state: present
 
     - name: Delete module type within netbox

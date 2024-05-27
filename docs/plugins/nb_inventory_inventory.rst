@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -1296,7 +1296,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2481,14 +2481,14 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     # netbox_inventory.yml file in YAML format
     # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
 
     plugin: netbox.netbox.nb_inventory
     api_endpoint: http://localhost:8000
-    validate_certs: True
-    config_context: False
+    validate_certs: true
+    config_context: false
     group_by:
       - device_roles
     query_filters:
@@ -2560,8 +2560,8 @@ Examples
     plugin: netbox.netbox.nb_inventory
     api_endpoint: http://localhost:8000
     token: <insert token>
-    validate_certs: True
-    config_context: True
+    validate_certs: true
+    config_context: true
     group_by:
       - site
       - role

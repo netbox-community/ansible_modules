@@ -7,7 +7,7 @@
 - name: "MODULE 1: Necessary info creation"
   netbox.netbox.netbox_module:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: C9300-DEMO
       module_bay: Network Module
@@ -16,7 +16,7 @@
   register: test_one
 
 - name: "MODULE 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -29,7 +29,7 @@
 - name: "MODULE 2: Create duplicate"
   netbox.netbox.netbox_module:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: C9300-DEMO
       module_bay: Network Module
@@ -38,7 +38,7 @@
   register: test_two
 
 - name: "MODULE 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['module']['device'] == "C9300-DEMO"
@@ -49,7 +49,7 @@
 - name: "MODULE 3: ASSERT - Update"
   netbox.netbox.netbox_module:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: C9300-DEMO
       module_bay: Network Module
@@ -59,7 +59,7 @@
   register: test_three
 
 - name: "MODULE 3: ASSERT - Update"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['serial'] == "XXXNNNNXXXX"
@@ -72,7 +72,7 @@
 - name: "MODULE 4: ASSERT - Delete"
   netbox.netbox.netbox_module:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: C9300-DEMO
       module_bay: Network Module
@@ -81,7 +81,7 @@
   register: test_four
 
 - name: "MODULE 4: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "present"
@@ -91,7 +91,7 @@
 - name: "MODULE 5: ASSERT - Delete non existing"
   netbox.netbox.netbox_module:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: C9300-DEMO
       module_bay: Network Module
@@ -100,7 +100,7 @@
   register: test_five
 
 - name: "MODULE 5: ASSERT - Delete non existing`"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_five['changed']
       - test_five['module'] == None

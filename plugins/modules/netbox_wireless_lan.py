@@ -13,7 +13,7 @@ module: netbox_wireless_lan
 short_description: Creates or removes Wireless LANs from NetBox
 description:
   - Creates or removes wireless LANs from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -76,7 +76,7 @@ options:
         description:
           - The PSK of the Wireless LAN
         required: false
-        type: str    
+        type: str
       tags:
         description:
           - Any tags that the Wireless LAN may need to be associated with
@@ -87,7 +87,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
       comments:
         description:
           - Comments of the wireless LAN
@@ -101,7 +101,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create Wireless LAN within NetBox with only required information
       netbox_wireless_lan:
@@ -124,11 +124,11 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          ssid: Wireless Network One          
+          ssid: Wireless Network One
           description: Cool Wireless Network
           auth_type: wpa-enterprise
           auth_cipher: aes
-          auth_psk: psk123456                    
+          auth_psk: psk123456
           tags:
             - tagA
             - tagB

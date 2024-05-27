@@ -70,7 +70,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create ipam role within NetBox with only required information
       netbox.netbox.netbox_ipam_role:

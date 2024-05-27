@@ -62,7 +62,7 @@ def sort_hostvar_arrays(obj):
     if not hostvars:
         return
 
-    for _, host in hostvars.items():
+    for _, host in hostvars.items():  # pylint: disable=disallowed-name
         if interfaces := host.get("interfaces"):
             host["interfaces"] = sorted(interfaces, key=itemgetter("id"))
 

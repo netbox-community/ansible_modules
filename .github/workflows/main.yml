@@ -15,15 +15,6 @@ jobs:
       - name: Run black
         uses: psf/black@stable
 
-      - name: 'Yamllint'
-        uses: karancode/yamllint-github-action@master
-
-      #- name: Run isort
-      #  uses: jamescurtin/isort-action@master
-
-      #- name: Run ruff
-      #  uses: chartboost/ruff-action@v1
-
   unit_testing:
     runs-on: ubuntu-20.04
     needs: linting

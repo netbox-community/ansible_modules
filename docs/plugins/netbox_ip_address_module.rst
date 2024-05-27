@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -192,7 +192,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\ 
+      Required if state is \ :literal:`present`\
 
 
       .. raw:: html
@@ -240,7 +240,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -628,7 +628,7 @@ Parameters
 
       The name and device of the interface that the IP address should be assigned to
           Required if state is \ :literal:`present`\  and a prefix specified.
-          
+
 
 
       .. raw:: html
@@ -721,7 +721,7 @@ Parameters
           it.
           Required if state is \ :literal:`present`\  or \ :literal:`new`\  when no address is given.
           Unused if an address is specified.
-          
+
 
 
       .. raw:: html
@@ -1092,7 +1092,7 @@ Parameters
           \ :literal:`present`\  will check if the IP is already created, and return it if
           true. \ :literal:`new`\  will force to create it anyway (useful for anycasts, for
           example).
-          
+
 
 
       .. rst-class:: ansible-option-line
@@ -1159,7 +1159,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -1171,11 +1171,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox IP address module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create IP address within NetBox with only required information

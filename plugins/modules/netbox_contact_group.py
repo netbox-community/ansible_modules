@@ -67,7 +67,7 @@ EXAMPLES = r"""
 - name: "Test NetBox contact group module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create contact group within NetBox with only required information
       netbox.netbox.netbox_contact_group:
@@ -85,7 +85,6 @@ EXAMPLES = r"""
         data:
           name: Contact Group ABC
         state: absent
-
 """
 
 RETURN = r"""

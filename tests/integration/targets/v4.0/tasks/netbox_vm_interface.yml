@@ -7,15 +7,15 @@
 - name: "NETBOX_VM_INTERFACE 1: Necessary info creation"
   netbox.netbox.netbox_vm_interface:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      virtual_machine: "test100-vm"
-      name: "Eth10"
+      virtual_machine: test100-vm
+      name: Eth10
     state: present
   register: test_one
 
 - name: "NETBOX_VM_INTERFACE 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -27,15 +27,15 @@
 - name: "NETBOX_VM_INTERFACE 2: Create duplicate"
   netbox.netbox.netbox_vm_interface:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      virtual_machine: "test100-vm"
-      name: "Eth10"
+      virtual_machine: test100-vm
+      name: Eth10
     state: present
   register: test_two
 
 - name: "NETBOX_VM_INTERFACE 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['interface']['name'] == "Eth10"
@@ -45,30 +45,30 @@
 - name: "NETBOX_VM_INTERFACE 3: Updated"
   netbox.netbox.netbox_vm_interface:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      virtual_machine: "test100-vm"
-      name: "Eth10"
+      virtual_machine: test100-vm
+      name: Eth10
       enabled: false
       mtu: 9000
       mac_address: "00:00:00:AA:AA:01"
-      description: "Updated test100-vm"
+      description: Updated test100-vm
       mode: Tagged
-      #untagged_vlan:
+      # untagged_vlan:
       #  name: Wireless
       #  site: Test Site
-      #tagged_vlans:
+      # tagged_vlans:
       #  - name: Data
       #    site: Test Site
       #  - name: VoIP
       #    site: Test Site
       tags:
-        - "Schnozzberry"
+        - Schnozzberry
     state: present
   register: test_three
 
 - name: "NETBOX_VM_INTERFACE 4: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['enabled'] == false
@@ -76,8 +76,8 @@
       - test_three['diff']['after']['mac_address'] == "00:00:00:AA:AA:01"
       - test_three['diff']['after']['description'] == "Updated test100-vm"
       - test_three['diff']['after']['mode'] == "tagged"
-      #- test_three['diff']['after']['untagged_vlan'] == 1
-      #- test_three['diff']['after']['tagged_vlans'] == [2, 3]
+      # - test_three['diff']['after']['untagged_vlan'] == 1
+      # - test_three['diff']['after']['tagged_vlans'] == [2, 3]
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['interface']['name'] == "Eth10"
       - test_three['interface']['virtual_machine'] == 1
@@ -86,23 +86,23 @@
       - test_three['interface']['mac_address'] == "00:00:00:AA:AA:01"
       - test_three['interface']['description'] == "Updated test100-vm"
       - test_three['interface']['mode'] == "tagged"
-      #- test_three['interface']['untagged_vlan'] == 1
-      #- test_three['interface']['tagged_vlans'] == [2, 3]
+      # - test_three['interface']['untagged_vlan'] == 1
+      # - test_three['interface']['tagged_vlans'] == [2, 3]
       - test_three['interface']['tags'][0] == 4
       - test_three['msg'] == "interface Eth10 updated"
 
 - name: "NETBOX_VM_INTERFACE 4: ASSERT - Delete"
   netbox.netbox.netbox_vm_interface:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "Eth10"
-      virtual_machine: "test100-vm"
+      name: Eth10
+      virtual_machine: test100-vm
     state: absent
   register: test_four
 
 - name: "NETBOX_VM_INTERFACE 4: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['interface']['name'] == "Eth10"
@@ -112,30 +112,30 @@
 - name: "NETBOX_VM_INTERFACE 5: Attempt to update interface with same name on other VMs"
   netbox.netbox.netbox_vm_interface:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      virtual_machine: "test100-vm"
-      name: "Eth0"
+      virtual_machine: test100-vm
+      name: Eth0
       enabled: false
       mtu: 9000
       mac_address: "00:00:00:AA:AA:01"
-      description: "Updated test100-vm Eth0 intf"
+      description: Updated test100-vm Eth0 intf
       mode: Tagged
-      #untagged_vlan:
-      #  name: Wireless
-      #  site: Test Site
-      #tagged_vlans:
-      #  - name: Data
-      #    site: Test Site
-      #  - name: VoIP
-      #    site: Test Site
+      # untagged_vlan:
+      #   name: Wireless
+      #   site: Test Site
+      # tagged_vlans:
+      #   - name: Data
+      #     site: Test Site
+      #   - name: VoIP
+      #     site: Test Site
       tags:
-        - "Schnozzberry"
+        - Schnozzberry
     state: present
   register: test_five
 
 - name: "NETBOX_VM_INTERFACE 5: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['after']['enabled'] == false
@@ -143,8 +143,8 @@
       - test_five['diff']['after']['mac_address'] == "00:00:00:AA:AA:01"
       - test_five['diff']['after']['description'] == "Updated test100-vm Eth0 intf"
       - test_five['diff']['after']['mode'] == "tagged"
-      #- test_five['diff']['after']['untagged_vlan'] == 1
-      #- test_five['diff']['after']['tagged_vlans'] == [2, 3]
+      # - test_five['diff']['after']['untagged_vlan'] == 1
+      # - test_five['diff']['after']['tagged_vlans'] == [2, 3]
       - test_five['diff']['after']['tags'][0] == 4
       - test_five['interface']['name'] == "Eth0"
       - test_five['interface']['virtual_machine'] == 1
@@ -153,7 +153,7 @@
       - test_five['interface']['mac_address'] == "00:00:00:AA:AA:01"
       - test_five['interface']['description'] == "Updated test100-vm Eth0 intf"
       - test_five['interface']['mode'] == "tagged"
-      #- test_five['interface']['untagged_vlan'] == 1
-      #- test_five['interface']['tagged_vlans'] == [2, 3]
+      # - test_five['interface']['untagged_vlan'] == 1
+      # - test_five['interface']['tagged_vlans'] == [2, 3]
       - test_five['interface']['tags'][0] == 4
       - test_five['msg'] == "interface Eth0 updated"

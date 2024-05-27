@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -362,7 +362,7 @@ Parameters
 
       The content type(s) to apply this webhook to
 
-      Required when \ :emphasis:`state=present`\ 
+      Required when \ :emphasis:`state=present`\
 
 
       .. raw:: html
@@ -582,7 +582,7 @@ Parameters
 
       URL for the webhook to use.
 
-      Required when \ :emphasis:`state=present`\ 
+      Required when \ :emphasis:`state=present`\
 
 
       .. raw:: html
@@ -1032,8 +1032,8 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
-   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\
 
 .. Seealso
 
@@ -1045,10 +1045,10 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox webhook module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a webhook
           netbox_webhook:
@@ -1056,9 +1056,9 @@ Examples
             netbox_token: thisIsMyToken
             data:
               content_types:
-                - dcim.device            
+                - dcim.device
               name: Example Webhook
-              type_create: yes
+              type_create: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
                 {{ data }}
@@ -1069,11 +1069,11 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}         
+                {{ data }}
 
         - name: Delete the webhook
           netbox_webhook:
@@ -1081,11 +1081,11 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}  
+                {{ data }}
             state: absent
 
 

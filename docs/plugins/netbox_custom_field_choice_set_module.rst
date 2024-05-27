@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -589,7 +589,7 @@ Notes
 -----
 
 .. note::
-   - This should be run with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be run with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -601,10 +601,10 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test Netbox custom_field_choice_set module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a choice set with choices
           netbox.netbox.netbox_custom_field_choice_set:

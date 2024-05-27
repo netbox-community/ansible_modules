@@ -1,19 +1,19 @@
-# Ansible Modules for NetBox 
+# Ansible Modules for NetBox
 
 ## Description
-The NetBox Ansible project provides an Ansible collection for interacting with NetBox, the leading solution for modeling and documenting modern networks. By combining the traditional disciplines of IP address management (IPAM) and datacenter infrastructure management (DCIM) with powerful APIs and extensions, NetBox provides the ideal "source of truth" to power network automation. 
+The NetBox Ansible project provides an Ansible collection for interacting with NetBox, the leading solution for modeling and documenting modern networks. By combining the traditional disciplines of IP address management (IPAM) and datacenter infrastructure management (DCIM) with powerful APIs and extensions, NetBox provides the ideal "source of truth" to power network automation.
 
-This Ansible collection consists of a set of modules to define the intended network state in NetBox, along with plugins to drive automation of the network using data from NetBox. 
+This Ansible collection consists of a set of modules to define the intended network state in NetBox, along with plugins to drive automation of the network using data from NetBox.
 
 ## Requirements
 
 - You must be running one of the two most recent releases of NetBox
-- A NetBox write-enabled API token when using modules or a read-only token for the `nb_lookup ` and `nb_inventory` plugins. 
-- Python 3.8+
+- A NetBox write-enabled API token when using modules or a read-only token for the `nb_lookup ` and `nb_inventory` plugins.
+- Python 3.10+
 - Python modules:
-  - pytz 
-  - pynetbox 
-- Ansible 2.12+ 
+  - pytz
+  - pynetbox
+- Ansible 2.15+
 
 ## Installation
 
@@ -41,10 +41,10 @@ To upgrade the collection to the latest available version, run the following com
 ```
 ansible-galaxy collection install netbox.netbox --upgrade
 ```
-You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 3.17.0:
+You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 3.18.0:
 
 ```
-ansible-galaxy collection install netbox.netbox:==3.17.0 
+ansible-galaxy collection install netbox.netbox:==3.18.0
 ```
 See using [Ansible collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html#installing-collections) for more details.
 
@@ -75,13 +75,13 @@ This is useful to test code within PRs.
 ## Use Cases
 
 ### Use Case 1 - Define Intended Network State in NetBox
-Define the intended state of your network in NetBox, by interacting with the NetBox database to define objects and their associated state in the following ways: 
+Define the intended state of your network in NetBox, by interacting with the NetBox database to define objects and their associated state in the following ways:
 
 - Make sure objects exit
 - Update objects if they do exist
 - Remove objects if they do not not exist
 
-For example, to make sure a new aggregate network prefix exists:   
+For example, to make sure a new aggregate network prefix exists:
 ```
 tasks:
     - name: Create aggregate within NetBox with only required information
@@ -95,9 +95,9 @@ tasks:
 ```
 
 ### Use Case 2 - NetBox as a Dynamic Inventory Source for Ansible
-Use the Inventory Plugin to dynamically generate Ansible inventory from device data in NetBox. Use query filters, groups and mappings to tailor the generated inventory to your specific needs. 
+Use the Inventory Plugin to dynamically generate Ansible inventory from device data in NetBox. Use query filters, groups and mappings to tailor the generated inventory to your specific needs.
 
-The following example builds an Ansible inventory that groups devices by `role`, and filters for only devices that have the `network-edge-router` role, have a primary IP address and belong to the `internal` tenant:  
+The following example builds an Ansible inventory that groups devices by `role`, and filters for only devices that have the `network-edge-router` role, have a primary IP address and belong to the `internal` tenant:
 ```
 # netbox_inventory.yml file in YAML format
 # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
@@ -116,9 +116,9 @@ device_query_filters:
 ```
 
 ### Use Case 3 - Query and Return Elements from NetBox
-Use the Lookup plugin to query NetBox and return data to drive network automation, such as lists of devices, device configurations, prefixes and IP addresses etc. 
+Use the Lookup plugin to query NetBox and return data to drive network automation, such as lists of devices, device configurations, prefixes and IP addresses etc.
 
-The following example returns a list of devices and their manufacturers, using an API filter to only return devices with the `management` role and the NetBox tag of `Dell`: 
+The following example returns a list of devices and their manufacturers, using an API filter to only return devices with the `management` role and the NetBox tag of `Dell`:
 ```
 tasks:
   # query a list of devices
@@ -134,13 +134,13 @@ tasks:
 
 ```
 ## Testing
-Tested with Ansible Core v2.15.9. Ansible Core versions prior to 2.15.9 are not supported.
+Tested with Ansible Core v2.15+ Ansible Core versions prior to 2.15 are not supported.
 
 ## Contributing
 If you would to contribute to the project then you can find out how to get started [here](https://github.com/netbox-community/ansible_modules/blob/devel/CONTRIBUTING.md).
 
 ## Support
-There are various options to get support for the collection: 
+There are various options to get support for the collection:
 -  Search through previous [GitHub Discussions](https://github.com/netbox-community/ansible_modules/discussions) or start a new one.
 - Raise a [GitHub Issue](https://github.com/netbox-community/ansible_modules/issues)
 - Read the module [documentation](https://netbox-ansible-collection.readthedocs.io/en/latest/)
@@ -149,11 +149,11 @@ There are various options to get support for the collection:
 Customers of NetBox Labs and Ansible using the officially certified version of the collection can get support via the usual Ansible channels. Escalation to the NetBox Labs support team will be provided as needed.
 
 ## Release Notes
-The collection release notes and changelog can be found [here](https://github.com/netbox-community/ansible_modules/releases). 
+The collection release notes and changelog can be found [here](https://github.com/netbox-community/ansible_modules/releases).
 
 ## Related Information
-Some extra resources you might find useful for both the Anisble collection and for NetBox itself: 
-- [NetBox Zero to Hero](https://netboxlabs.com/zero-to-hero/) - free 12 part course that takes you from an empty NetBox through to a fully deployed branch site, using the Ansible collection extensively along the way. 
+Some extra resources you might find useful for both the Anisble collection and for NetBox itself:
+- [NetBox Zero to Hero](https://netboxlabs.com/zero-to-hero/) - free 12 part course that takes you from an empty NetBox through to a fully deployed branch site, using the Ansible collection extensively along the way.
 - [Network Configuration Assurance with NetBox and Ansible](https://netboxlabs.com/blog/network-configuration-assurance-with-netbox-and-ansible/) - blog post featuring the Inventory plugin being used in a simple network automation use case to compare actual network state Vs intended state as defined in NetBox.
 - Official NetBox [documentation](https://docs.netbox.dev/en/stable/).
 
@@ -162,4 +162,4 @@ GNU General Public License v3.0 or later.
 
 See [LICENSE](https://github.com/netbox-community/ansible_modules/blob/devel/LICENSE) for the full text of the license.
 
-Link to the license that the collection is published under. 
+Link to the license that the collection is published under.

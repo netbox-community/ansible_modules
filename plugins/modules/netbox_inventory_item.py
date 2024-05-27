@@ -43,8 +43,8 @@ options:
         description:
           - The parent inventory item the inventory item will be associated with
         required: false
-        type: raw     
-        version_added: "3.5.0"   
+        type: raw
+        version_added: "3.5.0"
       label:
         description:
           - The physical label of the inventory item
@@ -106,12 +106,12 @@ options:
             description:
               - The name of the component
             type: str
-            required: False
+            required: false
           device:
             description:
               - The device the component is attached to.
             type: str
-            required: False
+            required: false
         version_added: "3.15.0"
       tags:
         description:
@@ -138,7 +138,7 @@ EXAMPLES = r"""
 - name: "Test NetBox inventory_item module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create inventory item within NetBox with only required information
       netbox.netbox.netbox_inventory_item:
@@ -163,7 +163,7 @@ EXAMPLES = r"""
           description: "New SFP"
           inventory_item_role: NIC
         state: present
-        
+
     - name: Create inventory item with parent
       netbox.netbox.netbox_inventory_item:
         netbox_url: http://netbox.local

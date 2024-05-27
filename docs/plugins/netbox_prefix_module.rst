@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -552,7 +552,7 @@ Parameters
 
       Required ONLY if state is \ :literal:`present`\  and first\_available is \ :literal:`yes`\ .
           Will get a new available prefix of the given prefix\_length in this parent prefix.
-          
+
 
 
       .. raw:: html
@@ -1097,7 +1097,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -1109,11 +1109,11 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox prefix module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create prefix within NetBox with only required information
@@ -1163,7 +1163,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Create prefix within NetBox with only required information
           netbox.netbox.netbox_prefix:
@@ -1181,7 +1181,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
           netbox.netbox.netbox_prefix:
@@ -1193,7 +1193,7 @@ Examples
               vrf: Test VRF
               site: Test Site
             state: present
-            first_available: yes
+            first_available: true
 
 
 

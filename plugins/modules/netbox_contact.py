@@ -75,7 +75,7 @@ options:
           - URL associated with the contact
         required: false
         type: str
-        version_added: "3.7.0"    
+        version_added: "3.7.0"
       tags:
         description:
           - Any tags that the contact may need to be associated with
@@ -94,7 +94,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create contact within NetBox with only required information
       netbox.netbox.netbox_contact:
@@ -117,10 +117,10 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: contact ABC          
+          name: contact ABC
           title: Mr Contact
           phone: 123456789
-          email: contac@contact.com          
+          email: contac@contact.com
           tags:
             - tagA
             - tagB

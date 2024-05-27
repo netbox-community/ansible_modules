@@ -35,12 +35,12 @@ options:
       fhrp_group:
         description:
           - FHRP Group ID
-        required: True
+        required: true
         type: int
       interface_type:
         description:
           - Interface type
-        required: True
+        required: true
         choices:
           - dcim.interface
           - virtualization.vminterface
@@ -49,16 +49,17 @@ options:
         description:
           - Interface ID
         type: int
-        required: True
+        required: true
       priority:
         description:
           - Priority (0 .. 255)
         type: int
-    required: True
+    required: true
 """
 
 EXAMPLES = r"""
-- hosts: localhost
+- name: "Test NetBox modules"
+  hosts: localhost
   connection: local
   module_defaults:
     group/netbox.netbox.netbox:
@@ -82,7 +83,6 @@ EXAMPLES = r"""
           interface_type: dcim.interface
           interface_id: 5
         state: absent
-
 """
 
 RETURN = r"""

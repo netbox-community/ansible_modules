@@ -32,7 +32,7 @@ Open ``plugins/module_utils/netbox_ipam.py`` file and update the following.
   ...
   NB_ROUTE_TARGETS = "route_targets"
   ...
-  
+
   class NetboxIpamModule(NetboxModule):
       ...
       def run(self):
@@ -195,7 +195,7 @@ The next step is to update the ``EXAMPLES`` variable.
         loop:
           - { name: "65000:65001", description: "management" }
           - { name: "65000:65002", description: "tunnel" }
-  
+
       - name: Update Description on Route Targets
         netbox.netbox.netbox_route_target:
           netbox_url: http://netbox.local
@@ -209,7 +209,7 @@ The next step is to update the ``EXAMPLES`` variable.
         loop:
           - { name: "65000:65001", description: "management" }
           - { name: "65000:65002", description: "tunnel" }
-  
+
       - name: Delete Route Targets
         netbox.netbox.netbox_route_target:
           netbox_url: http://netbox.local
@@ -322,30 +322,30 @@ Here is the output of the a playbook I created using the examples we documented 
   Skipping callback 'default', as we already have a stdout callback.
   Skipping callback 'minimal', as we already have a stdout callback.
   Skipping callback 'oneline', as we already have a stdout callback.
-  
+
   PLAYBOOK: pb.test-rt.yml *********************************************************************************************************************************************************************************************************************************************************************************************
   1 plays in pb.test-rt.yml
-  
+
   PLAY [Test route target creation/deletion] ***************************************************************************************************************************************************************************************************************************************************************************
   META: ran handlers
-  
+
   TASK [Create Route Targets] ******************************************************************************************************************************************************************************************************************************************************************************************
   task path: /Users/myohman/cloned-repos/ansible_modules/pb.test-rt.yml:7
   changed: [localhost] => (item={'name': '65000:65001', 'description': 'management'}) => {"ansible_loop_var": "item", "changed": true, "item": {"description": "management", "name": "65000:65001"}, "msg": "route_target 65000:65001 updated", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "", "id": 1, "last_updated": "2021-01-13T23:06:40.211082Z", "name": "65000:65001", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/1/"}}
   changed: [localhost] => (item={'name': '65000:65002', 'description': 'tunnel'}) => {"ansible_loop_var": "item", "changed": true, "item": {"description": "tunnel", "name": "65000:65002"}, "msg": "route_target 65000:65002 created", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "", "id": 2, "last_updated": "2021-01-13T23:59:29.946943Z", "name": "65000:65002", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/2/"}}
-  
+
   TASK [Update Description on Route Targets] ***************************************************************************************************************************************************************************************************************************************************************************
   task path: /Users/myohman/cloned-repos/ansible_modules/pb.test-rt.yml:20
   changed: [localhost] => (item={'name': '65000:65001', 'description': 'management'}) => {"ansible_loop_var": "item", "changed": true, "item": {"description": "management", "name": "65000:65001"}, "msg": "route_target 65000:65001 updated", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "management", "id": 1, "last_updated": "2021-01-13T23:59:29.146435Z", "name": "65000:65001", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/1/"}}
   changed: [localhost] => (item={'name': '65000:65002', 'description': 'tunnel'}) => {"ansible_loop_var": "item", "changed": true, "item": {"description": "tunnel", "name": "65000:65002"}, "msg": "route_target 65000:65002 updated", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "tunnel", "id": 2, "last_updated": "2021-01-13T23:59:29.946943Z", "name": "65000:65002", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/2/"}}
-  
+
   TASK [Delete Route Targets] ******************************************************************************************************************************************************************************************************************************************************************************************
   task path: /Users/myohman/cloned-repos/ansible_modules/pb.test-rt.yml:34
   changed: [localhost] => (item=65000:65001) => {"ansible_loop_var": "item", "changed": true, "item": "65000:65001", "msg": "route_target 65000:65001 deleted", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "management", "id": 1, "last_updated": "2021-01-13T23:59:30.829004Z", "name": "65000:65001", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/1/"}}
   changed: [localhost] => (item=65000:65002) => {"ansible_loop_var": "item", "changed": true, "item": "65000:65002", "msg": "route_target 65000:65002 deleted", "route_target": {"created": "2021-01-13", "custom_fields": {}, "description": "tunnel", "id": 2, "last_updated": "2021-01-13T23:59:31.748181Z", "name": "65000:65002", "tags": [4], "tenant": 1, "url": "http://192.168.50.10:8000/api/ipam/route-targets/2/"}}
   META: ran handlers
   META: ran handlers
-  
+
   PLAY RECAP ***********************************************************************************************************************************************************************************************************************************************************************************************************
   localhost                  : ok=3    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 

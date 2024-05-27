@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -587,8 +587,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`new`\  for adding a journal entry.        
-          
+      Use \ :literal:`new`\  for adding a journal entry.
+
 
 
       .. rst-class:: ansible-option-line
@@ -653,7 +653,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
 
 .. Seealso
 
@@ -665,7 +665,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
+
     - name: "Test NetBox Module"
       hosts: localhost
       connection: local

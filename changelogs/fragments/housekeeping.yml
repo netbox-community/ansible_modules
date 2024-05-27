@@ -1,0 +1,7 @@
+---
+minor_changes:
+  - Update CI process to follow Ansible Collection Standards (#1247)
+  - Add galaxy-importer to CI process (#1245)
+  - Update top-level README with new minimum Ansible version (sequence after #1241) (#1244)
+  - Drop obsolete Ansible and Python versions and fix tests (#1241)
+  - Get ansible-lint passing again (sequence after #1241) (#1243)
