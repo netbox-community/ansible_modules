@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -485,7 +485,7 @@ Parameters
 
         :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
+      :ansible-option-versionadded:`added in netbox.netbox 3.19.0`
 
 
       .. raw:: html
@@ -750,7 +750,7 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
    - Use the \ :literal:`!unsafe`\  data type if you want jinja2 code in template\_code
 
 .. Seealso
@@ -763,7 +763,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox export_templates module"
       connection: local
       hosts: localhost

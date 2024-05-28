@@ -27,7 +27,7 @@ This is a collection of NetBox Ansible modules
 
 **Supported ansible-core versions:**
 
-* 2.15.0 or newer
+* 2.9.10 or newer
 
 .. ansible-links::
 

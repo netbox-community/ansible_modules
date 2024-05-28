@@ -1,2 +1,2 @@
 # This file contains ignores rule violations for ansible-lint
-changelogs/fragments/housekeeping.yml yaml[comments]
+changelogs/fragments/ yaml[comments]

@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -362,7 +362,7 @@ Parameters
 
       The content type(s) to apply this webhook to
 
-      Required when \ :emphasis:`state=present`\
+      Required when \ :emphasis:`state=present`\ 
 
 
       .. raw:: html
@@ -582,7 +582,7 @@ Parameters
 
       URL for the webhook to use.
 
-      Required when \ :emphasis:`state=present`\
+      Required when \ :emphasis:`state=present`\ 
 
 
       .. raw:: html
@@ -1032,8 +1032,8 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
-   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\ 
 
 .. Seealso
 
@@ -1045,7 +1045,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox webhook module"
       connection: local
       hosts: localhost

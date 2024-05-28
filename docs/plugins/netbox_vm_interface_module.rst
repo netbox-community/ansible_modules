@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -542,7 +542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\
+      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\ 
 
 
       .. raw:: html
@@ -967,7 +967,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -979,7 +979,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost

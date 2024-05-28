@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -845,7 +845,7 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
    - Use the \ :literal:`!unsafe`\  data type if you want jinja2 code in link\_text or link\_url
 
 .. Seealso
@@ -858,7 +858,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox custom_link module"
       connection: local
       hosts: localhost

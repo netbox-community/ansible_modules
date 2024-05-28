@@ -1,3 +1,0 @@
----
-minor_changes:
-  - nb_inventory - Allow Jinja2 template on filter

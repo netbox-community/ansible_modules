@@ -502,7 +502,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     tasks:
       # query a list of devices
       - name: Obtain list of devices from NetBox

@@ -41,7 +41,7 @@ To upgrade the collection to the latest available version, run the following com
 ```
 ansible-galaxy collection install netbox.netbox --upgrade
 ```
-You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 3.18.0:
+You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version 3.19.0:
 
 ```
 ansible-galaxy collection install netbox.netbox:==3.18.0

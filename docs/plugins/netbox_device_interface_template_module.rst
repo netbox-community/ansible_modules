@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -419,7 +419,7 @@ Parameters
       Form factor of the interface:
           ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
           This has to be specified exactly as what is found within UI
-
+          
 
 
       .. raw:: html
@@ -628,7 +628,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -640,7 +640,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox interface template module"
       connection: local
       hosts: localhost

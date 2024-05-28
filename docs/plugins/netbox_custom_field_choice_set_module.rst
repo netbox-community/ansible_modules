@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -589,7 +589,7 @@ Notes
 -----
 
 .. note::
-   - This should be run with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be run with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -601,7 +601,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test Netbox custom_field_choice_set module"
       connection: local
       hosts: localhost

@@ -46,6 +46,7 @@ options:
           - The label of the power outlet
         required: false
         type: str
+        version_added: '3.19.0'
       type:
         description:
           - The type of the power outlet

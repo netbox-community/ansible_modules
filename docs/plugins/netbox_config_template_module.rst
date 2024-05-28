@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -580,7 +580,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test config template creation/deletion"
       connection: local
       hosts: localhost
