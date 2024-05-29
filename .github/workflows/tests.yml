@@ -21,9 +21,9 @@ jobs:
   ansible-lint:
     uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
   sanity:
-    uses: ansible/ansible-content-actions/.github/workflows/sanity.yaml@main
+    uses: minitriga/ansible-content-actions/.github/workflows/sanity.yaml@patch-1
   unit-galaxy:
-    uses: ansible/ansible-content-actions/.github/workflows/unit.yaml@main
+    uses: minitriga/ansible-content-actions/.github/workflows/unit.yaml@patch-1
   unit-source:
     uses: ansible-network/github_actions/.github/workflows/unit_source.yml@main
     with:
