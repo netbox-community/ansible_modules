@@ -743,6 +743,13 @@ releases:
     - issue_1253.yml
     - issue_1256.yml
     release_date: '2024-05-28'
+  3.19.1:
+    changes:
+      minor_changes:
+      - Bump version 3.19.1
+    fragments:
+    - bump.yml
+    release_date: '2024-05-29'
   3.2.0:
     changes:
       bugfixes:
