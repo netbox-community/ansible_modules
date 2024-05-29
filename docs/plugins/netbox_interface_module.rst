@@ -18,7 +18,7 @@ netbox.netbox.netbox_interface
 .. Collection note
 
 .. note::
-    This plugin was part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
+    This plugin was part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
 
 This module has been removed
 in version 0.1.0 of netbox.netbox.

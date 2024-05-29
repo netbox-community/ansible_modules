@@ -4,6 +4,14 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.19.1
+=======
+
+Minor Changes
+-------------
+
+- Bump version 3.19.1
+
 v3.19.0
 =======
 
