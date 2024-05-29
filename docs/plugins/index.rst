@@ -9,7 +9,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.18.0
+Collection version 3.19.0
 
 .. contents::
    :local:
@@ -27,7 +27,7 @@ This is a collection of NetBox Ansible modules
 
 **Supported ansible-core versions:**
 
-* 2.9.10 or newer
+* 2.15.0 or newer
 
 .. ansible-links::
 

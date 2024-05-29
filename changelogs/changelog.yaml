@@ -730,10 +730,13 @@ releases:
         - Update top-level README with new minimum Ansible version (sequence after `#1241
           <https://github.com/netbox-community/ansible_modules/issues/1241>`_ `#1244
           <https://github.com/netbox-community/ansible_modules/issues/1244>`_
+        - Updated CI to only run changelog job if PR into devel branch is detected.
+          `#1251 <https://github.com/netbox-community/ansible_modules/issues/1251>`_
         - Updated CI to support NetBox 4.0 `#1230 <https://github.com/netbox-community/ansible_modules/pull/1230>`_
         - Updates to top-level README.md to align collection with Ansible best practices
           `#1238 <https://github.com/netbox-community/ansible_modules/issues/1238>`_
     fragments:
+      - fix_ci.yml
       - housekeeping.yml
       - issue_1249.yml
     release_date: "2024-05-28"
