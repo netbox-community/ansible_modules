@@ -4,6 +4,32 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.19.0
+=======
+
+Minor Changes
+-------------
+
+- Add cluster host to dynamic inventory response `#1219 <https://github.com/netbox-community/ansible_modules/pull/1219>`_
+- Add galaxy-importer to CI process `#1245 <https://github.com/netbox-community/ansible_modules/issues/1245>`_
+- Adjust modules to support NetBox v4.0.0 `#1234 <https://github.com/netbox-community/ansible_modules/pull/1234>`_
+- Bump jinja2 from 3.1.2 to 3.1.4 `#1226 <https://github.com/netbox-community/ansible_modules/pull/1226>`_
+- Bump requests from 2.31.0 to 2.32.0 `#1236 <https://github.com/netbox-community/ansible_modules/pull/1236>`_
+- Drop obsolete Ansible and Python versions and fix tests `#1241 <https://github.com/netbox-community/ansible_modules/issues/1241>`_
+- Get ansible-lint passing again (sequence after `#1241 <https://github.com/netbox-community/ansible_modules/issues/1241>`_) `#1243 <https://github.com/netbox-community/ansible_modules/issues/1243>`_
+- Update CI process to follow Ansible Collection Standards `#1247 <https://github.com/netbox-community/ansible_modules/issues/1247>`_
+- Update top-level README with new minimum Ansible version (sequence after `#1241 <https://github.com/netbox-community/ansible_modules/issues/1241>`_ `#1244 <https://github.com/netbox-community/ansible_modules/issues/1244>`_
+- Updated CI to only run changelog job if PR into devel branch is detected. `#1251 <https://github.com/netbox-community/ansible_modules/issues/1251>`_
+- Updated CI to support NetBox 4.0 `#1230 <https://github.com/netbox-community/ansible_modules/pull/1230>`_
+- Updates to top-level README.md to align collection with Ansible best practices `#1238 <https://github.com/netbox-community/ansible_modules/issues/1238>`_
+
+Bugfixes
+--------
+
+- Added ALLOWED_QUERY_PARAMS module_bay by device `#1228 <https://github.com/netbox-community/ansible_modules/pull/1228>`_
+- Added label to power outlet `#1222 <https://github.com/netbox-community/ansible_modules/pull/1222>`_
+- Added power outlet type iec-60320-c21 to power outlet template and power outlet modules `#1229 <https://github.com/netbox-community/ansible_modules/issues/1229>`_
+- Extend query param for parent_location `#1233 <https://github.com/netbox-community/ansible_modules/issues/1233>`_
 
 v3.18.0
 =======
@@ -410,8 +436,8 @@ v3.1.2
 Release Summary
 ---------------
 
-This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates.
-This release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI.
+This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates. 
+This release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI. 
 The next release will idenify and resolve any issues with NetBox 3.0.
 
 Minor Changes
@@ -448,7 +474,6 @@ Release Summary
 
 This release should fix obvious broken changes between collection and NetBox 2.11, but there is most likely more. Please report as they're encountered.
 **packages** is now a required Python package and is already included in Ansible 2.10, but anyone using Ansible 2.9 or below must manually pip install the library.
-
 
 Major Changes
 -------------

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "netbox_ansible_modules"
-version = "3.17.0"
+version = "3.19.0"
 description = "Ansible collection to interact with NetBox's API"
 authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
@@ -28,6 +28,7 @@ pylint = "*"
 pytz = "*"
 packaging = "*"
 importlib-resources = "*"
+antsibull-docs = "^2.11.0"
 
 [tool.poetry.dev-dependencies]
 

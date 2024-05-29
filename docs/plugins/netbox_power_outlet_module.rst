@@ -23,7 +23,7 @@ netbox.netbox.netbox_power_outlet module -- Create, update or delete power outle
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -314,6 +314,9 @@ Parameters
       .. ansible-option-type-line::
 
         :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.19.0`
+
 
       .. raw:: html
 
@@ -765,7 +768,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -777,7 +780,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox modules"
       connection: local
       hosts: localhost

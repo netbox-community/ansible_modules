@@ -47,7 +47,7 @@ options:
         required: false
         type: list
         elements: raw
-        version_added: "3.10.0"
+        version_added: "3.19.0"
       name:
         description:
           - The name of the export template

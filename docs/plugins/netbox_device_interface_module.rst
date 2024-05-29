@@ -23,7 +23,7 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -470,7 +470,7 @@ Parameters
       Form factor of the interface:
           ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
           This has to be specified exactly as what is found within UI
-
+          
 
 
       .. raw:: html
@@ -1044,7 +1044,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\
+      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\ 
 
 
       .. raw:: html
@@ -1176,7 +1176,7 @@ Parameters
       Form factor of the interface:
           ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
           This has to be specified exactly as what is found within UI
-
+          
 
 
       .. raw:: html
@@ -1495,7 +1495,7 @@ Parameters
 
       Use when master device is specified for \ :literal:`device`\  and the specified interface exists on a child device
           and needs updated
-
+          
 
 
       .. rst-class:: ansible-option-line
@@ -1561,7 +1561,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -1573,7 +1573,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost

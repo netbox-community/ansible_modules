@@ -23,7 +23,7 @@ netbox.netbox.netbox_contact module -- Creates or removes contacts from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -827,7 +827,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -839,7 +839,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox module"
       connection: local
       hosts: localhost

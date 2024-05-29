@@ -10,7 +10,7 @@ namespace: netbox
 name: netbox
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 3.18.0
+version: 3.19.0
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md

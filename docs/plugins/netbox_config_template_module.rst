@@ -23,7 +23,7 @@ netbox.netbox.netbox_config_template module -- Creates or removes config templat
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -580,7 +580,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test config template creation/deletion"
       connection: local
       hosts: localhost

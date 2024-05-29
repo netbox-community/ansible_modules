@@ -1,4 +1,3 @@
----
 ancestor: null
 releases:
   0.1.0:
@@ -542,65 +541,255 @@ releases:
   3.1.2:
     changes:
       minor_changes:
-        - "Release v3.1.2 [#594](https://github.com/netbox-community/ansible_modules/pull/594)"
-        - "CI testing & integration tests now leverage ansible-core 2.11 - Fixes #583: Move to Ansible-core for CI tests  [#591](https://github.com/netbox-community/ansible_modules/pull/591)"
+        - Add ansible-core support - Quick fix to support ansible-core 2.11 [#558](https://github.com/netbox-community/ansible_modules/pull/558)
+        - Add private_key option to nb_lookup for secret decryption [#532](https://github.com/netbox-community/ansible_modules/pull/532)
+        - Added custom certificate support [#534](https://github.com/netbox-community/ansible_modules/pull/534)
+        - "CI testing & integration tests now leverage ansible-core 2.11 - Fixes #583:
+          Move to Ansible-core for CI tests  [#591](https://github.com/netbox-community/ansible_modules/pull/591)"
+        - Correct Invalid NetBox readthedocs URL in nb_inventory docs [#568](https://github.com/netbox-community/ansible_modules/pull/568)
+        - Fixes to CI due to not pinning NetBox & NetBox-Docker version CI among other
+          minor CI corrections - General CI Fix [573](https://github.com/netbox-community/ansible_modules/pull/573)
         - "README: Slack link and tidyup [#584](https://github.com/netbox-community/ansible_modules/pull/584)"
-        - "Fixes to CI due to not pinning NetBox & NetBox-Docker version CI among other minor CI corrections - General CI Fix [573](https://github.com/netbox-community/ansible_modules/pull/573)"
-        - "Correct Invalid NetBox readthedocs URL in nb_inventory docs [#568](https://github.com/netbox-community/ansible_modules/pull/568)"
-        - "Add ansible-core support - Quick fix to support ansible-core 2.11 [#558](https://github.com/netbox-community/ansible_modules/pull/558)"
-        - "Update netbox_region documentation - Documentation: netbox_region - Correct examples [#548](https://github.com/netbox-community/ansible_modules/pull/548)"
-        - "Added custom certificate support [#534](https://github.com/netbox-community/ansible_modules/pull/534)"
-        - "Add private_key option to nb_lookup for secret decryption [#532](https://github.com/netbox-community/ansible_modules/pull/532)"
+        - Release v3.1.2 [#594](https://github.com/netbox-community/ansible_modules/pull/594)
+        - "Update netbox_region documentation - Documentation: netbox_region - Correct
+          examples [#548](https://github.com/netbox-community/ansible_modules/pull/548)"
       release_summary:
-        "This release focuses on ansible-core 2.11 compatibility, general CI fixes for NetBox 2.10-2.11, and doc updates.
-        \nThis release works with NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing really major) & some CI.
-        \nThe next release will idenify and resolve any issues with NetBox 3.0."
+        "This release focuses on ansible-core 2.11 compatibility, general
+        CI fixes for NetBox 2.10-2.11, and doc updates. \nThis release works with
+        NetBox 3.0, but needs further investigation with regards to idopmentcy (nothing
+        really major) & some CI. \nThe next release will idenify and resolve any issues
+        with NetBox 3.0."
     release_date: "2021-09-20"
-  3.2.0:
+  3.10.0:
+    changes:
+      bugfixes:
+        - nb_inventory - Raise exception on missing packaging [#900](https://github.com/netbox-community/ansible_modules/pull/900)
+      minor_changes:
+        - Add options for NetBox 3.4 [#905](https://github.com/netbox-community/ansible_modules/pull/905)
+        - netbox_custom_field - Add group_name [#882](https://github.com/netbox-community/ansible_modules/pull/882)
+        - netbox_device_type and netbox_device - Add airflow [#907](https://github.com/netbox-community/ansible_modules/pull/907)
+        - netbox_invventory_item_role - Add module [#885](https://github.com/netbox-community/ansible_modules/pull/885)
+        - netbox_module_type - Add module [#887](https://github.com/netbox-community/ansible_modules/pull/887)
+        - netbox_service_template - Add module [#908](https://github.com/netbox-community/ansible_modules/pull/908)
+      trivial:
+        - Update CI for NetBox 3.4 [#906](https://github.com/netbox-community/ansible_modules/pull/906)
+        - Update documentation to use FQCN [#881](https://github.com/netbox-community/ansible_modules/pull/881)
+    modules:
+      - description: Create, update or delete inventory item roles in NetBox
+        name: netbox_inventory_item_role
+        namespace: ""
+      - description: Create, update or delete module types in NetBox
+        name: netbox_module_type
+        namespace: ""
+      - description: Create, update or delete service templates in NetBox
+        name: netbox_service_template
+        namespace: ""
+    release_date: "2022-12-16"
+  3.11.0:
+    changes:
+      bugfixes:
+        - nb_lookup - Fix pynetbox 7.0.1 compatibility [#934](https://github.com/netbox-community/ansible_modules/pull/934)
+        - netbox_cable - Fix NetBox 3.3 compatibility [#938](https://github.com/netbox-community/ansible_modules/pull/938)
+        - netbox_webhook - Fix conditions bug [#926](https://github.com/netbox-community/ansible_modules/pull/926)
+      minor_changes:
+        - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826)
+    release_date: "2023-02-12"
+  3.12.0:
+    changes:
+      bugfixes:
+        - Fix partial updates of custom_fields [#944](https://github.com/netbox-community/ansible_modules/pull/944)
+        - nb_inventory - Fix nb_inventory group_by by site_group [#952](https://github.com/netbox-community/ansible_modules/pull/952)
+        - netbox_location - Add multiple filter options to make sure we find the unique
+          location [#963](https://github.com/netbox-community/ansible_modules/pull/963)
+      minor_changes:
+        - netbox_aggregate - Add tenant as parameter to module [#968](https://github.com/netbox-community/ansible_modules/pull/968)
+        - netbox_asn - Add module [#947](https://github.com/netbox-community/ansible_modules/pull/947)
+        - netbox_fhrp_group - Add module [#957](https://github.com/netbox-community/ansible_modules/pull/957)
+        - netbox_journal_entry - Add module [#961](https://github.com/netbox-community/ansible_modules/pull/961)
+    modules:
+      - description: Create, update or delete ASN in NetBox
+        name: netbox_asn
+        namespace: ""
+      - description: Create, update or delete FHRP groups in NetBox
+        name: netbox_fhrp_group
+        namespace: ""
+      - description: Create journal entries in NetBox
+        name: netbox_journal_entry
+        namespace: ""
+    release_date: "2023-04-04"
+  3.13.0:
+    changes:
+      bugfixes:
+        - netbox_cable - Fix idempotency [#990](https://github.com/netbox-community/ansible_modules/pull/990)
+      minor_changes:
+        - nb_inventory - Enable NetBox 3.5 support [#999](https://github.com/netbox-community/ansible_modules/pull/999)
+        - netbox_fhrp_group_assignment - Add module [#974](https://github.com/netbox-community/ansible_modules/pull/974)
+        - netbox_lsvpn_termination - Add module [#994](https://github.com/netbox-community/ansible_modules/pull/994)
+    modules:
+      - description: Creates, updates or removes FHRP group assignments from NetBox
+        name: netbox_fhrp_group_assignment
+        namespace: ""
+      - description: Creates, updates or removes L2VPNs terminations from NetBox
+        name: netbox_lsvpn_termination
+        namespace: ""
+    release_date: "2023-05-11"
+  3.14.0:
+    changes:
+      bugfixes:
+        - Fix schema caching [#1053](https://github.com/netbox-community/ansible_modules/pull/1053)
+      minor_changes:
+        - API - Add possibility to use Bearer token [#1023](https://github.com/netbox-community/ansible_modules/pull/1023)
+        - custom fields - Add datetime as an custom field option [#1019](https://github.com/netbox-community/ansible_modules/pull/1019)
+        - netbox_cable - Add tenant [#1027](https://github.com/netbox-community/ansible_modules/pull/1027)
+        - netbox_circuit_type, netbox_device_interface - Add missing options [#1025](https://github.com/netbox-community/ansible_modules/pull/1025)
+        - netbox_custom_field - Add hidden-ifunset option [#1048](https://github.com/netbox-community/ansible_modules/pull/1048)
+        - netbox_inventory_item - Add role to module [#1050](https://github.com/netbox-community/ansible_modules/pull/1050)
+        - netbox_power_port - Add missing power port option [#1049](https://github.com/netbox-community/ansible_modules/pull/1049)
+    release_date: "2023-08-18"
+  3.15.0:
+    changes:
+      bugfixes:
+        - netbox_ device - Adjust device_role to role for NetBox 3.6 [#1066](https://github.com/netbox-community/ansible_modules/pull/1066)
+      minor_changes:
+        - netbox_config_template - New module [#1090](https://github.com/netbox-community/ansible_modules/pull/1090)
+        - netbox_device - Add oob_ip to device [#1085](https://github.com/netbox-community/ansible_modules/pull/1085)
+        - netbox_device_type - Add default_platform [#1092](https://github.com/netbox-community/ansible_modules/pull/1092)
+    modules:
+      - description: Creates, updates, or removed a config template from NetBox
+        name: netbox_config_template
+        namespace: ""
+    release_date: "2023-10-18"
+  3.16.0:
+    changes:
+      bugfixes:
+        - Improve error reporting for missing module [#1126](https://github.com/netbox-community/ansible_modules/pull/1126)
+        - nb_inventory - Fix API cache failure [#1111](https://github.com/netbox-community/ansible_modules/pull/1111)
+        - nb_lookup - Allow multiple IDs in nb_lookup [#1042](https://github.com/netbox-community/ansible_modules/pull/1042)
+      minor_changes:
+        - nb_inventory - Add facility group_by option [#1059](https://github.com/netbox-community/ansible_modules/pull/1059)
+        - nb_inventory - Enable ansible-vault strings in config-context data [#1114](https://github.com/netbox-community/ansible_modules/pull/1114)
+        - netbox_platform - Add config_template option to netbox_platform [#1119](https://github.com/netbox-community/ansible_modules/pull/1119)
+        - netbox_power_port_template - Add option module_type to netbox_power_port_template
+          [#1105](https://github.com/netbox-community/ansible_modules/pull/1105)
+    release_date: "2023-12-10"
+  3.17.0:
+    changes:
+      bugfixes:
+        - netbox_vlan - Fix documentation of vlan_group [#1138](https://github.com/netbox-community/ansible_modules/pull/1138)
+      minor_changes:
+        - CI - CI adjustments [#1154](https://github.com/netbox-community/ansible_modules/pull/1154)
+          [#1155](https://github.com/netbox-community/ansible_modules/pull/1155) [#1157](https://github.com/netbox-community/ansible_modules/pull/1157)
+        - nb_lookup - Add new VPN endpoints for NetBox 3.7 support [#1162](https://github.com/netbox-community/ansible_modules/pull/1162)
+        - netbox_rack_role - Add description option [#1143](https://github.com/netbox-community/ansible_modules/pull/1143)
+        - netbox_virtual_disk - New module [#1153](https://github.com/netbox-community/ansible_modules/pull/1153)
+        - netbox_virtual_machine and netbox_device - Add option config_template [#1171](https://github.com/netbox-community/ansible_modules/pull/1171)
+    modules:
+      - description: Create, updates, or removes a disk from a Virtual Machine
+        name: netbox_virtual_disk
+        namespace: ""
+    release_date: "2024-02-14"
+  3.18.0:
     changes:
       minor_changes:
-        - netbox_device_interface and netbox_vm_interface - Add parent interface to modules [#604](https://github.com/netbox-community/ansible_modules/pull/604)
-        - netbox_virtual_machine - Change vCPU to float from int (to reflect NetBox 3.0) [#605](https://github.com/netbox-community/ansible_modules/pull/605)
-        - Add location and power panel as lookup keys to nb_lookup [#599](https://github.com/netbox-community/ansible_modules/pull/599)
-        - Add connected-devices to nb_lookup [#540](https://github.com/netbox-community/ansible_modules/pull/540)
+        - nb_inventory - Add Virtual Disks to inventory [#1188](https://github.com/netbox-community/ansible_modules/pull/1188)
+        - nb_inventory - Don't extract null values from custom fields [#1184](https://github.com/netbox-community/ansible_modules/pull/1184)
+        - nb_inventory - Improve documentation for oob_ip_as_primary_ip [#1218](https://github.com/netbox-community/ansible_modules/pull/1218)
+        - nb_inventory - Make oob_ip available regardless of oob_ip_as_primary_ip option
+          [#1211](https://github.com/netbox-community/ansible_modules/pull/1211)
+        - nb_lookup - Add custom field choice set [#1186](https://github.com/netbox-community/ansible_modules/pull/1186)
+        - nb_lookup - Add endpoint for Virtual Disks [#1177](https://github.com/netbox-community/ansible_modules/pull/1177)
+        - netbox_device_type and netbox_rack - Change u_height to float [#1200](https://github.com/netbox-community/ansible_modules/pull/1200)
+        - netbox_export_templates - Update documentation [#1214](https://github.com/netbox-community/ansible_modules/pull/1214)
+        - netbox_power_port - Add label [#1202](https://github.com/netbox-community/ansible_modules/pull/1202)
+    modules:
+      - description: Create, updates, or removes Custom Field Choice sets
+        name: netbox_custom_field_choice_set
+        namespace: ""
+      - description: Create, updates, or removes Module Bay
+        name: netbox_module_bay
+        namespace: ""
+    release_date: "2024-05-05"
+  3.19.0:
+    changes:
       bugfixes:
-        - Make attached_ips subscriptable. [#609](https://github.com/netbox-community/ansible_modules/pull/609)
+        - Added ALLOWED_QUERY_PARAMS module_bay by device `#1228 <https://github.com/netbox-community/ansible_modules/pull/1228>`_
+        - Added label to power outlet `#1222 <https://github.com/netbox-community/ansible_modules/pull/1222>`_
+        - Added power outlet type iec-60320-c21 to power outlet template and power outlet
+          modules `#1229 <https://github.com/netbox-community/ansible_modules/issues/1229>`_
+        - Extend query param for parent_location `#1233 <https://github.com/netbox-community/ansible_modules/issues/1233>`_
+      minor_changes:
+        - Add cluster host to dynamic inventory response `#1219 <https://github.com/netbox-community/ansible_modules/pull/1219>`_
+        - Add galaxy-importer to CI process `#1245 <https://github.com/netbox-community/ansible_modules/issues/1245>`_
+        - Adjust modules to support NetBox v4.0.0 `#1234 <https://github.com/netbox-community/ansible_modules/pull/1234>`_
+        - Bump jinja2 from 3.1.2 to 3.1.4 `#1226 <https://github.com/netbox-community/ansible_modules/pull/1226>`_
+        - Bump requests from 2.31.0 to 2.32.0 `#1236 <https://github.com/netbox-community/ansible_modules/pull/1236>`_
+        - Drop obsolete Ansible and Python versions and fix tests `#1241 <https://github.com/netbox-community/ansible_modules/issues/1241>`_
+        - Get ansible-lint passing again (sequence after `#1241 <https://github.com/netbox-community/ansible_modules/issues/1241>`_)
+          `#1243 <https://github.com/netbox-community/ansible_modules/issues/1243>`_
+        - Update CI process to follow Ansible Collection Standards `#1247 <https://github.com/netbox-community/ansible_modules/issues/1247>`_
+        - Update top-level README with new minimum Ansible version (sequence after `#1241
+          <https://github.com/netbox-community/ansible_modules/issues/1241>`_ `#1244
+          <https://github.com/netbox-community/ansible_modules/issues/1244>`_
+        - Updated CI to only run changelog job if PR into devel branch is detected.
+          `#1251 <https://github.com/netbox-community/ansible_modules/issues/1251>`_
+        - Updated CI to support NetBox 4.0 `#1230 <https://github.com/netbox-community/ansible_modules/pull/1230>`_
+        - Updates to top-level README.md to align collection with Ansible best practices
+          `#1238 <https://github.com/netbox-community/ansible_modules/issues/1238>`_
+    fragments:
+      - fix_ci.yml
+      - housekeeping.yml
+      - issue_1249.yml
+    release_date: "2024-05-28"
+  3.2.0:
+    changes:
+      bugfixes:
         - Copy interfaces before processing [#556](https://github.com/netbox-community/ansible_modules/pull/556)
+        - Make attached_ips subscriptable. [#609](https://github.com/netbox-community/ansible_modules/pull/609)
+      minor_changes:
+        - Add connected-devices to nb_lookup [#540](https://github.com/netbox-community/ansible_modules/pull/540)
+        - Add location and power panel as lookup keys to nb_lookup [#599](https://github.com/netbox-community/ansible_modules/pull/599)
+        - netbox_device_interface and netbox_vm_interface - Add parent interface to
+          modules [#604](https://github.com/netbox-community/ansible_modules/pull/604)
+        - netbox_virtual_machine - Change vCPU to float from int (to reflect NetBox
+          3.0) [#605](https://github.com/netbox-community/ansible_modules/pull/605)
     release_date: "2021-10-18"
   3.3.0:
     changes:
       minor_changes:
         - Improve speed of netbox_cable module on NetBox version 3.0.6 or later [#624](https://github.com/netbox-community/ansible_modules/pull/624)
+        - netbox_config_context - add module for handling Config Context [#610](https://github.com/netbox-community/ansible_modules/pull/610)
         - netbox_location - add module for handling Location [#543](https://github.com/netbox-community/ansible_modules/pull/543)
         - netbox_site_group - add module for handling Site Group [#547](https://github.com/netbox-community/ansible_modules/pull/547)
-        - netbox_config_context - add module for handling Config Context [#610](https://github.com/netbox-community/ansible_modules/pull/610)
     modules:
+      - description: Create, update or delete Config Context in NetBox
+        name: netbox_config_context
+        namespace: ""
       - description: Create, update or delete Location in NetBox
         name: netbox_location
         namespace: ""
       - description: Create, update or delete Site Group in NetBox
         name: netbox_site_group
         namespace: ""
-      - description: Create, update or delete Config Context in NetBox
-        name: netbox_config_context
-        namespace: ""
     release_date: "2021-10-25"
   3.4.0:
     changes:
-      minor_changes:
-        - netbox_inventory_item - Add label and custom fields to module [#632](https://github.com/netbox-community/ansible_modules/pull/632)
-        - nb_inventory - Cache OpenAPI locally to speed up inventory [#617](https://github.com/netbox-community/ansible_modules/pull/617)
-        - netbox_vm_interface - Add custom fields to module [#637](https://github.com/netbox-community/ansible_modules/pull/637)
-        - netbox_provider_network - Add module for handling provider networks [#653](https://github.com/netbox-community/ansible_modules/pull/653)
-        - nb_lookup - Add missing endpoints to nb_lookup [#655](https://github.com/netbox-community/ansible_modules/pull/655)
-        - netbox_virtual_chassis - Add custom_fields to netbox_virtual_chassis [#657](https://github.com/netbox-community/ansible_modules/pull/657)
-        - nb_inventory - Add documentation for use of inventory plugin in Tower/AWX [#648](https://github.com/netbox-community/ansible_modules/pull/648)
-        - netbox_cable - Improve lookup speed on NetBox versions earlier than 3.0.6 [#645](https://github.com/netbox-community/ansible_modules/pull/645)
       bugfixes:
-        - netbox_site - Ensure idempotency between NetBox version 2.11 and 3.00 [#631](https://github.com/netbox-community/ansible_modules/pull/631)
-        - netbox_virtual_machine - Ensure idempotency between NetBox version 2.11 and 3.00 [#633](https://github.com/netbox-community/ansible_modules/pull/633)
         - nb_lookup - Fix documentation of validate_cert [#629](https://github.com/netbox-community/ansible_modules/pull/629)
+        - netbox_site - Ensure idempotency between NetBox version 2.11 and 3.00 [#631](https://github.com/netbox-community/ansible_modules/pull/631)
         - netbox_virtual_chassis - Fix issue with virtual chassis creation [#657](https://github.com/netbox-community/ansible_modules/pull/657)
+        - netbox_virtual_machine - Ensure idempotency between NetBox version 2.11 and
+          3.00 [#633](https://github.com/netbox-community/ansible_modules/pull/633)
+      minor_changes:
+        - nb_inventory - Add documentation for use of inventory plugin in Tower/AWX
+          [#648](https://github.com/netbox-community/ansible_modules/pull/648)
+        - nb_inventory - Cache OpenAPI locally to speed up inventory [#617](https://github.com/netbox-community/ansible_modules/pull/617)
+        - nb_lookup - Add missing endpoints to nb_lookup [#655](https://github.com/netbox-community/ansible_modules/pull/655)
+        - netbox_cable - Improve lookup speed on NetBox versions earlier than 3.0.6
+          [#645](https://github.com/netbox-community/ansible_modules/pull/645)
+        - netbox_inventory_item - Add label and custom fields to module [#632](https://github.com/netbox-community/ansible_modules/pull/632)
+        - netbox_provider_network - Add module for handling provider networks [#653](https://github.com/netbox-community/ansible_modules/pull/653)
+        - netbox_virtual_chassis - Add custom_fields to netbox_virtual_chassis [#657](https://github.com/netbox-community/ansible_modules/pull/657)
+        - netbox_vm_interface - Add custom fields to module [#637](https://github.com/netbox-community/ansible_modules/pull/637)
     modules:
       - description: Create, update or delete Provider Network in NetBox
         name: netbox_provider_network
@@ -608,21 +797,21 @@ releases:
     release_date: "2021-11-28"
   3.5.0:
     changes:
-      release_summary:
-        First release with some NetBox 3.1 modules, and new wireless endpoint support. Remember to update your pynetbox
-        to utilise the wireless endpoint support.
-      minor_changes:
-        - netbox_contact, netbox_contact_group, netbox_contact_role - Add modules [#671](https://github.com/netbox-community/ansible_modules/pull/671)
-        - netbox_wireless_lan, netbox_wireless_lan_group, netbox_wireless_link - Add modules [#678](https://github.com/netbox-community/ansible_modules/pull/678)
-        - nb_inventory - Pull extended inventory data for prefixes and site [#646](https://github.com/netbox-community/ansible_modules/pull/646)
-        - nb_lookup - Add endpoints for wireless (new in NetBox 3.1) [#673](https://github.com/netbox-community/ansible_modules/pull/673)
-        - netbox_inventory_item - Add parent field to module [#682](https://github.com/netbox-community/ansible_modules/pull/682)
-        - netbox_circuit_termination - Add mark_connected field to module [#686](https://github.com/netbox-community/ansible_modules/pull/686)
-        - netbox_region - Add description, tags, custom_fields to module [#689](https://github.com/netbox-community/ansible_modules/pull/689)
-
       bugfixes:
         - Use individual list items when looking for objects  [#570](https://github.com/netbox-community/ansible_modules/pull/570)
-
+      minor_changes:
+        - nb_inventory - Pull extended inventory data for prefixes and site [#646](https://github.com/netbox-community/ansible_modules/pull/646)
+        - nb_lookup - Add endpoints for wireless (new in NetBox 3.1) [#673](https://github.com/netbox-community/ansible_modules/pull/673)
+        - netbox_circuit_termination - Add mark_connected field to module [#686](https://github.com/netbox-community/ansible_modules/pull/686)
+        - netbox_contact, netbox_contact_group, netbox_contact_role - Add modules [#671](https://github.com/netbox-community/ansible_modules/pull/671)
+        - netbox_inventory_item - Add parent field to module [#682](https://github.com/netbox-community/ansible_modules/pull/682)
+        - netbox_region - Add description, tags, custom_fields to module [#689](https://github.com/netbox-community/ansible_modules/pull/689)
+        - netbox_wireless_lan, netbox_wireless_lan_group, netbox_wireless_link - Add
+          modules [#678](https://github.com/netbox-community/ansible_modules/pull/678)
+      release_summary:
+        First release with some NetBox 3.1 modules, and new wireless
+        endpoint support. Remember to update your pynetbox to utilise the wireless
+        endpoint support.
     modules:
       - description: Create, update or delete Contact objects in NetBox
         name: netbox_contact
@@ -630,8 +819,6 @@ releases:
       - description: Create, update or delete Contact Group objects in NetBox
         name: netbox_contact_group
         namespace: ""
-      - description: Create, update or delete Contact Role objects in NetBox
-        name: netbox_contact_role
       - description: Create, update or delete Wireless LAN objects in NetBox
         name: netbox_wireless_lan
         namespace: ""
@@ -649,21 +836,23 @@ releases:
     release_date: "2022-01-19"
   3.6.0:
     changes:
-      minor_changes:
-        - netbox_webhook - Add module [#738](https://github.com/netbox-community/ansible_modules/pull/738)
-        - netbox_export_template - Add module [#727](https://github.com/netbox-community/ansible_modules/pull/727)
-        - Add tags to modules missing it [#725](https://github.com/netbox-community/ansible_modules/pull/725)
-        - Add custom fields to modules missing it [#723](https://github.com/netbox-community/ansible_modules/pull/723)
-        - netbox_custom_link - Add module [#722](https://github.com/netbox-community/ansible_modules/pull/722)
-        - netbox_custom_field - Add module [#719](https://github.com/netbox-community/ansible_modules/pull/719)
-        - netbox_service - Add virtual_machine as an allowed query parameter for ipaddresses [#718](https://github.com/netbox-community/ansible_modules/pull/718)
-        - netbox_device_interface, netbox_vm_interface - Add bridge to netbox_device_interface and netbox_vm_interface [#713](https://github.com/netbox-community/ansible_modules/pull/713)
-        - nb_inventory - Add a racks option [#701](https://github.com/netbox-community/ansible_modules/pull/701)
       bugfixes:
-        - Fix prefixes option in nb_inventory to ensure all prefixes are returned [#742](https://github.com/netbox-community/ansible_modules/pull/742)
-        - Ensure proper filtering for VLAN group [#741](https://github.com/netbox-community/ansible_modules/pull/741)
         - Config Context is now able to be added to cluster [#715](https://github.com/netbox-community/ansible_modules/pull/715)
+        - Ensure proper filtering for VLAN group [#741](https://github.com/netbox-community/ansible_modules/pull/741)
+        - Fix prefixes option in nb_inventory to ensure all prefixes are returned [#742](https://github.com/netbox-community/ansible_modules/pull/742)
         - Make sure API calls on versions without the /api/status endpoint [#707](https://github.com/netbox-community/ansible_modules/pull/707)
+      minor_changes:
+        - Add custom fields to modules missing it [#723](https://github.com/netbox-community/ansible_modules/pull/723)
+        - Add tags to modules missing it [#725](https://github.com/netbox-community/ansible_modules/pull/725)
+        - nb_inventory - Add a racks option [#701](https://github.com/netbox-community/ansible_modules/pull/701)
+        - netbox_custom_field - Add module [#719](https://github.com/netbox-community/ansible_modules/pull/719)
+        - netbox_custom_link - Add module [#722](https://github.com/netbox-community/ansible_modules/pull/722)
+        - netbox_device_interface, netbox_vm_interface - Add bridge to netbox_device_interface
+          and netbox_vm_interface [#713](https://github.com/netbox-community/ansible_modules/pull/713)
+        - netbox_export_template - Add module [#727](https://github.com/netbox-community/ansible_modules/pull/727)
+        - netbox_service - Add virtual_machine as an allowed query parameter for ipaddresses
+          [#718](https://github.com/netbox-community/ansible_modules/pull/718)
+        - netbox_webhook - Add module [#738](https://github.com/netbox-community/ansible_modules/pull/738)
     modules:
       - description: Create, update or delete Custom fields in NetBox
         name: netbox_custom_field
@@ -680,33 +869,34 @@ releases:
     release_date: "2022-02-27"
   3.7.0:
     changes:
-      minor_changes:
-        - Multiple modules - add new parameters added in NetBox 3.2 [#768](https://github.com/netbox-community/ansible_modules/pull/768)
-        - netbox_front_port and netbox_rear_port - Add label as parameter [#766](https://github.com/netbox-community/ansible_modules/pull/766)
-        - nb_inventory - Add site_group as an option [#755](https://github.com/netbox-community/ansible_modules/pull/755)
-        - Add meta information for use in Execution Environments [#753](https://github.com/netbox-community/ansible_modules/pull/753)
       bugfixes:
-        - netbox_rack - Add location as a query parameter for uniqueness check [#751](https://github.com/netbox-community/ansible_modules/pull/751)
         - netbox_contact_group - Fix field description [#762](https://github.com/netbox-community/ansible_modules/pull/762)
+        - netbox_rack - Add location as a query parameter for uniqueness check [#751](https://github.com/netbox-community/ansible_modules/pull/751)
+      minor_changes:
+        - Add meta information for use in Execution Environments [#753](https://github.com/netbox-community/ansible_modules/pull/753)
+        - Multiple modules - add new parameters added in NetBox 3.2 [#768](https://github.com/netbox-community/ansible_modules/pull/768)
+        - nb_inventory - Add site_group as an option [#755](https://github.com/netbox-community/ansible_modules/pull/755)
+        - netbox_front_port and netbox_rear_port - Add label as parameter [#766](https://github.com/netbox-community/ansible_modules/pull/766)
       trivial:
         - Updated CI to test against NetBox 3.2 [#759](https://github.com/netbox-community/ansible_modules/pull/759)
     release_date: "2022-04-18"
   3.7.1:
     changes:
       bugfixes:
+        - nb_inventory - Ensure inventory works on NetBox versions without the site
+          group model [#781](https://github.com/netbox-community/ansible_modules/pull/781)
         - nb_inventory - Fix netbox_inventory site_group group_by @ryanmerolle in [#780](https://github.com/netbox-community/ansible_modules/pull/780)
-        - nb_inventory - Ensure inventory works on NetBox versions without the site group model [#781](https://github.com/netbox-community/ansible_modules/pull/781)
     release_date: "2022-04-26"
   3.8.0:
     changes:
       minor_changes:
         - Add action_group to enable module defaults groups [#800](https://github.com/netbox-community/ansible_modules/pull/800)
-        - netbox_device_interface - Add PoE attribute [#820](https://github.com/netbox-community/ansible_modules/pull/820)
         - Expand on query_filter for site [#824](https://github.com/netbox-community/ansible_modules/pull/824)
         - nb_inventory - Allow API token to be templated [#806](https://github.com/netbox-community/ansible_modules/pull/806)
-        - netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
         - netbox_cable - Change length to float from int [#828](https://github.com/netbox-community/ansible_modules/pull/828)
+        - netbox_device_interface - Add PoE attribute [#820](https://github.com/netbox-community/ansible_modules/pull/820)
         - netbox_location - Add tenant to module [#829](https://github.com/netbox-community/ansible_modules/pull/829)
+        - netbox_prefix - Add mark_utilized to module [#827](https://github.com/netbox-community/ansible_modules/pull/827)
     release_date: "2022-09-19"
   3.8.1:
     changes:
@@ -721,163 +911,17 @@ releases:
   3.9.0:
     changes:
       bugfixes:
-        - netbox_virtual_machine - Fix idempotency with virtual machine and NetBox 3.0 [#859](https://github.com/netbox-community/ansible_modules/pull/859)
-        - nb_inventory - Make sure inventory works with ansible < 2.11 [#861](https://github.com/netbox-community/ansible_modules/pull/861)
         - nb_inventory - Fix site_group in inventory plugin [#872](https://github.com/netbox-community/ansible_modules/pull/872)
+        - nb_inventory - Make sure inventory works with ansible < 2.11 [#861](https://github.com/netbox-community/ansible_modules/pull/861)
+        - netbox_virtual_machine - Fix idempotency with virtual machine and NetBox 3.0
+          [#859](https://github.com/netbox-community/ansible_modules/pull/859)
       minor_changes:
-        - netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
         - nb_lookup - Add 3.3 endpoints for lookup [#865](https://github.com/netbox-community/ansible_modules/pull/865)
-        - netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
         - netbox_console_server and netbox_console_server_port - Add new field [#866](https://github.com/netbox-community/ansible_modules/pull/866)
+        - netbox_device_bay - Add label [#868](https://github.com/netbox-community/ansible_modules/pull/868)
+        - netbox_l2vpn - Add module [#846](https://github.com/netbox-community/ansible_modules/pull/846)
     modules:
       - description: Create, update or delete L2VPN objects in NetBox
         name: netbox_l2vpn
         namespace: ""
     release_date: "2022-11-14"
-  3.10.0:
-    changes:
-      bugfixes:
-        - nb_inventory - Raise exception on missing packaging [#900](https://github.com/netbox-community/ansible_modules/pull/900)
-      minor_changes:
-        - netbox_service_template - Add module [#908](https://github.com/netbox-community/ansible_modules/pull/908)
-        - netbox_module_type - Add module [#887](https://github.com/netbox-community/ansible_modules/pull/887)
-        - netbox_invventory_item_role - Add module [#885](https://github.com/netbox-community/ansible_modules/pull/885)
-        - Add options for NetBox 3.4 [#905](https://github.com/netbox-community/ansible_modules/pull/905)
-        - netbox_custom_field - Add group_name [#882](https://github.com/netbox-community/ansible_modules/pull/882)
-        - netbox_device_type and netbox_device - Add airflow [#907](https://github.com/netbox-community/ansible_modules/pull/907)
-      trivial:
-        - Update CI for NetBox 3.4 [#906](https://github.com/netbox-community/ansible_modules/pull/906)
-        - Update documentation to use FQCN [#881](https://github.com/netbox-community/ansible_modules/pull/881)
-    modules:
-      - description: Create, update or delete service templates in NetBox
-        name: netbox_service_template
-        namespace: ""
-      - description: Create, update or delete module types in NetBox
-        name: netbox_module_type
-        namespace: ""
-      - description: Create, update or delete inventory item roles in NetBox
-        name: netbox_inventory_item_role
-        namespace: ""
-    release_date: "2022-12-16"
-  3.11.0:
-    changes:
-      bugfixes:
-        - netbox_cable - Fix NetBox 3.3 compatibility [#938](https://github.com/netbox-community/ansible_modules/pull/938)
-        - netbox_webhook - Fix conditions bug [#926](https://github.com/netbox-community/ansible_modules/pull/926)
-        - nb_lookup - Fix pynetbox 7.0.1 compatibility [#934](https://github.com/netbox-community/ansible_modules/pull/934)
-      minor_changes:
-        - nb_inventory - Add serial and asset tag to extracted attributes [#826](https://github.com/netbox-community/ansible_modules/pull/826)
-    release_date: "2023-02-12"
-  3.12.0:
-    changes:
-      bugfixes:
-        - nb_inventory - Fix nb_inventory group_by by site_group [#952](https://github.com/netbox-community/ansible_modules/pull/952)
-        - netbox_location - Add multiple filter options to make sure we find the unique location [#963](https://github.com/netbox-community/ansible_modules/pull/963)
-        - Fix partial updates of custom_fields [#944](https://github.com/netbox-community/ansible_modules/pull/944)
-      minor_changes:
-        - netbox_asn - Add module [#947](https://github.com/netbox-community/ansible_modules/pull/947)
-        - netbox_journal_entry - Add module [#961](https://github.com/netbox-community/ansible_modules/pull/961)
-        - netbox_fhrp_group - Add module [#957](https://github.com/netbox-community/ansible_modules/pull/957)
-        - netbox_aggregate - Add tenant as parameter to module [#968](https://github.com/netbox-community/ansible_modules/pull/968)
-    modules:
-      - description: Create journal entries in NetBox
-        name: netbox_journal_entry
-        namespace: ""
-      - description: Create, update or delete FHRP groups in NetBox
-        name: netbox_fhrp_group
-        namespace: ""
-      - description: Create, update or delete ASN in NetBox
-        name: netbox_asn
-        namespace: ""
-    release_date: "2023-04-04"
-  3.13.0:
-    changes:
-      bugfixes:
-        - netbox_cable - Fix idempotency [#990](https://github.com/netbox-community/ansible_modules/pull/990)
-      minor_changes:
-        - netbox_fhrp_group_assignment - Add module [#974](https://github.com/netbox-community/ansible_modules/pull/974)
-        - netbox_lsvpn_termination - Add module [#994](https://github.com/netbox-community/ansible_modules/pull/994)
-        - nb_inventory - Enable NetBox 3.5 support [#999](https://github.com/netbox-community/ansible_modules/pull/999)
-    modules:
-      - description: Creates, updates or removes FHRP group assignments from NetBox
-        name: netbox_fhrp_group_assignment
-        namespace: ""
-      - description: Creates, updates or removes L2VPNs terminations from NetBox
-        name: netbox_lsvpn_termination
-        namespace: ""
-    release_date: "2023-05-11"
-  3.14.0:
-    changes:
-      bugfixes:
-        - Fix schema caching [#1053](https://github.com/netbox-community/ansible_modules/pull/1053)
-      minor_changes:
-        - custom fields - Add datetime as an custom field option [#1019](https://github.com/netbox-community/ansible_modules/pull/1019)
-        - API - Add possibility to use Bearer token [#1023](https://github.com/netbox-community/ansible_modules/pull/1023)
-        - netbox_circuit_type, netbox_device_interface - Add missing options [#1025](https://github.com/netbox-community/ansible_modules/pull/1025)
-        - netbox_cable - Add tenant [#1027](https://github.com/netbox-community/ansible_modules/pull/1027)
-        - netbox_custom_field - Add hidden-ifunset option [#1048](https://github.com/netbox-community/ansible_modules/pull/1048)
-        - netbox_power_port - Add missing power port option [#1049](https://github.com/netbox-community/ansible_modules/pull/1049)
-        - netbox_inventory_item - Add role to module [#1050](https://github.com/netbox-community/ansible_modules/pull/1050)
-    release_date: "2023-08-18"
-  3.15.0:
-    changes:
-      bugfixes:
-        - netbox_ device - Adjust device_role to role for NetBox 3.6 [#1066](https://github.com/netbox-community/ansible_modules/pull/1066)
-      minor_changes:
-        - netbox_device - Add oob_ip to device [#1085](https://github.com/netbox-community/ansible_modules/pull/1085)
-        - netbox_device_type - Add default_platform [#1092](https://github.com/netbox-community/ansible_modules/pull/1092)
-        - netbox_config_template - New module [#1090](https://github.com/netbox-community/ansible_modules/pull/1090)
-    modules:
-      - description: Creates, updates, or removed a config template from NetBox
-        name: netbox_config_template
-        namespace: ""
-    release_date: "2023-10-18"
-  3.16.0:
-    changes:
-      bugfixes:
-        - nb_lookup - Allow multiple IDs in nb_lookup [#1042](https://github.com/netbox-community/ansible_modules/pull/1042)
-        - Improve error reporting for missing module [#1126](https://github.com/netbox-community/ansible_modules/pull/1126)
-        - nb_inventory - Fix API cache failure [#1111](https://github.com/netbox-community/ansible_modules/pull/1111)
-      minor_changes:
-        - nb_inventory - Add facility group_by option [#1059](https://github.com/netbox-community/ansible_modules/pull/1059)
-        - netbox_power_port_template - Add option module_type to netbox_power_port_template [#1105](https://github.com/netbox-community/ansible_modules/pull/1105)
-        - nb_inventory - Enable ansible-vault strings in config-context data [#1114](https://github.com/netbox-community/ansible_modules/pull/1114)
-        - netbox_platform - Add config_template option to netbox_platform [#1119](https://github.com/netbox-community/ansible_modules/pull/1119)
-    release_date: "2023-12-10"
-  3.17.0:
-    changes:
-      bugfixes:
-        - netbox_vlan - Fix documentation of vlan_group [#1138](https://github.com/netbox-community/ansible_modules/pull/1138)
-      minor_changes:
-        - nb_lookup - Add new VPN endpoints for NetBox 3.7 support [#1162](https://github.com/netbox-community/ansible_modules/pull/1162)
-        - netbox_rack_role - Add description option [#1143](https://github.com/netbox-community/ansible_modules/pull/1143)
-        - netbox_virtual_disk - New module [#1153](https://github.com/netbox-community/ansible_modules/pull/1153)
-        - CI - CI adjustments [#1154](https://github.com/netbox-community/ansible_modules/pull/1154) [#1155](https://github.com/netbox-community/ansible_modules/pull/1155) [#1157](https://github.com/netbox-community/ansible_modules/pull/1157)
-        - netbox_virtual_machine and netbox_device - Add option config_template [#1171](https://github.com/netbox-community/ansible_modules/pull/1171)
-    modules:
-      - description: Create, updates, or removes a disk from a Virtual Machine
-        name: netbox_virtual_disk
-        namespace: ""
-    release_date: "2024-02-14"
-  3.18.0:
-    changes:
-      minor_changes:
-        - nb_lookup - Add endpoint for Virtual Disks [#1177](https://github.com/netbox-community/ansible_modules/pull/1177)
-        - nb_lookup - Add custom field choice set [#1186](https://github.com/netbox-community/ansible_modules/pull/1186)
-        - nb_inventory - Don't extract null values from custom fields [#1184](https://github.com/netbox-community/ansible_modules/pull/1184)
-        - nb_inventory - Add Virtual Disks to inventory [#1188](https://github.com/netbox-community/ansible_modules/pull/1188)
-        - netbox_device_type and netbox_rack - Change u_height to float [#1200](https://github.com/netbox-community/ansible_modules/pull/1200)
-        - netbox_power_port - Add label [#1202](https://github.com/netbox-community/ansible_modules/pull/1202)
-        - nb_inventory - Make oob_ip available regardless of oob_ip_as_primary_ip option [#1211](https://github.com/netbox-community/ansible_modules/pull/1211)
-        - netbox_export_templates - Update documentation [#1214](https://github.com/netbox-community/ansible_modules/pull/1214)
-        - nb_inventory - Improve documentation for oob_ip_as_primary_ip [#1218](https://github.com/netbox-community/ansible_modules/pull/1218)
-    modules:
-      - description: Create, updates, or removes Custom Field Choice sets
-        name: netbox_custom_field_choice_set
-        namespace: ""
-      - description: Create, updates, or removes Module Bay
-        name: netbox_module_bay
-        namespace: ""
-      - description: Create, updates, or removes Module
-        namespace: ""
-    release_date: "2024-05-05"

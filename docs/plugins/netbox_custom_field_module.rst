@@ -23,7 +23,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +156,7 @@ Parameters
       .. raw:: html
 
         </div>
-
+    
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1166,7 +1166,7 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\
+   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
 
 .. Seealso
 
@@ -1178,7 +1178,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     - name: "Test NetBox custom_fields module"
       connection: local
       hosts: localhost

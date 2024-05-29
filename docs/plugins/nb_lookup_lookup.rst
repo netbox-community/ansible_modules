@@ -23,7 +23,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -502,7 +502,7 @@ Examples
 
 .. code-block:: yaml+jinja
 
-
+    
     tasks:
       # query a list of devices
       - name: Obtain list of devices from NetBox
