@@ -4,16 +4,16 @@
 ### NETBOX_WIRELESS_LAN
 ##
 ##
-- name: "1 - Test wireless LAN creation"
+- name: 1 - Test wireless LAN creation
   netbox.netbox.netbox_wireless_lan:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      ssid: "Wireless LAN One"
+      ssid: Wireless LAN One
   register: test_one
 
-- name: "1 - ASSERT"
-  assert:
+- name: 1 - ASSERT
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -21,32 +21,32 @@
       - test_one['wireless_lan']['ssid'] == "Wireless LAN One"
       - test_one['msg'] == "wireless_lan Wireless LAN One created"
 
-- name: "Test duplicate wireless LAN"
+- name: Test duplicate wireless LAN
   netbox.netbox.netbox_wireless_lan:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      ssid: "Wireless LAN One"
+      ssid: Wireless LAN One
   register: test_two
 
-- name: "2 - ASSERT"
-  assert:
+- name: 2 - ASSERT
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['wireless_lan']['ssid'] == "Wireless LAN One"
       - test_two['msg'] == "wireless_lan Wireless LAN One already exists"
 
-- name: "3 - Test update"
+- name: 3 - Test update
   netbox.netbox.netbox_wireless_lan:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      ssid: "Wireless LAN One"
-      description: "New Description"
+      ssid: Wireless LAN One
+      description: New Description
   register: test_three
 
-- name: "3 - ASSERT"
-  assert:
+- name: 3 - ASSERT
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['description'] == "New Description"
@@ -54,27 +54,27 @@
       - test_three['wireless_lan']['description'] == "New Description"
       - test_three['msg'] == "wireless_lan Wireless LAN One updated"
 
-- name: "4 - Test delete"
+- name: 4 - Test delete
   netbox.netbox.netbox_wireless_lan:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      ssid: "Wireless LAN One"
-    state: "absent"
+      ssid: Wireless LAN One
+    state: absent
   register: test_four
 
-- name: "4 - ASSERT"
-  assert:
+- name: 4 - ASSERT
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "present"
       - test_four['diff']['after']['state'] == "absent"
       - test_four['msg'] == "wireless_lan Wireless LAN One deleted"
 
-- name: "5 - Create wireless LAN with all parameters"
+- name: 5 - Create wireless LAN with all parameters
   netbox.netbox.netbox_wireless_lan:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       ssid: Wireless Network One
       description: Cool Wireless Network
@@ -88,8 +88,8 @@
     state: present
   register: test_five
 
-- name: "5 - ASSERT"
-  assert:
+- name: 5 - ASSERT
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['before']['state'] == "absent"
@@ -99,5 +99,5 @@
       - test_five['wireless_lan']['auth_type'] == "wpa-enterprise"
       - test_five['wireless_lan']['auth_cipher'] == "aes"
       - test_five['wireless_lan']['auth_psk'] == "psk123456"
-      #- test_five['wireless_lan']['tags'] | length == 3
+      # - test_five['wireless_lan']['tags'] | length == 3
       - test_five['msg'] == "wireless_lan Wireless Network One created"

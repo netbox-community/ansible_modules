@@ -13,7 +13,7 @@ module: netbox_wireless_lan_group
 short_description: Creates or removes Wireless LAN Groups from NetBox
 description:
   - Creates or removes Wireless LAN Groups from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
   - Martin Rødvand (@rodvand)
@@ -47,7 +47,7 @@ options:
         description:
           - Description of the Wireless LAN Group
         required: false
-        type: str          
+        type: str
       tags:
         description:
           - Any tags that the Wireless LAN Group may need to be associated with
@@ -58,7 +58,7 @@ options:
         description:
           - must exist in NetBox
         required: false
-        type: dict    
+        type: dict
     required: true
 """
 
@@ -66,7 +66,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create Wireless LAN Group within NetBox with only required information
       netbox_wireless_lan_group:
@@ -90,7 +90,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Wireless LAN Group One
-          description: Wireless LAN Group description            
+          description: Wireless LAN Group description
           tags:
             - tagA
             - tagB

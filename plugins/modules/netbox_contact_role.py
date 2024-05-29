@@ -63,7 +63,7 @@ EXAMPLES = r"""
 - name: "Test NetBox module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create contact role within NetBox with only required information
       netbox.netbox.netbox_contact_role:

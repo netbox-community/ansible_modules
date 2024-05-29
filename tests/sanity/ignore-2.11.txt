@@ -1,1 +1,0 @@
-plugins/inventory/nb_inventory.py pylint!skip

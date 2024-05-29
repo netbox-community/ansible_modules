@@ -7,7 +7,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 1: Create provider network within NetBox with only required information"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -15,7 +15,7 @@
   register: test_one
 
 - name: "NETBOX_PROVIDER_NETWORK 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -26,7 +26,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 2: Duplicate"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -34,7 +34,7 @@
   register: test_two
 
 - name: "NETBOX_PROVIDER_NETWORK 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['provider_network']['name'] == "Test Provider Network One"
@@ -43,17 +43,17 @@
 - name: "NETBOX_PROVIDER_NETWORK 3: Update provider network with other fields"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       provider: Test Provider
       name: Test Provider Network One
       description: Describe a Provider Network
-      comments: "A provider network"
+      comments: A provider network
     state: present
   register: test_three
 
 - name: "NETBOX_PROVIDER_NETWORK 3: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['comments'] == "A provider network"
@@ -66,7 +66,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 4: Delete provider within netbox"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -74,7 +74,7 @@
   register: test_four
 
 - name: "NETBOX_PROVIDER_NETWORK 4 : ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['provider_network']['name'] == "Test Provider Network One"

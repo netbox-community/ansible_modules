@@ -1,0 +1,50 @@
+---
+name: "CI"
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    branches: [master, devel]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  changelog:
+    uses: ansible/ansible-content-actions/.github/workflows/changelog.yaml@main
+    if: github.event_name == 'pull_request' && github.base_ref == 'devel'
+  build-import:
+    uses: ansible/ansible-content-actions/.github/workflows/build_import.yaml@main
+  ansible-lint:
+    uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
+  sanity:
+    uses: minitriga/ansible-content-actions/.github/workflows/sanity.yaml@patch-1
+  unit-galaxy:
+    uses: minitriga/ansible-content-actions/.github/workflows/unit.yaml@patch-1
+  unit-source:
+    uses: ansible-network/github_actions/.github/workflows/unit_source.yml@main
+    with:
+      collection_pre_install: >-
+        git+https://github.com/ansible-collections/ansible.utils.git
+  all_green:
+    if: ${{ always() }}
+    needs:
+      - changelog
+      - sanity
+      - ansible-lint
+      - unit-galaxy
+      - unit-source
+    runs-on: ubuntu-latest
+    steps:
+      - run: >-
+          python -c "assert 'failure' not in
+          set([
+          '${{ needs.changelog.result }}',
+          '${{ needs.sanity.result }}',
+          '${{ needs.unit-galaxy.result }}',
+          '${{ needs.unit-source.result }}',
+          '${{ needs.ansible-lint.result }}'
+          ])"

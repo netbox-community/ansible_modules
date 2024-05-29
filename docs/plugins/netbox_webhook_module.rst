@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_webhook module -- Creates, updates or deletes webhook confi
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1048,7 +1048,7 @@ Examples
     
     - name: "Test NetBox webhook module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a webhook
           netbox_webhook:
@@ -1056,9 +1056,9 @@ Examples
             netbox_token: thisIsMyToken
             data:
               content_types:
-                - dcim.device            
+                - dcim.device
               name: Example Webhook
-              type_create: yes
+              type_create: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
                 {{ data }}
@@ -1069,11 +1069,11 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}         
+                {{ data }}
 
         - name: Delete the webhook
           netbox_webhook:
@@ -1081,11 +1081,11 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}  
+                {{ data }}
             state: absent
 
 

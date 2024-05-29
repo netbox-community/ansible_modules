@@ -28,7 +28,7 @@ Let's take a look at the output of the ``tree`` command within the ``plugins/`` 
   │       ├── netbox_device.py
   │       ... omitted
   │       └── netbox_vrf.py
-  
+
   128 directories, 357 files
 
 As you can see, we have a handful of ``module_utils`` that correspond to each application in **NetBox** as well as a ``netbox_utils`` module that provides a common interface for the collection.
@@ -51,21 +51,21 @@ Let's take a look at some of the code within ``netbox_dcim.py``.
   # Copyright: (c) 2020, Nokia, Tobias Groß (@toerb) <tobias.gross@nokia.com>
   # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
   from __future__ import absolute_import, division, print_function
-  
+
   __metaclass__ = type
-  
+
   from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
       NetboxModule,
       ENDPOINT_NAME_MAPPING,
       SLUG_REQUIRED,
   )
-  
+
   NB_CABLES = "cables"
   NB_CONSOLE_PORTS = "console_ports"
   NB_CONSOLE_PORT_TEMPLATES = "console_port_templates"
   ...
 
-The top of the code is importing the ``NetboxModule`` class, ``ENDPOINT_NAME_MAPPING``, and ``SLUG_REQUIRED`` from ``netbox_utils.py``. 
+The top of the code is importing the ``NetboxModule`` class, ``ENDPOINT_NAME_MAPPING``, and ``SLUG_REQUIRED`` from ``netbox_utils.py``.
 
 After the imports, we define constants to define the endpoints that are supported as well as these being passed into the initialization of ``NetboxModule``. We'll see these within the actual modules themselves when we take a look later.
 
@@ -76,7 +76,7 @@ Now let's take a look at the class definition.
   class NetboxDcimModule(NetboxModule):
       def __init__(self, module, endpoint):
           super().__init__(module, endpoint)
-      
+
       def run(self):
       ...
 
@@ -94,9 +94,9 @@ The ``run`` method contains all the logic for executing the module and we'll sta
       ...
       # Used to dynamically set key when returning results
       endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
-  
+
       self.result = {"changed": False}
-  
+
       application = self._find_app(self.endpoint)
       nb_app = getattr(self.nb, application)
       nb_endpoint = getattr(nb_app, self.endpoint)
@@ -259,14 +259,14 @@ The ``NetboxModule`` is the cornerstone of this collection and contains most of 
       :params endpoint (str): Used to tell class which endpoint the logic needs to follow
       :params nb_client (obj): pynetbox.api object passed in (not required)
       """
-  
+
       def __init__(self, module, endpoint, nb_client=None):
           self.module = module
           self.state = self.module.params["state"]
           self.check_mode = self.module.check_mode
           self.endpoint = endpoint
           query_params = self.module.params.get("query_params")
-  
+
           if not HAS_PYNETBOX:
               self.module.fail_json(
                   msg=missing_required_lib("pynetbox"), exception=PYNETBOX_IMP_ERR
@@ -284,7 +284,7 @@ We set several instance attributes that are used within other methods throughout
       url = self.module.params["netbox_url"]
       token = self.module.params["netbox_token"]
       ssl_verify = self.module.params["validate_certs"]
-  
+
       # Attempt to initiate connection to NetBox
       if nb_client is None:
           self.nb = self._connect_netbox_api(url, token, ssl_verify)

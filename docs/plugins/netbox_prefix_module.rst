@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_prefix module -- Creates or removes prefixes from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1113,7 +1113,7 @@ Examples
     - name: "Test NetBox prefix module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create prefix within NetBox with only required information
@@ -1163,7 +1163,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Create prefix within NetBox with only required information
           netbox.netbox.netbox_prefix:
@@ -1181,7 +1181,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
           netbox.netbox.netbox_prefix:
@@ -1193,7 +1193,7 @@ Examples
               vrf: Test VRF
               site: Test Site
             state: present
-            first_available: yes
+            first_available: true
 
 
 

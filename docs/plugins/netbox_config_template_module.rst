@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_config_template module -- Creates or removes config templat
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -584,7 +584,7 @@ Examples
     - name: "Test config template creation/deletion"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create config template
           netbox.netbox.netbox_config_template:
@@ -596,7 +596,7 @@ Examples
                 - Cloud
               template_code: |
                 #cloud-config
-                packages: 
+                packages:
                   - ansible
 
         - name: Delete config template

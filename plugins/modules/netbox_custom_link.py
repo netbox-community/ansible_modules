@@ -13,7 +13,7 @@ module: netbox_custom_link
 short_description: Creates, updates or deletes custom links within NetBox
 description:
   - Creates, updates or removes custom links from NetBox
-notes:  
+notes:
   - This should be ran with connection C(local) and hosts C(localhost)
   - Use the C(!unsafe) data type if you want jinja2 code in link_text or link_url
 author:
@@ -33,16 +33,23 @@ options:
         description:
           - The content type to apply this custom link to
         required: false
-        type: raw   
+        type: raw
       content_types:
         description:
           - The content type to apply this custom link to (NetBox 3.4+)
         required: false
         type: list
-        elements: raw 
+        elements: raw
         version_added: "3.10.0"
-      name: 
-        description: 
+      object_types:
+        description:
+          - The object type(s) to apply this custom link to (NetBox 4.0+)
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.19.0"
+      name:
+        description:
           - The name of the custom link
         required: true
         type: str
@@ -55,57 +62,57 @@ options:
         description:
           - Link URL of the custom link
         required: true
-        type: raw                
+        type: raw
       weight:
         description:
           - Fields with higher weights appear lower in a form
         required: false
-        type: int      
+        type: int
       group_name:
         description:
           - The group to associate the custom link with
         required: false
-        type: str      
+        type: str
       button_class:
         description:
-          - Button class for the custom link 
+          - Button class for the custom link
         required: false
         type: raw
       new_window:
         description:
-          - Open link in new window 
-        required: false
-        type: bool   
-      enabled:
-        description:
-          - Enable/disable custom link 
+          - Open link in new window
         required: false
         type: bool
-        version_added: "3.7.0"                      
+      enabled:
+        description:
+          - Enable/disable custom link
+        required: false
+        type: bool
+        version_added: "3.7.0"
     required: true
 """
 
 EXAMPLES = r"""
 - name: "Test NetBox custom_link module"
   connection: local
-  hosts: localhost  
+  hosts: localhost
   tasks:
     - name: Create a custom link on device
       netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_type: "dcim.device"            
+          content_type: "dcim.device"
           name: Custom Link
           link_text: "Open Web Management"
-          link_url: !unsafe https://{{ obj.name }}.domain.local                        
+          link_url: !unsafe https://{{ obj.name }}.domain.local
 
     - name: Delete the custom link
       netbox.netbox.netbox_custom_link:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_type: "dcim.device"            
+          content_type: "dcim.device"
           name: Custom Link
           link_text: "Open Web Management"
           link_url: !unsafe https://{{ obj.name }}.domain.local
@@ -147,6 +154,7 @@ def main():
                 options=dict(
                     content_type=dict(required=False, type="raw"),
                     content_types=dict(required=False, type="list", elements="raw"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
                     link_text=dict(required=True, type="raw"),
                     link_url=dict(required=True, type="raw"),
@@ -165,7 +173,7 @@ def main():
         ("state", "absent", ["name"]),
     ]
 
-    required_one_of = [("content_type", "content_types")]
+    required_one_of = [("content_type", "content_types", "object_types")]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,

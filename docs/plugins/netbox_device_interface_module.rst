@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1577,7 +1577,7 @@ Examples
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create interface within NetBox with only required information
           netbox.netbox.netbox_device_interface:
@@ -1656,7 +1656,7 @@ Examples
               device: test100
               name: GigabitEthernet2/0/1
               enabled: false
-            update_vc_child: True
+            update_vc_child: true
 
         - name: Mark interface as connected without a cable (netbox >= 2.11 required)
           netbox.netbox.netbox_device_interface:

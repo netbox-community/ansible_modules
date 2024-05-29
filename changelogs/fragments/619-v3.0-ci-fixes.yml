@@ -1,3 +1,0 @@
----
-minor_changes:
-  - netbox.netbox - Fixed integration tests with v3.0

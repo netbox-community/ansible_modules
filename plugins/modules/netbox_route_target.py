@@ -68,7 +68,7 @@ EXAMPLES = r"""
 - name: "Test route target creation/deletion"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create Route Targets
       netbox.netbox.netbox_route_target:

@@ -67,7 +67,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create ASN within NetBox with only required information
@@ -87,7 +87,6 @@ EXAMPLES = r"""
         data:
           asn: 1111111111
         state: absent
-
 """
 
 RETURN = r"""

@@ -20,12 +20,12 @@ DOCUMENTATION = """
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information
-          capable of being held in NetBox.        
+          capable of being held in NetBox.
     options:
         _terms:
             description:
                 - The NetBox object type to query
-            required: True
+            required: true
         api_endpoint:
             description:
                 - The URL to the NetBox instance to query
@@ -33,15 +33,15 @@ DOCUMENTATION = """
                 # in order of precendence
                 - name: NETBOX_API
                 - name: NETBOX_URL
-            required: True
+            required: true
         api_filter:
             description:
                 - The api_filter to use. Filters should be key value pairs separated by a space.
-            required: False
+            required: false
         plugin:
             description:
                 - The NetBox plugin to query
-            required: False
+            required: false
         token:
             description:
                 - The API token created through NetBox
@@ -50,27 +50,27 @@ DOCUMENTATION = """
                 # in order of precendence
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_TOKEN
-            required: False
+            required: false
         validate_certs:
             description:
                 - Whether or not to validate SSL of the NetBox instance
-            required: False
-            default: True
+            required: false
+            default: true
         private_key:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The private key as a string. Mutually exclusive with I(key_file).
-            required: False            
+            required: false
         key_file:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False            
+            required: false
         raw_data:
             type: bool
             description:
                 - Whether to return raw API data with the lookup/query or whether to return a key/value dict
-            required: False
+            required: false
     requirements:
         - pynetbox
 """
@@ -87,10 +87,7 @@ tasks:
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
-# This example uses an API Filter
-
-tasks:
-  # query a list of devices
+    # This example uses an API Filter
   - name: Obtain list of devices from NetBox
     debug:
       msg: >

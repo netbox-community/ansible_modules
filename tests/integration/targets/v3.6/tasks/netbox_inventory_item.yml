@@ -7,10 +7,10 @@
 - name: "INVENTORY_ITEM 1: Necessary info creation"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      device: "test100"
-      name: "10G-SFP+"
+      device: test100
+      name: 10G-SFP+
     state: present
   register: test_one
 
@@ -27,10 +27,10 @@
 - name: "INVENTORY_ITEM 2: Create duplicate"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      device: "test100"
-      name: "10G-SFP+"
+      device: test100
+      name: 10G-SFP+
     state: present
   register: test_two
 
@@ -45,18 +45,18 @@
 - name: "INVENTORY_ITEM 3: Update properties"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      device: "test100"
-      name: "10G-SFP+"
-      manufacturer: "Cisco"
-      part_id: "10G-SFP+"
+      device: test100
+      name: 10G-SFP+
+      manufacturer: Cisco
+      part_id: 10G-SFP+
       serial: "1234"
       asset_tag: "1234"
-      description: "New SFP"
-      discovered: True
+      description: New SFP
+      discovered: true
       tags:
-        - "Schnozzberry"
+        - Schnozzberry
     state: present
   register: test_three
 
@@ -85,10 +85,10 @@
 - name: "INVENTORY_ITEM 4: Delete inventory item"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      device: "test100"
-      name: "10G-SFP+"
+      device: test100
+      name: 10G-SFP+
     state: absent
   register: test_four
 
@@ -109,7 +109,7 @@
 - name: "INVENTORY_ITEM 5: PREWORK - Create inventory item role"
   netbox.netbox.netbox_inventory_item_role:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Processor
       color: FFFFFF
@@ -119,7 +119,7 @@
 - name: "INVENTORY_ITEM 5: Create inventory item with role"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: test100
       name: test_processor
@@ -141,7 +141,7 @@
 - name: "INVENTORY_ITEM 6: Create inventory item with missing role"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: test100
       name: test_processor
@@ -159,14 +159,14 @@
 - name: "INVENTORY_ITEM 7: Create inventory item with component"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: test100
       name: test_component
-      component_type: "dcim.interface"
+      component_type: dcim.interface
       component:
         name: GigabitEthernet2
-        device: "test100"
+        device: test100
     state: present
   register: test_seven
 
@@ -185,13 +185,13 @@
 - name: "INVENTORY_ITEM 8: Create inventory item with missing component_type"
   netbox.netbox.netbox_inventory_item:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device: test100
       name: test_component
       component:
         name: GigabitEthernet2
-        device: "test100"
+        device: test100
     state: present
   ignore_errors: true
   register: test_eight

@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_custom_field module -- Creates, updates or deletes custom f
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -535,6 +535,51 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The object type of the custom field (if any)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/object_types"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/object_types:
+
+      .. rst-class:: ansible-option-title
+
+      **object_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/object_types" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.19.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The content type(s) to apply this custom field to (NetBox 4.0+)
 
 
       .. raw:: html
@@ -1136,7 +1181,7 @@ Examples
     
     - name: "Test NetBox custom_fields module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a custom field on device and virtual machine
           netbox.netbox.netbox_custom_field:
@@ -1167,7 +1212,7 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: A Custom Field
-              required: yes    
+              required: true
 
         - name: Update the custom field to make it read only
           netbox.netbox.netbox_custom_field:
@@ -1175,7 +1220,7 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: A Custom Field
-              ui_visibility: read-only      
+              ui_visibility: read-only
 
         - name: Delete the custom field
           netbox.netbox.netbox_custom_field:

@@ -44,7 +44,7 @@ options:
         required: true
         type: str
       mark_connected:
-        description: 
+        description:
           - Treat as if cable is connected
         required: false
         type: bool
@@ -90,7 +90,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create circuit termination within NetBox with only required information

@@ -1,3 +1,0 @@
----
-bugfixes:
-  - Fix to the argspec for support of ansible-core 2.11 (#558)

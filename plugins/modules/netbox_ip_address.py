@@ -120,17 +120,17 @@ options:
             description:
               - The name of the interface
             type: str
-            required: False
+            required: false
           device:
             description:
               - The device the interface is attached to.
             type: str
-            required: False
+            required: false
           virtual_machine:
             description:
               - The virtual machine the interface is attached to.
             type: str
-            required: False
+            required: false
       comments:
         description:
           - Comments that may include additional information in regards to the IP Address
@@ -165,7 +165,7 @@ EXAMPLES = r"""
 - name: "Test NetBox IP address module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create IP address within NetBox with only required information

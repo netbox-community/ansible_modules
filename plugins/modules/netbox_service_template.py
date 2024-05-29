@@ -47,19 +47,19 @@ options:
         choices:
           - tcp
           - udp
-          - sctp          
+          - sctp
         required: false
-        type: str      
+        type: str
       description:
         description:
           - Description of the service template
         required: false
-        type: str        
+        type: str
       comments:
         description:
           - Comments
         required: false
-        type: str        
+        type: str
       tags:
         description:
           - Any tags that the service template may need to be associated with
@@ -77,7 +77,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create service template within NetBox with only required information
@@ -108,7 +108,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: SSH          
+          name: SSH
         state: absent
 """
 

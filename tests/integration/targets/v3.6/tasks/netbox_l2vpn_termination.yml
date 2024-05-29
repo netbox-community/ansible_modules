@@ -7,7 +7,7 @@
 - name: "L2VPN_TERMINATION 1: Necessary info creation"
   netbox.netbox.netbox_l2vpn_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       l2vpn: 1
       assigned_object_type: dcim.interface
@@ -29,7 +29,7 @@
 - name: "L2VPN_TERMINATION 2: Create duplicate"
   netbox.netbox.netbox_l2vpn_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       l2vpn: 1
       assigned_object_type: dcim.interface
@@ -49,13 +49,13 @@
 - name: "L2VPN_TERMINATION 3: Update"
   netbox.netbox.netbox_l2vpn_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       l2vpn: 1
       assigned_object_type: dcim.interface
       assigned_object_id: 1
       tags:
-        - "Schnozzberry"
+        - Schnozzberry
     state: present
   register: test_three
 
@@ -73,7 +73,7 @@
 - name: "L2VPN_TERMINATION 4: Delete"
   netbox.netbox.netbox_l2vpn_termination:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       l2vpn: 1
       assigned_object_type: dcim.interface

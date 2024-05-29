@@ -7,7 +7,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.11.0
 
 .. Anchors
 
@@ -23,7 +23,7 @@ netbox.netbox.netbox_fhrp_group_assignment module -- Create, update or delete FH
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -552,7 +552,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - hosts: localhost
+    - name: "Test NetBox modules"
+      hosts: localhost
       connection: local
       module_defaults:
         group/netbox.netbox.netbox:
@@ -576,7 +577,6 @@ Examples
               interface_type: dcim.interface
               interface_id: 5
             state: absent
-
 
 
 
