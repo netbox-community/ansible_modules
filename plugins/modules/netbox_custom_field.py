@@ -66,6 +66,12 @@ options:
         required: false
         type: str
         version_added: "3.7.0"
+      related_object_type:
+        description:
+          - The object type of the custom field (if any) (NetBox 4.0+)
+        required: false
+        type: str
+        version_added: "3.19.2"
       name:
         description:
           - Name of the custom field
@@ -255,6 +261,7 @@ def main():
                         type="str",
                     ),
                     object_type=dict(required=False, type="str"),
+                    related_object_type=dict(required=False, type="str"),
                     name=dict(required=True, type="str"),
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
