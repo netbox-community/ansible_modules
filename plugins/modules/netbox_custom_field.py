@@ -71,7 +71,7 @@ options:
           - The object type of the custom field (if any) (NetBox 4.0+)
         required: false
         type: str
-        version_added: "3.19.2"
+        version_added: "3.20.0"
       name:
         description:
           - Name of the custom field
