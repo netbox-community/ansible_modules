@@ -185,6 +185,16 @@ DOCUMENTATION = """
             default: false
             type: boolean
             version_added: "0.2.0"
+        group_names_prefix:
+            description: Will add "netbox_" as a prefix to group names
+            default: False
+            type: boolean
+            version_added: "3.12.0"
+        host_vars_prefix:
+            description: Will add "netbox_" as a prefix to host variables
+            default: False
+            type: boolean
+            version_added: "3.12.0"
         query_filters:
             description:
                 - List of parameters passed to the query string for both devices and VMs (Multiple values may be separated by commas).
@@ -1774,9 +1784,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             group = group["value"]
 
         if self.group_names_raw:
-            return group
+            group_name = group
         else:
-            return "_".join([grouping, group])
+            group_name = "_".join([grouping, group])
+
+        if self.group_names_prefix:
+            group_name = "netbox_" + group_name
+
+        return group_name
 
     def add_host_to_groups(self, host, hostname):
         site_group_by = self._pluralize_group_by("site")
@@ -1919,11 +1934,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
-            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
+            if self.host_vars_prefix:
+                hostvar = "netbox_primary_ipv4"
+            else:
+                hostvar = "primary_ipv4"
+            self.inventory.set_variable(hostname, hostvar, extracted_primary_ip4)
 
         extracted_primary_ip6 = self.extract_primary_ip6(host=host)
         if extracted_primary_ip6:
-            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
+            if self.host_vars_prefix:
+                hostvar = "netbox_primary_ipv6"
+            else:
+                hostvar = "primary_ipv6"
+            self.inventory.set_variable(hostname, hostvar, extracted_primary_ip6)
 
         extracted_oob_ip = self.extract_oob_ip(host=host)
         if extracted_oob_ip:
@@ -1965,9 +1988,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             ):
                 for key, value in extracted_value.items():
-                    self.inventory.set_variable(hostname, key, value)
+                    if self.host_vars_prefix:
+                        hostvar = "netbox_" + key
+                    else:
+                        hostvar = key
+                    self.inventory.set_variable(hostname, hostvar, value)
             else:
-                self.inventory.set_variable(hostname, attribute, extracted_value)
+                if self.host_vars_prefix:
+                    hostvar = "netbox_" + attribute
+                else:
+                    hostvar = attribute
+                self.inventory.set_variable(hostname, hostvar, extracted_value)
 
     def _get_host_virtual_chassis_master(self, host):
         virtual_chassis = host.get("virtual_chassis", None)
@@ -2145,5 +2176,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
         self.racks = self.get_option("racks")
+        self.group_names_prefix = self.get_option("group_names_prefix")
+        self.host_vars_prefix = self.get_option("host_vars_prefix")
 
         self.main()
