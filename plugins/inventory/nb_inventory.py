@@ -249,6 +249,16 @@ DOCUMENTATION = """
             description: Use out of band IP as `ansible host`
             type: boolean
             default: false
+        rename_variables:
+            description:
+                - Rename variables evaluated by nb_inventory, before writing them.
+                - Each list entry contains a dict with a 'pattern' and a 'repl'.
+                - Both 'pattern' and 'repl' are regular expressions.
+                - The first matching expression is used, subsequent matches are ignored.
+                - Internally `re.sub` is used.
+            type: list
+            elements: dict
+            default: []
 """
 
 EXAMPLES = """
@@ -364,6 +374,7 @@ import json
 import uuid
 import math
 import os
+import re
 import datetime
 from copy import deepcopy
 from functools import partial
@@ -1905,31 +1916,37 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return transformed_group_names
 
+    def _set_variable(self, hostname, key, value):
+        for item in self.rename_variables:
+            if item["pattern"].match(key):
+                key = item["pattern"].sub(item["repl"], key)
+                break
+
+        self.inventory.set_variable(hostname, key, value)
+
     def _fill_host_variables(self, host, hostname):
         extracted_primary_ip = self.extract_primary_ip(host=host)
         if extracted_primary_ip:
-            self.inventory.set_variable(hostname, "ansible_host", extracted_primary_ip)
+            self._set_variable(hostname, "ansible_host", extracted_primary_ip)
 
         if self.ansible_host_dns_name:
             extracted_dns_name = self.extract_dns_name(host=host)
             if extracted_dns_name:
-                self.inventory.set_variable(
-                    hostname, "ansible_host", extracted_dns_name
-                )
+                self._set_variable(hostname, "ansible_host", extracted_dns_name)
 
         extracted_primary_ip4 = self.extract_primary_ip4(host=host)
         if extracted_primary_ip4:
-            self.inventory.set_variable(hostname, "primary_ip4", extracted_primary_ip4)
+            self._set_variable(hostname, "primary_ip4", extracted_primary_ip4)
 
         extracted_primary_ip6 = self.extract_primary_ip6(host=host)
         if extracted_primary_ip6:
-            self.inventory.set_variable(hostname, "primary_ip6", extracted_primary_ip6)
+            self._set_variable(hostname, "primary_ip6", extracted_primary_ip6)
 
         extracted_oob_ip = self.extract_oob_ip(host=host)
         if extracted_oob_ip:
-            self.inventory.set_variable(hostname, "oob_ip", extracted_oob_ip)
+            self._set_variable(hostname, "oob_ip", extracted_oob_ip)
             if self.oob_ip_as_primary_ip:
-                self.inventory.set_variable(hostname, "ansible_host", extracted_oob_ip)
+                self._set_variable(hostname, "ansible_host", extracted_oob_ip)
 
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
@@ -1965,9 +1982,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             ):
                 for key, value in extracted_value.items():
-                    self.inventory.set_variable(hostname, key, value)
+                    self._set_variable(hostname, key, value)
             else:
-                self.inventory.set_variable(hostname, attribute, extracted_value)
+                self._set_variable(hostname, attribute, extracted_value)
 
     def _get_host_virtual_chassis_master(self, host):
         virtual_chassis = host.get("virtual_chassis", None)
@@ -2146,4 +2163,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
         self.racks = self.get_option("racks")
 
+        # Compile regular expressions, if any
+        self.rename_variables = self.parse_rename_variables(
+            self.get_option("rename_variables")
+        )
+
         self.main()
+
+    def parse_rename_variables(self, rename_variables):
+        return [
+            {"pattern": re.compile(i["pattern"]), "repl": i["repl"]}
+            for i in rename_variables or ()
+        ]
