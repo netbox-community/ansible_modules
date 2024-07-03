@@ -114,7 +114,7 @@ EXAMPLES = r"""
           site: Test Site
           parent_location: Test location
           status: planned
-          facility : Test Facility
+          facility: Test Facility
         state: present
 
     - name: Delete location within NetBox
