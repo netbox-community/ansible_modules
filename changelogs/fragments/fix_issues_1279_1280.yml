@@ -1,0 +1,3 @@
+minor_changes:
+      - Add ``status`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1279)
+      - Add ``facility`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1280)
