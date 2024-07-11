@@ -17,6 +17,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 
 NB_L2VPNS = "l2vpns"
 NB_L2VPN_TERMINATIONS = "l2vpn_terminations"
+NB_TUNNELS = "tunnels"
 
 
 class NetboxVpnModule(NetboxModule):
@@ -30,6 +31,7 @@ class NetboxVpnModule(NetboxModule):
         Supported endpoints:
         - l2vpns
         - l2vpn_terminations
+        - tunnels
         """
         # Used to dynamically set key when returning results
         endpoint_name = ENDPOINT_NAME_MAPPING[self.endpoint]
