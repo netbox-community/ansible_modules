@@ -131,6 +131,7 @@ API_APPS_ENDPOINTS = dict(
     vpn={
         "l2vpns": {"introduced": "3.7"},
         "l2vpn_terminations": {"introduced": "3.7"},
+        "tunnels": {"introduced": "3.7"},
     },
 )
 
