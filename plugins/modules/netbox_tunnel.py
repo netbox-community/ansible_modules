@@ -9,34 +9,34 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_location
-short_description: Create, update or delete locations within NetBox
+module: netbox_tunnel
+short_description: Create, update or delete tunnels within NetBox
 description:
-  - Creates, updates or removes locations from NetBox
+  - Creates, updates or removes tunnels from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Andrew Simmons (@andybro19)
+  - Rich Bibby (@richbibby)
 requirements:
   - pynetbox
-version_added: '3.3.0'
+version_added: '3.20.0'
 extends_documentation_fragment:
   - netbox.netbox.common
 options:
   data:
     type: dict
     description:
-      - Defines the location configuration
+      - Defines the tunnel configuration
     suboptions:
       name:
         description:
-          - The name of the location
+          - The name of the tunnel
         required: true
         type: str
       status:
         description:
-          - Status of the location
+          - Status of the tunnel
         required: false
         type: raw
         version_added: "3.20.0"
@@ -48,17 +48,17 @@ options:
         type: str
       site:
         description:
-          - Required if I(state=present) and the location does not exist yet
+          - Required if I(state=present) and the tunnel does not exist yet
         required: false
         type: raw
-      parent_location:
+      parent_tunnel:
         description:
-          - The parent location the location will be associated with
+          - The parent tunnel the tunnel will be associated with
         required: false
         type: raw
       tenant:
         description:
-          - The tenant that the location will be associated with
+          - The tenant that the tunnel will be associated with
         required: false
         type: raw
         version_added: "3.8.0"
@@ -70,7 +70,7 @@ options:
         version_added: "3.20.0"
       description:
         description:
-          - The description of the location
+          - The description of the tunnel
         required: false
         type: str
       tags:
@@ -96,38 +96,38 @@ EXAMPLES = r"""
   gather_facts: false
 
   tasks:
-    - name: Create location within NetBox with only required information
-      netbox.netbox.netbox_location:
+    - name: Create tunnel within NetBox with only required information
+      netbox.netbox.netbox_tunnel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test location
+          name: Test tunnel
           site: Test Site
         state: present
 
-    - name: Create location within NetBox with a parent location, status and facility
-      netbox.netbox.netbox_location:
+    - name: Create tunnel within NetBox with a parent tunnel, status and facility
+      netbox.netbox.netbox_tunnel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Child location
+          name: Child tunnel
           site: Test Site
-          parent_location: Test location
+          parent_tunnel: Test tunnel
           status: planned
           facility: Test Facility
         state: present
 
-    - name: Delete location within NetBox
-      netbox.netbox.netbox_location:
+    - name: Delete tunnel within NetBox
+      netbox.netbox.netbox_tunnel:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test location
+          name: Test tunnel
         state: absent
 """
 
 RETURN = r"""
-location:
+tunnel:
   description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict
