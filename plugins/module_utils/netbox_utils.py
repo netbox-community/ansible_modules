@@ -132,6 +132,8 @@ API_APPS_ENDPOINTS = dict(
         "l2vpns": {"introduced": "3.7"},
         "l2vpn_terminations": {"introduced": "3.7"},
         "tunnels": {"introduced": "3.7"},
+        "tunnel_groups": {"introduced": "3.7"},
+        "ipsec_profiles": {"introduced": "3.7"},
     },
 )
 
@@ -258,6 +260,7 @@ CONVERT_TO_ID = {
     "inventory_item_role": "inventory_item_roles",
     "ip_addresses": "ip_addresses",
     "ipaddresses": "ip_addresses",
+    "ipsec_profile": "ipsec_profiles",
     "location": "locations",
     "lag": "interfaces",
     "manufacturer": "manufacturers",
@@ -314,6 +317,7 @@ CONVERT_TO_ID = {
     "tenant_groups": "tenant_groups",
     "termination_a": "interfaces",
     "termination_b": "interfaces",
+    "tunnel_group": "tunnel_groups",
     "untagged_vlan": "vlans",
     "virtual_chassis": "virtual_chassis",
     "virtual_machine": "virtual_machines",

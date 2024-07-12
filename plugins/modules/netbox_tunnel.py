@@ -39,21 +39,19 @@ options:
           - Status of the tunnel
         required: false
         type: raw
-        version_added: "3.20.0"
-      slug:
+      tunnel_group:
         description:
-          - The slugified version of the name or custom slug.
-          - This is auto-generated following NetBox rules if not provided
-        required: false
-        type: str
-      site:
-        description:
-          - Required if I(state=present) and the tunnel does not exist yet
+          - The VLAN group the VLAN will be associated to
         required: false
         type: raw
-      parent_tunnel:
+      encapsulation:
         description:
-          - The parent tunnel the tunnel will be associated with
+          - The encapsulation protocol or technique employed to effect the tunnel
+        required: false
+        type: raw
+      ipsec_profile:
+        description:
+          - The IPSec Profile employed to negotiate security associations
         required: false
         type: raw
       tenant:
@@ -61,31 +59,32 @@ options:
           - The tenant that the tunnel will be associated with
         required: false
         type: raw
-        version_added: "3.8.0"
-      facility:
+      tunnel_id:
         description:
-          - Data center provider or facility, ex. Equinix NY7
+          - The ID of the tunnel
         required: false
-        type: str
-        version_added: "3.20.0"
+        type: int
       description:
         description:
           - The description of the tunnel
         required: false
         type: str
+      comments:
+        description:
+          - Comments that may include additional information in regards to the tunnel
+        required: false
+        type: str
       tags:
         description:
-          - The tags to add/update
+          - Any tags that the tunnel may need to be associated with
         required: false
         type: list
         elements: raw
-        version_added: "3.6.0"
       custom_fields:
         description:
           - Must exist in NetBox
         required: false
         type: dict
-        version_added: "3.6.0"
     required: true
 """
 
@@ -101,20 +100,9 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test tunnel
-          site: Test Site
-        state: present
-
-    - name: Create tunnel within NetBox with a parent tunnel, status and facility
-      netbox.netbox.netbox_tunnel:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: Child tunnel
-          site: Test Site
-          parent_tunnel: Test tunnel
-          status: planned
-          facility: Test Facility
+          name: Test Tunnel
+          status: active
+          encapsulation: ipsec-tunnel
         state: present
 
     - name: Delete tunnel within NetBox
@@ -122,8 +110,25 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test tunnel
+          name: Test Tunnel
         state: absent
+
+    - name: Create tunnel with all information
+      netbox.netbox.netbox_tunnel:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Tunnel
+          status: planned
+          tunnel_group: Test Tunnel Group
+          encapsulation: ipsec-tunnel
+          ipsec_profile: ipsec-profile
+          description: Test Description
+          tenant: Test Tenant
+          tunnel_id: 200
+          tags:
+            - test
+        state: present
 """
 
 RETURN = r"""
@@ -161,9 +166,13 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     status=dict(required=False, type="raw"),
+                    tunnel_group=dict(required=False, type="raw"),
                     encapsulation=dict(required=False, type="raw"),
+                    ipsec_profile=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
+                    tunnel_id=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
+                    comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                 ),
