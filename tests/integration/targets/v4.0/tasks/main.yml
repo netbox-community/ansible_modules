@@ -328,3 +328,12 @@
   ansible.builtin.include_tasks: netbox_virtual_disk.yml
   tags:
     - netbox_virtual_disk
+
+- name: NETBOX_TUNNEL TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel.yml
+    apply:
+      tags:
+        - netbox_tunnel
+  tags:
+    - netbox_tunnel

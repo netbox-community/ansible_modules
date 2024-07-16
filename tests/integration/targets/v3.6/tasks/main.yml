@@ -315,3 +315,12 @@
   ansible.builtin.include_tasks: netbox_custom_field_choice_set.yml
   tags:
     - netbox_custom_field_choice_set
+
+- name: NETBOX_TUNNEL TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel.yml
+    apply:
+      tags:
+        - netbox_tunnel
+  tags:
+    - netbox_tunnel
