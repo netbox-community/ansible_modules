@@ -41,7 +41,7 @@ options:
         type: raw
       tunnel_group:
         description:
-          - The VLAN group the VLAN will be associated to
+          - The Tunnel group the VLAN will be associated with. Must exist in NetBox
         required: false
         type: raw
       encapsulation:

@@ -204,6 +204,7 @@ QUERY_TYPES = dict(
     site_group="slug",
     tenant="slug",
     tenant_group="slug",
+    tunnel="name",
     time_zone="timezone",
     virtual_chassis="name",
     virtual_machine="name",
