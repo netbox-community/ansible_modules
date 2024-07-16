@@ -305,12 +305,3 @@
         - netbox_fhrp_group_assignmen
   tags:
     - netbox_fhrp_group_assignmen
-
-- name: NETBOX_TUNNEL TESTS
-  ansible.builtin.include_tasks:
-    file: netbox_tunnel.yml
-    apply:
-      tags:
-        - netbox_tunnel
-  tags:
-    - netbox_tunnel
