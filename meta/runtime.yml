@@ -78,6 +78,7 @@ action_groups:
     - netbox_tag
     - netbox_tenant
     - netbox_tenant_group
+    - netbox_tunnel
     - netbox_virtual_chassis
     - netbox_virtual_machine
     - netbox_vlan
