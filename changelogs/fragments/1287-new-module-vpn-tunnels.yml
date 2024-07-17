@@ -1,2 +1,0 @@
-minor_changes:
-      - Add new module to manage VPN tunnels ``netbox.netbox.netbox_tunnel``
