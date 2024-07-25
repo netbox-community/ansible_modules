@@ -168,7 +168,7 @@ def main():
                     status=dict(required=False, type="raw"),
                     tunnel_group=dict(required=False, type="raw"),
                     encapsulation=dict(
-                        required=True, 
+                        required=True,
                         type="str",
                         choices=[
                             "ipsec-transport",
@@ -189,8 +189,9 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name", "encapsulation"]),
-                  ("state", "absent", ["name", "encapsulation"]),
+    required_if = [
+        ("state", "present", ["name", "encapsulation"]),
+        ("state", "absent", ["name", "encapsulation"]),
     ]
 
     module = NetboxAnsibleModule(
