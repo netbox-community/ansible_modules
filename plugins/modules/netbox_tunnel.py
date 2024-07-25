@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright: (c) 2024, Rich Bibby (@richbibby)
+# Copyright: (c) 2024, Rich Bibby, NetBox Labs (@richbibby)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -17,7 +17,7 @@ notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
 author:
-  - Rich Bibby (@richbibby)
+  - Rich Bibby, NetBox Labs (@richbibby)
 requirements:
   - pynetbox
 version_added: '3.20.0'
