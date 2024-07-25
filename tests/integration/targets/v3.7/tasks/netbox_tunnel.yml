@@ -52,6 +52,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel
+      encapsulation: ipsec-tunnel
       description: Test Description
       tenant: Test Tenant
       tunnel_id: 200
@@ -73,6 +74,7 @@
       - test_three['tunnel']['tunnel_id'] == 200
       - test_three['tunnel']['description'] == "Test Description"
       - test_three['tunnel']['tags'][0] == 4
+      - test_three['tunnel']['encapsulation'] == "ipsec-tunnel"
       - test_three['msg'] == "tunnel Test Tunnel updated"
 
 - name: "TUNNEL 4: Delete"
@@ -81,6 +83,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel
+      encapsulation: ipsec-tunnel
     state: absent
   register: test_four
 

@@ -7,7 +7,7 @@
 - name: "TUNNEL_GROUP 1: Necessary info creation"
   netbox.netbox.netbox_tunnel_group:
     netbox_url: http://localhost:32768
-    netbox_token: "6bd1da4f7657a0748667f64b5786710383627d9a"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel Group
     state: present
@@ -26,7 +26,7 @@
 - name: "TUNNEL_GROUP 2: Create duplicate"
   netbox.netbox.netbox_tunnel_group:
     netbox_url: http://localhost:32768
-    netbox_token: "6bd1da4f7657a0748667f64b5786710383627d9a"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel Group
     state: present
@@ -43,7 +43,7 @@
 - name: "TUNNEL_GROUP 3: Update Existing"
   netbox.netbox.netbox_tunnel_group:
     netbox_url: http://localhost:32768
-    netbox_token: "6bd1da4f7657a0748667f64b5786710383627d9a"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel Group
       description: Test Description
@@ -59,6 +59,7 @@
       - test_three['diff']['after']['description'] == "Test Description"
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['tunnel_group']['name'] == "Test Tunnel Group"
+      - test_three['tunnel_group']['slug'] == "test-tunnel-group"
       - test_three['tunnel_group']['description'] == "Test Description"
       - test_three['tunnel_group']['tags'][0] == 4
       - test_three['msg'] == "tunnel_group Test Tunnel Group updated"
@@ -66,7 +67,7 @@
 - name: "TUNNEL_GROUP 4: Delete"
   netbox.netbox.netbox_tunnel_group:
     netbox_url: http://localhost:32768
-    netbox_token: "6bd1da4f7657a0748667f64b5786710383627d9a"
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Test Tunnel Group
     state: absent

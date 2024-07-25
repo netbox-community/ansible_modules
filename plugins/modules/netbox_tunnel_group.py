@@ -12,7 +12,7 @@ DOCUMENTATION = r"""
 module: netbox_tunnel_group
 short_description: Create, update or delete tunnel groups within NetBox
 description:
-  - Creates, updates or deletes tunnel groups from NetBox
+  - Creates, updates or deletes tunnel groups within NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -34,6 +34,12 @@ options:
         description:
           - The name of the tunnel group
         required: true
+        type: str
+      slug:
+        description:
+          - The slugified version of the name or custom slug.
+          - This is auto-generated following NetBox rules if not provided
+        required: false
         type: str
       description:
         description:
@@ -65,7 +71,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Cluster Group
+          name: Test Tunnel Group
         state: present
 
     - name: Delete tunnel group within netbox
@@ -73,7 +79,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: Test Cluster Group
+          name: Test Tunnel Group
         state: absent
 """
 
@@ -111,6 +117,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
+                    slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

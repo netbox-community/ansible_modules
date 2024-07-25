@@ -47,7 +47,7 @@ options:
       encapsulation:
         description:
           - The encapsulation protocol or technique employed to effect the tunnel
-        required: false
+        required: true
         type: raw
       ipsec_profile:
         description:
@@ -101,7 +101,6 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Tunnel
-          status: active
           encapsulation: ipsec-tunnel
         state: present
 
@@ -111,6 +110,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Test Tunnel
+          encapsulation: ipsec-tunnel
         state: absent
 
     - name: Create tunnel with all information
@@ -127,7 +127,7 @@ EXAMPLES = r"""
           tenant: Test Tenant
           tunnel_id: 200
           tags:
-            - test
+            - Schnozzberry
         state: present
 """
 
@@ -167,7 +167,16 @@ def main():
                     name=dict(required=True, type="str"),
                     status=dict(required=False, type="raw"),
                     tunnel_group=dict(required=False, type="raw"),
-                    encapsulation=dict(required=False, type="raw"),
+                    encapsulation=dict(
+                        required=True, 
+                        type="str",
+                        choices=[
+                            "ipsec-transport",
+                            "ipsec-tunnel",
+                            "ip-ip",
+                            "gre",
+                        ],
+                    ),
                     ipsec_profile=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     tunnel_id=dict(required=False, type="int"),
@@ -180,7 +189,9 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [("state", "present", ["name", "encapsulation"]),
+                  ("state", "absent", ["name", "encapsulation"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
