@@ -47,8 +47,13 @@ options:
       encapsulation:
         description:
           - The encapsulation protocol or technique employed to effect the tunnel
+        choices:
+          - ipsec-transport
+          - ipsec-tunnel
+          - ip-ip
+          - gre
         required: true
-        type: raw
+        type: str
       ipsec_profile:
         description:
           - The IPSec Profile employed to negotiate security associations
