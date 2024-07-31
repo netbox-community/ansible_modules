@@ -1947,7 +1947,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         extracted_primary_ip4_netmask = self.extract_primary_ip4_netmask(host=host)
         if extracted_primary_ip4_netmask:
-            self._set_variable(hostname, "primary_ip4_netmask", extracted_primary_ip4_netmask)
+            self._set_variable(
+                hostname, "primary_ip4_netmask", extracted_primary_ip4_netmask
+            )
 
         extracted_primary_ip6 = self.extract_primary_ip6(host=host)
         if extracted_primary_ip6:
