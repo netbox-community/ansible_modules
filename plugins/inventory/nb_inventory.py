@@ -1966,8 +1966,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 self._set_variable(hostname, "ansible_host", extracted_oob_ip)
 
         if self.admin_service_name_with_ip_as_primary_ip:
-            extracted_admin_service_ip = self.extract_ip_with_service_name(host=host,
-                                                service_name=self.admin_service_name_with_ip_as_primary_ip)
+            extracted_admin_service_ip = self.extract_ip_with_service_name(
+                host=host, service_name=self.admin_service_name_with_ip_as_primary_ip
+            )
             self._set_variable(hostname, "admin_service_ip", extracted_admin_service_ip)
             if self.admin_service_name_with_ip_as_primary_ip:
                 self._set_variable(hostname, "ansible_host", extracted_admin_service_ip)
