@@ -249,6 +249,10 @@ DOCUMENTATION = """
             description: Use out of band IP as `ansible host`
             type: boolean
             default: false
+        admin_service_name_with_ip_as_primary_ip:
+            description: Use IP attached to a service name as `ansible host`
+            type: string
+            default: None
         rename_variables:
             description:
                 - Rename variables evaluated by nb_inventory, before writing them.
@@ -852,6 +856,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             address = host["oob_ip"]["address"]
             return str(ip_interface(address).ip)
         except Exception:
+            return
+
+    # service_name_with_ip_as_primary_ip
+    def extract_ip_with_service_name(self, host, service_name):
+        try:
+            for service in self.extract_services(host):
+                if service.get("name") == service_name:
+                    ip_address_info = service.get("ipaddresses", [])
+                    if ip_address_info:
+                        cidr = ip_address_info[0].get("address")
+                        return str(cidr.split('/')[0])
+        except Exception as e:
+            print(f"Error: {e}")
             return
 
     def extract_tags(self, host):
@@ -1948,6 +1965,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if self.oob_ip_as_primary_ip:
                 self._set_variable(hostname, "ansible_host", extracted_oob_ip)
 
+        if self.admin_service_name_with_ip_as_primary_ip:
+            extracted_admin_service_ip = self.extract_ip_with_service_name(host=host,
+                                                service_name=self.admin_service_name_with_ip_as_primary_ip)
+            self._set_variable(hostname, "admin_service_ip", extracted_admin_service_ip)
+            if self.admin_service_name_with_ip_as_primary_ip:
+                self._set_variable(hostname, "ansible_host", extracted_admin_service_ip)
+
+
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
 
@@ -2140,6 +2165,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
         self.oob_ip_as_primary_ip = self.get_option("oob_ip_as_primary_ip")
+        self.admin_service_name_with_ip_as_primary_ip = self.get_option(
+            "admin_service_name_with_ip_as_primary_ip"
+        )
 
         self._set_authorization()
 
