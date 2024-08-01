@@ -866,7 +866,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     ip_address_info = service.get("ipaddresses", [])
                     if ip_address_info:
                         cidr = ip_address_info[0].get("address")
-                        return str(cidr.split('/')[0])
+                        return str(cidr.split("/")[0])
         except Exception as e:
             print(f"Error: {e}")
             return
@@ -1972,7 +1972,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self._set_variable(hostname, "admin_service_ip", extracted_admin_service_ip)
             if self.admin_service_name_with_ip_as_primary_ip:
                 self._set_variable(hostname, "ansible_host", extracted_admin_service_ip)
-
 
         for attribute, extractor in self.group_extractors.items():
             extracted_value = extractor(host)
