@@ -1,0 +1,2 @@
+minor_changes:
+    - nb_inventory admin_service_name_with_ip_as_primary_ip : Use IP attached to a service name as ansible host
