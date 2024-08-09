@@ -1150,8 +1150,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for prefix in prefixes:
             if prefix.get("site"):
                 self.prefixes_sites_lookup[prefix["site"]["id"]].append(prefix)
-            # Remove "site" attribute, as it's redundant when prefixes are assigned to site
-            del prefix["site"]
+                # Remove "site" attribute, as it's redundant when prefixes are assigned to site
+                del prefix["site"]
 
     def refresh_regions_lookup(self):
         url = self.api_endpoint + "/api/dcim/regions/?limit=0"
