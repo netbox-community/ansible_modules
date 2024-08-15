@@ -1594,7 +1594,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         except Exception:
             cached_api_version = None
             cache = None
-
+        self.api_endpoint = self.templar.template( self.get_option("api_endpoint"), fail_on_undefined=False)
         status = self._fetch_information(self.api_endpoint + "/api/status")
         netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
