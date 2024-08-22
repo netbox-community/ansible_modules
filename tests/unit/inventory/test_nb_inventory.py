@@ -229,7 +229,6 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver, templar_fixture):
         {"info": {"version": "3.0"}},
     ]
 
-    
     inventory_fixture._fetch_information = mock_fetch_information
 
     with pytest.raises(KeyError, match="paths"):
