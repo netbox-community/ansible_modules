@@ -53,14 +53,14 @@
       description: The test permission
       enabled: false
       actions:
-          - view
-          - add
-          - change
-          - delete
-          - extreme_administration
+        - view
+        - add
+        - change
+        - delete
+        - extreme_administration
       object_types:
-          - vpn.tunneltermination
-          - wireless.wirelesslan
+        - vpn.tunneltermination
+        - wireless.wirelesslan
       constraints:
         name: Foo
     state: present
