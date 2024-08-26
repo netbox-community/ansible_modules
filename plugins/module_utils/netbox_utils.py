@@ -259,6 +259,7 @@ CONVERT_TO_ID = {
     "device_types": "device_types",
     "export_targets": "route_targets",
     "group": "tenant_groups",
+    "groups": "groups",
     "import_targets": "route_targets",
     "installed_device": "devices",
     "interface": "interfaces",
@@ -372,6 +373,7 @@ ENDPOINT_NAME_MAPPING = {
     "fhrp_group_assignments": "fhrp_group_assignment",
     "front_ports": "front_port",
     "front_port_templates": "front_port_template",
+    "groups": "user_group",
     "journal_entries": "journal_entry",
     "interfaces": "interface",
     "interface_templates": "interface_template",
@@ -556,6 +558,7 @@ ALLOWED_QUERY_PARAMS = {
     "tunnel": set(["name"]),
     "tunnel_group": set(["slug"]),
     "user": set(["username", "password"]),
+    "user_group": set(["name"]),
     "untagged_vlan": set(["group", "name", "site", "vid", "vlan_group", "tenant"]),
     "virtual_chassis": set(["name", "master"]),
     "virtual_machine": set(["name", "cluster"]),
@@ -684,6 +687,7 @@ SLUG_REQUIRED = {
     "manufacturers",
     "platforms",
     "providers",
+    "user_groups",
     "vlan_groups",
     "wireless_lan_groups",
 }
@@ -1261,6 +1265,7 @@ class NetboxModule(object):
                             "tenant_groups",
                             "tenants",
                             "tags",
+                            "groups",
                         ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):

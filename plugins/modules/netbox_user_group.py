@@ -7,8 +7,8 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_user
-short_description: Creates or removes users from NetBox
+module: netbox_user_group
+short_description: Creates or removes user groups from NetBox
 description:
   - Creates or removes users from NetBox
 notes:
@@ -25,49 +25,18 @@ options:
   data:
     type: dict
     description:
-      - Defines the user configuration
+      - Defines the user group configuration
     suboptions:
-      username:
+      name:
         description:
-          - Username of the user to be created
+          - Name of the user group to be created
         required: true
         type: str
-      password:
+      description:
         description:
-          - Password of the user to be created
+          - Description of the user group to be created
         required: false
         type: str
-      email:
-        description:
-          - Email of the user to be created
-        required: false
-        type: str
-      first_name:
-        description:
-          - First name  of the user to be created
-        required: false
-        type: str
-      last_name:
-        description:
-          - Last name of the user to be created
-        required: false
-        type: str
-      is_staff:
-        description:
-          - Staff status of the user to be created
-        required: false
-        type: bool
-      is_active:
-        description:
-          - Active status of the user to be created
-        required: false
-        type: bool
-      groups:
-        description:
-          - Groups the user to be created should belong to
-        required: false
-        type: list
-        elements: str
     required: true
 """
 
@@ -77,33 +46,40 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Create user within NetBox with only required information
-      netbox.netbox.netbox_user:
+    - name: Create user group within NetBox with only required information
+      netbox.netbox.netbox_user_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          username: MyUser
-          password: MyPassword
+          name: My Group
         state: present
 
-    - name: Delete user within netbox
+    - name: Create user belonging to the group
       netbox.netbox.netbox_user:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           username: MyUser
-        state: absent
+          password: MyPassword
+          groups:
+            - My Group
+        state: present
 
-    - name: Create user with all parameters
-      netbox.netbox.netbox_user:
+    - name: Delete user group within netbox
+      netbox.netbox.netbox_user_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: MyUser
-          password: MyPassword
-          email: my@user.com
-          first_name: My
-          last_name: User
+          name: My Group
+        state: absent
+
+    - name: Create user group with all parameters
+      netbox.netbox.netbox_user_group:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: My Group
+          description: The group I made
         state: present
 """
 
@@ -125,7 +101,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_users import (
     NetboxUsersModule,
-    NB_USERS,
+    NB_GROUPS,
 )
 from copy import deepcopy
 
@@ -141,27 +117,21 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    username=dict(required=True, type="str"),
-                    password=dict(required=False, type="str", no_log=True),
-                    email=dict(required=False, type="str"),
-                    first_name=dict(required=False, type="str"),
-                    last_name=dict(required=False, type="str"),
-                    is_active=dict(required=False, type="bool"),
-                    is_staff=dict(required=False, type="bool"),
-                    groups=dict(required=False, type="list", elements="str"),
+                    name=dict(required=True, type="str"),
+                    description=dict(required=False, type="str"),
                 ),
             ),
         )
     )
 
-    required_if = [("state", "present", ["username", "password"]), ("state", "absent", ["username"])]
+    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_user = NetboxUsersModule(module, NB_USERS)
-    netbox_user.run()
+    netbox_user_group = NetboxUsersModule(module, NB_GROUPS)
+    netbox_user_group.run()
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -48,6 +48,8 @@ class NetboxUsersModule(NetboxModule):
         # Used for msg output
         if data.get("username"):
             name = data["username"]
+        elif data.get("name"):
+            name = data["name"]
         elif data.get("slug"):
             name = data["slug"]
 
