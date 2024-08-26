@@ -105,7 +105,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: MyUser
+          username: MyUser
           password: MyPassword
           email: my@user.com
           first_name: My
@@ -155,12 +155,16 @@ def main():
                     is_active=dict(required=False, type="bool"),
                     is_staff=dict(required=False, type="bool"),
                     groups=dict(required=False, type="list", elements="str"),
+                    permissions=dict(required=False, type="list", elements="str"),
                 ),
             ),
         )
     )
 
-    required_if = [("state", "present", ["username", "password"]), ("state", "absent", ["username"])]
+    required_if = [
+        ("state", "present", ["username", "password"]),
+        ("state", "absent", ["username"]),
+    ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
