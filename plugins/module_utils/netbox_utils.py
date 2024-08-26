@@ -289,6 +289,7 @@ CONVERT_TO_ID = {
     "parent_site_group": "site_groups",
     "parent_tenant_group": "tenant_groups",
     "parent_wireless_lan_group": "wireless_lan_groups",
+    "permissions": "permissions",
     "platforms": "platforms",
     "power_panel": "power_panels",
     "power_port": "power_ports",
@@ -387,6 +388,7 @@ ENDPOINT_NAME_MAPPING = {
     "modules": "module",
     "module_bays": "module_bay",
     "module_types": "module_type",
+    "permissions": "permission",
     "platforms": "platform",
     "power_feeds": "power_feed",
     "power_outlets": "power_outlet",
@@ -523,6 +525,7 @@ ALLOWED_QUERY_PARAMS = {
     "parent_region": set(["slug"]),
     "parent_site_group": set(["slug"]),
     "parent_tenant_group": set(["slug"]),
+    "permission": set(["name"]),
     "platform": set(["slug"]),
     "power_feed": set(["name", "power_panel"]),
     "power_outlet": set(["name", "device"]),
@@ -1266,6 +1269,7 @@ class NetboxModule(object):
                             "tenants",
                             "tags",
                             "groups",
+                            "permissions",
                         ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):

@@ -68,6 +68,12 @@ options:
         required: false
         type: list
         elements: str
+      permissions:
+        description:
+          - Permissions the user to be created should have
+        required: false
+        type: list
+        elements: str
     required: true
 """
 

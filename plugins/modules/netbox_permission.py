@@ -7,10 +7,10 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: netbox_user_group
-short_description: Creates or removes user groups from NetBox
+module: netbox_permission
+short_description: Creates or removes permissions from NetBox
 description:
-  - Creates or removes users from NetBox
+  - Creates or removes permissions from NetBox
 notes:
   - Tags should be defined as a YAML list
   - This should be ran with connection C(local) and hosts C(localhost)
@@ -25,24 +25,40 @@ options:
   data:
     type: dict
     description:
-      - Defines the user group configuration
+      - Defines the permission configuration
     suboptions:
       name:
         description:
-          - Name of the user group to be created
+          - Name of the permission to be created
         required: true
         type: str
       description:
         description:
-          - Description of the user group to be created
+          - Description of the permission to be created
         required: false
         type: str
-      permissions:
+      enabled:
         description:
-          - Permissions the user group to be created should have
+          - Whether or not the permission to be created should be enabled
+        required: false
+        type: bool
+      actions:
+        description:
+          - The actions of the permission to be created
         required: false
         type: list
-        elements: str
+        elements: raw
+      object_types:
+        description:
+          - The object types of the permission to be created
+        required: false
+        type: list
+        elements: raw
+      constraints:
+        description:
+          - The constraints of the permission to be created
+        required: false
+        type: dict
     required: true
 """
 
@@ -52,40 +68,65 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Create user group within NetBox with only required information
-      netbox.netbox.netbox_user_group:
+    - name: Create permission within NetBox with only required information
+      netbox.netbox.netbox_permission:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: My Group
+          name: My Permission
+          actions:
+            - view
+          object_types: []
         state: present
 
-    - name: Create user belonging to the group
+    - name: Create user which has the permission
       netbox.netbox.netbox_user:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           username: MyUser
           password: MyPassword
-          groups:
-            - My Group
+          permissions:
+            - My Permission
         state: present
 
-    - name: Delete user group within netbox
+    - name: Create a group which has the permission
       netbox.netbox.netbox_user_group:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           name: My Group
+          permissions:
+            - My Permission
         state: absent
 
-    - name: Create user group with all parameters
-      netbox.netbox.netbox_user_group:
+    - name: Delete permission within netbox
+      netbox.netbox.netbox_permission:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: My Group
-          description: The group I made
+          name: My Permission
+        state: absent
+
+    - name: Create permission with all parameters
+      netbox.netbox.netbox_permission:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: My permission
+          description: The permission I made
+          enabled: false
+          actions:
+            - view
+            - add
+            - change
+            - delete
+            - extreme_administration
+          object_types:
+            - vpn.tunneltermination
+            - wireless.wirelesslan
+          constraints:
+            id: 1
         state: present
 """
 
@@ -107,7 +148,7 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_users import (
     NetboxUsersModule,
-    NB_GROUPS,
+    NB_PERMISSIONS,
 )
 from copy import deepcopy
 
@@ -125,20 +166,23 @@ def main():
                 options=dict(
                     name=dict(required=True, type="str"),
                     description=dict(required=False, type="str"),
-                    permissions=dict(required=False, type="list", elements="str"),
+                    enabled=dict(required=False, type="bool"),
+                    actions=dict(required=False, type="list", elements="raw"),
+                    object_types=dict(required=False, type="list", elements="raw"),
+                    constraints=dict(required=False, type="dict"),
                 ),
             ),
         )
     )
 
-    required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_if = [("state", "present", ["name", "actions", "object_types"]), ("state", "absent", ["name"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
     )
 
-    netbox_user_group = NetboxUsersModule(module, NB_GROUPS)
-    netbox_user_group.run()
+    netbox_permission = NetboxUsersModule(module, NB_PERMISSIONS)
+    netbox_permission.run()
 
 
 if __name__ == "__main__":  # pragma: no cover
