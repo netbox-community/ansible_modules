@@ -158,6 +158,9 @@
 - name: NETBOX_VIRTUAL_CHASSIS TESTS
   ansible.builtin.include_tasks: netbox_virtual_chassis.yml
 
+- name: NETBOX_USER TESTS
+  ansible.builtin.include_tasks: netbox_user.yml
+
 # Module has to be updated for 3.3
 # - name: "NETBOX_CABLE TESTS"
 #  include_tasks: "netbox_cable.yml"
