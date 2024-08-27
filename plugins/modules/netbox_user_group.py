@@ -90,7 +90,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-user:
+user_group:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict

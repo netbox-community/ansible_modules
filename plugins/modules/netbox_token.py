@@ -61,70 +61,47 @@ EXAMPLES = r"""
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Create permission within NetBox with only required information
-      netbox.netbox.netbox_permission:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: My Permission
-          actions:
-            - view
-          object_types: []
-        state: present
-
-    - name: Create user which has the permission
+    - name: Create user to own the token
       netbox.netbox.netbox_user:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
           username: MyUser
           password: MyPassword
-          permissions:
-            - My Permission
         state: present
 
-    - name: Create a group which has the permission
-      netbox.netbox.netbox_user_group:
+    - name: Create token within NetBox with only required information
+      netbox.netbox.netbox_token:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: My Group
-          permissions:
-            - My Permission
+          user: TestUser
+          key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        state: present
+
+    - name: Delete token within netbox
+      netbox.netbox.netbox_token:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         state: absent
 
-    - name: Delete permission within netbox
-      netbox.netbox.netbox_permission:
+    - name: Create token with all parameters
+      netbox.netbox.netbox_token:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: My Permission
-        state: absent
-
-    - name: Create permission with all parameters
-      netbox.netbox.netbox_permission:
-        netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken
-        data:
-          name: My permission
-          description: The permission I made
-          enabled: false
-          actions:
-            - view
-            - add
-            - change
-            - delete
-            - extreme_administration
-          object_types:
-            - vpn.tunneltermination
-            - wireless.wirelesslan
-          constraints:
-            id: 1
+          user: TestUser
+          key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          description: The test token
+          write_enabled: false
+          expires: 2024-08-26T14:49:01.345000+00:00
         state: present
 """
 
 RETURN = r"""
-user:
+token:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict

@@ -131,7 +131,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-user:
+permissions:
   description: Serialized object as created or already existent within NetBox
   returned: on creation
   type: dict
