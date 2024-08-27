@@ -2000,6 +2000,55 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rename_variables"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-rename_variables:
+
+      .. rst-class:: ansible-option-title
+
+      **rename_variables**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rename_variables" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rename variables evaluated by nb\_inventory, before writing them.
+
+      Each list entry contains a dict with a 'pattern' and a 'repl'.
+
+      Both 'pattern' and 'repl' are regular expressions.
+
+      The first matching expression is used, subsequent matches are ignored.
+
+      Internally \`re.sub\` is used.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`[]`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-services"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-services:
