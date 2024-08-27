@@ -59,7 +59,7 @@
 #       user: TestUser
 #       key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 #       description: The test token
-#       write_enabled: false 
+#       write_enabled: false
 #       expires: 2024-08-26T14:49:01.345000+00:00
 #     state: present
 #   register: test_three
