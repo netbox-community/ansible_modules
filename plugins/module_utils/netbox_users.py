@@ -52,6 +52,8 @@ class NetboxUsersModule(NetboxModule):
             name = data["name"]
         elif data.get("slug"):
             name = data["slug"]
+        elif data.get("key"):
+            name = data["key"]
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
@@ -77,7 +79,10 @@ class NetboxUsersModule(NetboxModule):
         self.module.exit_json(**self.result)
 
     def _update_netbox_object(self, data):
-        # Override this method to ignore the password field when updating users
+        # ignore the password field when updating users
         if self.endpoint == "users" and "password" in data:
             del data["password"]
+        # ignore the key field when fetching tokens
+        if self.endpoint == "tokens" and "key" in data:
+            del data["key"]
         return super()._update_netbox_object(data)

@@ -167,6 +167,9 @@
 - name: NETBOX_PERMISSION TESTS
   ansible.builtin.include_tasks: netbox_permission.yml
 
+- name: NETBOX_TOKEN TESTS
+  ansible.builtin.include_tasks: netbox_token.yml
+
 # Module has to be updated for 3.3
 # - name: "NETBOX_CABLE TESTS"
 #  include_tasks: "netbox_cable.yml"
