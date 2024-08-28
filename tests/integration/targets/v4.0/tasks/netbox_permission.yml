@@ -66,7 +66,7 @@
     state: present
   register: test_three
 
-- name: "USER_GROUP 3: ASSERT - Update"
+- name: "PERMISSION 3: ASSERT - Update"
   ansible.builtin.assert:
     that:
       - test_three is changed
@@ -79,7 +79,7 @@
       - test_three['permission']['constraints']["name"] == "Foo"
       - test_three['msg'] == "permission Test Permission updated"
 
-- name: "USER_GROUP 4: Add permission to group"
+- name: "PERMISSION 4: Add permission to group"
   netbox.netbox.netbox_user_group:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -90,13 +90,13 @@
     state: present
   register: test_four
 
-- name: "USER_GROUP 4: ASSERT - Add permission to group"
+- name: "PERMISSION 4: ASSERT - Add permission to group"
   ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['user_group']['permissions'] == [1]
 
-- name: "USER_GROUP 5: Add permission to user"
+- name: "PERMISSION 5: Add permission to user"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -108,13 +108,13 @@
     state: present
   register: test_five
 
-- name: "USER_GROUP 5: ASSERT - Add permission to user"
+- name: "PERMISSION 5: ASSERT - Add permission to user"
   ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['user']['permissions'] == [1]
 
-- name: "USER_GROUP 6: Delete"
+- name: "PERMISSION 6: Delete"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -123,7 +123,7 @@
     state: absent
   register: test_six
 
-- name: "USER_GROUP 6: ASSERT - Delete"
+- name: "PERMISSION 6: ASSERT - Delete"
   ansible.builtin.assert:
     that:
       - test_six is changed
@@ -131,7 +131,7 @@
       - test_six['diff']['after']['state'] == "absent"
       - test_six['msg'] == "permission Test Permission deleted"
 
-- name: "USER_GROUP 7: ASSERT - Delete non existing"
+- name: "PERMISSION 7: ASSERT - Delete non existing"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -140,7 +140,7 @@
     state: absent
   register: test_seven
 
-- name: "USER_GROUP 7: ASSERT - Delete non existing`"
+- name: "PERMISSION 7: ASSERT - Delete non existing`"
   ansible.builtin.assert:
     that:
       - not test_seven['changed']
