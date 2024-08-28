@@ -1272,7 +1272,6 @@ class NetboxModule(object):
                             "tenants",
                             "tags",
                             "groups",
-                            "permissions",
                         ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
