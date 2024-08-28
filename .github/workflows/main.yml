@@ -86,7 +86,7 @@ jobs:
           cd netbox-docker
           git checkout ${{ matrix.NETBOX_DOCKER_VERSION }}
           cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/docker-compose.override.yml docker-compose.override.yml
-          docker-compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
+          docker compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
 
