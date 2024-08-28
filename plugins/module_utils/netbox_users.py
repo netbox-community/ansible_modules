@@ -8,7 +8,6 @@ __metaclass__ = type
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
-    SLUG_REQUIRED,
 )
 
 NB_CONFIG = "config"
