@@ -57,7 +57,25 @@
       - test_three['user_group']['description'] == "The test group"
       - test_three['msg'] == "user_group Test User Group updated"
 
-- name: "USER_GROUP 4: Add user to group"
+- name: "USER_GROUP 4: Create second group"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group 2
+    state: present
+  register: test_four
+
+- name: "USER_GROUP 4: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['user_group']['name'] == "Test User Group 2"
+      - test_four['msg'] == "user_group Test User Group 2 created"
+
+- name: "USER_GROUP 5: Add user to group"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -67,32 +85,15 @@
       groups:
         - Test User Group
     state: present
-  register: test_four
-
-- name: "USER_GROUP 4: ASSERT - Add user to group"
-  ansible.builtin.assert:
-    that:
-      - test_four is changed
-      - test_four['user']['groups'] == [1]
-
-- name: "USER_GROUP 5: Delete"
-  netbox.netbox.netbox_user_group:
-    netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
-    data:
-      name: Test User Group
-    state: absent
   register: test_five
 
-- name: "USER_GROUP 5: ASSERT - Delete"
+- name: "USER_GROUP 5: ASSERT - Add user to group"
   ansible.builtin.assert:
     that:
       - test_five is changed
-      - test_five['diff']['before']['state'] == "present"
-      - test_five['diff']['after']['state'] == "absent"
-      - test_five['msg'] == "user_group Test User Group deleted"
+      - test_five['user']['groups'] == [1]
 
-- name: "USER_GROUP 6: ASSERT - Delete non existing"
+- name: "USER_GROUP 6: Delete"
   netbox.netbox.netbox_user_group:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -101,9 +102,26 @@
     state: absent
   register: test_six
 
-- name: "USER_GROUP 6: ASSERT - Delete non existing`"
+- name: "USER_GROUP 6: ASSERT - Delete"
   ansible.builtin.assert:
     that:
-      - not test_six['changed']
-      - test_six['user_group'] == None
-      - test_six['msg'] == "user_group Test User Group already absent"
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "present"
+      - test_six['diff']['after']['state'] == "absent"
+      - test_six['msg'] == "user_group Test User Group deleted"
+
+- name: "USER_GROUP 6: ASSERT - Delete non existing"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+    state: absent
+  register: test_seven
+
+- name: "USER_GROUP 7: ASSERT - Delete non existing`"
+  ansible.builtin.assert:
+    that:
+      - not test_seven['changed']
+      - test_seven['user_group'] == None
+      - test_seven['msg'] == "user_group Test User Group already absent"

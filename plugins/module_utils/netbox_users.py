@@ -50,14 +50,8 @@ class NetboxUsersModule(NetboxModule):
             name = data["username"]
         elif data.get("name"):
             name = data["name"]
-        elif data.get("slug"):
-            name = data["slug"]
         elif data.get("key"):
             name = data["key"]
-
-        if self.endpoint in SLUG_REQUIRED:
-            if not data.get("slug"):
-                data["slug"] = self._to_slug(name)
 
         object_query_params = self._build_query_params(
             endpoint_name, data, user_query_params

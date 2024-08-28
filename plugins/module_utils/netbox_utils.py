@@ -166,7 +166,7 @@ QUERY_TYPES = dict(
     export_template="name",
     fhrp_groups="group_id",
     fhrp_group_assignments="id",
-    group="slug",
+    groups="name",
     installed_device="name",
     inventory_item_role="name",
     import_targets="name",
@@ -194,6 +194,7 @@ QUERY_TYPES = dict(
     primary_ip4="address",
     primary_ip6="address",
     oob_ip="address",
+    permissions="name",
     provider="slug",
     provider_network="name",
     rack="name",
@@ -1271,7 +1272,6 @@ class NetboxModule(object):
                             "tenant_groups",
                             "tenants",
                             "tags",
-                            "groups",
                         ) and isinstance(list_item, str):
                             temp_dict = {"slug": self._to_slug(list_item)}
                         elif isinstance(list_item, dict):
