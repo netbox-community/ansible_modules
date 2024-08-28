@@ -166,6 +166,7 @@ QUERY_TYPES = dict(
     export_template="name",
     fhrp_groups="group_id",
     fhrp_group_assignments="id",
+    group="slug",
     groups="name",
     installed_device="name",
     inventory_item_role="name",
