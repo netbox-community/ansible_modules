@@ -16,7 +16,7 @@ jobs:
         uses: psf/black@stable
 
   unit_testing:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: linting
     strategy:
       fail-fast: false
