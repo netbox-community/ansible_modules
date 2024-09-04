@@ -1,0 +1,2 @@
+minor_changes:
+      - Add `vid_ranges` to `netbox_vlan_group` module (https://github.com/netbox-community/ansible_modules/issues/1307)
