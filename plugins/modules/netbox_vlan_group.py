@@ -88,7 +88,8 @@ options:
         description:
           - Array of starting and ending VLAN ID pairs
         required: false
-        type: raw
+        type: list
+        elements: raw
         version_added: "3.20.0"
       tags:
         description:
