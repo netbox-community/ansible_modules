@@ -11,14 +11,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_location_module:
+.. _ansible_collections.netbox.netbox.netbox_tunnel_group_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_location module -- Create, update or delete locations within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_tunnel_group module -- Create, update or delete tunnel groups within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -30,15 +30,15 @@ netbox.netbox.netbox_location module -- Create, update or delete locations withi
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_location_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_tunnel_group_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_location`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_tunnel_group`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 3.3.0
+New in netbox.netbox 3.20.0
 
 .. contents::
    :local:
@@ -52,7 +52,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes locations from NetBox
+- Creates, updates or deletes tunnel groups within NetBox
 
 
 .. Aliases
@@ -60,7 +60,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_location_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_tunnel_group_module_requirements:
 
 Requirements
 ------------
@@ -94,7 +94,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -128,7 +128,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -150,7 +150,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the location configuration
+      Defines the tunnel group configuration
 
 
       .. raw:: html
@@ -166,7 +166,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -179,9 +179,6 @@ Parameters
       .. ansible-option-type-line::
 
         :ansible-option-type:`dictionary`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
 
       .. raw:: html
 
@@ -211,7 +208,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
@@ -237,52 +234,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The description of the location
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/facility"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/facility:
-
-      .. rst-class:: ansible-option-title
-
-      **facility**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/facility" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`string`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.20.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Data center provider or facility, ex. Equinix NY7
+      The description of the tunnel group
 
 
       .. raw:: html
@@ -298,7 +250,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -324,91 +276,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the location
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/parent_location"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/parent_location:
-
-      .. rst-class:: ansible-option-title
-
-      **parent_location**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/parent_location" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The parent location the location will be associated with
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/site:
-
-      .. rst-class:: ansible-option-title
-
-      **site**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/site" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Required if \ :emphasis:`state=present`\  and the location does not exist yet
+      The name of the tunnel group
 
 
       .. raw:: html
@@ -424,7 +292,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/slug:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data/slug:
 
       .. rst-class:: ansible-option-title
 
@@ -462,58 +330,13 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/status"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/status:
-
-      .. rst-class:: ansible-option-title
-
-      **status**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/status" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.20.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Status of the location
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -526,9 +349,6 @@ Parameters
       .. ansible-option-type-line::
 
         :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.6.0`
-
 
       .. raw:: html
 
@@ -549,58 +369,13 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/tenant"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-data/tenant:
-
-      .. rst-class:: ansible-option-title
-
-      **tenant**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/tenant" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      :ansible-option-versionadded:`added in netbox.netbox 3.8.0`
-
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The tenant that the location will be associated with
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -634,7 +409,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -670,7 +445,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -708,7 +483,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -750,7 +525,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -809,39 +584,26 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: "Test NetBox modules"
+    - name: "Test NetBox Tunnel Group module"
       connection: local
       hosts: localhost
       gather_facts: false
 
       tasks:
-        - name: Create location within NetBox with only required information
-          netbox.netbox.netbox_location:
+        - name: Create tunnel group within NetBox with only required information
+          netbox.netbox.netbox_tunnel_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test location
-              site: Test Site
+              name: Test Tunnel Group
             state: present
 
-        - name: Create location within NetBox with a parent location, status and facility
-          netbox.netbox.netbox_location:
+        - name: Delete tunnel group within netbox
+          netbox.netbox.netbox_tunnel_group:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Child location
-              site: Test Site
-              parent_location: Test location
-              status: planned
-              facility: Test Facility
-            state: present
-
-        - name: Delete location within NetBox
-          netbox.netbox.netbox_location:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test location
+              name: Test Tunnel Group
             state: absent
 
 
@@ -870,49 +632,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-location"></div>
-
-      .. _ansible_collections.netbox.netbox.netbox_location_module__return-location:
-
-      .. rst-class:: ansible-option-title
-
-      **location**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#return-location" title="Permalink to this return value"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Serialized object as created or already existent within NetBox
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_location_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -947,6 +669,46 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-tunnel_group"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_tunnel_group_module__return-tunnel_group:
+
+      .. rst-class:: ansible-option-title
+
+      **tunnel_group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-tunnel_group" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created or already existent within NetBox
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
@@ -956,7 +718,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Andrew Simmons (@andybro19)
+- Rich Bibby, NetBox Labs (@richbibby)
 
 
 

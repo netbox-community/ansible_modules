@@ -457,6 +457,51 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/status"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_cluster_module__parameter-data/status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/status" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.20.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Status of the cluster
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
 
       .. raw:: latex
@@ -787,7 +832,7 @@ Examples
                 - Schnozzberry
             state: present
 
-        - name: Update the group and site of an existing cluster
+        - name: Update the group, site and status of an existing cluster
           netbox.netbox.netbox_cluster:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
@@ -796,6 +841,7 @@ Examples
               cluster_type: qemu
               cluster_group: GROUP
               site: SITE
+              status: planned
             state: present
 
 

@@ -1,0 +1,169 @@
+---
+##
+##
+### NETBOX_PERMISSION
+##
+##
+- name: "PERMISSION 1: Necessary info creation"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: test_one
+
+- name: "PERMISSION 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['permission']['name'] == "Test Permission"
+      - test_one['msg'] == "permission Test Permission created"
+
+- name: "PERMISSION 2: Create duplicate"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: test_two
+
+- name: "PERMISSION 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['permission']['name'] == "Test Permission"
+      - test_two['msg'] == "permission Test Permission already exists"
+
+- name: "PERMISSION 3: Update"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      description: The test permission
+      enabled: false
+      actions:
+        - view
+        - add
+        - change
+        - delete
+        - extreme_administration
+      object_types:
+        - vpn.tunneltermination
+        - wireless.wirelesslan
+      constraints:
+        name: Foo
+    state: present
+  register: test_three
+
+- name: "PERMISSION 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "The test permission"
+      - test_three['permission']['name'] == "Test Permission"
+      - test_three['permission']['description'] == "The test permission"
+      - test_three['permission']['enabled'] == False
+      - test_three['permission']['actions'] == ["view", "add", "change", "delete", "extreme_administration"]
+      - test_three['permission']['object_types'] == ["vpn.tunneltermination", "wireless.wirelesslan"]
+      - test_three['permission']['constraints']["name"] == "Foo"
+      - test_three['msg'] == "permission Test Permission updated"
+
+- name: "PERMISSION 4: Create second permission"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission 2
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: test_four
+
+- name: "PERMISSION 4: Create second permission"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['permission']['name'] == "Test Permission 2"
+      - test_four['msg'] == "permission Test Permission 2 created"
+
+- name: "PERMISSION 5: Add permission to group"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+      permissions:
+        - Test Permission
+    state: present
+  register: test_five
+
+- name: "PERMISSION 5: ASSERT - Add permission to group"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['user_group']['permissions'] == [1]
+
+- name: "PERMISSION 6: Add permission to user"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword
+      permissions:
+        - Test Permission 2
+    state: present
+  register: test_six
+
+- name: "PERMISSION 6: ASSERT - Add permission to user"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['user']['permissions'] == [2]
+
+- name: "PERMISSION 7: Delete"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+    state: absent
+  register: test_seven
+
+- name: "PERMISSION 7: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['before']['state'] == "present"
+      - test_seven['diff']['after']['state'] == "absent"
+      - test_seven['msg'] == "permission Test Permission deleted"
+
+- name: "PERMISSION 8: Delete non existing"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+    state: absent
+  register: test_eight
+
+- name: "PERMISSION 8: ASSERT - Delete non existing`"
+  ansible.builtin.assert:
+    that:
+      - not test_eight['changed']
+      - test_eight['permission'] == None
+      - test_eight['msg'] == "permission Test Permission already absent"
