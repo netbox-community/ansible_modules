@@ -215,6 +215,7 @@ QUERY_TYPES = dict(
     token="slug",
     tunnel="name",
     time_zone="timezone",
+    user="username",
     virtual_chassis="name",
     virtual_machine="name",
     virtual_machine_role="slug",
