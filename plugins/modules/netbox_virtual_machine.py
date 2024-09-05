@@ -191,7 +191,7 @@ EXAMPLES = r"""
         data:
           name: Test Virtual Machine
           cluster: test cluster
-		  serial: 1234abc
+	    	  serial: 1234abc
         state: present
 """
 
