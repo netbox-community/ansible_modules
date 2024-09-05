@@ -249,6 +249,11 @@ DOCUMENTATION = """
             description: Use out of band IP as `ansible host`
             type: boolean
             default: False
+        hostname_field:
+            description:
+                - By default, the inventory hostname is the netbox device name
+                - If set, sets the inventory hostname from this field in custom_fields instead
+            default: False
 """
 
 EXAMPLES = """
@@ -1749,6 +1754,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Use virtual chassis name if set by the user.
         if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
             return host["virtual_chassis"]["name"] or str(uuid.uuid4())
+        elif self.hostname_field:
+            return host["custom_fields"][self.hostname_field]
         else:
             return host["name"] or str(uuid.uuid4())
 
@@ -2123,6 +2130,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
         self.oob_ip_as_primary_ip = self.get_option("oob_ip_as_primary_ip")
+        self.hostname_field = self.get_option("hostname_field")
 
         self._set_authorization()
 
@@ -2145,5 +2153,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.dns_name = self.get_option("dns_name")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
         self.racks = self.get_option("racks")
+        self.host_field = self.get_option("host_field")
 
         self.main()
