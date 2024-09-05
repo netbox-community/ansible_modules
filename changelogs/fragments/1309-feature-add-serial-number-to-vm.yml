@@ -1,0 +1,2 @@
+minor_changes:
+      - Add `serial` to `netbox_virtual_machine` module (https://github.com/netbox-community/ansible_modules/issues/1309)
