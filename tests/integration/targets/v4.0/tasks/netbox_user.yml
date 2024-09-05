@@ -24,22 +24,23 @@
       - test_one['user']['display'] == "TestUser"
       - test_one['msg'] == "user TestUser created"
 
-- name: "USER 2: Create duplicate"
+- name: "USER 2: Update password"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword
+      password: TestPassword2
+      email: my@user.com
     state: present
   register: test_two
 
-- name: "USER 2: ASSERT - Create duplicate"
+- name: "USER 2: ASSERT - Update password"
   ansible.builtin.assert:
     that:
-      - not test_two['changed']
+      - test_two['changed']
       - test_two['user']['username'] == "TestUser"
-      - test_two['msg'] == "user TestUser already exists"
+      - test_two['msg'] == "user TestUser updated"
 
 - name: "USER 3: Update"
   netbox.netbox.netbox_user:

@@ -72,10 +72,44 @@ class NetboxUsersModule(NetboxModule):
         self.module.exit_json(**self.result)
 
     def _update_netbox_object(self, data):
-        # ignore the password field when updating users
-        if self.endpoint == "users" and "password" in data:
-            del data["password"]
-        # ignore the key field when fetching tokens
-        if self.endpoint == "tokens" and "key" in data:
-            del data["key"]
-        return super()._update_netbox_object(data)
+        if self.endpoint == "users":
+            return self._update_netbox_user(data)
+        else:
+            if self.endpoint == "tokens" and "key" in data:
+                del data["key"]
+            return super()._update_netbox_object(data)
+
+    def _update_netbox_user(self, data):
+        serialized_nb_obj = self.nb_object.serialize()
+        updated_obj = serialized_nb_obj.copy()
+        updated_obj.update(data)
+
+        if serialized_nb_obj == updated_obj:
+            return serialized_nb_obj, None
+        else:
+            data_before, data_after = {}, {}
+            for key in data:
+                # Do not diff the password field
+                if key == "password":
+                    continue
+                try:
+                    if serialized_nb_obj[key] != updated_obj[key]:
+                        data_before[key] = serialized_nb_obj[key]
+                        data_after[key] = updated_obj[key]
+                except KeyError:
+                    msg = (
+                        "%s does not exist on existing object. Check to make sure"
+                        " valid field." % (key)
+                    )
+                    self._handle_errors(msg=msg)
+
+            if not self.check_mode:
+                if "password" in data:
+                    # The initial response from Netbox obviously doesn't have a password field, so the nb_object also doesn't have a password field.
+                    # Any fields that weren't on the initial response are ignored, so to update the password we must add the password field to the cache.
+                    self.nb_object._add_cache(("password", ""))
+                self.nb_object.update(data)
+                updated_obj = self.nb_object.serialize()
+
+            diff = self._build_diff(before=data_before, after=data_after)
+            return updated_obj, diff

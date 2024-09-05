@@ -34,7 +34,7 @@ options:
         type: str
       password:
         description:
-          - Password of the user to be created
+          - Password of the user to be created. If this is specified, the password field will always be updated.
         required: false
         type: str
       email:
@@ -92,6 +92,15 @@ EXAMPLES = r"""
           password: MyPassword
         state: present
 
+    - name: Update a user's email
+      netbox.netbox.netbox_user:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          username: MyUser
+          password: my@user.com
+        state: present
+
     - name: Delete user within netbox
       netbox.netbox.netbox_user:
         netbox_url: http://netbox.local
@@ -105,7 +114,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          username: MyUser
+          username: MyUser2
           password: MyPassword
           email: my@user.com
           first_name: My
@@ -161,10 +170,7 @@ def main():
         )
     )
 
-    required_if = [
-        ("state", "present", ["username", "password"]),
-        ("state", "absent", ["username"]),
-    ]
+    required_if = [("state", "present", ["username"]), ("state", "absent", ["username"])]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
