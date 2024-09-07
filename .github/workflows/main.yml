@@ -73,6 +73,8 @@ jobs:
             NETBOX_DOCKER_VERSION: 2.7.0
           - VERSION: "v4.0"
             NETBOX_DOCKER_VERSION: 2.9.1
+          - VERSION: "v4.1"
+            NETBOX_DOCKER_VERSION: 3.0.1
 
     steps:
 

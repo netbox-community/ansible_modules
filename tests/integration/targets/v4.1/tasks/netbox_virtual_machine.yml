@@ -1,0 +1,128 @@
+---
+##
+##
+### NETBOX_VIRTUAL_MACHINES
+##
+##
+- name: "VIRTUAL_MACHINE 1: Necessary info creation"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test VM One
+      cluster: Test Cluster
+    state: present
+  register: test_one
+
+- name: "VIRTUAL_MACHINE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['virtual_machine']['name'] == "Test VM One"
+      - test_one['virtual_machine']['cluster'] == 1
+      - test_one['msg'] == "virtual_machine Test VM One created"
+
+- name: "VIRTUAL_MACHINE 2: Create duplicate"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test VM One
+      cluster: Test Cluster
+    state: present
+  register: test_two
+
+- name: "VIRTUAL_MACHINE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['virtual_machine']['name'] == "Test VM One"
+      - test_two['virtual_machine']['cluster'] == 1
+      - test_two['msg'] == "virtual_machine Test VM One already exists"
+
+- name: "VIRTUAL_MACHINE 3: Update"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test VM One
+      cluster: Test Cluster
+      vcpus: 8.5
+      memory: 8
+      status: Planned
+      virtual_machine_role: Test VM Role
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_three
+
+- name: "VIRTUAL_MACHINE 3: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['vcpus'] == 8.5
+      - test_three['diff']['after']['memory'] == 8
+      - test_three['diff']['after']['status'] == "planned"
+      - test_three['diff']['after']['role'] == 2
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['virtual_machine']['name'] == "Test VM One"
+      - test_three['virtual_machine']['cluster'] == 1
+      - test_three['virtual_machine']['vcpus'] == 8.5
+      - test_three['virtual_machine']['memory'] == 8
+      - test_three['virtual_machine']['status'] == "planned"
+      - test_three['virtual_machine']['role'] == 2
+      - test_three['virtual_machine']['tags'][0] == 4
+      - test_three['msg'] == "virtual_machine Test VM One updated"
+
+- name: "VIRTUAL_MACHINE 4: Test idempotence"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test VM One
+      cluster: Test Cluster
+      vcpus: 8.5
+      memory: 8
+      status: Planned
+      virtual_machine_role: Test VM Role
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_four_idempotence
+
+- name: "VIRTUAL_MACHINE 4: ASSERT - Not changed"
+  ansible.builtin.assert:
+    that:
+      - test_four_idempotence is not changed
+      - test_four_idempotence['virtual_machine']['name'] == "Test VM One"
+      - test_four_idempotence['virtual_machine']['cluster'] == 1
+      - test_four_idempotence['virtual_machine']['vcpus'] == 8.5
+      - test_four_idempotence['virtual_machine']['memory'] == 8
+      - test_four_idempotence['virtual_machine']['status'] == "planned"
+      - test_four_idempotence['virtual_machine']['role'] == 2
+      - test_four_idempotence['virtual_machine']['tags'][0] == 4
+      - test_four_idempotence['msg'] == "virtual_machine Test VM One already exists"
+
+- name: "VIRTUAL_MACHINE 5: Delete"
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test VM One
+    state: absent
+  register: test_five
+
+- name: "VIRTUAL_MACHINE 5: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['virtual_machine']['name'] == "Test VM One"
+      - test_five['virtual_machine']['cluster'] == 1
+      - test_five['virtual_machine']['vcpus'] == 8.5
+      - test_five['virtual_machine']['memory'] == 8
+      - test_five['virtual_machine']['status'] == "planned"
+      - test_five['virtual_machine']['role'] == 2
+      - test_five['virtual_machine']['tags'][0] == 4
+      - test_five['msg'] == "virtual_machine Test VM One deleted"

@@ -1,0 +1,107 @@
+---
+##
+##
+### NETBOX_PERMISSION
+##
+##
+- name: "TOKEN: Set up user"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword
+    state: present
+
+- name: "TOKEN 1: Necessary info creation"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    state: present
+  register: test_one
+
+- name: "TOKEN 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['token']['user'] == 3
+      - test_one['msg'] == "token ******** created"
+
+- name: "TOKEN 2: Create duplicate"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    state: present
+  register: test_two
+
+- name: "TOKEN 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['msg'] == "token ******** already exists"
+
+# TODO: https://github.com/netbox-community/netbox/issues/17279
+# TODO: A netbox bug is causing the key to change when updating tokens
+# TODO: just skip the update test for now
+# - name: "TOKEN 3: Update"
+#   netbox.netbox.netbox_token:
+#     netbox_url: http://localhost:32768
+#     netbox_token: "0123456789abcdef0123456789abcdef01234567"
+#     data:
+#       user: TestUser
+#       key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+#       description: The test token
+#       write_enabled: false
+#       expires: 2024-08-26T14:49:01.345000+00:00
+#     state: present
+#   register: test_three
+#
+# - name: "TOKEN 3: ASSERT - Update"
+#   ansible.builtin.assert:
+#     that:
+#       - test_three is changed
+#       - test_three['token']['description'] == "The test token"
+#       - test_three['token']['write_enabled'] == false
+#       - test_three['token']['expires'] == "2024-08-26T14:49:01.345000+00:00"
+#       - test_three['msg'] == "token ******** updated"
+
+- name: "TOKEN 4: Delete"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    state: absent
+  register: test_four
+
+- name: "TOKEN 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "token ******** deleted"
+
+- name: "TOKEN 5: ASSERT - Delete non existing"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    state: absent
+  register: test_five
+
+- name: "TOKEN 5: ASSERT - Delete non existing"
+  ansible.builtin.assert:
+    that:
+      - not test_five['changed']
+      - test_five['token'] == None
+      - test_five['msg'] == "token ******** already absent"

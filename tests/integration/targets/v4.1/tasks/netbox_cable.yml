@@ -1,0 +1,193 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_CABLE
+##
+##
+- name: "CABLE 1: Necessary info creation"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: dcim.interface
+      termination_a:
+        device: Test Nexus Child One
+        name: Ethernet2/2
+      termination_b_type: dcim.interface
+      termination_b:
+        device: Test Nexus Child One
+        name: Ethernet2/1
+    state: present
+  register: test_one
+
+- name: "CABLE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['cable']['termination_a_type'] == "dcim.interface"
+      - test_one['cable']['termination_a_id'] == 15
+      - test_one['cable']['termination_b_type'] == "dcim.interface"
+      - test_one['cable']['termination_b_id'] == 2
+      - test_one['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 created"
+
+- name: "CABLE 2: Create duplicate"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: dcim.interface
+      termination_a:
+        device: Test Nexus Child One
+        name: Ethernet2/2
+      termination_b_type: dcim.interface
+      termination_b:
+        device: Test Nexus Child One
+        name: Ethernet2/1
+    state: present
+  register: test_two
+
+- name: "CABLE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['cable']['termination_a_type'] == "dcim.interface"
+      - test_two['cable']['termination_a_id'] == 15
+      - test_two['cable']['termination_b_type'] == "dcim.interface"
+      - test_two['cable']['termination_b_id'] == 2
+      - test_two['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 already exists"
+
+- name: "CABLE 3: Update Cable with other fields"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: dcim.interface
+      termination_a:
+        device: Test Nexus Child One
+        name: Ethernet2/2
+      termination_b_type: dcim.interface
+      termination_b:
+        device: Test Nexus Child One
+        name: Ethernet2/1
+      type: mmf-om4
+      status: planned
+      label: label123
+      color: abcdef
+      length: 30
+      length_unit: m
+      tags:
+        - Schnozzberry
+      tenant: Test Tenant
+    state: present
+  register: test_three
+
+- name: "CABLE 3: ASSERT - Update Cable with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['type'] == "mmf-om4"
+      - test_three['diff']['after']['status'] == "planned"
+      - test_three['diff']['after']['label'] == "label123"
+      - test_three['diff']['after']['color'] == "abcdef"
+      - test_three['diff']['after']['length'] == 30
+      - test_three['diff']['after']['length_unit'] == "m"
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['diff']['after']['tenant'] == 1
+      - test_three['cable']['termination_a_type'] == "dcim.interface"
+      - test_three['cable']['termination_a_id'] == 15
+      - test_three['cable']['termination_b_type'] == "dcim.interface"
+      - test_three['cable']['termination_b_id'] == 2
+      - test_three['cable']['type'] == "mmf-om4"
+      - test_three['cable']['status'] == "planned"
+      - test_three['cable']['label'] == "label123"
+      - test_three['cable']['color'] == "abcdef"
+      - test_three['cable']['length'] == 30
+      - test_three['cable']['length_unit'] == "m"
+      - test_three['cable']['tags'][0] == 4
+      - test_three['cable']['tenant'] == 1
+      - test_three['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 updated"
+
+- name: "CABLE 4: ASSERT - Delete"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: dcim.interface
+      termination_a:
+        device: Test Nexus Child One
+        name: Ethernet2/2
+      termination_b_type: dcim.interface
+      termination_b:
+        device: Test Nexus Child One
+        name: Ethernet2/1
+    state: absent
+  register: test_four
+
+- name: "CABLE 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "cable dcim.interface Ethernet2/2 <> dcim.interface Ethernet2/1 deleted"
+
+- name: "CABLE 5: Connect Console Port and Console Server Port"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: dcim.consoleserverport
+      termination_a:
+        name: Console Server Port
+        device: test100
+      termination_b_type: dcim.consoleport
+      termination_b:
+        name: Console Port
+        device: test100
+    state: present
+  register: test_five
+
+- name: "CABLE 5: ASSERT - Connect Console Port and Console Server Port"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['cable']['termination_a_type'] == "dcim.consoleserverport"
+      - test_five['cable']['termination_a_id'] == 1
+      - test_five['cable']['termination_b_type'] == "dcim.consoleport"
+      - test_five['cable']['termination_b_id'] == 1
+      - test_five['msg'] == "cable dcim.consoleserverport Console Server Port <> dcim.consoleport Console Port created"
+
+- name: "CABLE 6: Circuits Termination as side A"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      termination_a_type: circuits.circuittermination
+      termination_a:
+        circuit: Test Circuit Two
+        term_side: A
+      termination_b_type: dcim.interface
+      termination_b:
+        device: test100
+        name: GigabitEthernet2
+    state: present
+  register: test_six
+
+- name: "CABLE 6: ASSERT - Circuits Termination as side A"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['cable']['termination_a_type'] == "circuits.circuittermination"
+      - test_six['cable']['termination_a_id'] == 1
+      - test_six['cable']['termination_b_type'] == "dcim.interface"
+      - test_six['cable']['termination_b_id'] == 4
+      - test_six['msg'] == "cable circuits.circuittermination 1 <> dcim.interface GigabitEthernet2 created"

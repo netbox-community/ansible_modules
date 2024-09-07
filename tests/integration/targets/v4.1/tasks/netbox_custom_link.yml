@@ -1,0 +1,113 @@
+---
+##
+##
+### NETBOX_CUSTOM_LINK
+##
+##
+- name: "CUSTOM_LINK 1: Necessary info creation"
+  netbox.netbox.netbox_custom_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Custom Link
+      link_text: Open Web management
+      link_url: !unsafe https://{{ obj.name }}.domain.local/
+    state: present
+  register: test_one
+
+- name: "CUSTOM_LINK 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['custom_link']['name'] == "Custom Link"
+      - test_one['custom_link']['object_types'] == ["dcim.device"]
+      - test_one['custom_link']['link_text'] == "Open Web management"
+      - test_one['msg'] == "custom_link Custom Link created"
+
+- name: "CUSTOM_LINK 2: Create duplicate"
+  netbox.netbox.netbox_custom_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Custom Link
+      link_text: Open Web management
+      link_url: !unsafe https://{{ obj.name }}.domain.local/
+    state: present
+  register: test_two
+
+- name: "CUSTOM_LINK 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['custom_link']['name'] == "Custom Link"
+      - test_two['msg'] == "custom_link Custom Link already exists"
+
+- name: "CUSTOM_FIELD 3: Update data and add weight"
+  netbox.netbox.netbox_custom_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Custom Link
+      link_text: Open Web management
+      link_url: !unsafe https://{{ obj.name }}.domain.local/
+      weight: 50
+    state: present
+  register: test_three
+
+- name: "CUSTOM_FIELD 3: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['weight'] == 50
+      - test_three['custom_link']['name'] == "Custom Link"
+      - test_three['msg'] == "custom_link Custom Link updated"
+
+- name: "CUSTOM_LINK 4: Change content type"
+  netbox.netbox.netbox_custom_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - virtualization.virtualmachine
+      name: Custom Link
+      link_text: Open Web management
+      link_url: !unsafe https://{{ obj.name }}.domain.local/
+    state: present
+  register: test_four
+
+- name: "CUSTOM_LINK 4: ASSERT - Change content type"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['after']['object_types'] == ["virtualization.virtualmachine"]
+      - test_four['custom_link']['name'] == "Custom Link"
+      - test_four['msg'] == "custom_link Custom Link updated"
+
+- name: "CUSTOM_LINK 5: Delete"
+  netbox.netbox.netbox_custom_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - virtualization.virtualmachine
+      name: Custom Link
+      link_text: Open Web management
+      link_url: !unsafe https://{{ obj.name }}.domain.local/
+    state: absent
+  register: test_five
+
+- name: "CUSTOM_LINK 5: ASSERT - Deleted"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['custom_link']['name'] == "Custom Link"
+      - test_five['msg'] == "custom_link Custom Link deleted"

@@ -1,0 +1,126 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_POWER_FEED
+##
+##
+- name: "POWER_FEED 1: Necessary info creation"
+  netbox.netbox.netbox_power_feed:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Feed
+      power_panel: Power Panel
+    state: present
+  register: test_one
+
+- name: "POWER_FEED 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['power_feed']['name'] == "Power Feed"
+      - test_one['power_feed']['power_panel'] == 1
+      - test_one['msg'] == "power_feed Power Feed created"
+
+- name: "POWER_FEED 2: Create duplicate"
+  netbox.netbox.netbox_power_feed:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Feed
+      power_panel: Power Panel
+    state: present
+  register: test_two
+
+- name: "POWER_FEED 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['power_feed']['name'] == "Power Feed"
+      - test_two['power_feed']['power_panel'] == 1
+      - test_two['msg'] == "power_feed Power Feed already exists"
+
+- name: "POWER_FEED 3: Update power_feed with other fields"
+  netbox.netbox.netbox_power_feed:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Feed
+      power_panel: Power Panel
+      status: offline
+      type: redundant
+      supply: dc
+      phase: three-phase
+      voltage: 400
+      amperage: 32
+      max_utilization: 25
+      comments: totally normal power feed
+    state: present
+  register: test_three
+
+- name: "POWER_FEED 3: ASSERT - Update power_feed with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['status'] == "offline"
+      - test_three['diff']['after']['type'] == "redundant"
+      - test_three['diff']['after']['supply'] == "dc"
+      - test_three['diff']['after']['phase'] == "three-phase"
+      - test_three['diff']['after']['voltage'] == 400
+      - test_three['diff']['after']['amperage'] == 32
+      - test_three['diff']['after']['max_utilization'] == 25
+      - test_three['diff']['after']['comments'] == "totally normal power feed"
+      - test_three['power_feed']['name'] == "Power Feed"
+      - test_three['power_feed']['power_panel'] == 1
+      - test_three['power_feed']['status'] == "offline"
+      - test_three['power_feed']['type'] == "redundant"
+      - test_three['power_feed']['supply'] == "dc"
+      - test_three['power_feed']['phase'] == "three-phase"
+      - test_three['power_feed']['voltage'] == 400
+      - test_three['power_feed']['amperage'] == 32
+      - test_three['power_feed']['max_utilization'] == 25
+      - test_three['power_feed']['comments'] == "totally normal power feed"
+      - test_three['msg'] == "power_feed Power Feed updated"
+
+- name: "POWER_FEED 4: Create Power Feed for Delete Test"
+  netbox.netbox.netbox_power_feed:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Feed 2
+      power_panel: Power Panel
+    state: present
+  register: test_four
+
+- name: "POWER_FEED 4: ASSERT - Create Power Feed for Delete Test"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['power_feed']['name'] == "Power Feed 2"
+      - test_four['power_feed']['power_panel'] == 1
+      - test_four['msg'] == "power_feed Power Feed 2 created"
+
+- name: "POWER_FEED 5: Delete Power Feed"
+  netbox.netbox.netbox_power_feed:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Feed 2
+      power_panel: Power Panel
+    state: absent
+  register: test_five
+
+- name: "POWER_FEED 5: ASSERT - Delete Power Feed"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "power_feed Power Feed 2 deleted"
