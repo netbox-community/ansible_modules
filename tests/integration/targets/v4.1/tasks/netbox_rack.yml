@@ -94,7 +94,7 @@
       asset_tag: "1234"
       width: 23
       u_height: 48
-      type: 2-post frame
+      form_factor: 2-post frame
       outer_width: 32
       outer_depth: 24
       outer_unit: Inches
@@ -119,7 +119,7 @@
       - test_five['diff']['after']['status'] == "available"
       - test_five['diff']['after']['tenant'] == 1
       - test_five['diff']['after']['tags'][0] == 4
-      - test_five['diff']['after']['type'] == "2-post-frame"
+      - test_five['diff']['after']['form_factor'] == "2-post-frame"
       - test_five['diff']['after']['u_height'] == 48
       - test_five['diff']['after']['width'] == 23
       - test_five['rack']['name'] == "Test rack one"
@@ -136,7 +136,7 @@
       - test_five['rack']['status'] == "available"
       - test_five['rack']['tenant'] == 1
       - test_five['rack']['tags'][0] == 4
-      - test_five['rack']['type'] == "2-post-frame"
+      - test_five['rack']['form_factor'] == "2-post-frame"
       - test_five['rack']['u_height'] == 48
       - test_five['rack']['width'] == 23
       - test_five['msg'] == "rack Test rack one updated"
@@ -157,7 +157,7 @@
       asset_tag: "1234"
       width: 23
       u_height: 48
-      type: 2-post frame
+      form_factor: 2-post frame
       outer_width: 32
       outer_depth: 24
       outer_unit: Inches
@@ -185,7 +185,7 @@
       - test_six['rack']['status'] == "available"
       - test_six['rack']['tenant'] == 1
       - test_six['rack']['tags'][0] == 4
-      - test_six['rack']['type'] == "2-post-frame"
+      - test_six['rack']['form_factor'] == "2-post-frame"
       - test_six['rack']['u_height'] == 48
       - test_six['rack']['width'] == 23
 

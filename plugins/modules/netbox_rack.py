@@ -92,6 +92,18 @@ options:
           - Wall-mounted cabinet
         required: false
         type: str
+      form_factor:
+        description:
+          - The type of rack (NetBox 4.1+)
+        choices:
+          - 2-post frame
+          - 4-post frame
+          - 4-post cabinet
+          - Wall-mounted frame
+          - Wall-mounted cabinet
+        required: false
+        type: str
+        version_added: "3.20.0"
       width:
         description:
           - The rail-to-rail width
@@ -278,6 +290,17 @@ def main():
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
                     type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "2-post frame",
+                            "4-post frame",
+                            "4-post cabinet",
+                            "Wall-mounted frame",
+                            "Wall-mounted cabinet",
+                        ],
+                    ),
+                    form_factor=dict(
                         required=False,
                         type="str",
                         choices=[
