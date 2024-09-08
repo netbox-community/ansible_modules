@@ -2,6 +2,7 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "ansible_host": "10.10.10.1",
                 "asset_tag": "345678901",
                 "custom_fields": {},
                 "device_roles": [
@@ -18,6 +19,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "primary_ip4": "10.10.10.1",
                 "rack_role": "test-rack-role",
                 "racks": [
                     "Test Rack Site 2"
@@ -33,7 +35,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [
+                    "taga"
+                ]
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -64,20 +68,18 @@
                 "services": [
                     {
                         "comments": "",
-                        "created": "2024-05-13T19:51:42.463448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "description": "",
                             "display": "Test Nexus One",
                             "id": 4,
-                            "name": "Test Nexus One",
-                            "url": "http://localhost:32768/api/dcim/devices/4/"
+                            "name": "Test Nexus One"
                         },
                         "display": "telnet (TCP/23)",
+                        "display_url": "http://localhost:32768/ipam/services/3/",
                         "id": 3,
                         "ipaddresses": [],
-                        "last_updated": "2024-05-13T19:51:42.463452Z",
                         "name": "telnet",
                         "ports": [
                             23
@@ -87,7 +89,6 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/3/",
                         "virtual_machine": null
                     }
                 ],
@@ -111,17 +112,17 @@
                 ],
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "services": [
                     {
                         "comments": "",
-                        "created": "2024-05-13T19:51:42.468448Z",
                         "custom_fields": {},
                         "description": "",
                         "device": null,
                         "display": "ssh (TCP/22)",
+                        "display_url": "http://localhost:32768/ipam/services/4/",
                         "id": 4,
                         "ipaddresses": [],
-                        "last_updated": "2024-05-13T19:51:42.468451Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -131,13 +132,11 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/4/",
                         "virtual_machine": {
                             "description": "",
                             "display": "Test VM With Spaces",
                             "id": 6,
-                            "name": "Test VM With Spaces",
-                            "url": "http://localhost:32768/api/virtualization/virtual-machines/6/"
+                            "name": "Test VM With Spaces"
                         }
                     }
                 ],
@@ -218,20 +217,18 @@
                 "services": [
                     {
                         "comments": "",
-                        "created": "2024-05-13T19:51:42.443759Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "ssh (TCP/22)",
+                        "display_url": "http://localhost:32768/ipam/services/1/",
                         "id": 1,
                         "ipaddresses": [],
-                        "last_updated": "2024-05-13T19:51:42.443763Z",
                         "name": "ssh",
                         "ports": [
                             22
@@ -241,22 +238,20 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/1/",
                         "virtual_machine": null
                     },
                     {
                         "comments": "",
-                        "created": "2024-05-13T19:51:42.449954Z",
                         "custom_fields": {},
                         "description": "",
                         "device": {
                             "description": "",
                             "display": "test100 (123456789)",
                             "id": 1,
-                            "name": "test100",
-                            "url": "http://localhost:32768/api/dcim/devices/1/"
+                            "name": "test100"
                         },
                         "display": "http (TCP/80)",
+                        "display_url": "http://localhost:32768/ipam/services/2/",
                         "id": 2,
                         "ipaddresses": [
                             {
@@ -267,8 +262,7 @@
                                     "label": "IPv4",
                                     "value": 4
                                 },
-                                "id": 1,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/1/"
+                                "id": 1
                             },
                             {
                                 "address": "2001::1:1/64",
@@ -278,11 +272,9 @@
                                     "label": "IPv6",
                                     "value": 6
                                 },
-                                "id": 2,
-                                "url": "http://localhost:32768/api/ipam/ip-addresses/2/"
+                                "id": 2
                             }
                         ],
-                        "last_updated": "2024-05-13T19:51:42.449957Z",
                         "name": "http",
                         "ports": [
                             80
@@ -292,7 +284,6 @@
                             "value": "tcp"
                         },
                         "tags": [],
-                        "url": "http://localhost:32768/api/ipam/services/2/",
                         "virtual_machine": null
                     }
                 ],
@@ -311,7 +302,7 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
-                "disk": 170,
+                "disk": 170000,
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -321,6 +312,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -346,6 +338,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -371,6 +364,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -396,6 +390,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "sites": [
@@ -417,6 +412,7 @@
                 ],
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "services": [],
                 "site_groups": [],
                 "status": {

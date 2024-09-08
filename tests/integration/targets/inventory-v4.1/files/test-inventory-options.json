@@ -26,12 +26,14 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "ansible_host": "10.10.10.1",
                 "asset_tag": "345678901",
                 "custom_fields": {},
                 "device_type": "cisco-test",
                 "is_virtual": false,
                 "locations": [],
                 "manufacturer": "cisco",
+                "primary_ip4": "10.10.10.1",
                 "rack": "Test Rack Site 2",
                 "rack_id": "1",
                 "rack_role": "test-rack-role",
@@ -44,7 +46,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [
+                    "taga"
+                ]
             },
             "Test VM With Spaces": {
                 "cluster": "Test Cluster 2",
@@ -53,6 +57,7 @@
                 "is_virtual": true,
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -145,13 +150,14 @@
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
                 "custom_fields": {},
-                "disk": 170,
+                "disk": 170000,
                 "is_virtual": true,
                 "locations": [],
                 "regions": [
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site": "test-site",
                 "site_groups": [],
                 "status": {
@@ -171,6 +177,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site": "test-site",
                 "site_groups": [],
                 "status": {
@@ -190,6 +197,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site": "test-site",
                 "site_groups": [],
                 "status": {
@@ -209,6 +217,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site": "test-site",
                 "site_groups": [],
                 "status": {
@@ -224,6 +233,7 @@
                 "is_virtual": true,
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -257,6 +267,7 @@
             "parent_site_group",
             "Test_Rack_Site_2",
             "test_rack_role",
+            "taga",
             "core_switch",
             "cisco_test",
             "cisco",
@@ -328,6 +339,11 @@
     "parent_site_group": {
         "children": [
             "test_site_group"
+        ]
+    },
+    "taga": {
+        "hosts": [
+            "R1-Device"
         ]
     },
     "test_cluster_group": {

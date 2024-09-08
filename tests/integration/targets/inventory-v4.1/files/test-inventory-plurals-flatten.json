@@ -26,6 +26,7 @@
     "_meta": {
         "hostvars": {
             "R1-Device": {
+                "ansible_host": "10.10.10.1",
                 "asset_tag": "345678901",
                 "device_roles": [
                     "core-switch"
@@ -41,6 +42,7 @@
                 "manufacturers": [
                     "cisco"
                 ],
+                "primary_ip4": "10.10.10.1",
                 "rack_role": "test-rack-role",
                 "racks": [
                     "Test Rack Site 2"
@@ -55,7 +57,9 @@
                     "label": "Active",
                     "value": "active"
                 },
-                "tags": []
+                "tags": [
+                    "taga"
+                ]
             },
             "Test Nexus One": {
                 "ansible_host": "172.16.180.12",
@@ -101,6 +105,7 @@
                 ],
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -189,7 +194,7 @@
                 "cluster": "Test Cluster",
                 "cluster_group": "test-cluster-group",
                 "cluster_type": "test-cluster-type",
-                "disk": 170,
+                "disk": 170000,
                 "is_virtual": true,
                 "local_context_data": [
                     null
@@ -199,6 +204,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -222,6 +228,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -245,6 +252,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -268,6 +276,7 @@
                     "test-region",
                     "parent-region"
                 ],
+                "serial": "",
                 "site_groups": [],
                 "sites": [
                     "test-site"
@@ -287,6 +296,7 @@
                 ],
                 "locations": [],
                 "regions": [],
+                "serial": "",
                 "site_groups": [],
                 "status": {
                     "label": "Active",
@@ -320,6 +330,7 @@
             "parent_site_group",
             "Test_Rack_Site_2",
             "test_rack_role",
+            "taga",
             "core_switch",
             "cisco_test",
             "cisco",
@@ -384,6 +395,11 @@
     "parent_site_group": {
         "children": [
             "test_site_group"
+        ]
+    },
+    "taga": {
+        "hosts": [
+            "R1-Device"
         ]
     },
     "test_cluster_group": {
