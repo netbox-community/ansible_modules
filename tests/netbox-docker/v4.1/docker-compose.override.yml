@@ -16,7 +16,7 @@ services:
       start_period: 300s
       timeout: 3s
       interval: 15s
-      test: curl -f http://localhost:8080/api/ || exit 1
+      test: curl -f http://localhost:8080/login/ || exit 1
     environment:
       SKIP_SUPERUSER: "false"
       SUPERUSER_API_TOKEN: "0123456789abcdef0123456789abcdef01234567"
