@@ -1134,9 +1134,9 @@ class NetboxModule(object):
                 if self._version_check_greater(
                     self.version, "4.0", greater_or_equal=True
                 ):
-                    query_dict["devicetype_id"] = query_dict.pop("device_type")
-                else:
                     query_dict["device_type_id"] = query_dict.pop("device_type")
+                else:                    
+                    query_dict["devicetype_id"] = query_dict.pop("device_type")
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
