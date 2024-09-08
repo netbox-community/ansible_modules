@@ -1,0 +1,105 @@
+---
+##
+##
+### NETBOX_USER
+##
+##
+- name: "USER 1: Necessary info creation"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword
+    state: present
+  register: test_one
+
+- name: "USESR 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['user']['username'] == "TestUser"
+      - test_one['user']['display'] == "TestUser"
+      - test_one['msg'] == "user TestUser created"
+
+- name: "USER 2: Update password"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword2
+      email: my@user.com
+    state: present
+  register: test_two
+
+- name: "USER 2: ASSERT - Update password"
+  ansible.builtin.assert:
+    that:
+      - test_two['changed']
+      - test_two['user']['username'] == "TestUser"
+      - test_two['msg'] == "user TestUser updated"
+
+- name: "USER 3: Update"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword
+      email: test@user.com
+      first_name: Test
+      last_name: User
+      is_active: false
+      is_staff: true
+    state: present
+  register: test_three
+
+- name: "USER 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['first_name'] == "Test"
+      - test_three['diff']['after']['last_name'] == "User"
+      - test_three['user']['username'] == "TestUser"
+      - test_three['user']['email'] == "test@user.com"
+      - test_three['user']['first_name'] == "Test"
+      - test_three['user']['last_name'] == "User"
+      - test_three['user']['is_active'] == False
+      - test_three['user']['is_staff'] == True
+      - test_three['msg'] == "user TestUser updated"
+
+- name: "USER 4: Delete"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+    state: absent
+  register: test_four
+
+- name: "USER 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "user TestUser deleted"
+
+- name: "USER 5: ASSERT - Delete non existing"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+    state: absent
+  register: test_five
+
+- name: "USER 5: ASSERT - Delete non existing`"
+  ansible.builtin.assert:
+    that:
+      - not test_five['changed']
+      - test_five['user'] == None
+      - test_five['msg'] == "user TestUser already absent"

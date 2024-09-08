@@ -1,0 +1,25 @@
+---
+version: "3.4"
+services:
+  netbox-worker: &netbox-override
+    image: netboxcommunity/netbox:v4.1
+    healthcheck:
+      start_period: 300s
+      timeout: 3s
+      interval: 15s
+      test: ps -aux | grep -v grep | grep -q rqworker || exit 1
+  netbox:
+    <<: *netbox-override
+    ports:
+      - 32768:8080
+    healthcheck:
+      start_period: 300s
+      timeout: 3s
+      interval: 15s
+      test: curl -f http://localhost:8080/login/ || exit 1
+    environment:
+      SKIP_SUPERUSER: "false"
+      SUPERUSER_API_TOKEN: "0123456789abcdef0123456789abcdef01234567"
+      SUPERUSER_EMAIL: admin@localhost.com
+      SUPERUSER_NAME: admin
+      SUPERUSER_PASSWORD: admin

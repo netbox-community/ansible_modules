@@ -1,0 +1,284 @@
+---
+##
+##
+### TEST NETBOX CONNECTION FAILURE
+##
+##
+- name: TEST NETBOX CONNECTION FAILURE
+  connection: local
+  block:
+    - name: 1 - Device with required information
+      netbox.netbox.netbox_device:
+        netbox_url: http://some-random-invalid-URL
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: R1
+          device_type: Cisco Test
+          device_role: Core Switch
+          site: Test Site
+          status: Staged
+        state: present
+      register: test_one
+      ignore_errors: true
+
+    - name: 1 - ASSERT
+      ansible.builtin.assert:
+        that:
+          - test_one is failed
+          - test_one['msg'] == "Failed to establish connection to NetBox API"
+
+    - name: 2 - Check to see if netbox_prefix with parent defined will pass via check-mode
+      netbox.netbox.netbox_prefix:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          parent: 10.10.0.0/16
+          prefix_length: 24
+        first_available: true
+        state: present
+      register: test_two
+      check_mode: true
+
+    - name: 2 - ASSERT
+      ansible.builtin.assert:
+        that:
+          - test_two is changed
+          - test_two['msg'] == "New prefix created within 10.10.0.0/16"
+
+    - name: "3 - Add device with tags - Setup device to test #242"
+      netbox.netbox.netbox_device:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: issue-242
+          device_type: Cisco Test
+          device_role: Core Switch
+          site: Test Site
+          status: Staged
+          tags:
+            - slug: first
+            - slug: second
+
+    - name: "4 - Add device with tags out of order - shouldn't change - Tests #242 is fixed"
+      netbox.netbox.netbox_device:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: issue-242
+          device_type: Cisco Test
+          device_role: Core Switch
+          site: Test Site
+          status: Staged
+          tags:
+            - slug: second
+            - slug: first
+      register: test_four
+      diff: true
+
+    - name: "4 - Assert not changed - Tests #242 is fixed"
+      ansible.builtin.assert:
+        that:
+          - not test_four["changed"]
+
+    - name: "5 - Add device with extra tag - Tests #242 is fixed"
+      netbox.netbox.netbox_device:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: issue-242
+          device_type: Cisco Test
+          device_role: Core Switch
+          site: Test Site
+          status: Staged
+          asset_tag: "1234"
+          tags:
+            - slug: second
+            - slug: third
+            - slug: first
+      register: test_five
+      diff: true
+
+    - name: "5 - Assert added tag - Tests #242 is fixed"
+      ansible.builtin.assert:
+        that:
+          - test_five is changed
+          - test_five["diff"]["after"]["tags"] is defined
+          - test_five["device"]["tags"] is defined
+
+    - name: "6 - Loop through and add interface templates to different device interface templates - Fixes #282"
+      netbox.netbox.netbox_device_interface_template:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: SFP+ (10GE)
+          type: SFP+ (10GE)
+          device_type: "{{ item }}"
+      register: test_six
+      loop:
+        - Cisco Test
+        - Arista Test
+        - Nexus Child
+        - Nexus Parent
+
+    - name: "6 - Assert device type is correct - Fixes #282"
+      ansible.builtin.assert:
+        that:
+          - test_six.results[0]["diff"]["before"]["state"] == "absent"
+          - test_six.results[0]["diff"]["after"]["state"] == "present"
+          - test_six.results[0]["interface_template"]["device_type"] == 1
+          - test_six.results[1]["diff"]["before"]["state"] == "absent"
+          - test_six.results[1]["diff"]["after"]["state"] == "present"
+          - test_six.results[1]["interface_template"]["device_type"] == 2
+          - test_six.results[2]["diff"]["before"]["state"] == "absent"
+          - test_six.results[2]["diff"]["after"]["state"] == "present"
+          - test_six.results[2]["interface_template"]["device_type"] == 4
+          - test_six.results[3]["diff"]["before"]["state"] == "absent"
+          - test_six.results[3]["diff"]["after"]["state"] == "present"
+          - test_six.results[3]["interface_template"]["device_type"] == 3
+
+    - name: 7 - Don't prevent updates to other params if tags are specified
+      netbox.netbox.netbox_device:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: issue-242
+          device_type: Cisco Test
+          device_role: Core Switch
+          site: Test Site
+          status: Staged
+          asset_tag: "Null"
+          tags:
+            # Changed these for issue #407 to be IDs
+            - 2
+            - 3
+            - 1
+      register: test_seven
+
+    - name: "5 - Assert added tag - Tests #242 is fixed"
+      ansible.builtin.assert:
+        that:
+          - test_seven is changed
+          - test_seven["diff"]["after"]["asset_tag"] == "Null"
+          - test_seven["device"]["asset_tag"] == "Null"
+
+    - name: Add ip address to netbox and don't assign it to a device (Issue 372)
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          address: 10.255.255.1/24
+        query_params:
+          - address
+          - vrf
+        state: present
+
+    - name: Update same ip address to attach to a device interface (Issue 372)
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          address: 10.255.255.1/24
+          assigned_object:
+            device: test100
+            name: GigabitEthernet1
+        query_params:
+          - address
+          - vrf
+        state: present
+      register: query_params_372
+
+    - name: Assert ip address was updated and added to device interface
+      ansible.builtin.assert:
+        that:
+          - query_params_372 is changed
+          - query_params_372['msg'] == 'ip_address 10.255.255.1/24 updated'
+          - query_params_372['diff']['after']['assigned_object'] == 3
+          - query_params_372['diff']['after']['assigned_object_id'] == 3
+          - query_params_372['diff']['after']['assigned_object_type'] == 'dcim.interface'
+
+    - name: Validate failure due to invalid child params provided by user
+      netbox.netbox.netbox_cable:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: test100
+            name: GigabitEthernet1
+          termination_b_type: circuits.circuittermination
+          termination_b:
+            name: XYZ987
+      ignore_errors: true
+      register: test_results
+
+    - name: "Issue #415 - Assert failure message shows the allowed params and what the user provided"
+      ansible.builtin.assert:
+        that:
+          - test_results is failed
+          - 'test_results["msg"] == "One or more of the kwargs provided are invalid for circuits.circuittermination, provided kwargs: name. Acceptable kwargs: circuit,
+            term_side"'
+
+    - name: "Issue #432 - Make sure same IPs get assigned to different device interfaces"
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data: "{{ item }}"
+      loop: "{{ data }}"
+      register: test_results
+      vars:
+        data:
+          - address: 121.121.121.121/32
+            assigned_object:
+              device: Test Nexus One
+              name: Ethernet1/1
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 121.121.121.121/32
+            assigned_object:
+              device: Test Nexus Child One
+              name: Ethernet2/1
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 1.121.121.121/32
+            assigned_object:
+              device: Test Nexus One
+              name: Ethernet1/1
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+          - address: 1.121.121.121/32
+            assigned_object:
+              device: Test Nexus Child One
+              name: Ethernet2/1
+            description: ansible-netbox-1.2.1
+            dns_name: ansible-netbox-1.2.1
+            role: HSRP
+            status: Active
+
+    - name: "ASSERT Issue #432 changes reflect correct device"
+      ansible.builtin.assert:
+        that:
+          - test_results | community.general.json_query('results[?ip_address.address==`1.121.121.121/32`]') | length == 2
+          - test_results | community.general.json_query('results[?ip_address.address==`121.121.121.121/32`]') | length == 2
+
+    - name: "Issue #958 - Make sure we can add same location with different sites"
+      netbox.netbox.netbox_location:
+        netbox_url: http://localhost:32768
+        netbox_token: "0123456789abcdef0123456789abcdef01234567"
+        data:
+          name: Office Building
+          site: "{{ item }}"
+      loop:
+        - Test Site
+        - Test Site2
+      register: test_results
+
+    - name: "ASSERT ISSUE #957 - Location has different IDs"
+      ansible.builtin.assert:
+        that:
+          - test_results.results.0.location.id != test_results.results.1.location.id

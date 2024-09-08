@@ -1,0 +1,212 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_POWER_PORT_TEMPLATE
+##
+##
+- name: "POWER_PORT_TEMPLATE 0.1: Create device type for testing power ports on device types"
+  netbox.netbox.netbox_device_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      model: Device Type Power Tests
+      manufacturer: Test Manufacturer
+    state: present
+
+- name: "POWER_PORT_TEMPLATE 0.2: Create module type for testing power ports on module types"
+  netbox.netbox.netbox_module_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      model: Module Type Power Tests
+      manufacturer: Test Manufacturer
+    state: present
+
+- name: "POWER_PORT_TEMPLATE 1: Necessary info creation"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Port Template
+      device_type: Device Type Power Tests
+    state: present
+  register: test_one
+
+- name: "POWER_PORT_TEMPLATE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['power_port_template']['name'] == "Power Port Template"
+      - test_one['power_port_template']['device_type'] == 8
+      - test_one['msg'] == "power_port_template Power Port Template created"
+
+- name: "POWER_PORT_TEMPLATE 2: Create duplicate"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Port Template
+      device_type: Device Type Power Tests
+    state: present
+  register: test_two
+
+- name: "POWER_PORT_TEMPLATE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['power_port_template']['name'] == "Power Port Template"
+      - test_two['power_port_template']['device_type'] == 8
+      - test_two['msg'] == "power_port_template Power Port Template already exists"
+
+- name: "POWER_PORT_TEMPLATE 3: Update power_port_template with other fields"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Port Template
+      device_type: Device Type Power Tests
+      type: ita-e
+      allocated_draw: 10
+      maximum_draw: 20
+    state: present
+  register: test_three
+
+- name: "POWER_PORT_TEMPLATE 3: ASSERT - Update power_port_template with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['type'] == "ita-e"
+      - test_three['diff']['after']['allocated_draw'] == 10
+      - test_three['diff']['after']['maximum_draw'] == 20
+      - test_three['power_port_template']['name'] == "Power Port Template"
+      - test_three['power_port_template']['device_type'] == 8
+      - test_three['power_port_template']['type'] == "ita-e"
+      - test_three['power_port_template']['allocated_draw'] == 10
+      - test_three['power_port_template']['maximum_draw'] == 20
+      - test_three['msg'] == "power_port_template Power Port Template updated"
+
+- name: "POWER_PORT_TEMPLATE 4: Create Power Port Template for Delete Test"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Port Template 2
+      device_type: Device Type Power Tests
+    state: present
+  register: test_four
+
+- name: "POWER_PORT_TEMPLATE 4: ASSERT - Create Power Port Template for Delete Test"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['power_port_template']['name'] == "Power Port Template 2"
+      - test_four['power_port_template']['device_type'] == 8
+      - test_four['msg'] == "power_port_template Power Port Template 2 created"
+
+- name: "POWER_PORT_TEMPLATE 5: Delete Power Port Template"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Port Template 2
+      device_type: Device Type Power Tests
+    state: absent
+  register: test_five
+
+- name: "POWER_PORT_TEMPLATE 5: ASSERT - Delete Power Port Template"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "power_port_template Power Port Template 2 deleted"
+
+- name: "POWER_PORT_TEMPLATE 6: Necessary info creation"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Power Port Template
+      module_type: Module Type Power Tests
+    state: present
+  register: test_six
+
+- name: "POWER_PORT_TEMPLATE 6: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['power_port_template']['name'] == "Module Power Port Template"
+      - test_six['power_port_template']['module_type'] == 1
+      - test_six['msg'] == "power_port_template Module Power Port Template created"
+
+- name: "POWER_PORT_TEMPLATE 7: Create duplicate"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Power Port Template
+      module_type: Module Type Power Tests
+    state: present
+  register: test_seven
+
+- name: "POWER_PORT_TEMPLATE 7: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_seven['changed']
+      - test_seven['power_port_template']['name'] == "Module Power Port Template"
+      - test_seven['power_port_template']['module_type'] == 1
+      - test_seven['msg'] == "power_port_template Module Power Port Template already exists"
+
+- name: "POWER_PORT_TEMPLATE 8: Update power_port_template with other fields"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Power Port Template
+      module_type: Module Type Power Tests
+      type: ita-e
+      allocated_draw: 10
+      maximum_draw: 20
+    state: present
+  register: test_eight
+
+- name: "POWER_PORT_TEMPLATE 8: ASSERT - Update power_port_template with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_eight is changed
+      - test_eight['diff']['after']['type'] == "ita-e"
+      - test_eight['diff']['after']['allocated_draw'] == 10
+      - test_eight['diff']['after']['maximum_draw'] == 20
+      - test_eight['power_port_template']['name'] == "Module Power Port Template"
+      - test_eight['power_port_template']['module_type'] == 1
+      - test_eight['power_port_template']['type'] == "ita-e"
+      - test_eight['power_port_template']['allocated_draw'] == 10
+      - test_eight['power_port_template']['maximum_draw'] == 20
+      - test_eight['msg'] == "power_port_template Module Power Port Template updated"
+
+- name: "POWER_PORT_TEMPLATE 9: Delete Power Port Template"
+  netbox.netbox.netbox_power_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Power Port Template
+      module_type: Module Type Power Tests
+    state: absent
+  register: test_nine
+
+- name: "POWER_PORT_TEMPLATE 9: ASSERT - Delete Power Port Template"
+  ansible.builtin.assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['before']['state'] == "present"
+      - test_nine['diff']['after']['state'] == "absent"
+      - test_nine['msg'] == "power_port_template Module Power Port Template deleted"
