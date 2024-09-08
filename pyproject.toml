@@ -7,10 +7,10 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-ansible-core = "^2.15"
+ansible-core = "^2.16"
 black = "*"
 codecov = "*"
-coverage = "6.5.*"
+coverage = "*"
 deepdiff = "*"
 cryptography = "*"
 jinja2 = "*"
