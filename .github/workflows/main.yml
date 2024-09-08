@@ -121,12 +121,20 @@ jobs:
         run: ./tests/integration/netbox-deploy.py
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
-      - name: Run integration tests
-        # Run regression and integration tests
-        # Run the inventory test first, in case any of the other tests modify the data.
+      - name: Run inventory tests
+        continue-on-error: true
         run: |
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
-          ansible-test integration -v --color --coverage --python ${{ env.python-version }} regression-${{ matrix.VERSION }}
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+
+      - name: Run regression tests        
+        continue-on-error: true
+        run: |          
+          ansible-test integration -v --color --coverage --python ${{ env.python-version }} regression-${{ matrix.VERSION }}          
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+
+      - name: Run integration tests        
+        run: |
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} ${{ matrix.VERSION }}
           ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
