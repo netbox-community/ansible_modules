@@ -172,13 +172,13 @@ files = [
 
 [[package]]
 name = "ansible-core"
-version = "2.15.9"
+version = "2.17.3"
 description = "Radically simple IT automation"
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 files = [
-    {file = "ansible-core-2.15.9.tar.gz", hash = "sha256:25f9b1b5a5af3c0986bd3928ed086eaddb867527fb5c83afef1a03cfad34f345"},
-    {file = "ansible_core-2.15.9-py3-none-any.whl", hash = "sha256:5b6a4b12aa5358f60933e79d86763e3558862282fb1dc563a29b9999e5849fc3"},
+    {file = "ansible_core-2.17.3-py3-none-any.whl", hash = "sha256:71e5c93729cc5bf09ecdf0cac675685fd345d1571312409029bf842420850f23"},
+    {file = "ansible_core-2.17.3.tar.gz", hash = "sha256:917557065339fe36e7078e9bea47eefab6d6877f3bd435fa5f0d766d04c58485"},
 ]
 
 [package.dependencies]
@@ -1387,19 +1387,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "4.3.1"
+version = "4.3.2"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "platformdirs-4.3.1-py3-none-any.whl", hash = "sha256:facaa5a3c57aa1e053e3da7b49e0cc31fe0113ca42a4659d5c2e98e545624afe"},
-    {file = "platformdirs-4.3.1.tar.gz", hash = "sha256:63b79589009fa8159973601dd4563143396b35c5f93a58b36f9049ff046949b1"},
+    {file = "platformdirs-4.3.2-py3-none-any.whl", hash = "sha256:eb1c8582560b34ed4ba105009a4badf7f6f85768b30126f351328507b2beb617"},
+    {file = "platformdirs-4.3.2.tar.gz", hash = "sha256:9e5e27a08aa095dd127b9f2e764d74254f482fef22b0970773bfba79d091ab8c"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.9.10)", "proselint (>=0.13)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)"]
-type = ["mypy (>=1.8)"]
+docs = ["furo (>=2024.8.6)", "proselint (>=0.14)", "sphinx (>=8.0.2)", "sphinx-autodoc-typehints (>=2.4)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=8.3.2)", "pytest-cov (>=5)", "pytest-mock (>=3.14)"]
+type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "pluggy"
@@ -2277,4 +2277,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "fff90480df5f2752cdf6a96c389b15c8f394bf677ecde9cd676b4bf14349c058"
+content-hash = "d4906b54b00826a28d4f19ac03e7590570ca991c54116c46ea3d236e7c740511"
