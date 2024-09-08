@@ -1085,10 +1085,18 @@ class NetboxModule(object):
 
         elif parent == "rear_port_template" and self.endpoint == "front_port_templates":
             if isinstance(module_data.get("rear_port_template"), str):
-                rear_port_template = {
-                    "devicetype_id": module_data.get("device_type"),
-                    "name": module_data.get("rear_port_template"),
-                }
+                if self._version_check_greater(
+                    self.version, "4.0", greater_or_equal=True
+                ):
+                    rear_port_template = {
+                        "device_type_id": module_data.get("device_type"),
+                        "name": module_data.get("rear_port_template"),
+                    }
+                else:
+                    rear_port_template = {
+                        "devicetype_id": module_data.get("device_type"),
+                        "name": module_data.get("rear_port_template"),
+                    }
                 query_dict.update(rear_port_template)
 
         elif parent == "power_port" and self.endpoint == "power_outlets":
@@ -1104,10 +1112,18 @@ class NetboxModule(object):
             and self.endpoint == "power_outlet_templates"
         ):
             if isinstance(module_data.get("power_port_template"), str):
-                power_port_template = {
-                    "devicetype_id": module_data.get("device_type"),
-                    "name": module_data.get("power_port_template"),
-                }
+                if self._version_check_greater(
+                    self.version, "4.0", greater_or_equal=True
+                ):
+                    power_port_template = {
+                        "device_type_id": module_data.get("device_type"),
+                        "name": module_data.get("power_port_template"),
+                    }
+                else:
+                    power_port_template = {
+                        "devicetype_id": module_data.get("device_type"),
+                        "name": module_data.get("power_port_template"),
+                    }
                 query_dict.update(power_port_template)
         elif parent == "l2vpn_termination":
             query_param_mapping = {
