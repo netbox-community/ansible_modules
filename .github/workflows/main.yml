@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: unit_testing
     env:
-      python-version: "3.10"
+      python-version: "3.12"
     strategy:
       fail-fast: false
       matrix:
