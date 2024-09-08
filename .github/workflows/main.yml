@@ -115,7 +115,7 @@ jobs:
         run: |
           docker container ls
           docker logs netbox-docker-netbox-1
-          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768/login/)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
         #if: matrix.VERSION == 'v3.3'
 
