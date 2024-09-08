@@ -1135,7 +1135,7 @@ class NetboxModule(object):
                     self.version, "4.0", greater_or_equal=True
                 ):
                     query_dict["device_type_id"] = query_dict.pop("device_type")
-                else:                    
+                else:
                     query_dict["devicetype_id"] = query_dict.pop("device_type")
 
         if not query_dict:
