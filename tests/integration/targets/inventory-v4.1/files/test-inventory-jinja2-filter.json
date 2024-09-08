@@ -647,7 +647,7 @@
                 "cluster_type": "test-cluster-type",
                 "config_context": {},
                 "custom_fields": {},
-                "disk": 170000,
+                "disk": 170,
                 "interfaces": [
                     {
                         "bridge": null,
