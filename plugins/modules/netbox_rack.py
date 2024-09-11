@@ -300,17 +300,6 @@ def main():
                             "Wall-mounted cabinet",
                         ],
                     ),
-                    form_factor=dict(
-                        required=False,
-                        type="str",
-                        choices=[
-                            "2-post frame",
-                            "4-post frame",
-                            "4-post cabinet",
-                            "Wall-mounted frame",
-                            "Wall-mounted cabinet",
-                        ],
-                    ),
                     width=dict(
                         required=False,
                         type="int",

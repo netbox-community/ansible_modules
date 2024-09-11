@@ -33,7 +33,13 @@
   ansible.builtin.include_tasks: netbox_tenant_group.yml
 
 - name: NETBOX_RACK TESTS
-  ansible.builtin.include_tasks: netbox_rack.yml
+  ansible.builtin.include_tasks:
+    file: netbox_rack.yml
+    apply:
+      tags:
+        - netbox_rack
+  tags:
+    - netbox_rack
 
 - name: NETBOX_RACK_ROLE TESTS
   ansible.builtin.include_tasks: netbox_rack_role.yml

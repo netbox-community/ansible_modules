@@ -94,7 +94,7 @@
       asset_tag: "1234"
       width: 23
       u_height: 48
-      form_factor: 2-post frame
+      type: 2-post frame
       outer_width: 32
       outer_depth: 24
       outer_unit: Inches
@@ -157,7 +157,7 @@
       asset_tag: "1234"
       width: 23
       u_height: 48
-      form_factor: 2-post frame
+      type: 2-post frame
       outer_width: 32
       outer_depth: 24
       outer_unit: Inches
