@@ -91,7 +91,7 @@ options:
           - Wall-mounted frame
           - Wall-mounted cabinet
         required: false
-        type: str      
+        type: str
       width:
         description:
           - The rail-to-rail width
