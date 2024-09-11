@@ -10,7 +10,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword
+      password: TestPassword2
     state: present
 
 - name: "TOKEN 1: Necessary info creation"
@@ -48,30 +48,27 @@
       - not test_two['changed']
       - test_two['msg'] == "token ******** already exists"
 
-# TODO: https://github.com/netbox-community/netbox/issues/17279
-# TODO: A netbox bug is causing the key to change when updating tokens
-# TODO: just skip the update test for now
-# - name: "TOKEN 3: Update"
-#   netbox.netbox.netbox_token:
-#     netbox_url: http://localhost:32768
-#     netbox_token: "0123456789abcdef0123456789abcdef01234567"
-#     data:
-#       user: TestUser
-#       key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-#       description: The test token
-#       write_enabled: false
-#       expires: 2024-08-26T14:49:01.345000+00:00
-#     state: present
-#   register: test_three
-#
-# - name: "TOKEN 3: ASSERT - Update"
-#   ansible.builtin.assert:
-#     that:
-#       - test_three is changed
-#       - test_three['token']['description'] == "The test token"
-#       - test_three['token']['write_enabled'] == false
-#       - test_three['token']['expires'] == "2024-08-26T14:49:01.345000+00:00"
-#       - test_three['msg'] == "token ******** updated"
+- name: "TOKEN 3: Update"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      description: The test token
+      write_enabled: false
+      expires: 2024-08-26T14:49:01.345000+00:00
+    state: present
+  register: test_three
+
+- name: "TOKEN 3: ASSERT - Update"
+  ansible.builtin.assert:
+      that:
+      - test_three is changed
+      - test_three['token']['description'] == "The test token"
+      - test_three['token']['write_enabled'] == false
+      - test_three['token']['expires'] == "2024-08-26T14:49:01.345000+00:00"
+      - test_three['msg'] == "token ******** updated"
 
 - name: "TOKEN 4: Delete"
   netbox.netbox.netbox_token:
