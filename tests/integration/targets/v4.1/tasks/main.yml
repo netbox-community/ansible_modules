@@ -367,7 +367,11 @@
     - netbox_config_template
 
 - name: NETBOX_VIRTUAL_DISK
-  ansible.builtin.include_tasks: netbox_virtual_disk.yml
+  ansible.builtin.include_tasks:
+    file: netbox_virtual_disk.yml
+    apply:
+      tags:
+        - netbox_virtual_disk
   tags:
     - netbox_virtual_disk
 
