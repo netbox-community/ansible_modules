@@ -63,7 +63,7 @@
 
 - name: "TOKEN 3: ASSERT - Update"
   ansible.builtin.assert:
-      that:
+    that:
       - test_three is changed
       - test_three['token']['description'] == "The test token"
       - test_three['token']['write_enabled'] == false
