@@ -170,11 +170,23 @@
 - name: NETBOX_VIRTUAL_CHASSIS TESTS
   ansible.builtin.include_tasks: netbox_virtual_chassis.yml
 
-- name: NETBOX_USER TESTS
-  ansible.builtin.include_tasks: netbox_user.yml
+- name: NETBOX_USER_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_user.yml
+    apply:
+      tags:
+        - netbox_user
+  tags:
+    - netbox_user
 
-- name: NETBOX_USER_GROUP TESTS
-  ansible.builtin.include_tasks: netbox_user_group.yml
+- name: NETBOX_USER_GROUP_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_user_group.yml
+    apply:
+      tags:
+        - netbox_user_group
+  tags:
+    - netbox_user_group
 
 - name: NETBOX_PERMISSION TESTS
   ansible.builtin.include_tasks: netbox_permission.yml
