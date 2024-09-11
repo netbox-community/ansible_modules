@@ -91,19 +91,7 @@ options:
           - Wall-mounted frame
           - Wall-mounted cabinet
         required: false
-        type: str
-      form_factor:
-        description:
-          - The type of rack (NetBox 4.1+)
-        choices:
-          - 2-post frame
-          - 4-post frame
-          - 4-post cabinet
-          - Wall-mounted frame
-          - Wall-mounted cabinet
-        required: false
-        type: str
-        version_added: "3.20.0"
+        type: str      
       width:
         description:
           - The rail-to-rail width
