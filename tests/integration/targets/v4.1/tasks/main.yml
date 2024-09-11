@@ -90,7 +90,13 @@
   ansible.builtin.include_tasks: netbox_inventory_item.yml
 
 - name: NETBOX_VIRTUAL_MACHINE TESTS
-  ansible.builtin.include_tasks: netbox_virtual_machine.yml
+  ansible.builtin.include_tasks:
+    file: netbox_virtual_machine.yml
+    apply:
+      tags:
+        - netbox_virtual_machine
+  tags:
+    - netbox_virtual_machine
 
 - name: NETBOX_CLUSTER TESTS
   ansible.builtin.include_tasks: netbox_cluster.yml
