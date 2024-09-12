@@ -49,6 +49,7 @@
     data:
       name: Test VM One
       cluster: Test Cluster
+      serial: 12345678
       vcpus: 8.5
       memory: 8
       status: Planned
@@ -66,6 +67,7 @@
       - test_three['diff']['after']['memory'] == 8
       - test_three['diff']['after']['status'] == "planned"
       - test_three['diff']['after']['role'] == 2
+      - test_three['diff']['after']['serial'] == "12345678"
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['virtual_machine']['name'] == "Test VM One"
       - test_three['virtual_machine']['cluster'] == 1
@@ -73,6 +75,7 @@
       - test_three['virtual_machine']['memory'] == 8
       - test_three['virtual_machine']['status'] == "planned"
       - test_three['virtual_machine']['role'] == 2
+      - test_three['virtual_machine']['serial'] == "12345678"
       - test_three['virtual_machine']['tags'][0] == 4
       - test_three['msg'] == "virtual_machine Test VM One updated"
 

@@ -81,7 +81,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword
+      password: TestPassword2
       groups:
         - Test User Group
     state: present
