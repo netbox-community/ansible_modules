@@ -1,2 +1,0 @@
-minor_changes:
-      - Add ability to rename variables set on the host by ``netbox.netbox.nb_inventory`` through configuration.

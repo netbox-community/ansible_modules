@@ -1,3 +1,0 @@
-minor_changes:
-      - Adjust tests for various modules
-      - Fix the form_factor option on netbox_rack

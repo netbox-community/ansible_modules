@@ -763,6 +763,58 @@ releases:
       - netbox_virtual_machine - Change vCPU to float from int (to reflect NetBox
         3.0) [#605](https://github.com/netbox-community/ansible_modules/pull/605)
     release_date: '2021-10-18'
+  3.20.0:
+    changes:
+      bugfixes:
+      - If `fetch_all` is `false`, prefix lookup depends on site lookup, so move it
+        to secondary lookup (https://github.com/netbox-community/ansible_modules/issues/733)
+      minor_changes:
+      - Add ``facility`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1280)
+      - Add ``related_object_type`` to ``netbox_custom_filed`` (https://github.com/netbox-community/ansible_modules/issues/1268)
+      - Add ``status`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1279)
+      - Add `description` to `netbox_cluster_group` module (https://github.com/netbox-community/ansible_modules/issues/1276)
+      - Add `serial` to `netbox_virtual_machine` module (https://github.com/netbox-community/ansible_modules/issues/1309)
+      - Add `status` to `netbox_cluster` (https://github.com/netbox-community/ansible_modules/issues/1275)
+      - Add `vid_ranges` to `netbox_vlan_group` module (https://github.com/netbox-community/ansible_modules/issues/1307)
+      - Add ability to rename variables set on the host by ``netbox.netbox.nb_inventory``
+        through configuration.
+      - Added option `hostname_field` to ``nb_inventory`` to be able to set the inventory
+        hostname from a field in custom_fields
+      - Adjust tests for various modules
+      - Fix the form_factor option on netbox_rack
+      - Update CI for NetBox 4.1
+    fragments:
+    - 1273-ability-to-rename-host-inventory-vars.yml
+    - 1275-feature-netbox_cluster-adds-status-field.yml
+    - 1276-feature-netbox_cluster_group-adds-description-field.yml
+    - 1281_move_prefix_lookup_to_secondary.yml
+    - 1307-feature-netbox_vlan_group-add-vid_ranges.yml
+    - 1309-feature-add-serial-number-to-vm.yml
+    - 1312-add-hostname_field-option.yml
+    - 41_updates.yml
+    - ci_netbox41.yml
+    - fix_issue_1268.yml
+    - fix_issues_1279_1280.yml
+    modules:
+    - description: Creates or removes permissions from NetBox
+      name: netbox_permission
+      namespace: ''
+    - description: Creates or removes tokens from NetBox
+      name: netbox_token
+      namespace: ''
+    - description: Create, update or delete tunnels within NetBox
+      name: netbox_tunnel
+      namespace: ''
+    - description: Create, update or delete tunnel groups within NetBox
+      name: netbox_tunnel_group
+      namespace: ''
+    - description: Creates or removes users from NetBox
+      name: netbox_user
+      namespace: ''
+    - description: Creates or removes user groups from NetBox
+      name: netbox_user_group
+      namespace: ''
+    release_date: '2024-09-12'
   3.3.0:
     changes:
       minor_changes:

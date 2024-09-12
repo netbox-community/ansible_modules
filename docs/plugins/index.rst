@@ -1,7 +1,5 @@
-
-
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 
 .. _plugins_in_netbox.netbox:
@@ -9,7 +7,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.19.1
+Collection version 3.20.0
 
 .. contents::
    :local:
@@ -256,5 +254,3 @@ Lookup Plugins
     :hidden:
 
     nb_lookup_lookup
-
-

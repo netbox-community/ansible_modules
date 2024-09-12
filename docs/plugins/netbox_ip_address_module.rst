@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_ip_address module -- Creates or removes IP addresses from N
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -192,7 +191,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\ 
+      Required if state is :literal:`present`
 
 
       .. raw:: html
@@ -240,7 +239,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -627,8 +626,7 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The name and device of the interface that the IP address should be assigned to
-          Required if state is \ :literal:`present`\  and a prefix specified.
-          
+      Required if state is :literal:`present` and a prefix specified.
 
 
       .. raw:: html
@@ -712,16 +710,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      With state \ :literal:`present`\ , if an interface is given, it will ensure
-          that an IP inside this prefix (and vrf, if given) is attached
-          to this interface. Otherwise, it will get the next available IP
-          of this prefix and attach it.
-          With state \ :literal:`new`\ , it will force to get the next available IP in
-          this prefix. If an interface is given, it will also force to attach
-          it.
-          Required if state is \ :literal:`present`\  or \ :literal:`new`\  when no address is given.
-          Unused if an address is specified.
-          
+      With state :literal:`present`\ , if an interface is given, it will ensure
+      that an IP inside this prefix (and vrf, if given) is attached
+      to this interface. Otherwise, it will get the next available IP
+      of this prefix and attach it.
+      With state :literal:`new`\ , it will force to get the next available IP in
+      this prefix. If an interface is given, it will also force to attach
+      it.
+      Required if state is :literal:`present` or :literal:`new` when no address is given.
+      Unused if an address is specified.
 
 
       .. raw:: html
@@ -1088,11 +1085,10 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use \ :literal:`present`\ , \ :literal:`new`\  or \ :literal:`absent`\  for adding, force adding or removing.
-          \ :literal:`present`\  will check if the IP is already created, and return it if
-          true. \ :literal:`new`\  will force to create it anyway (useful for anycasts, for
-          example).
-          
+      Use :literal:`present`\ , :literal:`new` or :literal:`absent` for adding, force adding or removing.
+      :literal:`present` will check if the IP is already created, and return it if
+      true. :literal:`new` will force to create it anyway (useful for anycasts, for
+      example).
 
 
       .. rst-class:: ansible-option-line
@@ -1135,7 +1131,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -1159,7 +1155,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -1171,7 +1167,6 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox IP address module"
       connection: local
       hosts: localhost
@@ -1274,7 +1269,6 @@ Examples
                 name: GigabitEthernet1
                 device: test100
             state: new
-
 
 
 
@@ -1408,4 +1402,3 @@ Collection links
 
 
 .. Parsing errors
-

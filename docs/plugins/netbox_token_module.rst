@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_token module -- Creates or removes tokens from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -553,7 +552,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -577,7 +576,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -589,73 +588,48 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox module"
       connection: local
       hosts: localhost
       gather_facts: false
       tasks:
-        - name: Create permission within NetBox with only required information
-          netbox.netbox.netbox_permission:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: My Permission
-              actions:
-                - view
-              object_types: []
-            state: present
-
-        - name: Create user which has the permission
+        - name: Create user to own the token
           netbox.netbox.netbox_user:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
               username: MyUser
               password: MyPassword
-              permissions:
-                - My Permission
             state: present
 
-        - name: Create a group which has the permission
-          netbox.netbox.netbox_user_group:
+        - name: Create token within NetBox with only required information
+          netbox.netbox.netbox_token:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: My Group
-              permissions:
-                - My Permission
-            state: absent
-
-        - name: Delete permission within netbox
-          netbox.netbox.netbox_permission:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: My Permission
-            state: absent
-
-        - name: Create permission with all parameters
-          netbox.netbox.netbox_permission:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: My permission
-              description: The permission I made
-              enabled: false
-              actions:
-                - view
-                - add
-                - change
-                - delete
-                - extreme_administration
-              object_types:
-                - vpn.tunneltermination
-                - wireless.wirelesslan
-              constraints:
-                id: 1
+              user: TestUser
+              key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
             state: present
 
+        - name: Delete token within netbox
+          netbox.netbox.netbox_token:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            state: absent
+
+        - name: Create token with all parameters
+          netbox.netbox.netbox_token:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              user: TestUser
+              key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+              description: The test token
+              write_enabled: false
+              expires: 2024-08-26T14:49:01.345000+00:00
+            state: present
 
 
 
@@ -722,17 +696,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-user"></div>
+        <div class="ansibleOptionAnchor" id="return-token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_token_module__return-user:
+      .. _ansible_collections.netbox.netbox.netbox_token_module__return-token:
 
       .. rst-class:: ansible-option-title
 
-      **user**
+      **token**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-user" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-token" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 
@@ -788,4 +762,3 @@ Collection links
 
 
 .. Parsing errors
-

@@ -1,2 +1,0 @@
-minor_changes:
-      - Add `description` to `netbox_cluster_group` module (https://github.com/netbox-community/ansible_modules/issues/1276)

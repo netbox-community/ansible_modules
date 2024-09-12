@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -262,7 +261,7 @@ examples: ``lookup('netbox.netbox.nb_lookup', key1=value1, key2=value2, ...)`` a
 
       (DEPRECATED) - NetBox 2.11 and earlier only
 
-      The location of the private key tied to user account. Mutually exclusive with \ :emphasis:`private\_key`\ .
+      The location of the private key tied to user account. Mutually exclusive with :emphasis:`private\_key`.
 
 
       .. raw:: html
@@ -338,7 +337,7 @@ examples: ``lookup('netbox.netbox.nb_lookup', key1=value1, key2=value2, ...)`` a
 
       (DEPRECATED) - NetBox 2.11 and earlier only
 
-      The private key as a string. Mutually exclusive with \ :emphasis:`key\_file`\ .
+      The private key as a string. Mutually exclusive with :emphasis:`key\_file`.
 
 
       .. raw:: html
@@ -502,7 +501,6 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     tasks:
       # query a list of devices
       - name: Obtain list of devices from NetBox
@@ -524,7 +522,6 @@ Examples
                         api_endpoint='http://localhost/',
                         api_filter='role=management tag=Dell'),
                         token='<redacted>') }}"
-
 
 
 
@@ -618,4 +615,3 @@ Collection links
 
 
 .. Parsing errors
-
