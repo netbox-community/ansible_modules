@@ -1,2 +1,0 @@
-minor_changes:
-      - Add ``related_object_type`` to ``netbox_custom_filed`` (https://github.com/netbox-community/ansible_modules/issues/1268)

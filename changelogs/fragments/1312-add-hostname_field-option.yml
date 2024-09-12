@@ -1,2 +1,0 @@
-minor_changes:
-  - Added option `hostname_field` to ``nb_inventory`` to be able to set the inventory hostname from a field in custom_fields

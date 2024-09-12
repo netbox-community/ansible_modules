@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -437,21 +436,6 @@ Parameters
 
         .. code-block::
 
-          [default]
-          fact_caching_prefix = ansible_inventory_
-
-
-        Removed in: version 2.16 of ansible.builtin
-
-
-        Why: Fixes typing error in INI section name
-
-        Alternative: Use the 'defaults' section instead
-
-
-
-        .. code-block::
-
           [defaults]
           fact_caching_prefix = ansible_inventory_
 
@@ -845,7 +829,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :emphasis:`config\_context`\  is enabled, by default it's added as a host var named config\_context.
+      If :emphasis:`config\_context` is enabled, by default it's added as a host var named config\_context.
 
       If flatten\_config\_context is set to True, the config context variables will be added directly to the host instead.
 
@@ -945,7 +929,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :emphasis:`local\_context\_data`\  is enabled, by default it's added as a host var named local\_context\_data.
+      If :emphasis:`local\_context\_data` is enabled, by default it's added as a host var named local\_context\_data.
 
       If flatten\_local\_context\_data is set to True, the config context variables will be added directly to the host instead.
 
@@ -994,7 +978,7 @@ Parameters
 
       Determine how redirects are followed.
 
-      By default, \ :emphasis:`follow\_redirects`\  is set to uses urllib2 default behavior.
+      By default, :emphasis:`follow\_redirects` is set to uses urllib2 default behavior.
 
 
       .. rst-class:: ansible-option-line
@@ -1042,11 +1026,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Keys used to create groups. The \ :emphasis:`plurals`\  and \ :emphasis:`racks`\  options control which of these are valid.
+      Keys used to create groups. The :emphasis:`plurals` and :emphasis:`racks` options control which of these are valid.
 
-      \ :emphasis:`rack\_group`\  is supported on NetBox versions 2.10 or lower only
+      :emphasis:`rack\_group` is supported on NetBox versions 2.10 or lower only
 
-      \ :emphasis:`location`\  is supported on NetBox versions 2.11 or higher only
+      :emphasis:`location` is supported on NetBox versions 2.11 or higher only
 
 
       .. rst-class:: ansible-option-line
@@ -1185,6 +1169,49 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-hostname_field"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-hostname_field:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname_field**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-hostname_field" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      By default, the inventory hostname is the netbox device name
+
+      If set, sets the inventory hostname from this field in custom\_fields instead
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`false`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-interfaces"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-interfaces:
@@ -1311,7 +1338,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1355,7 +1382,7 @@ Parameters
 
       The default value when the host variable's value is an empty string.
 
-      This option is mutually exclusive with \ :literal:`trailing\_separator`\ .
+      This option is mutually exclusive with :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].trailing\_separator`.
 
 
       .. raw:: html
@@ -1591,9 +1618,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this option to \ :emphasis:`False`\  to omit the \ :literal:`separator`\  after the host variable when the value is an empty string.
+      Set this option to :ansval:`False` to omit the :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].separator` after the host variable when the value is an empty string.
 
-      This option is mutually exclusive with \ :literal:`default\_value`\ .
+      This option is mutually exclusive with :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].default\_value`.
 
 
       .. rst-class:: ansible-option-line
@@ -1839,7 +1866,7 @@ Parameters
 
       Group names will be plural (ie. "sites\_mysite" instead of "site\_mysite")
 
-      The choices of \ :emphasis:`group\_by`\  will be changed by this option.
+      The choices of :emphasis:`group\_by` will be changed by this option.
 
 
       .. rst-class:: ansible-option-line
@@ -1982,7 +2009,7 @@ Parameters
 
       If False, skip querying the racks for information, which can be slow with great amounts of racks.
 
-      The choices of \ :emphasis:`group\_by`\  will be changed by this option.
+      The choices of :emphasis:`group\_by` will be changed by this option.
 
 
       .. rst-class:: ansible-option-line
@@ -2172,7 +2199,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`yes`\  make invalid entries a fatal error, otherwise skip and continue.
+      If :ansval:`yes` make invalid entries a fatal error, otherwise skip and continue.
 
       Since it is possible to use facts in the expressions they might not always be available and we ignore those errors by default.
 
@@ -2375,7 +2402,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Allows connection when SSL certificates are not valid. Set to \ :literal:`false`\  when certificates are not trusted.
+      Allows connection when SSL certificates are not valid. Set to :literal:`false` when certificates are not trusted.
 
 
       .. rst-class:: ansible-option-line
@@ -2545,7 +2572,6 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     # netbox_inventory.yml file in YAML format
     # Example command line: ansible-inventory -v --list -i netbox_inventory.yml
 
@@ -2655,7 +2681,6 @@ Examples
 
 
 
-
 .. Facts
 
 
@@ -2697,4 +2722,3 @@ Collection links
 
 
 .. Parsing errors
-

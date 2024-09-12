@@ -1,2 +1,0 @@
-bugfixes:
-  - If `fetch_all` is `false`, prefix lookup depends on site lookup, so move it to secondary lookup (https://github.com/netbox-community/ansible_modules/issues/733)
