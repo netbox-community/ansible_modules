@@ -158,6 +158,18 @@
 - name: NETBOX_VIRTUAL_CHASSIS TESTS
   ansible.builtin.include_tasks: netbox_virtual_chassis.yml
 
+- name: NETBOX_USER TESTS
+  ansible.builtin.include_tasks: netbox_user.yml
+
+- name: NETBOX_USER_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_user_group.yml
+
+- name: NETBOX_PERMISSION TESTS
+  ansible.builtin.include_tasks: netbox_permission.yml
+
+- name: NETBOX_TOKEN TESTS
+  ansible.builtin.include_tasks: netbox_token.yml
+
 # Module has to be updated for 3.3
 # - name: "NETBOX_CABLE TESTS"
 #  include_tasks: "netbox_cable.yml"
@@ -328,3 +340,21 @@
   ansible.builtin.include_tasks: netbox_virtual_disk.yml
   tags:
     - netbox_virtual_disk
+
+- name: NETBOX_TUNNEL TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel.yml
+    apply:
+      tags:
+        - netbox_tunnel
+  tags:
+    - netbox_tunnel
+
+- name: NETBOX_TUNNEL GROUP TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel_group.yml
+    apply:
+      tags:
+        - netbox_tunnel_group
+  tags:
+    - netbox_tunnel_group

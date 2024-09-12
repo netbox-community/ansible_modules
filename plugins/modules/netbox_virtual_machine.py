@@ -64,6 +64,12 @@ options:
           - The platform of the virtual machine
         required: false
         type: raw
+      serial:
+        description:
+          - Serial number of the virtual machine
+        required: false
+        type: str
+        version_added: "3.20.0"
       primary_ip4:
         description:
           - Primary IPv4 address assigned to the virtual machine
@@ -177,6 +183,16 @@ EXAMPLES = r"""
           memory: 8
           disk: 8
         state: present
+
+    - name: Update virtual machine within NetBox with serial number
+      netbox_virtual_machine:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Virtual Machine
+          cluster: test cluster
+          serial: 1234abc
+        state: present
 """
 
 RETURN = r"""
@@ -219,6 +235,7 @@ def main():
                     vcpus=dict(required=False, type="float"),
                     tenant=dict(required=False, type="raw"),
                     platform=dict(required=False, type="raw"),
+                    serial=dict(required=False, type="str"),
                     primary_ip4=dict(required=False, type="raw"),
                     primary_ip6=dict(required=False, type="raw"),
                     memory=dict(required=False, type="int"),

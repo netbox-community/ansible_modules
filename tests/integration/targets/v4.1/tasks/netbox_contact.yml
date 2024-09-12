@@ -1,0 +1,100 @@
+---
+##
+##
+### NETBOX_CONTACT
+##
+##
+- name: 1 - Test contact creation
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact ABC
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['contact']['name'] == "Contact ABC"
+      - test_one['msg'] == "contact Contact ABC created"
+
+- name: Test duplicate contact
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact ABC
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['contact']['name'] == "Contact ABC"
+      - test_two['msg'] == "contact Contact ABC already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact ABC
+      title: New Title
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['title'] == "New Title"
+      - test_three['contact']['name'] == "Contact ABC"
+      - test_three['contact']['title'] == "New Title"
+      - test_three['msg'] == "contact Contact ABC updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact ABC
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "contact Contact ABC deleted"
+
+- name: 5 - Create contact with all parameters
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact ABC
+      title: Fancy title
+      phone: "12345678"
+      email: contact@contact.com
+      tags:
+        - tagA
+        - tagB
+        - tagC
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['contact']['name'] == "Contact ABC"
+      - test_five['contact']['title'] == "Fancy title"
+      - test_five['contact']['phone'] == "12345678"
+      - test_five['contact']['tags'] | length == 3
+      - test_five['msg'] == "contact Contact ABC created"

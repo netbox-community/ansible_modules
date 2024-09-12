@@ -1,21 +1,21 @@
 [tool.poetry]
 name = "netbox_ansible_modules"
-version = "3.19.1"
+version = "3.20.0"
 description = "Ansible collection to interact with NetBox's API"
 authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-ansible-core = "2.15.9"
+ansible-core = "^2.16"
 black = "*"
 codecov = "*"
-coverage = "6.5.*"
+coverage = "7.3.2"
 deepdiff = "*"
 cryptography = "*"
 jinja2 = "*"
 jmespath = "*"
-pynetbox = "^7.3"
+pynetbox = "*"
 pytest = "*"
 pytest-mock = "*"
 pytest-xdist = "*"

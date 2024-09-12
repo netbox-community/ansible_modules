@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_fhrp_group module -- Create, update or delete FHRP groups w
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.19.1).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -650,7 +649,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -674,7 +673,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -693,7 +692,6 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox modules"
       hosts: localhost
       connection: local
@@ -718,7 +716,6 @@ Examples
             data:
               group_id: 111
             state: absent
-
 
 
 
@@ -774,7 +771,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` success (when :emphasis:`state=present`\ )
 
 
       .. raw:: html
@@ -851,4 +848,3 @@ Collection links
 
 
 .. Parsing errors
-

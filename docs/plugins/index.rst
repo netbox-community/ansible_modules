@@ -1,7 +1,5 @@
-
-
 .. meta::
-  :antsibull-docs: 2.11.0
+  :antsibull-docs: 2.13.1
 
 
 .. _plugins_in_netbox.netbox:
@@ -9,7 +7,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.19.1
+Collection version 3.20.0
 
 .. contents::
    :local:
@@ -98,6 +96,7 @@ Modules
 * :ansplugin:`netbox_module module <netbox.netbox.netbox_module#module>` -- Create, update or delete module within NetBox
 * :ansplugin:`netbox_module_bay module <netbox.netbox.netbox_module_bay#module>` -- Create, update or delete module bay within NetBox
 * :ansplugin:`netbox_module_type module <netbox.netbox.netbox_module_type#module>` -- Create, update or delete module types within NetBox
+* :ansplugin:`netbox_permission module <netbox.netbox.netbox_permission#module>` -- Creates or removes permissions from NetBox
 * :ansplugin:`netbox_platform module <netbox.netbox.netbox_platform#module>` -- Create or delete platforms within NetBox
 * :ansplugin:`netbox_power_feed module <netbox.netbox.netbox_power_feed#module>` -- Create, update or delete power feeds within NetBox
 * :ansplugin:`netbox_power_outlet module <netbox.netbox.netbox_power_outlet#module>` -- Create, update or delete power outlets within NetBox
@@ -123,6 +122,11 @@ Modules
 * :ansplugin:`netbox_tag module <netbox.netbox.netbox_tag#module>` -- Creates or removes tags from NetBox
 * :ansplugin:`netbox_tenant module <netbox.netbox.netbox_tenant#module>` -- Creates or removes tenants from NetBox
 * :ansplugin:`netbox_tenant_group module <netbox.netbox.netbox_tenant_group#module>` -- Creates or removes tenant groups from NetBox
+* :ansplugin:`netbox_token module <netbox.netbox.netbox_token#module>` -- Creates or removes tokens from NetBox
+* :ansplugin:`netbox_tunnel module <netbox.netbox.netbox_tunnel#module>` -- Create, update or delete tunnels within NetBox
+* :ansplugin:`netbox_tunnel_group module <netbox.netbox.netbox_tunnel_group#module>` -- Create, update or delete tunnel groups within NetBox
+* :ansplugin:`netbox_user module <netbox.netbox.netbox_user#module>` -- Creates or removes users from NetBox
+* :ansplugin:`netbox_user_group module <netbox.netbox.netbox_user_group#module>` -- Creates or removes user groups from NetBox
 * :ansplugin:`netbox_virtual_chassis module <netbox.netbox.netbox_virtual_chassis#module>` -- Create, update or delete virtual chassis within NetBox
 * :ansplugin:`netbox_virtual_disk module <netbox.netbox.netbox_virtual_disk#module>` -- Creates or removes disks from virtual machines in NetBox
 * :ansplugin:`netbox_virtual_machine module <netbox.netbox.netbox_virtual_machine#module>` -- Create, update or delete virtual\_machines within NetBox
@@ -184,6 +188,7 @@ Modules
     netbox_module_module
     netbox_module_bay_module
     netbox_module_type_module
+    netbox_permission_module
     netbox_platform_module
     netbox_power_feed_module
     netbox_power_outlet_module
@@ -209,6 +214,11 @@ Modules
     netbox_tag_module
     netbox_tenant_module
     netbox_tenant_group_module
+    netbox_token_module
+    netbox_tunnel_module
+    netbox_tunnel_group_module
+    netbox_user_module
+    netbox_user_group_module
     netbox_virtual_chassis_module
     netbox_virtual_disk_module
     netbox_virtual_machine_module
@@ -244,5 +254,3 @@ Lookup Plugins
     :hidden:
 
     nb_lookup_lookup
-
-

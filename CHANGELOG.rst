@@ -4,6 +4,40 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.20.0
+=======
+
+Minor Changes
+-------------
+
+- Add ``facility`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1280)
+- Add ``related_object_type`` to ``netbox_custom_filed`` (https://github.com/netbox-community/ansible_modules/issues/1268)
+- Add ``status`` to ``location`` (https://github.com/netbox-community/ansible_modules/issues/1279)
+- Add `description` to `netbox_cluster_group` module (https://github.com/netbox-community/ansible_modules/issues/1276)
+- Add `serial` to `netbox_virtual_machine` module (https://github.com/netbox-community/ansible_modules/issues/1309)
+- Add `status` to `netbox_cluster` (https://github.com/netbox-community/ansible_modules/issues/1275)
+- Add `vid_ranges` to `netbox_vlan_group` module (https://github.com/netbox-community/ansible_modules/issues/1307)
+- Add ability to rename variables set on the host by ``netbox.netbox.nb_inventory`` through configuration.
+- Added option `hostname_field` to ``nb_inventory`` to be able to set the inventory hostname from a field in custom_fields
+- Adjust tests for various modules
+- Fix the form_factor option on netbox_rack
+- Update CI for NetBox 4.1
+
+Bugfixes
+--------
+
+- If `fetch_all` is `false`, prefix lookup depends on site lookup, so move it to secondary lookup (https://github.com/netbox-community/ansible_modules/issues/733)
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_permission - Creates or removes permissions from NetBox
+- netbox.netbox.netbox_token - Creates or removes tokens from NetBox
+- netbox.netbox.netbox_tunnel - Create, update or delete tunnels within NetBox
+- netbox.netbox.netbox_tunnel_group - Create, update or delete tunnel groups within NetBox
+- netbox.netbox.netbox_user - Creates or removes users from NetBox
+- netbox.netbox.netbox_user_group - Creates or removes user groups from NetBox
+
 v3.19.1
 =======
 
