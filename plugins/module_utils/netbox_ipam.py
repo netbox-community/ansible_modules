@@ -207,8 +207,8 @@ class NetboxIpamModule(NetboxModule):
 
         if self.endpoint == "ip_addresses":
             if 'interface' in data:
-                data["assigned_object_id"] = data['interface']
-                data['assigned_object_type'] = "dcim.interface"
+                data["assigned_object_id"] = data["interface"]
+                data["assigned_object_type"] = "dcim.interface"
 
         if self.endpoint in SLUG_REQUIRED:
             if not data.get("slug"):
