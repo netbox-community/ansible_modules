@@ -51,6 +51,11 @@ DOCUMENTATION = """
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_TOKEN
             required: false
+        headers:
+            description: Dictionary of headers to be passed to the NetBox API.
+            default: {}
+            env:
+                - name: NETBOX_HEADERS
         validate_certs:
             description:
                 - Whether or not to validate SSL of the NetBox instance
@@ -108,6 +113,7 @@ RETURN = """
 
 import os
 import functools
+import json
 from pprint import pformat
 
 from ansible.errors import AnsibleError
@@ -411,6 +417,7 @@ class LookupModule(LookupBase):
             or os.getenv("NETBOX_API")
             or os.getenv("NETBOX_URL")
         )
+        netbox_headers = kwargs.get("headers") or os.getenv("NETBOX_HEADERS") or {}
         netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
@@ -421,8 +428,12 @@ class LookupModule(LookupBase):
         if not isinstance(terms, list):
             terms = [terms]
 
+        if isinstance(netbox_headers, str):
+            netbox_headers = json.loads(netbox_headers)
+
         try:
             session = requests.Session()
+            session.headers = netbox_headers
             session.verify = netbox_ssl_verify
 
             if Version(version("pynetbox")) < Version("7.0.0"):
