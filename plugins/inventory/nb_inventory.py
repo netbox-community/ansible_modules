@@ -266,8 +266,9 @@ DOCUMENTATION = """
             default: False
         headers:
             description: Dictionary of headers to be passed to the NetBox API.
-            type: dict
             default: {}
+            env:
+                - name: NETBOX_HEADERS
 """
 
 EXAMPLES = """
@@ -2121,6 +2122,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             else:
                 self.headers.update({"Authorization": "Token %s" % token})
+        headers = self.get_option("headers")
+        if headers:
+            if isinstance(headers, str):
+                headers = json.loads(headers)
+            if isinstance(headers, dict):
+                self.headers.update(headers)
 
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
@@ -2148,7 +2155,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "User-Agent": "ansible %s Python %s"
             % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
             "Content-type": "application/json",
-            **self.get_option("headers"),
         }
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
