@@ -97,6 +97,20 @@ tasks:
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
+    # This example uses an API Filter with a variable and jinja concatenation
+  - name: Set hostname fact
+    set_fact:
+      hostname: "my-server"
+  - name: Obtain details of a single device from NetBox
+    debug:
+      msg: >
+        "Device {{item.0.value.display}} (ID: {{item.0.key}}) was
+         manufactured by {{ item.0.value.device_type.manufacturer.name }}"
+    loop:
+      - '{{ query("netbox.netbox.nb_lookup", "devices",
+        api_endpoint="http://localhost/",
+        api_filter="name=" ~hostname,
+        token="<redacted>") }}'
 """
 
 RETURN = """
