@@ -222,7 +222,7 @@ def test_get_resource_list_chunked(
     "/fake/path/asdasd3456",
 )
 @pytest.mark.parametrize("netbox_ver", ["2.0.2", "3.0.0"])
-def test_fetch_api_docs(inventory_fixture, netbox_ver):
+def test_fetch_api_docs(inventory_fixture, netbox_ver, templar_fixture):
     mock_fetch_information = Mock()
     mock_fetch_information.side_effect = [
         {"netbox-version": netbox_ver},
