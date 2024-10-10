@@ -88,3 +88,18 @@
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='id=1', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')
       }}"
+
+- name: "NETBOX_LOOKUP 11: Device query by ansible variable"
+  ansible.builtin.set_fact:
+    hostname: "L2"
+
+- name: "NETBOX LOOKUP 11.1: Obtain details of a single device from NetBox"
+  ansible.builtin.debug:
+    msg: >
+      "Device {{item.0.value.display}} (ID: {{item.0.key}}) was
+       manufactured by {{ item.0.value.device_type.manufacturer.name }}"
+  loop:
+    - '{{ query("netbox.netbox.nb_lookup", "devices",
+      api_filter="name=" ~hostname,
+      api_endpoint="http://localhost:32768",
+      token="0123456789abcdef0123456789abcdef01234567") }}'
