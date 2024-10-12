@@ -363,7 +363,7 @@
         name: GigabitEthernet2
   register: test_seventeen
 
-- name: 9 - ASSERT
+- name: 17 - ASSERT
   ansible.builtin.assert:
     that:
       - test_seventeen is changed
@@ -374,3 +374,71 @@
       - test_seventeen['ip_address']['family'] == 4
       - test_seventeen['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_seventeen['ip_address']['assigned_object_id'] == 4
+
+- name: "18 - Create IP address on GigabitEthernet2 - test100 with interface value - State: new"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      family: 4
+      prefix: 10.10.0.0/16
+      interface:
+        name: GigabitEthernet2
+        device: test100
+    state: new
+  register: test_eighteen
+
+- name: 18 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eighteen is changed
+      - test_eighteen['diff']['before']['state'] == "absent"
+      - test_eighteen['diff']['after']['state'] == "present"
+      - test_eighteen['msg'] == "ip_address 10.10.0.1/16 created"
+      - test_eighteen['ip_address']['address'] == "10.10.0.2/16"
+      - test_eighteen['ip_address']['family'] == 4
+      - test_eighteen['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_eighteen['ip_address']['assigned_object_id'] == 4
+
+- name: "19 - Create IP address on GigabitEthernet2 - test100 with interface value - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      family: 4
+      prefix: 192.168.100.0/24
+      interface:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_nineteen
+
+- name: 19 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_nineteen is changed
+      - test_nineteen['diff']['before']['state'] == "absent"
+      - test_nineteen['diff']['after']['state'] == "present"
+      - test_nineteen['msg'] == "ip_address 192.168.100.3/24 created"
+      - test_nineteen['ip_address']['address'] == "192.168.100.3/24"
+
+- name: 20 - Duplicate - 192.168.100.2/24 on interface with interface value
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      address: 192.168.100.2/24
+      interface:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_twenty
+
+- name: 20 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_twenty['changed']
+      - test_twenty['msg'] == "ip_address 192.168.100.2/24 already exists"
+      - test_twenty['ip_address']['address'] == "192.168.100.2/24"
+      - test_twenty['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_twenty['ip_address']['assigned_object_id'] == 4
