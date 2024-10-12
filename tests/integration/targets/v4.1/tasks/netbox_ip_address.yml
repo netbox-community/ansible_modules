@@ -406,7 +406,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       family: 4
-      prefix: 192.168.100.0/24
+      prefix: 192.168.101.0/24
       interface:
         name: GigabitEthernet2
         device: test100
@@ -419,8 +419,8 @@
       - test_nineteen is changed
       - test_nineteen['diff']['before']['state'] == "absent"
       - test_nineteen['diff']['after']['state'] == "present"
-      - test_nineteen['msg'] == "ip_address 192.168.100.3/24 created"
-      - test_nineteen['ip_address']['address'] == "192.168.100.3/24"
+      - test_nineteen['msg'] == "ip_address 192.168.101.1/24 created"
+      - test_nineteen['ip_address']['address'] == "192.168.101.1/24"
 
 - name: 20 - Duplicate - 192.168.100.2/24 on interface with interface value
   netbox.netbox.netbox_ip_address:
