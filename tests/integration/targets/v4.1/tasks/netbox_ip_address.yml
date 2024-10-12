@@ -394,8 +394,8 @@
       - test_eighteen is changed
       - test_eighteen['diff']['before']['state'] == "absent"
       - test_eighteen['diff']['after']['state'] == "present"
-      - test_eighteen['msg'] == "ip_address 10.10.0.1/16 created"
-      - test_eighteen['ip_address']['address'] == "10.10.0.1/16"
+      - test_eighteen['msg'] == "ip_address 10.10.0.2/16 created"
+      - test_eighteen['ip_address']['address'] == "10.10.0.2/16"
       - test_eighteen['ip_address']['family'] == 4
       - test_eighteen['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_eighteen['ip_address']['assigned_object_id'] == 4
