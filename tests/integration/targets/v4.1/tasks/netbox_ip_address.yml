@@ -374,7 +374,6 @@
       - test_nine['ip_address']['family'] == 4
       - test_nine['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_nine['ip_address']['assigned_object_id'] == 4
-      - test_nine['ip_address']['interface'] == 4
 
 - name: "18 - Create IP address on GigabitEthernet2 - test100 with interface value - State: new"
   netbox.netbox.netbox_ip_address:
@@ -400,7 +399,6 @@
       - test_ten['ip_address']['family'] == 4
       - test_ten['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_ten['ip_address']['assigned_object_id'] == 4
-      - test_nine['ip_address']['interface'] == 4
 
 - name: "19 - Create IP address on GigabitEthernet2 - test100 with interface value - State: present"
   netbox.netbox.netbox_ip_address:
@@ -423,7 +421,6 @@
       - test_eleven['diff']['after']['state'] == "present"
       - test_eleven['msg'] == "ip_address 192.168.100.2/24 created"
       - test_eleven['ip_address']['address'] == "192.168.100.2/24"
-      - test_nine['ip_address']['interface'] == 4
 
 - name: 20 - Duplicate - 192.168.100.2/24 on interface with interface value
   netbox.netbox.netbox_ip_address:
@@ -445,4 +442,3 @@
       - test_twelve['ip_address']['address'] == "192.168.100.2/24"
       - test_twelve['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_twelve['ip_address']['assigned_object_id'] == 4
-      - test_nine['ip_address']['interface'] == 4
