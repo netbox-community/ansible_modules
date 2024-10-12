@@ -1,3 +1,3 @@
 bugfixes:
-  - netbox_ip_address - Fixed the problem preventing assignment of an IP address to a network interface 
+  - netbox_ip_address - Fixed the problem preventing assignment of an IP address to a network interface
     [#1323](https://github.com/netbox-community/ansible_modules/pull/1323)
