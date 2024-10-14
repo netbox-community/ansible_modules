@@ -1607,7 +1607,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             cached_api_version = None
             cache = None
 
-        status = self._fetch_information(self.api_endpoint + "/api/status")
+        status = self._fetch_information(self.api_endpoint + "/api/status/")
         netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
         if version.parse(netbox_api_version) >= version.parse("3.5.0"):

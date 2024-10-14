@@ -1,0 +1,2 @@
+bugfixes:
+  - fix call /api/status/ instead /api/status in nb_inventory plugin. (https://github.com/netbox-community/ansible_modules/issues/1335).
