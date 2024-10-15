@@ -1,0 +1,2 @@
+minor_changes:
+  - Add example for using ansible variables in lookup
