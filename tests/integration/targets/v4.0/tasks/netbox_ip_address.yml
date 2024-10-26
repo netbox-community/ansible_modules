@@ -350,3 +350,52 @@
       - test_sixteen['diff']['after']['state'] == "present"
       - test_sixteen['msg'] == "ip_address 10.120.10.1/32 created"
       - test_sixteen['ip_address']['address'] == "10.120.10.1/32"
+
+- name: "17 - Create IP address on GigabitEthernet2 - test100 with interface value - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      family: 4
+      address: 10.10.200.31/16
+      interface:
+        device: test100
+        name: GigabitEthernet2
+  register: test_seventeen
+
+- name: 17 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_seventeen is changed
+      - test_seventeen['diff']['before']['state'] == "absent"
+      - test_seventeen['diff']['after']['state'] == "present"
+      - test_seventeen['msg'] == "ip_address 10.10.200.31/16 created"
+      - test_seventeen['ip_address']['address'] == "10.10.200.31/16"
+      - test_seventeen['ip_address']['family'] == 4
+      - test_seventeen['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_seventeen['ip_address']['assigned_object_id'] == 4
+
+- name: "18 - Create IP address on GigabitEthernet2 - test100 with interface value - State: new"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      family: 4
+      prefix: 10.10.0.0/16
+      interface:
+        name: GigabitEthernet2
+        device: test100
+    state: new
+  register: test_eighteen
+
+- name: 18 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eighteen is changed
+      - test_eighteen['diff']['before']['state'] == "absent"
+      - test_eighteen['diff']['after']['state'] == "present"
+      - test_eighteen['msg'] == "ip_address 10.10.0.2/16 created"
+      - test_eighteen['ip_address']['address'] == "10.10.0.2/16"
+      - test_eighteen['ip_address']['family'] == 4
+      - test_eighteen['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_eighteen['ip_address']['assigned_object_id'] == 4
