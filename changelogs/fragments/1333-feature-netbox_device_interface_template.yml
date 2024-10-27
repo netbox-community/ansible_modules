@@ -1,0 +1,2 @@
+minor_changes:
+      - Add `label`, `description` and `enabled` to `netbox_device_interface_template` (https://github.com/netbox-community/ansible_modules/issues/1333)
