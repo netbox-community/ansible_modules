@@ -36,6 +36,7 @@ options:
       name:
         description: 
           - Name of the FHRP group
+        type: str
         version_added: '3.21.0'
       protocol:
         description:
