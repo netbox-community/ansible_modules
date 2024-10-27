@@ -33,6 +33,11 @@ options:
     description:
       - Defines the FHRP group configuration
     suboptions:
+      name:
+        description:
+          - Name of the FHRP group
+        type: str
+        version_added: '3.21.0'
       protocol:
         description:
           - Protocol
@@ -142,6 +147,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    name=dict(type="str"),
                     protocol=dict(
                         type="str",
                         choices=[
