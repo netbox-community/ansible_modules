@@ -1775,8 +1775,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Use virtual chassis name if set by the user.
         if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
             return host["virtual_chassis"]["name"] or str(uuid.uuid4())
-        elif self.hostname_field:
+        elif self.hostname_field and self.hostname_field in host["custom_fields"]:
             return host["custom_fields"][self.hostname_field]
+        elif self.hostname_field and (
+            self.hostname_field in host or "." in self.hostname_field
+        ):
+            return self._compose(self.hostname_field, host) or str(uuid.uuid4())
         else:
             return host["name"] or str(uuid.uuid4())
 
