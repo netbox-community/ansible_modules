@@ -110,6 +110,11 @@ options:
           - Hostname or FQDN
         required: false
         type: str
+      fhrpgroup:
+        description:
+          - FHRP Group ID
+        required: false
+        type: str        
       assigned_object:
         description:
           - Definition of the assigned object.
@@ -333,6 +338,7 @@ def main():
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
                     dns_name=dict(required=False, type="str"),
+                    fhrpgroup=dict(required=False, type="str"),
                     assigned_object=dict(
                         required=False,
                         type="dict",
