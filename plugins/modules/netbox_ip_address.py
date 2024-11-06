@@ -269,6 +269,15 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: new
+        
+    - name: Create an IP address using NetBox and add it to the FHRP group
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          address: 192.168.1.10
+          fhrpgroup: 10
+        state: present
 """
 
 RETURN = r"""
