@@ -164,7 +164,7 @@ QUERY_TYPES = dict(
     device_type="slug",
     export_targets="name",
     export_template="name",
-    fhrp_groups="group_id",
+    fhrp_groups="name",
     fhrp_group_assignments="id",
     group="slug",
     groups="name",
@@ -493,7 +493,7 @@ ALLOWED_QUERY_PARAMS = {
     "device_type": set(["slug"]),
     "export_template": set(["name"]),
     "fhrp_group": set(
-        ["id", "group_id", "interface_type", "device", "virtual_machine"]
+        ["id", "group_id","name", "interface_type", "device", "virtual_machine"]
     ),
     "fhrp_group_assignment": set(["group", "interface_type", "interface_id"]),
     "front_port": set(["name", "device", "rear_port"]),

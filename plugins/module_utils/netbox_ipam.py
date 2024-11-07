@@ -189,7 +189,7 @@ class NetboxIpamModule(NetboxModule):
         elif self.endpoint == "asns":
             name = data.get("asn")
         elif self.endpoint == "fhrp_groups":
-            name = data.get("group_id")
+            name = data.get("name")
         elif self.endpoint == "fhrp_group_assignments":
             name = "fhrp_group %s > %s %s" % (
                 data.get("group"),
