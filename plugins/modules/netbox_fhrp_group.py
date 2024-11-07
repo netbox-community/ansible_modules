@@ -78,22 +78,6 @@ options:
         required: false
         type: list
         elements: raw
-      ip_address:
-        description:
-          - Virtual IP address for the FHRP group
-        type: str
-        required: false
-      ip_status:
-        description:
-          - IP address status
-        choices:
-          - dhcp
-          - reserved
-          - deprecated
-          - slaac
-          - active
-        type: str
-        required: false
       custom_fields:
         description:
           - Must exist in NetBox
@@ -120,8 +104,6 @@ EXAMPLES = r"""
           auth_type: md5
           auth_key: 11111
           description: test FHRP group
-          ip_address: 192.168.10.3/24
-          ip_status: active
         state: present
 
     - name: Delete FHRP group within netbox
@@ -183,16 +165,6 @@ def main():
                     auth_key=dict(type="str", no_log=True),
                     description=dict(type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
-                    ip_address=dict(required=False, type="str"),
-                    ip_status=dict(type="str",
-                                   choices=[
-                                       "dhcp",
-                                       "reserved",
-                                       "deprecated",
-                                       "slaac",
-                                       "active"
-                                   ]
-                               ),
                     custom_fields=dict(required=False, type="dict"),
                 ),
             ),
