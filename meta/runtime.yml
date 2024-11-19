@@ -20,6 +20,7 @@ action_groups:
     - netbox_cluster_group
     - netbox_cluster_type
     - netbox_config_context
+    - netbox_config_template
     - netbox_console_port
     - netbox_console_port_template
     - netbox_console_server_port
@@ -28,6 +29,7 @@ action_groups:
     - netbox_contact_group
     - netbox_contact_role
     - netbox_custom_field
+    - netbox_custom_field_choice_set
     - netbox_custom_link
     - netbox_device
     - netbox_device_bay
@@ -53,6 +55,7 @@ action_groups:
     - netbox_module
     - netbox_module_bay
     - netbox_module_type
+    - netbox_permission
     - netbox_platform
     - netbox_power_feed
     - netbox_power_outlet
@@ -78,14 +81,17 @@ action_groups:
     - netbox_tag
     - netbox_tenant
     - netbox_tenant_group
+    - netbox_token
     - netbox_tunnel
     - netbox_tunnel_group
+    - netbox_user
+    - netbox_user_group
     - netbox_virtual_chassis
+    - netbox_virtual_disk
     - netbox_virtual_machine
     - netbox_vlan
     - netbox_vlan_group
     - netbox_vm_interface
-    - netbox_virtual_disk
     - netbox_vrf
     - netbox_webhook
     - netbox_wireless_lan
