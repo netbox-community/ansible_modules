@@ -172,13 +172,13 @@ files = [
 
 [[package]]
 name = "ansible-core"
-version = "2.17.3"
+version = "2.17.6"
 description = "Radically simple IT automation"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_core-2.17.3-py3-none-any.whl", hash = "sha256:71e5c93729cc5bf09ecdf0cac675685fd345d1571312409029bf842420850f23"},
-    {file = "ansible_core-2.17.3.tar.gz", hash = "sha256:917557065339fe36e7078e9bea47eefab6d6877f3bd435fa5f0d766d04c58485"},
+    {file = "ansible_core-2.17.6-py3-none-any.whl", hash = "sha256:dab09cd49fe7e17003e13188ce1ab52a0a6e5b88bc4bf29ff101cfdcb2862395"},
+    {file = "ansible_core-2.17.6.tar.gz", hash = "sha256:3e53970b7cebfe2adb39b711c1e2f8bbfcbedac828da51dc0357a19070638e95"},
 ]
 
 [package.dependencies]
@@ -2279,4 +2279,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "bb085c926d7eaa9a9e2953b6b45afd56ffc86bc957627a50ed23de92f14ca69f"
+content-hash = "080b4dd9bcbb0729adb3e99db09633df98ff6ab85160db45aee7f6428302d686"
