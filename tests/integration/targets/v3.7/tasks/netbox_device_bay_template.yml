@@ -7,7 +7,7 @@
 - name: "DEVICE_BAY_TEMPLATE 1: Necessary info creation"
   netbox.netbox.netbox_device_bay_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device_type: WS Test 3850
       name: Device Bay Template One
@@ -15,7 +15,7 @@
   register: test_one
 
 - name: "DEVICE_BAY_TEMPLATE 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -27,7 +27,7 @@
 - name: "DEVICE_BAY_TEMPLATE 2: Create duplicate"
   netbox.netbox.netbox_device_bay_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device_type: WS Test 3850
       name: Device Bay Template One
@@ -35,7 +35,7 @@
   register: test_two
 
 - name: "DEVICE_BAY_TEMPLATE 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['device_bay_template']['name'] == "Device Bay Template One"
@@ -45,7 +45,7 @@
 - name: "DEVICE_BAY_TEMPLATE 3: ASSERT - Create Device Bay Template for Delete Test"
   netbox.netbox.netbox_device_bay_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       device_type: WS Test 3850
       name: Device Bay Template Two
@@ -53,7 +53,7 @@
   register: test_three
 
 - name: "DEVICE_BAY_TEMPLATE 3: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['before']['state'] == "absent"
@@ -65,7 +65,7 @@
 - name: "DEVICE_BAY_TEMPLATE 4: ASSERT - Delete"
   netbox.netbox.netbox_device_bay_template:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Device Bay Template Two
       device_type: WS Test 3850
@@ -73,7 +73,7 @@
   register: test_four
 
 - name: "DEVICE_BAY_TEMPLATE 4: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['device_bay_template']['name'] == "Device Bay Template Two"

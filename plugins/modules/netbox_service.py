@@ -92,7 +92,7 @@ EXAMPLES = r"""
 - name: "Create netbox service"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create service

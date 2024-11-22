@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -468,9 +467,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Form factor of the interface:
-          ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-          This has to be specified exactly as what is found within UI
-          
+      ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+      This has to be specified exactly as what is found within UI
 
 
       .. raw:: html
@@ -1044,7 +1042,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of tagged VLANS to be assigned to interface. Mode must be set to either \ :literal:`Tagged`\  or \ :literal:`Tagged All`\ 
+      A list of tagged VLANS to be assigned to interface. Mode must be set to either :literal:`Tagged` or :literal:`Tagged All`
 
 
       .. raw:: html
@@ -1174,9 +1172,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Form factor of the interface:
-          ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
-          This has to be specified exactly as what is found within UI
-          
+      ex. 1000Base-T (1GE), Virtual, 10GBASE-T (10GE)
+      This has to be specified exactly as what is found within UI
 
 
       .. raw:: html
@@ -1493,9 +1490,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use when master device is specified for \ :literal:`device`\  and the specified interface exists on a child device
-          and needs updated
-          
+      Use when master device is specified for :literal:`device` and the specified interface exists on a child device
+      and needs updated
 
 
       .. rst-class:: ansible-option-line
@@ -1537,7 +1533,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -1561,7 +1557,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -1573,11 +1569,10 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox interface module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
       tasks:
         - name: Create interface within NetBox with only required information
           netbox.netbox.netbox_device_interface:
@@ -1656,7 +1651,7 @@ Examples
               device: test100
               name: GigabitEthernet2/0/1
               enabled: false
-            update_vc_child: True
+            update_vc_child: true
 
         - name: Mark interface as connected without a cable (netbox >= 2.11 required)
           netbox.netbox.netbox_device_interface:
@@ -1667,7 +1662,6 @@ Examples
               name: GigabitEthernet1
               mark_connected: true
             state: present
-
 
 
 
@@ -1800,4 +1794,3 @@ Collection links
 
 
 .. Parsing errors
-

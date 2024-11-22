@@ -70,7 +70,7 @@ options:
   state:
     description:
       - |
-        Use C(new) for adding a journal entry.        
+        Use C(new) for adding a journal entry.
     choices: [new]
     default: new
     type: str

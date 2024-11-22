@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_webhook module -- Creates, updates or deletes webhook confi
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -362,7 +361,7 @@ Parameters
 
       The content type(s) to apply this webhook to
 
-      Required when \ :emphasis:`state=present`\ 
+      Required when :emphasis:`state=present`
 
 
       .. raw:: html
@@ -582,7 +581,7 @@ Parameters
 
       URL for the webhook to use.
 
-      Required when \ :emphasis:`state=present`\ 
+      Required when :emphasis:`state=present`
 
 
       .. raw:: html
@@ -1009,7 +1008,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -1032,8 +1031,8 @@ Notes
 -----
 
 .. note::
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
-   - Use \ :literal:`!unsafe`\  when adding jinja2 code to \ :literal:`additional\_headers`\  or \ :literal:`body\_template`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
+   - Use :literal:`!unsafe` when adding jinja2 code to :literal:`additional\_headers` or :literal:`body\_template`
 
 .. Seealso
 
@@ -1045,10 +1044,9 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox webhook module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a webhook
           netbox_webhook:
@@ -1056,9 +1054,9 @@ Examples
             netbox_token: thisIsMyToken
             data:
               content_types:
-                - dcim.device            
+                - dcim.device
               name: Example Webhook
-              type_create: yes
+              type_create: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
                 {{ data }}
@@ -1069,11 +1067,11 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}         
+                {{ data }}
 
         - name: Delete the webhook
           netbox_webhook:
@@ -1081,13 +1079,12 @@ Examples
             netbox_token: thisIsMyToken
             data:
               name: Example Webhook
-              type_create: yes
-              type_delete: yes
+              type_create: true
+              type_delete: true
               payload_url: https://payload.url/
               body_template: !unsafe >-
-                {{ data }}  
+                {{ data }}
             state: absent
-
 
 
 
@@ -1220,4 +1217,3 @@ Collection links
 
 
 .. Parsing errors
-

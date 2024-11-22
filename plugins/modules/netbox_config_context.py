@@ -133,7 +133,7 @@ EXAMPLES = r"""
 - name: "Test NetBox config_context module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create config context and apply it to sites euc1-az1, euc1-az2 with the default weight of 1000
       netbox.netbox.netbox_config_context:
@@ -143,7 +143,7 @@ EXAMPLES = r"""
           name: "dns_nameservers-quadnine"
           description: "9.9.9.9"
           data: "{ \"dns\": { \"nameservers\": [ \"9.9.9.9\" ] } }"
-          sites: [ euc1-az1, euc1-az2 ]
+          sites: [euc1-az1, euc1-az2]
 
     - name: Detach config context from euc1-az1, euc1-az2 and attach to euc1-az3
       netbox.netbox.netbox_config_context:
@@ -152,7 +152,7 @@ EXAMPLES = r"""
         data:
           name: "dns_nameservers-quadnine"
           data: "{ \"dns\": { \"nameservers\": [ \"9.9.9.9\" ] } }"
-          sites: [ euc1-az3 ]
+          sites: [euc1-az3]
 
     - name: Delete config context
       netbox.netbox.netbox_config_context:

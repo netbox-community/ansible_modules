@@ -69,7 +69,7 @@ EXAMPLES = r"""
 - name: "Test NetBox tenant group module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create tenant within NetBox with only required information
       netbox_tenant_group:
@@ -87,7 +87,6 @@ EXAMPLES = r"""
         data:
           name: Tenant ABC
         state: absent
-
 """
 
 RETURN = r"""

@@ -131,7 +131,7 @@ EXAMPLES = r"""
 - name: "Test NetBox prefix module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create prefix within NetBox with only required information
@@ -181,7 +181,7 @@ EXAMPLES = r"""
           parent: 10.156.0.0/19
           prefix_length: 24
         state: present
-        first_available: yes
+        first_available: true
 
     - name: Create prefix within NetBox with only required information
       netbox.netbox.netbox_prefix:
@@ -199,7 +199,7 @@ EXAMPLES = r"""
           parent: 10.156.0.0/19
           prefix_length: 24
         state: present
-        first_available: yes
+        first_available: true
 
     - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
       netbox.netbox.netbox_prefix:
@@ -211,7 +211,7 @@ EXAMPLES = r"""
           vrf: Test VRF
           site: Test Site
         state: present
-        first_available: yes
+        first_available: true
 """
 
 RETURN = r"""

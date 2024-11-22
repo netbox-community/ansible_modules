@@ -20,12 +20,12 @@ DOCUMENTATION = """
     short_description: Queries and returns elements from NetBox
     description:
         - Queries NetBox via its API to return virtually any information
-          capable of being held in NetBox.        
+          capable of being held in NetBox.
     options:
         _terms:
             description:
                 - The NetBox object type to query
-            required: True
+            required: true
         api_endpoint:
             description:
                 - The URL to the NetBox instance to query
@@ -33,15 +33,15 @@ DOCUMENTATION = """
                 # in order of precendence
                 - name: NETBOX_API
                 - name: NETBOX_URL
-            required: True
+            required: true
         api_filter:
             description:
                 - The api_filter to use. Filters should be key value pairs separated by a space.
-            required: False
+            required: false
         plugin:
             description:
                 - The NetBox plugin to query
-            required: False
+            required: false
         token:
             description:
                 - The API token created through NetBox
@@ -50,27 +50,32 @@ DOCUMENTATION = """
                 # in order of precendence
                 - name: NETBOX_TOKEN
                 - name: NETBOX_API_TOKEN
-            required: False
+            required: false
+        headers:
+            description: Dictionary of headers to be passed to the NetBox API.
+            default: {}
+            env:
+                - name: NETBOX_HEADERS
         validate_certs:
             description:
                 - Whether or not to validate SSL of the NetBox instance
-            required: False
-            default: True
+            required: false
+            default: true
         private_key:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The private key as a string. Mutually exclusive with I(key_file).
-            required: False            
+            required: false
         key_file:
             description:
                 - (DEPRECATED) - NetBox 2.11 and earlier only
                 - The location of the private key tied to user account. Mutually exclusive with I(private_key).
-            required: False            
+            required: false
         raw_data:
             type: bool
             description:
                 - Whether to return raw API data with the lookup/query or whether to return a key/value dict
-            required: False
+            required: false
     requirements:
         - pynetbox
 """
@@ -87,10 +92,7 @@ tasks:
                     api_endpoint='http://localhost/',
                     token='<redacted>') }}"
 
-# This example uses an API Filter
-
-tasks:
-  # query a list of devices
+    # This example uses an API Filter
   - name: Obtain list of devices from NetBox
     debug:
       msg: >
@@ -100,6 +102,20 @@ tasks:
                     api_endpoint='http://localhost/',
                     api_filter='role=management tag=Dell'),
                     token='<redacted>') }}"
+    # This example uses an API Filter with a variable and jinja concatenation
+  - name: Set hostname fact
+    set_fact:
+      hostname: "my-server"
+  - name: Obtain details of a single device from NetBox
+    debug:
+      msg: >
+        "Device {{item.0.value.display}} (ID: {{item.0.key}}) was
+         manufactured by {{ item.0.value.device_type.manufacturer.name }}"
+    loop:
+      - '{{ query("netbox.netbox.nb_lookup", "devices",
+        api_endpoint="http://localhost/",
+        api_filter="name=" ~hostname,
+        token="<redacted>") }}'
 """
 
 RETURN = """
@@ -111,6 +127,7 @@ RETURN = """
 
 import os
 import functools
+import json
 from pprint import pformat
 
 from ansible.errors import AnsibleError
@@ -414,6 +431,7 @@ class LookupModule(LookupBase):
             or os.getenv("NETBOX_API")
             or os.getenv("NETBOX_URL")
         )
+        netbox_headers = kwargs.get("headers") or os.getenv("NETBOX_HEADERS") or {}
         netbox_ssl_verify = kwargs.get("validate_certs", True)
         netbox_private_key = kwargs.get("private_key")
         netbox_private_key_file = kwargs.get("key_file")
@@ -424,8 +442,12 @@ class LookupModule(LookupBase):
         if not isinstance(terms, list):
             terms = [terms]
 
+        if isinstance(netbox_headers, str):
+            netbox_headers = json.loads(netbox_headers)
+
         try:
             session = requests.Session()
+            session.headers = netbox_headers
             session.verify = netbox_ssl_verify
 
             if Version(version("pynetbox")) < Version("7.0.0"):

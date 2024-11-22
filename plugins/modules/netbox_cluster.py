@@ -35,6 +35,12 @@ options:
           - The name of the cluster
         required: true
         type: str
+      status:
+        description:
+          - Status of the cluster
+        required: false
+        type: raw
+        version_added: "3.20.0"
       cluster_type:
         description:
           - type of the cluster
@@ -83,7 +89,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create cluster within NetBox with only required information
@@ -114,7 +120,7 @@ EXAMPLES = r"""
             - Schnozzberry
         state: present
 
-    - name: Update the group and site of an existing cluster
+    - name: Update the group, site and status of an existing cluster
       netbox.netbox.netbox_cluster:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -123,6 +129,7 @@ EXAMPLES = r"""
           cluster_type: qemu
           cluster_group: GROUP
           site: SITE
+          status: planned
         state: present
 """
 
@@ -160,6 +167,7 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
+                    status=dict(required=False, type="raw"),
                     cluster_type=dict(required=False, type="raw"),
                     cluster_group=dict(required=False, type="raw"),
                     site=dict(required=False, type="raw"),

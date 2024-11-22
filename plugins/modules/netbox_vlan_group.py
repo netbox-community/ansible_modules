@@ -84,6 +84,13 @@ options:
         required: false
         type: int
         version_added: "3.7.0"
+      vid_ranges:
+        description:
+          - Array of starting and ending VLAN ID pairs
+        required: false
+        type: list
+        elements: raw
+        version_added: "3.20.0"
       tags:
         description:
           - The tags to add/update
@@ -104,7 +111,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create vlan group within NetBox with only required information - Pre 2.11
@@ -124,6 +131,18 @@ EXAMPLES = r"""
           name: Test vlan group
           scope_type: "dcim.site"
           scope: Test Site
+        state: present
+
+    - name: Create vlan group within NetBox with vid_ranges
+      netbox_vlan_group:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test vlan group
+          vid_ranges: [
+            [1300, 1329],
+            [1, 2]
+          ]
         state: present
 
     - name: Delete vlan group within netbox
@@ -192,6 +211,7 @@ def main():
                     scope=dict(required=False, type="raw"),
                     min_vid=dict(required=False, type="int"),
                     max_vid=dict(required=False, type="int"),
+                    vid_ranges=dict(required=False, type="list", elements="raw"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

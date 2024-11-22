@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_prefix module -- Creates or removes prefixes from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -466,7 +465,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\  and first\_available is \ :literal:`yes`\ . Will get a new available prefix in this parent prefix.
+      Required if state is :literal:`present` and first\_available is :literal:`yes`. Will get a new available prefix in this parent prefix.
 
 
       .. raw:: html
@@ -508,7 +507,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required if state is \ :literal:`present`\  and first\_available is False. Will allocate or free this prefix.
+      Required if state is :literal:`present` and first\_available is False. Will allocate or free this prefix.
 
 
       .. raw:: html
@@ -550,9 +549,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Required ONLY if state is \ :literal:`present`\  and first\_available is \ :literal:`yes`\ .
-          Will get a new available prefix of the given prefix\_length in this parent prefix.
-          
+      Required ONLY if state is :literal:`present` and first\_available is :literal:`yes`.
+      Will get a new available prefix of the given prefix\_length in this parent prefix.
 
 
       .. raw:: html
@@ -881,7 +879,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`yes`\  and state \ :literal:`present`\ , if an parent is given, it will get the first available prefix of the given prefix\_length inside the given parent (and vrf, if given). Unused with state \ :literal:`absent`\ .
+      If :literal:`yes` and state :literal:`present`\ , if an parent is given, it will get the first available prefix of the given prefix\_length inside the given parent (and vrf, if given). Unused with state :literal:`absent`.
 
 
       .. rst-class:: ansible-option-line
@@ -1073,7 +1071,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -1097,7 +1095,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -1109,11 +1107,10 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox prefix module"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create prefix within NetBox with only required information
@@ -1163,7 +1160,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Create prefix within NetBox with only required information
           netbox.netbox.netbox_prefix:
@@ -1181,7 +1178,7 @@ Examples
               parent: 10.156.0.0/19
               prefix_length: 24
             state: present
-            first_available: yes
+            first_available: true
 
         - name: Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
           netbox.netbox.netbox_prefix:
@@ -1193,8 +1190,7 @@ Examples
               vrf: Test VRF
               site: Test Site
             state: present
-            first_available: yes
-
+            first_available: true
 
 
 
@@ -1328,4 +1324,3 @@ Collection links
 
 
 .. Parsing errors
-

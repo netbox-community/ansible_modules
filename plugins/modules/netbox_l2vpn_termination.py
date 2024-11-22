@@ -67,7 +67,8 @@ options:
 """
 
 EXAMPLES = r"""
-- hosts: localhost
+- name: "Test NetBox modules"
+  hosts: localhost
   connection: local
   module_defaults:
     group/netbox.netbox.netbox:
@@ -89,7 +90,6 @@ EXAMPLES = r"""
           assigned_object_type: dcim.interface
           assigned_object_id: 32
         state: absent
-
 """
 
 RETURN = r"""

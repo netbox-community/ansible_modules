@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_custom_field_choice_set module -- Creates, updates or delet
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -566,7 +565,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -589,7 +588,7 @@ Notes
 -----
 
 .. note::
-   - This should be run with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be run with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -601,10 +600,9 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test Netbox custom_field_choice_set module"
       connection: local
-      hosts: localhost  
+      hosts: localhost
       tasks:
         - name: Create a choice set with choices
           netbox.netbox.netbox_custom_field_choice_set:
@@ -626,7 +624,6 @@ Examples
               description: "Choice Set Description"
               order_alphabetically: true
               base_choices: "IATA"
-
 
 
 
@@ -759,4 +756,3 @@ Collection links
 
 
 .. Parsing errors
-

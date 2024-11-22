@@ -7,16 +7,16 @@
 - name: "VLAN_GROUP 1: Necessary info creation"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group One"
-      scope_type: "dcim.site"
+      name: VLAN Group One
+      scope_type: dcim.site
       scope: Test Site
     state: present
   register: results
 
 - name: "VLAN_GROUP 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "absent"
@@ -30,16 +30,16 @@
 - name: "VLAN_GROUP 2: Create duplicate"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group One"
-      scope_type: "dcim.site"
+      name: VLAN Group One
+      scope_type: dcim.site
       scope: Test Site
     state: present
   register: results
 
 - name: "VLAN_GROUP 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not results['changed']
       - results['vlan_group']['name'] == "VLAN Group One"
@@ -51,16 +51,16 @@
 - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group One"
-      scope_type: "dcim.site"
-      scope: "Test Site2"
+      name: VLAN Group One
+      scope_type: dcim.site
+      scope: Test Site2
     state: present
   register: results
 
 - name: "VLAN_GROUP 3: ASSERT - Create with same name, different site"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['vlan_group']['name'] == "VLAN Group One"
@@ -72,15 +72,15 @@
 - name: "VLAN_GROUP 4: ASSERT - Create vlan group, no site"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group One"
+      name: VLAN Group One
     state: present
-  ignore_errors: yes
+  ignore_errors: true
   register: results
 
 - name: "VLAN_GROUP 4: ASSERT - Create with same name, different site"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is failed
       - results['msg'] == "More than one result returned for VLAN Group One"
@@ -88,16 +88,16 @@
 - name: "VLAN_GROUP 5: ASSERT - Delete"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: VLAN Group One
-      scope_type: "dcim.site"
+      scope_type: dcim.site
       scope: Test Site2
     state: absent
   register: results
 
 - name: "VLAN_GROUP 5: ASSERT - Delete"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "present"
@@ -111,16 +111,16 @@
 - name: "VLAN_GROUP 6: ASSERT - Delete non existing"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: VLAN Group One
-      scope_type: "dcim.site"
+      scope_type: dcim.site
       scope: Test Site2
     state: absent
   register: results
 
 - name: "VLAN_GROUP 6: ASSERT - Delete non existing`"
-  assert:
+  ansible.builtin.assert:
     that:
       - not results['changed']
       - results['vlan_group'] == None
@@ -129,16 +129,16 @@
 - name: "VLAN_GROUP 7: Necessary info creation - scope_type: dcim.location"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Location"
-      scope_type: "dcim.location"
+      name: VLAN Group Location
+      scope_type: dcim.location
       scope: Test Rack Group
     state: present
   register: results
 
 - name: "VLAN_GROUP 7: ASSERT - Necessary info creation - scope_type: dcim.location"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "absent"
@@ -152,16 +152,16 @@
 - name: "VLAN_GROUP 8: Necessary info creation - scope_type: dcim.rack"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Rack"
-      scope_type: "dcim.rack"
+      name: VLAN Group Rack
+      scope_type: dcim.rack
       scope: Test Rack
     state: present
   register: results
 
 - name: "VLAN_GROUP 8: ASSERT - Necessary info creation - scope_type: dcim.rack"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "absent"
@@ -175,16 +175,16 @@
 - name: "VLAN_GROUP 9: Necessary info creation - scope_type: dcim.region"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Region"
-      scope_type: "dcim.region"
+      name: VLAN Group Region
+      scope_type: dcim.region
       scope: Test Region
     state: present
   register: results
 
 - name: "VLAN_GROUP 9: ASSERT - Necessary info creation - scope_type: dcim.region"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "absent"
@@ -198,16 +198,16 @@
 - name: "VLAN_GROUP 10: Necessary info creation - scope_type: dcim.sitegroup"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Site Group"
-      scope_type: "dcim.sitegroup"
+      name: VLAN Group Site Group
+      scope_type: dcim.sitegroup
       scope: Test Site Group
     state: present
   register: results
 
 - name: "VLAN_GROUP 10: ASSERT - Necessary info creation - scope_type: dcim.sitegroup"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['state'] == "absent"
@@ -219,7 +219,7 @@
       - results['msg'] == "vlan_group VLAN Group Site Group created"
 
 # Commented out due to invalid content type being reported back by API
-#- name: "VLAN_GROUP 11: Necessary info creation - scope_type: virtualization.cluster"
+# - name: "VLAN_GROUP 11: Necessary info creation - scope_type: virtualization.cluster"
 #  netbox.netbox.netbox_vlan_group:
 #    netbox_url: http://localhost:32768
 #    netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -230,7 +230,7 @@
 #    state: present
 #  register: results
 
-#- name: "VLAN_GROUP 11: ASSERT - Necessary info creation - scope_type: virtualization.cluster"
+# - name: "VLAN_GROUP 11: ASSERT - Necessary info creation - scope_type: virtualization.cluster"
 #  assert:
 #    that:
 #      - results is changed
@@ -241,8 +241,8 @@
 #      - results['vlan_group']['scope_type'] == "virtualization.cluster"
 #      - results['vlan_group']['scope_id'] == 1
 #      - results['msg'] == "vlan_group VLAN Group Cluster created"
-#
-#- name: "VLAN_GROUP 12: Necessary info creation - scope_type: virtualization.clustergroup"
+
+# - name: "VLAN_GROUP 12: Necessary info creation - scope_type: virtualization.clustergroup"
 #  netbox.netbox.netbox_vlan_group:
 #    netbox_url: http://localhost:32768
 #    netbox_token: 0123456789abcdef0123456789abcdef01234567
@@ -252,8 +252,8 @@
 #      scope: Test Cluster Group
 #    state: present
 #  register: results
-#
-#- name: "VLAN_GROUP 12: ASSERT - Necessary info creation - scope_type: virtualization.clustergroup"
+
+# - name: "VLAN_GROUP 12: ASSERT - Necessary info creation - scope_type: virtualization.clustergroup"
 #  assert:
 #    that:
 #      - results is changed
@@ -268,17 +268,17 @@
 - name: "VLAN_GROUP 12: Update Description - scope_type: dcim.location"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Location"
-      scope_type: "dcim.location"
+      name: VLAN Group Location
+      scope_type: dcim.location
       scope: Test Rack Group
-      description: "Ansible updated description"
+      description: Ansible updated description
     state: present
   register: results
 
 - name: "VLAN_GROUP 12: ASSERT - Update Description - scope_type: dcim.location"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is changed
       - results['diff']['before']['description'] == ""
@@ -293,17 +293,17 @@
 - name: "VLAN_GROUP 12: Update Description (IDEM) - scope_type: dcim.location"
   netbox.netbox.netbox_vlan_group:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "VLAN Group Location"
-      scope_type: "dcim.location"
+      name: VLAN Group Location
+      scope_type: dcim.location
       scope: Test Rack Group
-      description: "Ansible updated description"
+      description: Ansible updated description
     state: present
   register: results
 
 - name: "VLAN_GROUP 12: ASSERT - Update Description (IDEM) - scope_type: dcim.location"
-  assert:
+  ansible.builtin.assert:
     that:
       - results is not changed
       - results['vlan_group']['name'] == "VLAN Group Location"

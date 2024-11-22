@@ -1,3 +1,0 @@
----
-minor_changes:
-  - nb_inventory - extract serial and asset_tag from devices

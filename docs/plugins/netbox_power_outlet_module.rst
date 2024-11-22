@@ -1,4 +1,3 @@
-
 .. Document meta
 
 :orphan:
@@ -7,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.7.0
+  :antsibull-docs: 2.13.1
 
 .. Anchors
 
@@ -23,7 +22,7 @@ netbox.netbox.netbox_power_outlet module -- Create, update or delete power outle
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.18.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -156,7 +155,7 @@ Parameters
       .. raw:: html
 
         </div>
-    
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -286,6 +285,51 @@ Parameters
       - :ansible-option-choices-entry:`"A"`
       - :ansible-option-choices-entry:`"B"`
       - :ansible-option-choices-entry:`"C"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/label"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_power_outlet_module__parameter-data/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/label" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.19.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The label of the power outlet
 
 
       .. raw:: html
@@ -465,6 +509,7 @@ Parameters
       - :ansible-option-choices-entry:`"iec-60320-c13"`
       - :ansible-option-choices-entry:`"iec-60320-c15"`
       - :ansible-option-choices-entry:`"iec-60320-c19"`
+      - :ansible-option-choices-entry:`"iec-60320-c21"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-4h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-6h"`
       - :ansible-option-choices-entry:`"iec-60309-p-n-e-9h"`
@@ -698,7 +743,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If \ :literal:`no`\ , SSL certificates will not be validated.
+      If :literal:`no`\ , SSL certificates will not be validated.
 
       This should only be used on personally controlled sites using a self-signed certificates.
 
@@ -722,7 +767,7 @@ Notes
 
 .. note::
    - Tags should be defined as a YAML list
-   - This should be ran with connection \ :literal:`local`\  and hosts \ :literal:`localhost`\ 
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -734,11 +779,10 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    
     - name: "Test NetBox modules"
       connection: local
       hosts: localhost
-      gather_facts: False
+      gather_facts: false
 
       tasks:
         - name: Create power port within NetBox with only required information
@@ -771,7 +815,6 @@ Examples
               name: Test Power Outlet
               device: Test Device
             state: absent
-
 
 
 
@@ -867,7 +910,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when \ :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` success (when :emphasis:`state=present`\ )
 
 
       .. raw:: html
@@ -904,4 +947,3 @@ Collection links
 
 
 .. Parsing errors
-

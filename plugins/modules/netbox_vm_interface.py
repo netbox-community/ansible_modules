@@ -111,7 +111,7 @@ EXAMPLES = r"""
 - name: "Test NetBox interface module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create interface within NetBox with only required information
       netbox_vm_interface:
@@ -150,7 +150,7 @@ EXAMPLES = r"""
           mtu: 1600
           mode: Tagged
         state: present
-        
+
     - name: Create bridge interface within NetBox
       netbox_vm_interface:
         netbox_url: http://netbox.local
@@ -159,7 +159,7 @@ EXAMPLES = r"""
           virtual_machine: test100
           name: br1000
         state: present
-        
+
     - name: Connect bridge interface within NetBox
       netbox_vm_interface:
         netbox_url: http://netbox.local
@@ -167,7 +167,7 @@ EXAMPLES = r"""
         data:
           virtual_machine: test100
           name: br1001
-          vm_bridge: br1000                        
+          vm_bridge: br1000
         state: present
 """
 

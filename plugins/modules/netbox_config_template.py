@@ -50,7 +50,7 @@ options:
           - Any additional parameters to pass when constructing the Jinja2 environment
         required: false
         type: dict
-      template_code: 
+      template_code:
         description:
           - The template code to be rendered.
         required: false
@@ -61,7 +61,7 @@ EXAMPLES = r"""
 - name: "Test config template creation/deletion"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create config template
       netbox.netbox.netbox_config_template:
@@ -73,7 +73,7 @@ EXAMPLES = r"""
             - Cloud
           template_code: |
             #cloud-config
-            packages: 
+            packages:
               - ansible
 
     - name: Delete config template

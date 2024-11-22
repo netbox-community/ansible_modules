@@ -125,6 +125,13 @@ class NetboxDcimModule(NetboxModule):
 
         data = self.data
 
+        # Handle rack and form_factor
+        if endpoint_name == "rack":
+            if Version(self.full_version) >= Version("4.1.0"):
+                if "type" in data:
+                    data["form_factor"] = self._to_slug(data["type"])
+                    del data["type"]
+
         # Used for msg output
         if data.get("name"):
             name = data["name"]

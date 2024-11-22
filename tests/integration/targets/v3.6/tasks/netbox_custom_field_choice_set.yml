@@ -7,16 +7,16 @@
 - name: "CUSTOM_FIELD_CHOICE_SET 1: Base Choice set creation"
   netbox.netbox.netbox_custom_field_choice_set:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "A_ChoiceSet"
-      description: "Added a description"
-      base_choices: "IATA"
+      name: A_ChoiceSet
+      description: Added a description
+      base_choices: IATA
     state: present
   register: test_one
 
 - name: "CUSTOM_FIELD_CHOICE_SET 1: ASSERT - Base Choice set creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -31,16 +31,16 @@
 - name: "CUSTOM_FIELD_CHOICE_SET 2: Create duplicate"
   netbox.netbox.netbox_custom_field_choice_set:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "A_ChoiceSet"
-      description: "Added a description"
-      base_choices: "IATA"
+      name: A_ChoiceSet
+      description: Added a description
+      base_choices: IATA
     state: present
   register: test_two
 
 - name: "CUSTOM_FIELD_CHOICE_SET 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['choice_set']['name'] == "A_ChoiceSet"
@@ -49,16 +49,16 @@
 - name: "CUSTOM_FIELD_CHOICE_SET 3: Update data and change base_choice"
   netbox.netbox.netbox_custom_field_choice_set:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "A_ChoiceSet"
-      description: "Added a description"
-      base_choices: "ISO_3166"
+      name: A_ChoiceSet
+      description: Added a description
+      base_choices: ISO_3166
     state: present
   register: test_three
 
 - name: "CUSTOM_FIELD_CHOICE_SET 3: ASSERT - Updated"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['base_choices'] == "ISO_3166"
@@ -68,19 +68,19 @@
 - name: "CUSTOM_FIELD_CHOICE_SET 4: Update extra choice and order alphabetically"
   netbox.netbox.netbox_custom_field_choice_set:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "A_ChoiceSet"
-      description: "Added a description"
+      name: A_ChoiceSet
+      description: Added a description
       order_alphabetically: true
       extra_choices:
-        - ['test', 'label']
-        - ['test2', 'label2']
+        - [test, label]
+        - [test2, label2]
     state: present
   register: test_four
 
 - name: "CUSTOM_FIELD_CHOICE_SET 4: ASSERT - Change extra choice and order alphabetically"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['after']['extra_choices'] == [["test","label"],["test2","label2"]]
@@ -91,14 +91,14 @@
 - name: "CUSTOM_FIELD_CHOICE_SET 5: Delete"
   netbox.netbox.netbox_custom_field_choice_set:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      name: "A_ChoiceSet"
+      name: A_ChoiceSet
     state: absent
   register: test_five
 
 - name: "CUSTOM_FIELD_CHOICE_SET 5: ASSERT - Deleted"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['after']['state'] == "absent"

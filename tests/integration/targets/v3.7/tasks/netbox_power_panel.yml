@@ -10,7 +10,7 @@
 - name: "POWER_PANEL 1: Necessary info creation"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Power Panel
       site: Test Site
@@ -18,7 +18,7 @@
   register: test_one
 
 - name: "POWER_PANEL 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -30,7 +30,7 @@
 - name: "POWER_PANEL 2: Create duplicate"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Power Panel
       site: Test Site
@@ -38,7 +38,7 @@
   register: test_two
 
 - name: "POWER_PANEL 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['power_panel']['name'] == "Power Panel"
@@ -48,7 +48,7 @@
 - name: "POWER_PANEL 3: Update power_panel with other fields"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Power Panel
       site: Test Site
@@ -57,7 +57,7 @@
   register: test_three
 
 - name: "POWER_PANEL 3: ASSERT - Update power_panel with other fields"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['location'] == 1
@@ -69,7 +69,7 @@
 - name: "POWER_PANEL 4: Create Power Panel for Delete Test"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Power Panel 2
       site: Test Site
@@ -77,7 +77,7 @@
   register: test_four
 
 - name: "POWER_PANEL 4: ASSERT - Create Power Panel for Delete Test"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
@@ -89,7 +89,7 @@
 - name: "POWER_PANEL 5: Delete Power Panel"
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Power Panel 2
       site: Test Site
@@ -97,7 +97,7 @@
   register: test_five
 
 - name: "POWER_PANEL 5: ASSERT - Delete Power Panel"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['before']['state'] == "present"

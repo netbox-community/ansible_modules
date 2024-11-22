@@ -39,6 +39,12 @@ options:
           - Name of the interface template to be created
         required: true
         type: str
+      label:
+        description:
+          - The label of the interface template
+        required: false
+        type: str
+        version_added: '3.21.0'
       type:
         description:
           - |
@@ -47,11 +53,23 @@ options:
             This has to be specified exactly as what is found within UI
         required: true
         type: str
+      enabled:
+        description:
+          - Whether or not the interface template to be created should be enabled
+        required: false
+        type: bool
+        version_added: '3.21.0'
       mgmt_only:
         description:
           - This interface template is used only for out-of-band management
         required: false
         type: bool
+      description:
+        description:
+          - Description of the interface template
+        required: false
+        type: str
+        version_added: '3.21.0'
       poe_mode:
         description:
           - This interface has PoE ability (NetBox release 3.3 and later)
@@ -72,7 +90,7 @@ EXAMPLES = r"""
 - name: "Test NetBox interface template module"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: Create interface template within NetBox with only required information
       netbox.netbox.netbox_device_interface_template:
@@ -129,11 +147,14 @@ def main():
                 options=dict(
                     device_type=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
+                    label=dict(required=False, type="str"),
                     type=dict(
                         required=True,
                         type="str",
                     ),
+                    enabled=dict(required=False, type="bool"),
                     mgmt_only=dict(required=False, type="bool"),
+                    description=dict(required=False, type="str"),
                     poe_type=dict(required=False, type="raw"),
                     poe_mode=dict(required=False, type="raw"),
                 ),

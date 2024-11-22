@@ -10,7 +10,7 @@
 - name: "REAR_PORT 1: Necessary info creation"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port
       device: test100
@@ -19,7 +19,7 @@
   register: test_one
 
 - name: "REAR_PORT 1: ASSERT - Necessary info creation"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
@@ -32,7 +32,7 @@
 - name: "REAR_PORT 2: Create duplicate"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port
       device: test100
@@ -41,7 +41,7 @@
   register: test_two
 
 - name: "REAR_PORT 2: ASSERT - Create duplicate"
-  assert:
+  ansible.builtin.assert:
     that:
       - not test_two['changed']
       - test_two['rear_port']['name'] == "Rear Port"
@@ -52,7 +52,7 @@
 - name: "REAR_PORT 3: Update Rear Port with other fields"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port
       device: test100
@@ -63,7 +63,7 @@
   register: test_three
 
 - name: "REAR_PORT 3: ASSERT - Update Rear Port with other fields"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_three is changed
       - test_three['diff']['after']['positions'] == 5
@@ -78,7 +78,7 @@
 - name: "REAR_PORT 4: Create Rear Port for Delete Test"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port 2
       device: test100
@@ -87,7 +87,7 @@
   register: test_four
 
 - name: "REAR_PORT 4: ASSERT - Create Rear Port for Delete Test"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
@@ -100,7 +100,7 @@
 - name: "REAR_PORT 5: Delete Rear Port"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port 2
       device: test100
@@ -109,7 +109,7 @@
   register: test_five
 
 - name: "REAR_PORT 5: ASSERT - Delete Rear Port"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_five is changed
       - test_five['diff']['before']['state'] == "present"
@@ -119,7 +119,7 @@
 - name: "REAR_PORT 6: Create second Rear Port"
   netbox.netbox.netbox_rear_port:
     netbox_url: http://localhost:32768
-    netbox_token: 0123456789abcdef0123456789abcdef01234567
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       name: Rear Port
       device: Test Nexus One
@@ -128,7 +128,7 @@
   register: test_six
 
 - name: "REAR_PORT 6: ASSERT - Create second Rear Port"
-  assert:
+  ansible.builtin.assert:
     that:
       - test_six is changed
       - test_six['diff']['before']['state'] == "absent"

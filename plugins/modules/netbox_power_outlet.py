@@ -46,6 +46,7 @@ options:
           - The label of the power outlet
         required: false
         type: str
+        version_added: '3.19.0'
       type:
         description:
           - The type of the power outlet
@@ -138,7 +139,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create power port within NetBox with only required information

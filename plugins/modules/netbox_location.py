@@ -34,6 +34,12 @@ options:
           - The name of the location
         required: true
         type: str
+      status:
+        description:
+          - Status of the location
+        required: false
+        type: raw
+        version_added: "3.20.0"
       slug:
         description:
           - The slugified version of the name or custom slug.
@@ -56,6 +62,12 @@ options:
         required: false
         type: raw
         version_added: "3.8.0"
+      facility:
+        description:
+          - Data center provider or facility, ex. Equinix NY7
+        required: false
+        type: str
+        version_added: "3.20.0"
       description:
         description:
           - The description of the location
@@ -81,7 +93,7 @@ EXAMPLES = r"""
 - name: "Test NetBox modules"
   connection: local
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
     - name: Create location within NetBox with only required information
@@ -93,7 +105,7 @@ EXAMPLES = r"""
           site: Test Site
         state: present
 
-    - name: Create location within NetBox with a parent location
+    - name: Create location within NetBox with a parent location, status and facility
       netbox.netbox.netbox_location:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -101,6 +113,8 @@ EXAMPLES = r"""
           name: Child location
           site: Test Site
           parent_location: Test location
+          status: planned
+          facility: Test Facility
         state: present
 
     - name: Delete location within NetBox
@@ -146,10 +160,12 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
+                    status=dict(required=False, type="raw"),
                     slug=dict(required=False, type="str"),
                     site=dict(required=False, type="raw"),
                     parent_location=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
+                    facility=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
