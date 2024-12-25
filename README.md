@@ -8,7 +8,7 @@ This Ansible collection consists of a set of modules to define the intended netw
 ## Requirements
 
 - You must be running one of the two most recent releases of NetBox
-- A NetBox write-enabled API token when using modules or a read-only token for the `nb_lookup ` and `nb_inventory` plugins.
+- A NetBox write-enabled API token when using modules or a read-only token for the `nb_lookup` and `nb_inventory` plugins.
 - Python 3.10+
 - Python modules:
   - pytz
@@ -152,7 +152,7 @@ Customers of NetBox Labs and Ansible using the officially certified version of t
 The collection release notes and changelog can be found [here](https://github.com/netbox-community/ansible_modules/releases).
 
 ## Related Information
-Some extra resources you might find useful for both the Anisble collection and for NetBox itself:
+Some extra resources you might find useful for both the Ansible collection and for NetBox itself:
 - [NetBox Zero to Hero](https://netboxlabs.com/zero-to-hero/) - free 12 part course that takes you from an empty NetBox through to a fully deployed branch site, using the Ansible collection extensively along the way.
 - [Network Configuration Assurance with NetBox and Ansible](https://netboxlabs.com/blog/network-configuration-assurance-with-netbox-and-ansible/) - blog post featuring the Inventory plugin being used in a simple network automation use case to compare actual network state Vs intended state as defined in NetBox.
 - Official NetBox [documentation](https://docs.netbox.dev/en/stable/).
