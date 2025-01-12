@@ -50,7 +50,8 @@
       name: Test Cluster One
       cluster_type: Test Cluster Type
       cluster_group: Test Cluster Group
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
       comments: Updated cluster
       tenant: Test Tenant
       tags:
@@ -63,20 +64,22 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['group'] == 1
-      - test_three['diff']['after']['site'] == 1
+      - test_three['diff']['after']['scope'] == 1
+      - test_three['diff']['after']['scope_type'] == "dcim.site"
       - test_three['diff']['after']['comments'] == "Updated cluster"
       - test_three['diff']['after']['tags'][0] == 4
       - test_three['diff']['after']['tenant'] == 1
       - test_three['cluster']['name'] == "Test Cluster One"
       - test_three['cluster']['type'] == 1
       - test_three['cluster']['group'] == 1
-      - test_three['cluster']['site'] == 1
+      - test_three['cluster']['scope'] == 1
+      - test_three['cluster']['scope_type'] == "dcim.site"
       - test_three['cluster']['comments'] == "Updated cluster"
       - test_three['cluster']['tags'][0] == 4
       - test_three['cluster']['tenant'] == 1
       - test_three['msg'] == "cluster Test Cluster One updated"
 
-- name: "CLUSTER 4: ASSERT - Delete"
+- name: "CLUSTER 4: Delete"
   netbox.netbox.netbox_cluster:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -92,7 +95,8 @@
       - test_four['cluster']['name'] == "Test Cluster One"
       - test_four['cluster']['type'] == 1
       - test_four['cluster']['group'] == 1
-      - test_four['cluster']['site'] == 1
+      - test_four['cluster']['scope'] == 1
+      - test_four['cluster']['scope_type'] == "dcim.site"
       - test_four['cluster']['comments'] == "Updated cluster"
       - test_four['cluster']['tags'][0] == 4
       - test_four['msg'] == "cluster Test Cluster One deleted"

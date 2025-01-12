@@ -70,11 +70,13 @@ options:
           - "dcim.region"
           - "dcim.site"
           - "dcim.sitegroup"
+        version_added: "3.21.0"
       scope:
         description:
           - Object related to scope type (NetBox 4.2+)
         required: false
         type: raw
+        version_added: "3.21.0"
       vrf:
         description:
           - VRF that prefix is associated with
