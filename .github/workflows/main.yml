@@ -103,7 +103,7 @@ jobs:
           virtualenvs-create: false
 
       - name: Install Python packages
-        run: poetry install
+        run: poetry install --no-root
 
       - name: Build and install collection
         run: |
