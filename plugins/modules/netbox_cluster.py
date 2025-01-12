@@ -54,9 +54,9 @@ options:
       site:
         description:
           - Required if I(state=present) and the cluster does not exist yet (Deprecated in NetBox 4.2+)
+          - Will be removed in version 5.0.0
         required: false
-        type: raw
-        removed_in_version: "5.0.0"
+        type: raw        
       scope_type:
         description:
           - Type of scope to be applied (NetBox 4.2+)

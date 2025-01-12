@@ -56,9 +56,9 @@ options:
       site:
         description:
           - Site that prefix is associated with (Deprecated in NetBox 4.2+)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
-        removed_in_version: "5.0.0"
       scope_type:
         description:
           - Type of scope to be applied (NetBox 4.2+)
