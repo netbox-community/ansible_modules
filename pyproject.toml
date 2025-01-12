@@ -6,11 +6,11 @@ authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-ansible-core = "^2.17"
+python = "^3.13"
+ansible-core = "^2.18"
 black = "*"
 codecov = "*"
-coverage = "7.3.2"
+coverage = "*"
 deepdiff = "*"
 cryptography = "*"
 jinja2 = "*"
@@ -28,7 +28,7 @@ pylint = "*"
 pytz = "*"
 packaging = "*"
 importlib-resources = "*"
-antsibull-docs = "^2.11.0"
+antsibull-docs = "*"
 
 [tool.poetry.dev-dependencies]
 
