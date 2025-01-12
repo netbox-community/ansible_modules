@@ -12,7 +12,13 @@
   ansible.builtin.include_tasks: netbox_ip_address.yml
 
 - name: NETBOX_PREFIX TESTS
-  ansible.builtin.include_tasks: netbox_prefix.yml
+  ansible.builtin.include_tasks:
+    file: netbox_prefix.yml
+    apply:
+      tags:
+        - netbox_prefix
+  tags:
+    - netbox_prefix
 
 - name: NETBOX_SITE TESTS
   ansible.builtin.include_tasks: netbox_site.yml
