@@ -286,7 +286,7 @@ def main():
                     parent=dict(required=False, type="raw"),
                     prefix_length=dict(required=False, type="int"),
                     site=dict(
-                        required=False, 
+                        required=False,
                         type="raw",
                         removed_in_version="5.0.0",
                         removed_from_collection="netbox.netbox",
