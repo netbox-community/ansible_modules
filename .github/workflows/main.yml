@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
 
@@ -73,6 +73,8 @@ jobs:
             NETBOX_DOCKER_VERSION: 2.9.1
           - VERSION: "v4.1"
             NETBOX_DOCKER_VERSION: 3.0.1
+          - VERSION: "v4.2"
+            NETBOX_DOCKER_VERSION: 3.1.0
 
     steps:
 

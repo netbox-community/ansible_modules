@@ -1,0 +1,127 @@
+---
+##
+##
+### NETBOX_USER_GROUP
+##
+##
+- name: "USER_GROUP 1: Necessary info creation"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+    state: present
+  register: test_one
+
+- name: "USER_GROUP 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['user_group']['name'] == "Test User Group"
+      - test_one['msg'] == "user_group Test User Group created"
+
+- name: "USER_GROUP 2: Create duplicate"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+    state: present
+  register: test_two
+
+- name: "USER_GROUP 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['user_group']['name'] == "Test User Group"
+      - test_two['msg'] == "user_group Test User Group already exists"
+
+- name: "USER_GROUP 3: Update"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+      description: The test group
+    state: present
+  register: test_three
+
+- name: "USER_GROUP 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "The test group"
+      - test_three['user_group']['name'] == "Test User Group"
+      - test_three['user_group']['description'] == "The test group"
+      - test_three['msg'] == "user_group Test User Group updated"
+
+- name: "USER_GROUP 4: Create second group"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group 2
+    state: present
+  register: test_four
+
+- name: "USER_GROUP 4: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['user_group']['name'] == "Test User Group 2"
+      - test_four['msg'] == "user_group Test User Group 2 created"
+
+- name: "USER_GROUP 5: Add user to group"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword2
+      groups:
+        - Test User Group
+    state: present
+  register: test_five
+
+- name: "USER_GROUP 5: ASSERT - Add user to group"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['user']['groups'] == [1]
+
+- name: "USER_GROUP 6: Delete"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+    state: absent
+  register: test_six
+
+- name: "USER_GROUP 6: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "present"
+      - test_six['diff']['after']['state'] == "absent"
+      - test_six['msg'] == "user_group Test User Group deleted"
+
+- name: "USER_GROUP 6: ASSERT - Delete non existing"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+    state: absent
+  register: test_seven
+
+- name: "USER_GROUP 7: ASSERT - Delete non existing`"
+  ansible.builtin.assert:
+    that:
+      - not test_seven['changed']
+      - test_seven['user_group'] == None
+      - test_seven['msg'] == "user_group Test User Group already absent"

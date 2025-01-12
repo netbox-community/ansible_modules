@@ -1,0 +1,91 @@
+---
+##
+##
+### NETBOX_FHRP_GROUP
+##
+##
+- name: "FHRP group 1: Test FHRP group creation"
+  netbox.netbox.netbox_fhrp_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      protocol: glbp
+      group_id: 111
+    state: present
+  register: test_one
+
+- name: "FHRP group: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['fhrp_group']['group_id'] == 111
+      - test_one['fhrp_group']['protocol'] == "glbp"
+      - test_one['msg'] == "fhrp_group 111 created"
+
+- name: "FHRP group 2: Create duplicate"
+  netbox.netbox.netbox_fhrp_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      protocol: glbp
+      group_id: 111
+    state: present
+  register: test_two
+
+- name: "FHRP group 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['fhrp_group']['group_id'] == 111
+      - test_two['fhrp_group']['protocol'] == "glbp"
+      - test_two['msg'] == "fhrp_group 111 already exists"
+
+- name: "FHRP group 3: Update FHRP group with other fields"
+  netbox.netbox.netbox_fhrp_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      protocol: glbp
+      group_id: 111
+      auth_type: md5
+      auth_key: 11111
+      description: Test description
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_three
+
+- name: "FHRP group 3: ASSERT - Update FHRP group with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['auth_type'] == "md5"
+      - test_three['diff']['after']['auth_key'] == "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER"
+      - test_three['diff']['after']['description'] == "Test description"
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['fhrp_group']['group_id'] == 111
+      - test_three['fhrp_group']['protocol'] == "glbp"
+      - test_three['fhrp_group']['auth_type'] == "md5"
+      - test_three['fhrp_group']['auth_key'] == "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER"
+      - test_three['fhrp_group']['description'] == "Test description"
+      - test_three['fhrp_group']['tags'][0] == 4
+      - test_three['msg'] == "fhrp_group 111 updated"
+
+- name: "FHRP group 4: ASSERT - Delete"
+  netbox.netbox.netbox_fhrp_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      group_id: 111
+    state: absent
+  register: test_four
+
+- name: "FHRP group 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "fhrp_group 111 deleted"
