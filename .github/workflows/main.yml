@@ -16,12 +16,12 @@ jobs:
         uses: psf/black@stable
 
   unit_testing:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: linting
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.13"]
 
     steps:
 
