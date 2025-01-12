@@ -1,0 +1,394 @@
+---
+- name: NETBOX_DEVICE TESTS
+  ansible.builtin.include_tasks: netbox_device.yml
+
+- name: NETBOX_DEVICE_INTERFACE TESTS
+  ansible.builtin.include_tasks: netbox_device_interface.yml
+
+- name: NETBOX_DEVICE_INTERFACE_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_device_interface_template.yml
+
+- name: NETBOX_IP_ADDRESS TESTS
+  ansible.builtin.include_tasks: netbox_ip_address.yml
+
+- name: NETBOX_PREFIX TESTS
+  ansible.builtin.include_tasks: netbox_prefix.yml
+
+- name: NETBOX_SITE TESTS
+  ansible.builtin.include_tasks: netbox_site.yml
+
+- name: NETBOX_SITE_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_site_group.yml
+
+- name: NETBOX_CONTACT TESTS
+  ansible.builtin.include_tasks: netbox_contact.yml
+
+- name: NETBOX_CONTACT_ROLE TESTS
+  ansible.builtin.include_tasks: netbox_contact_role.yml
+
+- name: NETBOX_TENTANT TESTS
+  ansible.builtin.include_tasks: netbox_tenant.yml
+
+- name: NETBOX_TENTANT_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_tenant_group.yml
+
+- name: NETBOX_RACK TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_rack.yml
+    apply:
+      tags:
+        - netbox_rack
+  tags:
+    - netbox_rack
+
+- name: NETBOX_RACK_ROLE TESTS
+  ansible.builtin.include_tasks: netbox_rack_role.yml
+
+- name: NETBOX_LOCATION TESTS
+  ansible.builtin.include_tasks: netbox_location.yml
+
+- name: NETBOX_MANUFACTURER TESTS
+  ansible.builtin.include_tasks: netbox_manufacturer.yml
+
+- name: NETBOX_PLATFORM TESTS
+  ansible.builtin.include_tasks: netbox_platform.yml
+
+- name: NETBOX_DEVICE_TYPE TESTS
+  ansible.builtin.include_tasks: netbox_device_type.yml
+
+- name: NETBOX_DEVICE_ROLE TESTS
+  ansible.builtin.include_tasks: netbox_device_role.yml
+
+- name: NETBOX_IPAM_ROLE TESTS
+  ansible.builtin.include_tasks: netbox_ipam_role.yml
+
+- name: NETBOX_VLAN_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_vlan_group.yml
+
+- name: NETBOX_VLAN TESTS
+  ansible.builtin.include_tasks: netbox_vlan.yml
+
+- name: NETBOX_VRF TESTS
+  ansible.builtin.include_tasks: netbox_vrf.yml
+
+- name: NETBOX_RIR TESTS
+  ansible.builtin.include_tasks: netbox_rir.yml
+
+- name: NETBOX_AGGREGATE TESTS
+  ansible.builtin.include_tasks: netbox_aggregate.yml
+
+- name: NETBOX_REGION TESTS
+  ansible.builtin.include_tasks: netbox_region.yml
+
+- name: NETBOX_DEVICE_BAY TESTS
+  ansible.builtin.include_tasks: netbox_device_bay.yml
+
+- name: NETBOX_DEVICE_BAY_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_device_bay_template.yml
+
+- name: NETBOX_INVENTORY_ITEM TESTS
+  ansible.builtin.include_tasks: netbox_inventory_item.yml
+
+- name: NETBOX_VIRTUAL_MACHINE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_virtual_machine.yml
+    apply:
+      tags:
+        - netbox_virtual_machine
+  tags:
+    - netbox_virtual_machine
+
+- name: NETBOX_CLUSTER TESTS
+  ansible.builtin.include_tasks: netbox_cluster.yml
+
+- name: NETBOX_CLUSTER_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_cluster_group.yml
+
+- name: NETBOX_CLUSTER_TYPE TESTS
+  ansible.builtin.include_tasks: netbox_cluster_type.yml
+
+- name: NETBOX_VM_INTERFACE TESTS
+  ansible.builtin.include_tasks: netbox_vm_interface.yml
+
+- name: NETBOX_PROVIDER TESTS
+  ansible.builtin.include_tasks: netbox_provider.yml
+
+- name: NETBOX_PROVIDER_NETWORK TESTS
+  ansible.builtin.include_tasks: netbox_provider_network.yml
+
+- name: NETBOX_CIRCUIT_TYPE TESTS
+  ansible.builtin.include_tasks: netbox_circuit_type.yml
+
+- name: NETBOX_CIRCUIT TESTS
+  ansible.builtin.include_tasks: netbox_circuit.yml
+
+- name: NETBOX_CIRCUIT_TERMINATION TESTS
+  ansible.builtin.include_tasks: netbox_circuit_termination.yml
+
+- name: NETBOX_REAR_PORT TESTS
+  ansible.builtin.include_tasks: netbox_rear_port.yml
+
+- name: NETBOX_REAR_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_rear_port_template.yml
+
+- name: NETBOX_FRONT_PORT TESTS
+  ansible.builtin.include_tasks: netbox_front_port.yml
+
+- name: NETBOX_FRONT_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_front_port_template.yml
+
+- name: NETBOX_CONSOLE_PORT TESTS
+  ansible.builtin.include_tasks: netbox_console_port.yml
+
+- name: NETBOX_CONSOLE_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_console_port_template.yml
+
+- name: NETBOX_CONSOLE_SERVER_PORT TESTS
+  ansible.builtin.include_tasks: netbox_console_server_port.yml
+
+- name: NETBOX_CONSOLE_SERVER_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_console_server_port_template.yml
+
+- name: NETBOX_POWER_PANEL TESTS
+  ansible.builtin.include_tasks: netbox_power_panel.yml
+
+- name: NETBOX_POWER_FEED TESTS
+  ansible.builtin.include_tasks: netbox_power_feed.yml
+
+- name: NETBOX_POWER_PORT TESTS
+  ansible.builtin.include_tasks: netbox_power_port.yml
+
+- name: NETBOX_POWER_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_power_port_template.yml
+
+- name: NETBOX_POWER_OUTLET TESTS
+  ansible.builtin.include_tasks: netbox_power_outlet.yml
+
+- name: NETBOX_POWER_OUTLET_TEMPLATE TESTS
+  ansible.builtin.include_tasks: netbox_power_outlet_template.yml
+
+- name: NETBOX_VIRTUAL_CHASSIS TESTS
+  ansible.builtin.include_tasks: netbox_virtual_chassis.yml
+
+- name: NETBOX_USER_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_user.yml
+    apply:
+      tags:
+        - netbox_user
+  tags:
+    - netbox_user
+
+- name: NETBOX_USER_GROUP_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_user_group.yml
+    apply:
+      tags:
+        - netbox_user_group
+  tags:
+    - netbox_user_group
+
+- name: NETBOX_PERMISSION TESTS
+  ansible.builtin.include_tasks: netbox_permission.yml
+
+- name: NETBOX_TOKEN_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_token.yml
+    apply:
+      tags:
+        - netbox_token
+  tags:
+    - netbox_token
+
+# Module has to be updated for 3.3
+# - name: "NETBOX_CABLE TESTS"
+#  include_tasks: "netbox_cable.yml"
+
+- name: NETBOX_SERVICE TESTS
+  ansible.builtin.include_tasks: netbox_service.yml
+
+- name: NETBOX_LOOKUP TESTS
+  ansible.builtin.include_tasks: netbox_lookup.yml
+
+- name: NETBOX_TAG_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tag.yml
+    apply:
+      tags:
+        - netbox_tag
+  tags:
+    - netbox_tag
+
+- name: NETBOX_ROUTE_TARGET_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_route_target.yml
+    apply:
+      tags:
+        - netbox_route_target
+  tags:
+    - netbox_route_target
+
+- name: NETBOX_WIRELESS_LAN TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_wireless_lan.yml
+    apply:
+      tags:
+        - netbox_wireless_lan
+  tags:
+    - netbox_wireless_lan
+
+- name: NETBOX_WIRELESS_LAN_GROUP TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_wireless_lan_group.yml
+    apply:
+      tags:
+        - netbox_wireless_lan_group
+  tags:
+    - netbox_wireless_lan_group
+
+- name: NETBOX_WIRELESS_LINK TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_wireless_link.yml
+    apply:
+      tags:
+        - netbox_wireless_link
+  tags:
+    - netbox_wireless_link
+
+- name: NETBOX_CUSTOM_FIELD TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_custom_field.yml
+    apply:
+      tags:
+        - netbox_custom_field
+  tags:
+    - netbox_custom_field
+
+- name: NETBOX_CUSTOM_LINK TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_custom_link.yml
+    apply:
+      tags:
+        - netbox_custom_link
+  tags:
+    - netbox_custom_link
+
+- name: NETBOX_EXPORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_export_template.yml
+    apply:
+      tags:
+        - netbox_export_template
+  tags:
+    - netbox_export_template
+
+# Must update for 3.7
+# - name: "NETBOX_WEBHOOK TESTS"
+# include_tasks:
+#   file: "netbox_webhook.yml"
+#   apply:
+#     tags:
+#       - netbox_webhook
+# tags:
+#   - netbox_webhook
+
+# - name: "NETBOX_L2VPN TESTS"
+#  include_tasks:
+#    file: "netbox_l2vpn.yml"
+#    apply:
+#      tags:
+#        - netbox_l2vpn
+#  tags:
+#    - netbox_l2vpn
+
+# - name: "NETBOX_L2VPN_TERMINATION TESTS"
+#  include_tasks:
+#    file: "netbox_l2vpn_termination.yml"
+#    apply:
+#      tags:
+#        - netbox_l2vpn_termination
+#  tags:
+#    - netbox_l2vpn_termination
+
+- name: NETBOX_INVENTORY_ITEM_ROLE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_inventory_item_role.yml
+    apply:
+      tags:
+        - netbox_inventory_item_role
+  tags:
+    - netbox_inventory_item_role
+
+- name: NETBOX_MODULE_TYPE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_module_type.yml
+    apply:
+      tags:
+        - netbox_module_type
+  tags:
+    - netbox_module_type
+
+- name: NETBOX_SERVICE_TEMPLATE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_service_template.yml
+    apply:
+      tags:
+        - netbox_service_template
+  tags:
+    - netbox_service_template
+
+- name: NETBOX_ASN TESTS
+  ansible.builtin.include_tasks: netbox_asn.yml
+
+- name: NETBOX_FHRP_GROUP TESTS
+  ansible.builtin.include_tasks: netbox_fhrp_group.yml
+
+- name: NETBOX_JOURNAL_ENTRY TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_journal_entry.yml
+    apply:
+      tags:
+        - netbox_journal_entry
+  tags:
+    - netbox_journal_entry
+
+- name: NETBOX_FHRP_GROUP_ASSIGNMENT TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_fhrp_group_assignment.yml
+    apply:
+      tags:
+        - netbox_fhrp_group_assignmen
+  tags:
+    - netbox_fhrp_group_assignmen
+
+- name: NETBOX_CONFIG_TEMPLATE
+  ansible.builtin.include_tasks: netbox_config_template.yml
+  tags:
+    - netbox_config_template
+
+- name: NETBOX_VIRTUAL_DISK
+  ansible.builtin.include_tasks:
+    file: netbox_virtual_disk.yml
+    apply:
+      tags:
+        - netbox_virtual_disk
+  tags:
+    - netbox_virtual_disk
+
+- name: NETBOX_TUNNEL TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel.yml
+    apply:
+      tags:
+        - netbox_tunnel
+  tags:
+    - netbox_tunnel
+
+- name: NETBOX_TUNNEL GROUP TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_tunnel_group.yml
+    apply:
+      tags:
+        - netbox_tunnel_group
+  tags:
+    - netbox_tunnel_group
