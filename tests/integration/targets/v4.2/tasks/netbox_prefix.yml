@@ -44,7 +44,8 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       prefix: 10.156.0.0/19
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
       status: Reserved
       description: This prefix has been updated
     state: present
@@ -54,12 +55,14 @@
   ansible.builtin.assert:
     that:
       - test_three is changed
-      - test_three['diff']['after']['site'] == 1
+      - test_three['diff']['after']['scope'] == 1
+      - test_three['diff']['after']['scope_type'] == "dcim.site"
       - test_three['diff']['after']['status'] == "reserved"
       - test_three['diff']['after']['description'] == "This prefix has been updated"
       - test_three['msg'] == "prefix 10.156.0.0/19 updated"
       - test_three['prefix']['prefix'] == "10.156.0.0/19"
-      - test_three['prefix']['site'] == 1
+      - test_three['prefix']['scope'] == 1
+      - test_three['prefix']['scope_type'] == "dcim.site"
       - test_three['prefix']['status'] == "reserved"
       - test_three['prefix']['description'] == "This prefix has been updated"
 
@@ -87,7 +90,8 @@
     data:
       family: 4
       prefix: 10.156.32.0/19
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
       vrf: Test VRF
       tenant: Test Tenant
       vlan:
@@ -113,7 +117,8 @@
       - test_five['msg'] == "prefix 10.156.32.0/19 created"
       - test_five['prefix']['prefix'] == "10.156.32.0/19"
       - test_five['prefix']['family'] == 4
-      - test_five['prefix']['site'] == 1
+      - test_five['prefix']['scope'] == 1
+      - test_five['prefix']['scope_type'] == "dcim.site"
       - test_five['prefix']['vrf'] == 1
       - test_five['prefix']['tenant'] == 1
       - test_five['prefix']['vlan'] == 4
@@ -185,7 +190,8 @@
     data:
       prefix: 10.157.0.0/19
       vrf: Test VRF
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
     state: present
   register: test_nine
 
@@ -197,7 +203,8 @@
       - test_nine['diff']['after']['state'] == "present"
       - test_nine['msg'] == "prefix 10.157.0.0/19 created"
       - test_nine['prefix']['prefix'] == "10.157.0.0/19"
-      - test_nine['prefix']['site'] == 1
+      - test_nine['prefix']['scope'] == 1
+      - test_nine['prefix']['scope_type'] == "dcim.site"
       - test_nine['prefix']['vrf'] == 1
 
 - name: 10 - Get a new /24 inside 10.157.0.0/19 within NetBox with additional values
@@ -208,7 +215,8 @@
       parent: 10.157.0.0/19
       prefix_length: 24
       vrf: Test VRF
-      site: Test Site
+      scope_type: "dcim.site"
+      scope: Test Site
     state: present
     first_available: true
   register: test_ten
@@ -221,7 +229,8 @@
       - test_ten['diff']['after']['state'] == "present"
       - test_ten['msg'] == "prefix 10.157.0.0/24 created"
       - test_ten['prefix']['prefix'] == "10.157.0.0/24"
-      - test_ten['prefix']['site'] == 1
+      - test_ten['prefix']['scope'] == 1
+      - test_ten['prefix']['scope_type'] == "dcim.site"
       - test_ten['prefix']['vrf'] == 1
 
 - name: 11 - Get a new /24 inside 10.156.0.0/19 within NetBox

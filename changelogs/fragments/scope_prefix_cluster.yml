@@ -1,0 +1,3 @@
+minor_changes:
+  - netbox_prefix - Add options scope and scope_type for NetBox 4.2+
+  - netbox_cluster - Add options scope and scope_type for NetBox 4.2+
