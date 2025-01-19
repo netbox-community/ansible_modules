@@ -329,4 +329,4 @@
       - test_thirteen['msg'] == "interface GigabitEthernet2 updated"
       - test_thirteen['interface']['name'] == "GigabitEthernet2"
       - test_thirteen['interface']['device'] == 1
-      - test_fourteen['interface']['primary_mac_address'] == "AA:AB:CC:DD:EE:FF"
+      - test_thirteen['interface']['primary_mac_address'] == "AA:AB:CC:DD:EE:FF"
