@@ -33,7 +33,7 @@ options:
         description:
           - The MAC address
         required: true
-        type: str      
+        type: str
       assigned_object:
         description:
           - The object to assign this MAC address to
