@@ -51,6 +51,7 @@ action_groups:
     - netbox_l2vpn
     - netbox_l2vpn_termination
     - netbox_location
+    - netbox_mac_address
     - netbox_manufacturer
     - netbox_module
     - netbox_module_bay

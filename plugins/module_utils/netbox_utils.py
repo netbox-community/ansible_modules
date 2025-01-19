@@ -277,6 +277,7 @@ CONVERT_TO_ID = {
     "ipsec_profile": "ipsec_profiles",
     "location": "locations",
     "lag": "interfaces",
+    "primary_mac_address": "mac_addresses",
     "manufacturer": "manufacturers",
     "master": "devices",
     "module": "modules",

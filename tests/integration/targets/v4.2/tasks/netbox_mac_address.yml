@@ -27,8 +27,7 @@
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      mac_address: "AA:BB:CC:DD:EE:FF"
-      assigned_object_type: "dcim.interface"
+      mac_address: "AA:BB:CC:DD:EE:FF"      
       assigned_object:
         device: Test Nexus One
         name: Ethernet1/1
