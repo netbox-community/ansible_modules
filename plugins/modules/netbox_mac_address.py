@@ -83,7 +83,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          mac_address: "AA:BB:CC:DD:EE:FF"          
+          mac_address: "AA:BB:CC:DD:EE:FF"
           assigned_object:
             device: Test Nexus One
             name: Ethernet1/1
