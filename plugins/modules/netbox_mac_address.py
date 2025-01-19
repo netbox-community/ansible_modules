@@ -149,13 +149,11 @@ def main():
         ("state", "present", ["mac_address"]),
         ("state", "absent", ["mac_address"]),
     ]
-    required_together = [("assigned_object_type", "assigned_object")]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
         supports_check_mode=True,
         required_if=required_if,
-        required_together=required_together,
     )
 
     netbox_mac_address = NetboxDcimModule(module, NB_MAC_ADDRESSES)
