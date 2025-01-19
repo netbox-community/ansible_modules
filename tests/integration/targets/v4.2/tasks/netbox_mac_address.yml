@@ -27,7 +27,7 @@
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
-      mac_address: "AA:BB:CC:DD:EE:FF"      
+      mac_address: "AA:BB:CC:DD:EE:F0"      
       assigned_object:
         device: Test Nexus One
         name: Ethernet1/1
@@ -44,13 +44,13 @@
       - test_two is changed
       - test_two['diff']['before']['state'] == "absent"
       - test_two['diff']['after']['state'] == "present"
-      - test_two['mac_address']['mac_address'] == "AA:BB:CC:DD:EE:FF"
+      - test_two['mac_address']['mac_address'] == "AA:BB:CC:DD:EE:F0"
       - test_two['mac_address']['assigned_object_type'] == "dcim.interface"
-      - test_two['mac_address']['assigned_object']['id'] == 1
+      - test_two['mac_address']['assigned_object_id'] == 1
       - test_two['mac_address']['description'] == "Test MAC address"
       - test_two['mac_address']['comments'] == "Test MAC address comment"
       - test_two['mac_address']['tags'][0] == 4
-      - test_two['msg'] == "mac_address AA:BB:CC:DD:EE:FF created"
+      - test_two['msg'] == "mac_address AA:BB:CC:DD:EE:F0 created"
 
 - name: "MAC 3: Delete MAC address"
   netbox.netbox.netbox_mac_address:
