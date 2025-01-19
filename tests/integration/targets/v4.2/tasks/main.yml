@@ -732,3 +732,12 @@
         - netbox_tunnel_group
   tags:
     - netbox_tunnel_group
+
+- name: NETBOX_MAC_ADDRESS TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_mac_address.yml
+    apply:
+      tags:
+        - netbox_mac_address
+  tags:
+    - netbox_mac_address

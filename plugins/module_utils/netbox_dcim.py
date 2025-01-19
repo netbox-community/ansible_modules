@@ -51,6 +51,7 @@ NB_REGIONS = "regions"
 NB_SITES = "sites"
 NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
+NB_MAC_ADDRESSES = "mac_addresses"
 
 try:
     from packaging.version import Version
@@ -141,6 +142,8 @@ class NetboxDcimModule(NetboxModule):
             name = self.module.params["data"]["master"]
         elif data.get("slug"):
             name = data["slug"]
+        elif data.get("mac_address"):
+            name = data["mac_address"]
         elif endpoint_name == "cable":
             if self.module.params["data"]["termination_a"].get("name"):
                 termination_a_name = self.module.params["data"]["termination_a"]["name"]
