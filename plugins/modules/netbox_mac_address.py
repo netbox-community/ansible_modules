@@ -33,17 +33,12 @@ options:
         description:
           - The MAC address
         required: true
-        type: str
-      assigned_object_type:
-        description:
-          - Type of the assigned object
-        required: false
-        type: str
+        type: str      
       assigned_object:
         description:
           - The object to assign this MAC address to
         required: false
-        type: raw
+        type: dict
       description:
         description:
           - Description of the MAC address
@@ -88,10 +83,11 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          mac_address: "AA:BB:CC:DD:EE:FF"
-          assigned_object_type: "dcim.interface"
-          assigned_object: "eth0"
-          description: "MAC address for eth0"
+          mac_address: "AA:BB:CC:DD:EE:FF"          
+          assigned_object:
+            device: Test Nexus One
+            name: Ethernet1/1
+          description: "MAC address for eth1/1"
           tags:
             - Network
         state: present
@@ -139,8 +135,7 @@ def main():
                 required=True,
                 options=dict(
                     mac_address=dict(required=True, type="str"),
-                    assigned_object_type=dict(required=False, type="str"),
-                    assigned_object=dict(required=False, type="raw"),
+                    assigned_object=dict(required=False, type="dict"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
@@ -150,7 +145,10 @@ def main():
         )
     )
 
-    required_if = [("state", "present", ["mac_address"]), ("state", "absent", ["mac_address"])]
+    required_if = [
+        ("state", "present", ["mac_address"]),
+        ("state", "absent", ["mac_address"]),
+    ]
     required_together = [("assigned_object_type", "assigned_object")]
 
     module = NetboxAnsibleModule(
@@ -165,4 +163,4 @@ def main():
 
 
 if __name__ == "__main__":  # pragma: no cover
-    main() 
+    main()

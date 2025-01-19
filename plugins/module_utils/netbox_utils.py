@@ -1418,7 +1418,7 @@ class NetboxModule(object):
 
         # We need to assign the correct type for the assigned object so the user doesn't have to worry about this.
         # We determine it by whether or not they pass in a device or virtual_machine
-        if data.get("assigned_object"):
+        if data.get("assigned_object") and isinstance(data["assigned_object"], dict):
             if data["assigned_object"].get("device"):
                 data["assigned_object_type"] = "dcim.interface"
             if data["assigned_object"].get("virtual_machine"):

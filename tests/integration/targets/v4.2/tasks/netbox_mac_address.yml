@@ -29,7 +29,9 @@
     data:
       mac_address: "AA:BB:CC:DD:EE:FF"
       assigned_object_type: "dcim.interface"
-      assigned_object: Test Interface
+      assigned_object:
+        device: Test Nexus One
+        name: Ethernet1/1
       description: "Test MAC address"
       comments: "Test MAC address comment"
       tags:
