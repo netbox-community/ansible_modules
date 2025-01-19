@@ -320,13 +320,13 @@
       name: GigabitEthernet2
       primary_mac_address: "AA:AB:CC:DD:EE:FF"
     state: present
-  register: test_fourteen
+  register: test_thirteen
 
-- name: "14 - ASSERT"
+- name: "13 - ASSERT"
   ansible.builtin.assert:
     that:
-      - not test_fourteen['changed']
-      - test_fourteen['msg'] == "interface GigabitEthernet2 updated"
-      - test_fourteen['interface']['name'] == "GigabitEthernet2"
-      - test_fourteen['interface']['device'] == 1
+      - test_thirteen is changed
+      - test_thirteen['msg'] == "interface GigabitEthernet2 updated"
+      - test_thirteen['interface']['name'] == "GigabitEthernet2"
+      - test_thirteen['interface']['device'] == 1
       - test_fourteen['interface']['primary_mac_address'] == "AA:AB:CC:DD:EE:FF"
