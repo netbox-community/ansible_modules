@@ -78,6 +78,7 @@ API_APPS_ENDPOINTS = dict(
         "sites": {},
         "site_groups": {},
         "virtual_chassis": {},
+        "mac_addresses": {},
     },
     extras={
         "config_contexts": {},
@@ -226,6 +227,7 @@ QUERY_TYPES = dict(
     webhook="name",
     wireless_lan="ssid",
     wireless_lan_group="slug",
+    mac_address="mac_address",
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
@@ -275,6 +277,7 @@ CONVERT_TO_ID = {
     "ipsec_profile": "ipsec_profiles",
     "location": "locations",
     "lag": "interfaces",
+    "primary_mac_address": "mac_addresses",
     "manufacturer": "manufacturers",
     "master": "devices",
     "module": "modules",
@@ -434,6 +437,7 @@ ENDPOINT_NAME_MAPPING = {
     "wireless_lans": "wireless_lan",
     "wireless_lan_groups": "wireless_lan_group",
     "wireless_links": "wireless_link",
+    "mac_addresses": "mac_address",
 }
 
 ALLOWED_QUERY_PARAMS = {
@@ -516,6 +520,7 @@ ALLOWED_QUERY_PARAMS = {
     ),
     "lag": set(["name"]),
     "location": set(["name", "slug", "site"]),
+    "mac_address": set(["mac_address"]),
     "module": set(["device", "module_bay", "module_type"]),
     "module_bay": set(["device", "name"]),
     "module_type": set(["model"]),
@@ -1414,7 +1419,7 @@ class NetboxModule(object):
 
         # We need to assign the correct type for the assigned object so the user doesn't have to worry about this.
         # We determine it by whether or not they pass in a device or virtual_machine
-        if data.get("assigned_object"):
+        if data.get("assigned_object") and isinstance(data["assigned_object"], dict):
             if data["assigned_object"].get("device"):
                 data["assigned_object_type"] = "dcim.interface"
             if data["assigned_object"].get("virtual_machine"):

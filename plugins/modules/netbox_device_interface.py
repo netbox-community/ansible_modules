@@ -86,6 +86,11 @@ options:
           - The MAC address of the interface
         required: false
         type: str
+      primary_mac_address:
+        description:
+          - The primary MAC address of the interface (NetBox 4.2 and later)
+        required: false
+        type: str
       wwn:
         description:
           - The WWN of the interface
@@ -335,6 +340,7 @@ def main():
                     bridge=dict(required=False, type="raw"),
                     mtu=dict(required=False, type="int"),
                     mac_address=dict(required=False, type="str"),
+                    primary_mac_address=dict(required=False, type="str"),
                     wwn=dict(required=False, type="str"),
                     mgmt_only=dict(required=False, type="bool"),
                     poe_type=dict(required=False, type="raw"),

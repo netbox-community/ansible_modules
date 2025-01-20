@@ -332,15 +332,6 @@
   tags:
     - netbox_circuit
 
-- name: NETBOX_CIRCUIT_TERMINATION TESTS
-  ansible.builtin.include_tasks:
-    file: netbox_circuit_termination.yml
-    apply:
-      tags:
-        - netbox_circuit_termination
-  tags:
-    - netbox_circuit_termination
-
 - name: NETBOX_REAR_PORT TESTS
   ansible.builtin.include_tasks:
     file: netbox_rear_port.yml
@@ -732,3 +723,21 @@
         - netbox_tunnel_group
   tags:
     - netbox_tunnel_group
+
+- name: NETBOX_MAC_ADDRESS TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_mac_address.yml
+    apply:
+      tags:
+        - netbox_mac_address
+  tags:
+    - netbox_mac_address
+
+- name: NETBOX_CIRCUIT_TERMINATION TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_circuit_termination.yml
+    apply:
+      tags:
+        - netbox_circuit_termination
+  tags:
+    - netbox_circuit_termination

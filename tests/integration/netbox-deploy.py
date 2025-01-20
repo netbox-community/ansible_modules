@@ -372,6 +372,24 @@ dev_interfaces = [
 ]
 created_interfaces = make_netbox_calls(nb.dcim.interfaces, dev_interfaces)
 
+# Create MAC addresses
+if nb_version >= version.parse("4.2"):
+    test100_gi1 = nb.dcim.interfaces.get(name="GigabitEthernet1", device_id=1)
+    test100_gi2 = nb.dcim.interfaces.get(name="GigabitEthernet2", device_id=1)
+    mac_addresses = [
+        {
+            "mac_address": "AA:BB:CC:DD:EE:FF",
+            "assigned_object_id": test100_gi1.id,
+            "assigned_object_type": "dcim.interface",
+        },
+        {
+            "mac_address": "AA:AB:CC:DD:EE:FF",
+            "assigned_object_id": test100_gi2.id,
+            "assigned_object_type": "dcim.interface",
+        },
+    ]
+    created_mac_addresses = make_netbox_calls(nb.dcim.mac_addresses, mac_addresses)
+
 # Wireless Interfaces
 if nb_version >= version.parse("3.1"):
     wlink_interfaces = [
