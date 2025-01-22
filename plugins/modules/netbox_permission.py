@@ -169,7 +169,7 @@ def main():
                     enabled=dict(required=False, type="bool"),
                     actions=dict(required=False, type="list", elements="raw"),
                     object_types=dict(required=False, type="list", elements="raw"),
-                    constraints=dict(required=False, type="dict"),
+                    constraints=dict(required=False, type="raw"),
                 ),
             ),
         )
