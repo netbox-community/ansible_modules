@@ -1,0 +1,2 @@
+bugfixes:
+  - Fix missing netbox_config_template module in module_defaults
