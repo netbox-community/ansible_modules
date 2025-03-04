@@ -10,14 +10,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_service_module:
+.. _ansible_collections.netbox.netbox.netbox_mac_address_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_service module -- Creates or removes service from NetBox
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_mac_address module -- Create, update or delete MAC addresses within NetBox
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -29,15 +29,15 @@ netbox.netbox.netbox_service module -- Creates or removes service from NetBox
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_service_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_mac_address_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_service`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_mac_address`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.1.5
+New in netbox.netbox 3.21.0
 
 .. contents::
    :local:
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- Creates or removes service from NetBox
+- Creates, updates or removes MAC addresses from NetBox
 
 
 .. Aliases
@@ -59,7 +59,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_service_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_mac_address_module_requirements:
 
 Requirements
 ------------
@@ -93,7 +93,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -127,7 +127,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -149,7 +149,49 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the service configuration
+      Defines the MAC address configuration
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/assigned_object"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/assigned_object:
+
+      .. rst-class:: ansible-option-title
+
+      **assigned_object**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/assigned_object" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The object to assign this MAC address to
 
 
       .. raw:: html
@@ -165,7 +207,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/comments:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/comments:
 
       .. rst-class:: ansible-option-title
 
@@ -179,9 +221,6 @@ Parameters
 
         :ansible-option-type:`string`
 
-      :ansible-option-versionadded:`added in netbox.netbox 3.10.0`
-
-
       .. raw:: html
 
         </div>
@@ -194,7 +233,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Comments that may include additional information in regards to the service
+      Comments for the MAC address
 
 
       .. raw:: html
@@ -210,7 +249,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/custom_fields:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/custom_fields:
 
       .. rst-class:: ansible-option-title
 
@@ -252,7 +291,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/description:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/description:
 
       .. rst-class:: ansible-option-title
 
@@ -278,7 +317,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Service description
+      Description of the MAC address
 
 
       .. raw:: html
@@ -288,105 +327,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/mac_address"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/device:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/mac_address:
 
       .. rst-class:: ansible-option-title
 
-      **device**
+      **mac_address**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/device" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies on which device the service is running
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/ipaddresses"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/ipaddresses:
-
-      .. rst-class:: ansible-option-title
-
-      **ipaddresses**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/ipaddresses" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which IPaddresses to associate with service.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/mac_address" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
@@ -404,133 +359,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the region to be created
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/port"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/port:
-
-      .. rst-class:: ansible-option-title
-
-      **port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/port" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which port used by service
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/ports"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/ports:
-
-      .. rst-class:: ansible-option-title
-
-      **ports**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/ports" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`list` / :ansible-option-elements:`elements=integer`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which ports used by service (NetBox 2.10 and newer)
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/protocol"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/protocol" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies which protocol used by service
+      The MAC address
 
 
       .. raw:: html
@@ -546,7 +375,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/tags:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-data/tags:
 
       .. rst-class:: ansible-option-title
 
@@ -572,49 +401,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      What tags to add/update
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/virtual_machine"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-data/virtual_machine:
-
-      .. rst-class:: ansible-option-title
-
-      **virtual_machine**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/virtual_machine" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies on which virtual machine the service is running
+      Any tags that the MAC address may need to be associated with
 
 
       .. raw:: html
@@ -627,7 +414,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -661,7 +448,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -697,7 +484,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -735,7 +522,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -777,7 +564,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_service_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -822,6 +609,7 @@ Notes
 -----
 
 .. note::
+   - Tags should be defined as a YAML list
    - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
@@ -834,36 +622,40 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    - name: "Create netbox service"
+    - name: "Test NetBox MAC address module"
       connection: local
       hosts: localhost
       gather_facts: false
 
       tasks:
-        - name: Create service
-          netbox.netbox.netbox_service:
+        - name: Create MAC address within NetBox with only required information
+          netbox.netbox.netbox_mac_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              device: Test666
-              name: node-exporter
-              port: 9100
-              protocol: TCP
-              ipaddresses:
-                - address: 127.0.0.1
-              tags:
-                - prometheus
+              mac_address: "00:11:22:33:44:55"
             state: present
 
-        - name: Delete service
-          netbox.netbox.netbox_service:
+        - name: Create MAC address with interface assignment
+          netbox.netbox.netbox_mac_address:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              device: Test666
-              name: node-exporter
-              port: 9100
-              protocol: TCP
+              mac_address: "AA:BB:CC:DD:EE:FF"
+              assigned_object:
+                device: Test Nexus One
+                name: Ethernet1/1
+              description: "MAC address for eth1/1"
+              tags:
+                - Network
+            state: present
+
+        - name: Delete MAC address within netbox
+          netbox.netbox.netbox_mac_address:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              mac_address: "00:11:22:33:44:55"
             state: absent
 
 
@@ -872,6 +664,101 @@ Examples
 
 
 .. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-mac_address"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__return-mac_address:
+
+      .. rst-class:: ansible-option-title
+
+      **mac_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-mac_address" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created or already existent within NetBox
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` success (when :emphasis:`state=present`\ )
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-msg"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_mac_address_module__return-msg:
+
+      .. rst-class:: ansible-option-title
+
+      **msg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Message indicating failure or info about what has been achieved
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
 
 
 ..  Status (Presently only deprecated)
@@ -882,7 +769,7 @@ Examples
 Authors
 ~~~~~~~
 
-- Kulakov Ilya (@TawR1024)
+- Martin Rødvand (@rodvand)
 
 
 

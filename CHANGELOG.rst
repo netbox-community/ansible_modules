@@ -4,6 +4,34 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.21.0
+=======
+
+Minor Changes
+-------------
+
+- Add `label`, `description` and `enabled` to `netbox_device_interface_template` (https://github.com/netbox-community/ansible_modules/issues/1333)
+- Add example for using ansible variables in lookup
+- Add name as option to netbox_fhrp_group
+- Add support for custom headers
+- netbox_cluster - Add options scope and scope_type for NetBox 4.2+
+- netbox_device_interface - Add primary_mac_address option for NetBox 4.2+
+- netbox_prefix - Add options scope and scope_type for NetBox 4.2+
+- netbox_vm_interface - Add primary_mac_address option for NetBox 4.2+
+
+Bugfixes
+--------
+
+- Fix missing netbox_config_template module in module_defaults
+- Fixed an isssue with module_default parameter inheritance for modules netbox_config_template, netbox_custom_field_choice_set, netbox_permission, netbox_token, netbox_user, and netbox_user_group.
+- fix call /api/status/ instead /api/status in nb_inventory plugin. (https://github.com/netbox-community/ansible_modules/issues/1335).
+- netbox_ip_address - Fixed the problem preventing assignment of an IP address to a network interface
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_mac_address - Create, update or delete MAC addresses within NetBox
+
 v3.20.0
 =======
 

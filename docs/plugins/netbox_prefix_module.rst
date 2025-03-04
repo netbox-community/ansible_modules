@@ -22,7 +22,7 @@ netbox.netbox.netbox_prefix module -- Creates or removes prefixes from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -602,6 +602,107 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/scope"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_prefix_module__parameter-data/scope:
+
+      .. rst-class:: ansible-option-title
+
+      **scope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/scope" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.21.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Object related to scope type (NetBox 4.2+)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/scope_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_prefix_module__parameter-data/scope_type:
+
+      .. rst-class:: ansible-option-title
+
+      **scope_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/scope_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.21.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of scope to be applied (NetBox 4.2+)
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"dcim.location"`
+      - :ansible-option-choices-entry:`"dcim.rack"`
+      - :ansible-option-choices-entry:`"dcim.region"`
+      - :ansible-option-choices-entry:`"dcim.site"`
+      - :ansible-option-choices-entry:`"dcim.sitegroup"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/site"></div>
 
       .. raw:: latex
@@ -634,7 +735,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site that prefix is associated with
+      Site that prefix is associated with (Deprecated in NetBox 4.2+)
+
+      Will be removed in version 5.0.0
 
 
       .. raw:: html
@@ -1191,6 +1294,20 @@ Examples
               site: Test Site
             state: present
             first_available: true
+
+        - name: Create prefix with scope (NetBox 4.2+)
+          netbox.netbox.netbox_prefix:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              prefix: 10.156.32.0/19
+              scope_type: "dcim.site"
+              scope: Test Site
+              vrf: Test VRF
+              tenant: Test Tenant
+              status: Reserved
+              description: Test description
+            state: present
 
 
 

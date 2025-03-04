@@ -44,6 +44,13 @@ Environment variables used by the ansible-core configuration are documented in :
 
     *Used by:*
     :ansplugin:`netbox.netbox.nb\_lookup lookup plugin <netbox.netbox.nb_lookup#lookup>`
+.. envvar:: NETBOX_HEADERS
+
+    Dictionary of headers to be passed to the NetBox API.
+
+    *Used by:*
+    :ansplugin:`netbox.netbox.nb\_inventory inventory plugin <netbox.netbox.nb_inventory#inventory>`,
+    :ansplugin:`netbox.netbox.nb\_lookup lookup plugin <netbox.netbox.nb_lookup#lookup>`
 .. envvar:: NETBOX_TOKEN
 
     See the documentations for the options where this environment variable is used.

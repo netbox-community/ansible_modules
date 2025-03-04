@@ -1,2 +1,0 @@
-bugfixes:
-  - netbox_ip_address - Fixed the problem preventing assignment of an IP address to a network interface
