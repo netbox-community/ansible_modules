@@ -53,9 +53,28 @@ options:
         type: raw
       site:
         description:
-          - Required if I(state=present) and the cluster does not exist yet
+          - Required if I(state=present) and the cluster does not exist yet (Deprecated in NetBox 4.2+)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
+      scope_type:
+        description:
+          - Type of scope to be applied (NetBox 4.2+)
+        required: false
+        type: str
+        choices:
+          - "dcim.location"
+          - "dcim.rack"
+          - "dcim.region"
+          - "dcim.site"
+          - "dcim.sitegroup"
+        version_added: "3.21.0"
+      scope:
+        description:
+          - Object related to scope type (NetBox 4.2+)
+        required: false
+        type: raw
+        version_added: "3.21.0"
       description:
         description:
           - The description of the cluster
@@ -131,6 +150,19 @@ EXAMPLES = r"""
           site: SITE
           status: planned
         state: present
+
+    - name: Update the group and scope of an existing cluster (NetBox 4.2+)
+      netbox.netbox.netbox_cluster:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Cluster
+          cluster_type: qemu
+          cluster_group: GROUP
+          scope_type: "dcim.site"
+          scope: SITE
+          status: planned
+        state: present
 """
 
 RETURN = r"""
@@ -170,7 +202,24 @@ def main():
                     status=dict(required=False, type="raw"),
                     cluster_type=dict(required=False, type="raw"),
                     cluster_group=dict(required=False, type="raw"),
-                    site=dict(required=False, type="raw"),
+                    site=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
+                    scope_type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "dcim.location",
+                            "dcim.rack",
+                            "dcim.region",
+                            "dcim.site",
+                            "dcim.sitegroup",
+                        ],
+                    ),
+                    scope=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
@@ -182,9 +231,13 @@ def main():
     )
 
     required_if = [("state", "present", ["name"]), ("state", "absent", ["name"])]
+    required_together = [("scope_type", "scope")]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_together=required_together,
     )
 
     netbox_cluster = NetboxVirtualizationModule(module, NB_CLUSTERS)

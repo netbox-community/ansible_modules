@@ -55,9 +55,28 @@ options:
         type: int
       site:
         description:
-          - Site that prefix is associated with
+          - Site that prefix is associated with (Deprecated in NetBox 4.2+)
+          - Will be removed in version 5.0.0
         required: false
         type: raw
+      scope_type:
+        description:
+          - Type of scope to be applied (NetBox 4.2+)
+        required: false
+        type: str
+        choices:
+          - "dcim.location"
+          - "dcim.rack"
+          - "dcim.region"
+          - "dcim.site"
+          - "dcim.sitegroup"
+        version_added: "3.21.0"
+      scope:
+        description:
+          - Object related to scope type (NetBox 4.2+)
+        required: false
+        type: raw
+        version_added: "3.21.0"
       vrf:
         description:
           - VRF that prefix is associated with
@@ -212,6 +231,20 @@ EXAMPLES = r"""
           site: Test Site
         state: present
         first_available: true
+
+    - name: Create prefix with scope (NetBox 4.2+)
+      netbox.netbox.netbox_prefix:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          prefix: 10.156.32.0/19
+          scope_type: "dcim.site"
+          scope: Test Site
+          vrf: Test VRF
+          tenant: Test Tenant
+          status: Reserved
+          description: Test description
+        state: present
 """
 
 RETURN = r"""
@@ -252,7 +285,24 @@ def main():
                     prefix=dict(required=False, type="raw"),
                     parent=dict(required=False, type="raw"),
                     prefix_length=dict(required=False, type="int"),
-                    site=dict(required=False, type="raw"),
+                    site=dict(
+                        required=False,
+                        type="raw",
+                        removed_in_version="5.0.0",
+                        removed_from_collection="netbox.netbox",
+                    ),
+                    scope_type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "dcim.location",
+                            "dcim.rack",
+                            "dcim.region",
+                            "dcim.site",
+                            "dcim.sitegroup",
+                        ],
+                    ),
+                    scope=dict(required=False, type="raw"),
                     vrf=dict(required=False, type="raw"),
                     tenant=dict(required=False, type="raw"),
                     vlan=dict(required=False, type="raw"),

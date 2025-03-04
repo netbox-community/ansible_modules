@@ -7,7 +7,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.20.0
+Collection version 3.21.0
 
 .. contents::
    :local:
@@ -92,6 +92,7 @@ Modules
 * :ansplugin:`netbox_l2vpn module <netbox.netbox.netbox_l2vpn#module>` -- Create, update or delete L2VPNs within NetBox
 * :ansplugin:`netbox_l2vpn_termination module <netbox.netbox.netbox_l2vpn_termination#module>` -- Create, update or delete L2VPNs terminations within NetBox
 * :ansplugin:`netbox_location module <netbox.netbox.netbox_location#module>` -- Create, update or delete locations within NetBox
+* :ansplugin:`netbox_mac_address module <netbox.netbox.netbox_mac_address#module>` -- Create, update or delete MAC addresses within NetBox
 * :ansplugin:`netbox_manufacturer module <netbox.netbox.netbox_manufacturer#module>` -- Create or delete manufacturers within NetBox
 * :ansplugin:`netbox_module module <netbox.netbox.netbox_module#module>` -- Create, update or delete module within NetBox
 * :ansplugin:`netbox_module_bay module <netbox.netbox.netbox_module_bay#module>` -- Create, update or delete module bay within NetBox
@@ -184,6 +185,7 @@ Modules
     netbox_l2vpn_module
     netbox_l2vpn_termination_module
     netbox_location_module
+    netbox_mac_address_module
     netbox_manufacturer_module
     netbox_module_module
     netbox_module_bay_module

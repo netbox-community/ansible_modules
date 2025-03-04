@@ -22,7 +22,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -223,6 +223,54 @@ examples: ``lookup('netbox.netbox.nb_lookup', key1=value1, key2=value2, ...)`` a
         <div class="ansible-option-cell">
 
       The api\_filter to use. Filters should be key value pairs separated by a space.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_lookup_lookup__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Dictionary of headers to be passed to the NetBox API.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`{}`
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      - Environment variable: :envvar:`NETBOX\_HEADERS`
 
 
       .. raw:: html
@@ -522,6 +570,20 @@ Examples
                         api_endpoint='http://localhost/',
                         api_filter='role=management tag=Dell'),
                         token='<redacted>') }}"
+        # This example uses an API Filter with a variable and jinja concatenation
+      - name: Set hostname fact
+        set_fact:
+          hostname: "my-server"
+      - name: Obtain details of a single device from NetBox
+        debug:
+          msg: >
+            "Device {{item.0.value.display}} (ID: {{item.0.key}}) was
+             manufactured by {{ item.0.value.device_type.manufacturer.name }}"
+        loop:
+          - '{{ query("netbox.netbox.nb_lookup", "devices",
+            api_endpoint="http://localhost/",
+            api_filter="name=" ~hostname,
+            token="<redacted>") }}'
 
 
 

@@ -1,6 +1,0 @@
-# runme_config is source'd by runme.sh to set environment variables used to modify the test against different versions of NetBox.
-# .travis.yml uses render_config.sh to generate it from runme_config.template
-# There is no other way to pass environment variables to a runme.sh integration test.
-# (integration_config.yml files are only helpful to ansible yaml-based tests)
-
-export NETBOX_VERSION=${VERSION}

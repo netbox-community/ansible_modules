@@ -22,7 +22,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.20.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -421,7 +421,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Prefix to use for cache plugin files/tables
+      Prefix to use for cache plugin files/tables.
 
 
       .. rst-class:: ansible-option-line
@@ -486,7 +486,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Cache duration in seconds
+      Cache duration in seconds.
 
 
       .. rst-class:: ansible-option-line
@@ -1169,6 +1169,54 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Dictionary of headers to be passed to the NetBox API.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`{}`
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-configuration:`Configuration:`
+
+      - Environment variable: :envvar:`NETBOX\_HEADERS`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-hostname_field"></div>
 
       .. _ansible_collections.netbox.netbox.nb_inventory_inventory__parameter-hostname_field:
@@ -1427,7 +1475,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The key from input dictionary used to generate groups
+      The key from input dictionary used to generate groups.
 
 
       .. raw:: html
@@ -1472,7 +1520,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      parent group for keyed group
+      parent group for keyed group.
 
 
       .. raw:: html
@@ -1517,7 +1565,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A keyed group name will start with this prefix
+      A keyed group name will start with this prefix.
 
 
       .. rst-class:: ansible-option-line
@@ -1566,7 +1614,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      separator used to build the keyed group name
+      separator used to build the keyed group name.
 
 
       .. rst-class:: ansible-option-line
@@ -1618,7 +1666,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Set this option to :ansval:`False` to omit the :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].separator` after the host variable when the value is an empty string.
+      Set this option to :ansval:`false` to omit the :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].separator` after the host variable when the value is an empty string.
 
       This option is mutually exclusive with :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups[].default\_value`.
 
@@ -1669,13 +1717,13 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Use in conjunction with keyed\_groups.
+      Use in conjunction with :ansopt:`netbox.netbox.nb\_inventory#inventory:keyed\_groups`.
 
       By default, a keyed group that does not have a prefix or a separator provided will have a name that starts with an underscore.
 
-      This is because the default prefix is "" and the default separator is "\_".
+      This is because the default prefix is :ansval:`""` and the default separator is :ansval:`"\_"`.
 
-      Set this option to False to omit the leading underscore (or other separator) if no prefix is given.
+      Set this option to :ansval:`false` to omit the leading underscore (or other separator) if no prefix is given.
 
       If the group name is derived from a mapping the separator is still used to concatenate the items.
 
@@ -2586,6 +2634,8 @@ Examples
     device_query_filters:
       - has_primary_ip: 'true'
       - tenant__n: internal
+    headers:
+      Cookie: "{{ auth_cookie }}"
 
     # has_primary_ip is a useful way to filter out patch panels and other passive devices
     # Adding '__n' to a field searches for the negation of the value.
