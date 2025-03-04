@@ -1,3 +1,0 @@
-minor_changes:
-  - netbox_device_interface - Add primary_mac_address option for NetBox 4.2+
-  - netbox_vm_interface - Add primary_mac_address option for NetBox 4.2+
