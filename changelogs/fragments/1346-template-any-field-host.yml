@@ -1,0 +1,2 @@
+minor_changes:
+  - Add the ability to use any field to generate the host name in inventory
