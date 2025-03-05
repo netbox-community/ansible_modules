@@ -147,7 +147,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    name=dict(type="str"),
+                    name=dict(type="str", required=True),
                     protocol=dict(
                         type="str",
                         choices=[
