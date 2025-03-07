@@ -325,8 +325,8 @@ keyed_groups:
   - prefix: status
     key: status.value
 
-# For use in Ansible Tower (AWX), please see this blog from RedHat: https://www.ansible.com/blog/using-an-inventory-plugin-from-a-collection-in-ansible-tower
-# The credential for NetBox will need to expose NETBOX_API and NETBOX_TOKEN as environment variables.
+# For use in Ansible Tower (AWX) the credential for NetBox will need to expose NETBOX_API
+# and NETBOX_TOKEN as environment variables.
 # Example Ansible Tower credential Input Configuration:
 
 fields:
