@@ -49,16 +49,22 @@ options:
         required: false
         type: bool
         version_added: 3.5.0
-      site:
+      termination_id:
         description:
-          - The site the circuit termination will be assigned to
+          - The ProviderNewtork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to
         required: false
-        type: raw
-      provider_network:
+        type: int
+      termination_type:
         description:
-          - The provider_network the circuit termination will be assigned to
+          - The type the circuit termination will be assigned to
+        choices:
+          - dcim.site
+          - dcim.location
+          - dcim.region
+          - dcim.sitegroup
+          - circuits.providernetwork
         required: false
-        type: raw
+        type: str
       port_speed:
         description:
           - The speed of the port (Kbps)
@@ -100,7 +106,8 @@ EXAMPLES = r"""
         data:
           circuit: Test Circuit
           term_side: A
-          site: Test Site
+          termination_id: 1
+          termination_type: dcim.site
           port_speed: 10000
         state: present
 
@@ -163,8 +170,8 @@ def main():
                     circuit=dict(required=True, type="raw"),
                     term_side=dict(required=True, choices=["A", "Z"]),
                     mark_connected=dict(required=False, type="bool"),
-                    site=dict(required=False, type="raw"),
-                    provider_network=dict(required=False, type="raw"),
+                    termination_id=dict(required=False, type="int"),
+                    termination_type=dict(required=False, type="str"),
                     port_speed=dict(required=False, type="int"),
                     upstream_speed=dict(required=False, type="int"),
                     xconnect_id=dict(required=False, type="str"),
