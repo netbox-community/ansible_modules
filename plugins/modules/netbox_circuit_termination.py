@@ -51,7 +51,7 @@ options:
         version_added: 3.5.0
       termination_id:
         description:
-          - The ProviderNewtork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to
+          - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to
         required: false
         type: int
       termination_type:
