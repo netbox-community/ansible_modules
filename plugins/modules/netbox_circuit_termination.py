@@ -54,6 +54,7 @@ options:
           - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
         required: false
         type: int
+        version_added: 4.2.0
       termination_type:
         description:
           - The type the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
@@ -65,6 +66,7 @@ options:
           - circuits.providernetwork
         required: false
         type: str
+        version_added: 4.2.0
       site:
         description:
           - The site the circuit termination will be assigned to.  This is used with NetBox versions before 4.2.0.
@@ -214,14 +216,14 @@ def main():
         ("termination_id", "site"),
         ("termination_type", "site"),
         ("termination_id", "provider_network"),
-        ("termination_type", "provider_network")
+        ("termination_type", "provider_network"),
     ]
 
     module = NetboxAnsibleModule(
         argument_spec=argument_spec,
         supports_check_mode=True,
         required_if=required_if,
-        mutually_exclusive=mutually_exclusive
+        mutually_exclusive=mutually_exclusive,
     )
 
     netbox_circuit_termination = NetboxCircuitsModule(module, NB_CIRCUIT_TERMINATIONS)
