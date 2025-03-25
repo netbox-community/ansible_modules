@@ -51,12 +51,12 @@ options:
         version_added: 3.5.0
       termination_id:
         description:
-          - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to
+          - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
         required: false
         type: int
       termination_type:
         description:
-          - The type the circuit termination will be assigned to
+          - The type the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
         choices:
           - dcim.site
           - dcim.location
@@ -65,6 +65,16 @@ options:
           - circuits.providernetwork
         required: false
         type: str
+      site:
+        description:
+          - The site the circuit termination will be assigned to.  This is used with NetBox versions before 4.2.0.
+        required: false
+        type: raw
+      provider_network:
+        description:
+          - The provider_network the circuit termination will be assigned to.  This is used with NetBox versions before 4.2.0.
+        required: false
+        type: raw
       port_speed:
         description:
           - The speed of the port (Kbps)
@@ -99,7 +109,7 @@ EXAMPLES = r"""
   gather_facts: false
 
   tasks:
-    - name: Create circuit termination within NetBox with only required information
+    - name: Create circuit termination within NetBox version 4.2.0 or later with only required information
       netbox.netbox.netbox_circuit_termination:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
@@ -108,6 +118,17 @@ EXAMPLES = r"""
           term_side: A
           termination_id: 1
           termination_type: dcim.site
+          port_speed: 10000
+        state: present
+
+    - name: Create circuit termination within NetBox versions earlier than 4.2.0 with only required information
+      netbox.netbox.netbox_circuit_termination:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          circuit: Test Circuit
+          term_side: A
+          site: Test Site
           port_speed: 10000
         state: present
 
@@ -172,6 +193,8 @@ def main():
                     mark_connected=dict(required=False, type="bool"),
                     termination_id=dict(required=False, type="int"),
                     termination_type=dict(required=False, type="str"),
+                    site=dict(required=False, type="raw"),
+                    provider_network=dict(required=False, type="raw"),
                     port_speed=dict(required=False, type="int"),
                     upstream_speed=dict(required=False, type="int"),
                     xconnect_id=dict(required=False, type="str"),
@@ -187,8 +210,18 @@ def main():
         ("state", "absent", ["circuit", "term_side"]),
     ]
 
+    mutually_exclusive = [
+        ("termination_id", "site"),
+        ("termination_type", "site"),
+        ("termination_id", "provider_network"),
+        ("termination_type", "provider_network")
+    ]
+
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        mutually_exclusive=mutually_exclusive
     )
 
     netbox_circuit_termination = NetboxCircuitsModule(module, NB_CIRCUIT_TERMINATIONS)
