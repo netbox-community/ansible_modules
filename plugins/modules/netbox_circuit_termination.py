@@ -51,13 +51,15 @@ options:
         version_added: 3.5.0
       termination_id:
         description:
-          - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
+          - The ProviderNetwork, Location, Site, Region, or SiteGroup ID of the circuit termination will be assigned to.
+          - This parameter is used with NetBox versions >= 4.2.0.
         required: false
         type: int
         version_added: 4.2.0
       termination_type:
         description:
-          - The type the circuit termination will be assigned to.  This is used with NetBox versions >= 4.2.0.
+          - The type the circuit termination will be assigned to.
+          - This parameter is used with NetBox versions >= 4.2.0.
         choices:
           - dcim.site
           - dcim.location
@@ -69,12 +71,14 @@ options:
         version_added: 4.2.0
       site:
         description:
-          - The site the circuit termination will be assigned to.  This is used with NetBox versions before 4.2.0.
+          - The site the circuit termination will be assigned to.
+          - This parameter is used with NetBox versions before 4.2.0.
         required: false
         type: raw
       provider_network:
         description:
-          - The provider_network the circuit termination will be assigned to.  This is used with NetBox versions before 4.2.0.
+          - The provider_network the circuit termination will be assigned to.
+          - This parameter is used with NetBox versions before 4.2.0.
         required: false
         type: raw
       port_speed:
