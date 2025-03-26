@@ -194,7 +194,17 @@ def main():
                     term_side=dict(required=True, choices=["A", "Z"]),
                     mark_connected=dict(required=False, type="bool"),
                     termination_id=dict(required=False, type="int"),
-                    termination_type=dict(required=False, type="str"),
+                    termination_type=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "dcim.site",
+                            "dcim.location",
+                            "dcim.region",
+                            "dcim.sitegroup",
+                            "circuits.providernetwork",
+                        ],
+                    ),
                     site=dict(required=False, type="raw"),
                     provider_network=dict(required=False, type="raw"),
                     port_speed=dict(required=False, type="int"),
