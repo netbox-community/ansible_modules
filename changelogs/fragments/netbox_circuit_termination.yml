@@ -1,0 +1,2 @@
+minor_changes:
+  - netbox_circuit_termination - Add parameters termination_id and termination_type for NetBox 4.2+
