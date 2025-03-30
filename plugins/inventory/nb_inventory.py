@@ -1148,19 +1148,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Pull all prefixes defined in NetBox
         url = self.api_endpoint + "/api/ipam/prefixes"
 
-        if self.fetch_all:
-            prefixes = self.get_resource_list(url)
-        else:
-            prefixes = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="site",
-                query_values=list(self.sites_with_prefixes),
-            )
+        prefixes = self.get_resource_list(url)
         self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
         for prefix in prefixes:
-            if prefix.get("site"):
+            # NetBox >=4.2
+            if (
+                prefix.get("scope_type") == "dcim.site"
+                and prefix.get("scope") is not None
+            ):
+                self.prefixes_sites_lookup[prefix["scope"]["id"]].append(prefix)
+            # NetBox <=4.1
+            elif prefix.get("site"):
                 self.prefixes_sites_lookup[prefix["site"]["id"]].append(prefix)
                 # Remove "site" attribute, as it's redundant when prefixes are assigned to site
                 del prefix["site"]
