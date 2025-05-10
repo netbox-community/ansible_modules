@@ -568,7 +568,7 @@ Examples
              manufactured by {{ item.value.device_type.manufacturer.name }}"
         loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                         api_endpoint='http://localhost/',
-                        api_filter='role=management tag=Dell'),
+                        api_filter='role=management tag=Dell',
                         token='<redacted>') }}"
         # This example uses an API Filter with a variable and jinja concatenation
       - name: Set hostname fact
