@@ -1,0 +1,2 @@
+bugfixes:
+  - nb_inventory - Fixed empty inventory results when netbox server URL is a non-root path

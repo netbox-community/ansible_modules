@@ -406,6 +406,8 @@ from ansible.module_utils._text import to_text, to_native
 from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
+from ansible.module_utils.six.moves.urllib.parse import urlparse
+
 from ansible.module_utils.six import raise_from
 
 try:
@@ -1629,26 +1631,32 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.api_version = version.parse(netbox_api_version)
 
         if self.api_version >= version.parse("3.5.0"):
+            parsed_endpoint_url = urlparse(self.api_endpoint)
+            base_path = parsed_endpoint_url.path
             self.allowed_device_query_parameters = [
                 p["name"]
-                for p in openapi["paths"]["/api/dcim/devices/"]["get"]["parameters"]
+                for p in openapi["paths"][base_path + "/api/dcim/devices/"]["get"][
+                    "parameters"
+                ]
             ]
             self.allowed_vm_query_parameters = [
                 p["name"]
-                for p in openapi["paths"]["/api/virtualization/virtual-machines/"][
-                    "get"
-                ]["parameters"]
+                for p in openapi["paths"][
+                    base_path + "/api/virtualization/virtual-machines/"
+                ]["get"]["parameters"]
             ]
         else:
             self.allowed_device_query_parameters = [
                 p["name"]
-                for p in openapi["paths"]["/dcim/devices/"]["get"]["parameters"]
+                for p in openapi["paths"][base_path + "/dcim/devices/"]["get"][
+                    "parameters"
+                ]
             ]
             self.allowed_vm_query_parameters = [
                 p["name"]
-                for p in openapi["paths"]["/virtualization/virtual-machines/"]["get"][
-                    "parameters"
-                ]
+                for p in openapi["paths"][
+                    base_path + "/virtualization/virtual-machines/"
+                ]["get"]["parameters"]
             ]
 
     def validate_query_parameter(self, parameter, allowed_query_parameters):
