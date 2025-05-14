@@ -86,6 +86,16 @@ EXAMPLES = r"""
       loop:
         - mgmt
         - tun
+
+    - name: Restrict object types
+      netbox.netbox.netbox_tag:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "MyTag"
+          object_types:
+            - dcim.prefix
+
 """
 
 RETURN = r"""
