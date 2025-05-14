@@ -50,6 +50,12 @@ options:
           - Tag description
         required: false
         type: str
+      object_types:
+        description:
+          - Objects types using the tag
+        required: false
+        type: list
+        elements: raw
     required: true
 """
 
@@ -119,6 +125,7 @@ def main():
                     color=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )
