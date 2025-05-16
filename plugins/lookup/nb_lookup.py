@@ -226,6 +226,7 @@ def get_endpoint(netbox, term):
         "job-results": {"endpoint": netbox.extras.job_results},
         "journal-entries": {"endpoint": netbox.extras.journal_entries},
         "locations": {"endpoint": netbox.dcim.locations},
+        "mac-addresses": {"endpoint": netbox.dcim.mac_addresses},
         "manufacturers": {"endpoint": netbox.dcim.manufacturers},
         "module-bays": {"endpoint": netbox.dcim.module_bays},
         "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
