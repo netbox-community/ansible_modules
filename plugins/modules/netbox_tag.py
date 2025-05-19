@@ -95,7 +95,6 @@ EXAMPLES = r"""
           name: "MyTag"
           object_types:
             - dcim.prefix
-
 """
 
 RETURN = r"""
