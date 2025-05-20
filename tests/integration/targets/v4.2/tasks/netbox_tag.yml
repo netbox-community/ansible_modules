@@ -12,6 +12,8 @@
       name: Test Tag 1
       description: Tag 1 test
       color: "0000ff"
+      object_types:
+        - ipem.prefix
     state: present
   register: test_one
 
@@ -25,6 +27,7 @@
       - test_one['tags']['description'] == "Tag 1 test"
       - test_one['tags']['name'] == "Test Tag 1"
       - test_one['tags']['slug'] == "test-tag-1"
+      - test_one['tags']['object_types'][0] = "ipam.prefix"
       - test_one['msg'] == "tags Test Tag 1 created"
 
 - name: "TAG 2: Create duplicate"
@@ -53,6 +56,8 @@
       name: Test Tag 1
       description: Tag 1 update test
       color: "00ff00"
+      object_types:
+        - ipam.asn
     state: present
   register: test_three
 
@@ -65,6 +70,7 @@
       - test_three['tags']['name'] == "Test Tag 1"
       - test_three['tags']['description'] == "Tag 1 update test"
       - test_three['tags']['color'] == "00ff00"
+       -test_three['tags']['object_types'][0] == "ipam.asn"
       - test_three['msg'] == "tags Test Tag 1 updated"
 
 - name: "TAG 4: ASSERT - Delete"
