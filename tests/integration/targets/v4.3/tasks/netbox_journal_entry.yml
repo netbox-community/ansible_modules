@@ -1,0 +1,26 @@
+---
+##
+##
+### NETBOX_JOURNAL_ENTRY
+##
+##
+- name: "JOURNAL ENTRY 1: Creation"
+  netbox.netbox.netbox_journal_entry:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      assigned_object_type: dcim.device
+      assigned_object_id: 1
+      comments: |
+        Comment on device
+    state: new
+  register: test_one
+
+- name: "JOURNAL_ENTRY 1: ASSERT - Creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['journal_entry']['kind'] == "info"
+      - test_one['msg'] == "journal_entry created"

@@ -1,0 +1,62 @@
+---
+##
+##
+### NETBOX_RACK_GROUP
+##
+##
+- name: "RACK_GROUP 1: Necessary info creation"
+  netbox.netbox.netbox_rack_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Rack Group
+      site: Test Site
+    state: present
+  register: test_one
+
+- name: "RACK_GROUP 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['rack_group']['name'] == "Rack Group"
+      - test_one['rack_group']['slug'] == "rack-group"
+      - test_one['rack_group']['site'] == 1
+      - test_one['msg'] == "rack_group Rack Group created"
+
+- name: "RACK_GROUP 2: Create duplicate"
+  netbox.netbox.netbox_rack_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Rack Group
+      site: Test Site
+    state: present
+  register: test_two
+
+- name: "RACK_GROUP 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['rack_group']['name'] == "Rack Group"
+      - test_two['rack_group']['slug'] == "rack-group"
+      - test_two['rack_group']['site'] == 1
+      - test_two['msg'] == "rack_group Rack Group already exists"
+
+- name: "RACK_GROUP 3: ASSERT - Delete"
+  netbox.netbox.netbox_rack_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Rack Group
+    state: absent
+  register: test_three
+
+- name: "RACK_GROUP 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "present"
+      - test_three['diff']['after']['state'] == "absent"
+      - test_three['msg'] == "rack_group Rack Group deleted"

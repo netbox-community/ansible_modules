@@ -1,0 +1,70 @@
+---
+##
+##
+### NETBOX_MAC_ADDRESS
+##
+##
+- name: "MAC 1: Create MAC address with required parameters"
+  netbox.netbox.netbox_mac_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      mac_address: "00:11:22:33:44:55"
+    state: present
+  register: test_one
+
+- name: "MAC 1: ASSERT - Create MAC address"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['mac_address']['mac_address'] == "00:11:22:33:44:55"
+      - test_one['msg'] == "mac_address 00:11:22:33:44:55 created"
+
+- name: "MAC 2: Create MAC address with all parameters"
+  netbox.netbox.netbox_mac_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      mac_address: "AA:BB:CC:DD:EE:F0"
+      assigned_object:
+        device: Test Nexus One
+        name: Ethernet1/1
+      description: "Test MAC address"
+      comments: "Test MAC address comment"
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_two
+
+- name: "MAC 2: ASSERT - Create MAC address with all parameters"
+  ansible.builtin.assert:
+    that:
+      - test_two is changed
+      - test_two['diff']['before']['state'] == "absent"
+      - test_two['diff']['after']['state'] == "present"
+      - test_two['mac_address']['mac_address'] == "AA:BB:CC:DD:EE:F0"
+      - test_two['mac_address']['assigned_object_type'] == "dcim.interface"
+      - test_two['mac_address']['assigned_object_id'] == 1
+      - test_two['mac_address']['description'] == "Test MAC address"
+      - test_two['mac_address']['comments'] == "Test MAC address comment"
+      - test_two['mac_address']['tags'][0] == 4
+      - test_two['msg'] == "mac_address AA:BB:CC:DD:EE:F0 created"
+
+- name: "MAC 3: Delete MAC address"
+  netbox.netbox.netbox_mac_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      mac_address: "00:11:22:33:44:55"
+    state: absent
+  register: test_three
+
+- name: "MAC 3: ASSERT - Delete MAC address"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['state'] == "present"
+      - test_three['diff']['after']['state'] == "absent"
+      - test_three['msg'] == "mac_address 00:11:22:33:44:55 deleted"

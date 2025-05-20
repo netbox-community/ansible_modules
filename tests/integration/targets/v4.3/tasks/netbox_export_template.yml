@@ -1,0 +1,118 @@
+---
+##
+##
+### NETBOX_EXPORT_TEMPLATE
+##
+##
+- name: "EXPORT_TEMPLATE 1: Necessary info creation"
+  netbox.netbox.netbox_export_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Example Export Template
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+    state: present
+  register: test_one
+
+- name: "EXPORT_TEMPLATE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['export_template']['name'] == "Example Export Template"
+      - test_one['export_template']['object_types'] == ["dcim.device"]
+      - test_one['export_template']['description'] == "Export Devices"
+      - test_one['msg'] == "export_template Example Export Template created"
+
+- name: "EXPORT_TEMPLATE 2: Create duplicate"
+  netbox.netbox.netbox_export_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Example Export Template
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+    state: present
+  register: test_two
+
+- name: "EXPORT_TEMPLATE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['export_template']['name'] == "Example Export Template"
+      - test_two['msg'] == "export_template Example Export Template already exists"
+
+- name: "EXPORT_TEMPLATE 3: Update data and remove as_attachment"
+  netbox.netbox.netbox_export_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Example Export Template
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+      as_attachment: false
+    state: present
+  register: test_three
+
+- name: "EXPORT_TEMPLATE 3: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['as_attachment'] == false
+      - test_three['export_template']['name'] == "Example Export Template"
+      - test_three['msg'] == "export_template Example Export Template updated"
+
+- name: "EXPORT_TEMPLATE 4: Change content type"
+  netbox.netbox.netbox_export_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - virtualization.virtualmachine
+      name: Example Export Template
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+    state: present
+  register: test_four
+
+- name: "EXPORT_TEMPLATE 4: ASSERT - Change content type"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['after']['object_types'] == ["virtualization.virtualmachine"]
+      - test_four['export_template']['name'] == "Example Export Template"
+      - test_four['msg'] == "export_template Example Export Template updated"
+
+- name: "EXPORT_TEMPLATE 5: Delete"
+  netbox.netbox.netbox_export_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - virtualization.virtualmachine
+      name: Example Export Template
+      description: Export Devices
+      template_code: !unsafe >-
+        {% for obj in queryset %}{{ obj.name }}{% endfor %}
+    state: absent
+  register: test_five
+
+- name: "EXPORT_TEMPLATE 5: ASSERT - Deleted"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['export_template']['name'] == "Example Export Template"
+      - test_five['msg'] == "export_template Example Export Template deleted"

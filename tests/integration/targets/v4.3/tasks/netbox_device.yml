@@ -1,0 +1,243 @@
+---
+##
+##
+### NETBOX_DEVICE
+##
+##
+- name: 1 - Device with required information
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: R1
+      device_type:
+        id: "1"
+      device_role: Core Switch
+      site: Test Site
+      status: Staged
+    state: present
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == 'absent'
+      - test_one['diff']['after']['state'] == 'present'
+      - test_one['device']['name'] == "R1"
+      - test_one['device']['role'] == 1
+      - test_one['device']['device_type'] == 1
+      - test_one['device']['site'] == 1
+      - test_one['device']['status'] == "staged"
+      - test_one['device']['name'] == "R1"
+      - test_one['msg'] == "device R1 created"
+
+- name: 2 - Duplicate device
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: R1
+      device_type: Cisco Test
+      device_role: Core Switch
+      site: Test Site
+      status: Staged
+    state: present
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['device']['name'] == "R1"
+      - test_two['device']['role'] == 1
+      - test_two['device']['device_type'] == 1
+      - test_two['device']['site'] == 1
+      - test_two['device']['status'] == "staged"
+      - test_two['msg'] == "device R1 already exists"
+
+- name: 3 - Update device
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: R1
+      serial: FXS1001
+      local_context_data:
+        bgp_as: "65412"
+      virtual_chassis: VC1
+      vc_position: 3
+      vc_priority: 15
+      location: Test Rack Group
+    state: present
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['serial'] == "FXS1001"
+      - test_three['diff']['after']['local_context_data']["bgp_as"] == "65412"
+      - test_three['diff']['after']['virtual_chassis'] == 1
+      - test_three['diff']['after']['vc_position'] == 3
+      - test_three['diff']['after']['vc_priority'] == 15
+      - test_three['device']['name'] == "R1"
+      - test_three['device']['role'] == 1
+      - test_three['device']['device_type'] == 1
+      - test_three['device']['site'] == 1
+      - test_three['device']['status'] == "staged"
+      - test_three['device']['serial'] == "FXS1001"
+      - test_three['device']['local_context_data']["bgp_as"] == "65412"
+      - test_three['device']['virtual_chassis'] == 1
+      - test_three['device']['vc_position'] == 3
+      - test_three['device']['vc_priority'] == 15
+      - test_three['device']['location'] == 1
+      - test_three['msg'] == "device R1 updated"
+
+- name: 3.1 - Update device name using query_params
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: R1-changed-name
+      serial: FXS1001
+    query_params:
+      - serial
+    state: present
+  register: test_three_dot_one
+
+- name: 3.1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three_dot_one is changed
+      - test_three_dot_one['diff']['after']['name'] == "R1-changed-name"
+      - test_three_dot_one['device']['role'] == 1
+      - test_three_dot_one['device']['device_type'] == 1
+      - test_three_dot_one['device']['site'] == 1
+      - test_three_dot_one['device']['status'] == "staged"
+      - test_three_dot_one['device']['serial'] == "FXS1001"
+      - test_three_dot_one['device']['local_context_data']["bgp_as"] == "65412"
+      - test_three_dot_one['msg'] == "device R1-changed-name updated"
+
+- name: 4 - Create device with tags and assign to rack
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: TestR1
+      device_type: "1841"
+      device_role: Core Switch
+      site: Test Site2
+      rack: Test Rack Site 2
+      position: 35.5
+      face: Front
+      tags:
+        - schnozzberry
+      tenant: Test Tenant
+      asset_tag: "1234"
+    state: present
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['device']['name'] == "TestR1"
+      - test_four['device']['role'] == 1
+      - test_four['device']['device_type'] == 5
+      - test_four['device']['site'] == 2
+      - test_four['device']['status'] == "active"
+      - test_four['device']['rack'] == 1
+      - test_four['device']['tags'][0] == 4
+      - test_four['device']['tenant'] == 1
+      - test_four['device']['asset_tag'] == '1234'
+      - test_four['msg'] == "device TestR1 created"
+
+- name: 5 - Delete previous device
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: TestR1
+    state: absent
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "device TestR1 deleted"
+
+- name: 6 - Delete R1
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: R1-changed-name
+    state: absent
+  register: test_six
+
+- name: 6 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "present"
+      - test_six['diff']['after']['state'] == "absent"
+      - test_six['msg'] == "device R1-changed-name deleted"
+
+- name: 7 - Add primary_ip4/6 to test100
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: test100
+      primary_ip4: 172.16.180.1/24
+      primary_ip6: 2001::1:1/64
+    state: present
+  register: test_seven
+
+- name: 7 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['after']['primary_ip4'] == 1
+      - test_seven['diff']['after']['primary_ip6'] == 2
+      - test_seven['device']['name'] == "test100"
+      - test_seven['device']['role'] == 1
+      - test_seven['device']['device_type'] == 1
+      - test_seven['device']['site'] == 1
+      - test_seven['device']['status'] == "active"
+      - test_seven['device']['primary_ip4'] == 1
+      - test_seven['device']['primary_ip6'] == 2
+      - test_seven['msg'] == "device test100 updated"
+
+- name: 8 - Device with empty string name
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: ""
+      device_type:
+        id: 1
+      device_role: Core Switch
+      site: Test Site
+      status: Staged
+    state: present
+  register: test_eight
+
+- name: 8 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eight is changed
+      - test_eight['diff']['before']['state'] == 'absent'
+      - test_eight['diff']['after']['state'] == 'present'
+      - test_eight['device']['role'] == 1
+      - test_eight['device']['device_type'] == 1
+      - test_eight['device']['site'] == 1
+      - test_eight['device']['status'] == "staged"
+      - "'-' in test_eight['device']['name']"
+      - test_eight['device']['name'] | length == 36
