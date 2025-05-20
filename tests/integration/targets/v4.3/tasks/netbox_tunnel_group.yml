@@ -1,0 +1,81 @@
+---
+##
+##
+### NETBOX_TUNNEL GROUP
+##
+##
+- name: "TUNNEL_GROUP 1: Necessary info creation"
+  netbox.netbox.netbox_tunnel_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Tunnel Group
+    state: present
+  register: test_one
+
+- name: "TUNNEL_GROUP 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['tunnel_group']['name'] == "Test Tunnel Group"
+      - test_one['tunnel_group']['slug'] == "test-tunnel-group"
+      - test_one['msg'] == "tunnel_group Test Tunnel Group created"
+
+- name: "TUNNEL_GROUP 2: Create duplicate"
+  netbox.netbox.netbox_tunnel_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Tunnel Group
+    state: present
+  register: test_two
+
+- name: "TUNNEL_GROUP 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['tunnel_group']['name'] == "Test Tunnel Group"
+      - test_two['tunnel_group']['slug'] == "test-tunnel-group"
+      - test_two['msg'] == "tunnel_group Test Tunnel Group already exists"
+
+- name: "TUNNEL_GROUP 3: Update Existing"
+  netbox.netbox.netbox_tunnel_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Tunnel Group
+      description: Test Description
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_three
+
+- name: "TUNNEL_GROUP 3: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "Test Description"
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['tunnel_group']['name'] == "Test Tunnel Group"
+      - test_three['tunnel_group']['description'] == "Test Description"
+      - test_three['tunnel_group']['tags'][0] == 4
+      - test_three['msg'] == "tunnel_group Test Tunnel Group updated"
+
+- name: "TUNNEL_GROUP 4: Delete"
+  netbox.netbox.netbox_tunnel_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Tunnel Group
+    state: absent
+  register: test_four
+
+- name: "TUNNEL_GROUP 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "tunnel_group Test Tunnel Group deleted"

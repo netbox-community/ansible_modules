@@ -1,0 +1,94 @@
+---
+##
+##
+### NETBOX_IPAM_ROLE
+##
+##
+- name: "IPAM_ROLE 1: Necessary info creation"
+  netbox.netbox.netbox_ipam_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test IPAM Role
+    state: present
+  register: test_one
+
+- name: "IPAM_ROLE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['role']['name'] == "Test IPAM Role"
+      - test_one['role']['slug'] == "test-ipam-role"
+      - test_one['msg'] == "role Test IPAM Role created"
+
+- name: "IPAM_ROLE 2: Create duplicate"
+  netbox.netbox.netbox_ipam_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test IPAM Role
+    state: present
+  register: test_two
+
+- name: "IPAM_ROLE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['role']['name'] == "Test IPAM Role"
+      - test_two['role']['slug'] == "test-ipam-role"
+      - test_two['msg'] == "role Test IPAM Role already exists"
+
+- name: "IPAM_ROLE 3: ASSERT - Update"
+  netbox.netbox.netbox_ipam_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test IPAM Role
+      weight: 4096
+    state: present
+  register: test_three
+
+- name: "IPAM_ROLE 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['weight'] == 4096
+      - test_three['role']['name'] == "Test IPAM Role"
+      - test_three['role']['slug'] == "test-ipam-role"
+      - test_three['role']['weight'] == 4096
+      - test_three['msg'] == "role Test IPAM Role updated"
+
+- name: "IPAM_ROLE 4: ASSERT - Delete"
+  netbox.netbox.netbox_ipam_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test IPAM Role
+    state: absent
+  register: test_four
+
+- name: "IPAM_ROLE 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "role Test IPAM Role deleted"
+
+- name: "IPAM_ROLE 5: ASSERT - Delete non existing"
+  netbox.netbox.netbox_ipam_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test IPAM Role
+    state: absent
+  register: test_five
+
+- name: "IPAM_ROLE 5: ASSERT - Delete non existing`"
+  ansible.builtin.assert:
+    that:
+      - not test_five['changed']
+      - test_five['role'] == None
+      - test_five['msg'] == "role Test IPAM Role already absent"

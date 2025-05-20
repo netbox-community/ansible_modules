@@ -1,0 +1,94 @@
+---
+##
+##
+### NETBOX_L2VPN_TERMINATION
+##
+##
+- name: "L2VPN_TERMINATION 1: Necessary info creation"
+  netbox.netbox.netbox_l2vpn_termination:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      l2vpn: 1
+      assigned_object_type: dcim.interface
+      assigned_object_id: 1
+    state: present
+  register: test_one
+
+- name: "L2VPN_TERMINATION 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['l2vpn_termination']['l2vpn'] == 1
+      - test_one['l2vpn_termination']['assigned_object_type'] == "dcim.interface"
+      - test_one['l2vpn_termination']['assigned_object_id'] == 1
+      - test_one['msg'] == "l2vpn_termination l2vpn 1 <> dcim.interface 1 created"
+
+- name: "L2VPN_TERMINATION 2: Create duplicate"
+  netbox.netbox.netbox_l2vpn_termination:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      l2vpn: 1
+      assigned_object_type: dcim.interface
+      assigned_object_id: 1
+    state: present
+  register: test_two
+
+- name: "L2VPN_TERMINATION 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['l2vpn_termination']['l2vpn'] == 1
+      - test_two['l2vpn_termination']['assigned_object_type'] == "dcim.interface"
+      - test_two['l2vpn_termination']['assigned_object_id'] == 1
+      - test_two['msg'] == "l2vpn_termination l2vpn 1 <> dcim.interface 1 already exists"
+
+- name: "L2VPN_TERMINATION 3: Update"
+  netbox.netbox.netbox_l2vpn_termination:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      l2vpn: 1
+      assigned_object_type: dcim.interface
+      assigned_object_id: 1
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_three
+
+- name: "L2VPN_TERMINATION 3: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['tags'][0] == 4
+      - test_three['l2vpn_termination']['l2vpn'] == 1
+      - test_three['l2vpn_termination']['assigned_object_type'] == "dcim.interface"
+      - test_three['l2vpn_termination']['assigned_object_id'] == 1
+      - test_three['l2vpn_termination']['tags'][0] == 4
+      - test_three['msg'] == "l2vpn_termination l2vpn 1 <> dcim.interface 1 updated"
+
+- name: "L2VPN_TERMINATION 4: Delete"
+  netbox.netbox.netbox_l2vpn_termination:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      l2vpn: 1
+      assigned_object_type: dcim.interface
+      assigned_object_id: 1
+    state: absent
+  register: test_four
+
+- name: "L2VPN_TERMINATION 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['l2vpn_termination']['l2vpn'] == 1
+      - test_four['l2vpn_termination']['assigned_object_type'] == "dcim.interface"
+      - test_four['l2vpn_termination']['assigned_object_id'] == 1
+      - test_four['l2vpn_termination']['tags'][0] == 4
+      - test_four['msg'] == "l2vpn_termination l2vpn 1 <> dcim.interface 1 deleted"

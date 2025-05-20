@@ -66,13 +66,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:                    
-          - VERSION: "v4.0"
-            NETBOX_DOCKER_VERSION: 2.9.1
+        include:                              
           - VERSION: "v4.1"
             NETBOX_DOCKER_VERSION: 3.0.1
           - VERSION: "v4.2"
-            NETBOX_DOCKER_VERSION: 3.1.0
+            NETBOX_DOCKER_VERSION: 3.2.1
+          - VERSION: "v4.3"
+            NETBOX_DOCKER_VERSION: 3.3.0
 
     steps:
 
