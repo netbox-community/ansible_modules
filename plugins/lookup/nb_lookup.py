@@ -226,7 +226,6 @@ def get_endpoint(netbox, term):
         "job-results": {"endpoint": netbox.extras.job_results},
         "journal-entries": {"endpoint": netbox.extras.journal_entries},
         "locations": {"endpoint": netbox.dcim.locations},
-        "mac-addresses": {"endpoint": netbox.dcim.mac_addresses},
         "manufacturers": {"endpoint": netbox.dcim.manufacturers},
         "module-bays": {"endpoint": netbox.dcim.module_bays},
         "module-bay-templates": {"endpoint": netbox.dcim.module_bay_templates},
@@ -328,6 +327,9 @@ def get_endpoint(netbox, term):
             "endpoint": netbox.ipam.l2vpn_terminations
         }
         netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
+
+    if netbox_versiontuple >= (4, 2):
+        netbox_endpoint_map["mac-addresses"] = {"endpoint": netbox.dcim.mac_addresses}
 
     return netbox_endpoint_map[term]["endpoint"]
 
