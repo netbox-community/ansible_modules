@@ -328,6 +328,9 @@ def get_endpoint(netbox, term):
         }
         netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
 
+    if netbox_versiontuple >= (4, 2):
+        netbox_endpoint_map["mac-addresses"] = {"endpoint": netbox.dcim.mac_addresses}
+
     return netbox_endpoint_map[term]["endpoint"]
 
 
