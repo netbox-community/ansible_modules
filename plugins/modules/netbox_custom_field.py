@@ -152,7 +152,7 @@ options:
         type: str
       related_object_filter:
         description:
-          - Filter definition for related object selection
+          - Filter definition for related object selection. To reset the value, set it to an empty dict (null value is ignored by the API)
         required: false
         type: dict
     required: true
