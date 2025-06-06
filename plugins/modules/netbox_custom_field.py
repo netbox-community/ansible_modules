@@ -150,6 +150,11 @@ options:
           - The name of the choice set to use (for selection fields)
         required: false
         type: str
+      related_object_filter:
+        description:
+          - Filter definition for related object selection
+        required: false
+        type: dict
     required: true
 """
 
@@ -288,6 +293,7 @@ def main():
                         required=False,
                         type="str",
                     ),
+                    related_object_filter=dict(required=False, type="dict"),
                 ),
             )
         )
