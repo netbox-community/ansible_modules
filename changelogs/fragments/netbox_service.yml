@@ -1,0 +1,2 @@
+bugfixes:
+  - netbox_service - Fix issue 1426 - broken netbox_service module
