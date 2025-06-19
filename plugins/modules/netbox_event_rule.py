@@ -56,7 +56,7 @@ Parameters:
           - job_completed
           - job_failed
           - job_errored
-      conditions:
+      conditions: # Note: if `conditions` is specified the, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
         description:
           - Dictionary defining conditions for the event rule to trigger.
         type: dict
@@ -288,6 +288,8 @@ def main():
                         ],
                         type="list",
                     ),
+                    # Note: if `conditions` is specified the, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
+                    # TODO: Fix this limitation in netbox_utils
                     conditions=conditions_spec,
                     action_type=dict(
                         required=False,
