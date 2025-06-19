@@ -207,6 +207,7 @@ def get_endpoint(netbox, term):
         "device-roles": {"endpoint": netbox.dcim.device_roles},
         "device-types": {"endpoint": netbox.dcim.device_types},
         "devices": {"endpoint": netbox.dcim.devices},
+        "event-rules": {"endpoint": netbox.extras.event_rules},
         "export-templates": {"endpoint": netbox.dcim.export_templates},
         "fhrp-group-assignments": {"endpoint": netbox.ipam.fhrp_group_assignments},
         "fhrp-groups": {"endpoint": netbox.ipam.fhrp_groups},

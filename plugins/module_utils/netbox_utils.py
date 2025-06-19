@@ -87,6 +87,7 @@ API_APPS_ENDPOINTS = dict(
         "custom_fields": {},
         "custom_field_choice_sets": {},
         "custom_links": {},
+        "event_rules": {},
         "export_templates": {},
         "journal_entries": {},
         "webhooks": {},
@@ -376,6 +377,7 @@ ENDPOINT_NAME_MAPPING = {
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
+    "event_rules": "event_rule",
     "export_templates": "export_template",
     "fhrp_groups": "fhrp_group",
     "fhrp_group_assignments": "fhrp_group_assignment",
@@ -495,6 +497,7 @@ ALLOWED_QUERY_PARAMS = {
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
+    "event_rule": set(["name"]),
     "export_template": set(["name"]),
     "fhrp_group": set(
         ["id", "group_id", "interface_type", "device", "virtual_machine"]

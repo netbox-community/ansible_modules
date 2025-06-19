@@ -851,6 +851,14 @@ releases:
       name: netbox_mac_address
       namespace: ''
     release_date: '2025-03-04'
+  3.22.0:
+    changes:
+      minor_changes:
+        - Add `event_rule` module
+    modules:
+      - description: Create, update or delete event rules within NetBox
+        name: netbox_even_rule
+        namespace: "netbox.netbox"
   3.3.0:
     changes:
       minor_changes:
