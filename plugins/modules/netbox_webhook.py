@@ -187,13 +187,8 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    content_types=dict(required=False, type="list", elements="raw"),
                     name=dict(required=True, type="str"),
-                    type_create=dict(required=False, type="bool"),
-                    type_update=dict(required=False, type="bool"),
-                    type_delete=dict(required=False, type="bool"),
                     payload_url=dict(required=False, type="str"),
-                    enabled=dict(required=False, type="bool"),
                     http_method=dict(required=False, type="raw"),
                     http_content_type=dict(required=False, type="str"),
                     additional_headers=dict(required=False, type="str"),
@@ -208,7 +203,7 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["content_types", "name", "payload_url"]),
+        ("state", "present", ["name", "payload_url"]),
         ("state", "absent", ["name"]),
     ]
 
