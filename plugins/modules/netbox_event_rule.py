@@ -56,7 +56,7 @@ Parameters:
           - job_completed
           - job_failed
           - job_errored
-      conditions: # Note: if `conditions` is specified the, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
+      conditions:
         description:
           - Dictionary defining conditions for the event rule to trigger.
         type: dict
@@ -233,38 +233,6 @@ def main():
     """
     Main entry point for module execution
     """
-    conditions_spec = {
-        "type": "dict",
-        "required": False,
-        "options": {
-            "attr": dict(
-                required=False,
-                type="str",
-            ),
-            "value": dict(
-                required=False,
-                type="str",
-            ),
-            "negate": dict(
-                required=False,
-                type="bool",
-            ),
-            "op": dict(required=False, choices=["=", ">", "<", ">=", "<="], type="str"),
-            "or": dict(type="list", required=False, elements="dict"),
-            "and": dict(type="list", required=False, elements="dict"),
-        },
-        "required_together": [
-            ["value", "attr"],
-        ],
-        "required_by": { 
-            "negate": ["value", "attr"],
-            "op": ["value", "attr"],
-        },
-        "mutually_exclusive": [
-            ["or", "and", "attr"],
-        ],
-    }
-
     argument_spec = deepcopy(NETBOX_ARG_SPEC)
     argument_spec.update(
         dict(
@@ -288,9 +256,41 @@ def main():
                         ],
                         type="list",
                     ),
-                    # Note: if `conditions` is specified then, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
-                    # TODO: Fix this limitation in netbox_utils
-                    conditions=conditions_spec,
+                    conditions=dict(
+                        type="dict",
+                        required=False,
+                        options={
+                            "attr": dict(
+                                required=False,
+                                type="str",
+                            ),
+                            "value": dict(
+                                required=False,
+                                type="str",
+                            ),
+                            "negate": dict(
+                                required=False,
+                                type="bool",
+                            ),
+                            "op": dict(
+                                required=False,
+                                choices=["=", ">", "<", ">=", "<="],
+                                type="str",
+                            ),
+                            "or": dict(type="list", required=False, elements="dict"),
+                            "and": dict(type="list", required=False, elements="dict"),
+                        },
+                        required_together=[
+                            ["value", "attr"],
+                        ],
+                        required_by=dict(
+                            negate=["value", "attr"],
+                            op=["value", "attr"],
+                        ),
+                        mutually_exclusive=[
+                            ["or", "and", "attr"],
+                        ],
+                    ),
                     action_type=dict(
                         required=False,
                         choices=[

@@ -1465,6 +1465,13 @@ class NetboxModule(object):
         NetBox object and the Ansible diff.
         """
         serialized_nb_obj = self.nb_object.serialize()
+
+        # `conditionsc don't serialize properly and couldn't find a clean fix within serialize
+        # Since this is the only place we're serializing, just fixing it here as a workaround 
+        dict_self = dict(self.nb_object)
+        if( dict_self.get('conditions') ):
+            serialized_nb_obj["conditions"] = dict_self["conditions"]
+
         if "custom_fields" in serialized_nb_obj:
             custom_fields = serialized_nb_obj.get("custom_fields", {})
             shared_keys = custom_fields.keys() & data.get("custom_fields", {}).keys()
