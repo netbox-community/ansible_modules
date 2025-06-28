@@ -288,7 +288,7 @@ def main():
                         ],
                         type="list",
                     ),
-                    # Note: if `conditions` is specified the, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
+                    # Note: if `conditions` is specified then, due to a limitation in the serialization in netbox_utils, Ansible will always mark as changed
                     # TODO: Fix this limitation in netbox_utils
                     conditions=conditions_spec,
                     action_type=dict(
@@ -316,12 +316,6 @@ def main():
             ["object_types", "event_types", "action_object_type", "action_object_id"],
         ),
         ("state", "absent", ["name"]),
-    ]
-    mutually_exclusive = [
-        ["data.conditions.or", "data.conditions.and", "data.conditions.attr"],
-    ]
-    required_together = [
-        ["data.conditions.value", "data.conditions.attr"],
     ]
 
     module = NetboxAnsibleModule(
