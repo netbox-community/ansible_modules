@@ -809,13 +809,11 @@ class NetboxModule(object):
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers):
         try:
             session = requests.Session()
-            
+            session.verify = ssl_verify
             if isinstance(headers, str):
                 headers = json.load(headers)
             if isinstance(headers, dict):
                 session.headers.update(headers)
-
-            session.verify = ssl_verify
             if cert:
                 session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
