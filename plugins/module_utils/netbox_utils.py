@@ -806,7 +806,7 @@ class NetboxModule(object):
 
         return False
 
-    def _connect_netbox_api(self, url, token, ssl_verify, cert, headers):
+    def _connect_netbox_api(self, url, token, ssl_verify, cert, headers={}):
         try:
             session = requests.Session()
             session.verify = ssl_verify
