@@ -1,5 +1,5 @@
 .. meta::
-  :antsibull-docs: 2.13.1
+  :antsibull-docs: 2.16.2
 
 
 .. _plugins_in_netbox.netbox:
@@ -79,6 +79,7 @@ Modules
 * :ansplugin:`netbox_device_interface_template module <netbox.netbox.netbox_device_interface_template#module>` -- Creates or removes interfaces on devices from NetBox
 * :ansplugin:`netbox_device_role module <netbox.netbox.netbox_device_role#module>` -- Create, update or delete devices roles within NetBox
 * :ansplugin:`netbox_device_type module <netbox.netbox.netbox_device_type#module>` -- Create, update or delete device types within NetBox
+* :ansplugin:`netbox_event_rule module <netbox.netbox.netbox_event_rule#module>` -- Creates, updates or deletes event rule configuration within NetBox
 * :ansplugin:`netbox_export_template module <netbox.netbox.netbox_export_template#module>` -- Creates, updates or deletes export templates within NetBox
 * :ansplugin:`netbox_fhrp_group module <netbox.netbox.netbox_fhrp_group#module>` -- Create, update or delete FHRP groups within NetBox
 * :ansplugin:`netbox_fhrp_group_assignment module <netbox.netbox.netbox_fhrp_group_assignment#module>` -- Create, update or delete FHRP group assignments within NetBox
@@ -172,6 +173,7 @@ Modules
     netbox_device_interface_template_module
     netbox_device_role_module
     netbox_device_type_module
+    netbox_event_rule_module
     netbox_export_template_module
     netbox_fhrp_group_module
     netbox_fhrp_group_assignment_module
