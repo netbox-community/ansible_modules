@@ -63,6 +63,7 @@ def fixture_arg_spec():
         "state": "present",
         "validate_certs": False,
         "cert": None,
+        "headers": None,
     }
 
 
