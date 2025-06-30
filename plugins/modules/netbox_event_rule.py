@@ -8,34 +8,38 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 DOCUMENTATION = r"""
-# Documentation for netbox_event_rule module
-
-Synopsis:
-- Manages Netbox Event Rule objects.
-
-Parameters:
-- state:
-    description:
-      - Whether the event rule should be present or absent.
-    type: str
-    choices: [ 'present', 'absent' ]
-    required: true
-    # Inherited from NETBOX_ARG_SPEC
-- data:
-    description:
-      - Dictionary containing the event rule parameters.
+---
+module: netbox_event_rule
+short_description: Creates, updates or deletes event rule configuration within NetBox
+description:
+  - Creates, updates or removes event rule configuration within NetBox
+notes:
+  - This should be ran with connection C(local) and hosts C(localhost)
+author:
+  - Chris Caldwell (@squirrel289)
+requirements:
+  - pynetbox
+version_added: "3.22.0"
+extends_documentation_fragment:
+  - netbox.netbox.common
+options:
+  data:
     type: dict
+    description:
+      - Defines the event rule parameters.
     required: true
-    options:
+    suboptions:
       object_types:
         description:
           - List of content types (e.g., 'dcim.device') the event rule applies to.
+          - Required when I(state=present)
         type: list
         elements: raw
         required: false # Required if state is 'present'
       name:
         description:
           - The name of the event rule.
+          - Required when I(state=absent)
         type: str
         required: true
       enabled:
@@ -46,9 +50,10 @@ Parameters:
       event_types:
         description:
           - List of event types that trigger the rule.
+          - Required when I(state=present)
         type: list
         required: false # Required if state is 'present'
-        options:
+        choices:
           - object_created
           - object_updated
           - object_deleted
@@ -59,56 +64,7 @@ Parameters:
       conditions:
         description:
           - Dictionary defining conditions for the event rule to trigger.
-        type: dict
-        required: false
-        options:
-          attr:
-            description:
-              - The attribute name to check.
-            type: str
-            required: false
-            # Required together with 'value'
-            # Required by 'negate' and 'op'
-            # Mutually exclusive with 'or' and 'and'
-          value:
-            description:
-              - The value to compare the attribute against.
-            type: str
-            required: false
-            # Required together with 'attr'
-            # Required by 'negate' and 'op'
-            # Mutually exclusive with 'or' and 'and'
-          negate:
-            description:
-              - Whether to negate the condition.
-            type: bool
-            required: false
-            # Requires 'attr' and 'value'
-          op:
-            description:
-              - The comparison operator.
-            type: str
-            required: false
-            choices: [ '=', '>', '<', '>=', '<=' ]
-            # Requires 'attr' and 'value'
-          or:
-            description:
-              - A list of condition dictionaries to be evaluated with logical OR.
-            type: list
-            elements: dict
-            required: false
-            # Mutually exclusive with 'and' and 'attr'
-          and:
-            description:
-              - A list of condition dictionaries to be evaluated with logical AND.
-            type: list
-            elements: dict
-            required: false
-            # Mutually exclusive with 'or' and 'attr'
-      action_type:
-        description:
-          - The type of action to perform when the rule triggers.
-        type: str
+          - The parameters `or`, `and`, and `attr` are mutually exclusive.
         required: false
         choices:
           - webhook
@@ -117,11 +73,13 @@ Parameters:
       action_object_type:
         description:
           - The content type of the action object (e.g., 'extras.webhook').
+          - Required when I(state=present)
         type: str
         required: false # Required if state is 'present'
       action_object_id:
         description:
           - The ID of the action object (e.g., the webhook ID).
+          - Required when I(state=present)
         type: int
         required: false # Required if state is 'present'
       description:
@@ -140,15 +98,6 @@ Parameters:
           - Dictionary of custom fields for the event rule.
         type: dict
         required: false
-
-# Note: Standard Netbox connection parameters (url, token, validate_certs, etc.) are inherited from NETBOX_ARG_SPEC.
-
-Notes:
-- The following parameters are required when `state` is `present`: `data.object_types`, `data.event_types`, `data.action_object_type`, `data.action_object_id`.
-- The following parameter is required when `state` is `absent`: `data.name`.
-- Within `data.conditions`, the parameters `or`, `and`, and `attr` are mutually exclusive.
-- Within `data.conditions`, the parameters `value` and `attr` are required together.
-- Within `data.conditions`, the parameters `negate` and `op` require both `value` and `attr` to be present.
 
 """
 EXAMPLES = r"""
@@ -185,12 +134,12 @@ EXAMPLES = r"""
         - object_created
       conditions:
             "and": 
-              - "attr": "name",
+              - "attr": "name"
                 "value": "scsi0"
-                "negate": true,
-              - "attr": "name",
+                "negate": true
+              - "attr": "name"
                 "value": "rootfs"
-                "negate": true,
+                "negate": true
 
       description: "Triggered when a virtual disk is created that is NOT named 'scsi0' or 'rootfs'."
       tags:

@@ -1,0 +1,1018 @@
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. meta::
+  :antsibull-docs: 2.16.2
+
+.. Anchors
+
+.. _ansible_collections.netbox.netbox.netbox_event_rule_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Title
+
+netbox.netbox.netbox_event_rule module -- Creates, updates or deletes event rule configuration within NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
+
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_event_rule_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_event_rule`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in netbox.netbox 3.22.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Creates, updates or removes event rule configuration within NetBox
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.netbox.netbox.netbox_event_rule_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- pynetbox
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cert"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-cert:
+
+      .. rst-class:: ansible-option-title
+
+      **cert**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cert" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Certificate path
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data:
+
+      .. rst-class:: ansible-option-title
+
+      **data**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the event rule parameters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/action_object_id"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/action_object_id:
+
+      .. rst-class:: ansible-option-title
+
+      **action_object_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/action_object_id" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The ID of the action object (e.g., the webhook ID).
+
+      Required when :emphasis:`state=present`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/action_object_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/action_object_type:
+
+      .. rst-class:: ansible-option-title
+
+      **action_object_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/action_object_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The content type of the action object (e.g., 'extras.webhook').
+
+      Required when :emphasis:`state=present`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/conditions"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/conditions:
+
+      .. rst-class:: ansible-option-title
+
+      **conditions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/conditions" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictionary defining conditions for the event rule to trigger.
+
+      The parameters \`or\`, \`and\`, and \`attr\` are mutually exclusive.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"webhook"`
+      - :ansible-option-choices-entry:`"script"`
+      - :ansible-option-choices-entry:`"notification"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/custom_fields"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/custom_fields:
+
+      .. rst-class:: ansible-option-title
+
+      **custom_fields**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/custom_fields" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dictionary of custom fields for the event rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A description for the event rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/enabled"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/enabled" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether the event rule is enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/event_types"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/event_types:
+
+      .. rst-class:: ansible-option-title
+
+      **event_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/event_types" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of event types that trigger the rule.
+
+      Required when :emphasis:`state=present`
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"object\_created"`
+      - :ansible-option-choices-entry:`"object\_updated"`
+      - :ansible-option-choices-entry:`"object\_deleted"`
+      - :ansible-option-choices-entry:`"job\_started"`
+      - :ansible-option-choices-entry:`"job\_completed"`
+      - :ansible-option-choices-entry:`"job\_failed"`
+      - :ansible-option-choices-entry:`"job\_errored"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the event rule.
+
+      Required when :emphasis:`state=absent`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/object_types"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/object_types:
+
+      .. rst-class:: ansible-option-title
+
+      **object_types**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/object_types" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of content types (e.g., 'dcim.device') the event rule applies to.
+
+      Required when :emphasis:`state=present`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-data/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of tags to apply to the event rule.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-netbox_token:
+
+      .. rst-class:: ansible-option-title
+
+      **netbox_token**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-netbox_token" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The NetBox API token.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-netbox_url:
+
+      .. rst-class:: ansible-option-title
+
+      **netbox_url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-netbox_url" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The URL of the NetBox instance.
+
+      Must be accessible by the Ansible control host.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-query_params:
+
+      .. rst-class:: ansible-option-title
+
+      **query_params**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-query_params" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This can be used to override the specified values in ALLOWED\_QUERY\_PARAMS that are defined
+
+      in plugins/module\_utils/netbox\_utils.py and provides control to users on what may make
+
+      an object unique in their environment.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state of the object.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"present"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"absent"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__parameter-validate_certs:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_certs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_certs" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`any`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      If :literal:`no`\ , SSL certificates will not be validated.
+
+      This should only be used on personally controlled sites using a self-signed certificates.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`true`
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    # Example 1: Create an event rule using attr and value conditions (based on sample JSON)
+    - name: Create Netbox Event Rule for Virtual Disk Creation with specific name
+      netbox.netbox.netbox_event_rule:
+        netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+        netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+        state: present
+        data:
+          name: "test-webhook-event"
+          action_type: "webhook"
+          action_object_type: "extras.webhook"
+          action_object_id: -1 # Replace with your webhook ID
+          enabled: true
+          object_types:
+            - virtualization.virtualdisk
+          event_types:
+            - object_created
+          conditions:
+            attr: "name"
+            value: "scsi0"
+            negate: true # This condition triggers if the name is NOT "scsi0"
+
+    # Example 2: Create an event rule using 'and' conditions
+    - name: Update Netbox Event Rule for Virtual Disk Creation or Update in specific names
+      netbox.netbox.netbox_event_rule:
+        netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+        netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+        state: present
+        data:
+          name: "test-webhook-event"
+          event_types:
+            - object_created
+          conditions:
+                "and":
+                  - "attr": "name"
+                    "value": "scsi0"
+                    "negate": true
+                  - "attr": "name"
+                    "value": "rootfs"
+                    "negate": true
+
+          description: "Triggered when a virtual disk is created that is NOT named 'scsi0' or 'rootfs'."
+          tags:
+            - automation
+            - netbox-event-rule
+
+    # Example 3: Ensure an event rule is absent
+    - name: Ensure test-webhook-event rule is absent
+      netbox.netbox.netbox_event_rule:
+        netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+        netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+        state: absent
+        data:
+          name: "test-webhook-event"
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. tabularcolumns:: \X{1}{3}\X{2}{3}
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+  :class: longtable ansible-option-table
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-msg"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__return-msg:
+
+      .. rst-class:: ansible-option-title
+
+      **msg**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-msg" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Message indicating failure or info about what has been achieved
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-webhook"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_event_rule_module__return-webhook:
+
+      .. rst-class:: ansible-option-title
+
+      **webhook**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-webhook" title="Permalink to this return value"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Serialized object as created/existent/updated/deleted within NetBox
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Chris Caldwell (@squirrel289)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. ansible-links::
+
+  - title: "Issue Tracker"
+    url: "https://github.com/netbox-community/ansible_modules/issues"
+    external: true
+  - title: "Repository (Sources)"
+    url: "https://github.com/netbox-community/ansible_modules"
+    external: true
+
+
+.. Parsing errors
