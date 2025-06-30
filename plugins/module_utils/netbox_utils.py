@@ -1467,9 +1467,9 @@ class NetboxModule(object):
         serialized_nb_obj = self.nb_object.serialize()
 
         # `conditionsc don't serialize properly and couldn't find a clean fix within serialize
-        # Since this is the only place we're serializing, just fixing it here as a workaround 
+        # Since this is the only place we're serializing, just fixing it here as a workaround
         dict_self = dict(self.nb_object)
-        if( dict_self.get('conditions') ):
+        if dict_self.get("conditions"):
             serialized_nb_obj["conditions"] = dict_self["conditions"]
 
         if "custom_fields" in serialized_nb_obj:

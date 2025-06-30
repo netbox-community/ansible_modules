@@ -133,13 +133,13 @@ EXAMPLES = r"""
       event_types:
         - object_created
       conditions:
-            "and": 
-              - "attr": "name"
-                "value": "scsi0"
-                "negate": true
-              - "attr": "name"
-                "value": "rootfs"
-                "negate": true
+        "and":
+          - "attr": "name"
+            "value": "scsi0"
+            "negate": true
+          - "attr": "name"
+            "value": "rootfs"
+            "negate": true
 
       description: "Triggered when a virtual disk is created that is NOT named 'scsi0' or 'rootfs'."
       tags:
