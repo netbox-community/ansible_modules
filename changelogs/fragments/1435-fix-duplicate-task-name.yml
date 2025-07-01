@@ -1,3 +1,2 @@
 bugfixes:
   - Fix task duplicate task name in documentation that cause ansible-lint error
-  
