@@ -150,7 +150,7 @@ EXAMPLES = r"""
           manufacturer: Test Manufacturer
         state: present
 
-    - name: Create device type within NetBox with only required information
+    - name: Create device type within NetBox with more information
       netbox.netbox.netbox_device_type:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
