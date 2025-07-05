@@ -106,7 +106,7 @@ EXAMPLES = r"""
           config_template: "my_config_template_slug"
         state: present
 
-    - name: Create platform within NetBox with only required information
+    - name: Create platform within NetBox with more information
       netbox.netbox.netbox_platform:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken

@@ -1216,7 +1216,7 @@ Examples
       gather_facts: false
 
       tasks:
-        - name: Create prefix within NetBox with only required information
+        - name: Create prefix within NetBox with only required information before deleting it 
           netbox.netbox.netbox_prefix:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
