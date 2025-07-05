@@ -1,0 +1,2 @@
+bugfixes:
+  - Add netbox version check to support service creation for netbox version prior of 4.3

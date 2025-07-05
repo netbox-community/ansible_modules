@@ -216,7 +216,9 @@ class NetboxIpamModule(NetboxModule):
             if not data.get("slug"):
                 data["slug"] = self._to_slug(name)
 
-        if self.endpoint == "services":
+        if self.endpoint == "services" and self._version_check_greater(
+            self.version, "4.3", greater_or_equal=True
+        ):
             if "device" in data:
                 data["parent_object_type"] = "dcim.device"
                 data["parent_object_id"] = data["device"]
