@@ -1331,12 +1331,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         else:
             device_services = self.get_resource_list_chunked(
                 api_url=url,
-                query_key="device_id",
+                query_key="parent_object_id",
                 query_values=self.devices_lookup.keys(),
             )
             vm_services = self.get_resource_list_chunked(
                 api_url=url,
-                query_key="virtual_machine_id",
+                query_key="parent_object_id",
                 query_values=self.vms_lookup.keys(),
             )
             services = chain(device_services, vm_services)
@@ -1349,13 +1349,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for service in services:
             service_id = service["id"]
 
-            if service.get("device"):
-                self.device_services_lookup[service["device"]["id"]][
+            if service.get("parent_object_type") == "dcim.device":
+                self.device_services_lookup[service["parent_object_id"]][
                     service_id
                 ] = service
 
-            if service.get("virtual_machine"):
-                self.vm_services_lookup[service["virtual_machine"]["id"]][
+            if service.get("parent_object_type") == "virtualization.virtualmachine":
+                self.vm_services_lookup[service["parent_object_id"]][
                     service_id
                 ] = service
 
