@@ -50,8 +50,4 @@ options:
       - Certificate path
     required: false
     type: raw
-  headers:
-    description: Dictionary of headers to be passed to the NetBox API.
-    required: false
-    type: dict
 """
