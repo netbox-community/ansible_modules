@@ -1333,7 +1333,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 api_url=url,
                 query_key="parent_object_id",
                 # Query only affected devices and vms and sanitize the list to only contain every ID once
-                query_values=set(chain(self.vms_lookup.keys(), self.devices_lookup.keys()))
+                query_values=set(
+                    chain(self.vms_lookup.keys(), self.devices_lookup.keys())
+                ),
             )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
