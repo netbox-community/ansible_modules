@@ -1329,17 +1329,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.fetch_all:
             services = self.get_resource_list(url)
         else:
-            device_services = self.get_resource_list_chunked(
+            services = self.get_resource_list_chunked(
                 api_url=url,
                 query_key="parent_object_id",
-                query_values=self.devices_lookup.keys(),
+                # Query only affected devices and vms and sanitize the list to only contain every ID once
+                query_values=set(chain(self.vms_lookup.keys(), self.devices_lookup.keys()))
             )
-            vm_services = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="parent_object_id",
-                query_values=self.vms_lookup.keys(),
-            )
-            services = chain(device_services, vm_services)
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
