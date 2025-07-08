@@ -6,7 +6,6 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible.module_utils.basic import missing_required_lib
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
@@ -53,22 +52,9 @@ NB_SITE_GROUPS = "site_groups"
 NB_VIRTUAL_CHASSIS = "virtual_chassis"
 NB_MAC_ADDRESSES = "mac_addresses"
 
-try:
-    from packaging.version import Version
-
-    HAS_PACKAGING = True
-    PACKAGING_IMPORT_ERROR = ""
-except ImportError as imp_exc:
-    PACKAGING_IMPORT_ERROR = imp_exc
-    HAS_PACKAGING = False
-
 
 class NetboxDcimModule(NetboxModule):
     def __init__(self, module, endpoint):
-        if not HAS_PACKAGING:
-            module.fail_json(
-                msg=missing_required_lib("packaging"), exception=PACKAGING_IMPORT_ERROR
-            )
         super().__init__(module, endpoint)
 
     def run(self):
@@ -128,7 +114,7 @@ class NetboxDcimModule(NetboxModule):
 
         # Handle rack and form_factor
         if endpoint_name == "rack":
-            if Version(self.full_version) >= Version("4.1.0"):
+            if self._version_check_greater(self.version, "4.1", greater_or_equal=True):
                 if "type" in data:
                     data["form_factor"] = self._to_slug(data["type"])
                     del data["type"]
@@ -207,7 +193,7 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
-            if Version(self.full_version) >= Version("3.0.6"):
+            if self._version_check_greater(self.version, "3.0", greater_or_equal=True):
                 cables = [
                     nb_endpoint.get(
                         termination_a_type=data["termination_a_type"],
@@ -236,7 +222,7 @@ class NetboxDcimModule(NetboxModule):
             else:
                 self._handle_errors(msg="More than one result returned for %s" % (name))
 
-            if Version(self.full_version) >= Version("3.3.0"):
+            if self._version_check_greater(self.version, "3.3", greater_or_equal=True):
                 data["a_terminations"] = [
                     {
                         "object_id": data.pop("termination_a_id"),
