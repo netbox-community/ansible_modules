@@ -141,6 +141,7 @@ def main():
 
         if result:
             # Dictionary is not empty - print differences
+            print(result)
             print(json.dumps(result, sort_keys=True, indent=4))
             sys.exit(1)
         else:
