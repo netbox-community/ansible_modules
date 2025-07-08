@@ -43,7 +43,7 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['circuit_termination']['termination_type'] == "circuits.providernetwork"
-      - test_one['circuit_termination']['termination_id'] == "2"      
+      - test_one['circuit_termination']['termination_id'] == 2
       - test_one['circuit_termination']['circuit'] == 1
       - test_one['circuit_termination']['term_side'] == "A"
       - test_one['circuit_termination']['port_speed'] == 10000
@@ -64,7 +64,7 @@
     that:
       - not test_two['changed']
       - test_one['circuit_termination']['termination_type'] == "circuits.providernetwork"
-      - test_one['circuit_termination']['termination_id'] == "2"  
+      - test_one['circuit_termination']['termination_id'] == 2
       - test_two['circuit_termination']['circuit'] == 1
       - test_two['circuit_termination']['term_side'] == "A"
       - test_two['circuit_termination']['port_speed'] == 10000
@@ -89,7 +89,7 @@
     that:
       - test_three is changed
       - test_one['circuit_termination']['termination_type'] == "circuits.providernetwork"
-      - test_one['circuit_termination']['termination_id'] == "2"  
+      - test_one['circuit_termination']['termination_id'] == 2
       - test_three['diff']['after']['upstream_speed'] == 1000
       - test_three['diff']['after']['xconnect_id'] == "10X100"
       - test_three['diff']['after']['pp_info'] == "PP10-24"
@@ -123,7 +123,7 @@
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
       - test_one['circuit_termination']['termination_type'] == "circuits.providernetwork"
-      - test_one['circuit_termination']['termination_id'] == "2"      
+      - test_one['circuit_termination']['termination_id'] == 2
       - test_four['circuit_termination']['circuit'] == 1
       - test_four['circuit_termination']['term_side'] == "Z"
       - test_four['circuit_termination']['port_speed'] == 10000
@@ -151,5 +151,5 @@
       - test_five['circuit_termination']['pp_info'] == "PP10-24"
       - test_five['circuit_termination']['description'] == "Test description"
       - test_one['circuit_termination']['termination_type'] == "circuits.providernetwork"
-      - test_one['circuit_termination']['termination_id'] == "2"      
+      - test_one['circuit_termination']['termination_id'] == 2
       - test_five['msg'] == "circuit_termination test_circuit_a deleted"
