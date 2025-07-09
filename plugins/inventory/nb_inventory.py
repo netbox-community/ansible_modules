@@ -1328,7 +1328,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.fetch_all:
             services = self.get_resource_list(url)
-        else:
+        elif self.api_version >= version.parse("4.3.0"):
             services = self.get_resource_list_chunked(
                 api_url=url,
                 query_key="parent_object_id",
@@ -1337,6 +1337,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     chain(self.vms_lookup.keys(), self.devices_lookup.keys())
                 ),
             )
+        else:
+            device_services = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="device_id",
+                query_values=self.devices_lookup.keys(),
+            )
+            vm_services = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="virtual_machine_id",
+                query_values=self.vms_lookup.keys(),
+            )
+            services = chain(device_services, vm_services)
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
@@ -1346,15 +1358,26 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for service in services:
             service_id = service["id"]
 
-            if service.get("parent_object_type") == "dcim.device":
-                self.device_services_lookup[service["parent_object_id"]][
-                    service_id
-                ] = service
+            if self.api_version >= version.parse("4.3.0"):
+                if service.get("parent_object_type") == "dcim.device":
+                    self.device_services_lookup[service["parent_object_id"]][
+                        service_id
+                    ] = service
 
-            if service.get("parent_object_type") == "virtualization.virtualmachine":
-                self.vm_services_lookup[service["parent_object_id"]][
-                    service_id
-                ] = service
+                if service.get("parent_object_type") == "virtualization.virtualmachine":
+                    self.vm_services_lookup[service["parent_object_id"]][
+                        service_id
+                    ] = service
+            else:
+                if service.get("device"):
+                    self.device_services_lookup[service["device"]["id"]][
+                        service_id
+                    ] = service
+
+                if service.get("virtual_machine"):
+                    self.vm_services_lookup[service["virtual_machine"]["id"]][
+                        service_id
+                    ] = service
 
     def refresh_virtual_disks(self):
         url_vm_virtual_disks = (
