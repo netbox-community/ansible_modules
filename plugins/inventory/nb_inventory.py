@@ -1348,16 +1348,24 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         for service in services:
             service_id = service["id"]
-
-            if service.get("device"):
-                self.device_services_lookup[service["device"]["id"]][
-                    service_id
-                ] = service
-
-            if service.get("virtual_machine"):
-                self.vm_services_lookup[service["virtual_machine"]["id"]][
-                    service_id
-                ] = service
+            parent_type = service.get("parent_object_type")
+            parent_id = service.get("parent_object_id")
+        
+            if parent_type == "virtualization.virtualmachine":
+                self.vm_services_lookup[parent_id][service_id] = service
+        
+            elif parent_type == "dcim.device":
+                self.device_services_lookup[parent_id][service_id] = service
+        
+            else:
+                vm = service.get("virtual_machine")
+                device = service.get("device")
+        
+                if vm:
+                    self.vm_services_lookup[vm["id"]][service_id] = service
+        
+                if device:
+                    self.device_services_lookup[device["id"]][service_id] = service
 
     def refresh_virtual_disks(self):
         url_vm_virtual_disks = (
