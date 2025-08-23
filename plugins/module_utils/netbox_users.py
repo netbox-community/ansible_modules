@@ -15,6 +15,9 @@ NB_PERMISSIONS = "permissions"
 NB_TOKENS = "tokens"
 NB_USERS = "users"
 
+# These suboptions are lists, but need to be modeled as sets for comparison purposes.
+LIST_AS_SET_KEYS = set(["permissions", "groups", "actions", "object_types"])
+
 
 class NetboxUsersModule(NetboxModule):
     def __init__(self, module, endpoint):
@@ -84,6 +87,12 @@ class NetboxUsersModule(NetboxModule):
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
+
+        if serialized_nb_obj:
+            for key in LIST_AS_SET_KEYS:
+                if serialized_nb_obj.get(key) and data.get(key):
+                    serialized_nb_obj[key] = set(serialized_nb_obj[key])
+                    updated_obj[key] = set(data[key])
 
         if serialized_nb_obj == updated_obj:
             return serialized_nb_obj, None
