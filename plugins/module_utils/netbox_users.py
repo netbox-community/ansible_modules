@@ -70,14 +70,17 @@ class NetboxUsersModule(NetboxModule):
         self.module.exit_json(**self.result)
 
     def _update_netbox_object(self, data):
-        if self.endpoint == "users":
-            return self._update_netbox_user(data)
+        if self.endpoint == NB_TOKENS:
+            return self._update_netbox_token(data)
         else:
-            if self.endpoint == "tokens" and "key" in data:
-                del data["key"]
-            return super()._update_netbox_object(data)
+            return self.__update_netbox_object__(data)
 
-    def _update_netbox_user(self, data):
+    def _update_netbox_token(self, data):
+        if "key" in data:
+            del data["key"]
+        return self.__update_netbox_object__(data)
+
+    def __update_netbox_object__(self, data):
         serialized_nb_obj = self.nb_object.serialize()
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
