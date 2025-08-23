@@ -91,7 +91,7 @@
   ansible.builtin.assert:
     that:
       - test_five is changed
-      - test_five['user']['groups'] == [1]
+      - test_five['user']['groups'] == [test_one['user_group']['id']]
 
 - name: "USER_GROUP 6: Delete"
   netbox.netbox.netbox_user_group:
