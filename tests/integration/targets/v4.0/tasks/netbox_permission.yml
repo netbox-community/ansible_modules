@@ -167,3 +167,50 @@
       - not test_eight['changed']
       - test_eight['permission'] == None
       - test_eight['msg'] == "permission Test Permission already absent"
+
+- name: "PERMISSION 9: Necessary permission"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      description: The test permission
+      enabled: true
+      actions:
+        - view
+        - add
+        - change
+        - delete
+        - extreme_administration
+      object_types:
+        - vpn.tunneltermination
+        - wireless.wirelesslan
+    state: present
+
+- name: "PERMISSION 9: Re-create permission with lists in wrong order"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      description: The test permission
+      enabled: true
+      actions:
+        - extreme_administration
+        - delete
+        - change
+        - add
+        - view
+      object_types:
+        - wireless.wirelesslan
+        - vpn.tunneltermination
+    state: present
+  register: test_nine
+
+- name: "PERMISSION 9: ASSERT - The same lists in a new order do not update the permission"
+  ansible.builtin.assert:
+    that:
+      - not test_nine['changed']
+      # actions seem to be ordered randomly so we cannot test them here
+      - test_nine['permission']['object_types'][0] == 'vpn.tunneltermination'
+      - test_nine['permission']['object_types'][1] == 'wireless.wirelesslan'
