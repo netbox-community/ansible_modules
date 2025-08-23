@@ -10,7 +10,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword
+      password: TestPassword1
     state: present
 
 - name: "TOKEN 1: Necessary info creation"
