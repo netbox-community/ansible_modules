@@ -10,7 +10,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     ENDPOINT_NAME_MAPPING,
 )
 
-NB_CONFIG = "config"
 NB_GROUPS = "groups"
 NB_PERMISSIONS = "permissions"
 NB_TOKENS = "tokens"
@@ -26,7 +25,6 @@ class NetboxUsersModule(NetboxModule):
         This function should have all necessary code for endpoints within the
         application to create/update/delete the endpoint objects
         Supported endpoints:
-        - config
         - groups
         - permissions
         - tokens
