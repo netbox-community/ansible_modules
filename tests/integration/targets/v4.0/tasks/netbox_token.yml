@@ -12,6 +12,7 @@
       username: TestUser
       password: TestPassword1
     state: present
+  register: test_user
 
 - name: "TOKEN 1: Necessary info creation"
   netbox.netbox.netbox_token:
@@ -29,7 +30,7 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['token']['user'] == 3
+      - test_one['token']['user'] == test_user['user']['id']
       - test_one['msg'] == "token ******** created"
 
 - name: "TOKEN 2: Create duplicate"
