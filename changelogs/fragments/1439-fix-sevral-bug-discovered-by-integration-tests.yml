@@ -1,0 +1,6 @@
+bugfixes:
+  - Add netbox version check to support service creation for netbox version prior of 4.3
+  - Use dedicated function to check netbox version istead of self.full_version for rack.
+  - Fix typos in tag integration tests.
+  - Fix integration test for circuit termination, missing assignment
+  - Fix integration test for service

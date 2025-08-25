@@ -178,7 +178,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       virtual_machine: test100-vm
-      name: node-exporter
+      name: node-exporter-vm
       port: 9100
       protocol: TCP
     state: present
@@ -188,9 +188,9 @@
   ansible.builtin.assert:
     that:
       - test_service_create_vm is changed
-      - test_service_create_vm['services']['name'] == "node-exporter"
+      - test_service_create_vm['services']['name'] == "node-exporter-vm"
       - test_service_create_vm['services']['ports'] == [9100]
       - test_service_create_vm['services']['protocol'] == "tcp"
       - test_service_create_vm['diff']['after']['state'] == "present"
       - test_service_create_vm['diff']['before']['state'] == "absent"
-      - test_service_create_vm['msg'] == "services node-exporter created"
+      - test_service_create_vm['msg'] == "services node-exporter-vm created"
