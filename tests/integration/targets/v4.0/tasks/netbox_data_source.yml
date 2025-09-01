@@ -4,16 +4,6 @@
 ### NETBOX_DATA_SOURCE
 ##
 ##
-
-# Preamble for testing
-- name: cleanup 1
-  netbox.netbox.netbox_data_source:
-    netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
-    data:
-      name: "Data Source 1"
-    state: absent
-
 - name: "DATA SOURCE 1: Create"
   netbox.netbox.netbox_data_source:
     netbox_url: http://localhost:32768
