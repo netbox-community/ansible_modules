@@ -36,17 +36,17 @@ options:
           - local
           - git
           - amazon-s3
-        required: true
+        required: false
         type: str
       source_url:
         description:
           - URL of the data source to be created
-        required: true
+        required: false
         type: str
       enabled:
         description:
           - Whether or not this data source can be synced
-        required: true
+        required: false
         type: bool
       description:
         description:
@@ -62,6 +62,13 @@ options:
         description:
           - The interval in seconds between syncs
         required: false
+        choices:
+          - 1
+          - 60
+          - 720
+          - 1440
+          - 10080
+          - 43200
         type: int
       comments:
         description:
@@ -81,7 +88,7 @@ EXAMPLES = r"""
     - name: "Create a new data source with only required information"
       netbox.netbox.netbox_data_source:
         netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken 
+        netbox_token: thisIsMyToken
         data:
           name: "Data Source 1"
           type: "local"
@@ -91,7 +98,7 @@ EXAMPLES = r"""
     - name: "Update that data source with other fields"
       netbox.netbox.netbox_data_source:
         netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken 
+        netbox_token: thisIsMyToken
         data:
           name: "Data Source 1"
           type: "amazon-s3"
@@ -105,7 +112,7 @@ EXAMPLES = r"""
     - name: "Delete the data source"
       netbox.netbox.netbox_data_source:
         netbox_url: http://netbox.local
-        netbox_token: thisIsMyToken 
+        netbox_token: thisIsMyToken
         data:
           name: "Data Source 1"
         state: absent
