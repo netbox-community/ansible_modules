@@ -39,6 +39,9 @@ API_APPS_ENDPOINTS = dict(
         "providers": {},
         "provider_networks": {},
     },
+    core={
+        "data_sources": {},
+    },
     dcim={
         "cables": {},
         "console_ports": {},
@@ -371,6 +374,7 @@ ENDPOINT_NAME_MAPPING = {
     "custom_fields": "custom_field",
     "custom_field_choice_sets": "choice_set",
     "custom_links": "custom_link",
+    "data_sources": "data_source",
     "device_bays": "device_bay",
     "device_bay_templates": "device_bay_template",
     "devices": "device",
@@ -482,6 +486,7 @@ ALLOWED_QUERY_PARAMS = {
     "custom_field_choice_set": set(["name"]),
     "choice_set": set(["name"]),
     "custom_link": set(["name"]),
+    "data_source": set(["name"]),
     "dcim.consoleport": set(["name", "device"]),
     "dcim.consoleserverport": set(["name", "device"]),
     "dcim.frontport": set(["name", "device", "rear_port"]),
