@@ -1,0 +1,5 @@
+modules:
+- description: Create, update or delete data sources in NetBox
+  name: netbox_data_source
+  namespace: ''
+
