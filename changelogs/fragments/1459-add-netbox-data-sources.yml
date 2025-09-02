@@ -1,5 +1,2 @@
-modules:
-- description: Create, update or delete data sources in NetBox
-  name: netbox_data_source
-  namespace: ''
-
+minor_changes:
+- netbox_data_source - New module [#1459](https://github.com/netbox-community/ansible_modules/pull/1459)
