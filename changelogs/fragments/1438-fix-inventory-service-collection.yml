@@ -1,0 +1,2 @@
+bugfixes:
+  - nb_inventory - Fix service collection for version greater than 4.3
