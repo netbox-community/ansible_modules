@@ -1,0 +1,2 @@
+minor_changes:
+  - Fix ansible-bad-import-from pylint errors
