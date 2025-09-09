@@ -408,7 +408,6 @@ from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
 
-from ansible.module_utils.six import raise_from
 
 try:
     from packaging import specifiers, version
@@ -2044,10 +2043,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def main(self):
         # Check if pytz lib is install, and give error if not
         if PYTZ_IMPORT_ERROR:
-            raise_from(
-                AnsibleError("pytz must be installed to use this plugin"),
-                PYTZ_IMPORT_ERROR,
-            )
+            raise AnsibleError(
+                "pytz must be installed to use this plugin"
+            ) from PYTZ_IMPORT_ERROR
 
         # Get info about the API - version, allowed query parameters
         self.fetch_api_docs()
