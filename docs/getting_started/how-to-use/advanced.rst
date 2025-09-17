@@ -224,7 +224,7 @@ To make this possible, every module accepts the ``query_params`` argument. This 
 you want to use to search for the object.
 
 Let's start with another example. We will continue to use :ref:`netbox.netbox.netbox_ip_address<ansible_collections.netbox.netbox.netbox_ip_address_module>`. We created **192.168.100.1/24** as a duplicate IP address within
-the global IP address space within NetBox. This task should fail saying there was more than result returned.
+the global IP address space within NetBox. This task should fail saying there was more than one result returned.
 
 .. code-block:: yaml
 
@@ -304,7 +304,9 @@ Hopefully this shines some light on this useful feature to allow you, as the use
 Using Module defaults groups
 --------------------------------------------
 
-Ansible-core >= 2.12 provide a useful feature called [Module defaults groups](https://docs.ansible.com/ansible/latest/user_guide/playbooks_module_defaults.html#module-defaults-groups) that lets us specify default parameters for a group of modules in a single place. We can use the action_group ``netbox`` that contains all modules from this collection to avoid setting e.g. ``token`` and ``url`` on each task and thus reduce boilerplate code.
+Ansible-core >= 2.12 provide a useful feature called `Module defaults groups`_ that lets us specify default parameters for a group of modules in a single place. We can use the action_group ``netbox`` that contains all modules from this collection to avoid setting e.g. ``token`` and ``url`` on each task and thus reduce boilerplate code.
+
+.. _Module defaults groups: https://docs.ansible.com/ansible/latest/user_guide/playbooks_module_defaults.html#module-defaults-groups
 
 .. code-block:: yaml
 
