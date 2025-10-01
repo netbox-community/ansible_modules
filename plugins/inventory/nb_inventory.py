@@ -1648,10 +1648,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 pass
 
         self.api_version = version.parse(netbox_api_version)
+        parsed_endpoint_url = urlparse(self.api_endpoint)
+        base_path = parsed_endpoint_url.path
 
         if self.api_version >= version.parse("3.5.0"):
-            parsed_endpoint_url = urlparse(self.api_endpoint)
-            base_path = parsed_endpoint_url.path
             self.allowed_device_query_parameters = [
                 p["name"]
                 for p in openapi["paths"][base_path + "/api/dcim/devices/"]["get"][
