@@ -99,7 +99,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           username: MyUser
-          password: my@user.com
+          email: my@example.com
         state: present
 
     - name: Delete user within netbox
@@ -117,7 +117,7 @@ EXAMPLES = r"""
         data:
           username: MyUser2
           password: MyPassword
-          email: my@user.com
+          email: my@example.com
           first_name: My
           last_name: User
         state: present
