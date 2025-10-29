@@ -35,20 +35,20 @@ options:
         required: true
         type: str
         choices:
-            - circuit
-            - cluster
-            - cluster_group
-            - device
-            - location
-            - manufacturer
-            - power_panel
-            - provider
-            - rack
-            - region
-            - site
-            - site_group
-            - tenant
-            - virtual_machine
+          - circuit
+          - cluster
+          - cluster_group
+          - device
+          - location
+          - manufacturer
+          - power_panel
+          - provider
+          - rack
+          - region
+          - site
+          - site_group
+          - tenant
+          - virtual_machine
       object_name:
         description:
           - The name of the object the contact is assigned to
@@ -62,7 +62,7 @@ options:
       role:
         description:
           - The name of the role the contact has for this object
-          required: true
+        required: true
         type: str
       priority:
         description:
@@ -70,10 +70,10 @@ options:
         required: false
         type: str
         choices:
-            - primary
-            - secondary
-            - tertiary
-            - inactive
+          - primary
+          - secondary
+          - tertiary
+          - inactive
       tags:
         description:
           - Any tags that the contact may need to be associated with
