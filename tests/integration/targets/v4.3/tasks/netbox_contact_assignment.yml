@@ -481,7 +481,7 @@
       cluster: Test Cluster
     state: present
 
-- name: 17 - Assign contact to virtual machine 
+- name: 17 - Assign contact to virtual machine
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
