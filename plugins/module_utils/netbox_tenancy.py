@@ -38,6 +38,7 @@ OBJECT_ENDPOINTS = {
     "tenant": "tenants",
     "virtual_machine": "virtual_machines",
 }
+# See https://netboxlabs.com/docs/netbox/features/contacts/#contacts-1
 OBJECT_TYPES = {
     "circuit": "circuits.circuit",
     "cluster": "virtualization.cluster",
