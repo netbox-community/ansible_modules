@@ -1,0 +1,503 @@
+---
+##
+##
+### NETBOX_CONTACT_ASSIGNMENT
+##
+##
+- name: Setup - Create contact for assignment
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact For Assignment
+    state: present
+
+- name: Setup - Create contact role for assignment
+  netbox.netbox.netbox_contact_role:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Role For Assignment
+    state: present
+
+- name: 1 - Setup - Create tenant to assign contact to
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant With Contact
+    state: present
+
+- name: 1 - Assign contact to tenant
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: tenant
+      object_name: Tenant With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['contact_assignment']['display'] == "Contact For Assignment -> Tenant With Contact"
+      - test_one['msg'] == "contact_assignment Contact For Assignment -> Tenant With Contact created"
+
+- name: Test duplicate contact
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: tenant
+      object_name: Tenant With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['msg'] == "contact_assignment Contact For Assignment -> Tenant With Contact already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: tenant
+      object_name: Tenant With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+      priority: tertiary
+      tags:
+        - tagA
+        - tagB
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['before']['priority'] == None
+      - test_three['diff']['after']['priority'] == "tertiary"
+      - test_three['diff']['before']['tags'] == []
+      - test_three['diff']['after']['tags'] != []
+      - test_three['msg'] == "contact_assignment Contact For Assignment -> Tenant With Contact updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: tenant
+      object_name: Tenant With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "contact_assignment Contact For Assignment -> Tenant With Contact deleted"
+
+- name: 5 - Setup - Create circuit to assign contact to
+  netbox.netbox.netbox_circuit:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      cid: Circuit With Contact
+      provider: Test Provider
+      circuit_type: Test Circuit Type
+    state: present
+
+- name: 5 - Assign contact to circuit
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: circuit
+      object_name: Circuit With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['contact_assignment']['display'] == "Contact For Assignment -> Circuit With Contact"
+      - test_five['msg'] == "contact_assignment Contact For Assignment -> Circuit With Contact created"
+
+- name: 6 - Setup - Create provider to assign contact to
+  netbox.netbox.netbox_provider:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Provider With Contact
+    state: present
+
+- name: 6 - Assign contact to provider
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: provider
+      object_name: Provider With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_six
+
+- name: 6 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['contact_assignment']['display'] == "Contact For Assignment -> Provider With Contact"
+      - test_six['msg'] == "contact_assignment Contact For Assignment -> Provider With Contact created"
+
+- name: 7 - Setup - Create device to assign contact to
+  netbox.netbox.netbox_device:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Device With Contact
+      device_type:
+        id: "1"
+      device_role: Core Switch
+      site: Test Site
+      status: Staged
+    state: present
+
+- name: 7 - Assign contact to device
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: device
+      object_name: Device With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_seven
+
+- name: 7 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['before']['state'] == "absent"
+      - test_seven['diff']['after']['state'] == "present"
+      - test_seven['contact_assignment']['display'] == "Contact For Assignment -> Device With Contact"
+      - test_seven['msg'] == "contact_assignment Contact For Assignment -> Device With Contact created"
+
+- name: 8 - Setup - Create location to assign contact to
+  netbox.netbox.netbox_location:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Location With Contact
+      site: Test Site
+    state: present
+
+- name: 8 - Assign contact to location
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: location
+      object_name: Location With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_eight
+
+- name: 8 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eight is changed
+      - test_eight['diff']['before']['state'] == "absent"
+      - test_eight['diff']['after']['state'] == "present"
+      - test_eight['contact_assignment']['display'] == "Contact For Assignment -> Location With Contact"
+      - test_eight['msg'] == "contact_assignment Contact For Assignment -> Location With Contact created"
+
+- name: 9 - Setup - Create manufacturer to assign contact to
+  netbox.netbox.netbox_manufacturer:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Manufacturer With Contact
+    state: present
+
+- name: 9 - Assign contact to manufacturer
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: manufacturer
+      object_name: Manufacturer With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_nine
+
+- name: 9 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['before']['state'] == "absent"
+      - test_nine['diff']['after']['state'] == "present"
+      - test_nine['contact_assignment']['display'] == "Contact For Assignment -> Manufacturer With Contact"
+      - test_nine['msg'] == "contact_assignment Contact For Assignment -> Manufacturer With Contact created"
+
+- name: 10 - Setup - Create power panel to assign contact to
+  netbox.netbox.netbox_power_panel:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Power Panel With Contact
+      site: Test Site
+    state: present
+
+- name: 10 - Assign contact to power panel
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: power_panel
+      object_name: Power Panel With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_ten
+
+- name: 10 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_ten is changed
+      - test_ten['diff']['before']['state'] == "absent"
+      - test_ten['diff']['after']['state'] == "present"
+      - test_ten['contact_assignment']['display'] == "Contact For Assignment -> Power Panel With Contact"
+      - test_ten['msg'] == "contact_assignment Contact For Assignment -> Power Panel With Contact created"
+
+- name: 11 - Setup - Create rack to assign contact to
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Rack With Contact
+      site: Test Site
+      location: Test Rack Group
+    state: present
+
+- name: 11 - Assign contact to rack
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: rack
+      object_name: Rack With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_eleven
+
+- name: 11 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eleven is changed
+      - test_eleven['diff']['before']['state'] == "absent"
+      - test_eleven['diff']['after']['state'] == "present"
+      - test_eleven['contact_assignment']['display'] == "Contact For Assignment -> Rack With Contact"
+      - test_eleven['msg'] == "contact_assignment Contact For Assignment -> Rack With Contact created"
+
+- name: 12 - Setup - Create region to assign contact to
+  netbox.netbox.netbox_region:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Region With Contact
+    state: present
+
+- name: 12 - Assign contact to region
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: region
+      object_name: Region With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_twelve
+
+- name: 12 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_twelve is changed
+      - test_twelve['diff']['before']['state'] == "absent"
+      - test_twelve['diff']['after']['state'] == "present"
+      - test_twelve['contact_assignment']['display'] == "Contact For Assignment -> Region With Contact"
+      - test_twelve['msg'] == "contact_assignment Contact For Assignment -> Region With Contact created"
+
+- name: 13 - Setup - Create site to assign contact to
+  netbox.netbox.netbox_site:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Site With Contact
+    state: present
+
+- name: 13 - Assign contact to site
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: site
+      object_name: Site With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_thirteen
+
+- name: 13 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_thirteen is changed
+      - test_thirteen['diff']['before']['state'] == "absent"
+      - test_thirteen['diff']['after']['state'] == "present"
+      - test_thirteen['contact_assignment']['display'] == "Contact For Assignment -> Site With Contact"
+      - test_thirteen['msg'] == "contact_assignment Contact For Assignment -> Site With Contact created"
+
+- name: 14 - Setup - Create site group to assign contact to
+  netbox.netbox.netbox_site_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Site Group With Contact
+    state: present
+
+- name: 14 - Assign contact to site group
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: site_group
+      object_name: Site Group With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_fourteen
+
+- name: 14 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_fourteen is changed
+      - test_fourteen['diff']['before']['state'] == "absent"
+      - test_fourteen['diff']['after']['state'] == "present"
+      - test_fourteen['contact_assignment']['display'] == "Contact For Assignment -> Site Group With Contact"
+      - test_fourteen['msg'] == "contact_assignment Contact For Assignment -> Site Group With Contact created"
+
+- name: 15 - Setup - Create cluster to assign contact to
+  netbox.netbox.netbox_cluster:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Cluster With Contact
+      cluster_type: Test Cluster Type
+    state: present
+
+- name: 15 - Assign contact to cluster
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: cluster
+      object_name: Cluster With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_fifteen
+
+- name: 15 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_fifteen is changed
+      - test_fifteen['diff']['before']['state'] == "absent"
+      - test_fifteen['diff']['after']['state'] == "present"
+      - test_fifteen['contact_assignment']['display'] == "Contact For Assignment -> Cluster With Contact"
+      - test_fifteen['msg'] == "contact_assignment Contact For Assignment -> Cluster With Contact created"
+
+- name: 16 - Setup - Create cluster group to assign contact to
+  netbox.netbox.netbox_cluster_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Cluster Group With Contact
+    state: present
+
+- name: 16 - Assign contact to cluster group
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: cluster_group
+      object_name: Cluster Group With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_sixteen
+
+- name: 16 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_sixteen is changed
+      - test_sixteen['diff']['before']['state'] == "absent"
+      - test_sixteen['diff']['after']['state'] == "present"
+      - test_sixteen['contact_assignment']['display'] == "Contact For Assignment -> Cluster Group With Contact"
+      - test_sixteen['msg'] == "contact_assignment Contact For Assignment -> Cluster Group With Contact created"
+
+- name: 17 - Setup - Create virtual machine to assign contact to
+  netbox.netbox.netbox_virtual_machine:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Virtual Machine With Contact
+      cluster: Test Cluster
+    state: present
+
+- name: 17 - Assign contact to virtual machine 
+  netbox.netbox.netbox_contact_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_type: virtual_machine
+      object_name: Virtual Machine With Contact
+      contact: Contact For Assignment
+      role: Role For Assignment
+    state: present
+  register: test_seventeen
+
+- name: 17 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_seventeen is changed
+      - test_seventeen['diff']['before']['state'] == "absent"
+      - test_seventeen['diff']['after']['state'] == "present"
+      - test_seventeen['contact_assignment']['display'] == "Contact For Assignment -> Virtual Machine With Contact"
+      - test_seventeen['msg'] == "contact_assignment Contact For Assignment -> Virtual Machine With Contact created"
