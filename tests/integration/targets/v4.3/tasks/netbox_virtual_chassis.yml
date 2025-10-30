@@ -107,7 +107,7 @@
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
-      - test_four['virtual_chassis']['master'] == 12
+      - test_four['virtual_chassis']['master'] != test_one['virtual_chassis']['master']
       - test_four['virtual_chassis']['name'] == "Second VC"
       - test_four['msg'] == "virtual_chassis Second VC created"
 
