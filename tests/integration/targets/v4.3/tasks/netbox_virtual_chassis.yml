@@ -54,7 +54,7 @@
   ansible.builtin.assert:
     that:
       - not test_two['changed']
-      - test_two['virtual_chassis']['master'] == 11
+      - test_two['virtual_chassis']['master'] == test_one['virtual_chassis']['master']
       - test_two['virtual_chassis']['name'] == "First VC"
       - test_two['msg'] == "virtual_chassis First VC already exists"
 
@@ -74,7 +74,7 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['domain'] == "Domain Text"
-      - test_three['virtual_chassis']['master'] == 11
+      - test_three['virtual_chassis']['master'] == test_one['virtual_chassis']['master']
       - test_three['virtual_chassis']['domain'] == "Domain Text"
       - test_three['virtual_chassis']['name'] == "First VC"
       - test_three['msg'] == "virtual_chassis First VC updated"
