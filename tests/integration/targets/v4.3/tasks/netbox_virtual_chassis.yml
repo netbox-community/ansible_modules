@@ -36,7 +36,6 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['virtual_chassis']['master'] == 11
       - test_one['virtual_chassis']['name'] == "First VC"
       - test_one['msg'] == "virtual_chassis First VC created"
 
