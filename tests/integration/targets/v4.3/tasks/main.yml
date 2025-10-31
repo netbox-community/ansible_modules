@@ -741,3 +741,12 @@
         - netbox_circuit_termination
   tags:
     - netbox_circuit_termination
+
+- name: NETBOX_DATA_SOURCE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_data_source.yml
+    apply:
+      tags:
+        - netbox_data_source
+  tags:
+    - netbox_data_source
