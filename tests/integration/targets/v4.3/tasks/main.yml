@@ -71,6 +71,15 @@
   tags:
     - netbox_contact
 
+- name: NETBOX_CONTACT_GROUP TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_contact_group.yml
+    apply:
+      tags:
+        - netbox_contact_group
+  tags:
+    - netbox_contact_group
+
 - name: NETBOX_CONTACT_ROLE TESTS
   ansible.builtin.include_tasks:
     file: netbox_contact_role.yml

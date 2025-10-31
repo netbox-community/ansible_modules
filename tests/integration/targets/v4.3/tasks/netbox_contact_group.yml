@@ -1,0 +1,120 @@
+---
+##
+##
+### NETBOX_CONTACT_GROUP
+##
+##
+- name: 1 - Test contact group creation
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group 1
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['contact_group']['name'] == "Contact Group 1"
+      - test_one['msg'] == "contact_group Contact Group 1 created"
+
+- name: Test duplicate contact group
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group 1
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['contact_group']['name'] == "Contact Group 1"
+      - test_two['msg'] == "contact_group Contact Group 1 already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group 1
+      description: The first contact group
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "The first contact group"
+      - test_three['contact_group']['name'] == "Contact Group 1"
+      - test_three['contact_group']['description'] == "The first contact group"
+      - test_three['msg'] == "contact_group Contact Group 1 updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group 1
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "contact_group Contact Group 1 deleted"
+
+- name: 5 - Create contact group with all parameters
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group Parent
+      slug: the-parent-contact-group
+      description: The parent contact group
+      tags:
+        - tagA
+        - tagB
+        - tagC
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['contact_group']['name'] == "Contact Group Parent"
+      - test_five['contact_group']['slug'] == "the-parent-contact-group"
+      - test_five['contact_group']['description'] == "The parent contact group"
+      - test_five['contact_group']['tags'] | length == 3
+      - test_five['msg'] == "contact_group Contact Group Parent created"
+
+- name: 6 - Create contact group with parent contact group
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group Child
+      parent_contact_group: Contact Group Parent
+    state: present
+  register: test_six
+
+- name: 6 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['contact_group']['name'] == "Contact Group Child"
+      - test_six['contact_group']['parent'] == test_five['contact_group']['id']
+      - test_six['msg'] == "contact_group Contact Group Child created"
+
