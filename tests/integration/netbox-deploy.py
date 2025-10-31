@@ -387,6 +387,11 @@ if nb_version >= version.parse("4.2"):
             "assigned_object_id": test100_gi2.id,
             "assigned_object_type": "dcim.interface",
         },
+        {
+            "mac_address": "AA:BB:CC:DD:EE:FF",  # Identical to id 1
+            "assigned_object_id": test100_gi2.id,
+            "assigned_object_type": "dcim.interface",
+        },
     ]
     created_mac_addresses = make_netbox_calls(nb.dcim.mac_addresses, mac_addresses)
 
