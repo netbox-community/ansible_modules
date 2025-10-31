@@ -65,11 +65,12 @@ options:
           - Comments on the contact
         required: false
         type: str
-      contact_group:
+      contact_groups:
         description:
-          - Group assignment for the contact
+          - Groups that the contact belongs to
         required: false
-        type: raw
+        type: list
+        elements: raw
       link:
         description:
           - URL associated with the contact
@@ -121,6 +122,9 @@ EXAMPLES = r"""
           title: Mr Contact
           phone: 123456789
           email: contac@contact.com
+          contact_groups:
+            - Group 1
+            - Group 2
           tags:
             - tagA
             - tagB
@@ -168,7 +172,7 @@ def main():
                     address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
-                    contact_group=dict(required=False, type="raw"),
+                    contact_groups=dict(required=False, type="list", elements="raw"),
                     link=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
