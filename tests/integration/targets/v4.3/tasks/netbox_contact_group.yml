@@ -117,4 +117,3 @@
       - test_six['contact_group']['name'] == "Contact Group Child"
       - test_six['contact_group']['parent'] == test_five['contact_group']['id']
       - test_six['msg'] == "contact_group Contact Group Child created"
-
