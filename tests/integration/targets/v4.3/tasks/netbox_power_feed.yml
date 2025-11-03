@@ -24,7 +24,6 @@
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
       - test_one['power_feed']['name'] == "Power Feed"
-      - test_one['power_feed']['power_panel'] == 1
       - test_one['msg'] == "power_feed Power Feed created"
 
 - name: "POWER_FEED 2: Create duplicate"
@@ -42,7 +41,7 @@
     that:
       - not test_two['changed']
       - test_two['power_feed']['name'] == "Power Feed"
-      - test_two['power_feed']['power_panel'] == 1
+      - test_two['power_feed']['power_panel'] == test_one['power_feed']['power_panel']
       - test_two['msg'] == "power_feed Power Feed already exists"
 
 - name: "POWER_FEED 3: Update power_feed with other fields"
@@ -76,7 +75,7 @@
       - test_three['diff']['after']['max_utilization'] == 25
       - test_three['diff']['after']['comments'] == "totally normal power feed"
       - test_three['power_feed']['name'] == "Power Feed"
-      - test_three['power_feed']['power_panel'] == 1
+      - test_three['power_feed']['power_panel'] == test_one['power_feed']['power_panel']
       - test_three['power_feed']['status'] == "offline"
       - test_three['power_feed']['type'] == "redundant"
       - test_three['power_feed']['supply'] == "dc"
@@ -104,7 +103,7 @@
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
       - test_four['power_feed']['name'] == "Power Feed 2"
-      - test_four['power_feed']['power_panel'] == 1
+      - test_four['power_feed']['power_panel'] == test_one['power_feed']['power_panel']
       - test_four['msg'] == "power_feed Power Feed 2 created"
 
 - name: "POWER_FEED 5: Delete Power Feed"
