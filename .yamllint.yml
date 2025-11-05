@@ -1,0 +1,52 @@
+---
+extends: default
+
+# see rules at https://yamllint.readthedocs.io/en/latest/rules.html
+ignore: |
+  - .cache/
+  - .venv/
+  - .github/
+
+rules:
+  braces:
+    max-spaces-inside: 20
+    level: error
+  brackets:
+    max-spaces-inside: 20
+    level: error
+  colons:
+    max-spaces-before: 1
+    max-spaces-after: 20
+    level: error
+  commas:
+    max-spaces-before: 50
+    min-spaces-after: 1
+    max-spaces-after: 20
+    level: error
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable
+  document-start:
+    present: true
+  empty-lines:
+    max: 3
+    level: error
+  hyphens:
+    level: error
+  indentation:
+    spaces: 2
+    indent-sequences: whatever
+    check-multi-line-strings: false
+  key-duplicates: enable
+  line-length:
+    max: 230
+    level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  new-line-at-end-of-file: enable
+  new-lines:
+    type: unix
+  trailing-spaces: enable
+  truthy: disable
+  octal-values:
+    forbid-explicit-octal: true

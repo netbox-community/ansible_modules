@@ -1,2 +1,3 @@
+---
 bugfixes:
   - "nb_device_interface: Fix specifying primary_mac_address objects by id for disambiguation"

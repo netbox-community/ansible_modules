@@ -67,7 +67,7 @@ body:
         Describe in detail the exact steps that someone else can take to
         reproduce this bug using the current stable release of the Ansible NetBox collection.
         Include any sanatized playbooks, variables, & tasks specifically showing just the issue.
-      #placeholder: |
+      # placeholder: |
 
     validations:
       required: true
