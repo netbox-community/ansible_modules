@@ -808,32 +808,24 @@ class NetboxModule(object):
             f"Invalid version {raw_value!r}: must start with a digit (e.g. '1', '2.5', '4.2.9')"
         )
 
-    def _version_check_greater(self, greater, lesser, greater_or_equal=False):
+    def _version_check_greater(
+        self, greater: str, lesser: str, greater_or_equal=False
+    ) -> bool:
         """Determine if first argument is greater than second argument.
 
         Args:
             greater (str): decimal string
-            lesser (str): decimal string
+            lesser (str):  decimal string
         """
-        g_major, g_minor = greater.split(".")
-        l_major, l_minor = lesser.split(".")
+        t_greater = tuple(int(x) for x in self._version_sanitize(greater).split("."))
+        t_lesser = tuple(int(x) for x in self._version_sanitize(lesser).split("."))
 
-        # convert to ints
-        g_major = int(g_major)
-        g_minor = int(g_minor)
-        l_major = int(l_major)
-        l_minor = int(l_minor)
+        # Pad shorter tuple with zeros
+        max_len = max(len(t_greater), len(t_lesser))
+        t_greater += (0,) * (max_len - len(t_greater))
+        t_lesser += (0,) * (max_len - len(t_lesser))
 
-        # If major version is higher then return true right off the bat
-        if g_major > l_major:
-            return True
-        elif greater_or_equal and g_major == l_major and g_minor >= l_minor:
-            return True
-        # If major versions are equal, and minor version is higher, return True
-        elif g_major == l_major and g_minor > l_minor:
-            return True
-
-        return False
+        return t_greater > t_lesser if not greater_or_equal else t_greater >= t_lesser
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers=None):
         try:
