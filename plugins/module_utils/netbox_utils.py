@@ -567,7 +567,17 @@ ALLOWED_QUERY_PARAMS = {
     "rir": set(["slug"]),
     "role": set(["slug"]),
     "route_target": set(["name"]),
-    "services": set(["device", "virtual_machine", "name", "port", "protocol"]),
+    "services": set(
+        [
+            "device",
+            "virtual_machine",
+            "name",
+            "port",
+            "protocol",
+            "parent_object_type",
+            "parent_object_id",
+        ]
+    ),
     "service_template": set(["name"]),
     "site": set(["slug", "name"]),
     "site_group": set(["slug"]),
@@ -1187,6 +1197,15 @@ class NetboxModule(object):
                     query_dict["device_type_id"] = query_dict.pop("device_type")
                 else:
                     query_dict["devicetype_id"] = query_dict.pop("device_type")
+        # TODO workaround for Netbox 4.3.0 - 4.4.3 - #20554
+        # Remove 'elif parent == "services":' block after support for
+        # Netbox 4.3.0 - 4.4.3 is removed
+        elif parent == "services":
+            if self._version_check_greater(
+                self.version, "4.3", greater_or_equal=True
+            ) and self._version_check_greater("4.4.4", self.full_version):
+                query_dict.pop("parent_object_id", None)
+                query_dict.pop("parent_object_type", None)
 
         if not query_dict:
             provided_kwargs = child.keys() if child else module_data.keys()
