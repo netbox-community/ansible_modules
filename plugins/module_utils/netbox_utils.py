@@ -771,9 +771,11 @@ class NetboxModule(object):
         else:
             self.nb = nb_client
             try:
-                self.version = self.nb.version
+                self.version = self._version_sanitize(self.nb.version)
                 try:
-                    self.full_version = self.nb.status().get("netbox-version")
+                    self.full_version = self._version_sanitize(
+                        self.nb.status().get("netbox-version")
+                    )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
                     self.full_version = f"{self.version}.0"
@@ -789,6 +791,22 @@ class NetboxModule(object):
         choices_data = self._change_choices_id(self.endpoint, norm_data)
         data = self._find_ids(choices_data, query_params)
         self.data = self._convert_identical_keys(data)
+
+    @staticmethod
+    def _version_sanitize(raw_value: str) -> str:
+        """Return sanitized Netbox version.
+        Sanitize 4.2.9-Docker-3.2.1 and return only 4.2.9.
+        """
+        if not isinstance(raw_value, str):
+            raise ValueError(f"Invalid value {raw_value!r}: expected a string")
+
+        version_match = re.match(r"^(\d[\d.]*)", raw_value)
+        if version_match:
+            return version_match.group(1).rstrip(".")
+
+        raise ValueError(
+            f"Invalid version {raw_value!r}: must start with a digit (e.g. '1', '2.5', '4.2.9')"
+        )
 
     def _version_check_greater(self, greater, lesser, greater_or_equal=False):
         """Determine if first argument is greater than second argument.
@@ -830,9 +848,11 @@ class NetboxModule(object):
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
-                self.version = nb.version
+                self.version = self._version_sanitize(nb.version)
                 try:
-                    self.full_version = nb.status().get("netbox-version")
+                    self.full_version = self._version_sanitize(
+                        nb.status().get("netbox-version")
+                    )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
                     self.full_version = f"{self.version}.0"
