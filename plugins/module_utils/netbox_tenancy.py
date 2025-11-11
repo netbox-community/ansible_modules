@@ -45,6 +45,20 @@ class NetboxTenancyModule(NetboxModule):
 
         data = self.data
 
+        # In Netbox 4.3, Contact.contact_group was changed to contact_groups.
+        # We need to check that the correct field is being used.
+        if self.endpoint == NB_CONTACTS:
+            if data.get("groups"):
+                if self.version < "4.3":
+                    raise Exception(
+                        f"contact_groups is not available in Netbox {self.version}. Use contact_group instead, or upgrade to Netbox 4.3 or greater."
+                    )
+            if data.get("group"):
+                if self.version >= "4.3":
+                    raise Exception(
+                        f"contact_group is not available in Netbox {self.version}. Use contact_groups instead."
+                    )
+
         # Used for msg output
         if data.get("name"):
             name = data["name"]
