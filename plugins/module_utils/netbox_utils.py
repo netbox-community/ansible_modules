@@ -247,7 +247,8 @@ CONVERT_TO_ID = {
     "component": "interfaces",
     "config_context": "config_contexts",
     "config_template": "config_templates",
-    "contact_groups": "contact_groups",
+    "contact_group": "contact_groups",  # Netbox version <4.3
+    "contact_groups": "contact_groups",  # Netbox version >=4.3
     "choice_set": "custom_field_choice_sets",
     "dcim.consoleport": "console_ports",
     "dcim.consoleserverport": "console_server_ports",
@@ -643,7 +644,8 @@ CONVERT_KEYS = {
     "cluster_type": "type",
     "cluster_group": "group",
     "component": "component_id",
-    "contact_groups": "groups",
+    "contact_group": "group",  # Netbox version <4.3
+    "contact_groups": "groups",  # Netbox version >=4.3
     "device_role": "role",
     "fhrp_group": "group",
     "inventory_item_role": "role",

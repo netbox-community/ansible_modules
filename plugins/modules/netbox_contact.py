@@ -65,9 +65,14 @@ options:
           - Comments on the contact
         required: false
         type: str
+      contact_group:
+        description:
+          - Group that the contact belongs to. Only available in Netbox version <4.3
+        required: false
+        type: raw
       contact_groups:
         description:
-          - Groups that the contact belongs to
+          - Groups that the contact belongs to. Only available in Netbox versions >=4.3
         required: false
         type: list
         elements: raw
@@ -172,6 +177,7 @@ def main():
                     address=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
+                    contact_group=dict(required=False, type="raw"),
                     contact_groups=dict(required=False, type="list", elements="raw"),
                     link=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
