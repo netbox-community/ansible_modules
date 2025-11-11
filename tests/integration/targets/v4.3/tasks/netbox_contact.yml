@@ -126,3 +126,18 @@
       - test_six['contact']['name'] == "Grouped Contact 1"
       - test_six['contact']['groups'] == [test_group['contact_group']['id']]
       - test_six['msg'] == "contact Grouped Contact 1 created"
+
+- name: 7 - Try to create contact using contact_group
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Grouped Contact 2
+      contact_group: Contact Group With Contacts
+  register: test_seven
+  ignore_errors: true
+
+- name: 7 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - "'contact_group is not available in Netbox 4.3. Use contact_groups instead.' in test_seven['module_stderr']"

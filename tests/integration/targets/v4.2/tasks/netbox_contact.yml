@@ -98,3 +98,46 @@
       - test_five['contact']['phone'] == "12345678"
       - test_five['contact']['tags'] | length == 3
       - test_five['msg'] == "contact Contact ABC created"
+
+- name: 6 Setup - Create contact group
+  netbox.netbox.netbox_contact_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Contact Group With Contacts
+  register: test_group
+
+- name: 6 - Create contact with contact group
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Grouped Contact 1
+      contact_group: Contact Group With Contacts
+  register: test_six
+
+- name: 6 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['diff']['before']['state'] == "absent"
+      - test_six['diff']['after']['state'] == "present"
+      - test_six['contact']['name'] == "Grouped Contact 1"
+      - test_six['contact']['group'] == test_group['contact_group']['id']
+      - test_six['msg'] == "contact Grouped Contact 1 created"
+
+- name: 7 - Try to create contact using contact_groups
+  netbox.netbox.netbox_contact:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Grouped Contact 2
+      contact_groups:
+        - Contact Group With Contacts
+  register: test_seven
+  ignore_errors: true
+
+- name: 7 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - "'contact_groups is not available in Netbox 4.2. Use contact_group instead, or upgrade to Netbox 4.3 or greater.' in test_seven['module_stderr']"
