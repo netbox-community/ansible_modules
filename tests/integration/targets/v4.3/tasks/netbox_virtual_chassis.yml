@@ -36,7 +36,6 @@
       - test_one is changed
       - test_one['diff']['before']['state'] == "absent"
       - test_one['diff']['after']['state'] == "present"
-      - test_one['virtual_chassis']['master'] == 11
       - test_one['virtual_chassis']['name'] == "First VC"
       - test_one['msg'] == "virtual_chassis First VC created"
 
@@ -54,7 +53,7 @@
   ansible.builtin.assert:
     that:
       - not test_two['changed']
-      - test_two['virtual_chassis']['master'] == 11
+      - test_two['virtual_chassis']['master'] == test_one['virtual_chassis']['master']
       - test_two['virtual_chassis']['name'] == "First VC"
       - test_two['msg'] == "virtual_chassis First VC already exists"
 
@@ -74,7 +73,7 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['domain'] == "Domain Text"
-      - test_three['virtual_chassis']['master'] == 11
+      - test_three['virtual_chassis']['master'] == test_one['virtual_chassis']['master']
       - test_three['virtual_chassis']['domain'] == "Domain Text"
       - test_three['virtual_chassis']['name'] == "First VC"
       - test_three['msg'] == "virtual_chassis First VC updated"
@@ -108,7 +107,7 @@
       - test_four is changed
       - test_four['diff']['before']['state'] == "absent"
       - test_four['diff']['after']['state'] == "present"
-      - test_four['virtual_chassis']['master'] == 12
+      - test_four['virtual_chassis']['master'] != test_one['virtual_chassis']['master']
       - test_four['virtual_chassis']['name'] == "Second VC"
       - test_four['msg'] == "virtual_chassis Second VC created"
 

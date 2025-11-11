@@ -1,0 +1,2 @@
+minor_changes:
+  - netbox_contact_assignment - New module `#1480 <https://github.com/netbox-community/ansible_modules/pull/1480>`

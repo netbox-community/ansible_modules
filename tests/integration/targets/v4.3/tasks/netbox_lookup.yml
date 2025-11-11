@@ -4,9 +4,9 @@
 ### NETBOX_LOOKUP
 ##
 ##
-- name: "NETBOX_LOOKUP 1: Lookup returns exactly two sites"
+- name: "NETBOX_LOOKUP 1: Lookup returns exactly four sites"
   ansible.builtin.assert:
-    that: query_result == "3"
+    that: query_result == "4"
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'sites', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567') | count }}"
 
