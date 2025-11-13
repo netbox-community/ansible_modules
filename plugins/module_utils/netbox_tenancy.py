@@ -107,9 +107,27 @@ class NetboxTenancyModule(NetboxModule):
 
         data = self.data
 
+        # In Netbox 4.3, Contact.contact_group was changed to contact_groups.
+        # We need to check that the correct field is being used.
+        if self.endpoint == NB_CONTACTS:
+            if data.get("groups"):
+                if not self._version_check_greater(
+                    self.version, "4.3", greater_or_equal=True
+                ):
+                    raise Exception(
+                        f"contact_groups is not available in Netbox {self.version}. Use contact_group instead, or upgrade to Netbox 4.3 or greater."
+                    )
+            if data.get("group"):
+                if self._version_check_greater(
+                    self.version, "4.3", greater_or_equal=True
+                ):
+                    raise Exception(
+                        f"contact_group is not available in Netbox {self.version}. Use contact_groups instead."
+                    )
+
         # For ease and consistency of use, the contact assignment module takes the name of the contact, role, and target object rather than an ID or slug.
         # We must massage the data a bit by looking up the ID corresponding to the given name so that we can pass the ID to the API.
-        if self.endpoint == "contact_assignments":
+        if self.endpoint == NB_CONTACT_ASSIGNMENTS:
             # Not an identifier, just to populate the message field
             name = f"{data['contact']} -> {data['object_name']}"
 

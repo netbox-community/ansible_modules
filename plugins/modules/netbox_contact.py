@@ -67,9 +67,15 @@ options:
         type: str
       contact_group:
         description:
-          - Group assignment for the contact
+          - Group that the contact belongs to. Only available in Netbox version <4.3
         required: false
         type: raw
+      contact_groups:
+        description:
+          - Groups that the contact belongs to. Only available in Netbox versions >=4.3
+        required: false
+        type: list
+        elements: raw
       link:
         description:
           - URL associated with the contact
@@ -121,6 +127,9 @@ EXAMPLES = r"""
           title: Mr Contact
           phone: 123456789
           email: contac@contact.com
+          contact_groups:
+            - Group 1
+            - Group 2
           tags:
             - tagA
             - tagB
@@ -169,6 +178,7 @@ def main():
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     contact_group=dict(required=False, type="raw"),
+                    contact_groups=dict(required=False, type="list", elements="raw"),
                     link=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
