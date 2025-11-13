@@ -1,0 +1,2 @@
+minor_changes:
+  - user.groups, user.permissions, user_group.permissions, permission.actions, and permission.object_types are now treated as unordered sets for update comparison purposes.

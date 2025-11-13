@@ -81,7 +81,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword
+      password: TestPassword5
       groups:
         - Test User Group
     state: present
@@ -91,7 +91,7 @@
   ansible.builtin.assert:
     that:
       - test_five is changed
-      - test_five['user']['groups'] == [1]
+      - test_five['user']['groups'] == [test_one['user_group']['id']]
 
 - name: "USER_GROUP 6: Delete"
   netbox.netbox.netbox_user_group:
@@ -125,3 +125,57 @@
       - not test_seven['changed']
       - test_seven['user_group'] == None
       - test_seven['msg'] == "user_group Test User Group already absent"
+
+- name: "USER_GROUP 8: Necessary permission 1"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission Foo
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: permission_foo
+
+- name: "USER_GROUP 8: Necessary permission 2"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission Bar
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: permission_bar
+
+- name: "USER_GROUP 8: Necessary info creation"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+      permissions:
+        - Test Permission Foo
+        - Test Permission Bar
+    state: present
+
+- name: "USER_GROUP 8: Re-create user group with permissions in wrong order"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group
+      permissions:
+        - Test Permission Bar
+        - Test Permission Foo
+    state: present
+  register: test_eight
+
+- name: "USER_GROUP 8: ASSERT - The same permissions in a new order do not update the group"
+  ansible.builtin.assert:
+    that:
+      - not test_eight is changed
+      - test_eight['user_group']['permissions'][0] == permission_foo['permission']['id']
+      - test_eight['user_group']['permissions'][1] == permission_bar['permission']['id']

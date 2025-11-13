@@ -14,7 +14,7 @@
     state: present
   register: test_one
 
-- name: "USESR 1: ASSERT - Necessary info creation"
+- name: "USER 1: ASSERT - Necessary info creation"
   ansible.builtin.assert:
     that:
       - test_one is changed
@@ -48,7 +48,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword1
+      password: TestPassword3
       email: test@user.com
       first_name: Test
       last_name: User
@@ -88,7 +88,7 @@
       - test_four['diff']['after']['state'] == "absent"
       - test_four['msg'] == "user TestUser deleted"
 
-- name: "USER 5: ASSERT - Delete non existing"
+- name: "USER 5: Delete non existing"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
@@ -103,3 +103,100 @@
       - not test_five['changed']
       - test_five['user'] == None
       - test_five['msg'] == "user TestUser already absent"
+
+- name: "USER 6: Necessary group 1"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group Alpha
+    state: present
+  register: user_group_alpha
+
+- name: "USER 6: Necessary group 2"
+  netbox.netbox.netbox_user_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test User Group Beta
+    state: present
+  register: user_group_beta
+
+- name: "User 6: Necessary permission 1"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission Foo
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: permission_foo
+
+- name: "User 6: Necessary permission 2"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission Bar
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: permission_bar
+
+- name: "User 6: Necessary permission 3"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission Baz
+      actions:
+        - view
+      object_types: []
+    state: present
+  register: permission_baz
+
+- name: "USER 6: Set up user with multiple groups and permissions"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser2
+      password: TestPassword2
+      permissions:
+        - Test Permission Foo
+        - Test Permission Bar
+        - Test Permission Baz
+      groups:
+        - Test User Group Alpha
+        - Test User Group Beta
+    state: present
+
+- name: "USER 6: Re-create user with lists in wrong order"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser2
+      permissions:
+        - Test Permission Bar
+        - Test Permission Baz
+        - Test Permission Foo
+      groups:
+        - Test User Group Beta
+        - Test User Group Alpha
+    state: present
+  register: test_six
+
+- name: "USER 6: ASSERT - The same lists in a new order do not update the user"
+  ansible.builtin.assert:
+    that:
+      - not test_six['changed']
+      - test_six['msg'] == "user TestUser2 already exists"
+      - test_six['user']['groups'][0] == user_group_alpha['user_group']['id']
+      - test_six['user']['groups'][1] == user_group_beta['user_group']['id']
+      - test_six['user']['permissions'][0] == permission_foo['permission']['id']
+      - test_six['user']['permissions'][1] == permission_bar['permission']['id']
+      - test_six['user']['permissions'][2] == permission_baz['permission']['id']
