@@ -1,0 +1,2 @@
+minor_changes:
+  - Fix RETURNS documentation string for netbox_virtual_machines module
