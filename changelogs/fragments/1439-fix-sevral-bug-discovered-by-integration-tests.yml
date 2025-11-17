@@ -1,3 +1,4 @@
+---
 bugfixes:
   - Add netbox version check to support service creation for netbox version prior of 4.3
   - Use dedicated function to check netbox version istead of self.full_version for rack.

@@ -1,3 +1,4 @@
+---
 minor_changes:
   - Change `netbox_contact.contact_group` to `contact_groups`
   - Add integration tests for contact groups
