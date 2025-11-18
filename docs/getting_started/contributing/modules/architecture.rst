@@ -292,7 +292,7 @@ We set several instance attributes that are used within other methods throughout
       else:
           self.nb = nb_client
           try:
-              self.version = self.nb.version
+              self.api_version = self.nb.version
           except AttributeError:
               self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
