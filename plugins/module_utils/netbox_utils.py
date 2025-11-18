@@ -783,12 +783,12 @@ class NetboxModule(object):
             try:
                 self.api_version = self._version_sanitize(self.nb.version)
                 try:
-                    self.full_version = self._version_sanitize(
+                    self.netbox_version = self._version_sanitize(
                         self.nb.status().get("netbox-version")
                     )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
-                    self.full_version = f"{self.api_version}.0"
+                    self.netbox_version = f"{self.api_version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
@@ -852,12 +852,12 @@ class NetboxModule(object):
             try:
                 self.api_version = self._version_sanitize(nb.version)
                 try:
-                    self.full_version = self._version_sanitize(
+                    self.netbox_version = self._version_sanitize(
                         nb.status().get("netbox-version")
                     )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
-                    self.full_version = f"{self.api_version}.0"
+                    self.netbox_version = f"{self.api_version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
@@ -1203,7 +1203,7 @@ class NetboxModule(object):
         elif parent == "services":
             if self._version_check_greater(
                 self.api_version, "4.3", greater_or_equal=True
-            ) and self._version_check_greater("4.4.4", self.full_version):
+            ) and self._version_check_greater("4.4.4", self.netbox_version):
                 query_dict.pop("parent_object_id", None)
                 query_dict.pop("parent_object_type", None)
 
