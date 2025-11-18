@@ -771,9 +771,11 @@ class NetboxModule(object):
         else:
             self.nb = nb_client
             try:
-                self.version = self.nb.version
+                self.version = self._version_sanitize(self.nb.version)
                 try:
-                    self.full_version = self.nb.status().get("netbox-version")
+                    self.full_version = self._version_sanitize(
+                        self.nb.status().get("netbox-version")
+                    )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
                     self.full_version = f"{self.version}.0"
@@ -790,32 +792,40 @@ class NetboxModule(object):
         data = self._find_ids(choices_data, query_params)
         self.data = self._convert_identical_keys(data)
 
-    def _version_check_greater(self, greater, lesser, greater_or_equal=False):
+    @staticmethod
+    def _version_sanitize(raw_value: str) -> str:
+        """Return sanitized Netbox version.
+        Sanitize 4.2.9-Docker-3.2.1 and return only 4.2.9.
+        """
+        if not isinstance(raw_value, str):
+            raise ValueError(f"Invalid value {raw_value!r}: expected a string")
+
+        version_match = re.match(r"^(\d[\d.]*)", raw_value)
+        if version_match:
+            return version_match.group(1).rstrip(".")
+
+        raise ValueError(
+            f"Invalid version {raw_value!r}: must start with a digit (e.g. '1', '2.5', '4.2.9')"
+        )
+
+    def _version_check_greater(
+        self, greater: str, lesser: str, greater_or_equal=False
+    ) -> bool:
         """Determine if first argument is greater than second argument.
 
         Args:
             greater (str): decimal string
-            lesser (str): decimal string
+            lesser (str):  decimal string
         """
-        g_major, g_minor = greater.split(".")
-        l_major, l_minor = lesser.split(".")
+        t_greater = tuple(int(x) for x in self._version_sanitize(greater).split("."))
+        t_lesser = tuple(int(x) for x in self._version_sanitize(lesser).split("."))
 
-        # convert to ints
-        g_major = int(g_major)
-        g_minor = int(g_minor)
-        l_major = int(l_major)
-        l_minor = int(l_minor)
+        # Pad shorter tuple with zeros
+        max_len = max(len(t_greater), len(t_lesser))
+        t_greater += (0,) * (max_len - len(t_greater))
+        t_lesser += (0,) * (max_len - len(t_lesser))
 
-        # If major version is higher then return true right off the bat
-        if g_major > l_major:
-            return True
-        elif greater_or_equal and g_major == l_major and g_minor >= l_minor:
-            return True
-        # If major versions are equal, and minor version is higher, return True
-        elif g_major == l_major and g_minor > l_minor:
-            return True
-
-        return False
+        return t_greater > t_lesser if not greater_or_equal else t_greater >= t_lesser
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers=None):
         try:
@@ -830,9 +840,11 @@ class NetboxModule(object):
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
-                self.version = nb.version
+                self.version = self._version_sanitize(nb.version)
                 try:
-                    self.full_version = nb.status().get("netbox-version")
+                    self.full_version = self._version_sanitize(
+                        nb.status().get("netbox-version")
+                    )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
                     self.full_version = f"{self.version}.0"
