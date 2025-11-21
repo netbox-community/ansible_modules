@@ -1,0 +1,2 @@
+minor_changes:
+  - Adds the ability to return ``primary_ip4_netmask`` for virtual machines in nb_inventory plugin.
