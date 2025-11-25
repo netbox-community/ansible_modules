@@ -62,7 +62,9 @@ class NetboxIpamModule(NetboxModule):
             "parent": data["prefix"],
         }
 
-        if not self._version_check_greater(self.version, "2.9", greater_or_equal=True):
+        if not self._version_check_greater(
+            self.api_version, "2.9", greater_or_equal=True
+        ):
             if not data.get("interface") or not data.get("prefix"):
                 self._handle_errors("A prefix and interface is required")
             data_intf_key = "interface"
@@ -217,7 +219,7 @@ class NetboxIpamModule(NetboxModule):
                 data["slug"] = self._to_slug(name)
 
         if self.endpoint == "services" and self._version_check_greater(
-            self.version, "4.3", greater_or_equal=True
+            self.api_version, "4.3", greater_or_equal=True
         ):
             if "device" in data:
                 data["parent_object_type"] = "dcim.device"

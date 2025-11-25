@@ -179,7 +179,7 @@ def main():
 
     # Change port to ports for 2.10+ and convert to a list with the single integer
     if netbox_service.data.get("port") and netbox_service._version_check_greater(
-        netbox_service.version, "2.10", greater_or_equal=True
+        netbox_service.api_version, "2.10", greater_or_equal=True
     ):
         netbox_service.data["ports"] = [netbox_service.data.pop("port")]
 

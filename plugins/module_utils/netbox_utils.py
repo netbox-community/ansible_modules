@@ -781,14 +781,14 @@ class NetboxModule(object):
         else:
             self.nb = nb_client
             try:
-                self.version = self._version_sanitize(self.nb.version)
+                self.api_version = self._version_sanitize(self.nb.version)
                 try:
-                    self.full_version = self._version_sanitize(
+                    self.netbox_version = self._version_sanitize(
                         self.nb.status().get("netbox-version")
                     )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
-                    self.full_version = f"{self.version}.0"
+                    self.netbox_version = f"{self.api_version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 
@@ -850,14 +850,14 @@ class NetboxModule(object):
             nb = pynetbox.api(url, token=token)
             nb.http_session = session
             try:
-                self.version = self._version_sanitize(nb.version)
+                self.api_version = self._version_sanitize(nb.version)
                 try:
-                    self.full_version = self._version_sanitize(
+                    self.netbox_version = self._version_sanitize(
                         nb.status().get("netbox-version")
                     )
                 except Exception:
                     # For NetBox versions without /api/status endpoint
-                    self.full_version = f"{self.version}.0"
+                    self.netbox_version = f"{self.api_version}.0"
             except AttributeError:
                 self.module.fail_json(msg="Must have pynetbox >=4.1.0")
             except Exception:
@@ -941,7 +941,7 @@ class NetboxModule(object):
         :params data (dict): Data dictionary after _find_ids method ran
         """
         temp_dict = dict()
-        if self._version_check_greater(self.version, "2.7", greater_or_equal=True):
+        if self._version_check_greater(self.api_version, "2.7", greater_or_equal=True):
             if data.get("form_factor"):
                 temp_dict["type"] = data.pop("form_factor")
 
@@ -950,7 +950,7 @@ class NetboxModule(object):
                 temp_dict[key] = data[key]
             # TODO: Remove this once the lowest supported Netbox version is 3.6 or greater as we can use default logic of CONVERT_KEYS moving forward.
             elif key == "device_role" and not self._version_check_greater(
-                self.version, "3.6", greater_or_equal=True
+                self.api_version, "3.6", greater_or_equal=True
             ):
                 temp_dict[key] = data[key]
             elif key in CONVERT_KEYS:
@@ -1043,7 +1043,7 @@ class NetboxModule(object):
                     parent == "interface"
                     and "device" in module_data
                     and self._version_check_greater(
-                        self.version, "3.6", greater_or_equal=True
+                        self.api_version, "3.6", greater_or_equal=True
                     )
                 ):
                     query_dict.update(
@@ -1130,7 +1130,7 @@ class NetboxModule(object):
         elif parent == "rear_port_template" and self.endpoint == "front_port_templates":
             if isinstance(module_data.get("rear_port_template"), str):
                 if self._version_check_greater(
-                    self.version, "4.0", greater_or_equal=True
+                    self.api_version, "4.0", greater_or_equal=True
                 ):
                     rear_port_template = {
                         "device_type_id": module_data.get("device_type"),
@@ -1157,7 +1157,7 @@ class NetboxModule(object):
         ):
             if isinstance(module_data.get("power_port_template"), str):
                 if self._version_check_greater(
-                    self.version, "4.0", greater_or_equal=True
+                    self.api_version, "4.0", greater_or_equal=True
                 ):
                     power_port_template = {
                         "device_type_id": module_data.get("device_type"),
@@ -1192,7 +1192,7 @@ class NetboxModule(object):
         elif "_template" in parent:
             if query_dict.get("device_type"):
                 if self._version_check_greater(
-                    self.version, "4.0", greater_or_equal=True
+                    self.api_version, "4.0", greater_or_equal=True
                 ):
                     query_dict["device_type_id"] = query_dict.pop("device_type")
                 else:
@@ -1202,8 +1202,8 @@ class NetboxModule(object):
         # Netbox 4.3.0 - 4.4.3 is removed
         elif parent == "services":
             if self._version_check_greater(
-                self.version, "4.3", greater_or_equal=True
-            ) and self._version_check_greater("4.4.4", self.full_version):
+                self.api_version, "4.3", greater_or_equal=True
+            ) and self._version_check_greater("4.4.4", self.netbox_version):
                 query_dict.pop("parent_object_id", None)
                 query_dict.pop("parent_object_type", None)
 
@@ -1277,13 +1277,15 @@ class NetboxModule(object):
             if endpoint in v.keys():
                 if "introduced" in v[endpoint]:
                     pre_introduction = self._version_check_greater(
-                        v[endpoint]["introduced"], self.version
+                        v[endpoint]["introduced"], self.api_version
                     )
                     if pre_introduction:
                         continue
                 if "deprecated" in v[endpoint]:
                     after_deprecation = self._version_check_greater(
-                        self.version, v[endpoint]["deprecated"], greater_or_equal=True
+                        self.api_version,
+                        v[endpoint]["deprecated"],
+                        greater_or_equal=True,
                     )
                     if after_deprecation:
                         continue
@@ -1303,7 +1305,7 @@ class NetboxModule(object):
             if k in CONVERT_TO_ID:
                 if (
                     not self._version_check_greater(
-                        self.version, "2.9", greater_or_equal=True
+                        self.api_version, "2.9", greater_or_equal=True
                     )
                     and k == "tags"
                 ) or (self.endpoint == "config_contexts" and k == "tags"):
@@ -1527,7 +1529,7 @@ class NetboxModule(object):
             updated_obj["tags"] = set(data["tags"])
 
         # Ensure idempotency for site on older netbox versions
-        version_pre_30 = self._version_check_greater("3.0", self.version)
+        version_pre_30 = self._version_check_greater("3.0", self.api_version)
         if (
             serialized_nb_obj.get("latitude")
             and data.get("latitude")
@@ -1542,7 +1544,7 @@ class NetboxModule(object):
             updated_obj["longitude"] = str(data["longitude"])
 
         # Ensure idempotency for virtual machine on older netbox versions
-        version_pre_211 = self._version_check_greater("2.11", self.version)
+        version_pre_211 = self._version_check_greater("2.11", self.api_version)
         if serialized_nb_obj.get("vcpus") and data.get("vcpus"):
             if version_pre_211:
                 updated_obj["vcpus"] = int(data["vcpus"])
@@ -1550,7 +1552,7 @@ class NetboxModule(object):
                 updated_obj["vcpus"] = float(data["vcpus"])
 
         # Ensure idempotency for cable on netbox versions later than 3.3
-        version_post_33 = self._version_check_greater(self.version, "3.3", True)
+        version_post_33 = self._version_check_greater(self.api_version, "3.3", True)
         if (
             serialized_nb_obj.get("a_terminations")
             and serialized_nb_obj.get("b_terminations")

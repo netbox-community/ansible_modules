@@ -114,7 +114,9 @@ class NetboxDcimModule(NetboxModule):
 
         # Handle rack and form_factor
         if endpoint_name == "rack":
-            if self._version_check_greater(self.version, "4.1", greater_or_equal=True):
+            if self._version_check_greater(
+                self.api_version, "4.1", greater_or_equal=True
+            ):
                 if "type" in data:
                     data["form_factor"] = self._to_slug(data["type"])
                     del data["type"]
@@ -193,7 +195,9 @@ class NetboxDcimModule(NetboxModule):
             data["color"] = data["color"].lower()
 
         if self.endpoint == "cables":
-            if self._version_check_greater(self.version, "3.0", greater_or_equal=True):
+            if self._version_check_greater(
+                self.api_version, "3.0", greater_or_equal=True
+            ):
                 cables = [
                     nb_endpoint.get(
                         termination_a_type=data["termination_a_type"],
@@ -222,7 +226,9 @@ class NetboxDcimModule(NetboxModule):
             else:
                 self._handle_errors(msg="More than one result returned for %s" % (name))
 
-            if self._version_check_greater(self.version, "3.3", greater_or_equal=True):
+            if self._version_check_greater(
+                self.api_version, "3.3", greater_or_equal=True
+            ):
                 data["a_terminations"] = [
                     {
                         "object_id": data.pop("termination_a_id"),
