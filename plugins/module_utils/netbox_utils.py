@@ -1115,6 +1115,11 @@ class NetboxModule(object):
                 query_dict.update(
                     {"interface_id": module_data.get("assigned_object_id")}
                 )
+            elif module_data["assigned_object_type"] == "ipam.fhrpgroup":
+                query_dict.update(
+                    {"???": module_data.get("assigned_object_id")}
+                )
+
 
         elif parent == "virtual_chassis":
             query_dict.update({"master": self.module.params["data"].get("master")})
