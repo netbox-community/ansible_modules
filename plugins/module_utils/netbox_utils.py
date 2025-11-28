@@ -1467,6 +1467,9 @@ class NetboxModule(object):
             if k == "mac_address":
                 data[k] = v.upper()
 
+            if k == "position" and v == 0:
+                data[k] = None
+
         # We need to assign the correct type for the assigned object so the user doesn't have to worry about this.
         # We determine it by whether or not they pass in a device or virtual_machine
         if data.get("assigned_object") and isinstance(data["assigned_object"], dict):
