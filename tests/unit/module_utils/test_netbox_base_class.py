@@ -8,10 +8,9 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import re
-import os
 from functools import partial
+from pathlib import Path
 from unittest.mock import MagicMock
-
 import pytest
 
 try:
@@ -21,7 +20,9 @@ try:
     from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
         NetboxModule,
     )
-    from ansible_collections.netbox.netbox.tests.test_data import load_test_data
+    from ansible_collections.netbox.netbox.tests.unit.helpers.load_data import (
+        load_test_data,
+    )
 
     MOCKER_PATCH_PATH = "ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils.NetboxModule"
 except ImportError:
@@ -34,13 +35,11 @@ except ImportError:
     sys.path.append("tests")
     from netbox_dcim import NB_DEVICES
     from netbox_utils import NetboxModule
-    from test_data import load_test_data
+    from tests.unit.helpers.load_data import load_test_data
 
     MOCKER_PATCH_PATH = "netbox_utils.NetboxModule"
 
-load_relative_test_data = partial(
-    load_test_data, os.path.dirname(os.path.abspath(__file__))
-)
+load_relative_test_data = partial(load_test_data, Path(__file__).resolve().parent)
 
 
 @pytest.fixture
