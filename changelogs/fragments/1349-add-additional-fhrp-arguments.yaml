@@ -1,0 +1,3 @@
+minor_changes:
+  - in netbox_ip_address added assigned_object_type and assigned_object_id options
+  - In the netbox_fhrp_group, the `name` parameter is now required, which is used to search.

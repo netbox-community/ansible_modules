@@ -110,6 +110,16 @@ options:
           - Hostname or FQDN
         required: false
         type: str
+      assigned_object_id:
+        description:
+          - ID of the assigned object
+          type: str
+          required: false
+      assigned_object_type:
+        description:
+          - Type of the assigned object
+        type: str
+        required: false
       assigned_object:
         description:
           - Definition of the assigned object.
@@ -264,6 +274,16 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: new
+
+    - name: Create an IP address using NetBox and add it to the FHRP group
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          address: 192.168.1.10
+          assigned_object_id: 30
+          assigned_object_type: "ipam.fhrpgroup"
+        state: present
 """
 
 RETURN = r"""
@@ -333,6 +353,8 @@ def main():
                     description=dict(required=False, type="str"),
                     nat_inside=dict(required=False, type="raw"),
                     dns_name=dict(required=False, type="str"),
+                    assigned_object_id=dict(required=False, type="str"),
+                    assigned_object_type=dict(required=False, type="str"),
                     assigned_object=dict(
                         required=False,
                         type="dict",
