@@ -18,7 +18,7 @@ UNIT_TESTS_DIR = CURRENT_FILE.parents[1]  # project_root/tests/unit
 ROOT_TO_UNIT_TESTS = CURRENT_FILE.parents[1].relative_to(CURRENT_FILE.parents[3])
 
 
-def load_test_data(script_dir: Path, data_path: str, use_subfold: bool = True) -> list:
+def load_test_data(script_dir: Path, file_name: str, use_subfold: bool = True) -> list:
     """
     Load structured test data for a test file.
 
@@ -27,7 +27,7 @@ def load_test_data(script_dir: Path, data_path: str, use_subfold: bool = True) -
 
     Args:
         test_script_dir: Directory containing the test file.
-        data_path: Name of the test_data folder to load.
+        file_name: Name of the test_data folder to load.
         use_sub: Dive into same subfolders as script_dir in test_data
 
     Returns:
@@ -55,7 +55,7 @@ def load_test_data(script_dir: Path, data_path: str, use_subfold: bool = True) -
     if subfolder and use_subfold:
         base /= subfolder
 
-    data_file = base / data_path / "data.json"
+    data_file = base / f"{file_name}.json"
 
     with data_file.open("r", encoding="utf-8") as f:
         data = json.load(f)
