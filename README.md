@@ -9,11 +9,11 @@ This Ansible collection consists of a set of modules to define the intended netw
 
 - You must be running one of the two most recent releases of NetBox
 - A NetBox write-enabled API token when using modules or a read-only token for the `nb_lookup` and `nb_inventory` plugins.
-- Python 3.10+
+- Python 3.11+
 - Python modules:
   - pytz
   - pynetbox
-- Ansible 2.15+
+- Ansible 2.18+
 
 ## Installation
 
