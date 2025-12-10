@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Fixed regex pattern for character conversion when using slug parameter in multiple modules
