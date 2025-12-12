@@ -737,6 +737,68 @@ SCOPE_TO_ENDPOINT = {
     "virtualization.clustergroup": "cluster_groups",
 }
 
+# keys (for all endpoints) that should be converted from list to set
+LIST_AS_SET_KEYS = set(["tags"])
+
+# keys (for given endpoints) that should be converted from list to set
+LIST_AS_SET_ENDPOINT_KEYS = {
+    # tenancy
+    "contacts": set(["contact_groups"]),
+    # extra
+    "config_contexts": set(
+        [
+            "regions",
+            "site_groups",
+            "sites",
+            "roles",
+            "device_types",
+            "platforms",
+            "cluster_types",
+            "cluster_groups",
+            "clusters",
+            "tenant_groups",
+            "tenants",
+        ]
+    ),
+    "custom_fields": set(["object_types"]),
+    "custom_links": set(["object_types"]),
+    "export_templates": set(["object_types"]),
+    # users
+    "groups": set(["permissions"]),
+    "permissions": set(
+        [
+            "actions",
+            "object_types",
+        ]
+    ),
+    "users": set(
+        [
+            "groups",
+            "permissions",
+        ]
+    ),
+    # ipam
+    "l2vpns": set(
+        [
+            "import_targets",
+            "export_targets",
+        ]
+    ),
+    "services": set(["ports"]),
+    "service_templates": set(["ports"]),
+    "vlan_groups": set(["vid_ranges"]),
+    "vrfs": set(
+        [
+            "import_targets",
+            "export_targets",
+        ]
+    ),
+    # dcim, virtualization
+    "interfaces": set(["tagged_vlans"]),
+}
+
+config_context
+
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
@@ -1524,9 +1586,15 @@ class NetboxModule(object):
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
 
-        if serialized_nb_obj.get("tags") and data.get("tags"):
-            serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
-            updated_obj["tags"] = set(data["tags"])
+        # these fields are considerd a set and should be converted
+        for k in LIST_AS_SET_KEYS:
+            if serialized_nb_obj.get(k) and data.get(k):
+                serialized_nb_obj[k] = set(serialized_nb_obj[k])
+                updated_obj[k] = set(data[k])
+        for k in LIST_AS_SET_ENDPOINT_KEYS.get(self.endpoint, []):
+            if serialized_nb_obj.get(k) and data.get(k):
+                serialized_nb_obj[k] = set(serialized_nb_obj[k])
+                updated_obj[k] = set(data[k])
 
         # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.api_version)
