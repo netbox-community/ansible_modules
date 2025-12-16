@@ -1,7 +1,7 @@
 ---
 name: Deploy collection to Ansible Galaxy
 on:
-  create:
+  push:
     tags:
       - "v*"
 jobs:
