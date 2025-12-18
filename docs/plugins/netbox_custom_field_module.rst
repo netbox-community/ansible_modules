@@ -789,6 +789,98 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ui_editable"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/ui_editable:
+
+      .. rst-class:: ansible-option-title
+
+      **ui_editable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ui_editable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.17.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether the custom field is editable in the UI
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"yes"`
+      - :ansible-option-choices-entry:`"no"`
+      - :ansible-option-choices-entry:`"hidden"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ui_visible"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_custom_field_module__parameter-data/ui_visible:
+
+      .. rst-class:: ansible-option-title
+
+      **ui_visible**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ui_visible" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.17.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether the custom field is displayed in the UI
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"always"`
+      - :ansible-option-choices-entry:`"if-set"`
+      - :ansible-option-choices-entry:`"hidden"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data/ui_visibility"></div>
 
       .. raw:: latex
