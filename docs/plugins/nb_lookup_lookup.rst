@@ -6,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.13.1
+  :antsibull-docs: 2.16.2
 
 .. Anchors
 
@@ -22,7 +22,7 @@ netbox.netbox.nb_lookup lookup -- Queries and returns elements from NetBox
 .. Collection note
 
 .. note::
-    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
+    This lookup plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -568,7 +568,7 @@ Examples
              manufactured by {{ item.value.device_type.manufacturer.name }}"
         loop: "{{ query('netbox.netbox.nb_lookup', 'devices',
                         api_endpoint='http://localhost/',
-                        api_filter='role=management tag=Dell',
+                        api_filter='role=management tag=Dell'),
                         token='<redacted>') }}"
         # This example uses an API Filter with a variable and jinja concatenation
       - name: Set hostname fact

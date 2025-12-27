@@ -10,14 +10,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_console_port_template_module:
+.. _ansible_collections.netbox.netbox.netbox_contact_assignment_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_console_port_template module -- Create, update or delete console port templates within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_contact_assignment module -- Creates or removes contact assignments from NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -29,15 +29,15 @@ netbox.netbox.netbox_console_port_template module -- Create, update or delete co
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_console_port_template_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_contact_assignment_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_console_port_template`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_contact_assignment`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.2.3
+New in netbox.netbox 3.1.0
 
 .. contents::
    :local:
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes console port templates from NetBox
+- Creates or removes contact assignments from NetBox
 
 
 .. Aliases
@@ -59,7 +59,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_console_port_template_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_contact_assignment_module_requirements:
 
 Requirements
 ------------
@@ -93,7 +93,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -127,7 +127,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -149,7 +149,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the console port template configuration
+      Defines the contact configuration
 
 
       .. raw:: html
@@ -159,63 +159,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/contact"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/device_type:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/contact:
 
       .. rst-class:: ansible-option-title
 
-      **device_type**
+      **contact**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/device_type" title="Permalink to this option"></a>
-
-      .. ansible-option-type-line::
-
-        :ansible-option-type:`any` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-      .. raw:: latex
-
-        \end{minipage}
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      The device type the console port template is attached to
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/name"></div>
-
-      .. raw:: latex
-
-        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
-
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/name:
-
-      .. rst-class:: ansible-option-title
-
-      **name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-data/name" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/contact" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
@@ -233,7 +191,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the console port template
+      The name of the contact to assign to the object
 
 
       .. raw:: html
@@ -243,21 +201,125 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/object_name"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/type:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/object_name:
 
       .. rst-class:: ansible-option-title
 
-      **type**
+      **object_name**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/object_name" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the object the contact is assigned to
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/object_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/object_type:
+
+      .. rst-class:: ansible-option-title
+
+      **object_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/object_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of the object the contact is assigned to
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`"circuit"`
+      - :ansible-option-choices-entry:`"cluster"`
+      - :ansible-option-choices-entry:`"cluster\_group"`
+      - :ansible-option-choices-entry:`"device"`
+      - :ansible-option-choices-entry:`"location"`
+      - :ansible-option-choices-entry:`"manufacturer"`
+      - :ansible-option-choices-entry:`"power\_panel"`
+      - :ansible-option-choices-entry:`"provider"`
+      - :ansible-option-choices-entry:`"rack"`
+      - :ansible-option-choices-entry:`"region"`
+      - :ansible-option-choices-entry:`"site"`
+      - :ansible-option-choices-entry:`"site\_group"`
+      - :ansible-option-choices-entry:`"tenant"`
+      - :ansible-option-choices-entry:`"virtual\_machine"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/priority"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/priority" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
@@ -275,26 +337,101 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The type of the console port template
+      The priority of this contact
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"de-9"`
-      - :ansible-option-choices-entry:`"db-25"`
-      - :ansible-option-choices-entry:`"rj-11"`
-      - :ansible-option-choices-entry:`"rj-12"`
-      - :ansible-option-choices-entry:`"rj-45"`
-      - :ansible-option-choices-entry:`"usb-a"`
-      - :ansible-option-choices-entry:`"usb-b"`
-      - :ansible-option-choices-entry:`"usb-c"`
-      - :ansible-option-choices-entry:`"usb-mini-a"`
-      - :ansible-option-choices-entry:`"usb-mini-b"`
-      - :ansible-option-choices-entry:`"usb-micro-a"`
-      - :ansible-option-choices-entry:`"usb-micro-b"`
-      - :ansible-option-choices-entry:`"other"`
+      - :ansible-option-choices-entry:`"primary"`
+      - :ansible-option-choices-entry:`"secondary"`
+      - :ansible-option-choices-entry:`"tertiary"`
+      - :ansible-option-choices-entry:`"inactive"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/role"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/role:
+
+      .. rst-class:: ansible-option-title
+
+      **role**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/role" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the role the contact has for this object
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/tags"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-data/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/tags" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`list` / :ansible-option-elements:`elements=any`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Any tags that the contact may need to be associated with
 
 
       .. raw:: html
@@ -307,7 +444,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-headers:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-headers:
 
       .. rst-class:: ansible-option-title
 
@@ -341,7 +478,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -375,7 +512,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +548,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -449,7 +586,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -491,7 +628,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -549,39 +686,48 @@ Examples
 
 .. code-block:: yaml+jinja
 
-    - name: "Test NetBox modules"
+    - name: "Test NetBox module"
       connection: local
       hosts: localhost
       gather_facts: false
-
       tasks:
-        - name: Create console port template within NetBox with only required information
-          netbox.netbox.netbox_console_port_template:
+        - name: Assign a contact to a location with only required information
+          netbox.netbox.netbox_contact_assignment:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Console Port Template
-              device_type: Test Device Type
+              object_type: location
+              object_name: My Location
+              contact: John Doe
+              role: Supervisor Role
             state: present
 
-        - name: Update console port template with other fields
-          netbox.netbox.netbox_console_port_template:
+        - name: Delete contact assignment within netbox
+          netbox.netbox.netbox_contact_assignment:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Console Port Template
-              device_type: Test Device Type
-              type: iec-60320-c6
-            state: present
-
-        - name: Delete console port template within netbox
-          netbox.netbox.netbox_console_port_template:
-            netbox_url: http://netbox.local
-            netbox_token: thisIsMyToken
-            data:
-              name: Test Console Port Template
-              device_type: Test Device Type
+              object_type: location
+              object_name: My Location
+              contact: John Doe
+              role: Supervisor Role
             state: absent
+
+        - name: Create contact with all parameters
+          netbox.netbox.netbox_contact:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              object_type: location
+              object_name: My Location
+              contact: John Doe
+              role: Supervisor Role
+              priority: tertiary
+              tags:
+                - tagA
+                - tagB
+                - tagC
+            state: present
 
 
 
@@ -608,17 +754,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-console_port_template"></div>
+        <div class="ansibleOptionAnchor" id="return-contact_assignment"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__return-console_port_template:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__return-contact_assignment:
 
       .. rst-class:: ansible-option-title
 
-      **console_port_template**
+      **contact_assignment**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-console_port_template" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-contact_assignment" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 
@@ -637,7 +783,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` on creation
 
 
       .. raw:: html
@@ -650,7 +796,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_contact_assignment_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -694,7 +840,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Daniel Chiquito (@dchiquito)
 
 
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "netbox_ansible_modules"
-version = "3.21.0"
+version = "3.22.0"
 description = "Ansible collection to interact with NetBox's API"
 authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"

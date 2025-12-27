@@ -1,4 +1,0 @@
----
-minor_changes:
-  - Make the unit-test data structures more flexible.
-  - Remove abandoned unit-test data.

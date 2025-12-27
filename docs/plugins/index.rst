@@ -1,5 +1,5 @@
 .. meta::
-  :antsibull-docs: 2.13.1
+  :antsibull-docs: 2.16.2
 
 
 .. _plugins_in_netbox.netbox:
@@ -7,7 +7,7 @@
 Netbox.Netbox
 =============
 
-Collection version 3.21.0
+Collection version 3.22.0
 
 .. contents::
    :local:
@@ -67,11 +67,13 @@ Modules
 * :ansplugin:`netbox_console_server_port module <netbox.netbox.netbox_console_server_port#module>` -- Create, update or delete console server ports within NetBox
 * :ansplugin:`netbox_console_server_port_template module <netbox.netbox.netbox_console_server_port_template#module>` -- Create, update or delete console server port templates within NetBox
 * :ansplugin:`netbox_contact module <netbox.netbox.netbox_contact#module>` -- Creates or removes contacts from NetBox
+* :ansplugin:`netbox_contact_assignment module <netbox.netbox.netbox_contact_assignment#module>` -- Creates or removes contact assignments from NetBox
 * :ansplugin:`netbox_contact_group module <netbox.netbox.netbox_contact_group#module>` -- Creates or removes contact groups from NetBox
 * :ansplugin:`netbox_contact_role module <netbox.netbox.netbox_contact_role#module>` -- Creates or removes contact roles from NetBox
 * :ansplugin:`netbox_custom_field module <netbox.netbox.netbox_custom_field#module>` -- Creates, updates or deletes custom fields within NetBox
 * :ansplugin:`netbox_custom_field_choice_set module <netbox.netbox.netbox_custom_field_choice_set#module>` -- Creates, updates or deletes custom field choice sets within Netbox
 * :ansplugin:`netbox_custom_link module <netbox.netbox.netbox_custom_link#module>` -- Creates, updates or deletes custom links within NetBox
+* :ansplugin:`netbox_data_source module <netbox.netbox.netbox_data_source#module>` -- Creates or removes data sources from NetBox
 * :ansplugin:`netbox_device module <netbox.netbox.netbox_device#module>` -- Create, update or delete devices within NetBox
 * :ansplugin:`netbox_device_bay module <netbox.netbox.netbox_device_bay#module>` -- Create, update or delete device bays within NetBox
 * :ansplugin:`netbox_device_bay_template module <netbox.netbox.netbox_device_bay_template#module>` -- Create, update or delete device bay templates within NetBox
@@ -160,11 +162,13 @@ Modules
     netbox_console_server_port_module
     netbox_console_server_port_template_module
     netbox_contact_module
+    netbox_contact_assignment_module
     netbox_contact_group_module
     netbox_contact_role_module
     netbox_custom_field_module
     netbox_custom_field_choice_set_module
     netbox_custom_link_module
+    netbox_data_source_module
     netbox_device_module
     netbox_device_bay_module
     netbox_device_bay_template_module
