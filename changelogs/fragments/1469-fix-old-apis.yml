@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Fix broken code path when using old api path on old netbox systems

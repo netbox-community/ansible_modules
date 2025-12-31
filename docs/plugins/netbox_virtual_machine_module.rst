@@ -6,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.13.1
+  :antsibull-docs: 2.16.2
 
 .. Anchors
 
@@ -22,7 +22,7 @@ netbox.netbox.netbox_virtual_machine module -- Create, update or delete virtual\
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -1012,6 +1012,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.netbox.netbox.netbox_virtual_machine_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Dictionary of headers to be passed to the NetBox API.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
       .. _ansible_collections.netbox.netbox.netbox_virtual_machine_module__parameter-netbox_token:
@@ -1343,17 +1377,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-virtual%20machine"></div>
+        <div class="ansibleOptionAnchor" id="return-virtual_machine"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_virtual_machine_module__return-virtual machine:
+      .. _ansible_collections.netbox.netbox.netbox_virtual_machine_module__return-virtual_machine:
 
       .. rst-class:: ansible-option-title
 
-      **virtual machine**
+      **virtual_machine**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-virtual%20machine" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-virtual_machine" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 

@@ -1,5 +1,0 @@
----
-bugfixes:
-  - add parent_object_type and parent_object_id to services ALLOWED_QUERY_PARAMS
-minor_changes:
-  - add workaround to _build_query_params for services and Netbox 4.3.0 - 4.4.3 (wrong parent_object_type data type)

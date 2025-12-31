@@ -852,6 +852,71 @@ releases:
       name: netbox_mac_address
       namespace: ''
     release_date: '2025-03-04'
+  3.22.0:
+    changes:
+      minor_changes:
+      - Change `netbox_contact.contact_group` to `contact_groups`
+      - Add integration tests for contact groups
+      - Add support for custom headers for all modules
+      - Fix ansible-bad-import-from pylint errors
+      - Fix broken code path when using old api path on old netbox systems
+      - add workaround to _build_query_params for services and Netbox 4.3.0 - 4.4.3 (wrong parent_object_type data type)
+      - netbox_circuit_termination - Add parameters termination_id and termination_type for NetBox 4.2+
+      - netbox_tag - Add support for object_types on tags
+      - improve version_check_greater to be more universal
+      - sanitize netbox versions received from api
+      - test suite expanded to run on Python 3.11, 3.12, and 3.13.
+      - Make the unit-test data structures more flexible.
+      - Remove abandoned unit-test data.
+      - user.groups, user.permissions, user_group.permissions, permission.actions, and permission.object_types are now treated as unordered sets for update comparison purposes.
+      - rename variable version to api_version.
+      - rename variable full_version to netbox_version.
+      - add yamllint to project pipeline.
+      bugfixes:
+      - Fix task duplicate task name in documentation that cause ansible-lint error
+      - nb_inventory - Fix service collection for version greater than 4.3
+      - Add netbox version check to support service creation for netbox version prior of 4.3
+      - Use dedicated function to check netbox version istead of self.full_version for rack.
+      - Fix typos in tag integration tests.
+      - Fix integration test for circuit termination, missing assignment
+      - Fix integration test for service
+      - "nb_device_interface: Fix specifying primary_mac_address objects by id for disambiguation"
+      - add parent_object_type and parent_object_id to services ALLOWED_QUERY_PARAMS
+      - nb_inventory - Fixed empty inventory results when netbox server URL is a non-root path
+      - Support for related_object_filter when related_object_type is "object"
+      - netbox_service - Fix issue 1426 - broken netbox_service module
+    modules:
+    - description: Manage data sources in NetBox
+      name: netbox_data_source
+      namespace: ''
+    - description: Manage contact assignments in NetBox
+      name: netbox_contact_assignment
+      namespace: ''
+    fragments:
+    - 1182-fix-contact-groups.yml
+    - 1433-add-custom-headers.yml
+    - 1435-fix-duplicate-task-name.yml
+    - 1438-fix-inventory-service-collection.yml
+    - 1439-fix-sevral-bug-discovered-by-integration-tests.yml
+    - 1459-add-netbox-data-sources.yml
+    - 1462-fix-pylint-errors.yml
+    - 1464-fix-mac-lookup-by-id.yml
+    - 1469-fix-old-apis.yml
+    - 1479-fix-services_parent_object.yml
+    - contacts.yml
+    - nb_inventory.yml
+    - netbox_circuit_termination.yml
+    - netbox_custom_field.yml
+    - netbox_service.yml
+    - netbox_tag.yml
+    - netbox_version_check_greater.yml
+    - netbox_version_sanitize.yml
+    - python_versions.yml
+    - unit_test_data.yml
+    - users-ordering.yml
+    - version_api.yml
+    - version_netbox.yml
+    - yamllint.yml
   3.3.0:
     changes:
       minor_changes:

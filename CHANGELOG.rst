@@ -4,6 +4,52 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.22.0
+=======
+
+Minor Changes
+-------------
+
+- Add integration tests for contact groups
+- Add support for custom headers for all modules
+- Change `netbox_contact.contact_group` to `contact_groups`
+- Fix ansible-bad-import-from pylint errors
+- Fix broken code path when using old api path on old netbox systems
+- Make the unit-test data structures more flexible.
+- Remove abandoned unit-test data.
+- add workaround to _build_query_params for services and Netbox 4.3.0 - 4.4.3 (wrong parent_object_type data type)
+- add yamllint to project pipeline.
+- improve version_check_greater to be more universal
+- netbox_circuit_termination - Add parameters termination_id and termination_type for NetBox 4.2+
+- netbox_tag - Add support for object_types on tags
+- rename variable full_version to netbox_version.
+- rename variable version to api_version.
+- sanitize netbox versions received from api
+- test suite expanded to run on Python 3.11, 3.12, and 3.13.
+- user.groups, user.permissions, user_group.permissions, permission.actions, and permission.object_types are now treated as unordered sets for update comparison purposes.
+
+Bugfixes
+--------
+
+- Add netbox version check to support service creation for netbox version prior of 4.3
+- Fix integration test for circuit termination, missing assignment
+- Fix integration test for service
+- Fix task duplicate task name in documentation that cause ansible-lint error
+- Fix typos in tag integration tests.
+- Support for related_object_filter when related_object_type is "object"
+- Use dedicated function to check netbox version istead of self.full_version for rack.
+- add parent_object_type and parent_object_id to services ALLOWED_QUERY_PARAMS
+- nb_device_interface: Fix specifying primary_mac_address objects by id for disambiguation
+- nb_inventory - Fix service collection for version greater than 4.3
+- nb_inventory - Fixed empty inventory results when netbox server URL is a non-root path
+- netbox_service - Fix issue 1426 - broken netbox_service module
+
+New Modules
+-----------
+
+- netbox.netbox.netbox_contact_assignment - Manage contact assignments in NetBox
+- netbox.netbox.netbox_data_source - Manage data sources in NetBox
+
 v3.21.0
 =======
 

@@ -1,3 +1,0 @@
----
-minor_changes:
-  - sanitize netbox versions received from api

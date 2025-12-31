@@ -10,14 +10,14 @@
 
 .. Anchors
 
-.. _ansible_collections.netbox.netbox.netbox_console_port_template_module:
+.. _ansible_collections.netbox.netbox.netbox_data_source_module:
 
 .. Anchors: short name for ansible.builtin
 
 .. Title
 
-netbox.netbox.netbox_console_port_template module -- Create, update or delete console port templates within NetBox
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+netbox.netbox.netbox_data_source module -- Creates or removes data sources from NetBox
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
@@ -29,15 +29,15 @@ netbox.netbox.netbox_console_port_template module -- Create, update or delete co
 
     To install it, use: :code:`ansible-galaxy collection install netbox.netbox`.
     You need further requirements to be able to use this module,
-    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_console_port_template_module_requirements>` for details.
+    see :ref:`Requirements <ansible_collections.netbox.netbox.netbox_data_source_module_requirements>` for details.
 
-    To use it in a playbook, specify: :code:`netbox.netbox.netbox_console_port_template`.
+    To use it in a playbook, specify: :code:`netbox.netbox.netbox_data_source`.
 
 .. version_added
 
 .. rst-class:: ansible-version-added
 
-New in netbox.netbox 0.2.3
+New in netbox.netbox 3.22.0
 
 .. contents::
    :local:
@@ -51,7 +51,7 @@ Synopsis
 
 .. Description
 
-- Creates, updates or removes console port templates from NetBox
+- Creates or removes data sources from NetBox
 
 
 .. Aliases
@@ -59,7 +59,7 @@ Synopsis
 
 .. Requirements
 
-.. _ansible_collections.netbox.netbox.netbox_console_port_template_module_requirements:
+.. _ansible_collections.netbox.netbox.netbox_data_source_module_requirements:
 
 Requirements
 ------------
@@ -93,7 +93,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cert"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-cert:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-cert:
 
       .. rst-class:: ansible-option-title
 
@@ -127,7 +127,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-data"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data:
 
       .. rst-class:: ansible-option-title
 
@@ -149,7 +149,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Defines the console port template configuration
+      Defines the data source configuration
 
 
       .. raw:: html
@@ -159,25 +159,25 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-data/device_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-data/comments"></div>
 
       .. raw:: latex
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/device_type:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/comments:
 
       .. rst-class:: ansible-option-title
 
-      **device_type**
+      **comments**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-data/device_type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-data/comments" title="Permalink to this option"></a>
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`any` / :ansible-option-required:`required`
+        :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -191,7 +191,141 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The device type the console port template is attached to
+      Comments about the data source
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/description"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/description" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of the data source
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/enabled"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/enabled" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Whether or not this data source can be synced
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/ignore_rules"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/ignore_rules:
+
+      .. rst-class:: ansible-option-title
+
+      **ignore_rules**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/ignore_rules" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Patterns (one per line) matching files to ignore when syncing
 
 
       .. raw:: html
@@ -207,7 +341,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/name:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/name:
 
       .. rst-class:: ansible-option-title
 
@@ -233,7 +367,103 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the console port template
+      Name of the data source
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/source_url"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/source_url:
+
+      .. rst-class:: ansible-option-title
+
+      **source_url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/source_url" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      URL of the data source to be created
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/sync_interval"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/sync_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **sync_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/sync_interval" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The interval in seconds between syncs
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`1`
+      - :ansible-option-choices-entry:`60`
+      - :ansible-option-choices-entry:`720`
+      - :ansible-option-choices-entry:`1440`
+      - :ansible-option-choices-entry:`10080`
+      - :ansible-option-choices-entry:`43200`
 
 
       .. raw:: html
@@ -249,7 +479,7 @@ Parameters
 
         \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-data/type:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-data/type:
 
       .. rst-class:: ansible-option-title
 
@@ -275,26 +505,16 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The type of the console port template
+      The origin of the data source
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-choices:`Choices:`
 
-      - :ansible-option-choices-entry:`"de-9"`
-      - :ansible-option-choices-entry:`"db-25"`
-      - :ansible-option-choices-entry:`"rj-11"`
-      - :ansible-option-choices-entry:`"rj-12"`
-      - :ansible-option-choices-entry:`"rj-45"`
-      - :ansible-option-choices-entry:`"usb-a"`
-      - :ansible-option-choices-entry:`"usb-b"`
-      - :ansible-option-choices-entry:`"usb-c"`
-      - :ansible-option-choices-entry:`"usb-mini-a"`
-      - :ansible-option-choices-entry:`"usb-mini-b"`
-      - :ansible-option-choices-entry:`"usb-micro-a"`
-      - :ansible-option-choices-entry:`"usb-micro-b"`
-      - :ansible-option-choices-entry:`"other"`
+      - :ansible-option-choices-entry:`"local"`
+      - :ansible-option-choices-entry:`"git"`
+      - :ansible-option-choices-entry:`"amazon-s3"`
 
 
       .. raw:: html
@@ -307,7 +527,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-headers:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-headers:
 
       .. rst-class:: ansible-option-title
 
@@ -341,7 +561,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_token"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-netbox_token:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-netbox_token:
 
       .. rst-class:: ansible-option-title
 
@@ -375,7 +595,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-netbox_url"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-netbox_url:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-netbox_url:
 
       .. rst-class:: ansible-option-title
 
@@ -411,7 +631,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-query_params"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-query_params:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-query_params:
 
       .. rst-class:: ansible-option-title
 
@@ -449,7 +669,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-state"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-state:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-state:
 
       .. rst-class:: ansible-option-title
 
@@ -491,7 +711,7 @@ Parameters
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_certs"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__parameter-validate_certs:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__parameter-validate_certs:
 
       .. rst-class:: ansible-option-title
 
@@ -532,12 +752,6 @@ Parameters
 
 .. Notes
 
-Notes
------
-
-.. note::
-   - Tags should be defined as a YAML list
-   - This should be ran with connection :literal:`local` and hosts :literal:`localhost`
 
 .. Seealso
 
@@ -555,32 +769,36 @@ Examples
       gather_facts: false
 
       tasks:
-        - name: Create console port template within NetBox with only required information
-          netbox.netbox.netbox_console_port_template:
+        - name: "Create a new data source with only required information"
+          netbox.netbox.netbox_data_source:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Console Port Template
-              device_type: Test Device Type
+              name: "Data Source 1"
+              type: "local"
+              source_url: "/tmp/data-source.txt"
+              enabled: true
             state: present
-
-        - name: Update console port template with other fields
-          netbox.netbox.netbox_console_port_template:
+        - name: "Update that data source with other fields"
+          netbox.netbox.netbox_data_source:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Console Port Template
-              device_type: Test Device Type
-              type: iec-60320-c6
+              name: "Data Source 1"
+              type: "amazon-s3"
+              source_url: "path/to/bucket"
+              enabled: false
+              description: "My first data source"
+              ignore_rules: ".*\nfoo.txt\n*.yml"
+              sync_interval: 1440
+              comments: "Some commentary on this data source"
             state: present
-
-        - name: Delete console port template within netbox
-          netbox.netbox.netbox_console_port_template:
+        - name: "Delete the data source"
+          netbox.netbox.netbox_data_source:
             netbox_url: http://netbox.local
             netbox_token: thisIsMyToken
             data:
-              name: Test Console Port Template
-              device_type: Test Device Type
+              name: "Data Source 1"
             state: absent
 
 
@@ -608,17 +826,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-console_port_template"></div>
+        <div class="ansibleOptionAnchor" id="return-data_source"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__return-console_port_template:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__return-data_source:
 
       .. rst-class:: ansible-option-title
 
-      **console_port_template**
+      **data_source**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-console_port_template" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-data_source" title="Permalink to this return value"></a>
 
       .. ansible-option-type-line::
 
@@ -637,7 +855,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-returned-bold:`Returned:` success (when :emphasis:`state=present`\ )
+      :ansible-option-returned-bold:`Returned:` on creation
 
 
       .. raw:: html
@@ -650,7 +868,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="return-msg"></div>
 
-      .. _ansible_collections.netbox.netbox.netbox_console_port_template_module__return-msg:
+      .. _ansible_collections.netbox.netbox.netbox_data_source_module__return-msg:
 
       .. rst-class:: ansible-option-title
 
@@ -694,7 +912,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Tobias Groß (@toerb)
+- Daniel Chiquito (@dchiquito)
 
 
 

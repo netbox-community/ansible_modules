@@ -1,3 +1,0 @@
----
-minor_changes:
-  - Support for related_object_filter when related_object_type is "object"
