@@ -115,7 +115,7 @@
   ansible.builtin.assert:
     that:
       - test_five is changed
-      - test_five['user_group']['permissions'] == [1]
+      - test_five['user_group']['permissions'] == [test_one['permission']['id']]
 
 - name: "PERMISSION 6: Add permission to user"
   netbox.netbox.netbox_user:
@@ -123,7 +123,7 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       username: TestUser
-      password: TestPassword2
+      password: TestPassword6
       permissions:
         - Test Permission 2
     state: present
@@ -133,7 +133,7 @@
   ansible.builtin.assert:
     that:
       - test_six is changed
-      - test_six['user']['permissions'] == [2]
+      - test_six['user']['permissions'] == [test_four['permission']['id']]
 
 - name: "PERMISSION 7: Delete"
   netbox.netbox.netbox_permission:
@@ -167,3 +167,48 @@
       - not test_eight['changed']
       - test_eight['permission'] == None
       - test_eight['msg'] == "permission Test Permission already absent"
+
+- name: "PERMISSION 9: Necessary permission"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      description: The test permission
+      enabled: true
+      actions:
+        - view
+        - add
+        - change
+        - delete
+        - extreme_administration
+      object_types:
+        - vpn.tunneltermination
+        - wireless.wirelesslan
+    state: present
+
+- name: "PERMISSION 9: Re-create permission with lists in wrong order"
+  netbox.netbox.netbox_permission:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Permission
+      description: The test permission
+      enabled: true
+      actions:
+        - extreme_administration
+        - delete
+        - change
+        - add
+        - view
+      object_types:
+        - wireless.wirelesslan
+        - vpn.tunneltermination
+    state: present
+  register: test_nine
+
+- name: "PERMISSION 9: ASSERT - The same lists in a new order do not update the permission"
+  ansible.builtin.assert:
+    that:
+      - not test_nine['changed']
+      # actions and object_types seem to be ordered randomly so we cannot test them here

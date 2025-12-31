@@ -1,0 +1,92 @@
+---
+##
+##
+### NETBOX_FHRP_GROUP_ASSIGNMENT
+##
+##
+- name: "FHRP group assignment 1: Test FHRP group assignment creation"
+  netbox.netbox.netbox_fhrp_group_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      fhrp_group: 1
+      interface_type: dcim.interface
+      interface_id: 1
+      priority: 1
+    state: present
+  register: test_one
+
+- name: "FHRP group assignment: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['fhrp_group_assignment']['group'] == 1
+      - test_one['fhrp_group_assignment']['interface_type'] == "dcim.interface"
+      - test_one['fhrp_group_assignment']['interface_id'] == 1
+      - test_one['fhrp_group_assignment']['priority'] ==  1
+      - test_one['msg'] == "fhrp_group_assignment fhrp_group 1 > dcim.interface 1 created"
+
+- name: "FHRP group assignment 2: Create duplicate"
+  netbox.netbox.netbox_fhrp_group_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      fhrp_group: 1
+      interface_type: dcim.interface
+      interface_id: 1
+      priority: 1
+    state: present
+  register: test_two
+
+- name: "FHRP group assignment 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['fhrp_group_assignment']['group'] == 1
+      - test_two['fhrp_group_assignment']['interface_type'] == "dcim.interface"
+      - test_two['fhrp_group_assignment']['interface_id'] == 1
+      - test_two['fhrp_group_assignment']['priority'] ==  1
+      - test_two['msg'] == "fhrp_group_assignment fhrp_group 1 > dcim.interface 1 already exists"
+
+- name: "FHRP group assignment 3: Update FHRP group assignment"
+  netbox.netbox.netbox_fhrp_group_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      fhrp_group: 1
+      interface_type: dcim.interface
+      interface_id: 1
+      priority: 2
+    state: present
+  register: test_three
+
+- name: "FHRP group assignment 3: ASSERT - Update FHRP group assignment"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['fhrp_group_assignment']['group'] == 1
+      - test_three['fhrp_group_assignment']['interface_type'] == "dcim.interface"
+      - test_three['fhrp_group_assignment']['interface_id'] == 1
+      - test_three['fhrp_group_assignment']['priority'] ==  2
+      - test_three['msg'] == "fhrp_group_assignment fhrp_group 1 > dcim.interface 1 updated"
+
+- name: "FHRP group assignment 4: Delete FHRP group assignment"
+  netbox.netbox.netbox_fhrp_group_assignment:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      fhrp_group: 1
+      interface_type: dcim.interface
+      interface_id: 1
+    state: absent
+  register: test_four
+
+- name: "FHRP group assignment 3: ASSERT - Delete FHRP group assignment"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "fhrp_group_assignment fhrp_group 1 > dcim.interface 1 deleted"

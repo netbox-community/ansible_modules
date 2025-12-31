@@ -15,13 +15,20 @@ jobs:
       - name: Run black
         uses: psf/black@stable
 
+      - name: Run yamllint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: .
+          config_file: .yamllint.yml
+          strict: true
+
   unit_testing:
     runs-on: ubuntu-24.04
     needs: linting
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.13"]
+        python-version: ["3.11", "3.12", "3.13"]
 
     steps:
 
@@ -66,13 +73,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:                    
-          - VERSION: "v4.0"
-            NETBOX_DOCKER_VERSION: 2.9.1
+        include:
           - VERSION: "v4.1"
             NETBOX_DOCKER_VERSION: 3.0.1
           - VERSION: "v4.2"
-            NETBOX_DOCKER_VERSION: 3.1.0
+            NETBOX_DOCKER_VERSION: 3.2.1
+          - VERSION: "v4.3"
+            NETBOX_DOCKER_VERSION: 3.3.0
 
     steps:
 
@@ -114,7 +121,7 @@ jobs:
           docker container ls
           docker logs netbox-docker-netbox-1
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768/login/)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
-        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox        
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
@@ -126,13 +133,13 @@ jobs:
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
-      - name: Run regression tests        
+      - name: Run regression tests
         continue-on-error: true
-        run: |          
-          ansible-test integration -v --color --coverage --python ${{ env.python-version }} regression-${{ matrix.VERSION }}          
+        run: |
+          ansible-test integration -v --color --coverage --python ${{ env.python-version }} regression-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
-      - name: Run integration tests        
+      - name: Run integration tests
         run: |
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} ${{ matrix.VERSION }}
           ansible-test coverage report --all --omit "tests/*,hacking/*,docs/*" --show-missing

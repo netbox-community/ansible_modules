@@ -284,14 +284,15 @@ We set several instance attributes that are used within other methods throughout
       url = self.module.params["netbox_url"]
       token = self.module.params["netbox_token"]
       ssl_verify = self.module.params["validate_certs"]
+      headers = self.module.params["headers"]
 
       # Attempt to initiate connection to NetBox
       if nb_client is None:
-          self.nb = self._connect_netbox_api(url, token, ssl_verify)
+          self.nb = self._connect_netbox_api(url, token, ssl_verify, headers)
       else:
           self.nb = nb_client
           try:
-              self.version = self.nb.version
+              self.api_version = self.nb.version
           except AttributeError:
               self.module.fail_json(msg="Must have pynetbox >=4.1.0")
 

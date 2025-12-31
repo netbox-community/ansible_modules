@@ -134,7 +134,6 @@ from ansible.errors import AnsibleError
 from ansible.plugins.lookup import LookupBase
 from ansible.parsing.splitter import parse_kv, split_args
 from ansible.utils.display import Display
-from ansible.module_utils.six import raise_from
 from importlib.metadata import version
 
 try:
@@ -328,6 +327,9 @@ def get_endpoint(netbox, term):
         }
         netbox_endpoint_map["l2vpns"] = {"endpoint": netbox.ipam.l2vpns}
 
+    if netbox_versiontuple >= (4, 2):
+        netbox_endpoint_map["mac-addresses"] = {"endpoint": netbox.dcim.mac_addresses}
+
     return netbox_endpoint_map[term]["endpoint"]
 
 
@@ -410,16 +412,14 @@ class LookupModule(LookupBase):
 
     def run(self, terms, variables=None, **kwargs):
         if PYNETBOX_LIBRARY_IMPORT_ERROR:
-            raise_from(
-                AnsibleError("pynetbox must be installed to use this plugin"),
-                PYNETBOX_LIBRARY_IMPORT_ERROR,
-            )
+            raise AnsibleError(
+                "pynetbox must be installed to use this plugin"
+            ) from PYNETBOX_LIBRARY_IMPORT_ERROR
 
         if REQUESTS_LIBRARY_IMPORT_ERROR:
-            raise_from(
-                AnsibleError("requests must be installed to use this plugin"),
-                REQUESTS_LIBRARY_IMPORT_ERROR,
-            )
+            raise AnsibleError(
+                "requests must be installed to use this plugin"
+            ) from REQUESTS_LIBRARY_IMPORT_ERROR
 
         netbox_api_token = (
             kwargs.get("token")

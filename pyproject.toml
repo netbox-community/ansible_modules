@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "netbox_ansible_modules"
-version = "3.21.0"
+version = "3.22.0"
 description = "Ansible collection to interact with NetBox's API"
 authors = ["Mikhail Yohman <mikhail.yohman@gmail.com>"]
 license = "GPLv3"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = ">=3.11,<3.14"
 ansible-core = "^2.18"
 black = "*"
 codecov = "*"
@@ -30,7 +30,10 @@ packaging = "*"
 importlib-resources = "*"
 antsibull-docs = "*"
 
-[tool.poetry.dev-dependencies]
+[poetry.group.dev.dependencies]
+
+[tool.ruff]
+target-version = "py311"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

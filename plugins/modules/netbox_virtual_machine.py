@@ -196,7 +196,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-virtual machine:
+virtual_machine:
   description: Serialized object as created or already existent within NetBox
   returned: success (when I(state=present))
   type: dict

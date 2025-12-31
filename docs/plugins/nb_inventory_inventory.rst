@@ -6,7 +6,7 @@
     :trim:
 
 .. meta::
-  :antsibull-docs: 2.13.1
+  :antsibull-docs: 2.16.2
 
 .. Anchors
 
@@ -22,7 +22,7 @@ netbox.netbox.nb_inventory inventory -- NetBox inventory source
 .. Collection note
 
 .. note::
-    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.21.0).
+    This inventory plugin is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -252,7 +252,7 @@ Parameters
 
       - INI entry:
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory]
           cache = false
@@ -304,14 +304,14 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           fact_caching_connection = VALUE
 
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory]
           cache_connection = VALUE
@@ -369,14 +369,14 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           fact_caching = memory
 
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory]
           cache_plugin = memory
@@ -434,14 +434,14 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           fact_caching_prefix = ansible_inventory_
 
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory]
           cache_prefix = ansible_inventory_
@@ -499,14 +499,14 @@ Parameters
 
       - INI entries:
 
-        .. code-block::
+        .. code-block:: ini
 
           [defaults]
           fact_caching_timeout = 3600
 
 
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory]
           cache_timeout = 3600
@@ -2407,7 +2407,7 @@ Parameters
 
       - INI entry:
 
-        .. code-block::
+        .. code-block:: ini
 
           [inventory_plugins]
           use_extra_vars = false
@@ -2673,8 +2673,8 @@ Examples
       - prefix: status
         key: status.value
 
-    # For use in Ansible Tower (AWX), please see this blog from RedHat: https://www.ansible.com/blog/using-an-inventory-plugin-from-a-collection-in-ansible-tower
-    # The credential for NetBox will need to expose NETBOX_API and NETBOX_TOKEN as environment variables.
+    # For use in Ansible Tower (AWX) the credential for NetBox will need to expose NETBOX_API
+    # and NETBOX_TOKEN as environment variables.
     # Example Ansible Tower credential Input Configuration:
 
     fields:

@@ -6,8 +6,8 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-import os
 from functools import partial
+from pathlib import Path
 from unittest.mock import Mock, call, mock_open, patch
 
 import pytest
@@ -17,7 +17,9 @@ try:
     from ansible_collections.netbox.netbox.plugins.inventory.nb_inventory import (
         InventoryModule,
     )
-    from ansible_collections.netbox.netbox.tests.test_data import load_test_data
+    from ansible_collections.netbox.netbox.tests.unit.helpers.load_data import (
+        load_test_data,
+    )
 
 except ImportError:
     import sys
@@ -27,15 +29,12 @@ except ImportError:
 
     sys.path.append("plugins/inventory")
     sys.path.append("tests")
-    from test_data import load_test_data
+    from tests.unit.helpers.load_data import load_test_data
 
-load_relative_test_data = partial(
-    load_test_data, os.path.dirname(os.path.abspath(__file__))
-)
+load_relative_test_data = partial(load_test_data, Path(__file__).resolve().parent)
 
 
 class MockInventory:
-
     def __init__(self):
         self.variables = {}
 

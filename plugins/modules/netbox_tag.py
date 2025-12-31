@@ -50,6 +50,12 @@ options:
           - Tag description
         required: false
         type: str
+      object_types:
+        description:
+          - Objects types using the tag
+        required: false
+        type: list
+        elements: raw
     required: true
 """
 
@@ -80,6 +86,15 @@ EXAMPLES = r"""
       loop:
         - mgmt
         - tun
+
+    - name: Restrict object types
+      netbox.netbox.netbox_tag:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: "MyTag"
+          object_types:
+            - dcim.prefix
 """
 
 RETURN = r"""
@@ -119,6 +134,7 @@ def main():
                     color=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     slug=dict(required=False, type="str"),
+                    object_types=dict(required=False, type="list", elements="raw"),
                 ),
             ),
         )
