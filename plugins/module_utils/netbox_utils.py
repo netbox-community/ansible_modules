@@ -90,6 +90,7 @@ API_APPS_ENDPOINTS = dict(
         "custom_fields": {},
         "custom_field_choice_sets": {},
         "custom_links": {},
+        "event_rules": {},
         "export_templates": {},
         "journal_entries": {},
         "webhooks": {},
@@ -383,6 +384,7 @@ ENDPOINT_NAME_MAPPING = {
     "devices": "device",
     "device_roles": "device_role",
     "device_types": "device_type",
+    "event_rules": "event_rule",
     "export_templates": "export_template",
     "fhrp_groups": "fhrp_group",
     "fhrp_group_assignments": "fhrp_group_assignment",
@@ -504,6 +506,7 @@ ALLOWED_QUERY_PARAMS = {
     "device": set(["name"]),
     "device_role": set(["slug"]),
     "device_type": set(["slug"]),
+    "event_rule": set(["name"]),
     "export_template": set(["name"]),
     "fhrp_group": set(
         ["id", "group_id", "interface_type", "device", "virtual_machine"]
@@ -1512,6 +1515,13 @@ class NetboxModule(object):
         NetBox object and the Ansible diff.
         """
         serialized_nb_obj = self.nb_object.serialize()
+
+        # `conditionsc don't serialize properly and couldn't find a clean fix within serialize
+        # Since this is the only place we're serializing, just fixing it here as a workaround
+        dict_self = dict(self.nb_object)
+        if dict_self.get("conditions"):
+            serialized_nb_obj["conditions"] = dict_self["conditions"]
+
         if "custom_fields" in serialized_nb_obj:
             custom_fields = serialized_nb_obj.get("custom_fields", {})
             shared_keys = custom_fields.keys() & data.get("custom_fields", {}).keys()
