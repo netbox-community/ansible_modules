@@ -1,3 +1,4 @@
 ---
 bugfixes:
-  - Fixed regex pattern for character conversion when using slug parameter in multiple modules
+  - Fixed regex pattern for character conversion for slugs
+  - Removed useless character conversion when using slug parameter in multiple modules
