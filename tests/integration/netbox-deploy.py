@@ -522,8 +522,12 @@ created_virtual_machines_intfs = make_netbox_calls(
 
 # Create MAC addresses assigned to VM interfaces
 if nb_version >= version.parse("4.2"):
-    test100_vm_eth0 = nb.virtualization.interfaces.get(name="Eth0", test100_vm.id)
-    test100_vm_eth1 = nb.virtualization.interfaces.get(name="Eth1", test100_vm.id)
+    test100_vm_eth0 = nb.virtualization.interfaces.get(
+        name="Eth0", virtual_machine_id=test100_vm.id
+    )
+    test100_vm_eth1 = nb.virtualization.interfaces.get(
+        name="Eth1", virtual_machine_id=test100_vm.id
+    )
     mac_addresses_vm = [
         {
             "mac_address": "AA:BB:CC:DD:EE:FF",
@@ -541,7 +545,9 @@ if nb_version >= version.parse("4.2"):
             "assigned_object_type": "virtualization.interface",
         },
     ]
-    created_mac_addresses_vm = make_netbox_calls(nb.dcim.mac_addresses, mac_addresses_vm)
+    created_mac_addresses_vm = make_netbox_calls(
+        nb.dcim.mac_addresses, mac_addresses_vm
+    )
 
 # Create Services
 services = [
