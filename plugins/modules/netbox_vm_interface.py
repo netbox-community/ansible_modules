@@ -57,7 +57,7 @@ options:
         description:
           - The primary MAC address of the interface (NetBox 4.2 and later)
         required: false
-        type: str
+        type: raw
       description:
         description:
           - The description of the interface
@@ -214,7 +214,7 @@ def main():
                     enabled=dict(required=False, type="bool"),
                     mtu=dict(required=False, type="int"),
                     mac_address=dict(required=False, type="str"),
-                    primary_mac_address=dict(required=False, type="str"),
+                    primary_mac_address=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     mode=dict(required=False, type="raw"),
                     vm_bridge=dict(required=False, type="raw"),
