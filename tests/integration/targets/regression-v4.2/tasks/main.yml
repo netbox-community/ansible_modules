@@ -300,7 +300,7 @@
     that:
       - test_results['interface']['primary_mac_address'] == 3
 
-- name: "Issue #14xy - Update netbox vm interface primary MAC by ID"
+- name: "Issue #1508 - Update netbox vm interface primary MAC by ID"
   netbox.netbox.netbox_vm_interface:
     state: present
     netbox_url: http://localhost:32768
@@ -313,7 +313,7 @@
     state: present
   register: test_results
 
-- name: "ASSERT Issue #14xy"
+- name: "ASSERT Issue #1508"
   ansible.builtin.assert:
     that:
       - test_results is changed
