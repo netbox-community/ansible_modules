@@ -1,2 +1,3 @@
+---
 bugfixes:
   - "Fix specifying primary_mac_address objectsby id on vm interfaces for disambiguation"
