@@ -532,17 +532,17 @@ if nb_version >= version.parse("4.2"):
         {
             "mac_address": "AA:BB:CC:DD:EE:FF",
             "assigned_object_id": test100_vm_eth0.id,
-            "assigned_object_type": "virtualization.interface",
+            "assigned_object_type": "virtualization.vminterface",
         },
         {
             "mac_address": "AA:AB:CC:DD:EE:FF",
             "assigned_object_id": test100_vm_eth1.id,
-            "assigned_object_type": "virtualization.interface",
+            "assigned_object_type": "virtualization.vminterface",
         },
         {
             "mac_address": "AA:BB:CC:DD:EE:FF",
             "assigned_object_id": test100_vm_eth1.id,
-            "assigned_object_type": "virtualization.interface",
+            "assigned_object_type": "virtualization.vminterface",
         },
     ]
     created_mac_addresses_vm = make_netbox_calls(
