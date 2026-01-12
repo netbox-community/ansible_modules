@@ -164,8 +164,8 @@
     netbox_token: "0123456789abcdef0123456789abcdef01234567"
     data:
       virtual_machine: test100-vm
-      name: Eth0
-      primary_mac_address: "AA:BB:CC:DD:EE:FF"
+      name: Eth1
+      primary_mac_address: "AA:AB:CC:DD:EE:FF"
     state: present
   register: test_six
 
@@ -173,7 +173,7 @@
   ansible.builtin.assert:
     that:
       - test_six is changed
-      - test_six['msg'] == "interface Eth0 updated"
-      - test_six['interface']['name'] == "Eth0"
+      - test_six['msg'] == "interface Eth1 updated"
+      - test_six['interface']['name'] == "Eth1"
       - test_six['interface']['virtual_machine'] == 1
-      - test_six['interface']['primary_mac_address'] == 4
+      - test_six['interface']['primary_mac_address'] == 5

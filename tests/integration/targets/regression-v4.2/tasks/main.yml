@@ -308,7 +308,7 @@
       virtual_machine: test100-vm
       name: Eth1
       primary_mac_address:
-        id: 5
+        id: 6
     state: present
   register: test_results
 
