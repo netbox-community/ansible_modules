@@ -489,7 +489,7 @@ test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
 test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
 
-# Create Virtaul Disks
+# Create Virtual Disks
 virtual_disks = [
     {"name": "disk1", "size": 60, "virtual_machine": test100_vm.id},
     {"name": "disk2", "size": 110, "virtual_machine": test100_vm.id},
@@ -520,6 +520,34 @@ created_virtual_machines_intfs = make_netbox_calls(
     nb.virtualization.interfaces, virtual_machines_intfs
 )
 
+# Create MAC addresses assigned to VM interfaces
+if nb_version >= version.parse("4.2"):
+    test100_vm_eth0 = nb.virtualization.interfaces.get(
+        name="Eth0", virtual_machine_id=test100_vm.id
+    )
+    test100_vm_eth1 = nb.virtualization.interfaces.get(
+        name="Eth1", virtual_machine_id=test100_vm.id
+    )
+    mac_addresses_vm = [
+        {
+            "mac_address": "BB:CC:DD:EE:FF:AA",
+            "assigned_object_id": test100_vm_eth0.id,
+            "assigned_object_type": "virtualization.vminterface",
+        },
+        {
+            "mac_address": "BB:BC:DD:EE:FF:AA",
+            "assigned_object_id": test100_vm_eth1.id,
+            "assigned_object_type": "virtualization.vminterface",
+        },
+        {
+            "mac_address": "BB:CC:DD:EE:FF:AA",
+            "assigned_object_id": test100_vm_eth1.id,
+            "assigned_object_type": "virtualization.vminterface",
+        },
+    ]
+    created_mac_addresses_vm = make_netbox_calls(
+        nb.dcim.mac_addresses, mac_addresses_vm
+    )
 
 # Create Services
 services = [
