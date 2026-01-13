@@ -179,6 +179,7 @@ QUERY_TYPES = dict(
     l2vpn="name",
     l2vpn_termination="id",
     location="slug",
+    mac_address="mac_address",
     manufacturer="slug",
     modules="id",
     module_bays="name",
@@ -199,6 +200,7 @@ QUERY_TYPES = dict(
     primary_ip="address",
     primary_ip4="address",
     primary_ip6="address",
+    primary_mac_address="mac_address",
     oob_ip="address",
     permissions="name",
     provider="slug",
@@ -231,7 +233,6 @@ QUERY_TYPES = dict(
     webhook="name",
     wireless_lan="ssid",
     wireless_lan_group="slug",
-    mac_address="mac_address",
 )
 
 # Specifies keys within data that need to be converted to ID and the endpoint to be used when queried
