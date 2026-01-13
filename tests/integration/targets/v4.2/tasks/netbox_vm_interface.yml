@@ -165,7 +165,7 @@
     data:
       virtual_machine: test100-vm
       name: Eth1
-      primary_mac_address: "AA:AB:CC:DD:EE:FF"
+      primary_mac_address: "BB:BC:DD:EE:FF:AA"
     state: present
   register: test_six
 

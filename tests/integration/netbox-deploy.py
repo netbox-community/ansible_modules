@@ -530,17 +530,17 @@ if nb_version >= version.parse("4.2"):
     )
     mac_addresses_vm = [
         {
-            "mac_address": "AA:BB:CC:DD:EE:FF",
+            "mac_address": "BB:CC:DD:EE:FF:AA",
             "assigned_object_id": test100_vm_eth0.id,
             "assigned_object_type": "virtualization.vminterface",
         },
         {
-            "mac_address": "AA:AB:CC:DD:EE:FF",
+            "mac_address": "BB:BC:DD:EE:FF:AA",
             "assigned_object_id": test100_vm_eth1.id,
             "assigned_object_type": "virtualization.vminterface",
         },
         {
-            "mac_address": "AA:BB:CC:DD:EE:FF",
+            "mac_address": "BB:CC:DD:EE:FF:AA",
             "assigned_object_id": test100_vm_eth1.id,
             "assigned_object_type": "virtualization.vminterface",
         },
