@@ -11,7 +11,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_PROVIDERS = "providers"
 NB_PROVIDER_NETWORKS = "provider_networks"
 NB_CIRCUIT_TYPES = "circuit_types"

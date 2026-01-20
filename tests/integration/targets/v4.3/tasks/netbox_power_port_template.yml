@@ -145,7 +145,7 @@
       - test_six['diff']['before']['state'] == "absent"
       - test_six['diff']['after']['state'] == "present"
       - test_six['power_port_template']['name'] == "Module Power Port Template"
-      - test_six['power_port_template']['module_type'] == 1
+      - test_six['power_port_template']['module_type'] == 2
       - test_six['msg'] == "power_port_template Module Power Port Template created"
 
 - name: "POWER_PORT_TEMPLATE 7: Create duplicate"
@@ -163,7 +163,7 @@
     that:
       - not test_seven['changed']
       - test_seven['power_port_template']['name'] == "Module Power Port Template"
-      - test_seven['power_port_template']['module_type'] == 1
+      - test_seven['power_port_template']['module_type'] == 2
       - test_seven['msg'] == "power_port_template Module Power Port Template already exists"
 
 - name: "POWER_PORT_TEMPLATE 8: Update power_port_template with other fields"
@@ -187,7 +187,7 @@
       - test_eight['diff']['after']['allocated_draw'] == 10
       - test_eight['diff']['after']['maximum_draw'] == 20
       - test_eight['power_port_template']['name'] == "Module Power Port Template"
-      - test_eight['power_port_template']['module_type'] == 1
+      - test_eight['power_port_template']['module_type'] == 2
       - test_eight['power_port_template']['type'] == "ita-e"
       - test_eight['power_port_template']['allocated_draw'] == 10
       - test_eight['power_port_template']['maximum_draw'] == 20

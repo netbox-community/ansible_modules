@@ -408,7 +408,6 @@ from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
 
-
 try:
     from packaging import specifiers, version
 except ImportError as imp_exc:

@@ -11,7 +11,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_WIRELESS_LANS = "wireless_lans"
 NB_WIRELESS_LAN_GROUPS = "wireless_lan_groups"
 NB_WIRELESS_LINKS = "wireless_links"

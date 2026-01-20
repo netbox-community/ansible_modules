@@ -7,6 +7,15 @@
 ### NETBOX_FRONT_PORT_TEMPLATE
 ##
 ##
+- name: "NETBOX_FRONT_PORT_TEMPLATE 0.1: Create module type for testing power ports on module types"
+  netbox.netbox.netbox_module_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      model: Module Type Front And Rear Port Tests
+      manufacturer: Test Manufacturer
+    state: present
+
 - name: "FRONT_PORT_TEMPLATE 1: Necessary info creation"
   netbox.netbox.netbox_front_port_template:
     netbox_url: http://localhost:32768
@@ -145,3 +154,142 @@
       - test_six['front_port_template']['type'] == "bnc"
       - test_six['front_port_template']['rear_port'] == 1
       - test_six['msg'] == "front_port_template Front Port Template already exists"
+
+- name: "FRONT_PORT_TEMPLATE 7: Necessary info creation"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template: Module Type Rear Port Template
+    state: present
+  register: test_seven
+
+- name: "FRONT_PORT_TEMPLATE 7: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['before']['state'] == "absent"
+      - test_seven['diff']['after']['state'] == "present"
+      - test_seven['front_port_template']['name'] == "Module Type Front Port Template"
+      - test_seven['front_port_template']['module_type'] == 1
+      - test_seven['front_port_template']['type'] == "bnc"
+      - test_seven['front_port_template']['rear_port'] == 4
+      - test_seven['msg'] == "front_port_template Module Type Front Port Template created"
+
+- name: "FRONT_PORT_TEMPLATE 8: Create duplicate"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template: Module Type Rear Port Template
+    state: present
+  register: test_eight
+
+- name: "FRONT_PORT_TEMPLATE 8: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_eight['changed']
+      - test_eight['front_port_template']['name'] == "Module Type Front Port Template"
+      - test_eight['front_port_template']['module_type'] == 1
+      - test_eight['front_port_template']['type'] == "bnc"
+      - test_eight['front_port_template']['rear_port'] == 4
+      - test_eight['msg'] == "front_port_template Module Type Front Port Template already exists"
+
+- name: "FRONT_PORT_TEMPLATE 9: Update Front Port Template with other fields"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template: Module Type Rear Port Template
+      rear_port_template_position: 5
+    state: present
+  register: test_nine
+
+- name: "FRONT_PORT_TEMPLATE 9: ASSERT - Update Front Port Template with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['after']['rear_port_position'] == 5
+      - test_nine['front_port_template']['name'] == "Module Type Front Port Template"
+      - test_nine['front_port_template']['module_type'] == 1
+      - test_nine['front_port_template']['type'] == "bnc"
+      - test_nine['front_port_template']['rear_port_position'] == 5
+      - test_nine['front_port_template']['rear_port'] == 4
+      - test_nine['msg'] == "front_port_template Module Type Front Port Template updated"
+
+- name: "FRONT_PORT_TEMPLATE 10: Create Front Port Template for Delete Test"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template 2
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template: Module Type Rear Port Template
+    state: present
+  register: test_ten
+
+- name: "FRONT_PORT_TEMPLATE 10: ASSERT - Create Front Port Template for Delete Test"
+  ansible.builtin.assert:
+    that:
+      - test_ten is changed
+      - test_ten['diff']['before']['state'] == "absent"
+      - test_ten['diff']['after']['state'] == "present"
+      - test_ten['front_port_template']['name'] == "Module Type Front Port Template 2"
+      - test_ten['front_port_template']['module_type'] == 1
+      - test_ten['front_port_template']['type'] == "bnc"
+      - test_ten['front_port_template']['rear_port'] == 4
+      - test_ten['msg'] == "front_port_template Module Type Front Port Template 2 created"
+
+- name: "FRONT_PORT_TEMPLATE 11: Delete Front Port Template"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template 2
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template: Module Type Rear Port Template
+    state: absent
+  register: test_eleven
+
+- name: "FRONT_PORT_TEMPLATE 11: ASSERT - Delete Front Port Template"
+  ansible.builtin.assert:
+    that:
+      - test_eleven is changed
+      - test_eleven['diff']['before']['state'] == "present"
+      - test_eleven['diff']['after']['state'] == "absent"
+      - test_eleven['msg'] == "front_port_template Module Type Front Port Template 2 deleted"
+
+- name: "FRONT_PORT_TEMPLATE 12: Create duplicate with rear_port_template dictionary"
+  netbox.netbox.netbox_front_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Module Type Front Port Template
+      module_type: Module Type Front And Rear Port Tests
+      type: bnc
+      rear_port_template:
+        module: Module Type Front And Rear Port Tests
+        name: Module Type Rear Port Template
+    state: present
+  register: test_twelve
+
+- name: "FRONT_PORT_TEMPLATE 12: ASSERT - Create duplicate with rear_port_template dictionary"
+  ansible.builtin.assert:
+    that:
+      - not test_twelve['changed']
+      - test_twelve['front_port_template']['name'] == "Module Type Front Port Template"
+      - test_twelve['front_port_template']['module_type'] == 1
+      - test_twelve['front_port_template']['type'] == "bnc"
+      - test_twelve['front_port_template']['rear_port'] == 4
+      - test_twelve['msg'] == "front_port_template Module Type Front Port Template already exists"
