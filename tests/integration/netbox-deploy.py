@@ -489,7 +489,7 @@ test100_vm = nb.virtualization.virtual_machines.get(name="test100-vm")
 test101_vm = nb.virtualization.virtual_machines.get(name="test101-vm")
 test_spaces_vm = nb.virtualization.virtual_machines.get(name="Test VM With Spaces")
 
-# Create Virtual Disks
+# Create Virtaul Disks
 virtual_disks = [
     {"name": "disk1", "size": 60, "virtual_machine": test100_vm.id},
     {"name": "disk2", "size": 110, "virtual_machine": test100_vm.id},
