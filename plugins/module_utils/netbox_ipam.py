@@ -15,7 +15,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_AGGREGATES = "aggregates"
 NB_ASNS = "asns"
 NB_FHRP_GROUPS = "fhrp_groups"
