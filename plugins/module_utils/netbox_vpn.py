@@ -14,7 +14,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_L2VPNS = "l2vpns"
 NB_L2VPN_TERMINATIONS = "l2vpn_terminations"
 NB_TUNNELS = "tunnels"

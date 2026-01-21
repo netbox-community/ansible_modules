@@ -11,7 +11,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_VIRTUAL_MACHINES = "virtual_machines"
 NB_CLUSTERS = "clusters"
 NB_CLUSTER_GROUP = "cluster_groups"

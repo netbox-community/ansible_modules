@@ -12,7 +12,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import 
     SLUG_REQUIRED,
 )
 
-
 NB_CABLES = "cables"
 NB_CONSOLE_PORTS = "console_ports"
 NB_CONSOLE_PORT_TEMPLATES = "console_port_templates"
