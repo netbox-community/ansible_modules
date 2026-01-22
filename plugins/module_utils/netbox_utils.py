@@ -200,6 +200,7 @@ QUERY_TYPES = dict(
     primary_ip6="address",
     oob_ip="address",
     permissions="name",
+    primary_mac_address="mac_address",
     provider="slug",
     provider_network="name",
     rack="name",
