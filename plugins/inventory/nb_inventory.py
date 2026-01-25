@@ -1037,7 +1037,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
         # Don"t assign a host_var for empty dns_name
-        if ip_address.get("dns_name") == "":
+        if ip_address is None or ip_address.get("dns_name") == "":
             return None
 
         return ip_address.get("dns_name")

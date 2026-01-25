@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - nb_inventory - Fix AttributeError when `ip_address` is None during DNS name lookup
