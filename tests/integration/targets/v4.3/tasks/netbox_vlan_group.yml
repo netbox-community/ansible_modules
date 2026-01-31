@@ -335,8 +335,7 @@
       - results['vlan_group']['slug'] == "vlan-group-tenant-test"
       - results['vlan_group']['scope_type'] == "dcim.site"
       - results['vlan_group']['scope_id'] == 1
-      - results['vlan_group']['tenant'] is defined
-      - results['vlan_group']['tenant']['name'] == "Test Tenant"
+      - results['vlan_group']['tenant'] == 1
       - results['msg'] == "vlan_group VLAN Group Tenant Test created"
 
 - name: "VLAN_GROUP 14: Create duplicate VLAN group with tenant (idempotency)"
@@ -356,7 +355,7 @@
     that:
       - results is not changed
       - results['vlan_group']['name'] == "VLAN Group Tenant Test"
-      - results['vlan_group']['tenant']['name'] == "Test Tenant"
+      - results['vlan_group']['tenant'] == 1
       - results['msg'] == "vlan_group VLAN Group Tenant Test already exists"
 
 - name: "VLAN_GROUP 15: Update VLAN group tenant"
@@ -378,7 +377,7 @@
       - results['diff']['before']['tenant'] == 1
       - results['diff']['after']['tenant'] == 2
       - results['vlan_group']['name'] == "VLAN Group Tenant Test"
-      - results['vlan_group']['tenant']['name'] == "Test Tenant 2"
+      - results['vlan_group']['tenant'] == 2
       - results['msg'] == "vlan_group VLAN Group Tenant Test updated"
 
 - name: "VLAN_GROUP 16: Delete VLAN group with tenant"
