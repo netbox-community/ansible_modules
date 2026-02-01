@@ -71,6 +71,12 @@ options:
           - The rack role the rack will be associated to
         required: false
         type: raw
+      rack_type:
+        description:
+          - The rack type that defines predefined characteristics like width, u_height, and others
+        required: false
+        type: raw
+        version_added: "3.23.0"
       serial:
         description:
           - Serial number of the rack
@@ -159,6 +165,15 @@ options:
         required: false
         type: int
         version_added: "3.10.0"
+      airflow:
+        description:
+          - Airflow direction of the rack
+        choices:
+          - front-to-rear
+          - rear-to-front
+        required: false
+        type: str
+        version_added: "3.23.0"
       description:
         description:
           - Description of the rack
@@ -220,6 +235,18 @@ EXAMPLES = r"""
           location: Test Location
         state: present
 
+    - name: Create rack with airflow and rack_type
+      netbox.netbox.netbox_rack:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test rack with airflow
+          site: Test Site
+          location: Test Location
+          airflow: front-to-rear
+          rack_type: Standard 42U Rack
+        state: present
+
     - name: Delete rack within netbox
       netbox.netbox.netbox_rack:
         netbox_url: http://netbox.local
@@ -275,6 +302,7 @@ def main():
                     tenant=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
                     rack_role=dict(required=False, type="raw"),
+                    rack_type=dict(required=False, type="raw"),
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
                     type=dict(
@@ -323,6 +351,14 @@ def main():
                     ),
                     max_weight=dict(required=False, type="int"),
                     mounting_depth=dict(required=False, type="int"),
+                    airflow=dict(
+                        required=False,
+                        type="str",
+                        choices=[
+                            "front-to-rear",
+                            "rear-to-front",
+                        ],
+                    ),
                     description=dict(required=False, type="str"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
