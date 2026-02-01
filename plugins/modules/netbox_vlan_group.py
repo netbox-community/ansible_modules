@@ -91,6 +91,12 @@ options:
         type: list
         elements: raw
         version_added: "3.20.0"
+      tenant:
+        description:
+          - The tenant that the VLAN group will be assigned to
+        required: false
+        type: raw
+        version_added: "3.23.0"
       tags:
         description:
           - The tags to add/update
@@ -143,6 +149,17 @@ EXAMPLES = r"""
             [1300, 1329],
             [1, 2]
           ]
+        state: present
+
+    - name: Create vlan group with tenant assignment
+      netbox_vlan_group:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test vlan group
+          scope_type: "dcim.site"
+          scope: Test Site
+          tenant: Test Tenant
         state: present
 
     - name: Delete vlan group within netbox
@@ -212,6 +229,7 @@ def main():
                     min_vid=dict(required=False, type="int"),
                     max_vid=dict(required=False, type="int"),
                     vid_ranges=dict(required=False, type="list", elements="raw"),
+                    tenant=dict(required=False, type="raw"),
                     description=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

@@ -60,7 +60,10 @@ create_tags = make_netbox_calls(
 # ORDER OF OPERATIONS FOR THE MOST PART
 
 # Create TENANTS
-tenants = [{"name": "Test Tenant", "slug": "test-tenant"}]
+tenants = [
+    {"name": "Test Tenant", "slug": "test-tenant"},
+    {"name": "Test Tenant 2", "slug": "test-tenant-2"},
+]
 created_tenants = make_netbox_calls(nb.tenancy.tenants, tenants)
 # Test Tenant to be used later on
 test_tenant = nb.tenancy.tenants.get(slug="test-tenant")
