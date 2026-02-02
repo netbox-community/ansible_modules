@@ -224,3 +224,134 @@
       - test_eight['diff']['before']['state'] == "present"
       - test_eight['diff']['after']['state'] == "absent"
       - test_eight['msg'] == "rack Test rack one deleted"
+
+- name: 9 - Create rack with airflow
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack Airflow
+      site: Test Site
+      airflow: front-to-rear
+    state: present
+  register: test_nine
+
+- name: 9 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_nine is changed
+      - test_nine['diff']['before']['state'] == "absent"
+      - test_nine['diff']['after']['state'] == "present"
+      - test_nine['rack']['name'] == "Test Rack Airflow"
+      - test_nine['rack']['airflow'] == "front-to-rear"
+      - test_nine['msg'] == "rack Test Rack Airflow created"
+
+- name: 10 - Update rack airflow
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack Airflow
+      site: Test Site
+      airflow: rear-to-front
+    state: present
+  register: test_ten
+
+- name: 10 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_ten is changed
+      - test_ten['diff']['before']['airflow'] == "front-to-rear"
+      - test_ten['diff']['after']['airflow'] == "rear-to-front"
+      - test_ten['rack']['airflow'] == "rear-to-front"
+      - test_ten['msg'] == "rack Test Rack Airflow updated"
+
+- name: 11 - Delete rack with airflow
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack Airflow
+      site: Test Site
+    state: absent
+  register: test_eleven
+
+- name: 11 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_eleven is changed
+      - test_eleven['msg'] == "rack Test Rack Airflow deleted"
+
+- name: 12 - Create rack with rack_type
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack With Type
+      site: Test Site
+      rack_type: Standard 42U
+    state: present
+  register: test_twelve
+
+- name: 12 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_twelve is changed
+      - test_twelve['diff']['before']['state'] == "absent"
+      - test_twelve['diff']['after']['state'] == "present"
+      - test_twelve['rack']['name'] == "Test Rack With Type"
+      - test_twelve['rack']['rack_type'] is not none
+      - test_twelve['msg'] == "rack Test Rack With Type created"
+
+- name: 13 - Create duplicate rack with rack_type (idempotency)
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack With Type
+      site: Test Site
+      rack_type: Standard 42U
+    state: present
+  register: test_thirteen
+
+- name: 13 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_thirteen is not changed
+      - test_thirteen['rack']['rack_type'] is not none
+      - test_thirteen['msg'] == "rack Test Rack With Type already exists"
+
+- name: 14 - Update rack rack_type
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack With Type
+      site: Test Site
+      rack_type: Standard 48U
+    state: present
+  register: test_fourteen
+
+- name: 14 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_fourteen is changed
+      - test_fourteen['diff']['before']['rack_type'] != test_fourteen['diff']['after']['rack_type']
+      - test_fourteen['rack']['rack_type'] is not none
+      - test_fourteen['msg'] == "rack Test Rack With Type updated"
+
+- name: 15 - Delete rack with rack_type
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack With Type
+      site: Test Site
+    state: absent
+  register: test_fifteen
+
+- name: 15 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_fifteen is changed
+      - test_fifteen['msg'] == "rack Test Rack With Type deleted"
