@@ -19,6 +19,8 @@ from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
 
+OMITTED = object()
+
 PYNETBOX_IMP_ERR = None
 try:
     import pynetbox
@@ -973,7 +975,7 @@ class NetboxModule(object):
             if isinstance(v, dict):
                 v = self._remove_arg_spec_default(v)
                 new_dict[k] = v
-            elif v is not None:
+            elif v is not OMITTED:
                 new_dict[k] = v
 
         return new_dict
