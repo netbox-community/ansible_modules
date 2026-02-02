@@ -107,6 +107,58 @@
       - test_five['custom_field']['name'] == "A_CustomField"
       - test_five['msg'] == "custom_field A_CustomField deleted"
 
+- name: "CUSTOM_FIELD 6: Create custom field with unique constraint"
+  netbox.netbox.netbox_custom_field:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      object_types:
+        - dcim.device
+      name: Unique_Serial_Number
+      type: text
+      unique: true
+    state: present
+  register: test_six
+
+- name: "CUSTOM_FIELD 6: ASSERT - Created with unique constraint"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['custom_field']['name'] == "Unique_Serial_Number"
+      - test_six['custom_field']['unique'] == true
+      - test_six['msg'] == "custom_field Unique_Serial_Number created"
+
+- name: "CUSTOM_FIELD 7: Update to remove unique constraint"
+  netbox.netbox.netbox_custom_field:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Unique_Serial_Number
+      unique: false
+    state: present
+  register: test_seven
+
+- name: "CUSTOM_FIELD 7: ASSERT - Unique constraint removed"
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['custom_field']['unique'] == false
+
+- name: "CUSTOM_FIELD 8: Delete unique custom field"
+  netbox.netbox.netbox_custom_field:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Unique_Serial_Number
+    state: absent
+  register: test_eight
+
+- name: "CUSTOM_FIELD 8: ASSERT - Unique field deleted"
+  ansible.builtin.assert:
+    that:
+      - test_eight is changed
+      - test_eight['msg'] == "custom_field Unique_Serial_Number deleted"
+
 # Change in NetBox 3.7
 # - name: "CUSTOM_FIELD 6: UI Visibility (hidden-ifunset)"
 #  netbox.netbox.netbox_custom_field:

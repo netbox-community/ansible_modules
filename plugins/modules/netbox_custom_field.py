@@ -92,6 +92,12 @@ options:
           - Whether the custom field is required
         required: false
         type: bool
+      unique:
+        description:
+          - Whether the custom field must have unique values
+        required: false
+        type: bool
+        version_added: "3.23.0"
       filter_logic:
         description:
           - Filter logic of the custom field
@@ -194,6 +200,17 @@ EXAMPLES = r"""
           name: A Custom Field
           required: true
 
+    - name: Create a custom field with unique constraint
+      netbox.netbox.netbox_custom_field:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          object_types:
+            - dcim.device
+          name: Serial Number
+          type: text
+          unique: true
+
     - name: Update the custom field to make it read only
       netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
@@ -271,6 +288,7 @@ def main():
                     label=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     required=dict(required=False, type="bool"),
+                    unique=dict(required=False, type="bool"),
                     filter_logic=dict(required=False, type="raw"),
                     default=dict(required=False, type="raw"),
                     weight=dict(required=False, type="int"),
