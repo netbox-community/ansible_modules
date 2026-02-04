@@ -246,6 +246,24 @@
       - test_nine['rack']['airflow'] == "front-to-rear"
       - test_nine['msg'] == "rack Test Rack Airflow created"
 
+- name: 9a - Create duplicate rack with airflow (idempotency)
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test Rack Airflow
+      site: Test Site
+      airflow: front-to-rear
+    state: present
+  register: test_nine_a
+
+- name: 9a - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_nine_a is not changed
+      - test_nine_a['rack']['airflow'] == "front-to-rear"
+      - test_nine_a['msg'] == "rack Test Rack Airflow already exists"
+
 - name: 10 - Update rack airflow
   netbox.netbox.netbox_rack:
     netbox_url: http://localhost:32768

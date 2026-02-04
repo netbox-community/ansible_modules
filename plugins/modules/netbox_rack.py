@@ -244,7 +244,7 @@ EXAMPLES = r"""
           site: Test Site
           location: Test Location
           airflow: front-to-rear
-          rack_type: Standard 42U Rack
+          rack_type: Standard 42U
         state: present
 
     - name: Delete rack within netbox

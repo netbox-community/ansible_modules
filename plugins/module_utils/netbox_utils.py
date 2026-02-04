@@ -73,7 +73,7 @@ API_APPS_ENDPOINTS = dict(
         "racks": {},
         "rack_groups": {},
         "rack_roles": {},
-        "rack_types": {},
+        "rack_types": {"introduced": "4.1"},
         "rear_ports": {},
         "rear-ports": {},
         "rear_port_templates": {},
