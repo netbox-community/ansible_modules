@@ -1,0 +1,2 @@
+bugfixes:
+  - Set the cache once per inventory plugin source instead of once per HTTP request.
