@@ -2169,9 +2169,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         cache_key = self.get_cache_key(path)
 
         global UPDATE_CACHE
-        UPDATE_CACHE = not self.use_cache and self.get_option('cache')
+        UPDATE_CACHE = not self.use_cache and self.get_option("cache")
 
-        if self.use_cache and self.get_option('cache'):
+        if self.use_cache and self.get_option("cache"):
             try:
                 HTTP_RESPONSE.update(self._cache[cache_key])
             except KeyError:
