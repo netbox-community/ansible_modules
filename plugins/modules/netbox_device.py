@@ -266,6 +266,7 @@ msg:
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
+    OMITTED,
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
@@ -273,8 +274,6 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
 )
 from copy import deepcopy
 import uuid
-
-OMITTED = object()
 
 def main():
     """
