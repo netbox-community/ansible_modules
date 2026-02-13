@@ -422,18 +422,13 @@ except ImportError as imp_exc:
 else:
     PYTZ_IMPORT_ERROR = None
 
-# Temporary cache
-HTTP_RESPONSE = {}
-
-# A global indicating whether the backing cache should be updated
-UPDATE_CACHE = False
-
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
 
     def _fetch_information(self, url):
         results = None
+        cache_key = self.cache_key_base + self.get_cache_key(url)
 
         # get the user's cache option to see if we should save the cache if it is changing
         user_cache_setting = self.get_option("cache")
@@ -444,14 +439,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # attempt to read the cache if inventory isn't being refreshed and the user has caching enabled
         if attempt_to_read_cache:
             try:
-                results = HTTP_RESPONSE[url]
+                results = self._cache[cache_key]
                 need_to_fetch = False
             except KeyError:
-                # occurs if the URL is not in the local cache
+                # occurs if the cache_key is not in the cache or if the cache_key expired
                 # we need to fetch the URL now
                 need_to_fetch = True
-                global UPDATE_CACHE
-                UPDATE_CACHE = self.get_option("cache")
         else:
             # not reading from cache so do fetch
             need_to_fetch = True
@@ -498,9 +491,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             except ValueError:
                 raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
 
-            # put result in local cache if enabled
-            if UPDATE_CACHE:
-                HTTP_RESPONSE[url] = results
+            # put result in cache if enabled
+            if user_cache_setting:
+                self._cache[cache_key] = results
 
         return results
 
@@ -2164,19 +2157,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
         self._read_config_data(path=path)
+        self.cache_key_base = self.get_cache_key(path)
         self.use_cache = cache
-
-        cache_key = self.get_cache_key(path)
-
-        global UPDATE_CACHE
-        UPDATE_CACHE = not self.use_cache and self.get_option("cache")
-
-        if self.use_cache and self.get_option("cache"):
-            try:
-                HTTP_RESPONSE.update(self._cache[cache_key])
-            except KeyError:
-                # The cache key does not exist or it expired
-                UPDATE_CACHE = True
 
         # Handle extra "/" from api_endpoint configuration and trim if necessary, see PR#49943
         self.api_endpoint = self.get_option("api_endpoint").strip("/")
@@ -2234,9 +2216,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         )
 
         self.main()
-
-        if UPDATE_CACHE:
-            self._cache[cache_key] = HTTP_RESPONSE
 
     def parse_rename_variables(self, rename_variables):
         return [
