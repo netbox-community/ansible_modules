@@ -19,8 +19,6 @@ from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
 
-OMITTED = object()
-
 PYNETBOX_IMP_ERR = None
 try:
     import pynetbox
@@ -749,6 +747,14 @@ NETBOX_ARG_SPEC = dict(
     headers=dict(type="dict", required=False),
 )
 
+class OmittedArgument:
+    """
+    This allows us to distinguist between arguments which are null and arguments 
+    which just haven't been set.
+    """
+
+    def __str__(self):
+        return "Ommitted Argument"
 
 class NetboxModule(object):
     """
@@ -975,7 +981,7 @@ class NetboxModule(object):
             if isinstance(v, dict):
                 v = self._remove_arg_spec_default(v)
                 new_dict[k] = v
-            elif v is not OMITTED:
+            elif not isinstance(v, OmittedArgument):
                 new_dict[k] = v
 
         return new_dict
