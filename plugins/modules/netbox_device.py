@@ -277,6 +277,7 @@ import uuid
 
 OMITTED = OmmittedArgument()
 
+
 def main():
     """
     Main entry point for module execution
@@ -330,8 +331,12 @@ def main():
                     vc_priority=dict(required=False, type="raw", default=OMITTED),
                     description=dict(required=False, type="raw", default=OMITTED),
                     comments=dict(required=False, type="raw", default=OMITTED),
-                    tags=dict(required=False, type="raw", elements="raw", default=OMITTED),
-                    local_context_data=dict(required=False, type="raw", default=OMITTED),
+                    tags=dict(
+                        required=False, type="raw", elements="raw", default=OMITTED
+                    ),
+                    local_context_data=dict(
+                        required=False, type="raw", default=OMITTED
+                    ),
                     config_template=dict(required=False, type="raw", default=OMITTED),
                     custom_fields=dict(required=False, type="raw", default=OMITTED),
                 ),
