@@ -217,10 +217,10 @@
     },
     {
         "before": {
-            "slug": "Test to_slug"
+            "slug": "already--valid_slug"
         },
         "after": {
-            "slug": "test-to_slug"
+            "slug": "already--valid_slug"
         }
     },
     {
