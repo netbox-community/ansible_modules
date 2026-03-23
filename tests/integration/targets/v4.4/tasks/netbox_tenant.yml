@@ -1,0 +1,106 @@
+---
+##
+##
+### NETBOX_TENANT
+##
+##
+- name: 1 - Test tenant creation
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant ABC
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['tenant']['name'] == "Tenant ABC"
+      - test_one['tenant']['slug'] == "tenant-abc"
+      - test_one['msg'] == "tenant Tenant ABC created"
+
+- name: Test duplicate tenant
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant ABC
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['tenant']['name'] == "Tenant ABC"
+      - test_two['tenant']['slug'] == "tenant-abc"
+      - test_two['msg'] == "tenant Tenant ABC already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant ABC
+      description: Updated description
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "Updated description"
+      - test_three['tenant']['name'] == "Tenant ABC"
+      - test_three['tenant']['slug'] == "tenant-abc"
+      - test_three['tenant']['description'] == "Updated description"
+      - test_three['msg'] == "tenant Tenant ABC updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant ABC
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "tenant Tenant ABC deleted"
+
+- name: 5 - Create tenant with all parameters
+  netbox.netbox.netbox_tenant:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Tenant ABC
+      description: ABC Incorporated
+      comments: "### This tenant is super cool"
+      tenant_group: Test Tenant Group
+      slug: tenant_abc
+      tags:
+        - tagA
+        - tagB
+        - tagC
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['tenant']['name'] == "Tenant ABC"
+      - test_five['tenant']['slug'] == "tenant_abc"
+      - test_five['tenant']['description'] == "ABC Incorporated"
+      - test_five['tenant']['comments'] == "### This tenant is super cool"
+      - test_five['tenant']['group'] == 1
+      - test_five['tenant']['tags'] | length == 3
+      - test_five['msg'] == "tenant Tenant ABC created"

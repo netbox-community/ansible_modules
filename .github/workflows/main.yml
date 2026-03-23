@@ -80,6 +80,8 @@ jobs:
             NETBOX_DOCKER_VERSION: 3.2.1
           - VERSION: "v4.3"
             NETBOX_DOCKER_VERSION: 3.3.0
+          - VERSION: "v4.4"
+            NETBOX_DOCKER_VERSION: 3.4.2
 
     steps:
 
