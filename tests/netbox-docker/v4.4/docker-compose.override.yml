@@ -1,3 +1,4 @@
+---
 services:
   netbox-worker: &netbox-override
     image: netboxcommunity/netbox:v4.4
