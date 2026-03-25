@@ -14,6 +14,7 @@
     data:
       name: Console Port Template
       device_type: Cisco Test
+      description: Test Console Port Template Description
     state: present
   register: test_one
 
@@ -25,6 +26,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['console_port_template']['name'] == "Console Port Template"
       - test_one['console_port_template']['device_type'] == 1
+      - test_one['console_port_template']['description'] == "Test Console Port Template Description"
       - test_one['msg'] == "console_port_template Console Port Template created"
 
 - name: "CONSOLE_PORT_TEMPLATE 2: Create duplicate"
@@ -34,6 +36,7 @@
     data:
       name: Console Port Template
       device_type: Cisco Test
+      description: Test Console Port Template Description
     state: present
   register: test_two
 
@@ -43,6 +46,7 @@
       - not test_two['changed']
       - test_two['console_port_template']['name'] == "Console Port Template"
       - test_two['console_port_template']['device_type'] == 1
+      - test_two['console_port_template']['description'] == "Test Console Port Template Description"
       - test_two['msg'] == "console_port_template Console Port Template already exists"
 
 - name: "CONSOLE_PORT_TEMPLATE 3: Update Console Port Template with other fields"
@@ -53,6 +57,7 @@
       name: Console Port Template
       device_type: Cisco Test
       type: usb-a
+      description: Test Console Port Template Description Update
     state: present
   register: test_three
 
@@ -64,6 +69,7 @@
       - test_three['console_port_template']['name'] == "Console Port Template"
       - test_three['console_port_template']['device_type'] == 1
       - test_three['console_port_template']['type'] == "usb-a"
+      - test_three['console_port_template']['description'] == "Test Console Port Template Description Update"
       - test_three['msg'] == "console_port_template Console Port Template updated"
 
 - name: "CONSOLE_PORT_TEMPLATE 4: Create Console Port Template for Delete Test"
@@ -73,6 +79,7 @@
     data:
       name: Console Port Template 2
       device_type: Cisco Test
+      description: Test Console Port Template Description for Delete Test
     state: present
   register: test_four
 
@@ -84,6 +91,7 @@
       - test_four['diff']['after']['state'] == "present"
       - test_four['console_port_template']['name'] == "Console Port Template 2"
       - test_four['console_port_template']['device_type'] == 1
+      - test_four['console_port_template']['description'] == "Test Console Port Template Description for Delete Test"
       - test_four['msg'] == "console_port_template Console Port Template 2 created"
 
 - name: "CONSOLE_PORT_TEMPLATE 5: Delete Console Port Template"

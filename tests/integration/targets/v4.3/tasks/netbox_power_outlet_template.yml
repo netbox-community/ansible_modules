@@ -14,6 +14,7 @@
     data:
       name: Power Outlet Template
       device_type: Device Type Power Tests
+      description: Test Power Outlet Template Description
     state: present
   register: test_one
 
@@ -25,6 +26,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['power_outlet_template']['name'] == "Power Outlet Template"
       - test_one['power_outlet_template']['device_type'] == 8
+      - test_one['power_outlet_template']['description'] == "Test Power Outlet Template Description"
       - test_one['msg'] == "power_outlet_template Power Outlet Template created"
 
 - name: "POWER_OUTLET_TEMPLATE 2: Create duplicate"
@@ -34,6 +36,7 @@
     data:
       name: Power Outlet Template
       device_type: Device Type Power Tests
+      description: Test Power Outlet Template Description
     state: present
   register: test_two
 
@@ -43,6 +46,7 @@
       - not test_two['changed']
       - test_two['power_outlet_template']['name'] == "Power Outlet Template"
       - test_two['power_outlet_template']['device_type'] == 8
+      - test_two['power_outlet_template']['description'] == "Test Power Outlet Template Description"
       - test_two['msg'] == "power_outlet_template Power Outlet Template already exists"
 
 - name: "POWER_OUTLET_TEMPLATE 3: Update power_outlet_template with other fields"
@@ -55,6 +59,7 @@
       type: ita-e
       power_port_template: Power Port Template
       feed_leg: B
+      description: Test Power Outlet Template Description Update
     state: present
   register: test_three
 
@@ -70,6 +75,7 @@
       - test_three['power_outlet_template']['type'] == "ita-e"
       - test_three['power_outlet_template']['power_port'] == 1
       - test_three['power_outlet_template']['feed_leg'] == "B"
+      - test_three['power_outlet_template']['description'] == "Test Power Outlet Template Description Update"
       - test_three['msg'] == "power_outlet_template Power Outlet Template updated"
 
 - name: "POWER_OUTLET_TEMPLATE 4: Create Power Outlet Template for Delete Test"
@@ -79,6 +85,7 @@
     data:
       name: Power Outlet Template 2
       device_type: Device Type Power Tests
+      description: Test Power Outlet Template Description for Delete Test
     state: present
   register: test_four
 
@@ -90,6 +97,7 @@
       - test_four['diff']['after']['state'] == "present"
       - test_four['power_outlet_template']['name'] == "Power Outlet Template 2"
       - test_four['power_outlet_template']['device_type'] == 8
+      - test_four['power_outlet_template']['description'] == "Test Power Outlet Template Description for Delete Test"
       - test_four['msg'] == "power_outlet_template Power Outlet Template 2 created"
 
 - name: "POWER_OUTLET_TEMPLATE 5: Delete Power Outlet Template"
