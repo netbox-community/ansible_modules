@@ -31,6 +31,11 @@ options:
     description:
       - Defines the console server port template configuration
     suboptions:
+      description:
+        description:
+          - The description of the console server port template
+        required: false
+        type: str
       device_type:
         description:
           - The device type the console server port template is attached to
@@ -131,6 +136,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    description=dict(required=False, type="str"),
                     device_type=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
                     type=dict(
