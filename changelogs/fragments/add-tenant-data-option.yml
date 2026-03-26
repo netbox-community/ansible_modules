@@ -1,4 +1,3 @@
 ---
 minor_changes:
   - nb_inventory - Add ``tenant_data`` option to include full tenant data structures in host vars, mirroring ``site_data`` behavior.
-  
