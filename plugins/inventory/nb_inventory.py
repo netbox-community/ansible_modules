@@ -118,6 +118,12 @@ DOCUMENTATION = """
             default: false
             type: boolean
             version_added: "3.5.0"
+        tenant_data:
+            description:
+                - If True, tenants' full data structures returned from Netbox API are included in host vars.
+            default: false
+            type: boolean
+            version_added: "3.23.0"
         prefixes:
             description:
                 - If True, it adds the device or virtual machine prefixes to hostvars nested under "site".
@@ -1236,7 +1242,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
         tenants = self.get_resource_list(api_url=url)
-        self.tenants_lookup = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
+        self.tenants_lookup_slug = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
+        if self.tenant_data:
+            self.tenants_lookup = dict((tenant["id"], tenant) for tenant in tenants)
+        else:
+            self.tenants_lookup = self.tenants_lookup_slug
 
     def refresh_racks_lookup(self):
         url = self.api_endpoint + "/api/dcim/racks/?limit=0"
@@ -1831,12 +1841,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def add_host_to_groups(self, host, hostname):
         site_group_by = self._pluralize_group_by("site")
+        tenant_group_by = self._pluralize_group_by("tenant")
         site_group_group_by = self._pluralize_group_by("site_group")
 
         for grouping in self.group_by:
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
-            if grouping in ["region", site_group_by, "location", site_group_group_by]:
+            if grouping in ["region", site_group_by, "location", site_group_group_by, tenant_group_by]:
                 continue
 
             if grouping not in self.group_extractors:
@@ -1882,6 +1893,21 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 group=site_group_name
             )
             self.site_group_names[site_id] = site_transformed_group_name
+        
+    def _add_tenant_groups(self):
+        self.tenant_group_names = dict()
+
+        for (
+            tenant_id,
+            tenant_name,
+        ) in self.tenants_lookup_slug.items():
+            tenant_group_name = self.generate_group_name(
+                self._pluralize_group_by("tenant"), tenant_name
+            )
+            tenant_transformed_group_name = self.inventory.add_group(
+                group=tenant_group_name
+            )
+            self.tenant_group_names[tenant_id] = tenant_transformed_group_name
 
     def _add_region_groups(self):
         # Mapping of region id to group name
@@ -2073,6 +2099,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         ):
             self._add_site_groups()
 
+        tenant_group_by = self._pluralize_group_by("tenant")
+        if tenant_group_by in self.group_by:
+            self._add_tenant_groups()
+
         # Create groups for locations. Will be a part of site groups.
         if "location" in self.group_by and self.api_version >= version.parse("2.11"):
             self._add_location_groups()
@@ -2129,6 +2159,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     group=self.site_group_names[host["site"]["id"]],
                     host=hostname,
                 )
+            
+            if getattr(self, "tenant_group_names", None) and host.get("tenant"):
+                self.inventory.add_host(
+                    group=self.tenant_group_names[host["tenant"]["id"]],
+                    host=hostname,
+                )
 
     def _set_authorization(self):
         # NetBox access
@@ -2174,6 +2210,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.interfaces = self.get_option("interfaces")
         self.services = self.get_option("services")
         self.site_data = self.get_option("site_data")
+        self.tenant_data = self.get_option("tenant_data")
         self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
         self.headers = {
