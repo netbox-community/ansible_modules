@@ -1242,7 +1242,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def refresh_tenants_lookup(self):
         url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
         tenants = self.get_resource_list(api_url=url)
-        self.tenants_lookup_slug = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
+        self.tenants_lookup_slug = dict(
+            (tenant["id"], tenant["slug"]) for tenant in tenants
+        )
         if self.tenant_data:
             self.tenants_lookup = dict((tenant["id"], tenant) for tenant in tenants)
         else:
@@ -1847,7 +1849,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for grouping in self.group_by:
             # Don't handle regions here since no hosts are ever added to region groups
             # Sites and locations are also specially handled in the main()
-            if grouping in ["region", site_group_by, "location", site_group_group_by, tenant_group_by]:
+            if grouping in [
+                "region",
+                site_group_by,
+                "location",
+                site_group_group_by,
+                tenant_group_by,
+            ]:
                 continue
 
             if grouping not in self.group_extractors:
@@ -1893,7 +1901,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 group=site_group_name
             )
             self.site_group_names[site_id] = site_transformed_group_name
-        
+
     def _add_tenant_groups(self):
         self.tenant_group_names = dict()
 
@@ -2159,7 +2167,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     group=self.site_group_names[host["site"]["id"]],
                     host=hostname,
                 )
-            
+
             if getattr(self, "tenant_group_names", None) and host.get("tenant"):
                 self.inventory.add_host(
                     group=self.tenant_group_names[host["tenant"]["id"]],
