@@ -36,16 +36,16 @@ TARGETS:
     v4.0, v4.1, v4.2, v4.3, v4.4, v4.5  - Main module tests (91 modules)
 
   Inventory Tests:
-    inventory-v4.0, inventory-v4.1, inventory-v4.2, inventory-v4.3
+    inventory-v4.0, inventory-v4.1, inventory-v4.2, inventory-v4.3, inventory-v4.4
     Tests the NetBox inventory plugin against expected JSON output
 
   Regression Tests:
-    regression-v4.0, regression-v4.1, regression-v4.2, regression-v4.3
+    regression-v4.0, regression-v4.1, regression-v4.2, regression-v4.3, regression-v4.4
     Tests for specific bug fixes (referenced by GitHub issues)
 
   Combined:
     all-v4.3               - Run modules + inventory + regression for v4.3
-    all-v4.4               - Run modules only (no inventory/regression yet)
+    all-v4.4               - Run modules + inventory + regression for v4.4
     all-v4.5               - Run modules only (no inventory/regression yet)
 
 OPTIONS:
