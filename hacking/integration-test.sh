@@ -7,7 +7,7 @@
 # Usage: ./hacking/integration-test.sh [TARGET] [OPTIONS]
 #
 # Targets:
-#   v4.3, v4.4             - Main module tests (default: v4.4)
+#   v4.3, v4.4, v4.5       - Main module tests (default: v4.5)
 #   inventory-v4.3         - Inventory plugin tests
 #   regression-v4.3        - Regression tests
 #   all-v4.3               - Run all tests for a version (modules + inventory + regression)
@@ -22,7 +22,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 COLLECTION_TMP_DIR="${COLLECTION_TMP_DIR:-/tmp/test-collections}"
-DEFAULT_TARGET="v4.4"
+DEFAULT_TARGET="v4.5"
 
 show_help() {
     cat << 'EOF'
@@ -32,19 +32,20 @@ Usage: ./hacking/integration-test.sh [TARGET] [OPTIONS]
 
 TARGETS:
   Module Tests:
-    v4.0, v4.1, v4.2, v4.3, v4.4  - Main module tests (91 modules)
+    v4.0, v4.1, v4.2, v4.3, v4.4, v4.5  - Main module tests (91 modules)
 
   Inventory Tests:
-    inventory-v4.0, inventory-v4.1, inventory-v4.2, inventory-v4.3, inventory-v4.4
+    inventory-v4.0, inventory-v4.1, inventory-v4.2, inventory-v4.3, inventory-v4.4, inventory-v4.5
     Tests the NetBox inventory plugin against expected JSON output
 
   Regression Tests:
-    regression-v4.0, regression-v4.1, regression-v4.2, regression-v4.3, regression-v4.4
+    regression-v4.0, regression-v4.1, regression-v4.2, regression-v4.3, regression-v4.4, regression-v4.5
     Tests for specific bug fixes (referenced by GitHub issues)
 
   Combined:
     all-v4.3               - Run modules + inventory + regression for v4.3
     all-v4.4               - Run modules + inventory + regression for v4.4
+    all-v4.5               - Run modules + inventory + regression for v4.5
 
 OPTIONS:
   --list                 - List available test targets

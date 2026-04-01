@@ -1,0 +1,28 @@
+---
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:32768
+token: "0123456789abcdef0123456789abcdef01234567"
+validate_certs: false
+
+config_context: true
+plurals: true
+interfaces: true
+services: true
+racks: false
+
+group_by:
+  - sites
+  - tenants
+  - location
+  - tags
+  - device_roles
+  - device_types
+  - manufacturers
+  - platforms
+  - region
+  - site_group
+  - cluster
+  - cluster_group
+  - cluster_type
+  - is_virtual
+  - status

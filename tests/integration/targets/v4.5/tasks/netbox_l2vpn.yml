@@ -1,0 +1,99 @@
+---
+##
+##
+### NETBOX_L2VPN
+##
+##
+- name: "L2VPN 1: Necessary info creation"
+  netbox.netbox.netbox_l2vpn:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test L2VPN
+      type: vxlan
+    state: present
+  register: test_one
+
+- name: "L2VPN 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['l2vpn']['name'] == "Test L2VPN"
+      - test_one['l2vpn']['type'] == "vxlan"
+      - test_one['msg'] == "l2vpn Test L2VPN created"
+
+- name: "L2VPN 2: Create duplicate"
+  netbox.netbox.netbox_l2vpn:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test L2VPN
+      type: vxlan
+    state: present
+  register: test_two
+
+- name: "L2VPN 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['l2vpn']['name'] == "Test L2VPN"
+      - test_two['l2vpn']['type'] == "vxlan"
+      - test_two['msg'] == "l2vpn Test L2VPN already exists"
+
+- name: "L2VPN 4: ASSERT - Update"
+  netbox.netbox.netbox_l2vpn:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test L2VPN
+      type: vxlan
+      tenant: Test Tenant
+      description: Updated description
+      import_targets:
+        - 4000:4000
+        - 5000:5000
+      export_targets:
+        - 6000:6000
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_four
+
+- name: "L2VPN: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['after']['description'] == "Updated description"
+      - test_four['diff']['after']['import_targets'] == [1, 2]
+      - test_four['diff']['after']['export_targets'] == [3]
+      - test_four['diff']['after']['tags'][0] == 4
+      - test_four['l2vpn']['name'] == "Test L2VPN"
+      - test_four['l2vpn']['tenant'] == 1
+      - test_four['l2vpn']['import_targets'] == [1, 2]
+      - test_four['l2vpn']['export_targets'] == [3]
+      - test_four['l2vpn']['description'] == "Updated description"
+      - test_four['l2vpn']['tags'][0] == 4
+      - test_four['msg'] == "l2vpn Test L2VPN updated"
+
+- name: "L2VPN: ASSERT - Delete"
+  netbox.netbox.netbox_l2vpn:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Test L2VPN
+      type: vxlan
+    state: absent
+  register: test_six
+
+- name: "L2VPN 6: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['l2vpn']['name'] == "Test L2VPN"
+      - test_six['l2vpn']['tenant'] == 1
+      - test_six['l2vpn']['type'] == "vxlan"
+      - test_six['l2vpn']['description'] == "Updated description"
+      - test_six['l2vpn']['tags'][0] == 4
+      - test_six['msg'] == "l2vpn Test L2VPN deleted"

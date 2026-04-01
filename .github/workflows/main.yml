@@ -82,6 +82,8 @@ jobs:
             NETBOX_DOCKER_VERSION: 3.3.0
           - VERSION: "v4.4"
             NETBOX_DOCKER_VERSION: 3.4.2
+          - VERSION: "v4.5"
+            NETBOX_DOCKER_VERSION: 4.0.2
 
     steps:
 
@@ -94,7 +96,7 @@ jobs:
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
           git checkout ${{ matrix.NETBOX_DOCKER_VERSION }}
-          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/docker-compose.override.yml docker-compose.override.yml
+          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/* .
           docker compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
