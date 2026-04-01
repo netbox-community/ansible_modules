@@ -45,6 +45,27 @@ class NetboxUsersModule(NetboxModule):
 
         data = self.data
 
+        # NetBox v4.5 removed is_staff from User model
+        if self.endpoint == NB_USERS:
+            if self._version_check_greater(
+                self.api_version, "4.5", greater_or_equal=True
+            ):
+                data.pop("is_staff", None)
+
+        # NetBox v4.5 v2 tokens: key is auto-generated, not user-provided
+        is_v45 = False
+        if self.endpoint == NB_TOKENS:
+            is_v45 = self._version_check_greater(
+                self.api_version, "4.5", greater_or_equal=True
+            )
+            if is_v45:
+                data.pop("key", None)
+            else:
+                if not data.get("key"):
+                    self.module.fail_json(
+                        msg="'key' is required for tokens on NetBox < v4.5"
+                    )
+
         # Used for msg output
         if data.get("username"):
             name = data["username"]
@@ -52,11 +73,26 @@ class NetboxUsersModule(NetboxModule):
             name = data["name"]
         elif data.get("key"):
             name = data["key"]
+        elif data.get("description"):
+            name = data["description"]
+        else:
+            name = "token"
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
-        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
+        # v4.5+ tokens without description/id cannot be looked up; always create
+        if (
+            self.endpoint == NB_TOKENS
+            and is_v45
+            and not data.get("id")
+            and not data.get("description")
+        ):
+            self.nb_object = None
+        else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
+            self.nb_object = self._nb_endpoint_get(
+                nb_endpoint, object_query_params, name
+            )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
@@ -79,8 +115,8 @@ class NetboxUsersModule(NetboxModule):
             return self.__update_netbox_object__(data)
 
     def _update_netbox_token(self, data):
-        if "key" in data:
-            del data["key"]
+        data.pop("key", None)
+        data.pop("id", None)
         return self.__update_netbox_object__(data)
 
     def __update_netbox_object__(self, data):

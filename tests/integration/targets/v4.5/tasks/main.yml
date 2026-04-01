@@ -368,26 +368,23 @@
   tags:
     - netbox_rear_port_template
 
-## Skipped: netbox_front_port and netbox_front_port_template
-## NetBox v4.5 replaced rear_port/rear_port_position with the PortMapping model.
-## The modules still require rear_port as an argument and need updating.
-# - name: NETBOX_FRONT_PORT TESTS
-#   ansible.builtin.include_tasks:
-#     file: netbox_front_port.yml
-#     apply:
-#       tags:
-#         - netbox_front_port
-#   tags:
-#     - netbox_front_port
+- name: NETBOX_FRONT_PORT TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_front_port.yml
+    apply:
+      tags:
+        - netbox_front_port
+  tags:
+    - netbox_front_port
 
-# - name: NETBOX_FRONT_PORT_TEMPLATE TESTS
-#   ansible.builtin.include_tasks:
-#     file: netbox_front_port_template.yml
-#     apply:
-#       tags:
-#         - netbox_front_port_template
-#   tags:
-#     - netbox_front_port_template
+- name: NETBOX_FRONT_PORT_TEMPLATE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_front_port_template.yml
+    apply:
+      tags:
+        - netbox_front_port_template
+  tags:
+    - netbox_front_port_template
 
 - name: NETBOX_CONSOLE_PORT TESTS
   ansible.builtin.include_tasks:
@@ -515,17 +512,14 @@
   tags:
     - netbox_permission
 
-## Skipped: netbox_token
-## NetBox v4.5 v2 tokens don't support duplicate detection or key-based lookup.
-## The module needs updating to support v2 tokens.
-# - name: NETBOX_TOKEN_TESTS
-#   ansible.builtin.include_tasks:
-#     file: netbox_token.yml
-#     apply:
-#       tags:
-#         - netbox_token
-#   tags:
-#     - netbox_token
+- name: NETBOX_TOKEN_TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_token.yml
+    apply:
+      tags:
+        - netbox_token
+  tags:
+    - netbox_token
 
 # Module has to be updated for 3.3
 # - name: "NETBOX_CABLE TESTS"
