@@ -1402,6 +1402,14 @@ class NetboxModule(object):
                         )
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
+                        allowed = ALLOWED_QUERY_PARAMS.get(k)
+                        if allowed:
+                            for param in ("device", "virtual_machine"):
+                                if param in allowed and param in data:
+                                    if isinstance(data[param], int):
+                                        query_params[param + "_id"] = data[param]
+                                    else:
+                                        query_params[param] = data[param]
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 if isinstance(v, list):
