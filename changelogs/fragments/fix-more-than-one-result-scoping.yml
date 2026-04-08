@@ -1,0 +1,3 @@
+---
+bugfixes:
+  - Automatically include device and virtual_machine scoping in sub-object queries to prevent "More than one result returned" errors
