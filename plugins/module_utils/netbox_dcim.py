@@ -120,7 +120,10 @@ class NetboxDcimModule(NetboxModule):
                     data["form_factor"] = self._to_slug(data["type"])
                     del data["type"]
 
-        # NetBox v4.5 replaced rear_port/rear_port_position with PortMapping model
+        # NetBox v4.5 replaced rear_port/rear_port_position with PortMapping model.
+        # Note: CONVERT_KEYS already maps rear_port_template -> rear_port and
+        # rear_port_template_position -> rear_port_position before run() executes,
+        # so both front_ports and front_port_templates use "rear_port" here.
         if self.endpoint in ("front_ports", "front_port_templates"):
             if self._version_check_greater(
                 self.api_version, "4.5", greater_or_equal=True
@@ -129,8 +132,14 @@ class NetboxDcimModule(NetboxModule):
                 data.pop("rear_port_position", None)
             else:
                 if self.state == "present" and "rear_port" not in data:
+                    field = (
+                        "rear_port_template"
+                        if self.endpoint == "front_port_templates"
+                        else "rear_port"
+                    )
                     self.module.fail_json(
-                        msg="rear_port is required for front_ports when using NetBox < v4.5"
+                        msg="%s is required for %s when using NetBox < v4.5"
+                        % (field, self.endpoint)
                     )
 
         # Used for msg output

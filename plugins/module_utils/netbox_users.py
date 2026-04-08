@@ -60,10 +60,22 @@ class NetboxUsersModule(NetboxModule):
             )
             if is_v45:
                 data.pop("key", None)
+                if not data.get("id") and not data.get("description"):
+                    self.module.fail_json(
+                        msg=(
+                            "For tokens on NetBox >= v4.5, 'description' or 'id' "
+                            "is required for idempotent operations (v2 tokens "
+                            "do not support key-based lookup)."
+                        )
+                    )
             else:
                 if not data.get("key"):
                     self.module.fail_json(
                         msg="'key' is required for tokens on NetBox < v4.5"
+                    )
+                if self.state == "absent" and not data.get("key"):
+                    self.module.fail_json(
+                        msg="'key' is required for state=absent on NetBox < v4.5"
                     )
 
         # Used for msg output
@@ -78,21 +90,10 @@ class NetboxUsersModule(NetboxModule):
         else:
             name = "token"
 
-        # v4.5+ tokens without description/id cannot be looked up; always create
-        if (
-            self.endpoint == NB_TOKENS
-            and is_v45
-            and not data.get("id")
-            and not data.get("description")
-        ):
-            self.nb_object = None
-        else:
-            object_query_params = self._build_query_params(
-                endpoint_name, data, user_query_params
-            )
-            self.nb_object = self._nb_endpoint_get(
-                nb_endpoint, object_query_params, name
-            )
+        object_query_params = self._build_query_params(
+            endpoint_name, data, user_query_params
+        )
+        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
