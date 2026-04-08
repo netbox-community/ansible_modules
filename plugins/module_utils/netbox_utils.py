@@ -587,7 +587,7 @@ ALLOWED_QUERY_PARAMS = {
     "tenant_group": set(["slug"]),
     "termination_a": set(["name", "device", "virtual_machine"]),
     "termination_b": set(["name", "device", "virtual_machine"]),
-    "token": set(["key", "description", "id"]),
+    "token": set(["key"]),
     "tunnel": set(["name"]),
     "tunnel_group": set(["slug"]),
     "user": set(["username", "password"]),

@@ -90,10 +90,21 @@ class NetboxUsersModule(NetboxModule):
         else:
             name = "token"
 
-        object_query_params = self._build_query_params(
-            endpoint_name, data, user_query_params
-        )
-        self.nb_object = self._nb_endpoint_get(nb_endpoint, object_query_params, name)
+        # v4.5+ tokens: look up by description (not key) since v2 keys are auto-generated
+        if self.endpoint == NB_TOKENS and is_v45:
+            query_params = {}
+            if data.get("id"):
+                query_params["id"] = data["id"]
+            elif data.get("description"):
+                query_params["description"] = data["description"]
+            self.nb_object = self._nb_endpoint_get(nb_endpoint, query_params, name)
+        else:
+            object_query_params = self._build_query_params(
+                endpoint_name, data, user_query_params
+            )
+            self.nb_object = self._nb_endpoint_get(
+                nb_endpoint, object_query_params, name
+            )
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
