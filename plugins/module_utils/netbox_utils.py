@@ -845,6 +845,7 @@ class NetboxModule(object):
                 headers = json.load(headers)
             if isinstance(headers, dict):
                 session.headers.update(headers)
+            session.headers.setdefault("Authorization", "Token %s" % token)
             if cert:
                 session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
