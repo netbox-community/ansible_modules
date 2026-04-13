@@ -1,0 +1,3 @@
+---
+minor_changes:
+  - Take a more generic approach for set comparison. Other models have object_types too
