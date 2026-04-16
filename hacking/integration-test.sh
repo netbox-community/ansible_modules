@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 #
 # Integration Test Runner
-# Source: aopdal/ansible_modules@test-updates/hacking/integration-test.sh
 #
 # Runs integration tests against a running NetBox Docker instance
 #
 # Usage: ./hacking/integration-test.sh [TARGET] [OPTIONS]
 #
 # Targets:
-#   v4.3, v4.4, v4.5       - Main module tests (default: v4.5)
+#   v4.3, v4.4             - Main module tests (default: v4.4)
 #   inventory-v4.3         - Inventory plugin tests
 #   regression-v4.3        - Regression tests
 #   all-v4.3               - Run all tests for a version (modules + inventory + regression)
@@ -23,7 +22,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 COLLECTION_TMP_DIR="${COLLECTION_TMP_DIR:-/tmp/test-collections}"
-DEFAULT_TARGET="v4.5"
+DEFAULT_TARGET="v4.4"
 
 show_help() {
     cat << 'EOF'
@@ -33,7 +32,7 @@ Usage: ./hacking/integration-test.sh [TARGET] [OPTIONS]
 
 TARGETS:
   Module Tests:
-    v4.0, v4.1, v4.2, v4.3, v4.4, v4.5  - Main module tests (91 modules)
+    v4.0, v4.1, v4.2, v4.3, v4.4  - Main module tests (91 modules)
 
   Inventory Tests:
     inventory-v4.0, inventory-v4.1, inventory-v4.2, inventory-v4.3, inventory-v4.4
@@ -46,22 +45,17 @@ TARGETS:
   Combined:
     all-v4.3               - Run modules + inventory + regression for v4.3
     all-v4.4               - Run modules + inventory + regression for v4.4
-    all-v4.5               - Run modules only (no inventory/regression yet)
 
 OPTIONS:
   --list                 - List available test targets
   --help, -h             - Show this help
 
 PREREQUISITES:
-  1. NetBox Docker must be running:
-     ./netbox-docker-helper.sh start v4.3
+  1. NetBox Docker must be running on localhost:32768
+     See tests/netbox-docker/ for docker-compose overrides per version.
 
   2. Test data must be populated:
-     ./netbox-docker-helper.sh populate
-
-  Note: For v4.5+, a v2 API token is automatically provisioned and loaded.
-        The token is saved to /tmp/netbox-token.env and automatically
-        sourced by this script.
+     python tests/integration/netbox-deploy.py
 
 EXAMPLES:
   # Run main module tests for v4.3
@@ -107,7 +101,7 @@ setup_collection() {
 
     cd "$REPO_DIR"
 
-    # Load NetBox token if available (needed for v4.5+ v2 tokens)
+    # Load NetBox token if available (e.g. for versions requiring v2 tokens)
     if [ -f "/tmp/netbox-token.env" ]; then
         echo "Loading NETBOX_TOKEN from /tmp/netbox-token.env"
         source /tmp/netbox-token.env
