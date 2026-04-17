@@ -55,6 +55,7 @@ options:
       is_staff:
         description:
           - Staff status of the user to be created
+          - Only supported on NetBox < v4.5. Ignored on v4.5+ (field removed).
         required: false
         type: bool
       is_active:

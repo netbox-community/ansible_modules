@@ -1,0 +1,107 @@
+---
+##
+##
+### NETBOX_TOKEN (v4.5 - v2 tokens)
+##
+## v4.5 uses v2 tokens by default. Keys are auto-generated and cannot be
+## used for lookup. Use description + user for idempotent operations.
+##
+- name: "TOKEN: Set up user"
+  netbox.netbox.netbox_user:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      username: TestUser
+      password: TestPassword2
+    state: present
+  register: test_user
+
+- name: "TOKEN 1: Create v2 token with description"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      description: The test token
+    state: present
+  register: test_one
+
+- name: "TOKEN 1: ASSERT - Creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['token']['user'] == test_user['user']['id']
+      - test_one['token']['description'] == "The test token"
+      - test_one['msg'] == "token The test token created"
+
+- name: "TOKEN 2: Create duplicate (idempotency)"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      description: The test token
+    state: present
+  register: test_two
+
+- name: "TOKEN 2: ASSERT - Idempotency"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['msg'] == "token The test token already exists"
+
+- name: "TOKEN 3: Update token"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      description: The test token
+      write_enabled: false
+    state: present
+  register: test_three
+
+- name: "TOKEN 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['token']['description'] == "The test token"
+      - test_three['token']['write_enabled'] == false
+      - test_three['msg'] == "token The test token updated"
+
+- name: "TOKEN 4: Delete token"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      description: The test token
+    state: absent
+  register: test_four
+
+- name: "TOKEN 4: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "token The test token deleted"
+
+- name: "TOKEN 5: Delete non existing"
+  netbox.netbox.netbox_token:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      user: TestUser
+      description: The test token
+    state: absent
+  register: test_five
+
+- name: "TOKEN 5: ASSERT - Delete non existing"
+  ansible.builtin.assert:
+    that:
+      - not test_five['changed']
+      - test_five['token'] == None
+      - test_five['msg'] == "token The test token already absent"

@@ -1,0 +1,97 @@
+---
+##
+##
+### NETBOX_WIRELESS_LAN_GROUP
+##
+##
+- name: 1 - Test wireless LAN group creation
+  netbox.netbox.netbox_wireless_lan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Wireless LAN Group One
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['wireless_lan_group']['name'] == "Wireless LAN Group One"
+      - test_one['msg'] == "wireless_lan_group Wireless LAN Group One created"
+
+- name: Test duplicate wireless LAN group
+  netbox.netbox.netbox_wireless_lan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Wireless LAN Group One
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['wireless_lan_group']['name'] == "Wireless LAN Group One"
+      - test_two['msg'] == "wireless_lan_group Wireless LAN Group One already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_wireless_lan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Wireless LAN Group One
+      description: New Description
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "New Description"
+      - test_three['wireless_lan_group']['name'] == "Wireless LAN Group One"
+      - test_three['wireless_lan_group']['description'] == "New Description"
+      - test_three['msg'] == "wireless_lan_group Wireless LAN Group One updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_wireless_lan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Wireless LAN Group One
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "wireless_lan_group Wireless LAN Group One deleted"
+
+- name: 5 - Create wireless LAN group with all parameters
+  netbox.netbox.netbox_wireless_lan_group:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Wireless LAN Group One
+      description: Cool Wireless LAN Group
+      tags:
+        - tagA
+        - tagB
+        - tagC
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['wireless_lan_group']['name'] == "Wireless LAN Group One"
+      - test_five['wireless_lan_group']['description'] == "Cool Wireless LAN Group"
+      - test_five['wireless_lan_group']['tags'] | length == 3
+      - test_five['msg'] == "wireless_lan_group Wireless LAN Group One created"

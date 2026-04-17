@@ -1,0 +1,725 @@
+{
+    "_meta": {
+        "hostvars": {
+            "Device Power Tests": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Device Virtual Chassis Tests": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Device Virtual Chassis Tests 2": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Device With Contact": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "FOR_SERVICE": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [
+                    {
+                        "comments": "",
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "node-exporter (TCP/9100, 9200)",
+                        "display_url": "http://localhost:32768/ipam/services/1/",
+                        "id": 1,
+                        "ipaddresses": [],
+                        "name": "node-exporter",
+                        "owner": null,
+                        "parent": {
+                            "description": "",
+                            "display": "FOR_SERVICE",
+                            "id": 14,
+                            "name": "FOR_SERVICE"
+                        },
+                        "parent_object_id": 14,
+                        "parent_object_type": "dcim.device",
+                        "ports": [
+                            9100,
+                            9200
+                        ],
+                        "protocol": {
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": [
+                            {
+                                "color": "9e9e9e",
+                                "display": "Schnozzberry",
+                                "display_url": "http://localhost:32768/extras/tags/4/",
+                                "id": 4,
+                                "name": "Schnozzberry",
+                                "slug": "schnozzberry"
+                            }
+                        ]
+                    }
+                ],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "L1": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "nolookup"
+                ]
+            },
+            "L2": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site2"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "lookup"
+                ]
+            },
+            "R1-Device": {
+                "asset_tag": "345678901",
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "rack_role": "test-rack-role",
+                "racks": [
+                    "Test Rack Site 2"
+                ],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site2"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Test Nexus One": {
+                "ansible_host": "172.16.180.12",
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "nexus-parent"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "primary_ip4": "172.16.180.12",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "TestDeviceR1": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "racks": [
+                    "Test Rack"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "FAB12345678",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Virtual Machine With Contact": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573": {
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "issue-242": {
+                "asset_tag": "Null",
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "first",
+                    "second",
+                    "third"
+                ]
+            },
+            "test100": {
+                "ansible_host": "2001::1:1",
+                "asset_tag": "123456789",
+                "custom_fields": {},
+                "device_roles": [
+                    "core-switch"
+                ],
+                "device_types": [
+                    "cisco-test"
+                ],
+                "is_virtual": false,
+                "local_context_data": [
+                    {
+                        "ntp_servers": [
+                            "pool.ntp.org"
+                        ]
+                    }
+                ],
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturers": [
+                    "cisco"
+                ],
+                "primary_ip4": "172.16.180.1",
+                "primary_ip6": "2001::1:1",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "serial": "FAB01234567",
+                "services": [
+                    {
+                        "comments": "",
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "node-exporter (UDP/9100)",
+                        "display_url": "http://localhost:32768/ipam/services/3/",
+                        "id": 3,
+                        "ipaddresses": [
+                            {
+                                "address": "172.16.180.1/24",
+                                "description": "",
+                                "display": "172.16.180.1/24",
+                                "family": {
+                                    "label": "IPv4",
+                                    "value": 4
+                                },
+                                "id": 1
+                            }
+                        ],
+                        "name": "node-exporter",
+                        "owner": null,
+                        "parent": {
+                            "description": "",
+                            "display": "test100 (123456789)",
+                            "id": 1,
+                            "name": "test100"
+                        },
+                        "parent_object_id": 1,
+                        "parent_object_type": "dcim.device",
+                        "ports": [
+                            9100
+                        ],
+                        "protocol": {
+                            "label": "UDP",
+                            "value": "udp"
+                        },
+                        "tags": []
+                    }
+                ],
+                "site_groups": [],
+                "sites": [
+                    "test-site"
+                ],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test100-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "disk": 170,
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [
+                    {
+                        "comments": "",
+                        "custom_fields": {},
+                        "description": "",
+                        "display": "node-exporter-vm (TCP/9100)",
+                        "display_url": "http://localhost:32768/ipam/services/4/",
+                        "id": 4,
+                        "ipaddresses": [],
+                        "name": "node-exporter-vm",
+                        "owner": null,
+                        "parent": {
+                            "description": "",
+                            "display": "test100-vm",
+                            "id": 1,
+                            "name": "test100-vm"
+                        },
+                        "parent_object_id": 1,
+                        "parent_object_type": "virtualization.virtualmachine",
+                        "ports": [
+                            9100
+                        ],
+                        "protocol": {
+                            "label": "TCP",
+                            "value": "tcp"
+                        },
+                        "tags": []
+                    }
+                ],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test102-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test103-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test104-vm": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "local_context_data": [
+                    null
+                ],
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "services": [],
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped"
+        ]
+    },
+    "ungrouped": {
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device Power Tests",
+            "Device Virtual Chassis Tests",
+            "Device Virtual Chassis Tests 2",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1",
+            "L2",
+            "R1-Device",
+            "Test Nexus One",
+            "test100",
+            "TestDeviceR1",
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm",
+            "Virtual Machine With Contact"
+        ]
+    }
+}
