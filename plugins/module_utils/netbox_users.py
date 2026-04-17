@@ -73,10 +73,6 @@ class NetboxUsersModule(NetboxModule):
                     self.module.fail_json(
                         msg="'key' is required for tokens on NetBox < v4.5"
                     )
-                if self.state == "absent" and not data.get("key"):
-                    self.module.fail_json(
-                        msg="'key' is required for state=absent on NetBox < v4.5"
-                    )
 
         # Used for msg output
         if data.get("username"):
@@ -97,6 +93,9 @@ class NetboxUsersModule(NetboxModule):
                 query_params["id"] = data["id"]
             elif data.get("description"):
                 query_params["description"] = data["description"]
+                # Scope by user so tokens with same description across users don't collide
+                if data.get("user"):
+                    query_params["user_id"] = data["user"]
             self.nb_object = self._nb_endpoint_get(nb_endpoint, query_params, name)
         else:
             object_query_params = self._build_query_params(
