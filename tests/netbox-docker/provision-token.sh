@@ -23,15 +23,18 @@ log() { printf '%s\n' "$*" >&2; }
 
 log "Waiting for NetBox at $NETBOX_URL ..."
 for i in $(seq 1 "$MAX_RETRIES"); do
-    if [ "$(curl -s -o /dev/null -w '%{http_code}' "$NETBOX_URL/login/")" = "200" ]; then
+    # `|| echo "000"` keeps transient connection-refused / timeout failures
+    # from exiting the script via `set -e` before the retry loop gets to retry.
+    status=$(curl -s -o /dev/null -m 5 -w '%{http_code}' "$NETBOX_URL/login/" || echo "000")
+    if [ "$status" = "200" ]; then
         log "NetBox is ready."
         break
     fi
     if [ "$i" -eq "$MAX_RETRIES" ]; then
-        log "ERROR: NetBox did not become ready within $((MAX_RETRIES * RETRY_DELAY))s."
+        log "ERROR: NetBox did not become ready within $((MAX_RETRIES * RETRY_DELAY))s (last status: $status)."
         exit 1
     fi
-    log "  attempt $i/$MAX_RETRIES not ready, sleeping ${RETRY_DELAY}s"
+    log "  attempt $i/$MAX_RETRIES got status=$status, sleeping ${RETRY_DELAY}s"
     sleep "$RETRY_DELAY"
 done
 
@@ -66,9 +69,13 @@ fi
 
 FULL_TOKEN="nbt_${KEY}.${TOKEN}"
 
+# Remove any pre-existing file first; `printf > file` preserves the existing
+# mode on truncation, so without this the chmod-600 claim below is unreliable.
+rm -f "$TOKEN_FILE" "$TOKEN_ENV_FILE"
 umask 077
 printf '%s' "$FULL_TOKEN" > "$TOKEN_FILE"
 printf 'export NETBOX_TOKEN=%q\n' "$FULL_TOKEN" > "$TOKEN_ENV_FILE"
+chmod 600 "$TOKEN_FILE" "$TOKEN_ENV_FILE"
 
 log "Provisioned v2 token (key=$KEY), written to $TOKEN_FILE and $TOKEN_ENV_FILE."
 echo "$FULL_TOKEN"
