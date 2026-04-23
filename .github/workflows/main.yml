@@ -127,6 +127,13 @@ jobs:
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768/login/)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
+      - name: Provision v2 API token (v4.5+)
+        if: matrix.VERSION == 'v4.5'
+        run: |
+          NETBOX_TOKEN=$(bash ./tests/netbox-docker/provision-token.sh)
+          echo "NETBOX_TOKEN=$NETBOX_TOKEN" >> "$GITHUB_ENV"
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
@@ -134,6 +141,16 @@ jobs:
       - name: Run inventory tests
         continue-on-error: true
         run: |
+          # runme.sh can only see environment via a sourced runme_config file
+          # when invoked through ansible-test.
+          RUNME_CONFIG="tests/integration/targets/inventory-${{ matrix.VERSION }}/runme_config"
+          {
+            echo "export NETBOX_VERSION=\"${{ matrix.VERSION }}\""
+            if [[ -n "${NETBOX_TOKEN:-}" ]]; then
+              echo "export NETBOX_TOKEN=\"$NETBOX_TOKEN\""
+            fi
+          } > "$RUNME_CONFIG"
+
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
