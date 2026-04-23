@@ -131,6 +131,10 @@ jobs:
         if: matrix.VERSION == 'v4.5'
         run: |
           NETBOX_TOKEN=$(bash ./tests/netbox-docker/provision-token.sh)
+          # Register the secret with the GitHub Actions runner BEFORE exporting
+          # it; runme.sh uses `set -o xtrace` and would otherwise echo the
+          # plaintext token when it sources runme_config.
+          echo "::add-mask::$NETBOX_TOKEN"
           echo "NETBOX_TOKEN=$NETBOX_TOKEN" >> "$GITHUB_ENV"
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 

@@ -11,6 +11,13 @@
 #
 set -euo pipefail
 
+for dep in curl jq; do
+    command -v "$dep" >/dev/null 2>&1 || {
+        printf 'ERROR: %s not found in PATH\n' "$dep" >&2
+        exit 1
+    }
+done
+
 NETBOX_URL="${NETBOX_URL:-http://localhost:32768}"
 NETBOX_USERNAME="${NETBOX_USERNAME:-admin}"
 NETBOX_PASSWORD="${NETBOX_PASSWORD:-admin123456}"
@@ -39,11 +46,15 @@ for i in $(seq 1 "$MAX_RETRIES"); do
 done
 
 log "Provisioning v2 API token for user '$NETBOX_USERNAME' ..."
+# Build the JSON body with jq rather than string interpolation so credentials
+# containing quotes / backslashes / newlines can't break the request payload.
+BODY=$(jq -n --arg u "$NETBOX_USERNAME" --arg p "$NETBOX_PASSWORD" \
+    '{username: $u, password: $p}')
 RESPONSE=$(curl -s -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     "$NETBOX_URL/api/users/tokens/provision/" \
-    --data "{\"username\": \"$NETBOX_USERNAME\", \"password\": \"$NETBOX_PASSWORD\"}")
+    --data "$BODY")
 
 if ! echo "$RESPONSE" | jq -e . >/dev/null 2>&1; then
     log "ERROR: token provisioning returned non-JSON response:"
