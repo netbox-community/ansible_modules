@@ -1585,7 +1585,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     ] = ipaddress_copy  # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
 
                 if ipaddress.get("assigned_object"):
-                    ipaddress_copy["interface_name"] = ipaddress["assigned_object"].get("name")
+                    ipaddress_copy["interface_name"] = ipaddress["assigned_object"].get(
+                        "name"
+                    )
 
                 del ipaddress_copy["assigned_object_id"]
                 del ipaddress_copy["assigned_object_type"]
