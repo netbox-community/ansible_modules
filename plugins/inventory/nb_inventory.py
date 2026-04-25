@@ -1466,7 +1466,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if ipaddress.get("assigned_object_type") == "virtualization.vminterface":
                 self.vm_ipaddresses_lookup[ip_id] = {"interface_name": interface_name}
             else:
-                self.device_ipaddresses_lookup[ip_id] = {"interface_name": interface_name}
+                self.device_ipaddresses_lookup[ip_id] = {
+                    "interface_name": interface_name
+                }
 
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
