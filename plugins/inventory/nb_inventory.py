@@ -229,6 +229,13 @@ DOCUMENTATION = """
                 - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
             type: boolean
             default: false
+        primary_ip_interface:
+            description:
+                - If True, it adds the name of the interface associated with the primary IP as a host var named C(primary_ip_interface).
+                - Force IP Addresses to be fetched, similar to I(dns_name).
+            type: boolean
+            default: false
+            version_added: "3.22.0"
         ansible_host_dns_name:
             description:
                 - If True, sets DNS Name (fetched from primary_ip) to be used in ansible_host variable, instead of IP Address.
@@ -642,6 +649,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 }
             )
 
+        if self.primary_ip_interface:
+            extractors.update(
+                {
+                    "primary_ip_interface": self.extract_primary_ip_interface,
+                }
+            )
+
         return extractors
 
     def _pluralize_group_by(self, group_by):
@@ -1042,6 +1056,26 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return ip_address.get("dns_name")
 
+    def extract_primary_ip_interface(self, host):
+        if not host.get("primary_ip"):
+            return None
+
+        before_netbox_v29 = bool(self.ipaddresses_lookup)
+        if before_netbox_v29:
+            ip_address = self.ipaddresses_lookup.get(host["primary_ip"]["id"])
+        else:
+            if host["is_virtual"]:
+                ip_address = self.vm_ipaddresses_lookup.get(host["primary_ip"]["id"])
+            else:
+                ip_address = self.device_ipaddresses_lookup.get(
+                    host["primary_ip"]["id"]
+                )
+
+        if ip_address is None:
+            return None
+
+        return ip_address.get("interface_name")
+
     def extract_serial(self, host):
         return host.get("serial", None)
 
@@ -1401,6 +1435,39 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk
 
+    def refresh_primary_ip_addresses(self):
+        self.ipaddresses_intf_lookup = defaultdict(dict)
+        self.ipaddresses_lookup = defaultdict(dict)
+        self.vm_ipaddresses_intf_lookup = defaultdict(dict)
+        self.vm_ipaddresses_lookup = defaultdict(dict)
+        self.device_ipaddresses_intf_lookup = defaultdict(dict)
+        self.device_ipaddresses_lookup = defaultdict(dict)
+
+        primary_ip_ids = [
+            host["primary_ip"]["id"]
+            for host in chain(self.devices_list, self.vms_list)
+            if host.get("primary_ip") and host["primary_ip"].get("id")
+        ]
+
+        if not primary_ip_ids:
+            return
+
+        url = self.api_endpoint + "/api/ipam/ip-addresses/?limit=0"
+        ipaddresses = self.get_resource_list_chunked(
+            api_url=url,
+            query_key="id",
+            query_values=primary_ip_ids,
+        )
+
+        for ipaddress in ipaddresses:
+            ip_id = ipaddress["id"]
+            interface_name = ipaddress.get("assigned_object", {}).get("name")
+
+            if ipaddress.get("assigned_object_type") == "virtualization.vminterface":
+                self.vm_ipaddresses_lookup[ip_id] = {"interface_name": interface_name}
+            else:
+                self.device_ipaddresses_lookup[ip_id] = {"interface_name": interface_name}
+
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
@@ -1515,6 +1582,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                         ip_id
                     ] = ipaddress_copy  # Remove "assigned_object_X" attributes, as that's redundant when ipaddress is added to an interface
 
+                if ipaddress.get("assigned_object"):
+                    ipaddress_copy["interface_name"] = ipaddress["assigned_object"].get("name")
+
                 del ipaddress_copy["assigned_object_id"]
                 del ipaddress_copy["assigned_object_type"]
                 del ipaddress_copy["assigned_object"]
@@ -1573,6 +1643,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # IP addresses are needed for either interfaces or dns_name options
         if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             lookups.append(self.refresh_ipaddresses)
+        elif self.primary_ip_interface:
+            # Only primary IPs are needed — use a targeted fetch instead of all IPs
+            lookups.append(self.refresh_primary_ip_addresses)
 
         if self.prefixes:
             lookups.append(self.refresh_prefixes)
@@ -2206,6 +2279,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
+        self.primary_ip_interface = self.get_option("primary_ip_interface")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
         self.racks = self.get_option("racks")
 

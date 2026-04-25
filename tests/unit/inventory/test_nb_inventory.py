@@ -163,7 +163,7 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, virtual_disks, interfaces, dns_name, ansible_host_dns_name, racks, expected, not_expected",
+    "plurals, services, virtual_disks, interfaces, dns_name, ansible_host_dns_name, primary_ip_interface, racks, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
@@ -174,6 +174,7 @@ def test_group_extractors(
     interfaces,
     dns_name,
     ansible_host_dns_name,
+    primary_ip_interface,
     racks,
     expected,
     not_expected,
@@ -184,6 +185,7 @@ def test_group_extractors(
     inventory_fixture.interfaces = interfaces
     inventory_fixture.dns_name = dns_name
     inventory_fixture.ansible_host_dns_name = ansible_host_dns_name
+    inventory_fixture.primary_ip_interface = primary_ip_interface
     inventory_fixture.racks = racks
     extractors = inventory_fixture.group_extractors
 
