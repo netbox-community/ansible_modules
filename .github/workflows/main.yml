@@ -148,12 +148,16 @@ jobs:
           # runme.sh can only see environment via a sourced runme_config file
           # when invoked through ansible-test.
           RUNME_CONFIG="tests/integration/targets/inventory-${{ matrix.VERSION }}/runme_config"
+          # Clean up the credential-bearing config even if the test fails.
+          trap 'rm -f "$RUNME_CONFIG"' EXIT
+          umask 077
           {
             echo "export NETBOX_VERSION=\"${{ matrix.VERSION }}\""
             if [[ -n "${NETBOX_TOKEN:-}" ]]; then
               echo "export NETBOX_TOKEN=\"$NETBOX_TOKEN\""
             fi
           } > "$RUNME_CONFIG"
+          chmod 600 "$RUNME_CONFIG"
 
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox

@@ -51,6 +51,7 @@ log "Provisioning v2 API token for user '$NETBOX_USERNAME' ..."
 BODY=$(jq -n --arg u "$NETBOX_USERNAME" --arg p "$NETBOX_PASSWORD" \
     '{username: $u, password: $p}')
 RESPONSE=$(curl -s -X POST \
+    --connect-timeout 10 -m 30 \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     "$NETBOX_URL/api/users/tokens/provision/" \
