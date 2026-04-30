@@ -7,7 +7,7 @@
 - name: "LOCATION 1: Necessary info creation"
   netbox.netbox.netbox_location:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Location
       site: Test Site
@@ -28,7 +28,7 @@
 - name: "LOCATION 2: Create duplicate"
   netbox.netbox.netbox_location:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Location
       site: Test Site
@@ -47,7 +47,7 @@
 - name: "LOCATION 3: Update"
   netbox.netbox.netbox_location:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Location
       parent_location: Parent Rack Group
@@ -70,7 +70,7 @@
 - name: "LOCATION 4: Delete"
   netbox.netbox.netbox_location:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Location
     state: absent

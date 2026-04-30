@@ -7,7 +7,7 @@
 - name: "PERMISSION 1: Necessary info creation"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
       actions:
@@ -28,7 +28,7 @@
 - name: "PERMISSION 2: Create duplicate"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
       actions:
@@ -47,7 +47,7 @@
 - name: "PERMISSION 3: Update"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
       description: The test permission
@@ -82,7 +82,7 @@
 - name: "PERMISSION 4: Create second permission"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission 2
       actions:
@@ -103,7 +103,7 @@
 - name: "PERMISSION 5: Add permission to group"
   netbox.netbox.netbox_user_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test User Group
       permissions:
@@ -120,7 +120,7 @@
 - name: "PERMISSION 6: Add permission to user"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
       password: TestPassword6
@@ -138,7 +138,7 @@
 - name: "PERMISSION 7: Delete"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
     state: absent
@@ -155,7 +155,7 @@
 - name: "PERMISSION 8: Delete non existing"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
     state: absent
@@ -171,7 +171,7 @@
 - name: "PERMISSION 9: Necessary permission"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
       description: The test permission
@@ -190,7 +190,7 @@
 - name: "PERMISSION 9: Re-create permission with lists in wrong order"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission
       description: The test permission

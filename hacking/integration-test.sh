@@ -142,6 +142,8 @@ run_test() {
 
     if [ -n "${NETBOX_TOKEN:-}" ]; then
         echo "Using NETBOX_TOKEN: ${NETBOX_TOKEN:0:20}..."
+        echo -n "$NETBOX_TOKEN" > /tmp/.netbox_test_token
+        chmod 600 /tmp/.netbox_test_token
         export NETBOX_TOKEN
 
         if [[ "$target" == inventory-* ]]; then
@@ -180,6 +182,8 @@ run_all_tests() {
 
     if [ -n "${NETBOX_TOKEN:-}" ]; then
         echo "Using NETBOX_TOKEN: ${NETBOX_TOKEN:0:20}..."
+        echo -n "$NETBOX_TOKEN" > /tmp/.netbox_test_token
+        chmod 600 /tmp/.netbox_test_token
         export NETBOX_TOKEN
     fi
 

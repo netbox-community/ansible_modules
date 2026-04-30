@@ -7,7 +7,7 @@
 - name: 1 - Test tenant group creation
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Tenant Group Two
   register: test_one
@@ -25,7 +25,7 @@
 - name: Test duplicate tenant group
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Tenant Group Two
   register: test_two
@@ -41,7 +41,7 @@
 - name: 3 - Test delete
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Tenant Group Two
     state: absent
@@ -58,7 +58,7 @@
 - name: 4 - Test tenant group creation with custom slug
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Tenant Group ABC
       slug: test_tenant_group_four
@@ -77,7 +77,7 @@
 - name: 5 - Test child tenant group creation
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Child Test Tenant Group
       parent_tenant_group: "{{ test_four.tenant_group.slug }}"
@@ -96,7 +96,7 @@
 - name: 6 - Test child tenant group deletion
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Child Test Tenant Group
     state: absent
@@ -113,7 +113,7 @@
 - name: 7 - Test deletion of the tenant group with custom slug
   netbox.netbox.netbox_tenant_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Tenant Group ABC
       slug: test_tenant_group_four

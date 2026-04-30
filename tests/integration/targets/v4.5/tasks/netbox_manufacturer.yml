@@ -7,7 +7,7 @@
 - name: "MANUFACTURER 1: Necessary info creation"
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Manufacturer Two
     state: present
@@ -26,7 +26,7 @@
 - name: "MANUFACTURER 2: Create duplicate"
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Manufacturer Two
     state: present
@@ -43,7 +43,7 @@
 - name: "MANUFACTURER 3: Update"
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: test manufacturer two
     state: present
@@ -60,7 +60,7 @@
 - name: "MANUFACTURER 4: ASSERT - Delete"
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: test manufacturer two
     state: absent
@@ -77,7 +77,7 @@
 - name: "MANUFACTURER 5: ASSERT - Delete non existing"
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Manufacturer Two
     state: absent

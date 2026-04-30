@@ -7,7 +7,7 @@
 - name: "USER 1: Necessary info creation"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
       password: TestPassword1
@@ -27,7 +27,7 @@
 - name: "USER 2: Update password"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
       password: TestPassword2
@@ -45,7 +45,7 @@
 - name: "USER 3: Update"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
       password: TestPassword3
@@ -72,7 +72,7 @@
 - name: "USER 4: Delete"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
     state: absent
@@ -89,7 +89,7 @@
 - name: "USER 5: Delete non existing"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser
     state: absent
@@ -105,7 +105,7 @@
 - name: "USER 6: Necessary group 1"
   netbox.netbox.netbox_user_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test User Group Alpha
     state: present
@@ -114,7 +114,7 @@
 - name: "USER 6: Necessary group 2"
   netbox.netbox.netbox_user_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test User Group Beta
     state: present
@@ -123,7 +123,7 @@
 - name: "User 6: Necessary permission 1"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission Foo
       actions:
@@ -135,7 +135,7 @@
 - name: "User 6: Necessary permission 2"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission Bar
       actions:
@@ -147,7 +147,7 @@
 - name: "User 6: Necessary permission 3"
   netbox.netbox.netbox_permission:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Test Permission Baz
       actions:
@@ -159,7 +159,7 @@
 - name: "USER 6: Set up user with multiple groups and permissions"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser2
       password: TestPassword2
@@ -175,7 +175,7 @@
 - name: "USER 6: Re-create user with lists in wrong order"
   netbox.netbox.netbox_user:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       username: TestUser2
       permissions:

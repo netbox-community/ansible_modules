@@ -4,7 +4,7 @@ minor_changes:
     CI for NetBox v4.5 now provisions a real v2 API token
     (``nbt_<KEY>.<TOKEN>``) at runtime via
     ``POST /api/users/tokens/provision/``, replacing the custom
-    ``super_user.py`` workaround that forced a legacy v1 token.
-    Integration and inventory test fixtures read the token from
-    ``$NETBOX_TOKEN`` with the historical static token as a fallback
-    for pre-v4.5 and local runs.
+    ``super_user.py`` workaround that forced a legacy v1 token. Integration
+    and inventory test fixtures read the token from ``$NETBOX_TOKEN`` or
+    ``/tmp/.netbox_test_token`` with the historical static token as a
+    fallback for pre-v4.5 and local runs.

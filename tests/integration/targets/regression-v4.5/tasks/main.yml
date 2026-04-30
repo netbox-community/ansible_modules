@@ -10,7 +10,7 @@
     - name: 1 - Device with required information
       netbox.netbox.netbox_device:
         netbox_url: http://some-random-invalid-URL
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: R1
           device_type: Cisco Test
@@ -30,7 +30,7 @@
     - name: 2 - Check to see if netbox_prefix with parent defined will pass via check-mode
       netbox.netbox.netbox_prefix:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           parent: 10.10.0.0/16
           prefix_length: 24
@@ -48,7 +48,7 @@
     - name: "3 - Add device with tags - Setup device to test #242"
       netbox.netbox.netbox_device:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: issue-242
           device_type: Cisco Test
@@ -62,7 +62,7 @@
     - name: "4 - Add device with tags out of order - shouldn't change - Tests #242 is fixed"
       netbox.netbox.netbox_device:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: issue-242
           device_type: Cisco Test
@@ -83,7 +83,7 @@
     - name: "5 - Add device with extra tag - Tests #242 is fixed"
       netbox.netbox.netbox_device:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: issue-242
           device_type: Cisco Test
@@ -108,7 +108,7 @@
     - name: "6 - Loop through and add interface templates to different device interface templates - Fixes #282"
       netbox.netbox.netbox_device_interface_template:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: SFP+ (10GE)
           type: SFP+ (10GE)
@@ -139,7 +139,7 @@
     - name: 7 - Don't prevent updates to other params if tags are specified
       netbox.netbox.netbox_device:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: issue-242
           device_type: Cisco Test
@@ -164,7 +164,7 @@
     - name: Add ip address to netbox and don't assign it to a device (Issue 372)
       netbox.netbox.netbox_ip_address:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           address: 10.255.255.1/24
         query_params:
@@ -175,7 +175,7 @@
     - name: Update same ip address to attach to a device interface (Issue 372)
       netbox.netbox.netbox_ip_address:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           address: 10.255.255.1/24
           assigned_object:
@@ -199,7 +199,7 @@
     - name: Validate failure due to invalid child params provided by user
       netbox.netbox.netbox_cable:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           termination_a_type: dcim.interface
           termination_a:
@@ -221,7 +221,7 @@
     - name: "Issue #432 - Make sure same IPs get assigned to different device interfaces"
       netbox.netbox.netbox_ip_address:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data: "{{ item }}"
       loop: "{{ data }}"
       register: test_results
@@ -269,7 +269,7 @@
     - name: "Issue #958 - Make sure we can add same location with different sites"
       netbox.netbox.netbox_location:
         netbox_url: http://localhost:32768
-        netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+        netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
         data:
           name: Office Building
           site: "{{ item }}"
@@ -286,7 +286,7 @@
 - name: "Issue #1413 - Update interface primary MAC by ID"
   netbox.netbox.netbox_device_interface:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       device: test100
       name: GigabitEthernet2
