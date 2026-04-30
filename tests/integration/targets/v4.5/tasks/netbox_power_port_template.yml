@@ -10,7 +10,7 @@
 - name: "POWER_PORT_TEMPLATE 0.1: Create device type for testing power ports on device types"
   netbox.netbox.netbox_device_type:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       model: Device Type Power Tests
       manufacturer: Test Manufacturer
@@ -19,7 +19,7 @@
 - name: "POWER_PORT_TEMPLATE 0.2: Create module type for testing power ports on module types"
   netbox.netbox.netbox_module_type:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       model: Module Type Power Tests
       manufacturer: Test Manufacturer
@@ -28,7 +28,7 @@
 - name: "POWER_PORT_TEMPLATE 1: Necessary info creation"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Port Template
       device_type: Device Type Power Tests
@@ -48,7 +48,7 @@
 - name: "POWER_PORT_TEMPLATE 2: Create duplicate"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Port Template
       device_type: Device Type Power Tests
@@ -66,7 +66,7 @@
 - name: "POWER_PORT_TEMPLATE 3: Update power_port_template with other fields"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Port Template
       device_type: Device Type Power Tests
@@ -93,7 +93,7 @@
 - name: "POWER_PORT_TEMPLATE 4: Create Power Port Template for Delete Test"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Port Template 2
       device_type: Device Type Power Tests
@@ -113,7 +113,7 @@
 - name: "POWER_PORT_TEMPLATE 5: Delete Power Port Template"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Port Template 2
       device_type: Device Type Power Tests
@@ -131,7 +131,7 @@
 - name: "POWER_PORT_TEMPLATE 6: Necessary info creation"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Module Power Port Template
       module_type: Module Type Power Tests
@@ -151,7 +151,7 @@
 - name: "POWER_PORT_TEMPLATE 7: Create duplicate"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Module Power Port Template
       module_type: Module Type Power Tests
@@ -169,7 +169,7 @@
 - name: "POWER_PORT_TEMPLATE 8: Update power_port_template with other fields"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Module Power Port Template
       module_type: Module Type Power Tests
@@ -196,7 +196,7 @@
 - name: "POWER_PORT_TEMPLATE 9: Delete Power Port Template"
   netbox.netbox.netbox_power_port_template:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Module Power Port Template
       module_type: Module Type Power Tests

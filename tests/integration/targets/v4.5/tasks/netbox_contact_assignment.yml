@@ -7,7 +7,7 @@
 - name: Setup - Create contact for assignment
   netbox.netbox.netbox_contact:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Contact For Assignment
     state: present
@@ -15,7 +15,7 @@
 - name: Setup - Create contact role for assignment
   netbox.netbox.netbox_contact_role:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Role For Assignment
     state: present
@@ -23,7 +23,7 @@
 - name: 1 - Setup - Create tenant to assign contact to
   netbox.netbox.netbox_tenant:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Tenant With Contact
     state: present
@@ -31,7 +31,7 @@
 - name: 1 - Assign contact to tenant
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: tenant
       object_name: Tenant With Contact
@@ -52,7 +52,7 @@
 - name: Test duplicate contact
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: tenant
       object_name: Tenant With Contact
@@ -70,7 +70,7 @@
 - name: 3 - Test update
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: tenant
       object_name: Tenant With Contact
@@ -95,7 +95,7 @@
 - name: 4 - Test delete
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: tenant
       object_name: Tenant With Contact
@@ -115,7 +115,7 @@
 - name: 5 - Setup - Create circuit to assign contact to
   netbox.netbox.netbox_circuit:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       cid: Circuit With Contact
       provider: Test Provider
@@ -125,7 +125,7 @@
 - name: 5 - Assign contact to circuit
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: circuit
       object_name: Circuit With Contact
@@ -146,7 +146,7 @@
 - name: 6 - Setup - Create provider to assign contact to
   netbox.netbox.netbox_provider:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Provider With Contact
     state: present
@@ -154,7 +154,7 @@
 - name: 6 - Assign contact to provider
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: provider
       object_name: Provider With Contact
@@ -175,7 +175,7 @@
 - name: 7 - Setup - Create device to assign contact to
   netbox.netbox.netbox_device:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Device With Contact
       device_type:
@@ -188,7 +188,7 @@
 - name: 7 - Assign contact to device
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: device
       object_name: Device With Contact
@@ -209,7 +209,7 @@
 - name: 8 - Setup - Create location to assign contact to
   netbox.netbox.netbox_location:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Location With Contact
       site: Test Site
@@ -218,7 +218,7 @@
 - name: 8 - Assign contact to location
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: location
       object_name: Location With Contact
@@ -239,7 +239,7 @@
 - name: 9 - Setup - Create manufacturer to assign contact to
   netbox.netbox.netbox_manufacturer:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Manufacturer With Contact
     state: present
@@ -247,7 +247,7 @@
 - name: 9 - Assign contact to manufacturer
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: manufacturer
       object_name: Manufacturer With Contact
@@ -268,7 +268,7 @@
 - name: 10 - Setup - Create power panel to assign contact to
   netbox.netbox.netbox_power_panel:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Power Panel With Contact
       site: Test Site
@@ -277,7 +277,7 @@
 - name: 10 - Assign contact to power panel
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: power_panel
       object_name: Power Panel With Contact
@@ -298,7 +298,7 @@
 - name: 11 - Setup - Create rack to assign contact to
   netbox.netbox.netbox_rack:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Rack With Contact
       site: Test Site
@@ -308,7 +308,7 @@
 - name: 11 - Assign contact to rack
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: rack
       object_name: Rack With Contact
@@ -329,7 +329,7 @@
 - name: 12 - Setup - Create region to assign contact to
   netbox.netbox.netbox_region:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Region With Contact
     state: present
@@ -337,7 +337,7 @@
 - name: 12 - Assign contact to region
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: region
       object_name: Region With Contact
@@ -358,7 +358,7 @@
 - name: 13 - Setup - Create site to assign contact to
   netbox.netbox.netbox_site:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Site With Contact
     state: present
@@ -366,7 +366,7 @@
 - name: 13 - Assign contact to site
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: site
       object_name: Site With Contact
@@ -387,7 +387,7 @@
 - name: 14 - Setup - Create site group to assign contact to
   netbox.netbox.netbox_site_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Site Group With Contact
     state: present
@@ -395,7 +395,7 @@
 - name: 14 - Assign contact to site group
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: site_group
       object_name: Site Group With Contact
@@ -416,7 +416,7 @@
 - name: 15 - Setup - Create cluster to assign contact to
   netbox.netbox.netbox_cluster:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Cluster With Contact
       cluster_type: Test Cluster Type
@@ -425,7 +425,7 @@
 - name: 15 - Assign contact to cluster
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: cluster
       object_name: Cluster With Contact
@@ -446,7 +446,7 @@
 - name: 16 - Setup - Create cluster group to assign contact to
   netbox.netbox.netbox_cluster_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Cluster Group With Contact
     state: present
@@ -454,7 +454,7 @@
 - name: 16 - Assign contact to cluster group
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: cluster_group
       object_name: Cluster Group With Contact
@@ -475,7 +475,7 @@
 - name: 17 - Setup - Create virtual machine to assign contact to
   netbox.netbox.netbox_virtual_machine:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       name: Virtual Machine With Contact
       cluster: Test Cluster
@@ -484,7 +484,7 @@
 - name: 17 - Assign contact to virtual machine
   netbox.netbox.netbox_contact_assignment:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       object_type: virtual_machine
       object_name: Virtual Machine With Contact

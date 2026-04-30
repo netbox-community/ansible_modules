@@ -7,7 +7,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 1: Create provider network within NetBox with only required information"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -26,7 +26,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 2: Duplicate"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -43,7 +43,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 3: Update provider network with other fields"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       provider: Test Provider
       name: Test Provider Network One
@@ -66,7 +66,7 @@
 - name: "NETBOX_PROVIDER_NETWORK 4: Delete provider within netbox"
   netbox.netbox.netbox_provider_network:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       provider: Test Provider
       name: Test Provider Network One

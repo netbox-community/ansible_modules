@@ -6,8 +6,8 @@
 # default. v2 tokens cannot be pre-seeded via SUPERUSER_API_TOKEN and must be
 # obtained at runtime using superuser credentials.
 #
-# Outputs the full token (nbt_<KEY>.<TOKEN>) on stdout and writes it to
-# /tmp/.netbox_test_token (chmod 600) and /tmp/netbox-token.env (sourceable).
+# Outputs the full token (nbt_<KEY>.<TOKEN>) on stdout and writes a sourceable
+# `export NETBOX_TOKEN=...` to /tmp/netbox-token.env (chmod 600).
 #
 set -euo pipefail
 
@@ -23,7 +23,6 @@ NETBOX_USERNAME="${NETBOX_USERNAME:-admin}"
 NETBOX_PASSWORD="${NETBOX_PASSWORD:-admin123456}"
 MAX_RETRIES="${MAX_RETRIES:-30}"
 RETRY_DELAY="${RETRY_DELAY:-5}"
-TOKEN_FILE="${TOKEN_FILE:-/tmp/.netbox_test_token}"
 TOKEN_ENV_FILE="${TOKEN_ENV_FILE:-/tmp/netbox-token.env}"
 
 log() { printf '%s\n' "$*" >&2; }
@@ -83,11 +82,10 @@ FULL_TOKEN="nbt_${KEY}.${TOKEN}"
 
 # Remove any pre-existing file first; `printf > file` preserves the existing
 # mode on truncation, so without this the chmod-600 claim below is unreliable.
-rm -f "$TOKEN_FILE" "$TOKEN_ENV_FILE"
+rm -f "$TOKEN_ENV_FILE"
 umask 077
-printf '%s' "$FULL_TOKEN" > "$TOKEN_FILE"
 printf 'export NETBOX_TOKEN=%q\n' "$FULL_TOKEN" > "$TOKEN_ENV_FILE"
-chmod 600 "$TOKEN_FILE" "$TOKEN_ENV_FILE"
+chmod 600 "$TOKEN_ENV_FILE"
 
-log "Provisioned v2 token (key=$KEY), written to $TOKEN_FILE and $TOKEN_ENV_FILE."
+log "Provisioned v2 token (key=$KEY), written to $TOKEN_ENV_FILE."
 echo "$FULL_TOKEN"

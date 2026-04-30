@@ -7,7 +7,7 @@
 - name: "FHRP group 1: Test FHRP group creation"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       protocol: glbp
       group_id: 111
@@ -27,7 +27,7 @@
 - name: "FHRP group 2: Create duplicate"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       protocol: glbp
       group_id: 111
@@ -45,7 +45,7 @@
 - name: "FHRP group 3: Update FHRP group with other fields"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       protocol: glbp
       group_id: 111
@@ -76,7 +76,7 @@
 - name: "FHRP group 4: ASSERT - Delete"
   netbox.netbox.netbox_fhrp_group:
     netbox_url: http://localhost:32768
-    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    netbox_token: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
     data:
       group_id: 111
     state: absent
