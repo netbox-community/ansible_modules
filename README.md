@@ -17,11 +17,10 @@ This Ansible collection consists of a set of modules to define the intended netw
 
 ## Installation
 
-### Python Modules and Ansible
+### Python Modules
 ```
 pip install pytz
 pip install pynetbox
-pip install ansible
 ```
 
 ### NetBox Ansible Collection
@@ -161,5 +160,3 @@ Some extra resources you might find useful for both the Ansible collection and f
 GNU General Public License v3.0 or later.
 
 See [LICENSE](https://github.com/netbox-community/ansible_modules/blob/devel/LICENSE) for the full text of the license.
-
-Link to the license that the collection is published under.
