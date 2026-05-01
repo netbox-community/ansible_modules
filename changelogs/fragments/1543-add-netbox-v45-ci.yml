@@ -1,6 +1,0 @@
----
-minor_changes:
-  - Add NetBox v4.5 support to CI matrix (netbox-docker 4.0.2)
-  - Update netbox_front_port and netbox_front_port_template modules to handle v4.5 removal of rear_port/rear_port_position fields (replaced by PortMapping model)
-  - Update netbox_user module to strip is_staff field on v4.5+ (removed from User model)
-  - Update netbox_token module to support v4.5 v2 tokens with description-based lookup

@@ -1,4 +1,0 @@
----
-minor_changes:
-  - Add NetBox v4.4 integration tests to CI matrix
-  - Add local integration test runner (hacking/integration-test.sh)
