@@ -1,0 +1,8 @@
+---
+rules:
+  indentation:
+    ignore: &default_ignores |
+      # automatically generated, we can't control it
+      changelogs/changelog.yaml
+      # Will be gone when we release and automatically reformatted
+      changelogs/fragments/*

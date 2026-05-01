@@ -1,0 +1,3 @@
+---
+trivial:
+  - "Incorporate Red Hat certification feedback - update README, add .yamllint for changelog lint suppression"
