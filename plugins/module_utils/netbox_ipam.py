@@ -7,14 +7,13 @@ __metaclass__ = type
 
 # Import necessary packages
 from ipaddress import ip_interface
-from ansible.module_utils._text import to_text
+from ansible.module_utils.common.text.converters import to_text
 
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
     SLUG_REQUIRED,
 )
-
 
 NB_AGGREGATES = "aggregates"
 NB_ASNS = "asns"

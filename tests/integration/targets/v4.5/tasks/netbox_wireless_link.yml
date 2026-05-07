@@ -1,0 +1,130 @@
+---
+##
+##
+### NETBOX_WIRELESS_LINK
+##
+##
+- name: 1 - Test wireless link creation
+  netbox.netbox.netbox_wireless_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      interface_a:
+        device: Test Nexus One
+        name: wlink1
+      interface_b:
+        device: test100
+        name: wlink1
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['wireless_link']['interface_a'] == 6
+      - test_one['wireless_link']['interface_b'] == 5
+      - test_one['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 created"
+
+- name: Test duplicate wireless link
+  netbox.netbox.netbox_wireless_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      interface_a:
+        device: Test Nexus One
+        name: wlink1
+      interface_b:
+        device: test100
+        name: wlink1
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 already exists"
+
+- name: 3 - Test update
+  netbox.netbox.netbox_wireless_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      interface_a:
+        device: Test Nexus One
+        name: wlink1
+      interface_b:
+        device: test100
+        name: wlink1
+      status: planned
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['status'] == "planned"
+      - test_three['wireless_link']['status'] == "planned"
+      - test_three['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 updated"
+
+- name: 4 - Test delete
+  netbox.netbox.netbox_wireless_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      interface_a:
+        device: Test Nexus One
+        name: wlink1
+      interface_b:
+        device: test100
+        name: wlink1
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 deleted"
+
+- name: 5 - Create wireless link with all parameters
+  netbox.netbox.netbox_wireless_link:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      interface_a:
+        device: Test Nexus One
+        name: wlink1
+      interface_b:
+        device: test100
+        name: wlink1
+      ssid: Wireless Network One
+      description: Cool Wireless Network
+      auth_type: wpa-enterprise
+      auth_cipher: aes
+      auth_psk: psk123456
+      tags:
+        - tagA
+        - tagB
+        - tagC
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['wireless_link']['ssid'] == "Wireless Network One"
+      - test_five['wireless_link']['description'] == "Cool Wireless Network"
+      - test_five['wireless_link']['interface_a'] == 6
+      - test_five['wireless_link']['interface_b'] == 5
+      - test_five['wireless_link']['auth_type'] == "wpa-enterprise"
+      - test_five['wireless_link']['auth_cipher'] == "aes"
+      - test_five['wireless_link']['auth_psk'] == "psk123456"
+      # - test_five['wireless_link']['tags'] | length == 3
+      - test_five['msg'] == "wireless_link Test Nexus One wlink1 <> test100 wlink1 created"

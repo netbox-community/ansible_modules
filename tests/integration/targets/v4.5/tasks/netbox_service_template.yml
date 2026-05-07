@@ -1,0 +1,115 @@
+---
+##
+##
+### NETBOX_SERVICE_TEMPLATE
+##
+##
+- name: "SERVICE_TEMPLATE 1: Necessary info creation"
+  netbox.netbox.netbox_service_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Service Template for SSH
+      ports:
+        - 22
+      protocol: tcp
+    state: present
+  register: test_one
+
+- name: "SERVICE_TEMPLATE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['service_template']['name'] == "Service Template for SSH"
+      - test_one['service_template']['ports'] == [22]
+      - test_one['service_template']['protocol'] == "tcp"
+      - test_one['msg'] == "service_template Service Template for SSH created"
+
+- name: "SERVICE_TEMPLATE 2: Create duplicate"
+  netbox.netbox.netbox_service_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Service Template for SSH
+      ports:
+        - 22
+      protocol: tcp
+    state: present
+  register: test_two
+
+- name: "SERVICE_TEMPLATE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['service_template']['name'] == "Service Template for SSH"
+      - test_two['service_template']['ports'] == [22]
+      - test_two['service_template']['protocol'] == "tcp"
+      - test_two['msg'] == "service_template Service Template for SSH already exists"
+
+- name: "SERVICE_TEMPLATE 3: Update Service Template with other fields"
+  netbox.netbox.netbox_service_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Service Template for SSH
+      ports:
+        - 22
+      protocol: tcp
+      comments: For SSH service
+    state: present
+  register: test_three
+
+- name: "SERVICE_TEMPLATE 3: ASSERT - Update Service Template with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['comments'] == "For SSH service"
+      - test_three['service_template']['name'] == "Service Template for SSH"
+      - test_three['service_template']['ports'] == [22]
+      - test_three['service_template']['protocol'] == "tcp"
+      - test_three['service_template']['comments'] == "For SSH service"
+      - test_three['msg'] == "service_template Service Template for SSH updated"
+
+- name: "SERVICE_TEMPLATE 4: Create Service Template for Delete Test"
+  netbox.netbox.netbox_service_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Service Template for DNS
+      ports:
+        - 53
+      protocol: udp
+      comments: Domain Name System
+    state: present
+  register: test_four
+
+- name: "SERVICE_TEMPLATE 4: ASSERT - Create Service Template for Delete Test"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['service_template']['name'] == "Service Template for DNS"
+      - test_four['service_template']['ports'] == [53]
+      - test_four['service_template']['protocol'] == "udp"
+      - test_four['service_template']['comments'] == "Domain Name System"
+      - test_four['msg'] == "service_template Service Template for DNS created"
+
+- name: "SERVICE_TEMPLATE 5: Delete Service Template"
+  netbox.netbox.netbox_service_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Service Template for DNS
+    state: absent
+  register: test_five
+
+- name: "SERVICE_TEMPLATE 5: ASSERT - Delete Service Template"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "service_template Service Template for DNS deleted"

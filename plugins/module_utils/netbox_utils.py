@@ -14,8 +14,7 @@ import re
 import json
 from itertools import chain
 
-from ansible.module_utils.common.text.converters import to_text
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native, to_text
 from ansible.module_utils.common.collections import is_iterable
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib, _load_params
 from ansible.module_utils.urls import open_url
@@ -201,6 +200,7 @@ QUERY_TYPES = dict(
     primary_ip6="address",
     oob_ip="address",
     permissions="name",
+    primary_mac_address="mac_address",
     provider="slug",
     provider_network="name",
     rack="name",
@@ -845,6 +845,7 @@ class NetboxModule(object):
                 headers = json.load(headers)
             if isinstance(headers, dict):
                 session.headers.update(headers)
+            session.headers.setdefault("Authorization", "Token %s" % token)
             if cert:
                 session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
@@ -1402,6 +1403,14 @@ class NetboxModule(object):
                         )
                     else:
                         query_params = {QUERY_TYPES.get(k, "q"): search}
+                        allowed = ALLOWED_QUERY_PARAMS.get(k)
+                        if allowed:
+                            for param in ("device", "virtual_machine"):
+                                if param in allowed and param in data:
+                                    if isinstance(data[param], int):
+                                        query_params[param + "_id"] = data[param]
+                                    else:
+                                        query_params[param] = data[param]
                     query_id = self._nb_endpoint_get(nb_endpoint, query_params, k)
 
                 if isinstance(v, list):
@@ -1424,10 +1433,11 @@ class NetboxModule(object):
             return value
         elif isinstance(value, int):
             return value
-        else:
-            removed_chars = re.sub(r"[^\-\.\w\s]", "", value)
-            convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
-            return convert_chars.strip().lower()
+
+        value = re.sub(r"[^\-.\w\s]", "", value)
+        value = re.sub(r"^[\s.]+|[\s.]+$", "", value)
+        value = re.sub(r"[-.\s]+", "-", value)
+        return value.strip().lower()
 
     def _normalize_data(self, data):
         """
@@ -1445,10 +1455,16 @@ class NetboxModule(object):
                         pass
                 else:
                     for subk, subv in v.items():
+                        if subk == "slug":
+                            continue
+
                         sub_data_type = QUERY_TYPES.get(subk, "q")
                         if sub_data_type == "slug":
                             data[k][subk] = self._to_slug(subv)
             else:
+                if k == "slug":
+                    continue
+
                 if k == "scope":
                     data_type = QUERY_TYPES.get(
                         ENDPOINT_NAME_MAPPING[SCOPE_TO_ENDPOINT[data["scope_type"]]],

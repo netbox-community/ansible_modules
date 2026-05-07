@@ -299,3 +299,24 @@
   ansible.builtin.assert:
     that:
       - test_results['interface']['primary_mac_address'] == 3
+
+- name: "Issue #1509 - Update netbox vm interface primary MAC by ID"
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: test100-vm
+      name: Eth1
+      primary_mac_address:
+        id: 6
+    state: present
+  register: test_results
+
+- name: "ASSERT Issue #1509"
+  ansible.builtin.assert:
+    that:
+      - test_results is changed
+      - test_results['msg'] == "interface Eth1 updated"
+      - test_results['interface']['name'] == "Eth1"
+      - test_results['interface']['virtual_machine'] == 1
+      - test_results['interface']['primary_mac_address'] == 6

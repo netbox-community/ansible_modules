@@ -402,12 +402,11 @@ from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
-from ansible.module_utils._text import to_text, to_native
+from ansible.module_utils.common.text.converters import to_text, to_native
 from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
-
 
 try:
     from packaging import specifiers, version
@@ -1038,7 +1037,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
         # Don"t assign a host_var for empty dns_name
-        if ip_address.get("dns_name") == "":
+        if ip_address is None or ip_address.get("dns_name") == "":
             return None
 
         return ip_address.get("dns_name")

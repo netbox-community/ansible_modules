@@ -34,8 +34,14 @@ options:
       device_type:
         description:
           - The device type the rear port template is attached to
-        required: true
+          - Either I(device_type) or I(module_type) are required
         type: raw
+      module_type:
+        description:
+          - The module type the rear port template is attached to
+          - Either I(device_type) or I(module_type) are required
+        type: raw
+        version_added: "3.23.0"
       name:
         description:
           - The name of the rear port template
@@ -97,6 +103,16 @@ EXAMPLES = r"""
           type: bnc
         state: present
 
+    - name: Create rear port template for a module type within NetBox
+      netbox.netbox.netbox_rear_port_template:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          name: Test Rear Port Template
+          module_type: Test Module Type
+          type: bnc
+        state: present
+
     - name: Update rear port template with other fields
       netbox.netbox.netbox_rear_port_template:
         netbox_url: http://netbox.local
@@ -152,7 +168,8 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    device_type=dict(required=True, type="raw"),
+                    device_type=dict(required=False, type="raw"),
+                    module_type=dict(required=False, type="raw"),
                     name=dict(required=True, type="str"),
                     type=dict(
                         required=False,
@@ -183,12 +200,19 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["device_type", "name", "type"]),
-        ("state", "absent", ["device_type", "name", "type"]),
+        ("state", "present", ["name", "type"]),
+        ("state", "absent", ["name", "type"]),
+    ]
+
+    required_one_of = [
+        ("device_type", "module_type"),
     ]
 
     module = NetboxAnsibleModule(
-        argument_spec=argument_spec, supports_check_mode=True, required_if=required_if
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+        required_one_of=required_one_of,
     )
 
     netbox_rear_port_template = NetboxDcimModule(module, NB_REAR_PORT_TEMPLATES)

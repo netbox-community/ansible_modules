@@ -157,3 +157,23 @@
       # - test_five['interface']['tagged_vlans'] == [2, 3]
       - test_five['interface']['tags'][0] == 4
       - test_five['msg'] == "interface Eth0 updated"
+
+- name: "NETBOX_VM_INTERFACE 6: Assign primary mac address"
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: test100-vm
+      name: Eth1
+      primary_mac_address: "BB:BC:DD:EE:FF:AA"
+    state: present
+  register: test_six
+
+- name: "NETBOX_VM_INTERFACE 6: ASSERT - Updated"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['msg'] == "interface Eth1 updated"
+      - test_six['interface']['name'] == "Eth1"
+      - test_six['interface']['virtual_machine'] == 1
+      - test_six['interface']['primary_mac_address'] == 5

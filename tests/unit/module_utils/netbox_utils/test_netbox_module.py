@@ -183,6 +183,29 @@ def test_init(mock_netbox_module, find_ids_return):
     assert mock_netbox_module.data == find_ids_return
 
 
+def test_connect_netbox_api_sets_authorization_header(mocker, mock_netbox_module):
+    nb_client = mocker.Mock(name="pynetbox.api")
+    nb_client.version = "4.4"
+    nb_client.status.return_value = {"netbox-version": "4.4.9"}
+    pynetbox_api = mocker.patch(
+        "%s.pynetbox.api" % MOCKER_PATCH_PATH.rsplit(".", 1)[0], return_value=nb_client
+    )
+
+    netbox = mock_netbox_module._connect_netbox_api(
+        "http://netbox.local/",
+        "0123456789",
+        False,
+        None,
+        {"X-Test-Header": "present"},
+    )
+
+    pynetbox_api.assert_called_once_with("http://netbox.local/", token="0123456789")
+    assert netbox is nb_client
+    assert nb_client.http_session.verify is False
+    assert nb_client.http_session.headers["Authorization"] == "Token 0123456789"
+    assert nb_client.http_session.headers["X-Test-Header"] == "present"
+
+
 @pytest.mark.parametrize("before, after", load_relative_test_data("normalize_data"))
 def test_normalize_data_returns_correct_data(mock_netbox_module, before, after):
     norm_data = mock_netbox_module._normalize_data(before)
