@@ -1,7 +1,0 @@
----
-bugfixes:
-  - Adjust regex pattern for character conversion for slugs
-  - Only do slug generation in netbox_secret if needed
-  - Make slug generation optional by providing `slug` key
-breaking_changes:
-  - This changes the behavior for generating slugs. If you were relying on the previous behavior, you need to be aware that this behavior has changed.

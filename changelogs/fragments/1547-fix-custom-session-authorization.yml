@@ -1,3 +1,0 @@
----
-bugfixes:
-  - Preserve the Authorization header when creating a custom NetBox API session, fixing authenticated requests with `validate_certs=false`

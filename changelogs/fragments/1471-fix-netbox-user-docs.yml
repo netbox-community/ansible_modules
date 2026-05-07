@@ -1,3 +1,0 @@
----
-trivial:
-  - "netbox_user - Fix incorrect parameter name and use RFC 2606 example domains in module documentation"

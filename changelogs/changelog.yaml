@@ -854,44 +854,45 @@ releases:
     release_date: '2025-03-04'
   3.22.0:
     changes:
-      minor_changes:
-      - Change `netbox_contact.contact_group` to `contact_groups`
-      - Add integration tests for contact groups
-      - Add support for custom headers for all modules
-      - Fix ansible-bad-import-from pylint errors
-      - Fix broken code path when using old api path on old netbox systems
-      - add workaround to _build_query_params for services and Netbox 4.3.0 - 4.4.3 (wrong parent_object_type data type)
-      - netbox_circuit_termination - Add parameters termination_id and termination_type for NetBox 4.2+
-      - netbox_tag - Add support for object_types on tags
-      - improve version_check_greater to be more universal
-      - sanitize netbox versions received from api
-      - test suite expanded to run on Python 3.11, 3.12, and 3.13.
-      - Make the unit-test data structures more flexible.
-      - Remove abandoned unit-test data.
-      - user.groups, user.permissions, user_group.permissions, permission.actions, and permission.object_types are now treated as unordered sets for update comparison purposes.
-      - rename variable version to api_version.
-      - rename variable full_version to netbox_version.
-      - add yamllint to project pipeline.
       bugfixes:
-      - Fix task duplicate task name in documentation that cause ansible-lint error
-      - nb_inventory - Fix service collection for version greater than 4.3
-      - Add netbox version check to support service creation for netbox version prior of 4.3
-      - Use dedicated function to check netbox version istead of self.full_version for rack.
-      - Fix typos in tag integration tests.
+      - Add netbox version check to support service creation for netbox version prior
+        of 4.3
       - Fix integration test for circuit termination, missing assignment
       - Fix integration test for service
-      - "nb_device_interface: Fix specifying primary_mac_address objects by id for disambiguation"
-      - add parent_object_type and parent_object_id to services ALLOWED_QUERY_PARAMS
-      - nb_inventory - Fixed empty inventory results when netbox server URL is a non-root path
+      - Fix task duplicate task name in documentation that cause ansible-lint error
+      - Fix typos in tag integration tests.
       - Support for related_object_filter when related_object_type is "object"
+      - Use dedicated function to check netbox version istead of self.full_version
+        for rack.
+      - add parent_object_type and parent_object_id to services ALLOWED_QUERY_PARAMS
+      - 'nb_device_interface: Fix specifying primary_mac_address objects by id for
+        disambiguation'
+      - nb_inventory - Fix service collection for version greater than 4.3
+      - nb_inventory - Fixed empty inventory results when netbox server URL is a non-root
+        path
       - netbox_service - Fix issue 1426 - broken netbox_service module
-    modules:
-    - description: Manage data sources in NetBox
-      name: netbox_data_source
-      namespace: ''
-    - description: Manage contact assignments in NetBox
-      name: netbox_contact_assignment
-      namespace: ''
+      minor_changes:
+      - Add integration tests for contact groups
+      - Add support for custom headers for all modules
+      - Change `netbox_contact.contact_group` to `contact_groups`
+      - Fix ansible-bad-import-from pylint errors
+      - Fix broken code path when using old api path on old netbox systems
+      - Make the unit-test data structures more flexible.
+      - Remove abandoned unit-test data.
+      - add workaround to _build_query_params for services and Netbox 4.3.0 - 4.4.3
+        (wrong parent_object_type data type)
+      - add yamllint to project pipeline.
+      - improve version_check_greater to be more universal
+      - netbox_circuit_termination - Add parameters termination_id and termination_type
+        for NetBox 4.2+
+      - netbox_tag - Add support for object_types on tags
+      - rename variable full_version to netbox_version.
+      - rename variable version to api_version.
+      - sanitize netbox versions received from api
+      - test suite expanded to run on Python 3.11, 3.12, and 3.13.
+      - user.groups, user.permissions, user_group.permissions, permission.actions,
+        and permission.object_types are now treated as unordered sets for update comparison
+        purposes.
     fragments:
     - 1182-fix-contact-groups.yml
     - 1433-add-custom-headers.yml
@@ -917,6 +918,61 @@ releases:
     - version_api.yml
     - version_netbox.yml
     - yamllint.yml
+    modules:
+    - description: Manage contact assignments in NetBox
+      name: netbox_contact_assignment
+      namespace: ''
+    - description: Manage data sources in NetBox
+      name: netbox_data_source
+      namespace: ''
+  3.23.0:
+    changes:
+      breaking_changes:
+      - This changes the behavior for generating slugs. If you were relying on the
+        previous behavior, you need to be aware that this behavior has changed.
+      bugfixes:
+      - Adjust regex pattern for character conversion for slugs
+      - Automatically include device and virtual_machine scoping in sub-object queries
+        to prevent "More than one result returned" errors
+      - Fix specifying primary_mac_address objects by id on vm interfaces for disambiguation
+      - Make slug generation optional by providing `slug` key
+      - Only do slug generation in netbox_secret if needed
+      - Preserve the Authorization header when creating a custom NetBox API session,
+        fixing authenticated requests with `validate_certs=false`
+      - nb_inventory - Fix AttributeError when `ip_address` is None during DNS name
+        lookup
+      minor_changes:
+      - Add NetBox v4.4 integration tests to CI matrix
+      - Add NetBox v4.5 support to CI matrix (netbox-docker 4.0.2)
+      - Add `module_type` as supported to `netbox_front_port_template`
+      - Add `module_type` as supported to `netbox_rear_port_template`
+      - Add local integration test runner (hacking/integration-test.sh)
+      - Fix linting issues with newly released black version
+      - Update netbox_front_port and netbox_front_port_template modules to handle
+        v4.5 removal of rear_port/rear_port_position fields (replaced by PortMapping
+        model)
+      - Update netbox_token module to support v4.5 v2 tokens with description-based
+        lookup
+      - Update netbox_user module to strip is_staff field on v4.5+ (removed from User
+        model)
+      - Use `ansible.module_utils.common.text.converters` instead of the deprecated
+        `ansible.module_utils._text`
+      - netbox_vlan_group - Add tenant field support (https://github.com/netbox-community/ansible_modules/issues/1446)
+    fragments:
+    - 1471-fix-netbox-user-docs.yml
+    - 1499-rework-slugify.yml
+    - 1508-fix-mac-lookup-by-id-vm-interface.yml
+    - 1535-add-netbox-v44-ci.yml
+    - 1543-add-netbox-v45-ci.yml
+    - 1547-fix-custom-session-authorization.yml
+    - add-tenant-to-vlan-group.yml
+    - black-lint-update.yaml
+    - deprecated-to-text.yml
+    - fix-ip-address-dns-check.yml
+    - fix-more-than-one-result-scoping.yml
+    - module_type_template.yml
+    - redhat-feedback-fixes.yml
+    release_date: '2026-05-01'
   3.3.0:
     changes:
       minor_changes:

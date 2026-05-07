@@ -22,7 +22,7 @@ netbox.netbox.netbox_token module -- Creates or removes tokens from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.23.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -193,6 +193,8 @@ Parameters
 
       The description of the token to be created
 
+      On v4.5+, used together with user for idempotent token lookup (since key-based lookup is not available for v2 tokens).
+
 
       .. raw:: html
 
@@ -261,7 +263,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`string` / :ansible-option-required:`required`
+        :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -275,7 +277,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Key of the token to be created. Must be exactly 40 characters
+      Key of the token to be created. Must be exactly 40 characters.
+
+      Required for NetBox \< v4.5 (v1 tokens). Optional on v4.5+ (v2 tokens auto-generate keys).
 
 
       .. raw:: html
