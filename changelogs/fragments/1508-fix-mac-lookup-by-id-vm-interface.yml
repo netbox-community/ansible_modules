@@ -1,3 +1,0 @@
----
-bugfixes:
-  - "Fix specifying primary_mac_address objects by id on vm interfaces for disambiguation"

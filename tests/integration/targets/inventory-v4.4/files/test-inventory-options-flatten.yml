@@ -1,0 +1,41 @@
+---
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:32768
+token: "0123456789abcdef0123456789abcdef01234567"
+validate_certs: false
+
+# Use cache on this test to make sure interfaces is tested via the cache
+cache: true
+cache_timeout: 3600
+cache_plugin: jsonfile
+cache_connection: /tmp/inventory_netbox
+
+config_context: true
+flatten_config_context: true
+flatten_custom_fields: true
+flatten_local_context_data: true
+plurals: false
+interfaces: true
+services: true
+fetch_all: false
+max_uri_length: 0
+group_names_raw: true
+
+group_by:
+  - site
+  - tenant
+  - rack
+  - location
+  - rack_role
+  - tag
+  - role
+  - device_type
+  - manufacturer
+  - platform
+  - region
+  - site_group
+  - cluster
+  - cluster_group
+  - cluster_type
+  - is_virtual
+  - status

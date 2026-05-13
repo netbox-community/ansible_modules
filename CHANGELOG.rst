@@ -4,6 +4,40 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.23.0
+=======
+
+Minor Changes
+-------------
+
+- Add NetBox v4.4 integration tests to CI matrix
+- Add NetBox v4.5 support to CI matrix (netbox-docker 4.0.2)
+- Add `module_type` as supported to `netbox_front_port_template`
+- Add `module_type` as supported to `netbox_rear_port_template`
+- Add local integration test runner (hacking/integration-test.sh)
+- Fix linting issues with newly released black version
+- Update netbox_front_port and netbox_front_port_template modules to handle v4.5 removal of rear_port/rear_port_position fields (replaced by PortMapping model)
+- Update netbox_token module to support v4.5 v2 tokens with description-based lookup
+- Update netbox_user module to strip is_staff field on v4.5+ (removed from User model)
+- Use `ansible.module_utils.common.text.converters` instead of the deprecated `ansible.module_utils._text`
+- netbox_vlan_group - Add tenant field support (https://github.com/netbox-community/ansible_modules/issues/1446)
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- This changes the behavior for generating slugs. If you were relying on the previous behavior, you need to be aware that this behavior has changed.
+
+Bugfixes
+--------
+
+- Adjust regex pattern for character conversion for slugs
+- Automatically include device and virtual_machine scoping in sub-object queries to prevent "More than one result returned" errors
+- Fix specifying primary_mac_address objects by id on vm interfaces for disambiguation
+- Make slug generation optional by providing `slug` key
+- Only do slug generation in netbox_secret if needed
+- Preserve the Authorization header when creating a custom NetBox API session, fixing authenticated requests with `validate_certs=false`
+- nb_inventory - Fix AttributeError when `ip_address` is None during DNS name lookup
+
 v3.22.0
 =======
 

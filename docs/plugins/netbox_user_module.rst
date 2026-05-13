@@ -22,7 +22,7 @@ netbox.netbox.netbox_user module -- Creates or removes users from NetBox
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.23.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -368,6 +368,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Staff status of the user to be created
+
+      Only supported on NetBox \< v4.5. Ignored on v4.5+ (field removed).
 
 
       .. rst-class:: ansible-option-line
@@ -818,7 +820,7 @@ Examples
             netbox_token: thisIsMyToken
             data:
               username: MyUser
-              password: my@user.com
+              email: my@example.com
             state: present
 
         - name: Delete user within netbox
@@ -836,7 +838,7 @@ Examples
             data:
               username: MyUser2
               password: MyPassword
-              email: my@user.com
+              email: my@example.com
               first_name: My
               last_name: User
             state: present

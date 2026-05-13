@@ -64,7 +64,8 @@ options:
       rear_port:
         description:
           - The rear_port the front port is attached to
-        required: true
+          - Required for NetBox < v4.5. Ignored on v4.5+ (replaced by PortMapping model).
+        required: false
         type: raw
       rear_port_position:
         description:
@@ -188,7 +189,7 @@ def main():
                         ],
                         type="str",
                     ),
-                    rear_port=dict(required=True, type="raw"),
+                    rear_port=dict(required=False, type="raw"),
                     rear_port_position=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     label=dict(required=False, type="str"),
@@ -199,8 +200,8 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["device", "name", "type", "rear_port"]),
-        ("state", "absent", ["device", "name", "type", "rear_port"]),
+        ("state", "present", ["device", "name", "type"]),
+        ("state", "absent", ["device", "name", "type"]),
     ]
 
     module = NetboxAnsibleModule(

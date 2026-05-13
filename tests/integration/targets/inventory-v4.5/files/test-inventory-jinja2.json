@@ -1,0 +1,674 @@
+{
+    "Test_Cluster": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "Virtual Machine With Contact"
+        ]
+    },
+    "Test_Cluster_2": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test104-vm"
+        ]
+    },
+    "Test_Rack": {
+        "hosts": [
+            "TestDeviceR1"
+        ]
+    },
+    "Test_Rack_Site_2": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
+    "_meta": {
+        "hostvars": {
+            "Device Power Tests": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Device Virtual Chassis Tests 2": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Device With Contact": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "FOR_SERVICE": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "First VC": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "L1": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "nolookup"
+                ]
+            },
+            "L2": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site2",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "lookup"
+                ]
+            },
+            "R1-Device": {
+                "asset_tag": "345678901",
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "rack": "Test Rack Site 2",
+                "rack_id": "1",
+                "rack_role": "test-rack-role",
+                "regions": [],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site2",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Test VM With Spaces": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "TestDeviceR1": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturer": "cisco",
+                "rack": "Test Rack",
+                "rack_id": "2",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "FAB12345678",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "VC1": {
+                "ansible_host": "nexus.example.com",
+                "custom_fields": {},
+                "device_type": "nexus-parent",
+                "dns_name": "nexus.example.com",
+                "is_virtual": false,
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.12",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "Virtual Machine With Contact": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573": {
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": []
+            },
+            "issue-242": {
+                "asset_tag": "Null",
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "locations": [],
+                "manufacturer": "cisco",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Staged",
+                    "value": "staged"
+                },
+                "tags": [
+                    "first",
+                    "second",
+                    "third"
+                ]
+            },
+            "test100": {
+                "ansible_host": "2001::1:1",
+                "asset_tag": "123456789",
+                "custom_fields": {},
+                "device_type": "cisco-test",
+                "is_virtual": false,
+                "local_context_data": {
+                    "ntp_servers": [
+                        "pool.ntp.org"
+                    ]
+                },
+                "locations": [
+                    "test-rack-group",
+                    "parent-rack-group"
+                ],
+                "manufacturer": "cisco",
+                "primary_ip4": "172.16.180.1",
+                "primary_ip6": "2001::1:1",
+                "regions": [
+                    "test-region",
+                    "parent-region"
+                ],
+                "role": "core-switch",
+                "serial": "FAB01234567",
+                "site": "test-site",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test100-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "disk": 170,
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test101-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test102-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test103-vm": {
+                "cluster": "Test Cluster",
+                "cluster_group": "test-cluster-group",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            },
+            "test104-vm": {
+                "cluster": "Test Cluster 2",
+                "cluster_type": "test-cluster-type",
+                "custom_fields": {},
+                "is_virtual": true,
+                "locations": [],
+                "regions": [],
+                "serial": "",
+                "site_groups": [],
+                "status": {
+                    "label": "Active",
+                    "value": "active"
+                },
+                "tags": []
+            }
+        }
+    },
+    "active": {
+        "hosts": [
+            "Device Power Tests",
+            "First VC",
+            "Device Virtual Chassis Tests 2",
+            "R1-Device",
+            "VC1",
+            "test100",
+            "TestDeviceR1",
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm",
+            "Virtual Machine With Contact"
+        ]
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "site_with_contact",
+            "test_site2",
+            "other_region",
+            "parent_region",
+            "region_with_contact",
+            "other_site_group",
+            "parent_site_group",
+            "site_group_with_contact",
+            "core_switch",
+            "cisco_test",
+            "cisco",
+            "staged",
+            "active",
+            "first",
+            "second",
+            "third",
+            "nolookup",
+            "lookup",
+            "Test_Rack_Site_2",
+            "test_rack_role",
+            "nexus_parent",
+            "jinja_test_group",
+            "Test_Rack",
+            "Test_Cluster_2",
+            "test_cluster_type",
+            "is_virtual",
+            "Test_Cluster",
+            "test_cluster_group"
+        ]
+    },
+    "cisco": {
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device Power Tests",
+            "First VC",
+            "Device Virtual Chassis Tests 2",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1",
+            "L2",
+            "R1-Device",
+            "VC1",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "cisco_test": {
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device Power Tests",
+            "First VC",
+            "Device Virtual Chassis Tests 2",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1",
+            "L2",
+            "R1-Device",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "core_switch": {
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device Power Tests",
+            "First VC",
+            "Device Virtual Chassis Tests 2",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1",
+            "L2",
+            "R1-Device",
+            "VC1",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "first": {
+        "hosts": [
+            "issue-242"
+        ]
+    },
+    "is_virtual": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm",
+            "Virtual Machine With Contact"
+        ]
+    },
+    "jinja_test_group": {
+        "hosts": [
+            "TestDeviceR1",
+            "Test VM With Spaces"
+        ]
+    },
+    "lookup": {
+        "hosts": [
+            "L2"
+        ]
+    },
+    "nexus_parent": {
+        "hosts": [
+            "VC1"
+        ]
+    },
+    "nolookup": {
+        "hosts": [
+            "L1"
+        ]
+    },
+    "parent_rack_group": {
+        "children": [
+            "test_rack_group"
+        ]
+    },
+    "parent_region": {
+        "children": [
+            "test_region"
+        ]
+    },
+    "parent_site_group": {
+        "children": [
+            "test_site_group"
+        ]
+    },
+    "second": {
+        "hosts": [
+            "issue-242"
+        ]
+    },
+    "staged": {
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1",
+            "L2"
+        ]
+    },
+    "test_cluster_group": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "Virtual Machine With Contact"
+        ]
+    },
+    "test_cluster_type": {
+        "hosts": [
+            "Test VM With Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm",
+            "Virtual Machine With Contact"
+        ]
+    },
+    "test_rack_group": {
+        "hosts": [
+            "VC1",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "test_rack_role": {
+        "hosts": [
+            "R1-Device"
+        ]
+    },
+    "test_region": {
+        "children": [
+            "test_california",
+            "test_site"
+        ]
+    },
+    "test_site": {
+        "children": [
+            "location_with_contact",
+            "office_building",
+            "parent_rack_group"
+        ],
+        "hosts": [
+            "b6b98683-14a0-4991-b4ac-b88e5fe81573",
+            "Device Power Tests",
+            "First VC",
+            "Device Virtual Chassis Tests 2",
+            "Device With Contact",
+            "FOR_SERVICE",
+            "issue-242",
+            "L1"
+        ]
+    },
+    "test_site2": {
+        "children": [
+            "office_building"
+        ],
+        "hosts": [
+            "L2",
+            "R1-Device"
+        ]
+    },
+    "test_site_group": {
+        "children": [
+            "test_california"
+        ]
+    },
+    "third": {
+        "hosts": [
+            "issue-242"
+        ]
+    }
+}

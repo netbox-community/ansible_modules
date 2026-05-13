@@ -1,0 +1,105 @@
+---
+# © 2020 Nokia
+# Licensed under the GNU General Public License v3.0 only
+# SPDX-License-Identifier: GPL-3.0-only
+##
+##
+### NETBOX_CONSOLE_PORT_TEMPLATE
+##
+##
+- name: "CONSOLE_PORT_TEMPLATE 1: Necessary info creation"
+  netbox.netbox.netbox_console_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Console Port Template
+      device_type: Cisco Test
+    state: present
+  register: test_one
+
+- name: "CONSOLE_PORT_TEMPLATE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['console_port_template']['name'] == "Console Port Template"
+      - test_one['console_port_template']['device_type'] == 1
+      - test_one['msg'] == "console_port_template Console Port Template created"
+
+- name: "CONSOLE_PORT_TEMPLATE 2: Create duplicate"
+  netbox.netbox.netbox_console_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Console Port Template
+      device_type: Cisco Test
+    state: present
+  register: test_two
+
+- name: "CONSOLE_PORT_TEMPLATE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['console_port_template']['name'] == "Console Port Template"
+      - test_two['console_port_template']['device_type'] == 1
+      - test_two['msg'] == "console_port_template Console Port Template already exists"
+
+- name: "CONSOLE_PORT_TEMPLATE 3: Update Console Port Template with other fields"
+  netbox.netbox.netbox_console_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Console Port Template
+      device_type: Cisco Test
+      type: usb-a
+    state: present
+  register: test_three
+
+- name: "CONSOLE_PORT_TEMPLATE 3: ASSERT - Update Console Port Template with other fields"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['type'] == "usb-a"
+      - test_three['console_port_template']['name'] == "Console Port Template"
+      - test_three['console_port_template']['device_type'] == 1
+      - test_three['console_port_template']['type'] == "usb-a"
+      - test_three['msg'] == "console_port_template Console Port Template updated"
+
+- name: "CONSOLE_PORT_TEMPLATE 4: Create Console Port Template for Delete Test"
+  netbox.netbox.netbox_console_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Console Port Template 2
+      device_type: Cisco Test
+    state: present
+  register: test_four
+
+- name: "CONSOLE_PORT_TEMPLATE 4: ASSERT - Create Console Port Template for Delete Test"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "absent"
+      - test_four['diff']['after']['state'] == "present"
+      - test_four['console_port_template']['name'] == "Console Port Template 2"
+      - test_four['console_port_template']['device_type'] == 1
+      - test_four['msg'] == "console_port_template Console Port Template 2 created"
+
+- name: "CONSOLE_PORT_TEMPLATE 5: Delete Console Port Template"
+  netbox.netbox.netbox_console_port_template:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      name: Console Port Template 2
+      device_type: Cisco Test
+    state: absent
+  register: test_five
+
+- name: "CONSOLE_PORT_TEMPLATE 5: ASSERT - Delete Console Port Template"
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "present"
+      - test_five['diff']['after']['state'] == "absent"
+      - test_five['msg'] == "console_port_template Console Port Template 2 deleted"

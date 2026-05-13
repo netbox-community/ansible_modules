@@ -1,4 +1,0 @@
----
-minor_changes:
-  - Add `module_type` as supported to `netbox_rear_port_template`
-  - Add `module_type` as supported to `netbox_front_port_template`
