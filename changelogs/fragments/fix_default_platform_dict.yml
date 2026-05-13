@@ -1,0 +1,2 @@
+bugfixes:
+  - netbox_device_type - Resolve AttributeError when passing a dictionary to default_platform.
