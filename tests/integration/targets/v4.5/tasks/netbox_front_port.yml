@@ -13,7 +13,7 @@
 - name: "FRONT_PORT 1: Necessary info creation"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port
       device: test100
@@ -35,7 +35,7 @@
 - name: "FRONT_PORT 2: Create duplicate"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port
       device: test100
@@ -55,7 +55,7 @@
 - name: "FRONT_PORT 3: Update Front Port with other fields"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port
       device: test100
@@ -78,7 +78,7 @@
 - name: "FRONT_PORT 4: Create Front Port for Delete Test"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port 2
       device: test100
@@ -100,7 +100,7 @@
 - name: "FRONT_PORT 5: Delete Front Port"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port 2
       device: test100
@@ -119,7 +119,7 @@
 - name: "FRONT_PORT 6: Create duplicate (idempotency check)"
   netbox.netbox.netbox_front_port:
     netbox_url: http://localhost:32768
-    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
     data:
       name: Front Port
       device: test100

@@ -127,6 +127,17 @@ jobs:
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768/login/)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
+      - name: Provision v2 API token (v4.5+)
+        if: matrix.VERSION == 'v4.5'
+        run: |
+          NETBOX_TOKEN=$(bash ./tests/netbox-docker/provision-token.sh)
+          # Register the secret with the GitHub Actions runner BEFORE exporting
+          # it; runme.sh uses `set -o xtrace` and would otherwise echo the
+          # plaintext token when it sources runme_config.
+          echo "::add-mask::$NETBOX_TOKEN"
+          echo "NETBOX_TOKEN=$NETBOX_TOKEN" >> "$GITHUB_ENV"
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
@@ -134,6 +145,20 @@ jobs:
       - name: Run inventory tests
         continue-on-error: true
         run: |
+          # runme.sh can only see environment via a sourced runme_config file
+          # when invoked through ansible-test.
+          RUNME_CONFIG="tests/integration/targets/inventory-${{ matrix.VERSION }}/runme_config"
+          # Clean up the credential-bearing config even if the test fails.
+          trap 'rm -f "$RUNME_CONFIG"' EXIT
+          umask 077
+          {
+            echo "export NETBOX_VERSION=\"${{ matrix.VERSION }}\""
+            if [[ -n "${NETBOX_TOKEN:-}" ]]; then
+              echo "export NETBOX_TOKEN=\"$NETBOX_TOKEN\""
+            fi
+          } > "$RUNME_CONFIG"
+          chmod 600 "$RUNME_CONFIG"
+
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 

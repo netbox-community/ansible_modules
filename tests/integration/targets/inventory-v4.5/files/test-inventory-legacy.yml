@@ -6,5 +6,7 @@
 
 plugin: netbox.netbox.nb_inventory
 api_endpoint: http://localhost:32768
-token: "0123456789abcdef0123456789abcdef01234567"
+token:
+  type: "{{ 'Bearer' if (lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true)).startswith('nbt_') else 'Token' }}"
+  value: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
 validate_certs: false
