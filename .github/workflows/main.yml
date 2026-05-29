@@ -29,16 +29,11 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
-        include:
-          # ansible-core 2.19 compatibility legs (INT-236). The pin is
-          # deliberate: bump it intentionally when evaluating a new 2.19.x
-          # point release, not on every upstream release.
-          - python-version: "3.11"
-            ansible-core: "==2.19.9"
-          - python-version: "3.12"
-            ansible-core: "==2.19.9"
-          - python-version: "3.13"
-            ansible-core: "==2.19.9"
+        # Empty value keeps the Poetry-resolved 2.18.x baseline; "==2.19.9"
+        # pins the 2.19 compatibility leg (INT-236). Bump the pin
+        # deliberately when evaluating a new 2.19.x point release, not on
+        # every upstream release.
+        ansible-core: ["", "==2.19.9"]
 
     steps:
 
