@@ -1,0 +1,9 @@
+---
+minor_changes:
+  - >-
+    CI now exercises the collection against ansible-core 2.19 alongside the
+    existing 2.18 baseline. Three new unit-test legs (Python 3.11, 3.12,
+    3.13) and one integration leg (NetBox v4.5) install a pinned 2.19.x
+    point release on top of the Poetry-resolved environment. No source
+    changes were required for compatibility — sanity and all unit tests
+    pass on ansible-core 2.19.
