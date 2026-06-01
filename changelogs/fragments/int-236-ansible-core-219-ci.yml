@@ -12,6 +12,12 @@ bugfixes:
     the returned integer. ansible-core 2.19's stricter conditional handling
     rejects non-boolean ``assert: that:`` predicates.
   - >-
+    Integration test fixtures: ``netbox_inventory_item`` assertions that
+    compare ``test.msg`` against a string containing ``": "`` (colon then
+    space) are now wrapped in outer single quotes. ansible-core 2.19
+    rejects conditionals that YAML parses as anything other than a string;
+    previously the embedded colon-space was silently accepted.
+  - >-
     ``netbox_contact``: the NetBox-version compatibility gate
     (``contact_group`` vs ``contact_groups``, introduced in NetBox v4.3)
     now exits via ``module.fail_json`` instead of raising a bare
