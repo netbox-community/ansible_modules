@@ -12,6 +12,12 @@ bugfixes:
     the returned integer. ansible-core 2.19's stricter conditional handling
     rejects non-boolean ``assert: that:`` predicates.
   - >-
+    Integration test fixtures: ``netbox_lookup`` count assertions now
+    compare against an integer instead of a quoted-digit string
+    (``query_result | int == 4``). ansible-core 2.19 preserves the int
+    type from the ``count`` filter end-to-end, where 2.18 silently
+    coerced templated output to string.
+  - >-
     Integration test fixtures: ``netbox_inventory_item`` assertions that
     compare ``test.msg`` against a string containing ``": "`` (colon then
     space) are now wrapped in outer single quotes. ansible-core 2.19
