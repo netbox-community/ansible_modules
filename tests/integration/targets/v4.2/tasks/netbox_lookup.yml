@@ -84,7 +84,7 @@
 
 - name: "NETBOX_LOOKUP 10: Device query by ID"
   ansible.builtin.assert:
-    that: query_result
+    that: query_result | length > 0
   vars:
     query_result: "{{ query('netbox.netbox.nb_lookup', 'devices', api_filter='id=1', api_endpoint='http://localhost:32768', token='0123456789abcdef0123456789abcdef01234567')
       }}"

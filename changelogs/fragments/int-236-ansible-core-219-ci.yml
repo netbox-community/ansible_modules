@@ -12,6 +12,11 @@ bugfixes:
     the returned integer. ansible-core 2.19's stricter conditional handling
     rejects non-boolean ``assert: that:`` predicates.
   - >-
+    Integration test fixtures: ``netbox_lookup`` "device query by ID"
+    assertion now checks ``query_result | length > 0`` instead of relying
+    on truthiness of the returned list. ansible-core 2.19 rejects
+    non-boolean conditionals.
+  - >-
     Integration test fixtures: ``netbox_lookup`` count assertions now
     compare against an integer instead of a quoted-digit string
     (``query_result | int == 4``). ansible-core 2.19 preserves the int
