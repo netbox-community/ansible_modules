@@ -11,3 +11,8 @@ bugfixes:
     assertion now uses ``is not none`` instead of relying on truthiness of
     the returned integer. ansible-core 2.19's stricter conditional handling
     rejects non-boolean ``assert: that:`` predicates.
+  - >-
+    Integration test fixtures: ``netbox_contact`` version-gate assertions
+    now read the error string from ``test_seven['msg']`` instead of
+    ``test_seven['module_stderr']``. ansible-core 2.19 no longer populates
+    ``module_stderr`` for clean ``fail_json`` failures.
