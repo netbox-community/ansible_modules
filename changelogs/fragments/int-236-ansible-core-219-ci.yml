@@ -12,7 +12,11 @@ bugfixes:
     the returned integer. ansible-core 2.19's stricter conditional handling
     rejects non-boolean ``assert: that:`` predicates.
   - >-
-    Integration test fixtures: ``netbox_contact`` version-gate assertions
-    now read the error string from ``test_seven['msg']`` instead of
-    ``test_seven['module_stderr']``. ansible-core 2.19 no longer populates
-    ``module_stderr`` for clean ``fail_json`` failures.
+    ``netbox_contact``: the NetBox-version compatibility gate
+    (``contact_group`` vs ``contact_groups``, introduced in NetBox v4.3)
+    now exits via ``module.fail_json`` instead of raising a bare
+    ``Exception``. Previously the error string ended up in
+    ``module_stderr`` as a traceback; ansible-core 2.19 no longer
+    populates ``module_stderr`` for module subprocess failures, so the
+    message is now reported via ``msg`` on every supported ansible-core
+    version. Test fixtures updated accordingly to assert against ``msg``.
