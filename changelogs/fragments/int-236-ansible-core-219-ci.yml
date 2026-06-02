@@ -5,35 +5,20 @@ minor_changes:
     existing 2.18 baseline. Three new unit-test legs (Python 3.11, 3.12,
     3.13) and one integration leg (NetBox v4.5) install a pinned 2.19.x
     point release on top of the Poetry-resolved environment.
+  - >-
+    Internal integration test fixtures (``netbox_ip_address``,
+    ``netbox_lookup``, ``netbox_inventory_item``, ``netbox_contact``)
+    updated for ansible-core 2.19's stricter templating: explicit
+    ``is not none``/``| length > 0`` boolean checks, ``| int`` coercion on
+    templated counts, and outer single-quoting of conditionals containing
+    ``": "``.
 bugfixes:
-  - >-
-    Integration test fixtures: the ``netbox_ip_address`` ``nat_inside``
-    assertion now uses ``is not none`` instead of relying on truthiness of
-    the returned integer. ansible-core 2.19's stricter conditional handling
-    rejects non-boolean ``assert: that:`` predicates.
-  - >-
-    Integration test fixtures: ``netbox_lookup`` "device query by ID"
-    assertion now checks ``query_result | length > 0`` instead of relying
-    on truthiness of the returned list. ansible-core 2.19 rejects
-    non-boolean conditionals.
-  - >-
-    Integration test fixtures: ``netbox_lookup`` count assertions now
-    compare against an integer instead of a quoted-digit string
-    (``query_result | int == 4``). ansible-core 2.19 preserves the int
-    type from the ``count`` filter end-to-end, where 2.18 silently
-    coerced templated output to string.
-  - >-
-    Integration test fixtures: ``netbox_inventory_item`` assertions that
-    compare ``test.msg`` against a string containing ``": "`` (colon then
-    space) are now wrapped in outer single quotes. ansible-core 2.19
-    rejects conditionals that YAML parses as anything other than a string;
-    previously the embedded colon-space was silently accepted.
   - >-
     ``netbox_contact``: the NetBox-version compatibility gate
     (``contact_group`` vs ``contact_groups``, introduced in NetBox v4.3)
     now exits via ``module.fail_json`` instead of raising a bare
     ``Exception``. Previously the error string ended up in
-    ``module_stderr`` as a traceback; ansible-core 2.19 no longer
+    ``module_stderr`` as a Python traceback; ansible-core 2.19 no longer
     populates ``module_stderr`` for module subprocess failures, so the
     message is now reported via ``msg`` on every supported ansible-core
-    version. Test fixtures updated accordingly to assert against ``msg``.
+    version.
