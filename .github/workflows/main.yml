@@ -29,6 +29,11 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
+        # Empty value keeps the Poetry-resolved 2.18.x baseline; "==2.19.9"
+        # pins the 2.19 compatibility leg (INT-236). Bump the pin
+        # deliberately when evaluating a new 2.19.x point release, not on
+        # every upstream release.
+        ansible-core: ["", "==2.19.9"]
 
     steps:
 
@@ -47,6 +52,10 @@ jobs:
 
       - name: Install Python packages
         run: poetry install --no-root
+
+      - name: Override ansible-core version
+        if: matrix.ansible-core != ''
+        run: pip install --upgrade "ansible-core${{ matrix.ansible-core }}"
 
       - name: Build and install collection
         run: |
@@ -84,6 +93,12 @@ jobs:
             NETBOX_DOCKER_VERSION: 3.4.2
           - VERSION: "v4.5"
             NETBOX_DOCKER_VERSION: 4.0.2
+          # ansible-core 2.19 compatibility leg against the latest NetBox
+          # (INT-236). Pin bumped deliberately, not on every upstream
+          # release.
+          - VERSION: "v4.5"
+            NETBOX_DOCKER_VERSION: 4.0.2
+            ansible-core: "==2.19.9"
 
     steps:
 
@@ -113,6 +128,10 @@ jobs:
 
       - name: Install Python packages
         run: poetry install --no-root
+
+      - name: Override ansible-core version
+        if: matrix.ansible-core != ''
+        run: pip install --upgrade "ansible-core${{ matrix.ansible-core }}"
 
       - name: Build and install collection
         run: |

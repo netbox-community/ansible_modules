@@ -1,0 +1,24 @@
+---
+minor_changes:
+  - >-
+    CI now exercises the collection against ansible-core 2.19 alongside the
+    existing 2.18 baseline. Three new unit-test legs (Python 3.11, 3.12,
+    3.13) and one integration leg (NetBox v4.5) install a pinned 2.19.x
+    point release on top of the Poetry-resolved environment.
+  - >-
+    Internal integration test fixtures (``netbox_ip_address``,
+    ``netbox_lookup``, ``netbox_inventory_item``, ``netbox_contact``)
+    updated for ansible-core 2.19's stricter templating: explicit
+    ``is not none``/``| length > 0`` boolean checks, ``| int`` coercion on
+    templated counts, and outer single-quoting of conditionals containing
+    ``": "``.
+bugfixes:
+  - >-
+    ``netbox_contact``: the NetBox-version compatibility gate
+    (``contact_group`` vs ``contact_groups``, introduced in NetBox v4.3)
+    now exits via ``module.fail_json`` instead of raising a bare
+    ``Exception``. Previously the error string ended up in
+    ``module_stderr`` as a Python traceback; ansible-core 2.19 no longer
+    populates ``module_stderr`` for module subprocess failures, so the
+    message is now reported via ``msg`` on every supported ansible-core
+    version.

@@ -140,4 +140,4 @@
 - name: 7 - ASSERT
   ansible.builtin.assert:
     that:
-      - "'contact_groups is not available in Netbox 4.0. Use contact_group instead, or upgrade to Netbox 4.3 or greater.' in test_seven['module_stderr']"
+      - "'contact_groups is not available in Netbox 4.0. Use contact_group instead, or upgrade to Netbox 4.3 or greater.' in test_seven['msg']"
