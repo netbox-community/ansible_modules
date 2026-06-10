@@ -10,6 +10,7 @@ __metaclass__ = type
 import re
 from functools import partial
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import MagicMock
 import pytest
 
@@ -395,6 +396,168 @@ def test_update_netbox_object_with_changes_check_mode_true(
     nb_obj_mock.update.assert_not_called()
     assert serialized_obj == updated_serialized_obj
     assert diff == on_update_diff
+
+
+# Every cable termination type, keyed by the dash-form endpoint name pynetbox
+# derives from the record URL, mapped to the dotted content type the module
+# emits on the user-supplied data side.
+CABLE_TERMINATION_TYPES = [
+    pytest.param("interfaces", "dcim.interface", id="interface"),
+    pytest.param("console-ports", "dcim.consoleport", id="console_port"),
+    pytest.param(
+        "console-server-ports",
+        "dcim.consoleserverport",
+        id="console_server_port",
+    ),
+    pytest.param("front-ports", "dcim.frontport", id="front_port"),
+    pytest.param("rear-ports", "dcim.rearport", id="rear_port"),
+    pytest.param("power-ports", "dcim.powerport", id="power_port"),
+    pytest.param("power-outlets", "dcim.poweroutlet", id="power_outlet"),
+    pytest.param("power-feeds", "dcim.powerfeed", id="power_feed"),
+    pytest.param(
+        "circuit-terminations",
+        "circuits.circuittermination",
+        id="circuit_termination",
+    ),
+]
+
+
+class _FakeRecord:
+    """Stand-in for an older-pynetbox termination Record.
+
+    Real attributes live in ``__dict__``; any missing-attribute access would
+    hit the API via ``Record.__getattr__``, so accessing one here fails the
+    test - this guards that the conversion never probes for ``object_type``
+    with a plain attribute lookup.
+    """
+
+    def __init__(self, object_id, endpoint_name):
+        self.id = object_id
+        self.endpoint = SimpleNamespace(name=endpoint_name)
+        self.url = "http://netbox.local/api/dcim/%s/%d/" % (endpoint_name, object_id)
+
+    def __getattr__(self, item):
+        raise AssertionError(
+            "unexpected attribute access for %r would hit the API" % item
+        )
+
+
+@pytest.mark.parametrize("endpoint_name, expected_type", CABLE_TERMINATION_TYPES)
+def test_convert_termination_record(mock_netbox_module, endpoint_name, expected_type):
+    """A bare Record (content type dropped) is rebuilt from its endpoint."""
+    termination = _FakeRecord(7, endpoint_name)
+
+    assert mock_netbox_module._convert_termination(termination) == {
+        "object_id": 7,
+        "object_type": expected_type,
+    }
+
+
+@pytest.mark.parametrize("endpoint_name, object_type", CABLE_TERMINATION_TYPES)
+def test_convert_termination_plain_dict(mock_netbox_module, endpoint_name, object_type):
+    """An unparsed generic-foreign-key dict is passed through verbatim."""
+    termination = {
+        "object_id": 9,
+        "object_type": object_type,
+        "object": {"id": 9},
+    }
+
+    assert mock_netbox_module._convert_termination(termination) == {
+        "object_id": 9,
+        "object_type": object_type,
+    }
+
+
+@pytest.mark.parametrize("endpoint_name, object_type", CABLE_TERMINATION_TYPES)
+def test_convert_termination_generic_list_object(
+    mock_netbox_module, endpoint_name, object_type
+):
+    """A GenericListObject (pynetbox >= 7.5) already carries the content type."""
+    termination = SimpleNamespace(
+        object_id=3,
+        object_type=object_type,
+        object=SimpleNamespace(id=3),
+    )
+
+    assert mock_netbox_module._convert_termination(termination) == {
+        "object_id": 3,
+        "object_type": object_type,
+    }
+
+
+def _cable_nb_object(mocker, a_terminations, b_terminations, serialized):
+    nb_obj = mocker.Mock(name="cable_nb_obj")
+    nb_obj.a_terminations = a_terminations
+    nb_obj.b_terminations = b_terminations
+    nb_obj.serialize.return_value = serialized
+    return nb_obj
+
+
+def test_update_netbox_object_cable_non_interface_idempotent(
+    mocker, mock_netbox_module
+):
+    """A power-feed <> power-port cable re-run makes no change and no error.
+
+    Reproduces the second-run crash from issues #1040/#1274: the power feed
+    comes back as a plain dict and the power port as a dash-form Record.
+    """
+    mock_netbox_module.api_version = "4.4"
+    serialized = {
+        "a_terminations": [{"object_id": 1, "object_type": "dcim.powerfeed"}],
+        "b_terminations": [{"object_id": 2, "object_type": "dcim.powerport"}],
+        "status": "connected",
+    }
+    mock_netbox_module.nb_object = _cable_nb_object(
+        mocker,
+        a_terminations=[
+            {"object_id": 1, "object_type": "dcim.powerfeed", "object": {"id": 1}}
+        ],
+        b_terminations=[_FakeRecord(2, "power-ports")],
+        serialized=serialized,
+    )
+    data = {
+        "a_terminations": [{"object_id": 1, "object_type": "dcim.powerfeed"}],
+        "b_terminations": [{"object_id": 2, "object_type": "dcim.powerport"}],
+        "status": "connected",
+    }
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object(data)
+
+    mock_netbox_module.nb_object.update.assert_not_called()
+    assert diff is None
+    assert serialized_obj["a_terminations"] == data["a_terminations"]
+    assert serialized_obj["b_terminations"] == data["b_terminations"]
+
+
+def test_update_netbox_object_cable_detects_real_change(mocker, mock_netbox_module):
+    """A genuine field change on a non-interface cable still reports changed."""
+    mock_netbox_module.api_version = "4.4"
+    serialized = {
+        "a_terminations": [{"object_id": 1, "object_type": "dcim.powerfeed"}],
+        "b_terminations": [{"object_id": 2, "object_type": "dcim.powerport"}],
+        "status": "connected",
+    }
+    mock_netbox_module.nb_object = _cable_nb_object(
+        mocker,
+        a_terminations=[
+            {"object_id": 1, "object_type": "dcim.powerfeed", "object": {"id": 1}}
+        ],
+        b_terminations=[_FakeRecord(2, "power-ports")],
+        serialized=serialized,
+    )
+    data = {
+        "a_terminations": [{"object_id": 1, "object_type": "dcim.powerfeed"}],
+        "b_terminations": [{"object_id": 2, "object_type": "dcim.powerport"}],
+        "status": "planned",
+    }
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object(data)
+
+    mock_netbox_module.nb_object.update.assert_called_once_with(data)
+    assert diff == {
+        "before": {"status": "connected"},
+        "after": {"status": "planned"},
+    }
 
 
 @pytest.mark.parametrize("version", ["2.13", "2.12", "2.11", "2.10.8", "2.10"])

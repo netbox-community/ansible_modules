@@ -74,7 +74,6 @@ API_APPS_ENDPOINTS = dict(
         "rack_groups": {},
         "rack_roles": {},
         "rear_ports": {},
-        "rear-ports": {},
         "rear_port_templates": {},
         "regions": {},
         "sites": {},
@@ -417,7 +416,6 @@ ENDPOINT_NAME_MAPPING = {
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
     "rear_ports": "rear_port",
-    "rear-ports": "rearport",
     "rear_port_templates": "rear_port_template",
     "regions": "region",
     "rirs": "rir",
@@ -1576,20 +1574,11 @@ class NetboxModule(object):
             and data.get("b_terminations")
             and version_post_33
         ):
-
-            def _convert_termination(termination):
-                object_app = self._find_app(termination.endpoint.name)
-                object_name = ENDPOINT_NAME_MAPPING[termination.endpoint.name]
-                return {
-                    "object_id": termination.id,
-                    "object_type": f"{object_app}.{object_name}",
-                }
-
             serialized_nb_obj["a_terminations"] = list(
-                map(_convert_termination, self.nb_object.a_terminations)
+                map(self._convert_termination, self.nb_object.a_terminations)
             )
             serialized_nb_obj["b_terminations"] = list(
-                map(_convert_termination, self.nb_object.b_terminations)
+                map(self._convert_termination, self.nb_object.b_terminations)
             )
 
         if serialized_nb_obj == updated_obj:
@@ -1621,6 +1610,54 @@ class NetboxModule(object):
 
             diff = self._build_diff(before=data_before, after=data_after)
             return updated_obj, diff
+
+    def _convert_termination(self, termination):
+        """Normalize an existing cable termination to the dotted content-type
+        form used on the user-supplied data side, e.g.
+        ``{"object_id": 1, "object_type": "dcim.powerport"}``.
+
+        pynetbox returns each existing termination in one of three shapes,
+        depending on its version and whether the termination's content type is
+        mapped in pynetbox's ``CONTENT_TYPE_MAPPER``:
+
+        * a plain ``dict`` (unmapped content type) carrying the generic
+          foreign-key keys ``object_type``/``object_id`` verbatim,
+        * a ``GenericListObject`` (pynetbox >= 7.5) exposing ``object_type``
+          and ``object_id`` attributes, or
+        * a bare ``Record`` (older pynetbox) whose content type was dropped,
+          leaving only the related object's own fields.
+
+        Both forms that already carry ``object_type`` are returned as-is so
+        every termination type stays idempotent on re-runs, not just
+        ``dcim.interface``.
+        """
+        if isinstance(termination, dict):
+            return {
+                "object_id": termination["object_id"],
+                "object_type": termination["object_type"],
+            }
+
+        # ``vars()`` is inspected directly so that a missing attribute does not
+        # trigger an extra detail request via older pynetbox ``Record.__getattr__``.
+        termination_attrs = vars(termination)
+        if "object_type" in termination_attrs:
+            return {
+                "object_id": termination_attrs["object_id"],
+                "object_type": termination_attrs["object_type"],
+            }
+
+        # Bare Record: rebuild the content type from the record's endpoint name.
+        # pynetbox derives that name from the record URL in dash form
+        # (e.g. ``power-ports``); normalize it to the underscore form used by the
+        # lookup maps, then collapse the singular to NetBox's separator-less
+        # model label (``power_port`` -> ``powerport``).
+        endpoint_name = termination.endpoint.name.replace("-", "_")
+        object_app = self._find_app(endpoint_name)
+        object_name = ENDPOINT_NAME_MAPPING[endpoint_name].replace("_", "")
+        return {
+            "object_id": termination.id,
+            "object_type": f"{object_app}.{object_name}",
+        }
 
     def _ensure_object_exists(self, nb_endpoint, endpoint_name, name, data):
         """Used when `state` is present to make sure object exists or if the object exists

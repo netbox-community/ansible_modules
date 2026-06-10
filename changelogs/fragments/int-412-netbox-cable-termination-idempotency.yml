@@ -1,0 +1,15 @@
+---
+bugfixes:
+  - >-
+    ``netbox_cable`` - re-running a play that connects a non-interface
+    termination no longer raises an exception and no longer reports a false
+    ``changed``. Existing terminations of every type (console, console-server,
+    power port/outlet/feed, front/rear port and circuit termination) are now
+    normalized to the same dotted content-type form as the supplied data, so
+    cables are idempotent for all termination types rather than only
+    ``dcim.interface``
+    (https://github.com/netbox-community/ansible_modules/issues/1274,
+    https://github.com/netbox-community/ansible_modules/issues/1015,
+    https://github.com/netbox-community/ansible_modules/issues/1040,
+    https://github.com/netbox-community/ansible_modules/issues/946,
+    https://github.com/netbox-community/ansible_modules/issues/1217).
