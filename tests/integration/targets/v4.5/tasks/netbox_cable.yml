@@ -191,3 +191,55 @@
       - test_six['cable']['termination_b_type'] == "dcim.interface"
       - test_six['cable']['termination_b_id'] == 4
       - test_six['msg'] == "cable circuits.circuittermination 1 <> dcim.interface GigabitEthernet2 created"
+
+# Second-run idempotency for non-interface terminations (issue #1274 console,
+# #946/#1217 circuit termination). Before the fix these re-runs raised an
+# exception while rebuilding the existing termination's content type; they must
+# now report no change.
+- name: "CABLE 7: Console cable second run (idempotency #1274)"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      termination_a_type: dcim.consoleserverport
+      termination_a:
+        name: Console Server Port
+        device: test100
+      termination_b_type: dcim.consoleport
+      termination_b:
+        name: Console Port
+        device: test100
+    state: present
+  register: test_seven
+
+- name: "CABLE 7: ASSERT - Console cable second run is idempotent"
+  ansible.builtin.assert:
+    that:
+      - not test_seven['changed']
+      - test_seven['cable']['termination_a_type'] == "dcim.consoleserverport"
+      - test_seven['cable']['termination_b_type'] == "dcim.consoleport"
+      - test_seven['msg'] == "cable dcim.consoleserverport Console Server Port <> dcim.consoleport Console Port already exists"
+
+- name: "CABLE 8: Circuit termination cable second run (idempotency #946/#1217)"
+  netbox.netbox.netbox_cable:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      termination_a_type: circuits.circuittermination
+      termination_a:
+        circuit: Test Circuit Two
+        term_side: A
+      termination_b_type: dcim.interface
+      termination_b:
+        device: test100
+        name: GigabitEthernet2
+    state: present
+  register: test_eight
+
+- name: "CABLE 8: ASSERT - Circuit termination cable second run is idempotent"
+  ansible.builtin.assert:
+    that:
+      - not test_eight['changed']
+      - test_eight['cable']['termination_a_type'] == "circuits.circuittermination"
+      - test_eight['cable']['termination_b_type'] == "dcim.interface"
+      - "'already exists' in test_eight['msg']"
