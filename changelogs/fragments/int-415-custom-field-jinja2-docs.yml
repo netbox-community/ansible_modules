@@ -1,0 +1,10 @@
+---
+minor_changes:
+  - >-
+    Documentation now explains how typed custom fields interact with Jinja2
+    templating. On ansible-core < 2.19 a custom-field value produced by a
+    Jinja2 filter is rendered back to a string and rejected by NetBox (for
+    example ``Value must be an integer.``); ansible-core 2.19 makes native
+    Jinja the default so templated values keep their Python type, and the docs
+    describe the ``jinja2_native`` workaround for older releases
+    (https://github.com/netbox-community/ansible_modules/issues/985).
