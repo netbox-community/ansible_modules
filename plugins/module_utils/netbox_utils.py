@@ -737,6 +737,42 @@ SCOPE_TO_ENDPOINT = {
     "virtualization.clustergroup": "cluster_groups",
 }
 
+# Many-to-many list fields that NetBox returns in a non-deterministic order.
+# The update-comparison engine must treat these as unordered sets, otherwise a
+# payload whose contents are identical to NetBox state but listed in a different
+# order is wrongly reported as a change (breaking idempotency and --check mode).
+# Adding a field name here is safe even if it never appears on a given endpoint:
+# the comparison only converts a key when both the existing object and the
+# incoming data carry it, and non-hashable values fall back to ordered
+# comparison. See INT-411 and GitHub issue #1486.
+LIST_AS_SET_KEYS = set(
+    [
+        "tags",
+        "object_types",
+        "tagged_vlans",
+        # netbox_users (permissions / groups / tokens)
+        "permissions",
+        "groups",
+        "actions",
+        # netbox_config_context assignment scopes
+        "regions",
+        "site_groups",
+        "sites",
+        "locations",
+        "device_types",
+        "roles",
+        "platforms",
+        "cluster_types",
+        "cluster_groups",
+        "clusters",
+        "tenant_groups",
+        "tenants",
+        # route targets (netbox_vrf / netbox_l2vpn)
+        "import_targets",
+        "export_targets",
+    ]
+)
+
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
@@ -1540,9 +1576,19 @@ class NetboxModule(object):
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
 
-        if serialized_nb_obj.get("tags") and data.get("tags"):
-            serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
-            updated_obj["tags"] = set(data["tags"])
+        # Compare unordered many-to-many list fields as sets so a pure
+        # reordering of identical values is not reported as a change.
+        for key in LIST_AS_SET_KEYS:
+            if serialized_nb_obj.get(key) and data.get(key):
+                try:
+                    before_set = set(serialized_nb_obj[key])
+                    after_set = set(data[key])
+                except TypeError:
+                    # Elements aren't hashable (e.g. a list of dicts); keep the
+                    # ordered comparison rather than failing.
+                    continue
+                serialized_nb_obj[key] = before_set
+                updated_obj[key] = after_set
 
         # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.api_version)

@@ -397,6 +397,66 @@ def test_update_netbox_object_with_changes_check_mode_true(
     assert diff == on_update_diff
 
 
+@pytest.mark.parametrize(
+    ("field", "existing", "incoming"),
+    [
+        pytest.param("tags", [1, 2, 3], [3, 1, 2], id="tags"),
+        pytest.param(
+            "object_types",
+            ["dcim.device", "dcim.site"],
+            ["dcim.site", "dcim.device"],
+            id="object_types",
+        ),
+        pytest.param("tagged_vlans", [10, 20, 30], [30, 20, 10], id="tagged_vlans"),
+    ],
+)
+def test_update_netbox_object_unordered_list_is_idempotent(
+    mocker, mock_netbox_module, field, existing, incoming
+):
+    """A reordering of an unordered m2m list field must not report a change."""
+    nb_obj = mocker.Mock(name="nb_obj")
+    nb_obj.serialize.return_value = {"name": "test", field: existing}
+    mock_netbox_module.nb_object = nb_obj
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object({field: incoming})
+
+    nb_obj.update.assert_not_called()
+    assert diff is None
+
+
+def test_update_netbox_object_unordered_list_detects_real_change(
+    mocker, mock_netbox_module
+):
+    """A genuine difference in an unordered m2m list field is still detected."""
+    nb_obj = mocker.Mock(name="nb_obj")
+    nb_obj.serialize.return_value = {"name": "test", "tags": [1, 2, 3]}
+    nb_obj.update.return_value = True
+    mock_netbox_module.nb_object = nb_obj
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object({"tags": [1, 2, 4]})
+
+    assert diff is not None
+    assert diff["before"]["tags"] == {1, 2, 3}
+    assert diff["after"]["tags"] == {1, 2, 4}
+
+
+def test_update_netbox_object_unhashable_list_falls_back_to_ordered(
+    mocker, mock_netbox_module
+):
+    """Unhashable list elements must not raise; comparison stays ordered."""
+    terminations = [{"object_id": 1, "object_type": "dcim.interface"}]
+    nb_obj = mocker.Mock(name="nb_obj")
+    nb_obj.serialize.return_value = {"name": "test", "import_targets": terminations}
+    mock_netbox_module.nb_object = nb_obj
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object(
+        {"import_targets": list(terminations)}
+    )
+
+    nb_obj.update.assert_not_called()
+    assert diff is None
+
+
 @pytest.mark.parametrize("version", ["2.13", "2.12", "2.11", "2.10.8", "2.10"])
 def test_version_check_greater_true(mock_netbox_module, nb_obj_mock, version):
     mock_netbox_module.nb_object = nb_obj_mock

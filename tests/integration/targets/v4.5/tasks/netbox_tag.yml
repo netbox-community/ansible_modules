@@ -108,3 +108,38 @@
       - test_five['tags']['name'] == "Test Tag 5"
       - test_five['tags']['slug'] == "test-tag-five"
       - test_five['msg'] == "tags Test Tag 5 created"
+
+- name: "TAG 6: Create tag with object_types"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      name: Test Tag 6
+      object_types:
+        - dcim.device
+        - dcim.site
+    state: present
+  register: test_six
+
+- name: "TAG 6: ASSERT - Tag with object_types created"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['tags']['name'] == "Test Tag 6"
+
+- name: "TAG 7: Re-run with object_types in a different order"
+  netbox.netbox.netbox_tag:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      name: Test Tag 6
+      object_types:
+        - dcim.site
+        - dcim.device
+    state: present
+  register: test_seven
+
+- name: "TAG 7: ASSERT - The same object_types in a new order do not update the tag"
+  ansible.builtin.assert:
+    that:
+      - not test_seven['changed']
