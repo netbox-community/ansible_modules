@@ -1,0 +1,7 @@
+---
+bugfixes:
+  - >-
+    netbox_device_interface - the legacy ``mac_address`` option no longer reports a
+    phantom change every run on NetBox v4.2+ (where the field is read-only); its value is
+    now stored as the interface's ``primary_mac_address``
+    (https://github.com/netbox-community/ansible_modules/issues/1502).

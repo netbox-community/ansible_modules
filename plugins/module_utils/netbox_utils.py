@@ -837,6 +837,85 @@ class NetboxModule(object):
 
         return t_greater > t_lesser if not greater_or_equal else t_greater >= t_lesser
 
+    def _set_primary_mac_address(
+        self, endpoint_name, name, mac_address, assigned_object_type
+    ):
+        """Store a legacy ``mac_address`` as the interface's primary MAC.
+
+        Find or create a ``MACAddress`` assigned to the interface and set it as
+        ``primary_mac_address``. The interface's read-only ``mac_address`` mirrors its
+        primary MAC, so a re-run that already has the right primary makes no change.
+        Called after the interface is ensured, so ``self.nb_object`` is the interface.
+        """
+        mac_address = mac_address.upper()
+        # After an update with no field changes, _ensure_object_exists leaves
+        # self.nb_object as the serialized dict rather than a pynetbox Record.
+        nb_object = self.nb_object
+        serialized = nb_object if isinstance(nb_object, dict) else nb_object.serialize()
+
+        # The interface's read-only `mac_address` already reflects its primary MAC.
+        if serialized.get("mac_address") == mac_address:
+            return
+
+        if self.check_mode:
+            self._mark_changed_by_mac(endpoint_name, name)
+            return
+
+        interface_id = serialized["id"]
+        mac = self._find_or_create_mac_address(
+            mac_address, assigned_object_type, interface_id
+        )
+        app = assigned_object_type.split(".")[0]
+        nb_endpoint = getattr(getattr(self.nb, app), self.endpoint)
+        if serialized.get("primary_mac_address") != mac.id:
+            nb_endpoint.get(interface_id).update({"primary_mac_address": mac.id})
+        # Re-fetch so the returned object's read-only `mac_address` reflects the primary.
+        self.nb_object = nb_endpoint.get(interface_id)
+
+        before = (self.result.get("diff") or {}).get("before") or {}
+        after = (self.result.get("diff") or {}).get("after") or {}
+        self._mark_changed_by_mac(endpoint_name, name)
+        self.result["diff"] = self._build_diff(
+            before={
+                **before,
+                "primary_mac_address": serialized.get("primary_mac_address"),
+            },
+            after={**after, "primary_mac_address": mac.id, "mac_address": mac_address},
+        )
+
+    def _mark_changed_by_mac(self, endpoint_name, name):
+        """Flag the interface as changed by the MAC update, without clobbering a more
+        specific message already set by ``_ensure_object_exists`` (e.g. ``... created``).
+        """
+        self.result["changed"] = True
+        prior = self.result.get("msg", "")
+        if not prior or "already exists" in prior:
+            self.result["msg"] = "%s %s updated" % (endpoint_name, name)
+
+    def _find_or_create_mac_address(
+        self, mac_address, assigned_object_type, assigned_object_id
+    ):
+        """Return the MACAddress for ``mac_address`` assigned to the object, creating it
+        if needed. MAC addresses are not unique in NetBox v4.2+, so match on both the
+        address and the assigned object to stay idempotent.
+        """
+        for candidate in self.nb.dcim.mac_addresses.filter(mac_address=mac_address):
+            if (
+                str(candidate.assigned_object_type) == assigned_object_type
+                and candidate.assigned_object_id == assigned_object_id
+            ):
+                return candidate
+        try:
+            return self.nb.dcim.mac_addresses.create(
+                {
+                    "mac_address": mac_address,
+                    "assigned_object_type": assigned_object_type,
+                    "assigned_object_id": assigned_object_id,
+                }
+            )
+        except pynetbox.RequestError as e:
+            self._handle_errors(msg=e.error)
+
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers=None):
         try:
             session = requests.Session()

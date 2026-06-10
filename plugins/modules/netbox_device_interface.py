@@ -84,6 +84,7 @@ options:
       mac_address:
         description:
           - The MAC address of the interface
+          - On NetBox 4.2 and later this field is read-only; the value is stored as the interface's C(primary_mac_address).
         required: false
         type: str
       primary_mac_address:
