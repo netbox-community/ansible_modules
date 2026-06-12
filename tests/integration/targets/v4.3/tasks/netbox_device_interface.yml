@@ -330,3 +330,41 @@
       - test_thirteen['interface']['name'] == "GigabitEthernet2"
       - test_thirteen['interface']['device'] == 1
       - test_thirteen['interface']['primary_mac_address'] == 2
+
+- name: 14 - Create BridgeIf on test100
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      device: test100
+      name: BridgeIf
+      type: 1000Base-T (1GE)
+  register: test_fourteen
+
+- name: 15 - Create BridgeIf on R1-Device
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      device: R1-Device
+      name: BridgeIf
+      type: 1000Base-T (1GE)
+
+- name: 16 - Create interface with bridge as plain string when name exists on multiple devices
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      device: test100
+      name: BridgeChild
+      type: 1000Base-T (1GE)
+      bridge: BridgeIf
+    state: present
+  register: test_sixteen
+
+- name: 16 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_sixteen is changed
+      - test_sixteen['interface']['name'] == "BridgeChild"
+      - test_sixteen['interface']['bridge'] == test_fourteen['interface']['id']

@@ -113,16 +113,18 @@ class NetboxTenancyModule(NetboxModule):
                 if not self._version_check_greater(
                     self.api_version, "4.3", greater_or_equal=True
                 ):
-                    raise Exception(
-                        f"contact_groups is not available in Netbox {self.api_version}. Use contact_group instead, or upgrade to Netbox 4.3 or greater."
+                    self.module.fail_json(
+                        msg=f"contact_groups is not available in Netbox {self.api_version}. Use contact_group instead, or upgrade to Netbox 4.3 or greater."
                     )
+                    return
             if data.get("group"):
                 if self._version_check_greater(
                     self.api_version, "4.3", greater_or_equal=True
                 ):
-                    raise Exception(
-                        f"contact_group is not available in Netbox {self.api_version}. Use contact_groups instead."
+                    self.module.fail_json(
+                        msg=f"contact_group is not available in Netbox {self.api_version}. Use contact_groups instead."
                     )
+                    return
 
         # For ease and consistency of use, the contact assignment module takes the name of the contact, role, and target object rather than an ID or slug.
         # We must massage the data a bit by looking up the ID corresponding to the given name so that we can pass the ID to the API.

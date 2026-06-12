@@ -22,7 +22,7 @@ netbox.netbox.netbox_front_port_template module -- Create, update or delete fron
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.22.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.23.0).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -222,7 +222,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`any` / :ansible-option-required:`required`
+        :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -237,6 +237,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The device type the front port template is attached to
+
+      Either :emphasis:`device\_type` or :emphasis:`module\_type` are required
 
 
       .. raw:: html
@@ -282,6 +284,53 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Label of the front port
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-data/module_type"></div>
+
+      .. raw:: latex
+
+        \hspace{0.02\textwidth}\begin{minipage}[t]{0.3\textwidth}
+
+      .. _ansible_collections.netbox.netbox.netbox_front_port_template_module__parameter-data/module_type:
+
+      .. rst-class:: ansible-option-title
+
+      **module_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-data/module_type" title="Permalink to this option"></a>
+
+      .. ansible-option-type-line::
+
+        :ansible-option-type:`any`
+
+      :ansible-option-versionadded:`added in netbox.netbox 3.23.0`
+
+
+      .. raw:: html
+
+        </div>
+
+      .. raw:: latex
+
+        \end{minipage}
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The module type the front port template is attached to
+
+      Either :emphasis:`device\_type` or :emphasis:`module\_type` are required
 
 
       .. raw:: html
@@ -351,7 +400,7 @@ Parameters
 
       .. ansible-option-type-line::
 
-        :ansible-option-type:`any` / :ansible-option-required:`required`
+        :ansible-option-type:`any`
 
       .. raw:: html
 
@@ -366,6 +415,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The rear\_port\_template the front port template is attached to
+
+      Required for NetBox \< v4.5. Ignored on v4.5+ (replaced by PortMapping model).
 
 
       .. raw:: html
@@ -737,6 +788,17 @@ Examples
             data:
               name: Test Front Port Template
               device_type: Test Device Type
+              type: bnc
+              rear_port_template: Test Rear Port Template
+            state: present
+
+        - name: Create front port template for a module type within NetBox
+          netbox.netbox.netbox_front_port_template:
+            netbox_url: http://netbox.local
+            netbox_token: thisIsMyToken
+            data:
+              name: Test Front Port Template
+              module_type: Test Module Type
               type: bnc
               rear_port_template: Test Rear Port Template
             state: present

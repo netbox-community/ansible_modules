@@ -1,0 +1,35 @@
+---
+plugin: netbox.netbox.nb_inventory
+api_endpoint: http://localhost:32768
+token:
+  type: "{{ 'Bearer' if (lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true)).startswith('nbt_') else 'Token' }}"
+  value: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+validate_certs: false
+
+config_context: true
+plurals: false
+interfaces: true
+services: true
+
+group_by:
+  - site
+  - tenant
+  - rack
+  - location
+  - rack_role
+  - tag
+  - role
+  - device_type
+  - manufacturer
+  - platform
+  - region
+  - site_group
+  - cluster
+  - cluster_group
+  - cluster_type
+  - is_virtual
+  - services
+  - status
+
+query_filters:
+  - site: "{{ 'TEST-SITE' | lower }}"

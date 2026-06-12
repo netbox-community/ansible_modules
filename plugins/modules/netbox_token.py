@@ -29,8 +29,9 @@ options:
     suboptions:
       key:
         description:
-          - Key of the token to be created. Must be exactly 40 characters
-        required: true
+          - Key of the token to be created. Must be exactly 40 characters.
+          - Required for NetBox < v4.5 (v1 tokens). Optional on v4.5+ (v2 tokens auto-generate keys).
+        required: false
         type: str
       user:
         description:
@@ -40,6 +41,7 @@ options:
       description:
         description:
           - The description of the token to be created
+          - On v4.5+, used together with user for idempotent token lookup (since key-based lookup is not available for v2 tokens).
         required: false
         type: str
       write_enabled:
@@ -134,7 +136,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
-                    key=dict(required=True, type="str", no_log=True),
+                    key=dict(required=False, type="str", no_log=True),
                     user=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
                     write_enabled=dict(required=False, type="bool"),
@@ -145,8 +147,7 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["key", "user"]),
-        ("state", "absent", ["key"]),
+        ("state", "present", ["user"]),
     ]
 
     module = NetboxAnsibleModule(

@@ -36,7 +36,8 @@ class NetboxSecretsModule(NetboxModule):
         # Used for msg output
         name = data.get("name")
 
-        data["slug"] = self._to_slug(name)
+        if not data.get("slug"):
+            data["slug"] = self._to_slug(name)
 
         object_query_params = self._build_query_params(
             endpoint_name, data, user_query_params

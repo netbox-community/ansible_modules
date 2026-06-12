@@ -41,6 +41,7 @@ options:
           - The module type the front port template is attached to
           - Either I(device_type) or I(module_type) are required
         type: raw
+        version_added: "3.23.0"
       name:
         description:
           - The name of the front port template
@@ -69,7 +70,8 @@ options:
       rear_port_template:
         description:
           - The rear_port_template the front port template is attached to
-        required: true
+          - Required for NetBox < v4.5. Ignored on v4.5+ (replaced by PortMapping model).
+        required: false
         type: raw
       rear_port_template_position:
         description:
@@ -199,7 +201,7 @@ def main():
                         ],
                         type="str",
                     ),
-                    rear_port_template=dict(required=True, type="raw"),
+                    rear_port_template=dict(required=False, type="raw"),
                     rear_port_template_position=dict(required=False, type="int"),
                     description=dict(required=False, type="str"),
                     label=dict(required=False, type="str"),
@@ -209,8 +211,8 @@ def main():
     )
 
     required_if = [
-        ("state", "present", ["name", "type", "rear_port_template"]),
-        ("state", "absent", ["name", "type", "rear_port_template"]),
+        ("state", "present", ["name", "type"]),
+        ("state", "absent", ["name", "type"]),
     ]
 
     required_one_of = [

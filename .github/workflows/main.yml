@@ -29,6 +29,11 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
+        # Empty value keeps the Poetry-resolved 2.18.x baseline; "==2.19.9"
+        # pins the 2.19 compatibility leg (INT-236). Bump the pin
+        # deliberately when evaluating a new 2.19.x point release, not on
+        # every upstream release.
+        ansible-core: ["", "==2.19.9"]
 
     steps:
 
@@ -47,6 +52,10 @@ jobs:
 
       - name: Install Python packages
         run: poetry install --no-root
+
+      - name: Override ansible-core version
+        if: matrix.ansible-core != ''
+        run: pip install --upgrade "ansible-core${{ matrix.ansible-core }}"
 
       - name: Build and install collection
         run: |
@@ -80,6 +89,16 @@ jobs:
             NETBOX_DOCKER_VERSION: 3.2.1
           - VERSION: "v4.3"
             NETBOX_DOCKER_VERSION: 3.3.0
+          - VERSION: "v4.4"
+            NETBOX_DOCKER_VERSION: 3.4.2
+          - VERSION: "v4.5"
+            NETBOX_DOCKER_VERSION: 4.0.2
+          # ansible-core 2.19 compatibility leg against the latest NetBox
+          # (INT-236). Pin bumped deliberately, not on every upstream
+          # release.
+          - VERSION: "v4.5"
+            NETBOX_DOCKER_VERSION: 4.0.2
+            ansible-core: "==2.19.9"
 
     steps:
 
@@ -92,7 +111,7 @@ jobs:
           git clone https://github.com/netbox-community/netbox-docker.git
           cd netbox-docker
           git checkout ${{ matrix.NETBOX_DOCKER_VERSION }}
-          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/docker-compose.override.yml docker-compose.override.yml
+          cp $GITHUB_WORKSPACE/tests/netbox-docker/${{ matrix.VERSION }}/* .
           docker compose up -d --quiet-pull netbox netbox-worker postgres redis redis-cache
           docker container ls
           cd ..
@@ -110,6 +129,10 @@ jobs:
       - name: Install Python packages
         run: poetry install --no-root
 
+      - name: Override ansible-core version
+        if: matrix.ansible-core != ''
+        run: pip install --upgrade "ansible-core${{ matrix.ansible-core }}"
+
       - name: Build and install collection
         run: |
           ansible-galaxy collection install community.general -p /home/runner/.ansible/collections
@@ -123,6 +146,17 @@ jobs:
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:32768/login/)" != "200" ]]; do echo "waiting for NetBox"; sleep 5; done' || false
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 
+      - name: Provision v2 API token (v4.5+)
+        if: matrix.VERSION == 'v4.5'
+        run: |
+          NETBOX_TOKEN=$(bash ./tests/netbox-docker/provision-token.sh)
+          # Register the secret with the GitHub Actions runner BEFORE exporting
+          # it; runme.sh uses `set -o xtrace` and would otherwise echo the
+          # plaintext token when it sources runme_config.
+          echo "::add-mask::$NETBOX_TOKEN"
+          echo "NETBOX_TOKEN=$NETBOX_TOKEN" >> "$GITHUB_ENV"
+        working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
+
       - name: Pre-populate NetBox
         run: ./tests/integration/netbox-deploy.py
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
@@ -130,6 +164,20 @@ jobs:
       - name: Run inventory tests
         continue-on-error: true
         run: |
+          # runme.sh can only see environment via a sourced runme_config file
+          # when invoked through ansible-test.
+          RUNME_CONFIG="tests/integration/targets/inventory-${{ matrix.VERSION }}/runme_config"
+          # Clean up the credential-bearing config even if the test fails.
+          trap 'rm -f "$RUNME_CONFIG"' EXIT
+          umask 077
+          {
+            echo "export NETBOX_VERSION=\"${{ matrix.VERSION }}\""
+            if [[ -n "${NETBOX_TOKEN:-}" ]]; then
+              echo "export NETBOX_TOKEN=\"$NETBOX_TOKEN\""
+            fi
+          } > "$RUNME_CONFIG"
+          chmod 600 "$RUNME_CONFIG"
+
           ansible-test integration -v --color --coverage --python ${{ env.python-version }} inventory-${{ matrix.VERSION }}
         working-directory: /home/runner/.ansible/collections/ansible_collections/netbox/netbox
 

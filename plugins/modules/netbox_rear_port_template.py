@@ -41,6 +41,7 @@ options:
           - The module type the rear port template is attached to
           - Either I(device_type) or I(module_type) are required
         type: raw
+        version_added: "3.23.0"
       name:
         description:
           - The name of the rear port template

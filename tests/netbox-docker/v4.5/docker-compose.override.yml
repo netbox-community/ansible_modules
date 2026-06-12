@@ -1,0 +1,26 @@
+---
+services:
+  netbox-worker: &netbox-override
+    image: netboxcommunity/netbox:v4.5
+    healthcheck:
+      start_period: 300s
+      timeout: 3s
+      interval: 15s
+      test: ps -aux | grep -v grep | grep -q rqworker || exit 1
+  netbox:
+    <<: *netbox-override
+    ports:
+      - 32768:8080
+    healthcheck:
+      start_period: 300s
+      timeout: 3s
+      interval: 15s
+      test: curl -f http://localhost:8080/login/ || exit 1
+    environment:
+      # NetBox v4.5 creates v2 tokens by default; SUPERUSER_API_TOKEN cannot
+      # seed one. The CI workflow obtains a token at runtime via
+      # tests/netbox-docker/provision-token.sh (POST /api/users/tokens/provision/).
+      SKIP_SUPERUSER: "false"
+      SUPERUSER_EMAIL: admin@localhost.com
+      SUPERUSER_NAME: admin
+      SUPERUSER_PASSWORD: admin123456
