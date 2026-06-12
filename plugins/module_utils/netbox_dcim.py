@@ -43,6 +43,7 @@ NB_POWER_PORT_TEMPLATES = "power_port_templates"
 NB_RACKS = "racks"
 NB_RACK_ROLES = "rack_roles"
 NB_RACK_GROUPS = "rack_groups"
+NB_RACK_TYPES = "rack_types"
 NB_REAR_PORTS = "rear_ports"
 NB_REAR_PORT_TEMPLATES = "rear_port_templates"
 NB_REGIONS = "regions"
@@ -94,6 +95,7 @@ class NetboxDcimModule(NetboxModule):
         - racks
         - rack_roles
         - rack_groups
+        - rack_types
         - rear_ports
         - rear_port_templates
         - regions

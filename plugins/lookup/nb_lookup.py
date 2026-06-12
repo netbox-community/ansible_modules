@@ -247,6 +247,7 @@ def get_endpoint(netbox, term):
         "rack-groups": {"endpoint": netbox.dcim.rack_groups},
         "rack-reservations": {"endpoint": netbox.dcim.rack_reservations},
         "rack-roles": {"endpoint": netbox.dcim.rack_roles},
+        "rack-types": {"endpoint": netbox.dcim.rack_types},
         "racks": {"endpoint": netbox.dcim.racks},
         "rear-port-templates": {"endpoint": netbox.dcim.rear_port_templates},
         "rear-ports": {"endpoint": netbox.dcim.rear_ports},
