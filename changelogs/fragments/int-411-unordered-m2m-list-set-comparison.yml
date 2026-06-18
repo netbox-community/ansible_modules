@@ -8,7 +8,7 @@ bugfixes:
     reported as ``changed`` on every run and ``--check`` mode produced false
     positives. The fields treated as sets are ``object_types``,
     ``tagged_vlans``, the ``netbox_config_context`` assignment scopes
-    (``regions``, ``sites``, ``site_groups``, ``locations``, ``device_types``,
+    (``regions``, ``sites``, ``site_groups``, ``device_types``,
     ``roles``, ``platforms``, ``cluster_types``, ``cluster_groups``,
     ``clusters``, ``tenant_groups``, ``tenants``), the route-target lists
     (``import_targets``, ``export_targets``), and the user/permission lists

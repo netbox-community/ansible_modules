@@ -758,7 +758,6 @@ LIST_AS_SET_KEYS = set(
         "regions",
         "site_groups",
         "sites",
-        "locations",
         "device_types",
         "roles",
         "platforms",
