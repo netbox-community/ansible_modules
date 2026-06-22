@@ -949,8 +949,9 @@ class NetboxModule(object):
         """
         temp_dict = dict()
         if self._version_check_greater(self.api_version, "2.7", greater_or_equal=True):
-            # Rack types (NetBox v4.1+) natively use form_factor; the legacy
-            # form_factor -> type conversion only applies to older endpoints.
+            # Endpoints such as interfaces expose NetBox's `type` field under
+            # the legacy `form_factor` name and need this rename. Rack types
+            # (NetBox v4.1+) use `form_factor` natively, so skip the rename.
             if data.get("form_factor") and self.endpoint != "rack_types":
                 temp_dict["type"] = data.pop("form_factor")
 
