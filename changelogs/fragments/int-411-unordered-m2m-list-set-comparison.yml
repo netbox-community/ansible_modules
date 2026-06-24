@@ -1,17 +1,8 @@
 ---
 bugfixes:
   - >-
-    The generic update-comparison engine now compares known many-to-many list
-    fields as unordered sets, matching the behaviour previously special-cased
-    for ``tags`` only. NetBox returns these fields in a non-deterministic
-    order, so a task whose list contents already matched NetBox state was
-    reported as ``changed`` on every run and ``--check`` mode produced false
-    positives. The fields treated as sets are ``object_types``,
-    ``tagged_vlans``, the ``netbox_config_context`` assignment scopes
-    (``regions``, ``sites``, ``site_groups``, ``device_types``,
-    ``roles``, ``platforms``, ``cluster_types``, ``cluster_groups``,
-    ``clusters``, ``tenant_groups``, ``tenants``), the route-target lists
-    (``import_targets``, ``export_targets``), and the user/permission lists
-    (``permissions``, ``groups``, ``actions``). ``netbox_tag`` with
-    ``object_types`` is now idempotent
+    Unordered many-to-many list fields (such as ``object_types``,
+    ``tagged_vlans``, route targets, ``netbox_config_context`` scopes, and user
+    permissions/groups) are now compared as sets, so a reordering by NetBox no
+    longer reports a false ``changed``
     (https://github.com/netbox-community/ansible_modules/issues/1486).
