@@ -440,44 +440,6 @@ def test_update_netbox_object_unordered_list_detects_real_change(
     assert diff["after"]["tags"] == {1, 2, 4}
 
 
-def test_update_netbox_object_unhashable_list_falls_back_to_ordered(
-    mocker, mock_netbox_module
-):
-    """Unhashable list elements must not raise; comparison stays ordered."""
-    terminations = [{"object_id": 1, "object_type": "dcim.interface"}]
-    nb_obj = mocker.Mock(name="nb_obj")
-    nb_obj.serialize.return_value = {"name": "test", "import_targets": terminations}
-    mock_netbox_module.nb_object = nb_obj
-
-    serialized_obj, diff = mock_netbox_module._update_netbox_object(
-        {"import_targets": list(terminations)}
-    )
-
-    nb_obj.update.assert_not_called()
-    assert diff is None
-
-
-def test_update_netbox_object_unhashable_list_reorder_is_not_collapsed(
-    mocker, mock_netbox_module
-):
-    """Reordering an unhashable list is NOT idempotent: set conversion is
-    skipped, so the ordered comparison still reports the change."""
-    a = {"object_id": 1, "object_type": "dcim.interface"}
-    b = {"object_id": 2, "object_type": "dcim.interface"}
-    nb_obj = mocker.Mock(name="nb_obj")
-    nb_obj.serialize.return_value = {"name": "test", "import_targets": [a, b]}
-    nb_obj.update.return_value = True
-    mock_netbox_module.nb_object = nb_obj
-
-    serialized_obj, diff = mock_netbox_module._update_netbox_object(
-        {"import_targets": [b, a]}
-    )
-
-    assert diff is not None
-    assert diff["before"]["import_targets"] == [a, b]
-    assert diff["after"]["import_targets"] == [b, a]
-
-
 @pytest.mark.parametrize("version", ["2.13", "2.12", "2.11", "2.10.8", "2.10"])
 def test_version_check_greater_true(mock_netbox_module, nb_obj_mock, version):
     mock_netbox_module.nb_object = nb_obj_mock

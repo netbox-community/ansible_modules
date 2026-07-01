@@ -743,8 +743,10 @@ SCOPE_TO_ENDPOINT = {
 # order is wrongly reported as a change (breaking idempotency and --check mode).
 # Adding a field name here is safe even if it never appears on a given endpoint:
 # the comparison only converts a key when both the existing object and the
-# incoming data carry it, and non-hashable values fall back to ordered
-# comparison. See INT-411 and GitHub issue #1486.
+# incoming data carry it. Every listed field serializes (via pynetbox
+# Record.serialize) to hashable IDs or content-type/action strings; do not add a
+# field that serializes to dicts (e.g. cable terminations) — set() will raise,
+# on purpose. See INT-411 and GitHub issue #1486.
 LIST_AS_SET_KEYS = set(
     [
         "tags",
@@ -1579,15 +1581,8 @@ class NetboxModule(object):
         # reordering of identical values is not reported as a change.
         for key in LIST_AS_SET_KEYS:
             if serialized_nb_obj.get(key) and data.get(key):
-                try:
-                    before_set = set(serialized_nb_obj[key])
-                    after_set = set(data[key])
-                except TypeError:
-                    # Elements aren't hashable (e.g. a list of dicts); keep the
-                    # ordered comparison rather than failing.
-                    continue
-                serialized_nb_obj[key] = before_set
-                updated_obj[key] = after_set
+                serialized_nb_obj[key] = set(serialized_nb_obj[key])
+                updated_obj[key] = set(data[key])
 
         # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.api_version)
