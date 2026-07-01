@@ -1,0 +1,8 @@
+---
+bugfixes:
+  - >-
+    Unordered many-to-many list fields (such as ``object_types``,
+    ``tagged_vlans``, route targets, ``netbox_config_context`` scopes, and user
+    permissions/groups) are now compared as sets, so a reordering by NetBox no
+    longer reports a false ``changed``
+    (https://github.com/netbox-community/ansible_modules/issues/1486).
