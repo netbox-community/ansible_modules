@@ -914,7 +914,9 @@ class NetboxModule(object):
                 }
             )
         except pynetbox.RequestError as e:
-            self._handle_errors(msg=e.error)
+            self._handle_errors(
+                msg=e.error or f"Failed to create MAC address {mac_address}"
+            )
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers=None):
         try:
