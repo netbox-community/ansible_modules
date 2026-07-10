@@ -330,3 +330,57 @@
       - test_thirteen['interface']['name'] == "GigabitEthernet2"
       - test_thirteen['interface']['device'] == 1
       - test_thirteen['interface']['primary_mac_address'] == 2
+
+- name: "14 - Legacy mac_address sets the interface's primary MAC (NetBox v4.2+)"
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      device: test100
+      name: MacLegacyIf
+      type: 1000Base-T (1GE)
+      mac_address: "DE:AD:BE:EF:00:14"
+    state: present
+  register: test_fourteen
+
+- name: "14 - ASSERT - changed and the MAC is now the interface's primary"
+  ansible.builtin.assert:
+    that:
+      - test_fourteen is changed
+      - test_fourteen['interface']['mac_address'] == "DE:AD:BE:EF:00:14"
+      - test_fourteen['interface']['primary_mac_address'] is not none
+
+- name: "15 - Legacy mac_address again - idempotent (the #1502 phantom-change fix)"
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      device: test100
+      name: MacLegacyIf
+      type: 1000Base-T (1GE)
+      mac_address: "DE:AD:BE:EF:00:14"
+    state: present
+  register: test_fifteen
+
+- name: "15 - ASSERT - second run reports no change"
+  ansible.builtin.assert:
+    that:
+      - not test_fifteen['changed']
+
+- name: "16 - Legacy mac_address in check mode (already set) - no phantom change"
+  netbox.netbox.netbox_device_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      device: test100
+      name: MacLegacyIf
+      type: 1000Base-T (1GE)
+      mac_address: "DE:AD:BE:EF:00:14"
+    state: present
+  check_mode: true
+  register: test_sixteen
+
+- name: "16 - ASSERT - check mode reports no phantom change"
+  ansible.builtin.assert:
+    that:
+      - not test_sixteen['changed']

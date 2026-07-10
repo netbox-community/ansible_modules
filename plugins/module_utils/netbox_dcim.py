@@ -111,6 +111,19 @@ class NetboxDcimModule(NetboxModule):
 
         data = self.data
 
+        # NetBox v4.2+ made the interface serializer's legacy `mac_address` field
+        # read-only, so it is silently dropped on write. Always pull it out of the
+        # payload here; translate it into the interface's primary MAC (after the
+        # interface is ensured below) only when an explicit `primary_mac_address` was
+        # not provided, so an explicit primary always wins.
+        legacy_mac_address = None
+        if self.endpoint == "interfaces" and self._version_check_greater(
+            self.api_version, "4.2", greater_or_equal=True
+        ):
+            popped_mac_address = data.pop("mac_address", None)
+            if popped_mac_address and not data.get("primary_mac_address"):
+                legacy_mac_address = popped_mac_address
+
         # Handle rack and form_factor
         if endpoint_name == "rack":
             if self._version_check_greater(
@@ -283,6 +296,10 @@ class NetboxDcimModule(NetboxModule):
 
         if self.state == "present":
             self._ensure_object_exists(nb_endpoint, endpoint_name, name, data)
+            if legacy_mac_address:
+                self._set_primary_mac_address(
+                    endpoint_name, name, legacy_mac_address, "dcim.interface"
+                )
 
         elif self.state == "absent":
             self._ensure_object_absent(endpoint_name, name)
