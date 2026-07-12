@@ -59,6 +59,16 @@ options:
         required: false
         type: str
         version_added: "3.10.0"
+      profile:
+        description:
+          - Module type profile
+        required: false
+        type: raw
+      attributes:
+        description:
+          - Profile-defined attributes (must exist in netbox)
+        required: false
+        type: dict
       comments:
         description:
           - Comments that may include additional information in regards to the module type
@@ -103,6 +113,20 @@ EXAMPLES = r"""
           model: ws-test-3750
           manufacturer: Test Manufacturer
           part_number: ws-3750g-v2
+        state: present
+
+    - name: Create module type with a default profile within NetBox
+      netbox.netbox.netbox_module_type:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        data:
+          model: Test CPU 3000
+          manufacturer: Test Manufacturer
+          profile: CPU
+          attributes:
+              architecture: x86_64
+              cores: 4
+              speed: 3.6
         state: present
 
     - name: Delete module type within netbox
@@ -161,6 +185,8 @@ def main():
                             "oz",
                         ],
                     ),
+                    profile=dict(required=False, type="raw"),
+                    attributes=dict(required=False, type="dict"),
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),

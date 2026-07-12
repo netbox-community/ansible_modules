@@ -50,6 +50,11 @@
       model: ws-test-3750
       manufacturer: Test Manufacturer
       part_number: ws-3750g-v2
+      profile: CPU
+      attributes:
+        architecture: x86_64
+        cores: 4
+        speed: 4.3
     state: present
   register: test_three
 
@@ -61,6 +66,10 @@
       - test_three['module_type']['model'] == "ws-test-3750"
       - test_three['module_type']['manufacturer'] == 3
       - test_three['module_type']['part_number'] == "ws-3750g-v2"
+      - test_three['module_type']['profile']['name'] == CPU
+      - test_three['module_type']['attributes']['architecture'] == "x86_64"
+      - test_three['module_type']['attributes']['cores'] == 4
+      - test_three['module_type']['attributes']['speed'] == 4.3
       - test_three['msg'] == "module_type ws-test-3750 updated"
 
 - name: "MODULE_TYPE 4: ASSERT - Delete"
