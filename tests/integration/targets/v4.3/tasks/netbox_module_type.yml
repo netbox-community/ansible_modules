@@ -63,10 +63,14 @@
     that:
       - test_three is changed
       - test_three['diff']['after']['part_number'] == "ws-3750g-v2"
+      - test_three['diff']['after']['profile'] == 1
+      - test_three['diff']['after']['attributes']['architecture'] == "x86_64"
+      - test_three['diff']['after']['attributes']['cores'] == 4
+      - test_three['diff']['after']['attributes']['speed'] == 4.3
       - test_three['module_type']['model'] == "ws-test-3750"
       - test_three['module_type']['manufacturer'] == 3
       - test_three['module_type']['part_number'] == "ws-3750g-v2"
-      - test_three['module_type']['profile']['name'] == CPU
+      - test_three['module_type']['profile'] == 1
       - test_three['module_type']['attributes']['architecture'] == "x86_64"
       - test_three['module_type']['attributes']['cores'] == 4
       - test_three['module_type']['attributes']['speed'] == 4.3

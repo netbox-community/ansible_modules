@@ -124,9 +124,9 @@ EXAMPLES = r"""
           manufacturer: Test Manufacturer
           profile: CPU
           attributes:
-              architecture: x86_64
-              cores: 4
-              speed: 3.6
+            architecture: x86_64
+            cores: 4
+            speed: 3.6
         state: present
 
     - name: Delete module type within netbox
