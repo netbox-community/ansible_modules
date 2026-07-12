@@ -81,6 +81,13 @@ options:
           - Asset tag that is associated to the rack
         required: false
         type: str
+      rack_type:
+        description:
+          - The rack type the rack will be associated to (requires NetBox v4.1+)
+          - The rack will inherit the form factor, width, height and outer dimensions of the rack type
+        required: false
+        type: raw
+        version_added: "3.24.0"
       type:
         description:
           - The type of rack
@@ -277,6 +284,7 @@ def main():
                     rack_role=dict(required=False, type="raw"),
                     serial=dict(required=False, type="str"),
                     asset_tag=dict(required=False, type="str"),
+                    rack_type=dict(required=False, type="raw"),
                     type=dict(
                         required=False,
                         type="str",

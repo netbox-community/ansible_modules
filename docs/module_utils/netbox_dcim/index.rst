@@ -29,6 +29,7 @@ Constants
 .. autodata:: plugins.module_utils.netbox_dcim.NB_RACKS
 .. autodata:: plugins.module_utils.netbox_dcim.NB_RACK_ROLES
 .. autodata:: plugins.module_utils.netbox_dcim.NB_RACK_GROUPS
+.. autodata:: plugins.module_utils.netbox_dcim.NB_RACK_TYPES
 .. autodata:: plugins.module_utils.netbox_dcim.NB_REAR_PORTS
 .. autodata:: plugins.module_utils.netbox_dcim.NB_REAR_PORT_TEMPLATES
 .. autodata:: plugins.module_utils.netbox_dcim.NB_REGIONS

@@ -52,6 +52,10 @@
         "app": "dcim"
     },
     {
+        "endpoint": "rack_types",
+        "app": "dcim"
+    },
+    {
         "endpoint": "regions",
         "app": "dcim"
     },
