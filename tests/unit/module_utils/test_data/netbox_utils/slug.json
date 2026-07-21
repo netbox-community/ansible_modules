@@ -22,5 +22,17 @@
     {
         "non_slug": "test1.example.com",
         "expected": "test1-example-com"
+    },
+    {
+        "non_slug": "Test  Rack",
+        "expected": "test--rack"
+    },
+    {
+        "non_slug": "Test - Rack",
+        "expected": "test---rack"
+    },
+    {
+        "non_slug": "...a.b...",
+        "expected": "---a-b---"
     }
 ]
