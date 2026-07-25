@@ -85,6 +85,18 @@ options:
           - Must exist in NetBox and in key/value format
         required: false
         type: dict
+      parent_object_type:
+        description:
+          - Specifies which object type to associate with service.
+        required: true
+        type: str
+        version_added: "3.22.0"
+      parent_object_id:
+        description:
+          - Specifies which object to associate with service.
+        required: true
+        type: int
+        version_added: "3.22.0"
     required: true
 """
 
@@ -108,6 +120,8 @@ EXAMPLES = r"""
             - address: 127.0.0.1
           tags:
             - prometheus
+          parent_object_type: "dcim.device"
+          parent_object_id: 1
         state: present
 
     - name: Delete service
@@ -155,6 +169,8 @@ def main():
                     comments=dict(required=False, type="str"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
+                    parent_object_type=dict(required=True, type="str"),
+                    parent_object_id=dict(required=True, type="int"),
                 ),
             ),
         )
