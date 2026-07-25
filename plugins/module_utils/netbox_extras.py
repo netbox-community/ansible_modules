@@ -16,6 +16,7 @@ NB_TAGS = "tags"
 NB_CUSTOM_FIELDS = "custom_fields"
 NB_CUSTOM_FIELD_CHOICE_SETS = "custom_field_choice_sets"
 NB_CUSTOM_LINKS = "custom_links"
+NB_EVENT_RULES = "event_rules"
 NB_EXPORT_TEMPLATES = "export_templates"
 NB_JOURNAL_ENTRIES = "journal_entries"
 NB_WEBHOOKS = "webhooks"
@@ -40,6 +41,7 @@ class NetboxExtrasModule(NetboxModule):
         Supported endpoints:
         - config_contexts
         - config_templates
+        - event_rules
         - tags
         - journal entries
         """
