@@ -156,6 +156,16 @@ options:
         C(present) will check if the IP is already created, and return it if
         true. C(new) will force to create it anyway (useful for anycasts, for
         example).
+      - |
+        Identity for C(present) - an existing IP is matched on its assignment as
+        well as its address. The lookup keys are C(address), C(vrf), C(device),
+        C(interface) and C(assigned_object). The same C(address) with a
+        different assignment therefore does not match the existing record, and a
+        new (duplicate) IP is created. This is intentional, because NetBox
+        permits duplicate addresses (for example anycast or VRRP). To update an
+        existing address in place regardless of its assignment, narrow the match
+        to the address alone with C(query_params=['address']) on the task (see
+        the I(query_params) option and the examples below).
     choices: [ absent, new, present ]
     default: present
     type: str
@@ -264,6 +274,22 @@ EXAMPLES = r"""
             name: GigabitEthernet1
             device: test100
         state: new
+
+    - name: Update an existing address in place, moving it to another interface
+      netbox.netbox.netbox_ip_address:
+        netbox_url: http://netbox.local
+        netbox_token: thisIsMyToken
+        # By default the assignment is part of the IP's identity, so changing it
+        # would create a duplicate. Matching on the address alone updates the
+        # existing record instead.
+        query_params:
+          - address
+        data:
+          address: 192.168.1.10
+          assigned_object:
+            name: GigabitEthernet2
+            device: test100
+        state: present
 """
 
 RETURN = r"""
