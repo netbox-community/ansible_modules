@@ -1,0 +1,18 @@
+# Minimal starter config for nb_inventory_graphql: id, name, and primary IPs for both VMs and
+# devices. Copy this whole examples/nb_inventory_graphql/ directory into your own inventory
+# location and extend queries/*.graphql with whatever additional fields you need - the plugin
+# turns every field you select into a host variable automatically, no option changes required.
+plugin: netbox.netbox.nb_inventory_graphql
+api_endpoint: "{{ lookup('env', 'NETBOX_API') }}"
+token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
+ansible_host_dns_name: true
+
+sources:
+  - name: vms
+    query_file: queries/virtual_machines.graphql
+    list_path: virtual_machine_list
+    hostname: "{{ name }}"
+  - name: devices
+    query_file: queries/devices.graphql
+    list_path: device_list
+    hostname: "{{ name }}"

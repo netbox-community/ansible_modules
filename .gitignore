@@ -11,3 +11,4 @@ docs/_build/*
 
 # https://github.com/ansible/ansible/issues/68499
 # ansible_collections/
+collections/ansible_collections/netbox/netbox
