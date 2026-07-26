@@ -1,0 +1,83 @@
+{
+  "data": {
+    "virtual_machine_list": [
+      {
+        "id": "3",
+        "name": "app-vm-01",
+        "status": "offline",
+        "primary_ip4": { "address": "192.0.2.73/24", "dns_name": "app-vm-01" },
+        "primary_ip6": null,
+        "services": [
+          { "id": "1", "name": "web", "protocol": "tcp", "ports": [3000], "description": "" },
+          { "id": "2", "name": "api", "protocol": "tcp", "ports": [8000], "description": "" }
+        ],
+        "interfaces": [
+          {
+            "id": "3",
+            "name": "ens18",
+            "enabled": true,
+            "mtu": null,
+            "mac_address": "52:54:00:12:34:41",
+            "tags": [{ "slug": "vm-tag" }],
+            "ip_addresses": [
+              { "id": "10", "address": "192.0.2.73/24", "dns_name": "app-vm-01", "status": "active" },
+              { "id": "11", "address": "2001:db8:1::73/64", "dns_name": "app-vm-01", "status": "active" },
+              { "id": "12", "address": "fd00:1::73/64", "dns_name": "app-vm-01", "status": "active" }
+            ]
+          },
+          {
+            "id": "4",
+            "name": "net0",
+            "enabled": true,
+            "mtu": null,
+            "mac_address": "52:54:00:12:34:41",
+            "tags": [{ "slug": "vm-tag" }],
+            "ip_addresses": []
+          }
+        ]
+      },
+      {
+        "id": "1",
+        "name": "prod-vm-01",
+        "status": "active",
+        "primary_ip4": { "address": "192.0.2.198/24", "dns_name": "prod-vm-01" },
+        "primary_ip6": { "address": "2001:db8:1::198/64", "dns_name": "prod-vm-01" },
+        "services": [],
+        "interfaces": [
+          {
+            "id": "1",
+            "name": "ens18",
+            "enabled": true,
+            "mtu": null,
+            "mac_address": "52:54:00:12:34:49",
+            "tags": [{ "slug": "vm-tag" }],
+            "ip_addresses": [
+              { "id": "3", "address": "192.0.2.198/24", "dns_name": "prod-vm-01", "status": "active" },
+              { "id": "4", "address": "2001:db8:1::198/64", "dns_name": "prod-vm-01", "status": "active" },
+              { "id": "5", "address": "fd00:1::198/64", "dns_name": "prod-vm-01", "status": "active" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "name": "dev-vm-01",
+        "status": "offline",
+        "primary_ip4": null,
+        "primary_ip6": null,
+        "services": [],
+        "interfaces": [
+          {
+            "id": "2",
+            "name": "net0",
+            "enabled": true,
+            "mtu": null,
+            "mac_address": "52:54:00:12:34:50",
+            "tags": [{ "slug": "vm-tag" }],
+            "ip_addresses": []
+          }
+        ]
+      }
+    ]
+  }
+}
