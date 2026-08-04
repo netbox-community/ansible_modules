@@ -1,5 +1,5 @@
 ---
-minor_changes:
+trivial:
   - >-
     CI now exercises the collection against ansible-core 2.19 alongside the
     existing 2.18 baseline. Three new unit-test legs (Python 3.11, 3.12,

@@ -1,5 +1,5 @@
 ---
-minor_changes:
+trivial:
   - >-
     CI for NetBox v4.5 now provisions a real v2 API token
     (``nbt_<KEY>.<TOKEN>``) at runtime via
