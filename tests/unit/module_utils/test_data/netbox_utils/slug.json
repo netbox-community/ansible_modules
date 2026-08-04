@@ -25,14 +25,26 @@
     },
     {
         "non_slug": "Test  Rack",
-        "expected": "test--rack"
+        "expected": "test-rack"
     },
     {
         "non_slug": "Test - Rack",
-        "expected": "test---rack"
+        "expected": "test-rack"
     },
     {
         "non_slug": "...a.b...",
-        "expected": "---a-b---"
+        "expected": "-a-b-"
+    },
+    {
+        "non_slug": " leading",
+        "expected": "-leading"
+    },
+    {
+        "non_slug": "trailing ",
+        "expected": "trailing-"
+    },
+    {
+        "non_slug": " both ",
+        "expected": "-both-"
     }
 ]

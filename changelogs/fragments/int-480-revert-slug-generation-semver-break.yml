@@ -2,10 +2,9 @@
 bugfixes:
   - >-
     Reverted the slug-generation change introduced in 3.23.0, restoring the
-    pre-3.23.0 behavior (repeated separators are no longer collapsed and leading
-    or trailing separators are no longer trimmed). The 3.23.0 change altered
-    auto-generated slugs, breaking idempotency for playbooks that rely on the
-    derived slug as a lookup key, and it shipped in a minor release contrary to
-    semantic versioning. The upstream-aligned slug generation will return in a
-    future major release
+    pre-3.23.0 behavior (leading and trailing separators are no longer
+    trimmed). The 3.23.0 change altered auto-generated slugs, breaking
+    idempotency for playbooks that rely on the derived slug as a lookup key,
+    and it shipped in a minor release contrary to semantic versioning. The
+    upstream-aligned slug generation will return in a future major release
     (https://github.com/netbox-community/ansible_modules/issues/1563).
