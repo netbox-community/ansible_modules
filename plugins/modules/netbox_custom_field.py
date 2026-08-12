@@ -171,7 +171,8 @@ EXAMPLES = r"""
           content_types:
             - dcim.device
             - virtualization.virtualmachine
-          name: A Custom Field
+          name: custom_field
+          label: Custom Field
           type: text
 
     - name: Create a custom field of type selection
@@ -179,7 +180,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: "Custom_Field"
+          name: Custom_Field_2
           content_types:
             - dcim.device
             - virtualization.virtualmachine
@@ -191,7 +192,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
           required: true
 
     - name: Update the custom field to make it read only
@@ -199,7 +200,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
           ui_visibility: read-only
 
     - name: Delete the custom field
@@ -207,7 +208,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
         state: absent
 """
 
