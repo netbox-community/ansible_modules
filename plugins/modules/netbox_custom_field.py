@@ -30,13 +30,13 @@ options:
     suboptions:
       content_types:
         description:
-          - The content type(s) to apply this custom field to
+          - The content type(s) to apply this custom field to (obsolete in NetBox 4.0+)
         required: false
         type: list
         elements: raw
       object_types:
         description:
-          - The content type(s) to apply this custom field to (NetBox 4.0+)
+          - The object type(s) to apply this custom field to (available and required in NetBox 4.0+)
         required: false
         type: list
         elements: raw
@@ -62,7 +62,7 @@ options:
         type: str
       object_type:
         description:
-          - The object type of the custom field (if any)
+          - The object type of the custom field (if any, obsolete in NetBox 4.0+, use object_types)
         required: false
         type: str
         version_added: "3.7.0"
@@ -168,7 +168,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_types:
+          object_types:
             - dcim.device
             - virtualization.virtualmachine
           name: custom_field
@@ -181,7 +181,7 @@ EXAMPLES = r"""
         netbox_token: thisIsMyToken
         data:
           name: Custom_Field_2
-          content_types:
+          object_types:
             - dcim.device
             - virtualization.virtualmachine
           type: select
