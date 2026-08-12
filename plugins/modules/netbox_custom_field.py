@@ -195,7 +195,7 @@ EXAMPLES = r"""
           name: custom_field
           required: true
 
-    - name: Update the custom field to make it read only
+    - name: Update the custom field to make it read-only in UI
       netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
