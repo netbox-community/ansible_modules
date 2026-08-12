@@ -30,13 +30,13 @@ options:
     suboptions:
       content_types:
         description:
-          - The content type(s) to apply this custom field to
+          - The content type(s) to apply this custom field to (obsolete in NetBox 4.0+)
         required: false
         type: list
         elements: raw
       object_types:
         description:
-          - The content type(s) to apply this custom field to (NetBox 4.0+)
+          - The object type(s) to apply this custom field to (available and required in NetBox 4.0+)
         required: false
         type: list
         elements: raw
@@ -62,7 +62,7 @@ options:
         type: str
       object_type:
         description:
-          - The object type of the custom field (if any)
+          - The object type of the custom field (if any, obsolete in NetBox 4.0+, use object_types)
         required: false
         type: str
         version_added: "3.7.0"
@@ -168,10 +168,11 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          content_types:
+          object_types:
             - dcim.device
             - virtualization.virtualmachine
-          name: A Custom Field
+          name: custom_field
+          label: Custom Field
           type: text
 
     - name: Create a custom field of type selection
@@ -179,8 +180,8 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: "Custom_Field"
-          content_types:
+          name: Custom_Field_2
+          object_types:
             - dcim.device
             - virtualization.virtualmachine
           type: select
@@ -191,15 +192,15 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
           required: true
 
-    - name: Update the custom field to make it read only
+    - name: Update the custom field to make it read-only in UI
       netbox.netbox.netbox_custom_field:
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
           ui_visibility: read-only
 
     - name: Delete the custom field
@@ -207,7 +208,7 @@ EXAMPLES = r"""
         netbox_url: http://netbox.local
         netbox_token: thisIsMyToken
         data:
-          name: A Custom Field
+          name: custom_field
         state: absent
 """
 
