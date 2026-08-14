@@ -75,7 +75,7 @@ options:
           - Start on boot field of the virtual machine
         required: false
         type: bool
-        version_added: "4.6.8"
+        version_added: "3.23.0"
       primary_ip4:
         description:
           - Primary IPv4 address assigned to the virtual machine
