@@ -3,4 +3,4 @@ minor_changes:
   - >-
     Add the ``netbox_ip_range`` module for creating, updating, and removing
     IP ranges (``/api/ipam/ip-ranges/``) in NetBox
-    (https://github.com/netbox-community/ansible_modules/issues/XXXX).
+    (https://github.com/netbox-community/ansible_modules/issues/1597).
