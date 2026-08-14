@@ -70,6 +70,12 @@ options:
         required: false
         type: str
         version_added: "3.20.0"
+      start_on_boot:
+        description:
+          - Start on boot field of the virtual machine
+        required: false
+        type: bool
+        version_added: "4.6.8"
       primary_ip4:
         description:
           - Primary IPv4 address assigned to the virtual machine
@@ -242,6 +248,7 @@ def main():
                     disk=dict(required=False, type="int"),
                     device=dict(required=False, type="raw"),
                     status=dict(required=False, type="raw"),
+                    start_on_boot=dict(required=False, type="bool"),
                     tags=dict(required=False, type="list", elements="raw"),
                     custom_fields=dict(required=False, type="dict"),
                     local_context_data=dict(required=False, type="dict"),
