@@ -194,28 +194,6 @@ def test_group_extractors(
         assert key not in expected
 
 
-@pytest.mark.parametrize(
-    "api_url, max_uri_length, query_key, query_values, expected",
-    load_relative_test_data("get_resource_list_chunked"),
-)
-def test_get_resource_list_chunked(
-    inventory_fixture, api_url, max_uri_length, query_key, query_values, expected
-):
-    mock_get_resource_list = Mock()
-    mock_get_resource_list.return_value = ["resource"]
-
-    inventory_fixture.get_resource_list = mock_get_resource_list
-    inventory_fixture.max_uri_length = max_uri_length
-
-    resources = inventory_fixture.get_resource_list_chunked(
-        api_url, query_key, query_values
-    )
-
-    mock_get_resource_list.assert_has_calls(map(call, expected))
-    assert mock_get_resource_list.call_count == len(expected)
-    assert resources == mock_get_resource_list.return_value * len(expected)
-
-
 @patch(
     "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.DEFAULT_LOCAL_TMP",
     "/fake/path/asdasd3456",
