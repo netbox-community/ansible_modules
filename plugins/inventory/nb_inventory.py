@@ -384,12 +384,9 @@ token:
 
 import json
 import uuid
-import math
 import os
 import re
 import datetime
-import requests
-import pynetbox
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -404,13 +401,18 @@ from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
-from ansible.module_utils.common.text.converters import to_text, to_native
-from ansible.module_utils.six.moves.urllib import error as urllib_error
-from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
 
 try:
-    from packaging import specifiers, version
+    import requests
+    import pynetbox
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
+
+try:
+    from packaging import version
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
 else:
@@ -462,7 +464,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def _fetch_information_pynetbox(self, key, pynetbox_fn):
         cache_key = self.get_cache_key(key)
-        results, need_to_fetch  = self._get_from_cache(cache_key)
+        results, need_to_fetch = self._get_from_cache(cache_key)
         if need_to_fetch:
             self.display.v("Fetching {} from netbox".format(key))
             results = list(map(dict, pynetbox_fn()))
@@ -965,7 +967,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
-        platforms = self._fetch_information_pynetbox('platforms', self.nb.dcim.platforms.all)
+        platforms = self._fetch_information_pynetbox(
+            "platforms", self.nb.dcim.platforms.all
+        )
         self.platforms_lookup = dict(
             (platform["id"], platform["slug"]) for platform in platforms
         )
@@ -975,7 +979,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # "sites_lookup_slug" only contains the slug. Used by _add_site_groups() when creating inventory groups
         # "sites_lookup" contains the full data structure. Most site lookups use this
         # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
-        sites = self._fetch_information_pynetbox('sites', self.nb.dcim.sites.all)
+        sites = self._fetch_information_pynetbox("sites", self.nb.dcim.sites.all)
         # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
@@ -1060,7 +1064,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
-        self._fetch_information_pynetbox('prefixes', self.nb.ipam.prefixes.all)
+        prefixes = self._fetch_information_pynetbox(
+            "prefixes", self.nb.ipam.prefixes.all
+        )
         self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
@@ -1078,7 +1084,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 del prefix["site"]
 
     def refresh_regions_lookup(self):
-        regions = self._fetch_information_pynetbox('regions', self.nb.dcim.regions.all)
+        regions = self._fetch_information_pynetbox("regions", self.nb.dcim.regions.all)
 
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
 
@@ -1098,7 +1104,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version < version.parse("2.11"):
             return
 
-        site_groups = self._fetch_information_pynetbox('site-groups', self.nb.dcim.site_groups.all)
+        site_groups = self._fetch_information_pynetbox(
+            "site-groups", self.nb.dcim.site_groups.all
+        )
         self.site_groups_lookup = dict(
             (site_group["id"], site_group["slug"]) for site_group in site_groups
         )
@@ -1120,7 +1128,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version < version.parse("2.11"):
             return
 
-        locations = self._fetch_information_pynetbox('locations', self.nb.dcim.locations.all)
+        locations = self._fetch_information_pynetbox(
+            "locations", self.nb.dcim.locations.all
+        )
 
         self.locations_lookup = dict(
             (location["id"], location["slug"]) for location in locations
@@ -1145,11 +1155,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.locations_site_lookup = dict(map(get_location_site, locations))
 
     def refresh_tenants_lookup(self):
-        tenants = self._fetch_information_pynetbox('tenants', self.nb.tenancy.tenants.all)
+        tenants = self._fetch_information_pynetbox(
+            "tenants", self.nb.tenancy.tenants.all
+        )
         self.tenants_lookup = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
 
     def refresh_racks_lookup(self):
-        racks = self._fetch_information_pynetbox('racks', self.nb.dcim.racks.all)
+        racks = self._fetch_information_pynetbox("racks", self.nb.dcim.racks.all)
         self.racks_lookup = dict((rack["id"], rack["name"]) for rack in racks)
 
         def get_group_for_rack(rack):
@@ -1172,7 +1184,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version >= version.parse("2.11"):
             return
 
-        rack_groups = self._fetch_information_pynetbox('rack-groups', self.nb.dcim.rack_groups.all)
+        rack_groups = self._fetch_information_pynetbox(
+            "rack-groups", self.nb.dcim.rack_groups.all
+        )
 
         self.rack_groups_lookup = dict(
             (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
@@ -1188,28 +1202,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.rack_group_parent_lookup = dict(map(get_rack_group_parent, rack_groups))
 
     def refresh_device_roles_lookup(self):
-        device_roles = self._fetch_information_pynetbox('device-roles', self.nb.dcim.device_roles.all)
+        device_roles = self._fetch_information_pynetbox(
+            "device-roles", self.nb.dcim.device_roles.all
+        )
 
         self.device_roles_lookup = dict(
             (device_role["id"], device_role["slug"]) for device_role in device_roles
         )
 
     def refresh_device_types_lookup(self):
-        device_types = self._fetch_information_pynetbox('device-types', self.nb.dcim.device_types.all)
+        device_types = self._fetch_information_pynetbox(
+            "device-types", self.nb.dcim.device_types.all
+        )
 
         self.device_types_lookup = dict(
             (device_type["id"], device_type["slug"]) for device_type in device_types
         )
 
     def refresh_manufacturers_lookup(self):
-        manufacturers = self._fetch_information_pynetbox('manufacturers', self.nb.dcim.manufacturers.all)
+        manufacturers = self._fetch_information_pynetbox(
+            "manufacturers", self.nb.dcim.manufacturers.all
+        )
 
         self.manufacturers_lookup = dict(
             (manufacturer["id"], manufacturer["slug"]) for manufacturer in manufacturers
         )
 
     def refresh_clusters_lookup(self):
-        clusters = self._fetch_information_pynetbox('clusters', self.nb.virtualization.clusters.all)
+        clusters = self._fetch_information_pynetbox(
+            "clusters", self.nb.virtualization.clusters.all
+        )
 
         def get_cluster_type(cluster):
             # Will fail if cluster does not have a type (required property so should always be true)
@@ -1234,21 +1256,22 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         object_ids_len = len(object_ids)
 
         if self.fetch_all:
-            services = self._fetch_information_pynetbox('services', self.nb.ipam.services.all)
+            services = self._fetch_information_pynetbox(
+                "services", self.nb.ipam.services.all
+            )
         elif self.api_version >= version.parse("4.3.0") and object_ids_len > 0:
+
             def services_filter():
-                return self.nb.ipam.services.filter(
-                    parent_object_id=object_ids
-                )
+                return self.nb.ipam.services.filter(parent_object_id=object_ids)
+
         elif len(object_ids) > 0:
+
             def services_filter():
-                return self.nb.ipam.services.filter(
-                    device_id=object_ids
-                )
+                return self.nb.ipam.services.filter(device_id=object_ids)
 
         self.display.v("Filtering services on {} object_ids".format(object_ids_len))
 
-        services = self._fetch_information_pynetbox('services', services_filter)
+        services = self._fetch_information_pynetbox("services", services_filter)
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
@@ -1280,24 +1303,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     ] = service
 
     def refresh_virtual_disks(self):
-        url_vm_virtual_disks = (
-            self.api_endpoint + "/api/virtualization/virtual-disks/?limit=0"
-        )
-
         vm_virtual_disks = []
 
         if self.fetch_all:
-            vm_virtual_disks = self._fetch_information_pynetbox('virtual-disks', self.nb.virtualization.virtual_disks.all)
+            vm_virtual_disks = self._fetch_information_pynetbox(
+                "virtual-disks", self.nb.virtualization.virtual_disks.all
+            )
         else:
             vm_ids = self.vms_lookup.keys()
             vm_ids_len = len(vm_ids)
             if vm_ids_len > 0:
+
                 def virtualization_virtualdisks_filter():
                     return self.nb.virtualization.virtual_disks.filter(
                         virtual_machine_id=vm_ids
                     )
-                self.display.v("Filtering virtual-disks on {} virtual_machine_id".format(vm_ids_len))
-                vm_virtual_disks = self._fetch_information_pynetbox('virtual-disks', virtualization_virtualdisks_filter)
+
+                self.display.v(
+                    "Filtering virtual-disks on {} virtual_machine_id".format(
+                        vm_ids_len
+                    )
+                )
+                vm_virtual_disks = self._fetch_information_pynetbox(
+                    "virtual-disks", virtualization_virtualdisks_filter
+                )
 
         self.vm_virtual_disks_lookup = defaultdict(dict)
 
@@ -1313,12 +1342,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         if self.fetch_all:
             device_interfaces = self._fetch_information_pynetbox(
-                'device-interfaces',
-                self.nb.dcim.interfaces.all
+                "device-interfaces", self.nb.dcim.interfaces.all
             )
             vm_interfaces = self._fetch_information_pynetbox(
-                'vm-interfaces',
-                self.nb.virtualization.interfaces.all
+                "vm-interfaces", self.nb.virtualization.interfaces.all
             )
         else:
             device_ids = self.devices_lookup.keys()
@@ -1326,22 +1353,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             device_ids_len = len(device_ids)
             vm_ids_len = len(vm_ids)
             if device_ids_len > 0:
+
                 def dcim_interfaces_filter():
-                    return self.nb.dcim.interfaces.filter(
-                        device_id=device_ids
-                    )
-                self.display.v("Filtering interfaces on {} device_id".format(device_ids_len))
+                    return self.nb.dcim.interfaces.filter(device_id=device_ids)
+
+                self.display.v(
+                    "Filtering interfaces on {} device_id".format(device_ids_len)
+                )
                 device_interfaces = self._fetch_information_pynetbox(
-                    'device-interfaces',
-                    dcim_interfaces_filter)
+                    "device-interfaces", dcim_interfaces_filter
+                )
 
             if vm_ids_len > 0:
+
                 def virtualization_interfaces_filter():
                     return self.nb.virtualization.interfaces.filter(
                         virtual_machine_id=vm_ids
                     )
-                self.display.v("Filtering interfaces on {} virtual_machine_id".format(vm_ids_len))
-                vm_interfaces = self._fetch_information_pynetbox('vm-interfaces', virtualization_interfaces_filter)
+
+                self.display.v(
+                    "Filtering interfaces on {} virtual_machine_id".format(vm_ids_len)
+                )
+                vm_interfaces = self._fetch_information_pynetbox(
+                    "vm-interfaces", virtualization_interfaces_filter
+                )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # For a given device id or vm id, get a lookup of interface id to interface
@@ -1384,7 +1419,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         ipaddresses = []
 
         if self.fetch_all:
-            ipaddresses = self._fetch_information_pynetbox('ip-addresses', self.nb.ipam.ip_addresses.all)
+            ipaddresses = self._fetch_information_pynetbox(
+                "ip-addresses", self.nb.ipam.ip_addresses.all
+            )
         else:
             device_ids = list(self.devices_with_ips)
             vm_ids = self.vms_lookup.keys()
@@ -1393,24 +1430,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             vm_ips = []
             device_ips = []
             if device_ids_len > 0:
+
                 def dcim_ipaddresses_filter():
-                    return self.nb.ipam.ip_addresses.filter(
-                        device_id=device_ids
-                    )
-                self.display.v("Filtering ip-addresses on {} device_id".format(device_ids_len))
+                    return self.nb.ipam.ip_addresses.filter(device_id=device_ids)
+
+                self.display.v(
+                    "Filtering ip-addresses on {} device_id".format(device_ids_len)
+                )
                 device_ips = self._fetch_information_pynetbox(
-                    'device-ip-addresses',
-                    dcim_ipaddresses_filter)
+                    "device-ip-addresses", dcim_ipaddresses_filter
+                )
 
             if vm_ids_len > 0:
+
                 def virtualization_ipaddresses_filter():
-                    return self.nb.ipam.ip_addresses.filter(
-                        virtual_machine_id=vm_ids
-                    )
-                self.display.v("Filtering ip-addresses on {} virtual_machine_id".format(vm_ids_len))
+                    return self.nb.ipam.ip_addresses.filter(virtual_machine_id=vm_ids)
+
+                self.display.v(
+                    "Filtering ip-addresses on {} virtual_machine_id".format(vm_ids_len)
+                )
                 vm_ips = self._fetch_information_pynetbox(
-                    'vm-ip-addresses',
-                    virtualization_ipaddresses_filter)
+                    "vm-ip-addresses", virtualization_ipaddresses_filter
+                )
 
             ipaddresses = chain(device_ips, vm_ips)
 
@@ -1678,14 +1719,22 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         device_filters, vm_filters = self.get_filters()
 
         if len(device_filters) > 0:
+
             def devices_filter():
                 return self.nb.dcim.devices.filter(**dict(device_filters))
-            self.devices_list = self._fetch_information_pynetbox('devices', devices_filter)
+
+            self.devices_list = self._fetch_information_pynetbox(
+                "devices", devices_filter
+            )
 
         if len(vm_filters) > 0:
+
             def vms_filter():
-                return self.nb.virtualization.virtual_machines.filter(**dict(vm_filters))
-            self.vms_list = self._fetch_information_pynetbox('vms', vms_filter)
+                return self.nb.virtualization.virtual_machines.filter(
+                    **dict(vm_filters)
+                )
+
+            self.vms_list = self._fetch_information_pynetbox("vms", vms_filter)
 
         # Allow looking up devices/vms by their ids
         self.devices_lookup = {device["id"]: device for device in self.devices_list}
@@ -2103,11 +2152,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         session.cert = (self.cert, self.key)
         session.verify = self.ca_path
         self.nb = pynetbox.api(
-            self.get_option('api_endpoint'),
+            self.get_option("api_endpoint"),
             # strict_filters might not be available, TODO: add a version check
-            #strict_filters=True,
+            # strict_filters=True,
             token=token,
-            threading=True)
+            threading=True,
+        )
 
         self.main()
 
