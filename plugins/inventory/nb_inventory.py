@@ -388,6 +388,7 @@ import math
 import os
 import re
 import datetime
+import pynetbox
 from copy import deepcopy
 from functools import partial
 from sys import version as python_version
@@ -425,6 +426,51 @@ else:
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
+
+    def _set_to_cache(self, cache_key, results):
+        # get the user's cache option to see if we should save the cache if it is changing
+        user_cache_setting = self.get_option("cache")
+
+        # read if the user has caching enabled and the cache isn't being refreshed
+        attempt_to_write_cache = user_cache_setting and self.use_cache
+
+        if attempt_to_write_cache:
+            self._cache[cache_key] = results
+
+    def _get_from_cache(self, cache_key):
+        results = None
+
+        # get the user's cache option to see if we should save the cache if it is changing
+        user_cache_setting = self.get_option("cache")
+
+        # read if the user has caching enabled and the cache isn't being refreshed
+        attempt_to_read_cache = user_cache_setting and self.use_cache
+
+        # attempt to read the cache if inventory isn't being refreshed and the user has caching enabled
+        if attempt_to_read_cache:
+            try:
+                results = self._cache[cache_key]
+                need_to_fetch = False
+            except KeyError:
+                # occurs if the cache_key is not in the cache or if the cache_key expired
+                # we need to fetch the URL now
+                need_to_fetch = True
+        else:
+            # not reading from cache so do fetch
+            need_to_fetch = True
+        return (results, need_to_fetch)
+
+    def _fetch_information_pynetbox(self, key, pynetbox_fn):
+        cache_key = self.get_cache_key(key)
+        results, need_to_fetch  = self._get_from_cache(cache_key)
+        print(need_to_fetch)
+        if need_to_fetch:
+            self.display.v("Fetching {} from netbox".format(key))
+            results = list(map(dict, pynetbox_fn()))
+            self._set_to_cache(cache_key, results)
+        else:
+            self.display.v("Fetching {} from cache".format(key))
+        return results
 
     def _fetch_information(self, url):
         results = None
@@ -1049,8 +1095,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
-        url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
-        platforms = self.get_resource_list(api_url=url)
+        platforms = self._fetch_information_pynetbox('platforms', self.nb.dcim.platforms.all)
         self.platforms_lookup = dict(
             (platform["id"], platform["slug"]) for platform in platforms
         )
@@ -1060,8 +1105,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # "sites_lookup_slug" only contains the slug. Used by _add_site_groups() when creating inventory groups
         # "sites_lookup" contains the full data structure. Most site lookups use this
         # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
-        url = self.api_endpoint + "/api/dcim/sites/?limit=0"
-        sites = self.get_resource_list(api_url=url)
+        sites = self._fetch_information_pynetbox('sites', self.nb.dcim.sites.all)
         # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
@@ -1146,9 +1190,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
-        url = self.api_endpoint + "/api/ipam/prefixes"
-
-        prefixes = self.get_resource_list(url)
+        self._fetch_information_pynetbox('prefixes', self.nb.ipam.prefixes.all)
         self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
@@ -1166,8 +1208,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 del prefix["site"]
 
     def refresh_regions_lookup(self):
-        url = self.api_endpoint + "/api/dcim/regions/?limit=0"
-        regions = self.get_resource_list(api_url=url)
+        regions = self._fetch_information_pynetbox('regions', self.nb.dcim.regions.all)
+
+        print(regions)
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
 
         def get_region_parent(region):
@@ -1627,7 +1670,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             cached_api_version = None
             cache = None
 
-        status = self._fetch_information(self.api_endpoint + "/api/status/")
+        status = self.nb.status()
         netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
         if version.parse(netbox_api_version) >= version.parse("3.5.0"):
@@ -2213,6 +2256,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.rename_variables = self.parse_rename_variables(
             self.get_option("rename_variables")
         )
+
+        # Initialize pynetbox API
+        if version.parse(ansible_version) < version.parse("2.11"):
+            token = self.get_option("token")
+        else:
+            self.templar.available_variables = self._vars
+            token = self.templar.template(
+                self.get_option("token"), fail_on_undefined=False
+            )
+        self.nb = pynetbox.api(
+            self.get_option('api_endpoint'),
+            token=token,
+            threading=True)
 
         self.main()
 
