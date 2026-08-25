@@ -1608,7 +1608,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if cache and cached_api_version == netbox_api_version:
             openapi = cache
         else:
-            response = requests.get(endpoint_url)
+            response = requests.get(endpoint_url, timeout=self.timeout)
             openapi = json.loads(response.content)
 
             try:
