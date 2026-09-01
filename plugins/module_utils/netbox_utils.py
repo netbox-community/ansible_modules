@@ -1552,10 +1552,9 @@ class NetboxModule(object):
         elif isinstance(value, int):
             return value
 
-        value = re.sub(r"[^\-.\w\s]", "", value)
-        value = re.sub(r"^[\s.]+|[\s.]+$", "", value)
-        value = re.sub(r"[-.\s]+", "-", value)
-        return value.strip().lower()
+        removed_chars = re.sub(r"[^\-\.\w\s]", "", value)
+        convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
+        return convert_chars.strip().lower()
 
     def _normalize_data(self, data):
         """
