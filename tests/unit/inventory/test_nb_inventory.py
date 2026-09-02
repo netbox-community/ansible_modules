@@ -248,6 +248,10 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
 def test_new_token(inventory_fixture, templar_fixture):
     mock_get_option = Mock()
+    mock_get_option.side_effect = lambda option: {
+        "token": {"type": "foo", "value": "bar"},
+        "headers": None,
+    }[option]
 
     mock_templar_template_token = Mock()
     mock_templar_template_token.return_value = {"type": "foo", "value": "bar"}
@@ -263,6 +267,57 @@ def test_new_token(inventory_fixture, templar_fixture):
 
     assert "Authorization" in inventory_fixture.headers
     assert inventory_fixture.headers["Authorization"] == "Foo bar"
+
+
+def test_headers_are_templated(inventory_fixture, templar_fixture):
+    raw_headers = {
+        "X-NetBox-Branch": "{{ lookup('ansible.builtin.env', 'NETBOX_BRANCH_ID') }}",
+        "X-Test-Header": "static",
+    }
+    rendered_headers = {
+        "X-NetBox-Branch": "branch-schema-id",
+        "X-Test-Header": "static",
+    }
+
+    def template(value, fail_on_undefined=False):
+        if value == raw_headers:
+            return rendered_headers
+        return value
+
+    inventory_fixture.templar = templar_fixture
+    inventory_fixture.templar.template = Mock(side_effect=template)
+    inventory_fixture.get_option = Mock(
+        side_effect=lambda option: {"token": None, "headers": raw_headers}[option]
+    )
+    inventory_fixture.headers = {}
+
+    inventory_fixture._set_authorization()
+
+    assert inventory_fixture.headers["X-NetBox-Branch"] == "branch-schema-id"
+    assert inventory_fixture.headers["X-Test-Header"] == "static"
+
+
+def test_header_string_is_templated_before_json_decode(
+    inventory_fixture, templar_fixture
+):
+    raw_headers = '{"X-NetBox-Branch": "{{ branch_id }}"}'
+    rendered_headers = '{"X-NetBox-Branch": "branch-schema-id"}'
+
+    def template(value, fail_on_undefined=False):
+        if value == raw_headers:
+            return rendered_headers
+        return value
+
+    inventory_fixture.templar = templar_fixture
+    inventory_fixture.templar.template = Mock(side_effect=template)
+    inventory_fixture.get_option = Mock(
+        side_effect=lambda option: {"token": None, "headers": raw_headers}[option]
+    )
+    inventory_fixture.headers = {}
+
+    inventory_fixture._set_authorization()
+
+    assert inventory_fixture.headers["X-NetBox-Branch"] == "branch-schema-id"
 
 
 @pytest.mark.parametrize(
