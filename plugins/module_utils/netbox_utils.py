@@ -1150,7 +1150,18 @@ class NetboxModule(object):
             matches = query_params.intersection(set(module_data.keys()))
 
         for match in matches:
-            if match in QUERY_PARAMS_IDS:
+            if parent in (
+                "tagged_vlans",
+                "untagged_vlan",
+                "vlan",
+            ) and match in ("group", "vlan_group"):
+                data = child if child else module_data
+                if match == "group":
+                    data = {"vlan_group": data[match]}
+
+                query_id = self._get_query_param_id("vlan_group", data)
+                query_dict.update({"group_id": query_id})
+            elif match in QUERY_PARAMS_IDS:
                 if child:
                     query_id = self._get_query_param_id(match, child)
                 else:
