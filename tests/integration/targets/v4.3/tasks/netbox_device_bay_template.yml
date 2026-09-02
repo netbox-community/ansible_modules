@@ -11,6 +11,7 @@
     data:
       device_type: WS Test 3850
       name: Device Bay Template One
+      description: Test Device Bay Template Description
     state: present
   register: test_one
 
@@ -22,6 +23,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['device_bay_template']['name'] == "Device Bay Template One"
       - test_one['device_bay_template']['device_type'] == 7
+      - test_one['device_bay_template']['description'] == "Test Device Bay Template Description"
       - test_one['msg'] == "device_bay_template Device Bay Template One created"
 
 - name: "DEVICE_BAY_TEMPLATE 2: Create duplicate"
@@ -31,6 +33,7 @@
     data:
       device_type: WS Test 3850
       name: Device Bay Template One
+      description: Test Device Bay Template Description
     state: present
   register: test_two
 
@@ -40,6 +43,7 @@
       - not test_two['changed']
       - test_two['device_bay_template']['name'] == "Device Bay Template One"
       - test_two['device_bay_template']['device_type'] == 7
+      - test_two['device_bay_template']['description'] == "Test Device Bay Template Description"
       - test_two['msg'] == "device_bay_template Device Bay Template One already exists"
 
 - name: "DEVICE_BAY_TEMPLATE 3: ASSERT - Create Device Bay Template for Delete Test"
@@ -49,6 +53,7 @@
     data:
       device_type: WS Test 3850
       name: Device Bay Template Two
+      description: Test Device Bay Template Description for Delete Test
     state: present
   register: test_three
 
@@ -60,6 +65,7 @@
       - test_three['diff']['after']['state'] == "present"
       - test_three['device_bay_template']['name'] == "Device Bay Template Two"
       - test_three['device_bay_template']['device_type'] == 7
+      - test_three['device_bay_template']['description'] == "Test Device Bay Template Description for Delete Test"
       - test_three['msg'] == "device_bay_template Device Bay Template Two created"
 
 - name: "DEVICE_BAY_TEMPLATE 4: ASSERT - Delete"
