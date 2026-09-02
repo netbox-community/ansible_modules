@@ -384,7 +384,6 @@ token:
 
 import json
 import uuid
-import math
 import os
 import re
 import datetime
@@ -402,14 +401,18 @@ from ansible.constants import DEFAULT_LOCAL_TMP
 from ansible.plugins.inventory import BaseInventoryPlugin, Constructable, Cacheable
 from ansible.module_utils.ansible_release import __version__ as ansible_version
 from ansible.errors import AnsibleError
-from ansible.module_utils.common.text.converters import to_text, to_native
-from ansible.module_utils.urls import open_url
-from ansible.module_utils.six.moves.urllib import error as urllib_error
-from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
 
 try:
-    from packaging import specifiers, version
+    import requests
+    import pynetbox
+except ImportError as imp_exc:
+    PACKAGING_IMPORT_ERROR = imp_exc
+else:
+    PACKAGING_IMPORT_ERROR = None
+
+try:
+    from packaging import version
 except ImportError as imp_exc:
     PACKAGING_IMPORT_ERROR = imp_exc
 else:
@@ -426,9 +429,18 @@ else:
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
 
-    def _fetch_information(self, url):
+    def _set_to_cache(self, cache_key, results):
+        # get the user's cache option to see if we should save the cache if it is changing
+        user_cache_setting = self.get_option("cache")
+
+        # read if the user has caching enabled and the cache isn't being refreshed
+        attempt_to_write_cache = user_cache_setting and self.use_cache
+
+        if attempt_to_write_cache:
+            self._cache[cache_key] = results
+
+    def _get_from_cache(self, cache_key):
         results = None
-        cache_key = self.get_cache_key(url)
 
         # get the user's cache option to see if we should save the cache if it is changing
         user_cache_setting = self.get_option("cache")
@@ -448,112 +460,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         else:
             # not reading from cache so do fetch
             need_to_fetch = True
+        return (results, need_to_fetch)
 
+    def _fetch_information_pynetbox(self, key, pynetbox_fn):
+        cache_key = self.get_cache_key(key)
+        results, need_to_fetch = self._get_from_cache(cache_key)
         if need_to_fetch:
-            self.display.v("Fetching: " + url)
-            try:
-                response = open_url(
-                    url,
-                    headers=self.headers,
-                    timeout=self.timeout,
-                    validate_certs=self.validate_certs,
-                    follow_redirects=self.follow_redirects,
-                    client_cert=self.cert,
-                    client_key=self.key,
-                    ca_path=self.ca_path,
-                )
-            except urllib_error.HTTPError as e:
-                """This will return the response body when we encounter an error.
-                This is to help determine what might be the issue when encountering an error.
-                Please check issue #294 for more info.
-                """
-                # Prevent inventory from failing completely if the token does not have the proper permissions for specific URLs
-                if e.code == 403:
-                    self.display.display(
-                        "Permission denied: {0}. This may impair functionality of the"
-                        " inventory plugin.".format(url),
-                        color="red",
-                    )
-                    # Need to return mock response data that is empty to prevent any failures downstream
-                    return {"results": [], "next": None}
-
-                raise AnsibleError(to_native(e.fp.read()))
-
-            try:
-                raw_data = to_text(response.read(), errors="surrogate_or_strict")
-            except UnicodeError:
-                raise AnsibleError(
-                    "Incorrect encoding of fetched payload from NetBox API."
-                )
-
-            try:
-                results = self.loader.load(raw_data, json_only=True)
-            except ValueError:
-                raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
-
-            # put result in cache if enabled
-            if user_cache_setting:
-                self._cache[cache_key] = results
-
+            self.display.v("Fetching {} from netbox".format(key))
+            results = list(map(dict, pynetbox_fn()))
+            self._set_to_cache(cache_key, results)
+        else:
+            self.display.v("Fetching {} from cache".format(key))
         return results
-
-    def get_resource_list(self, api_url):
-        """Retrieves resource list from netbox API.
-        Returns:
-           A list of all resource from netbox API.
-        """
-        if not api_url:
-            raise AnsibleError("Please check API URL in script configuration file.")
-
-        resources = []
-
-        # Handle pagination
-        while api_url:
-            api_output = self._fetch_information(api_url)
-            resources.extend(api_output["results"])
-            api_url = api_output["next"]
-
-        return resources
-
-    def get_resource_list_chunked(self, api_url, query_key, query_values):
-        # Make an API call for multiple specific IDs, like /api/ipam/ip-addresses?limit=0&device_id=1&device_id=2&device_id=3
-        # Drastically cuts down HTTP requests comnpared to 1 request per host, in the case where we don't want to fetch_all
-
-        # Make sure query_values is subscriptable
-        if not isinstance(query_values, list):
-            query_values = list(query_values)
-
-        def query_string(value, separator="&"):
-            return separator + query_key + "=" + str(value)
-
-        # Calculate how many queries we can do per API call to stay within max_url_length
-        largest_value = str(max(query_values, default=0))  # values are always id ints
-        length_per_value = len(query_string(largest_value))
-        chunk_size = math.floor((self.max_uri_length - len(api_url)) / length_per_value)
-
-        # Sanity check, for case where max_uri_length < (api_url + length_per_value)
-        if chunk_size < 1:
-            chunk_size = 1
-
-        if self.api_version in specifiers.SpecifierSet("~=2.6.0"):
-            # Issue netbox-community/netbox#3507 was fixed in v2.7.5
-            # If using NetBox v2.7.0-v2.7.4 will have to manually set max_uri_length to 0,
-            # but it's probably faster to keep fetch_all: true
-            # (You should really just upgrade your NetBox install)
-            chunk_size = 1
-
-        resources = []
-
-        for i in range(0, len(query_values), chunk_size):
-            chunk = query_values[i : i + chunk_size]  # noqa: E203
-            # process chunk of size <= chunk_size
-            url = api_url
-            for value in chunk:
-                url += query_string(value, "&" if "?" in url else "?")
-
-            resources.extend(self.get_resource_list(url))
-
-        return resources
 
     @property
     def group_extractors(self):
@@ -1049,8 +967,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         return host.get("asset_tag", None)
 
     def refresh_platforms_lookup(self):
-        url = self.api_endpoint + "/api/dcim/platforms/?limit=0"
-        platforms = self.get_resource_list(api_url=url)
+        platforms = self._fetch_information_pynetbox(
+            "platforms", self.nb.dcim.platforms.all
+        )
         self.platforms_lookup = dict(
             (platform["id"], platform["slug"]) for platform in platforms
         )
@@ -1060,8 +979,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # "sites_lookup_slug" only contains the slug. Used by _add_site_groups() when creating inventory groups
         # "sites_lookup" contains the full data structure. Most site lookups use this
         # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
-        url = self.api_endpoint + "/api/dcim/sites/?limit=0"
-        sites = self.get_resource_list(api_url=url)
+        sites = self._fetch_information_pynetbox("sites", self.nb.dcim.sites.all)
         # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
@@ -1146,9 +1064,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     # Note: depends on the result of refresh_sites_lookup for self.sites_with_prefixes
     def refresh_prefixes(self):
         # Pull all prefixes defined in NetBox
-        url = self.api_endpoint + "/api/ipam/prefixes"
-
-        prefixes = self.get_resource_list(url)
+        prefixes = self._fetch_information_pynetbox(
+            "prefixes", self.nb.ipam.prefixes.all
+        )
         self.prefixes_sites_lookup = defaultdict(list)
 
         # We are only concerned with Prefixes that have actually been assigned to sites
@@ -1166,8 +1084,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 del prefix["site"]
 
     def refresh_regions_lookup(self):
-        url = self.api_endpoint + "/api/dcim/regions/?limit=0"
-        regions = self.get_resource_list(api_url=url)
+        regions = self._fetch_information_pynetbox("regions", self.nb.dcim.regions.all)
+
         self.regions_lookup = dict((region["id"], region["slug"]) for region in regions)
 
         def get_region_parent(region):
@@ -1186,8 +1104,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version < version.parse("2.11"):
             return
 
-        url = self.api_endpoint + "/api/dcim/site-groups/?limit=0"
-        site_groups = self.get_resource_list(api_url=url)
+        site_groups = self._fetch_information_pynetbox(
+            "site-groups", self.nb.dcim.site_groups.all
+        )
         self.site_groups_lookup = dict(
             (site_group["id"], site_group["slug"]) for site_group in site_groups
         )
@@ -1209,8 +1128,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version < version.parse("2.11"):
             return
 
-        url = self.api_endpoint + "/api/dcim/locations/?limit=0"
-        locations = self.get_resource_list(api_url=url)
+        locations = self._fetch_information_pynetbox(
+            "locations", self.nb.dcim.locations.all
+        )
+
         self.locations_lookup = dict(
             (location["id"], location["slug"]) for location in locations
         )
@@ -1234,13 +1155,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.locations_site_lookup = dict(map(get_location_site, locations))
 
     def refresh_tenants_lookup(self):
-        url = self.api_endpoint + "/api/tenancy/tenants/?limit=0"
-        tenants = self.get_resource_list(api_url=url)
+        tenants = self._fetch_information_pynetbox(
+            "tenants", self.nb.tenancy.tenants.all
+        )
         self.tenants_lookup = dict((tenant["id"], tenant["slug"]) for tenant in tenants)
 
     def refresh_racks_lookup(self):
-        url = self.api_endpoint + "/api/dcim/racks/?limit=0"
-        racks = self.get_resource_list(api_url=url)
+        racks = self._fetch_information_pynetbox("racks", self.nb.dcim.racks.all)
         self.racks_lookup = dict((rack["id"], rack["name"]) for rack in racks)
 
         def get_group_for_rack(rack):
@@ -1263,8 +1184,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if self.api_version >= version.parse("2.11"):
             return
 
-        url = self.api_endpoint + "/api/dcim/rack-groups/?limit=0"
-        rack_groups = self.get_resource_list(api_url=url)
+        rack_groups = self._fetch_information_pynetbox(
+            "rack-groups", self.nb.dcim.rack_groups.all
+        )
+
         self.rack_groups_lookup = dict(
             (rack_group["id"], rack_group["slug"]) for rack_group in rack_groups
         )
@@ -1279,29 +1202,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.rack_group_parent_lookup = dict(map(get_rack_group_parent, rack_groups))
 
     def refresh_device_roles_lookup(self):
-        url = self.api_endpoint + "/api/dcim/device-roles/?limit=0"
-        device_roles = self.get_resource_list(api_url=url)
+        device_roles = self._fetch_information_pynetbox(
+            "device-roles", self.nb.dcim.device_roles.all
+        )
+
         self.device_roles_lookup = dict(
             (device_role["id"], device_role["slug"]) for device_role in device_roles
         )
 
     def refresh_device_types_lookup(self):
-        url = self.api_endpoint + "/api/dcim/device-types/?limit=0"
-        device_types = self.get_resource_list(api_url=url)
+        device_types = self._fetch_information_pynetbox(
+            "device-types", self.nb.dcim.device_types.all
+        )
+
         self.device_types_lookup = dict(
             (device_type["id"], device_type["slug"]) for device_type in device_types
         )
 
     def refresh_manufacturers_lookup(self):
-        url = self.api_endpoint + "/api/dcim/manufacturers/?limit=0"
-        manufacturers = self.get_resource_list(api_url=url)
+        manufacturers = self._fetch_information_pynetbox(
+            "manufacturers", self.nb.dcim.manufacturers.all
+        )
+
         self.manufacturers_lookup = dict(
             (manufacturer["id"], manufacturer["slug"]) for manufacturer in manufacturers
         )
 
     def refresh_clusters_lookup(self):
-        url = self.api_endpoint + "/api/virtualization/clusters/?limit=0"
-        clusters = self.get_resource_list(api_url=url)
+        clusters = self._fetch_information_pynetbox(
+            "clusters", self.nb.virtualization.clusters.all
+        )
 
         def get_cluster_type(cluster):
             # Will fail if cluster does not have a type (required property so should always be true)
@@ -1321,32 +1251,27 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.clusters_group_lookup = dict(map(get_cluster_group, clusters))
 
     def refresh_services(self):
-        url = self.api_endpoint + "/api/ipam/services/?limit=0"
         services = []
+        object_ids = set(chain(self.vms_lookup.keys(), self.devices_lookup.keys()))
+        object_ids_len = len(object_ids)
 
         if self.fetch_all:
-            services = self.get_resource_list(url)
-        elif self.api_version >= version.parse("4.3.0"):
-            services = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="parent_object_id",
-                # Query only affected devices and vms and sanitize the list to only contain every ID once
-                query_values=set(
-                    chain(self.vms_lookup.keys(), self.devices_lookup.keys())
-                ),
+            services = self._fetch_information_pynetbox(
+                "services", self.nb.ipam.services.all
             )
-        else:
-            device_services = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="device_id",
-                query_values=self.devices_lookup.keys(),
-            )
-            vm_services = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="virtual_machine_id",
-                query_values=self.vms_lookup.keys(),
-            )
-            services = chain(device_services, vm_services)
+        elif self.api_version >= version.parse("4.3.0") and object_ids_len > 0:
+
+            def services_filter():
+                return self.nb.ipam.services.filter(parent_object_id=object_ids)
+
+        elif len(object_ids) > 0:
+
+            def services_filter():
+                return self.nb.ipam.services.filter(device_id=object_ids)
+
+        self.display.v("Filtering services on {} object_ids".format(object_ids_len))
+
+        services = self._fetch_information_pynetbox("services", services_filter)
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
@@ -1378,20 +1303,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     ] = service
 
     def refresh_virtual_disks(self):
-        url_vm_virtual_disks = (
-            self.api_endpoint + "/api/virtualization/virtual-disks/?limit=0"
-        )
-
         vm_virtual_disks = []
 
         if self.fetch_all:
-            vm_virtual_disks = self.get_resource_list(url_vm_virtual_disks)
-        else:
-            vm_virtual_disks = self.get_resource_list_chunked(
-                api_url=url_vm_virtual_disks,
-                query_key="virtual_machine_id",
-                query_values=self.vms_lookup.keys(),
+            vm_virtual_disks = self._fetch_information_pynetbox(
+                "virtual-disks", self.nb.virtualization.virtual_disks.all
             )
+        else:
+            vm_ids = self.vms_lookup.keys()
+            vm_ids_len = len(vm_ids)
+            if vm_ids_len > 0:
+
+                def virtualization_virtualdisks_filter():
+                    return self.nb.virtualization.virtual_disks.filter(
+                        virtual_machine_id=vm_ids
+                    )
+
+                self.display.v(
+                    "Filtering virtual-disks on {} virtual_machine_id".format(
+                        vm_ids_len
+                    )
+                )
+                vm_virtual_disks = self._fetch_information_pynetbox(
+                    "virtual-disks", virtualization_virtualdisks_filter
+                )
 
         self.vm_virtual_disks_lookup = defaultdict(dict)
 
@@ -1402,28 +1337,46 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk
 
     def refresh_interfaces(self):
-        url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
-        url_vm_interfaces = (
-            self.api_endpoint + "/api/virtualization/interfaces/?limit=0"
-        )
-
         device_interfaces = []
         vm_interfaces = []
 
         if self.fetch_all:
-            device_interfaces = self.get_resource_list(url_device_interfaces)
-            vm_interfaces = self.get_resource_list(url_vm_interfaces)
+            device_interfaces = self._fetch_information_pynetbox(
+                "device-interfaces", self.nb.dcim.interfaces.all
+            )
+            vm_interfaces = self._fetch_information_pynetbox(
+                "vm-interfaces", self.nb.virtualization.interfaces.all
+            )
         else:
-            device_interfaces = self.get_resource_list_chunked(
-                api_url=url_device_interfaces,
-                query_key="device_id",
-                query_values=self.devices_lookup.keys(),
-            )
-            vm_interfaces = self.get_resource_list_chunked(
-                api_url=url_vm_interfaces,
-                query_key="virtual_machine_id",
-                query_values=self.vms_lookup.keys(),
-            )
+            device_ids = self.devices_lookup.keys()
+            vm_ids = self.vms_lookup.keys()
+            device_ids_len = len(device_ids)
+            vm_ids_len = len(vm_ids)
+            if device_ids_len > 0:
+
+                def dcim_interfaces_filter():
+                    return self.nb.dcim.interfaces.filter(device_id=device_ids)
+
+                self.display.v(
+                    "Filtering interfaces on {} device_id".format(device_ids_len)
+                )
+                device_interfaces = self._fetch_information_pynetbox(
+                    "device-interfaces", dcim_interfaces_filter
+                )
+
+            if vm_ids_len > 0:
+
+                def virtualization_interfaces_filter():
+                    return self.nb.virtualization.interfaces.filter(
+                        virtual_machine_id=vm_ids
+                    )
+
+                self.display.v(
+                    "Filtering interfaces on {} virtual_machine_id".format(vm_ids_len)
+                )
+                vm_interfaces = self._fetch_information_pynetbox(
+                    "vm-interfaces", virtualization_interfaces_filter
+                )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # For a given device id or vm id, get a lookup of interface id to interface
@@ -1463,25 +1416,42 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     # Note: depends on the result of refresh_interfaces for self.devices_with_ips
     def refresh_ipaddresses(self):
-        url = (
-            self.api_endpoint
-            + "/api/ipam/ip-addresses/?limit=0&assigned_to_interface=true"
-        )
         ipaddresses = []
 
         if self.fetch_all:
-            ipaddresses = self.get_resource_list(url)
+            ipaddresses = self._fetch_information_pynetbox(
+                "ip-addresses", self.nb.ipam.ip_addresses.all
+            )
         else:
-            device_ips = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="device_id",
-                query_values=list(self.devices_with_ips),
-            )
-            vm_ips = self.get_resource_list_chunked(
-                api_url=url,
-                query_key="virtual_machine_id",
-                query_values=self.vms_lookup.keys(),
-            )
+            device_ids = list(self.devices_with_ips)
+            vm_ids = self.vms_lookup.keys()
+            device_ids_len = len(device_ids)
+            vm_ids_len = len(vm_ids)
+            vm_ips = []
+            device_ips = []
+            if device_ids_len > 0:
+
+                def dcim_ipaddresses_filter():
+                    return self.nb.ipam.ip_addresses.filter(device_id=device_ids)
+
+                self.display.v(
+                    "Filtering ip-addresses on {} device_id".format(device_ids_len)
+                )
+                device_ips = self._fetch_information_pynetbox(
+                    "device-ip-addresses", dcim_ipaddresses_filter
+                )
+
+            if vm_ids_len > 0:
+
+                def virtualization_ipaddresses_filter():
+                    return self.nb.ipam.ip_addresses.filter(virtual_machine_id=vm_ids)
+
+                self.display.v(
+                    "Filtering ip-addresses on {} virtual_machine_id".format(vm_ids_len)
+                )
+                vm_ips = self._fetch_information_pynetbox(
+                    "vm-ip-addresses", virtualization_ipaddresses_filter
+                )
 
             ipaddresses = chain(device_ips, vm_ips)
 
@@ -1627,7 +1597,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             cached_api_version = None
             cache = None
 
-        status = self._fetch_information(self.api_endpoint + "/api/status/")
+        status = self.nb.status()
         netbox_api_version = ".".join(status["netbox-version"].split(".")[:2])
 
         if version.parse(netbox_api_version) >= version.parse("3.5.0"):
@@ -1710,20 +1680,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             ),
         )
 
-    def refresh_url(self):
-        device_query_parameters = [("limit", 0)]
-        vm_query_parameters = [("limit", 0)]
-        device_url = self.api_endpoint + "/api/dcim/devices/?"
-        vm_url = self.api_endpoint + "/api/virtualization/virtual-machines/?"
+    def get_filters(self):
+        device_query_parameters = []
+        vm_query_parameters = []
 
-        # Add query_filtes to both devices and vms query, if they're valid
         if isinstance(self.query_filters, Iterable):
             device_query_parameters.extend(
                 self.filter_query_parameters(
                     self.query_filters, self.allowed_device_query_parameters
                 )
             )
-
             vm_query_parameters.extend(
                 self.filter_query_parameters(
                     self.query_filters, self.allowed_vm_query_parameters
@@ -1744,50 +1710,36 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
             )
 
-        # When query_filters is Iterable, and is not empty:
-        # - If none of the filters are valid for devices, do not fetch any devices
-        # - If none of the filters are valid for VMs, do not fetch any VMs
-        # If either device_query_filters or vm_query_filters are set,
-        # device_query_parameters and vm_query_parameters will have > 1 element so will continue to be requested
-        if self.query_filters and isinstance(self.query_filters, Iterable):
-            if len(device_query_parameters) <= 1:
-                device_url = None
-
-            if len(vm_query_parameters) <= 1:
-                vm_url = None
-
-        # Append the parameters to the URLs
-        if device_url:
-            device_url = device_url + urlencode(device_query_parameters)
-        if vm_url:
-            vm_url = vm_url + urlencode(vm_query_parameters)
-
-        # Exclude config_context if not required
-        if not self.config_context:
-            if device_url:
-                device_url = device_url + "&exclude=config_context"
-            if vm_url:
-                vm_url = vm_url + "&exclude=config_context"
-
-        return device_url, vm_url
+        return device_query_parameters, vm_query_parameters
 
     def fetch_hosts(self):
-        device_url, vm_url = self.refresh_url()
-
         self.devices_list = []
         self.vms_list = []
 
-        if device_url:
-            self.devices_list = self.get_resource_list(device_url)
+        device_filters, vm_filters = self.get_filters()
 
-        if vm_url:
-            self.vms_list = self.get_resource_list(vm_url)
+        if len(device_filters) > 0:
+
+            def devices_filter():
+                return self.nb.dcim.devices.filter(**dict(device_filters))
+
+            self.devices_list = self._fetch_information_pynetbox(
+                "devices", devices_filter
+            )
+
+        if len(vm_filters) > 0:
+
+            def vms_filter():
+                return self.nb.virtualization.virtual_machines.filter(
+                    **dict(vm_filters)
+                )
+
+            self.vms_list = self._fetch_information_pynetbox("vms", vms_filter)
 
         # Allow looking up devices/vms by their ids
         self.devices_lookup = {device["id"]: device for device in self.devices_list}
         self.vms_lookup = {vm["id"]: vm for vm in self.vms_list}
 
-        # There's nothing that explicitly says if a host is virtual or not - add in a new field
         for host in self.devices_list:
             host["is_virtual"] = False
 
@@ -2130,30 +2082,6 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     host=hostname,
                 )
 
-    def _set_authorization(self):
-        # NetBox access
-        if version.parse(ansible_version) < version.parse("2.11"):
-            token = self.get_option("token")
-        else:
-            self.templar.available_variables = self._vars
-            token = self.templar.template(
-                self.get_option("token"), fail_on_undefined=False
-            )
-        if token:
-            # check if token is new format
-            if isinstance(token, dict):
-                self.headers.update(
-                    {"Authorization": f"{token['type'].capitalize()} {token['value']}"}
-                )
-            else:
-                self.headers.update({"Authorization": "Token %s" % token})
-        headers = self.get_option("headers")
-        if headers:
-            if isinstance(headers, str):
-                headers = json.loads(headers)
-            if isinstance(headers, dict):
-                self.headers.update(headers)
-
     def parse(self, inventory, loader, path, cache=True):
         super(InventoryModule, self).parse(inventory, loader, path)
         self._read_config_data(path=path)
@@ -2176,18 +2104,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.site_data = self.get_option("site_data")
         self.prefixes = self.get_option("prefixes")
         self.fetch_all = self.get_option("fetch_all")
-        self.headers = {
-            "User-Agent": "ansible %s Python %s"
-            % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
-            "Content-type": "application/json",
-        }
         self.cert = self.get_option("cert")
         self.key = self.get_option("key")
         self.ca_path = self.get_option("ca_path")
         self.oob_ip_as_primary_ip = self.get_option("oob_ip_as_primary_ip")
         self.hostname_field = self.get_option("hostname_field")
-
-        self._set_authorization()
 
         # Filter and group_by options
         self.group_by = self.get_option("group_by")
@@ -2212,6 +2133,30 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Compile regular expressions, if any
         self.rename_variables = self.parse_rename_variables(
             self.get_option("rename_variables")
+        )
+
+        # Initialize pynetbox API
+        if version.parse(ansible_version) < version.parse("2.11"):
+            token = self.get_option("token")
+        else:
+            self.templar.available_variables = self._vars
+            token = self.templar.template(
+                self.get_option("token"), fail_on_undefined=False
+            )
+        session = requests.Session()
+        session.headers = {
+            "User-Agent": "ansible %s Python %s"
+            % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
+            "Content-type": "application/json",
+        }
+        session.cert = (self.cert, self.key)
+        session.verify = self.ca_path
+        self.nb = pynetbox.api(
+            self.get_option("api_endpoint"),
+            # strict_filters might not be available, TODO: add a version check
+            # strict_filters=True,
+            token=token,
+            threading=True,
         )
 
         self.main()
