@@ -11,6 +11,9 @@
         "expected": {
             "name": "Test Device",
             "enabled": true,
+            "site": null,
+            "description": null,
+            "platform": null,
             "status": 0
         }
     }

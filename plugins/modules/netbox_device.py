@@ -266,6 +266,7 @@ msg:
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxAnsibleModule,
     NETBOX_ARG_SPEC,
+    OmittedArgument,
 )
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
     NetboxDcimModule,
@@ -273,6 +274,8 @@ from ansible_collections.netbox.netbox.plugins.module_utils.netbox_dcim import (
 )
 from copy import deepcopy
 import uuid
+
+OMITTED = OmittedArgument()
 
 
 def main():
@@ -287,24 +290,25 @@ def main():
                 required=True,
                 options=dict(
                     name=dict(required=True, type="str"),
-                    device_type=dict(required=False, type="raw"),
-                    device_role=dict(required=False, type="raw"),
-                    tenant=dict(required=False, type="raw"),
-                    platform=dict(required=False, type="raw"),
-                    serial=dict(required=False, type="str"),
-                    asset_tag=dict(required=False, type="str"),
-                    site=dict(required=False, type="raw"),
-                    location=dict(required=False, type="raw"),
-                    rack=dict(required=False, type="raw"),
-                    position=dict(required=False, type="float"),
+                    device_type=dict(required=False, type="raw", default=OMITTED),
+                    device_role=dict(required=False, type="raw", default=OMITTED),
+                    tenant=dict(required=False, type="raw", default=OMITTED),
+                    platform=dict(required=False, type="raw", default=OMITTED),
+                    serial=dict(required=False, type="raw", default=OMITTED),
+                    asset_tag=dict(required=False, type="raw", default=OMITTED),
+                    site=dict(required=False, type="raw", default=OMITTED),
+                    location=dict(required=False, type="raw", default=OMITTED),
+                    rack=dict(required=False, type="raw", default=OMITTED),
+                    position=dict(required=False, type="raw", default=OMITTED),
                     face=dict(
                         required=False,
-                        type="str",
-                        choices=["Front", "front", "Rear", "rear"],
+                        type="raw",
+                        choices=["Front", "front", "Rear", "rear", OMITTED],
+                        default=OMITTED,
                     ),
                     airflow=dict(
                         required=False,
-                        type="str",
+                        type="raw",
                         choices=[
                             "front-to-rear",
                             "rear-to-front",
@@ -313,22 +317,28 @@ def main():
                             "side-to-rear",
                             "passive",
                             "mixed",
+                            OMITTED,
                         ],
+                        default=OMITTED,
                     ),
-                    status=dict(required=False, type="raw"),
-                    primary_ip4=dict(required=False, type="raw"),
-                    primary_ip6=dict(required=False, type="raw"),
-                    oob_ip=dict(required=False, type="raw"),
-                    cluster=dict(required=False, type="raw"),
-                    virtual_chassis=dict(required=False, type="raw"),
-                    vc_position=dict(required=False, type="int"),
-                    vc_priority=dict(required=False, type="int"),
-                    description=dict(required=False, type="str"),
-                    comments=dict(required=False, type="str"),
-                    tags=dict(required=False, type="list", elements="raw"),
-                    local_context_data=dict(required=False, type="dict"),
-                    config_template=dict(required=False, type="raw"),
-                    custom_fields=dict(required=False, type="dict"),
+                    status=dict(required=False, type="raw", default=OMITTED),
+                    primary_ip4=dict(required=False, type="raw", default=OMITTED),
+                    primary_ip6=dict(required=False, type="raw", default=OMITTED),
+                    oob_ip=dict(required=False, type="raw", default=OMITTED),
+                    cluster=dict(required=False, type="raw", default=OMITTED),
+                    virtual_chassis=dict(required=False, type="raw", default=OMITTED),
+                    vc_position=dict(required=False, type="raw", default=OMITTED),
+                    vc_priority=dict(required=False, type="raw", default=OMITTED),
+                    description=dict(required=False, type="raw", default=OMITTED),
+                    comments=dict(required=False, type="raw", default=OMITTED),
+                    tags=dict(
+                        required=False, type="raw", elements="raw", default=OMITTED
+                    ),
+                    local_context_data=dict(
+                        required=False, type="raw", default=OMITTED
+                    ),
+                    config_template=dict(required=False, type="raw", default=OMITTED),
+                    custom_fields=dict(required=False, type="raw", default=OMITTED),
                 ),
             ),
         )
