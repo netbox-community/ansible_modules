@@ -340,6 +340,7 @@ def main():
                             name=dict(required=False, type="str"),
                             device=dict(required=False, type="str"),
                             virtual_machine=dict(required=False, type="str"),
+                            fhrp_group=dict(required=False, type="str"),
                         ),
                     ),
                     comments=dict(required=False, type="str"),
