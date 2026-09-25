@@ -575,6 +575,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             "cluster_device": self.extract_cluster_device,
             "is_virtual": self.extract_is_virtual,
             "serial": self.extract_serial,
+            "description": self.extract_description,
+            "comments": self.extract_comments,
             "asset_tag": self.extract_asset_tag,
             "time_zone": self.extract_site_time_zone,
             "utc_offset": self.extract_site_utc_offset,
@@ -1044,6 +1046,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def extract_serial(self, host):
         return host.get("serial", None)
+
+    def extract_description(self, host):
+        return host.get("description", None)
+
+    def extract_comments(self, host):
+        return host.get("comments", None)
 
     def extract_asset_tag(self, host):
         return host.get("asset_tag", None)
