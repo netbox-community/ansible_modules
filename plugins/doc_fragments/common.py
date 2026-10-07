@@ -41,8 +41,10 @@ options:
     elements: str
   validate_certs:
     description:
-      - If C(no), SSL certificates will not be validated.
-      - This should only be used on personally controlled sites using a self-signed certificates.
+      - If C(false), SSL certificates will not be validated.
+      - If a file name/path is provided, it will be used as a CA certificate list for the purposes of server certificate validation.
+      - Note that this differs from Ansible core modules' validate_certs, where a separate ca_path parameter is used.
+      - This should only be used on personally-controlled sites using a self-signed certificates.
     default: true
     type: raw
   cert:
