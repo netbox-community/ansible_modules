@@ -49,7 +49,7 @@ options:
     type: raw
   cert:
     description:
-      - Certificate path
+      - Client certificate to use for client authentication
     required: false
     type: raw
   headers:
