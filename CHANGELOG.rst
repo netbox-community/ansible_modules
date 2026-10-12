@@ -4,6 +4,22 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.23.1
+=======
+
+Release Summary
+---------------
+
+Bugfix release. It reverts the slug generation change from 3.23.0, which broke lookups for playbooks that rely on the auto-generated slug. If you created objects with 3.23.0 and did not set ``slug`` yourself, check any whose name starts or ends with a space or a ``.`` once punctuation is removed (for example ``Site 1.`` or ``Core !``). 3.23.1 generates a different slug for those names than 3.23.0 saved (``site-1-`` instead of ``site-1``), so the module may not find the existing object and create a second one. Set ``slug`` explicitly on those tasks to match what is in NetBox.
+
+Bugfixes
+--------
+
+- Reverted the slug-generation change introduced in 3.23.0, restoring the pre-3.23.0 behavior (leading and trailing separators are no longer trimmed). The 3.23.0 change altered auto-generated slugs, breaking idempotency for playbooks that rely on the derived slug as a lookup key, and it shipped in a minor release contrary to semantic versioning. The upstream-aligned slug generation will return in a future major release (https://github.com/netbox-community/ansible_modules/issues/1563).
+- Unordered many-to-many list fields (such as ``object_types``, ``tagged_vlans``, route targets, ``netbox_config_context`` scopes, and user permissions/groups) are now compared as sets, so a reordering by NetBox no longer reports a false ``changed`` (https://github.com/netbox-community/ansible_modules/issues/1486).
+- ``netbox_contact``: the NetBox-version compatibility gate (``contact_group`` vs ``contact_groups``, introduced in NetBox v4.3) now exits via ``module.fail_json`` instead of raising a bare ``Exception``. Previously the error string ended up in ``module_stderr`` as a Python traceback; ansible-core 2.19 no longer populates ``module_stderr`` for module subprocess failures, so the message is now reported via ``msg`` on every supported ansible-core version.
+- netbox_device_interface - the legacy ``mac_address`` option no longer reports a phantom change every run on NetBox v4.2+ (where the field is read-only); its value is now stored as the interface's ``primary_mac_address`` (https://github.com/netbox-community/ansible_modules/issues/1502).
+
 v3.23.0
 =======
 

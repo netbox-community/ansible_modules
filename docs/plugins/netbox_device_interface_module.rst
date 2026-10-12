@@ -22,7 +22,7 @@ netbox.netbox.netbox_device_interface module -- Creates or removes interfaces on
 .. Collection note
 
 .. note::
-    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.23.0).
+    This module is part of the `netbox.netbox collection <https://galaxy.ansible.com/ui/repo/published/netbox/netbox/>`_ (version 3.23.1).
 
     It is not included in ``ansible-core``.
     To check whether it is installed, run :code:`ansible-galaxy collection list`.
@@ -595,6 +595,8 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The MAC address of the interface
+
+      On NetBox 4.2 and later this field is read-only; the value is stored as the interface's :literal:`primary\_mac\_address`.
 
 
       .. raw:: html
