@@ -1,0 +1,15 @@
+{
+  "data": {
+    "device_list": [
+      {
+        "id": "2",
+        "name": "host-01",
+        "status": "active",
+        "primary_ip4": { "address": "192.0.2.43/24", "dns_name": "host-01.example.com" },
+        "primary_ip6": null,
+        "role": { "name": "Hypervisor Node", "slug": "hypervisor-node" },
+        "device_type": { "model": "Server Model 1", "manufacturer": { "name": "Generic Vendor" } }
+      }
+    ]
+  }
+}

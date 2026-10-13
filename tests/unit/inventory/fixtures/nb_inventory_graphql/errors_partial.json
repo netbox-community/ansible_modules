@@ -1,0 +1,20 @@
+{
+  "data": {
+    "virtual_machine_list": [
+      {
+        "id": "1",
+        "name": "prod-vm-01",
+        "status": "active",
+        "primary_ip4": { "address": "192.0.2.198/24", "dns_name": "prod-vm-01" },
+        "primary_ip6": null,
+        "services": [],
+        "interfaces": []
+      }
+    ]
+  },
+  "errors": [
+    {
+      "message": "You do not have permission to access field 'custom_fields' on 'VirtualMachineType'."
+    }
+  ]
+}

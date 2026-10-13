@@ -1,0 +1,46 @@
+DOCUMENTATION:
+  name: any_attribute_equals
+  author: Mikulas Willaschek
+  short_description: Does any item in a list have an attribute equal to a value
+  description:
+    - Checks whether at least one element of a list has a given, optionally dotted, attribute
+      path equal to a given value.
+    - Intended for cross-referencing two independent nested structures against each other in a
+      C(compose) expression, e.g. matching an interface's IP addresses against a device's primary
+      IP — a case C(selectattr) alone cannot express because it only compares an item's attribute
+      against a fixed value, not against another variable's nested list.
+    - Strictly generic; it has no knowledge of NetBox or any other data source.
+  options:
+    _input:
+      description: The list of items to search. A falsy value (V(none), empty list) yields V(false).
+      type: list
+      required: true
+    attribute_path:
+      description: Dotted attribute path to look up on each item, for example C(address) or C(a.b.c).
+      type: string
+      required: true
+    value:
+      description: >-
+        The value to compare each resolved attribute against. Items where the path does not
+        resolve (missing key at any level) never match and do not raise an error.
+      type: raw
+      required: true
+EXAMPLES: |
+  interfaces:
+    - name: eth0
+      ip_addresses:
+        - address: 10.0.0.1/24
+    - name: eth1
+      ip_addresses: []
+  primary_ip4:
+    address: 10.0.0.1/24
+
+  # -> the eth0 dict
+  primary_interface: >-
+    interfaces
+    | selectattr('ip_addresses', 'any_attribute_equals', 'address', primary_ip4.address)
+    | first | default(omit)
+RETURN:
+  _value:
+    description: V(true) if at least one item's attribute matches, V(false) otherwise.
+    type: boolean

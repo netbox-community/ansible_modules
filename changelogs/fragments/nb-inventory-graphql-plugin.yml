@@ -1,0 +1,14 @@
+---
+minor_changes:
+  - >-
+    Added the ``nb_inventory_graphql`` inventory plugin, a GraphQL-based alternative to
+    ``nb_inventory``. Instead of a fixed set of REST-derived options, it is configured through
+    user-supplied ``sources`` (arbitrary ``.graphql`` query files plus a JSON ``list_path`` into
+    the response) and the standard ``constructed`` fragment (``compose``, ``groups``,
+    ``keyed_groups``) for all grouping and derived variables, so it has no built-in knowledge of
+    the NetBox schema and needs no new options as NetBox's GraphQL schema grows.
+  - >-
+    Added the ``any_attribute_equals`` Jinja test, a small NetBox-agnostic helper for
+    ``nb_inventory_graphql`` ``compose`` expressions that need to cross-reference two independent
+    nested lists against each other (for example, finding the interface that owns a device's
+    primary IP), which plain ``selectattr`` cannot express.

@@ -1,0 +1,6 @@
+query ($pagination: OffsetPaginationInput) {
+  virtual_machine_list(pagination: $pagination) {
+    id
+    name
+  }
+}

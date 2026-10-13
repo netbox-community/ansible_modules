@@ -1,0 +1,9 @@
+{
+  "data": null,
+  "errors": [
+    {
+      "message": "Cannot query field 'bogus_field' on type 'VirtualMachineType'.",
+      "locations": [{ "line": 1, "column": 34 }]
+    }
+  ]
+}
