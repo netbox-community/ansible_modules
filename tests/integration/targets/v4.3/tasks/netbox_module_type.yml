@@ -11,6 +11,7 @@
     data:
       model: ws-test-3750
       manufacturer: Test Manufacturer
+      description: Test Module Type Description
     state: present
   register: test_one
 
@@ -22,6 +23,7 @@
       - test_one['diff']['after']['state'] == "present"
       - test_one['module_type']['model'] == "ws-test-3750"
       - test_one['module_type']['manufacturer'] == 3
+      - test_one['module_type']['description'] == "Test Module Type Description"
       - test_one['msg'] == "module_type ws-test-3750 created"
 
 - name: "MODULE_TYPE 2: Create duplicate"
@@ -31,6 +33,7 @@
     data:
       model: ws-test-3750
       manufacturer: Test Manufacturer
+      description: Test Module Type Description
     state: present
   register: test_two
 
@@ -40,6 +43,7 @@
       - not test_two['changed']
       - test_one['module_type']['model'] == "ws-test-3750"
       - test_one['module_type']['manufacturer'] == 3
+      - test_one['module_type']['description'] == "Test Module Type Description"
       - test_two['msg'] == "module_type ws-test-3750 already exists"
 
 - name: "MODULE_TYPE 3: ASSERT - Update"
@@ -50,6 +54,7 @@
       model: ws-test-3750
       manufacturer: Test Manufacturer
       part_number: ws-3750g-v2
+      description: Test Module Type Description Update
     state: present
   register: test_three
 
@@ -61,6 +66,7 @@
       - test_three['module_type']['model'] == "ws-test-3750"
       - test_three['module_type']['manufacturer'] == 3
       - test_three['module_type']['part_number'] == "ws-3750g-v2"
+      - test_three['module_type']['description'] == "Test Module Type Description Update"
       - test_three['msg'] == "module_type ws-test-3750 updated"
 
 - name: "MODULE_TYPE 4: ASSERT - Delete"

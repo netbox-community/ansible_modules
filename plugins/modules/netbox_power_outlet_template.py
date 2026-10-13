@@ -31,6 +31,11 @@ options:
     description:
       - Defines the power outlet configuration
     suboptions:
+      description:
+        description:
+          - The description of the power outlet template
+        required: false
+        type: str
       device_type:
         description:
           - The device type the power outlet is attached to
@@ -189,6 +194,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    description=dict(required=False, type="str"),
                     device_type=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
                     type=dict(
