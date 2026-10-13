@@ -68,6 +68,10 @@
         "app": "ipam"
     },
     {
+        "endpoint": "ip_ranges",
+        "app": "ipam"
+    },
+    {
         "endpoint": "prefixes",
         "app": "ipam"
     },

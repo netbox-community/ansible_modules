@@ -35,6 +35,15 @@
   tags:
     - netbox_ip_address
 
+- name: NETBOX_IP_RANGE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_ip_range.yml
+    apply:
+      tags:
+        - netbox_ip_range
+  tags:
+    - netbox_ip_range
+
 - name: NETBOX_PREFIX TESTS
   ansible.builtin.include_tasks:
     file: netbox_prefix.yml

@@ -20,6 +20,7 @@ NB_ASNS = "asns"
 NB_FHRP_GROUPS = "fhrp_groups"
 NB_FHRP_GROUP_ASSIGNMENTS = "fhrp_group_assignments"
 NB_IP_ADDRESSES = "ip_addresses"
+NB_IP_RANGES = "ip_ranges"
 NB_PREFIXES = "prefixes"
 NB_IPAM_ROLES = "roles"
 NB_RIRS = "rirs"
@@ -155,6 +156,7 @@ class NetboxIpamModule(NetboxModule):
         - fhrp_group_assignments
         - ipam_roles
         - ip_addresses
+        - ip_ranges
         - l2vpns
         - l2vpn_terminations
         - prefixes
@@ -189,6 +191,8 @@ class NetboxIpamModule(NetboxModule):
             name = data.get("address")
         elif self.endpoint in ["aggregates", "prefixes"]:
             name = data.get("prefix")
+        elif self.endpoint == "ip_ranges":
+            name = "%s-%s" % (data.get("start_address"), data.get("end_address"))
         elif self.endpoint == "asns":
             name = data.get("asn")
         elif self.endpoint == "fhrp_groups":

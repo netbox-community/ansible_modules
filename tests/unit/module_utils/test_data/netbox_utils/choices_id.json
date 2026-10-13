@@ -118,6 +118,24 @@
         }
     },
     {
+        "endpoint": "ip_ranges",
+        "data": {
+            "status": "Active"
+        },
+        "expected": {
+            "status": "temp"
+        }
+    },
+    {
+        "endpoint": "ip_ranges",
+        "data": {
+            "status": 2
+        },
+        "expected": {
+            "status": 2
+        }
+    },
+    {
         "endpoint": "racks",
         "data": {
             "status": "Active",
