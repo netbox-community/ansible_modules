@@ -1,0 +1,7 @@
+---
+bugfixes:
+  - >-
+    nb_inventory - Template configured headers before applying them, allowing
+    values such as ``X-NetBox-Branch`` to be rendered for NetBox Branching
+    inventory workflows
+    (https://github.com/netbox-community/ansible_modules/issues/1526).
