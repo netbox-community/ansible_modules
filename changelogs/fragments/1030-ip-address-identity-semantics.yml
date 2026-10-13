@@ -1,0 +1,11 @@
+---
+minor_changes:
+  - >-
+    ``netbox_ip_address`` - documented the identity semantics of
+    ``state: present``. An existing IP is matched on its assignment as well as
+    its address, so the same ``address`` with a different assignment creates a
+    new (duplicate) IP rather than updating the existing one. The module docs
+    now state this explicitly and describe the ``query_params: ['address']``
+    escape hatch (with an example) for updating an address in place regardless
+    of its assignment
+    (https://github.com/netbox-community/ansible_modules/issues/1030).

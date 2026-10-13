@@ -399,3 +399,94 @@
       - test_eighteen['ip_address']['family'] == 4
       - test_eighteen['ip_address']['assigned_object_type'] == "dcim.interface"
       - test_eighteen['ip_address']['assigned_object_id'] == 4
+
+##
+## INT-413 / #1030 - state=present identity semantics and the query_params escape hatch
+##
+- name: "19 - Create 198.51.100.50/24 on GigabitEthernet1 - test100 - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      address: 198.51.100.50/24
+      assigned_object:
+        name: GigabitEthernet1
+        device: test100
+    state: present
+  register: test_nineteen
+
+- name: 19 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_nineteen is changed
+      - test_nineteen['diff']['before']['state'] == "absent"
+      - test_nineteen['diff']['after']['state'] == "present"
+      - test_nineteen['msg'] == "ip_address 198.51.100.50/24 created"
+      - test_nineteen['ip_address']['address'] == "198.51.100.50/24"
+      - test_nineteen['ip_address']['assigned_object_type'] == "dcim.interface"
+
+- name: "20 - Update 198.51.100.50/24 in place to GigabitEthernet2 via query_params address - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    query_params:
+      - address
+    data:
+      address: 198.51.100.50/24
+      description: Moved via address identity
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_twenty
+
+- name: 20 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_twenty is changed
+      - test_twenty['msg'] == "ip_address 198.51.100.50/24 updated"
+      - test_twenty['ip_address']['address'] == "198.51.100.50/24"
+      - test_twenty['ip_address']['id'] == test_nineteen['ip_address']['id']
+      - test_twenty['ip_address']['description'] == "Moved via address identity"
+      - test_twenty['ip_address']['assigned_object_type'] == "dcim.interface"
+      - test_twenty['ip_address']['assigned_object_id'] != test_nineteen['ip_address']['assigned_object_id']
+
+- name: "21 - Re-run identical update with query_params address is idempotent - State: present"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    query_params:
+      - address
+    data:
+      address: 198.51.100.50/24
+      description: Moved via address identity
+      assigned_object:
+        name: GigabitEthernet2
+        device: test100
+    state: present
+  register: test_twentyone
+
+- name: 21 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_twentyone['changed']
+      - test_twentyone['msg'] == "ip_address 198.51.100.50/24 already exists"
+      - test_twentyone['ip_address']['id'] == test_nineteen['ip_address']['id']
+      - test_twentyone['ip_address']['assigned_object_id'] == test_twenty['ip_address']['assigned_object_id']
+
+- name: "22 - Delete 198.51.100.50/24 - State: absent"
+  netbox.netbox.netbox_ip_address:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      address: 198.51.100.50/24
+    state: absent
+  register: test_twentytwo
+
+- name: 22 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_twentytwo is changed
+      - test_twentytwo['diff']['before']['state'] == "present"
+      - test_twentytwo['diff']['after']['state'] == "absent"
+      - test_twentytwo['msg'] == "ip_address 198.51.100.50/24 deleted"
