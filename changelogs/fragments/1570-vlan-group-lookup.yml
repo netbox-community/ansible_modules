@@ -1,0 +1,6 @@
+---
+bugfixes:
+  - >-
+    netbox_prefix - Resolve VLAN group scoping for nested VLAN lookups with
+    ``group_id`` so same-named VLANs can be disambiguated by group
+    (https://github.com/netbox-community/ansible_modules/issues/1570).
