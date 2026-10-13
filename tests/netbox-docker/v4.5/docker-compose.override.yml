@@ -17,10 +17,10 @@ services:
       interval: 15s
       test: curl -f http://localhost:8080/login/ || exit 1
     environment:
+      # NetBox v4.5 creates v2 tokens by default; SUPERUSER_API_TOKEN cannot
+      # seed one. The CI workflow obtains a token at runtime via
+      # tests/netbox-docker/provision-token.sh (POST /api/users/tokens/provision/).
       SKIP_SUPERUSER: "false"
-      SUPERUSER_API_TOKEN: "0123456789abcdef0123456789abcdef01234567"
       SUPERUSER_EMAIL: admin@localhost.com
       SUPERUSER_NAME: admin
       SUPERUSER_PASSWORD: admin123456
-    volumes:
-      - ./super_user.py:/opt/netbox/super_user.py:ro

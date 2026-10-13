@@ -397,6 +397,49 @@ def test_update_netbox_object_with_changes_check_mode_true(
     assert diff == on_update_diff
 
 
+@pytest.mark.parametrize(
+    ("field", "existing", "incoming"),
+    [
+        pytest.param("tags", [1, 2, 3], [3, 1, 2], id="tags"),
+        pytest.param(
+            "object_types",
+            ["dcim.device", "dcim.site"],
+            ["dcim.site", "dcim.device"],
+            id="object_types",
+        ),
+        pytest.param("tagged_vlans", [10, 20, 30], [30, 20, 10], id="tagged_vlans"),
+    ],
+)
+def test_update_netbox_object_unordered_list_is_idempotent(
+    mocker, mock_netbox_module, field, existing, incoming
+):
+    """A reordering of an unordered m2m list field must not report a change."""
+    nb_obj = mocker.Mock(name="nb_obj")
+    nb_obj.serialize.return_value = {"name": "test", field: existing}
+    mock_netbox_module.nb_object = nb_obj
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object({field: incoming})
+
+    nb_obj.update.assert_not_called()
+    assert diff is None
+
+
+def test_update_netbox_object_unordered_list_detects_real_change(
+    mocker, mock_netbox_module
+):
+    """A genuine difference in an unordered m2m list field is still detected."""
+    nb_obj = mocker.Mock(name="nb_obj")
+    nb_obj.serialize.return_value = {"name": "test", "tags": [1, 2, 3]}
+    nb_obj.update.return_value = True
+    mock_netbox_module.nb_object = nb_obj
+
+    serialized_obj, diff = mock_netbox_module._update_netbox_object({"tags": [1, 2, 4]})
+
+    assert diff is not None
+    assert diff["before"]["tags"] == {1, 2, 3}
+    assert diff["after"]["tags"] == {1, 2, 4}
+
+
 @pytest.mark.parametrize("version", ["2.13", "2.12", "2.11", "2.10.8", "2.10"])
 def test_version_check_greater_true(mock_netbox_module, nb_obj_mock, version):
     mock_netbox_module.nb_object = nb_obj_mock
@@ -459,3 +502,119 @@ def test_version_sanitize_value_error(mock_netbox_module, nb_obj_mock, version):
     mock_netbox_module.nb_object = nb_obj_mock
     with pytest.raises(ValueError):
         mock_netbox_module._version_sanitize(version)
+
+
+@pytest.mark.parametrize(
+    "check_mode, nb_object",
+    [
+        pytest.param(
+            False,
+            {"id": 5, "mac_address": "00:11:22:33:44:55"},
+            id="already-primary",
+        ),
+        pytest.param(
+            True,
+            {"id": 5, "mac_address": None, "primary_mac_address": None},
+            id="check-mode-predicts-change-no-write",
+        ),
+    ],
+)
+def test_set_primary_mac_address_no_write(mock_netbox_module, check_mode, nb_object):
+    """When the MAC is already the primary (or in check mode) no MACAddress is created
+    or assigned."""
+    mock_netbox_module.endpoint = "interfaces"
+    mock_netbox_module.check_mode = check_mode
+    mock_netbox_module.result = {"changed": False}
+    mock_netbox_module.nb_object = nb_object
+
+    mock_netbox_module._set_primary_mac_address(
+        "interface", "eth0", "00:11:22:33:44:55", "dcim.interface"
+    )
+
+    mock_netbox_module.nb.dcim.mac_addresses.create.assert_not_called()
+    # Idempotent already-primary makes no change; check mode predicts a change.
+    assert mock_netbox_module.result["changed"] is check_mode
+
+
+def test_set_primary_mac_address_creates_and_assigns(mocker, mock_netbox_module):
+    """A legacy mac_address with no matching MACAddress creates one assigned to the
+    interface and sets it as primary."""
+    mock_netbox_module.endpoint = "interfaces"
+    mock_netbox_module.check_mode = False
+    mock_netbox_module.result = {"changed": False}
+    mock_netbox_module.nb_object = {
+        "id": 5,
+        "mac_address": None,
+        "primary_mac_address": None,
+    }
+    mock_netbox_module.nb.dcim.mac_addresses.filter.return_value = []
+    created_mac = mocker.Mock()
+    created_mac.id = 99
+    mock_netbox_module.nb.dcim.mac_addresses.create.return_value = created_mac
+    interface_record = mocker.Mock()
+    mock_netbox_module.nb.dcim.interfaces.get.return_value = interface_record
+
+    mock_netbox_module._set_primary_mac_address(
+        "interface", "eth0", "00:11:22:33:44:55", "dcim.interface"
+    )
+
+    mock_netbox_module.nb.dcim.mac_addresses.create.assert_called_once_with(
+        {
+            "mac_address": "00:11:22:33:44:55",
+            "assigned_object_type": "dcim.interface",
+            "assigned_object_id": 5,
+        }
+    )
+    interface_record.update.assert_called_once_with({"primary_mac_address": 99})
+    assert mock_netbox_module.result["changed"] is True
+    assert mock_netbox_module.result["diff"]["after"]["mac_address"] == (
+        "00:11:22:33:44:55"
+    )
+
+
+def test_find_or_create_mac_address_reuses_existing(mocker, mock_netbox_module):
+    """An existing MACAddress with the same address already assigned to the interface is
+    reused rather than duplicated."""
+    existing = mocker.Mock()
+    existing.id = 7
+    existing.assigned_object_type = "dcim.interface"
+    existing.assigned_object_id = 5
+    mock_netbox_module.nb.dcim.mac_addresses.filter.return_value = [existing]
+
+    result = mock_netbox_module._find_or_create_mac_address(
+        "00:11:22:33:44:55", "dcim.interface", 5
+    )
+
+    assert result is existing
+    mock_netbox_module.nb.dcim.mac_addresses.create.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "prior_msg, expected_msg",
+    [
+        pytest.param(
+            "interface eth0 already exists",
+            "interface eth0 updated",
+            id="already-exists-becomes-updated",
+        ),
+        pytest.param(
+            "interface eth0 created",
+            "interface eth0 created",
+            id="created-preserved",
+        ),
+        pytest.param(None, "interface eth0 updated", id="no-prior-msg-becomes-updated"),
+    ],
+)
+def test_mark_changed_by_mac_keeps_specific_msg(
+    mock_netbox_module, prior_msg, expected_msg
+):
+    """Adding the primary MAC marks the interface changed but must not clobber a more
+    specific message (e.g. '... created') already set by _ensure_object_exists."""
+    mock_netbox_module.result = {"changed": False}
+    if prior_msg is not None:
+        mock_netbox_module.result["msg"] = prior_msg
+
+    mock_netbox_module._mark_changed_by_mac("interface", "eth0")
+
+    assert mock_netbox_module.result["changed"] is True
+    assert mock_netbox_module.result["msg"] == expected_msg

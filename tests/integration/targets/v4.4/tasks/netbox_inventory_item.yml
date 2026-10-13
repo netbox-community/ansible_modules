@@ -154,7 +154,7 @@
   ansible.builtin.assert:
     that:
       - test_six.failed
-      - test_six.msg == "Could not resolve id of inventory_item_role: Foo"
+      - 'test_six.msg == "Could not resolve id of inventory_item_role: Foo"'
 
 - name: "INVENTORY_ITEM 7: Create inventory item with component"
   netbox.netbox.netbox_inventory_item:
@@ -200,4 +200,4 @@
   ansible.builtin.assert:
     that:
       - test_eight.failed
-      - test_eight.msg == "parameters are required together: component_type, component"
+      - 'test_eight.msg == "parameters are required together: component_type, component"'

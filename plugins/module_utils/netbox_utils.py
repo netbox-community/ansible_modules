@@ -737,6 +737,43 @@ SCOPE_TO_ENDPOINT = {
     "virtualization.clustergroup": "cluster_groups",
 }
 
+# Many-to-many list fields that NetBox returns in a non-deterministic order.
+# The update-comparison engine must treat these as unordered sets, otherwise a
+# payload whose contents are identical to NetBox state but listed in a different
+# order is wrongly reported as a change (breaking idempotency and --check mode).
+# Adding a field name here is safe even if it never appears on a given endpoint:
+# the comparison only converts a key when both the existing object and the
+# incoming data carry it. Every listed field serializes (via pynetbox
+# Record.serialize) to hashable IDs or content-type/action strings; do not add a
+# field that serializes to dicts (e.g. cable terminations) — set() will raise,
+# on purpose. See INT-411 and GitHub issue #1486.
+LIST_AS_SET_KEYS = set(
+    [
+        "tags",
+        "object_types",
+        "tagged_vlans",
+        # netbox_users (permissions / groups / tokens)
+        "permissions",
+        "groups",
+        "actions",
+        # netbox_config_context assignment scopes
+        "regions",
+        "site_groups",
+        "sites",
+        "device_types",
+        "roles",
+        "platforms",
+        "cluster_types",
+        "cluster_groups",
+        "clusters",
+        "tenant_groups",
+        "tenants",
+        # route targets (netbox_vrf / netbox_l2vpn)
+        "import_targets",
+        "export_targets",
+    ]
+)
+
 NETBOX_ARG_SPEC = dict(
     netbox_url=dict(type="str", required=True),
     netbox_token=dict(type="str", required=True, no_log=True),
@@ -836,6 +873,87 @@ class NetboxModule(object):
         t_lesser += (0,) * (max_len - len(t_lesser))
 
         return t_greater > t_lesser if not greater_or_equal else t_greater >= t_lesser
+
+    def _set_primary_mac_address(
+        self, endpoint_name, name, mac_address, assigned_object_type
+    ):
+        """Store a legacy ``mac_address`` as the interface's primary MAC.
+
+        Find or create a ``MACAddress`` assigned to the interface and set it as
+        ``primary_mac_address``. The interface's read-only ``mac_address`` mirrors its
+        primary MAC, so a re-run that already has the right primary makes no change.
+        Called after the interface is ensured, so ``self.nb_object`` is the interface.
+        """
+        mac_address = mac_address.upper()
+        # After an update with no field changes, _ensure_object_exists leaves
+        # self.nb_object as the serialized dict rather than a pynetbox Record.
+        nb_object = self.nb_object
+        serialized = nb_object if isinstance(nb_object, dict) else nb_object.serialize()
+
+        # The interface's read-only `mac_address` already reflects its primary MAC.
+        if serialized.get("mac_address") == mac_address:
+            return
+
+        if self.check_mode:
+            self._mark_changed_by_mac(endpoint_name, name)
+            return
+
+        interface_id = serialized["id"]
+        mac = self._find_or_create_mac_address(
+            mac_address, assigned_object_type, interface_id
+        )
+        app = assigned_object_type.split(".")[0]
+        nb_endpoint = getattr(getattr(self.nb, app), self.endpoint)
+        if serialized.get("primary_mac_address") != mac.id:
+            nb_endpoint.get(interface_id).update({"primary_mac_address": mac.id})
+        # Re-fetch so the returned object's read-only `mac_address` reflects the primary.
+        self.nb_object = nb_endpoint.get(interface_id)
+
+        before = (self.result.get("diff") or {}).get("before") or {}
+        after = (self.result.get("diff") or {}).get("after") or {}
+        self._mark_changed_by_mac(endpoint_name, name)
+        self.result["diff"] = self._build_diff(
+            before={
+                **before,
+                "primary_mac_address": serialized.get("primary_mac_address"),
+            },
+            after={**after, "primary_mac_address": mac.id, "mac_address": mac_address},
+        )
+
+    def _mark_changed_by_mac(self, endpoint_name, name):
+        """Flag the interface as changed by the MAC update, without clobbering a more
+        specific message already set by ``_ensure_object_exists`` (e.g. ``... created``).
+        """
+        self.result["changed"] = True
+        prior = self.result.get("msg", "")
+        if not prior or "already exists" in prior:
+            self.result["msg"] = "%s %s updated" % (endpoint_name, name)
+
+    def _find_or_create_mac_address(
+        self, mac_address, assigned_object_type, assigned_object_id
+    ):
+        """Return the MACAddress for ``mac_address`` assigned to the object, creating it
+        if needed. MAC addresses are not unique in NetBox v4.2+, so match on both the
+        address and the assigned object to stay idempotent.
+        """
+        for candidate in self.nb.dcim.mac_addresses.filter(mac_address=mac_address):
+            if (
+                str(candidate.assigned_object_type) == assigned_object_type
+                and candidate.assigned_object_id == assigned_object_id
+            ):
+                return candidate
+        try:
+            return self.nb.dcim.mac_addresses.create(
+                {
+                    "mac_address": mac_address,
+                    "assigned_object_type": assigned_object_type,
+                    "assigned_object_id": assigned_object_id,
+                }
+            )
+        except pynetbox.RequestError as e:
+            self._handle_errors(
+                msg=e.error or f"Failed to create MAC address {mac_address}"
+            )
 
     def _connect_netbox_api(self, url, token, ssl_verify, cert, headers=None):
         try:
@@ -1434,10 +1552,9 @@ class NetboxModule(object):
         elif isinstance(value, int):
             return value
 
-        value = re.sub(r"[^\-.\w\s]", "", value)
-        value = re.sub(r"^[\s.]+|[\s.]+$", "", value)
-        value = re.sub(r"[-.\s]+", "-", value)
-        return value.strip().lower()
+        removed_chars = re.sub(r"[^\-\.\w\s]", "", value)
+        convert_chars = re.sub(r"[\-\.\s]+", "-", removed_chars)
+        return convert_chars.strip().lower()
 
     def _normalize_data(self, data):
         """
@@ -1540,9 +1657,12 @@ class NetboxModule(object):
         updated_obj = serialized_nb_obj.copy()
         updated_obj.update(data)
 
-        if serialized_nb_obj.get("tags") and data.get("tags"):
-            serialized_nb_obj["tags"] = set(serialized_nb_obj["tags"])
-            updated_obj["tags"] = set(data["tags"])
+        # Compare unordered many-to-many list fields as sets so a pure
+        # reordering of identical values is not reported as a change.
+        for key in LIST_AS_SET_KEYS:
+            if serialized_nb_obj.get(key) and data.get(key):
+                serialized_nb_obj[key] = set(serialized_nb_obj[key])
+                updated_obj[key] = set(data[key])
 
         # Ensure idempotency for site on older netbox versions
         version_pre_30 = self._version_check_greater("3.0", self.api_version)

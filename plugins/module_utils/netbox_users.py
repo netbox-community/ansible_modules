@@ -8,15 +8,13 @@ __metaclass__ = type
 from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
     NetboxModule,
     ENDPOINT_NAME_MAPPING,
+    LIST_AS_SET_KEYS,
 )
 
 NB_GROUPS = "groups"
 NB_PERMISSIONS = "permissions"
 NB_TOKENS = "tokens"
 NB_USERS = "users"
-
-# These suboptions are lists, but need to be modeled as sets for comparison purposes.
-LIST_AS_SET_KEYS = set(["permissions", "groups", "actions", "object_types"])
 
 
 class NetboxUsersModule(NetboxModule):
