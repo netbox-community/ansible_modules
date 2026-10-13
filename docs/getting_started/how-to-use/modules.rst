@@ -220,6 +220,52 @@ that specify fields that are unique to each tag. Name can be used, but we always
               - slug: "my-new-tag2"
           state: "present"
 
+Custom Fields
++++++++++++++++
+
+Modules that manage objects supporting custom fields accept a ``custom_fields`` dictionary, keyed by each custom field's ``name``. NetBox validates every value against the
+type declared for that custom field, so an integer field must receive an integer, a boolean field must receive a boolean, and so on.
+
+.. code-block:: yaml
+
+  ---
+  ...
+    tasks:
+      - name: "Example setting custom fields"
+        netbox.netbox.netbox_device:
+          netbox_url: "http://netbox.local"
+          netbox_token: "thisIsMyToken"
+          data:
+            name: "Test Device"
+            custom_fields:
+              rack_units: 3
+              monitored: true
+          state: "present"
+
+.. note::
+  **Typed custom fields and Jinja2 templating.** NetBox rejects a typed custom field when it receives the wrong type, for example
+  ``Invalid value for custom field 'rack_units': Value must be an integer.`` when an integer field is sent the string ``"3"`` instead of the integer ``3``.
+
+  This can happen when the value comes from a Jinja2 expression on **ansible-core < 2.19**. Before 2.19, non-native Jinja is the default, and the output of any Jinja2
+  *filter* is rendered back to a string. As a result ``"{{ rack_units | default(omit) }}"`` — and even ``"{{ rack_units | int }}"`` — arrives as ``"3"`` rather than ``3`` and is
+  rejected. This is ansible-core templating behaviour and is not specific to this collection.
+
+  Starting with **ansible-core 2.19, native Jinja is the default and can no longer be disabled**, so templated values keep their Python type and typed custom fields work with no
+  extra steps. On ansible-core < 2.19, enable native Jinja to get the same behaviour, either in ``ansible.cfg``:
+
+  .. code-block:: ini
+
+    [defaults]
+    jinja2_native = True
+
+  or via the environment for a single run:
+
+  .. code-block:: bash
+
+    ANSIBLE_JINJA2_NATIVE=1 ansible-playbook playbook.yml
+
+  See `issue #985 <https://github.com/netbox-community/ansible_modules/issues/985>`_ for the original report and discussion.
+
 .. warning:: Everything discussed above can be applied to each module, but may need to swap out any arguments for module specific arguments.
 
 Using module default groups
