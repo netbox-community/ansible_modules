@@ -193,6 +193,14 @@
     },
     {
         "before": {
+            "rack_type": "Test Rack Type"
+        },
+        "after": {
+            "rack_type": "test-rack-type"
+        }
+    },
+    {
+        "before": {
             "region": "Test Region_1"
         },
         "after": {

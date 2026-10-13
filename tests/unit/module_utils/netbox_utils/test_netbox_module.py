@@ -247,6 +247,17 @@ def test_change_choices_id(mocker, mock_netbox_module, endpoint, data, expected)
     assert new_data == expected
 
 
+def test_convert_identical_keys_form_factor(mock_netbox_module):
+    data = {"model": "Test Rack Type", "form_factor": "4-post-cabinet"}
+
+    converted = mock_netbox_module._convert_identical_keys(dict(data))
+    assert converted == {"model": "Test Rack Type", "type": "4-post-cabinet"}
+
+    mock_netbox_module.endpoint = "rack_types"
+    converted = mock_netbox_module._convert_identical_keys(dict(data))
+    assert converted == data
+
+
 @pytest.mark.parametrize(
     "parent, module_data, expected",
     load_relative_test_data("build_query_params_no_child"),

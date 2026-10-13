@@ -1,0 +1,186 @@
+---
+##
+##
+### NETBOX_RACK_TYPE
+##
+##
+- name: "RACK_TYPE 0: Resolve API token"
+  ansible.builtin.set_fact:
+    netbox_rack_type_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+
+- name: "RACK_TYPE 1: Necessary info creation"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+      manufacturer: Test Manufacturer
+      form_factor: 4-post-cabinet
+    state: present
+  register: test_one
+
+- name: "RACK_TYPE 1: ASSERT - Necessary info creation"
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['rack_type']['model'] == "Test Rack Type"
+      - test_one['rack_type']['slug'] == "test-rack-type"
+      - test_one['rack_type']['form_factor'] == "4-post-cabinet"
+      - test_one['msg'] == "rack_type Test Rack Type created"
+
+- name: "RACK_TYPE 2: Create duplicate"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+      manufacturer: Test Manufacturer
+      form_factor: 4-post-cabinet
+    state: present
+  register: test_two
+
+- name: "RACK_TYPE 2: ASSERT - Create duplicate"
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['rack_type']['model'] == "Test Rack Type"
+      - test_two['rack_type']['slug'] == "test-rack-type"
+      - test_two['msg'] == "rack_type Test Rack Type already exists"
+
+- name: "RACK_TYPE 3: Update"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+      manufacturer: Test Manufacturer
+      form_factor: 4-post-cabinet
+      description: Test Rack Type description
+      u_height: 48
+      outer_width: 750
+      outer_depth: 1200
+      outer_unit: mm
+      weight_unit: kg
+      max_weight: 1000
+    state: present
+  register: test_three
+
+- name: "RACK_TYPE 3: ASSERT - Update"
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['description'] == "Test Rack Type description"
+      - test_three['rack_type']['model'] == "Test Rack Type"
+      - test_three['rack_type']['slug'] == "test-rack-type"
+      - test_three['rack_type']['description'] == "Test Rack Type description"
+      - test_three['rack_type']['u_height'] == 48
+      - test_three['rack_type']['outer_width'] == 750
+      - test_three['rack_type']['outer_depth'] == 1200
+      - test_three['rack_type']['outer_unit'] == "mm"
+      - test_three['rack_type']['weight_unit'] == "kg"
+      - test_three['rack_type']['max_weight'] == 1000
+      - test_three['msg'] == "rack_type Test Rack Type updated"
+
+- name: "RACK_TYPE 3.1: Update duplicate (idempotency)"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+      manufacturer: Test Manufacturer
+      form_factor: 4-post-cabinet
+      description: Test Rack Type description
+      u_height: 48
+      outer_width: 750
+      outer_depth: 1200
+      outer_unit: mm
+      weight_unit: kg
+      max_weight: 1000
+    state: present
+  register: test_three_one
+
+- name: "RACK_TYPE 3.1: ASSERT - Update duplicate (idempotency)"
+  ansible.builtin.assert:
+    that:
+      - not test_three_one['changed']
+      - test_three_one['msg'] == "rack_type Test Rack Type already exists"
+
+- name: "RACK_TYPE 4: Create rack associated to the rack type"
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      name: Test Rack Type Rack
+      site: Test Site
+      rack_type: Test Rack Type
+    state: present
+  register: test_four
+
+- name: "RACK_TYPE 4: ASSERT - Create rack associated to the rack type"
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['rack']['name'] == "Test Rack Type Rack"
+      - test_four['rack']['rack_type'] == test_one['rack_type']['id']
+      - test_four['rack']['form_factor'] == "4-post-cabinet"
+      - test_four['rack']['u_height'] == 48
+      - test_four['msg'] == "rack Test Rack Type Rack created"
+
+- name: "RACK_TYPE 5: ASSERT - Lookup rack type via nb_lookup"
+  ansible.builtin.assert:
+    that:
+      - lookup_result | count == 1
+      - (lookup_result | first)['value']['model'] == "Test Rack Type"
+  vars:
+    lookup_result: "{{ query('netbox.netbox.nb_lookup', 'rack-types', api_endpoint='http://localhost:32768', token=netbox_rack_type_token, api_filter='slug=test-rack-type')
+      }}"
+
+- name: "RACK_TYPE 6: Delete rack"
+  netbox.netbox.netbox_rack:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      name: Test Rack Type Rack
+      site: Test Site
+    state: absent
+  register: test_six
+
+- name: "RACK_TYPE 6: ASSERT - Delete rack"
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+      - test_six['msg'] == "rack Test Rack Type Rack deleted"
+
+- name: "RACK_TYPE 7: Delete"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+    state: absent
+  register: test_seven
+
+- name: "RACK_TYPE 7: ASSERT - Delete"
+  ansible.builtin.assert:
+    that:
+      - test_seven is changed
+      - test_seven['diff']['before']['state'] == "present"
+      - test_seven['diff']['after']['state'] == "absent"
+      - test_seven['msg'] == "rack_type Test Rack Type deleted"
+
+- name: "RACK_TYPE 7.1: Delete duplicate (idempotency)"
+  netbox.netbox.netbox_rack_type:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ netbox_rack_type_token }}"
+    data:
+      model: Test Rack Type
+    state: absent
+  register: test_seven_one
+
+- name: "RACK_TYPE 7.1: ASSERT - Delete duplicate (idempotency)"
+  ansible.builtin.assert:
+    that:
+      - not test_seven_one['changed']
+      - test_seven_one['msg'] == "rack_type Test Rack Type already absent"

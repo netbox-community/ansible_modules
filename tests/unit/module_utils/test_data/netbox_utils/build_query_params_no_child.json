@@ -244,6 +244,16 @@
         }
     },
     {
+        "parent": "rack_type",
+        "module_data": {
+            "model": "Test Rack Type",
+            "slug": "test-rack-type"
+        },
+        "expected": {
+            "slug": "test-rack-type"
+        }
+    },
+    {
         "parent": "region",
         "module_data": {
             "name": "Test Region",

@@ -71,6 +71,7 @@ action_groups:
     - netbox_rack
     - netbox_rack_group
     - netbox_rack_role
+    - netbox_rack_type
     - netbox_rear_port
     - netbox_rear_port_template
     - netbox_region

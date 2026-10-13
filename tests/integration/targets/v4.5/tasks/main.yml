@@ -134,6 +134,15 @@
   tags:
     - netbox_rack_role
 
+- name: NETBOX_RACK_TYPE TESTS
+  ansible.builtin.include_tasks:
+    file: netbox_rack_type.yml
+    apply:
+      tags:
+        - netbox_rack_type
+  tags:
+    - netbox_rack_type
+
 - name: NETBOX_LOCATION TESTS
   ansible.builtin.include_tasks:
     file: netbox_location.yml
