@@ -1,0 +1,10 @@
+---
+bugfixes:
+  - >-
+    nb_inventory - fixed ``AttributeError: 'InventoryModule' object has no
+    attribute 'site_group_names'`` when ``group_by`` contains ``site_group``
+    without also containing ``site``, ``location`` or ``region``. The check
+    that triggers site group creation looked up ``site`` twice instead of
+    ``site_group``
+    (https://github.com/netbox-community/ansible_modules/issues/1528,
+    https://github.com/netbox-community/ansible_modules/issues/1357).
