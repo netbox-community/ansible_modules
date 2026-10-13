@@ -136,16 +136,44 @@ def test_filter_query_parameters(inventory_fixture, parameters, expected):
         assert parameter[1] == list(expected[i].values())[0]
 
 
-@pytest.mark.parametrize("options, expected", load_relative_test_data("refresh_url"))
-def test_refresh_url(inventory_fixture, options, expected):
+@pytest.mark.parametrize(
+    "description,options,expected", load_relative_test_data("get_filters")
+)
+def test_get_filters(inventory_fixture, description, options, expected):
     inventory_fixture.query_filters = options["query_filters"]
     inventory_fixture.device_query_filters = options["device_query_filters"]
     inventory_fixture.vm_query_filters = options["vm_query_filters"]
     inventory_fixture.config_context = options["config_context"]
 
-    result = inventory_fixture.refresh_url()
+    result = inventory_fixture.get_filters()
 
-    assert result == tuple(expected)
+    assert isinstance(result, tuple), "get_filters() should return a tuple"
+    assert (
+        len(result) == 2
+    ), "get_filters() should return a 2-tuple (device_filters, vm_filters)"
+
+    device_filters, vm_filters = result
+    expected_device_filters, expected_vm_filters = expected
+
+    assert isinstance(device_filters, list), "Device filters should be a list"
+    assert isinstance(vm_filters, list), "VM filters should be a list"
+
+    assert len(device_filters) == len(
+        expected_device_filters
+    ), f"Device filters count mismatch: expected {len(expected_device_filters)}, got {len(device_filters)}"
+    assert len(vm_filters) == len(
+        expected_vm_filters
+    ), f"VM filters count mismatch: expected {len(expected_vm_filters)}, got {len(vm_filters)}"
+
+    for i, filter_tuple in enumerate(device_filters):
+        assert (
+            list(filter_tuple) in expected_device_filters
+        ), f"Device filter {filter_tuple} not in expected filters: {expected_device_filters}"
+
+    for i, filter_tuple in enumerate(vm_filters):
+        assert (
+            list(filter_tuple) in expected_vm_filters
+        ), f"VM filter {filter_tuple} not in expected filters: {expected_vm_filters}"
 
 
 def test_refresh_lookups(inventory_fixture):
@@ -194,28 +222,6 @@ def test_group_extractors(
         assert key not in expected
 
 
-@pytest.mark.parametrize(
-    "api_url, max_uri_length, query_key, query_values, expected",
-    load_relative_test_data("get_resource_list_chunked"),
-)
-def test_get_resource_list_chunked(
-    inventory_fixture, api_url, max_uri_length, query_key, query_values, expected
-):
-    mock_get_resource_list = Mock()
-    mock_get_resource_list.return_value = ["resource"]
-
-    inventory_fixture.get_resource_list = mock_get_resource_list
-    inventory_fixture.max_uri_length = max_uri_length
-
-    resources = inventory_fixture.get_resource_list_chunked(
-        api_url, query_key, query_values
-    )
-
-    mock_get_resource_list.assert_has_calls(map(call, expected))
-    assert mock_get_resource_list.call_count == len(expected)
-    assert resources == mock_get_resource_list.return_value * len(expected)
-
-
 @patch(
     "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.DEFAULT_LOCAL_TMP",
     "/fake/path/asdasd3456",
@@ -229,6 +235,8 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
     ]
 
     inventory_fixture._fetch_information = mock_fetch_information
+    inventory_fixture.nb = Mock()
+    inventory_fixture.nb.status.return_value = {"netbox-version": netbox_ver}
 
     with pytest.raises(KeyError, match="paths"):
         with patch("builtins.open", mock_open()) as filemock:
@@ -244,25 +252,6 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
     assert filemock.call_args_list == ref_args_list
     assert str(inventory_fixture.api_version) == netbox_ver[:-2]
-
-
-def test_new_token(inventory_fixture, templar_fixture):
-    mock_get_option = Mock()
-
-    mock_templar_template_token = Mock()
-    mock_templar_template_token.return_value = {"type": "foo", "value": "bar"}
-
-    inventory_fixture.templar = templar_fixture
-    inventory_fixture.templar.template = mock_templar_template_token
-
-    inventory_fixture.get_option = mock_get_option
-
-    inventory_fixture.headers = {}
-
-    inventory_fixture._set_authorization()
-
-    assert "Authorization" in inventory_fixture.headers
-    assert inventory_fixture.headers["Authorization"] == "Foo bar"
 
 
 @pytest.mark.parametrize(

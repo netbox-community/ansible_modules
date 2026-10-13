@@ -1,0 +1,213 @@
+[
+    {
+        "description": "Empty filters",
+        "options": {
+            "query_filters": [],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [[], []]
+    },
+    {
+        "description": "Non-iterable filters are ignored",
+        "options": {
+            "query_filters": 12345,
+            "device_query_filters": 6543,
+            "vm_query_filters": null,
+            "config_context": false
+        },
+        "expected": [[], []]
+    },
+    {
+        "description": "Query filters applied to both devices and VMs",
+        "options": {
+            "query_filters": [
+                {"name": "router1"},
+                {"tag": "production"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [["name", "router1"], ["tag", "production"]],
+            [["name", "router1"], ["tag", "production"]]
+        ]
+    },
+    {
+        "description": "Device-specific filters only applied to devices",
+        "options": {
+            "query_filters": [],
+            "device_query_filters": [
+                {"has_primary_ip": "true"},
+                {"role": "network-edge-router"}
+            ],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [["has_primary_ip", "true"], ["role", "network-edge-router"]],
+            []
+        ]
+    },
+    {
+        "description": "VM-specific filters only applied to VMs",
+        "options": {
+            "query_filters": [],
+            "device_query_filters": [],
+            "vm_query_filters": [
+                {"cluster": "prod-cluster"},
+                {"status": "active"},
+                {"region": "test"}
+            ],
+            "config_context": false
+        },
+        "expected": [
+            [],
+            [["region", "test"]]
+        ]
+    },
+    {
+        "description": "Combined query_filters with device and VM specific filters",
+        "options": {
+            "query_filters": [
+                {"tenant__n": "internal"}
+            ],
+            "device_query_filters": [
+                {"has_primary_ip": "true"}
+            ],
+            "vm_query_filters": [
+                {"region": "test"}
+            ],
+            "config_context": false
+        },
+        "expected": [
+            [["has_primary_ip", "true"]],
+            [["region", "test"]]
+        ]
+    },
+    {
+        "description": "Invalid filters are filtered out",
+        "options": {
+            "query_filters": [
+                {"invalid_param": "value"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [[], []]
+    },
+    {
+        "description": "Mixed valid and invalid filters",
+        "options": {
+            "query_filters": [
+                {"name": "test"},
+                {"invalid_param": "value"}
+            ],
+            "device_query_filters": [
+                {"rack_id": "1"}
+            ],
+            "vm_query_filters": [
+                {"disk": "100"}
+            ],
+            "config_context": false
+        },
+        "expected": [
+            [["name", "test"], ["rack_id", "1"]],
+            [["name", "test"], ["disk", "100"]]
+        ]
+    },
+    {
+        "description": "Device-only filter (has_primary_ip) in query_filters",
+        "options": {
+            "query_filters": [
+                {"has_primary_ip": "true"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [["has_primary_ip", "true"]],
+            []
+        ]
+    },
+    {
+        "description": "VM-only filter (disk) in query_filters",
+        "options": {
+            "query_filters": [
+                {"disk": "3"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [],
+            [["disk", "3"]]
+        ]
+    },
+    {
+        "description": "Custom fields with cf_ prefix are allowed",
+        "options": {
+            "query_filters": [
+                {"cf_location": "datacenter1"},
+                {"cf_environment": "prod"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [["cf_location", "datacenter1"], ["cf_environment", "prod"]],
+            [["cf_location", "datacenter1"], ["cf_environment", "prod"]]
+        ]
+    },
+    {
+        "description": "MAC address filter (available for both devices and VMs)",
+        "options": {
+            "query_filters": [
+                {"mac_address": "aa:bb:cc:dd:ee:ff"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+            [["mac_address", "aa:bb:cc:dd:ee:ff"]],
+            [["mac_address", "aa:bb:cc:dd:ee:ff"]]
+        ]
+    },
+    {
+        "description": "Interfaces filter (device-only)",
+        "options": {
+            "query_filters": [],
+          "device_query_filters": [
+                {"interfaces": "1"}
+            ],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+          [["interfaces", "1"]],
+          []
+        ]
+    },
+    {
+        "description": "Virtual disks filter (VM-only)",
+        "options": {
+            "query_filters": [
+                {"virtual_disks": "1"}
+            ],
+            "device_query_filters": [],
+            "vm_query_filters": [],
+            "config_context": false
+        },
+        "expected": [
+          [],
+          [["virtual_disks", "1"]]
+        ]
+    }
+]
