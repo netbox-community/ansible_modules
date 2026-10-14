@@ -1,0 +1,338 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Copyright: (c) 2025, Chris Caldwell (@squirrel289) <chris@calan.co>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+
+DOCUMENTATION = r"""
+---
+module: netbox_event_rule
+short_description: Creates, updates or deletes event rule configuration within NetBox
+description:
+  - Creates, updates or removes event rule configuration within NetBox
+notes:
+  - This should be ran with connection C(local) and hosts C(localhost)
+author:
+  - Chris Caldwell (@squirrel289)
+requirements:
+  - pynetbox
+version_added: "3.22.0"
+extends_documentation_fragment:
+  - netbox.netbox.common
+options:
+  data:
+    type: dict
+    description:
+      - Defines the event rule parameters.
+    required: true
+    suboptions:
+      object_types:
+        description:
+          - List of content types (e.g., 'dcim.device') the event rule applies to.
+          - Required when I(state=present)
+        type: list
+        elements: raw
+        required: false # Required if state is 'present'
+      name:
+        description:
+          - The name of the event rule.
+          - Required when I(state=absent)
+        type: str
+        required: true
+      enabled:
+        description:
+          - Whether the event rule is enabled.
+        type: bool
+        required: false
+      event_types:
+        description:
+          - List of event types that trigger the rule.
+          - Required when I(state=present)
+        type: list
+        elements: str
+        required: false # Required if state is 'present'
+        choices:
+          - object_created
+          - object_updated
+          - object_deleted
+          - job_started
+          - job_completed
+          - job_failed
+          - job_errored
+      conditions:
+        description:
+          - Dictionary defining conditions for the event rule to trigger.
+          - The parameters `or`, `and`, and `attr` are mutually exclusive.
+        required: false
+        type: dict
+        suboptions:
+          and:
+            description:
+              - A list of conditions or nested operators that must all evaluate to true
+                to trigger the event rule.
+              - Must not be provided if 'or', 'attr' or 'value' is provided.
+            type: list
+            elements: dict
+            required: false
+          or:
+            description:
+              - A list of conditions or nested operators with at least one option evaluating to true
+                to trigger the event rule.
+              - Must not be provided if 'and', 'attr' or 'value' is provided.
+            type: list
+            elements: dict
+            required: false
+          attr:
+            description:
+              - The name of the attribute to evaluate.
+              - Must not be provided if 'and' or 'or' is provided.
+              - Required if 'value', 'op' or 'negate' is provided.
+            type: str
+            required: false
+          value:
+            description:
+              - The expected value to compare against the attribute identified by attr
+              - Must not be provided if 'and' or 'or' is provided.
+              - Required if 'attr', 'op' or 'negate' is provided.
+            type: str
+            required: false
+          op:
+            description:
+              - The operator to use when comparing the value of attr to the expected value.
+              - Must not be provided if 'and' or 'or' is provided.
+            type: str
+            choices:
+              - '='
+              - '>'
+              - '<'
+              - '>='
+              - '<='
+            required: false
+          negate:
+            description:
+              - If true, the condition will be negated.
+              - Must not be provided if 'and' or 'or' is provided.
+            type: bool
+            required: false
+      action_type:
+        description:
+          - The type of action to take when the event rule is triggered.
+        type: str
+        choices:
+          - webhook
+          - script
+          - notification
+        required: false
+      action_object_type:
+        description:
+          - The content type of the action object (e.g., 'extras.webhook').
+          - Required when I(state=present)
+        type: str
+        required: false # Required if state is 'present'
+      action_object_id:
+        description:
+          - The ID of the action object (e.g., the webhook ID).
+          - Required when I(state=present)
+        type: int
+        required: false # Required if state is 'present'
+      description:
+        description:
+          - A description for the event rule.
+        type: str
+        required: false
+      tags:
+        description:
+          - List of tags to apply to the event rule.
+        type: list
+        elements: raw
+        required: false
+      custom_fields:
+        description:
+          - Dictionary of custom fields for the event rule.
+        type: dict
+        required: false
+
+"""
+EXAMPLES = r"""
+# Example 1: Create an event rule using attr and value conditions (based on sample JSON)
+- name: Create Netbox Event Rule for Virtual Disk Creation with specific name
+  netbox.netbox.netbox_event_rule:
+    netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+    netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+    state: present
+    data:
+      name: "test-webhook-event"
+      action_type: "webhook"
+      action_object_type: "extras.webhook"
+      action_object_id: -1 # Replace with your webhook ID
+      enabled: true
+      object_types:
+        - virtualization.virtualdisk
+      event_types:
+        - object_created
+      conditions:
+        attr: "name"
+        value: "scsi0"
+        negate: true # This condition triggers if the name is NOT "scsi0"
+
+# Example 2: Create an event rule using 'and' conditions
+- name: Update Netbox Event Rule for Virtual Disk Creation or Update in specific names
+  netbox.netbox.netbox_event_rule:
+    netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+    netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+    state: present
+    data:
+      name: "test-webhook-event"
+      event_types:
+        - object_created
+      conditions:
+        "and":
+          - "attr": "name"
+            "value": "scsi0"
+            "negate": true
+          - "attr": "name"
+            "value": "rootfs"
+            "negate": true
+
+      description: "Triggered when a virtual disk is created that is NOT named 'scsi0' or 'rootfs'."
+      tags:
+        - automation
+        - netbox-event-rule
+
+# Example 3: Ensure an event rule is absent
+- name: Ensure test-webhook-event rule is absent
+  netbox.netbox.netbox_event_rule:
+    netbox_url: "http://localhost:32768" # Replace with your Netbox URL
+    netbox_token: "0123456789abcdef0123456789abcdef01234567" # Replace with your Netbox token
+    state: absent
+    data:
+      name: "test-webhook-event"
+"""
+
+RETURN = r"""
+webhook:
+  description: Serialized object as created/existent/updated/deleted within NetBox
+  returned: always
+  type: dict
+msg:
+  description: Message indicating failure or info about what has been achieved
+  returned: always
+  type: str
+"""
+
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_utils import (
+    NetboxAnsibleModule,
+    NETBOX_ARG_SPEC,
+)
+from ansible_collections.netbox.netbox.plugins.module_utils.netbox_extras import (
+    NetboxExtrasModule,
+    NB_EVENT_RULES,
+)
+from copy import deepcopy
+
+
+def main():
+    """
+    Main entry point for module execution
+    """
+    argument_spec = deepcopy(NETBOX_ARG_SPEC)
+    argument_spec.update(
+        dict(
+            data=dict(
+                type="dict",
+                required=True,
+                options=dict(
+                    object_types=dict(required=False, type="list", elements="raw"),
+                    name=dict(required=True, type="str"),
+                    enabled=dict(required=False, type="bool"),
+                    event_types=dict(
+                        required=False,
+                        choices=[
+                            "object_created",
+                            "object_updated",
+                            "object_deleted",
+                            "job_started",
+                            "job_completed",
+                            "job_failed",
+                            "job_errored",
+                        ],
+                        elements="str",
+                        type="list",
+                    ),
+                    conditions=dict(
+                        type="dict",
+                        required=False,
+                        options={
+                            "attr": dict(
+                                required=False,
+                                type="str",
+                            ),
+                            "value": dict(
+                                required=False,
+                                type="str",
+                            ),
+                            "negate": dict(
+                                required=False,
+                                type="bool",
+                            ),
+                            "op": dict(
+                                required=False,
+                                choices=["=", ">", "<", ">=", "<="],
+                                type="str",
+                            ),
+                            "or": dict(type="list", required=False, elements="dict"),
+                            "and": dict(type="list", required=False, elements="dict"),
+                        },
+                        required_together=[
+                            ["value", "attr"],
+                        ],
+                        required_by=dict(
+                            negate=["value", "attr"],
+                            op=["value", "attr"],
+                        ),
+                        mutually_exclusive=[
+                            ["or", "and", "attr"],
+                        ],
+                    ),
+                    action_type=dict(
+                        required=False,
+                        choices=[
+                            "webhook",
+                            "script",
+                            "notification",
+                        ],
+                        type="str",
+                    ),
+                    action_object_type=dict(required=False, type="str"),
+                    action_object_id=dict(required=False, type="int"),
+                    description=dict(required=False, type="str"),
+                    tags=dict(required=False, type="list", elements="raw"),
+                    custom_fields=dict(required=False, type="dict"),
+                ),
+            )
+        )
+    )
+    required_if = [
+        (
+            "state",
+            "present",
+            ["object_types", "event_types", "action_object_type", "action_object_id"],
+        ),
+        ("state", "absent", ["name"]),
+    ]
+
+    module = NetboxAnsibleModule(
+        argument_spec=argument_spec,
+        supports_check_mode=True,
+        required_if=required_if,
+    )
+
+    netbox_event_rule = NetboxExtrasModule(module, NB_EVENT_RULES)
+    netbox_event_rule.run()
+
+
+if __name__ == "__main__":  # pragma: no cover
+    main()
