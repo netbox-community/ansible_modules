@@ -302,7 +302,9 @@
             }
         },
         "after": {
-            "interface": 123
+            "interface": {
+                "id": 123
+            }
         }
     },
     {
