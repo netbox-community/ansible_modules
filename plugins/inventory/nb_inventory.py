@@ -269,6 +269,13 @@ DOCUMENTATION = """
             default: {}
             env:
                 - name: NETBOX_HEADERS
+        trust_template_vars:
+            description:
+                - If True, trusts templated variables.
+                - By default ansible-core after 2.19 does not render templates in strings from external sources.
+            default: False
+            type: boolean
+            version_added: "3.22.0"
 """
 
 EXAMPLES = """
@@ -407,6 +414,18 @@ from ansible.module_utils.urls import open_url
 from ansible.module_utils.six.moves.urllib import error as urllib_error
 from ansible.module_utils.six.moves.urllib.parse import urlencode
 from ansible.module_utils.six.moves.urllib.parse import urlparse
+
+try:
+    from ansible.template import trust_as_template
+
+    TRUST_AS_TEMPLATE = True
+except ImportError:
+    TRUST_AS_TEMPLATE = False
+
+from ansible.module_utils._internal._datatag import (
+    _AnsibleTaggedDict,
+    _AnsibleTaggedList,
+)
 
 try:
     from packaging import specifiers, version
@@ -811,6 +830,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_config_context(self, host):
+        if self.trust_template_vars:
+            self.trust_template_strings(host["config_context"])
+
         try:
             if self.flatten_config_context:
                 # Don't wrap in an array if we're about to flatten it to separate host vars
@@ -821,6 +843,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
     def extract_local_context_data(self, host):
+        if self.trust_template_vars:
+            self.trust_template_strings(host["local_context_data"])
         try:
             if self.flatten_local_context_data:
                 # Don't wrap in an array if we're about to flatten it to separate host vars
@@ -2214,6 +2238,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             self.get_option("rename_variables")
         )
 
+        # render jinja templates from config context
+        self.trust_template_vars = self.get_option("trust_template_vars")
+
         self.main()
 
     def parse_rename_variables(self, rename_variables):
@@ -2221,3 +2248,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             {"pattern": re.compile(i["pattern"]), "repl": i["repl"]}
             for i in rename_variables or ()
         ]
+
+    def trust_template_strings(self, data):
+        # trust_as_template is not available in ansible-core < 2.19
+        if not TRUST_AS_TEMPLATE:
+            return
+        if isinstance(data, _AnsibleTaggedDict):
+            for k, v in data.items():
+                data[k] = self.trust_template_strings(v)
+        elif isinstance(data, _AnsibleTaggedList):
+            for i, item in enumerate(data):
+                data[i] = self.trust_template_strings(item)
+        elif isinstance(data, str):
+            return trust_as_template(data)
+        else:
+            return data
