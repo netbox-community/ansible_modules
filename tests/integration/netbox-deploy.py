@@ -286,6 +286,26 @@ created_rack_groups[0].save()
 rack_roles = [{"name": "Test Rack Role", "slug": "test-rack-role", "color": "4287f5"}]
 created_rack_roles = make_netbox_calls(nb.dcim.rack_roles, rack_roles)
 
+# Create Rack Types (NetBox 4.1+)
+if nb_version >= version.parse("4.1"):
+    rack_types = [
+        {
+            "manufacturer": cisco_manu.id,
+            "model": "Standard 42U",
+            "slug": "standard-42u",
+            "form_factor": "4-post-frame",
+            "u_height": 42,
+        },
+        {
+            "manufacturer": cisco_manu.id,
+            "model": "Standard 48U",
+            "slug": "standard-48u",
+            "form_factor": "4-post-cabinet",
+            "u_height": 48,
+        },
+    ]
+    created_rack_types = make_netbox_calls(nb.dcim.rack_types, rack_types)
+
 # Create Racks
 racks = [
     {
