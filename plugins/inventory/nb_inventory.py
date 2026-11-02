@@ -1754,8 +1754,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.vms_list = []
 
         device_filters, vm_filters = self.get_filters()
+        query_filters_set = isinstance(self.query_filters, Iterable) and bool(
+            self.query_filters
+        )
 
-        if len(device_filters) > 0:
+        if device_filters or not query_filters_set:
 
             def devices_filter():
                 return self.nb.dcim.devices.filter(**dict(device_filters))
@@ -1764,7 +1767,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 "devices", devices_filter
             )
 
-        if len(vm_filters) > 0:
+        if vm_filters or not query_filters_set:
 
             def vms_filter():
                 return self.nb.virtualization.virtual_machines.filter(

@@ -177,6 +177,43 @@ def test_get_filters(inventory_fixture, description, options, expected):
         ), f"VM filter {filter_tuple} not in expected filters: {expected_vm_filters}"
 
 
+def test_fetch_hosts_without_filters(inventory_fixture):
+    inventory_fixture.query_filters = []
+    inventory_fixture.device_query_filters = []
+    inventory_fixture.vm_query_filters = []
+    inventory_fixture.nb = Mock()
+    inventory_fixture.nb.dcim.devices.filter.return_value = [{"id": 1}]
+    inventory_fixture.nb.virtualization.virtual_machines.filter.return_value = [
+        {"id": 2}
+    ]
+
+    def fetch(key, pynetbox_fn):
+        return list(pynetbox_fn())
+
+    inventory_fixture._fetch_information_pynetbox = fetch
+
+    inventory_fixture.fetch_hosts()
+
+    inventory_fixture.nb.dcim.devices.filter.assert_called_once_with()
+    inventory_fixture.nb.virtualization.virtual_machines.filter.assert_called_once_with()
+    assert inventory_fixture.devices_lookup == {1: {"id": 1, "is_virtual": False}}
+    assert inventory_fixture.vms_lookup == {2: {"id": 2, "is_virtual": True}}
+
+
+def test_fetch_hosts_with_invalid_query_filters(inventory_fixture):
+    inventory_fixture.query_filters = [{"invalid_param": "value"}]
+    inventory_fixture.device_query_filters = []
+    inventory_fixture.vm_query_filters = []
+    inventory_fixture.nb = Mock()
+    inventory_fixture._fetch_information_pynetbox = Mock()
+
+    inventory_fixture.fetch_hosts()
+
+    inventory_fixture._fetch_information_pynetbox.assert_not_called()
+    inventory_fixture.nb.dcim.devices.filter.assert_not_called()
+    inventory_fixture.nb.virtualization.virtual_machines.filter.assert_not_called()
+
+
 def test_refresh_lookups(inventory_fixture):
     def raises_exception():
         raise Exception("Error from within a thread")
