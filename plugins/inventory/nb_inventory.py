@@ -411,6 +411,16 @@ except ImportError as imp_exc:
 else:
     PACKAGING_IMPORT_ERROR = None
 
+    class _TimeoutSession(requests.Session):
+        def __init__(self, timeout):
+            super().__init__()
+            self.timeout = timeout
+
+        def request(self, method, url, **kwargs):
+            kwargs.setdefault("timeout", self.timeout)
+            return super().request(method, url, **kwargs)
+
+
 try:
     from packaging import version
 except ImportError as imp_exc:
@@ -428,6 +438,31 @@ else:
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     NAME = "netbox.netbox.nb_inventory"
+
+    def _build_session(self):
+        session = _TimeoutSession(self.timeout)
+
+        session.headers.update(
+            {
+                "User-Agent": (
+                    f"ansible {ansible_version} "
+                    f"Python {python_version.split(' ', maxsplit=1)[0]}"
+                ),
+                "Content-type": "application/json",
+            }
+        )
+
+        headers = self.get_option("headers")
+        if isinstance(headers, str):
+            headers = json.loads(headers)
+        if isinstance(headers, dict):
+            session.headers.update(headers)
+
+        session.verify = self.ca_path if self.ca_path else self.validate_certs
+        if self.cert:
+            session.cert = (self.cert, self.key) if self.key else self.cert
+
+        return session
 
     def _set_to_cache(self, cache_key, results):
         # get the user's cache option to see if we should save the cache if it is changing
@@ -1608,7 +1643,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if cache and cached_api_version == netbox_api_version:
             openapi = cache
         else:
-            response = requests.get(endpoint_url, timeout=self.timeout)
+            response = self.nb.http_session.get(endpoint_url, timeout=self.timeout)
+            response.raise_for_status()
             openapi = json.loads(response.content)
 
             try:
@@ -2144,21 +2180,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             token = self.templar.template(
                 self.get_option("token"), fail_on_undefined=False
             )
-        session = requests.Session()
-        session.headers = {
-            "User-Agent": "ansible %s Python %s"
-            % (ansible_version, python_version.split(" ", maxsplit=1)[0]),
-            "Content-type": "application/json",
-        }
-        session.cert = (self.cert, self.key)
-        session.verify = self.ca_path
+        session = self._build_session()
+
+        if token and "Authorization" not in session.headers:
+            if isinstance(token, dict):
+                session.headers["Authorization"] = (
+                    f"{token.get('type', 'Token').capitalize()} "
+                    f"{token.get('value')}"
+                )
+            else:
+                session.headers["Authorization"] = f"Token {token}"
+
         self.nb = pynetbox.api(
-            self.get_option("api_endpoint"),
+            self.api_endpoint,
             # strict_filters might not be available, TODO: add a version check
             # strict_filters=True,
-            token=token,
+            token=None,
             threading=True,
         )
+        self.nb.http_session = session
 
         self.main()
 

@@ -231,19 +231,22 @@ def test_group_extractors(
 def test_fetch_api_docs(inventory_fixture, netbox_ver):
     inventory_fixture.nb = Mock()
     inventory_fixture.nb.status.return_value = {"netbox-version": netbox_ver}
+    get_mock = inventory_fixture.nb.http_session.get
+    get_mock.return_value.content = b"{}"
 
     with pytest.raises(KeyError, match="paths"):
         with patch("builtins.open", mock_open()) as filemock:
             with patch(
                 "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.json"
             ) as json_mock:
-                with patch(
-                    "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.requests.get"
-                ) as get_mock:
-                    get_mock.return_value.content = b"{}"
-                    json_mock.load.return_value = {"info": {"version": "2.0"}}
-                    json_mock.loads.return_value = {"info": {"version": "3.0"}}
-                    inventory_fixture.fetch_api_docs()
+                json_mock.load.return_value = {"info": {"version": "2.0"}}
+                json_mock.loads.return_value = {"info": {"version": "3.0"}}
+                inventory_fixture.fetch_api_docs()
+
+    if netbox_ver == "3.0.0":
+        get_mock.assert_called_once()
+    else:
+        get_mock.assert_not_called()
 
     ref_args_list = [call("/fake/path/netbox_api_dump.json")]
     if netbox_ver == "3.0.0":
@@ -251,6 +254,25 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
 
     assert filemock.call_args_list == ref_args_list
     assert str(inventory_fixture.api_version) == netbox_ver[:-2]
+
+
+@pytest.mark.parametrize(
+    "ca_path, validate_certs, expected_verify",
+    [(False, True, True), (False, False, False), ("/tmp/ca.pem", True, "/tmp/ca.pem")],
+)
+def test_build_session(inventory_fixture, ca_path, validate_certs, expected_verify):
+    inventory_fixture.ca_path = ca_path
+    inventory_fixture.validate_certs = validate_certs
+    inventory_fixture.cert = "/tmp/client.pem"
+    inventory_fixture.key = "/tmp/client.key"
+    inventory_fixture.get_option = Mock(return_value={"X-Test-Header": "present"})
+
+    session = inventory_fixture._build_session()
+
+    assert session.timeout == inventory_fixture.timeout
+    assert session.verify == expected_verify
+    assert session.cert == ("/tmp/client.pem", "/tmp/client.key")
+    assert session.headers["X-Test-Header"] == "present"
 
 
 @pytest.mark.parametrize(
