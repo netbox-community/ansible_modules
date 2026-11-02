@@ -1495,8 +1495,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         ipaddresses = []
 
         if self.fetch_all:
+
+            def all_ipaddresses_filter():
+                return self.nb.ipam.ip_addresses.filter(assigned_to_interface=True)
+
             ipaddresses = self._fetch_information_pynetbox(
-                "ip-addresses", self.nb.ipam.ip_addresses.all
+                "ip-addresses",
+                all_ipaddresses_filter,
+                filters={"assigned_to_interface": True},
             )
         else:
             device_ids = list(self.devices_with_ips)
@@ -1508,7 +1514,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             if device_ids_len > 0:
 
                 def dcim_ipaddresses_filter():
-                    return self.nb.ipam.ip_addresses.filter(device_id=device_ids)
+                    return self.nb.ipam.ip_addresses.filter(
+                        device_id=device_ids, assigned_to_interface=True
+                    )
 
                 self.display.v(
                     "Filtering ip-addresses on {} device_id".format(device_ids_len)
@@ -1516,13 +1524,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 device_ips = self._fetch_information_pynetbox(
                     "device-ip-addresses",
                     dcim_ipaddresses_filter,
-                    filters={"device_id": device_ids},
+                    filters={
+                        "device_id": device_ids,
+                        "assigned_to_interface": True,
+                    },
                 )
 
             if vm_ids_len > 0:
 
                 def virtualization_ipaddresses_filter():
-                    return self.nb.ipam.ip_addresses.filter(virtual_machine_id=vm_ids)
+                    return self.nb.ipam.ip_addresses.filter(
+                        virtual_machine_id=vm_ids, assigned_to_interface=True
+                    )
 
                 self.display.v(
                     "Filtering ip-addresses on {} virtual_machine_id".format(vm_ids_len)
@@ -1530,7 +1543,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 vm_ips = self._fetch_information_pynetbox(
                     "vm-ip-addresses",
                     virtualization_ipaddresses_filter,
-                    filters={"virtual_machine_id": vm_ids},
+                    filters={
+                        "virtual_machine_id": vm_ids,
+                        "assigned_to_interface": True,
+                    },
                 )
 
             ipaddresses = chain(device_ips, vm_ips)
@@ -1762,6 +1778,28 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             ),
         )
 
+    def _filters_to_kwargs(self, filters):
+        query_parameters = {}
+        for key, value in filters:
+            if key not in query_parameters:
+                query_parameters[key] = value
+                continue
+
+            existing_values = query_parameters[key]
+            if isinstance(existing_values, list):
+                existing_values = list(existing_values)
+            else:
+                existing_values = [existing_values]
+
+            if isinstance(value, list):
+                existing_values.extend(value)
+            else:
+                existing_values.append(value)
+
+            query_parameters[key] = existing_values
+
+        return query_parameters
+
     def get_filters(self):
         device_query_parameters = []
         vm_query_parameters = []
@@ -1806,7 +1844,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         if device_filters or not query_filters_set:
 
             def devices_filter():
-                return self.nb.dcim.devices.filter(**dict(device_filters))
+                return self.nb.dcim.devices.filter(
+                    **self._filters_to_kwargs(device_filters)
+                )
 
             self.devices_list = self._fetch_information_pynetbox(
                 "devices", devices_filter, filters=device_filters
@@ -1816,7 +1856,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             def vms_filter():
                 return self.nb.virtualization.virtual_machines.filter(
-                    **dict(vm_filters)
+                    **self._filters_to_kwargs(vm_filters)
                 )
 
             self.vms_list = self._fetch_information_pynetbox(
