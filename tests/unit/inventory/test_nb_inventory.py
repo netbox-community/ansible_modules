@@ -237,6 +237,20 @@ def test_fetch_information_pynetbox_cache_key_includes_filters(inventory_fixture
     assert len(inventory_fixture._cache) == 2
 
 
+def test_refresh_services_without_hosts(inventory_fixture):
+    inventory_fixture.fetch_all = False
+    inventory_fixture.devices_lookup = {}
+    inventory_fixture.vms_lookup = {}
+    inventory_fixture.nb = Mock()
+    inventory_fixture._fetch_information_pynetbox = Mock()
+
+    inventory_fixture.refresh_services()
+
+    inventory_fixture._fetch_information_pynetbox.assert_not_called()
+    assert inventory_fixture.device_services_lookup == {}
+    assert inventory_fixture.vm_services_lookup == {}
+
+
 def test_refresh_lookups(inventory_fixture):
     def raises_exception():
         raise Exception("Error from within a thread")

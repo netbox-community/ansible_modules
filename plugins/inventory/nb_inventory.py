@@ -1304,26 +1304,25 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             services = self._fetch_information_pynetbox(
                 "services", self.nb.ipam.services.all
             )
-        else:
-            if self.api_version >= version.parse("4.3.0") and object_ids_len > 0:
+        elif object_ids_len > 0:
+            if self.api_version >= version.parse("4.3.0"):
 
                 def services_filter():
                     return self.nb.ipam.services.filter(parent_object_id=object_ids)
 
-            elif len(object_ids) > 0:
+                filter_name = "parent_object_id"
+            else:
 
                 def services_filter():
                     return self.nb.ipam.services.filter(device_id=object_ids)
+
+                filter_name = "device_id"
 
             self.display.v("Filtering services on {} object_ids".format(object_ids_len))
             services = self._fetch_information_pynetbox(
                 "services",
                 services_filter,
-                filters={
-                    "parent_object_id"
-                    if self.api_version >= version.parse("4.3.0")
-                    else "device_id": sorted(object_ids)
-                },
+                filters={filter_name: sorted(object_ids)},
             )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
