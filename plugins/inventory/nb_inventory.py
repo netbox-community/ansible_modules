@@ -515,8 +515,18 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             need_to_fetch = True
         return (results, need_to_fetch)
 
-    def _fetch_information_pynetbox(self, key, pynetbox_fn):
-        cache_key = self.get_cache_key(key)
+    def _fetch_information_pynetbox(self, key, pynetbox_fn, filters=None):
+        cache_key = key
+        if filters is not None:
+            cache_key = "{}:{}".format(
+                key,
+                json.dumps(
+                    filters,
+                    sort_keys=True,
+                    default=lambda value: sorted(str(item) for item in value),
+                ),
+            )
+        cache_key = self.get_cache_key(cache_key)
         results, need_to_fetch = self._get_from_cache(cache_key)
         if need_to_fetch:
             self.display.v("Fetching {} from netbox".format(key))
@@ -1324,7 +1334,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     return self.nb.ipam.services.filter(device_id=object_ids)
 
             self.display.v("Filtering services on {} object_ids".format(object_ids_len))
-            services = self._fetch_information_pynetbox("services", services_filter)
+            services = self._fetch_information_pynetbox(
+                "services",
+                services_filter,
+                filters={
+                    "parent_object_id"
+                    if self.api_version >= version.parse("4.3.0")
+                    else "device_id": sorted(object_ids)
+                },
+            )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
         # Allows looking up services by device id or vm id
@@ -1378,7 +1396,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     )
                 )
                 vm_virtual_disks = self._fetch_information_pynetbox(
-                    "virtual-disks", virtualization_virtualdisks_filter
+                    "virtual-disks",
+                    virtualization_virtualdisks_filter,
+                    filters={"virtual_machine_id": vm_ids},
                 )
 
         self.vm_virtual_disks_lookup = defaultdict(dict)
@@ -1414,7 +1434,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "Filtering interfaces on {} device_id".format(device_ids_len)
                 )
                 device_interfaces = self._fetch_information_pynetbox(
-                    "device-interfaces", dcim_interfaces_filter
+                    "device-interfaces",
+                    dcim_interfaces_filter,
+                    filters={"device_id": device_ids},
                 )
 
             if vm_ids_len > 0:
@@ -1428,7 +1450,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "Filtering interfaces on {} virtual_machine_id".format(vm_ids_len)
                 )
                 vm_interfaces = self._fetch_information_pynetbox(
-                    "vm-interfaces", virtualization_interfaces_filter
+                    "vm-interfaces",
+                    virtualization_interfaces_filter,
+                    filters={"virtual_machine_id": vm_ids},
                 )
 
         # Construct a dictionary of dictionaries, separately for devices and vms.
@@ -1491,7 +1515,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "Filtering ip-addresses on {} device_id".format(device_ids_len)
                 )
                 device_ips = self._fetch_information_pynetbox(
-                    "device-ip-addresses", dcim_ipaddresses_filter
+                    "device-ip-addresses",
+                    dcim_ipaddresses_filter,
+                    filters={"device_id": device_ids},
                 )
 
             if vm_ids_len > 0:
@@ -1503,7 +1529,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     "Filtering ip-addresses on {} virtual_machine_id".format(vm_ids_len)
                 )
                 vm_ips = self._fetch_information_pynetbox(
-                    "vm-ip-addresses", virtualization_ipaddresses_filter
+                    "vm-ip-addresses",
+                    virtualization_ipaddresses_filter,
+                    filters={"virtual_machine_id": vm_ids},
                 )
 
             ipaddresses = chain(device_ips, vm_ips)
@@ -1782,7 +1810,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 return self.nb.dcim.devices.filter(**dict(device_filters))
 
             self.devices_list = self._fetch_information_pynetbox(
-                "devices", devices_filter
+                "devices", devices_filter, filters=device_filters
             )
 
         if vm_filters or not query_filters_set:
@@ -1792,7 +1820,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     **dict(vm_filters)
                 )
 
-            self.vms_list = self._fetch_information_pynetbox("vms", vms_filter)
+            self.vms_list = self._fetch_information_pynetbox(
+                "vms", vms_filter, filters=vm_filters
+            )
 
         # Allow looking up devices/vms by their ids
         self.devices_lookup = {device["id"]: device for device in self.devices_list}
