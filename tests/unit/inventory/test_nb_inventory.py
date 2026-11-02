@@ -51,6 +51,7 @@ def inventory_fixture(
 ):
     inventory = InventoryModule()
     inventory.api_endpoint = "https://netbox.test.endpoint:1234"
+    inventory.timeout = 60
 
     # Fill in data that is fetched dynamically
     inventory.api_version = version.Version("2.0")
@@ -136,16 +137,118 @@ def test_filter_query_parameters(inventory_fixture, parameters, expected):
         assert parameter[1] == list(expected[i].values())[0]
 
 
-@pytest.mark.parametrize("options, expected", load_relative_test_data("refresh_url"))
-def test_refresh_url(inventory_fixture, options, expected):
+@pytest.mark.parametrize(
+    "description,options,expected", load_relative_test_data("get_filters")
+)
+def test_get_filters(inventory_fixture, description, options, expected):
     inventory_fixture.query_filters = options["query_filters"]
     inventory_fixture.device_query_filters = options["device_query_filters"]
     inventory_fixture.vm_query_filters = options["vm_query_filters"]
     inventory_fixture.config_context = options["config_context"]
 
-    result = inventory_fixture.refresh_url()
+    result = inventory_fixture.get_filters()
 
-    assert result == tuple(expected)
+    assert isinstance(result, tuple), "get_filters() should return a tuple"
+    assert (
+        len(result) == 2
+    ), "get_filters() should return a 2-tuple (device_filters, vm_filters)"
+
+    device_filters, vm_filters = result
+    expected_device_filters, expected_vm_filters = expected
+
+    assert isinstance(device_filters, list), "Device filters should be a list"
+    assert isinstance(vm_filters, list), "VM filters should be a list"
+
+    assert len(device_filters) == len(
+        expected_device_filters
+    ), f"Device filters count mismatch: expected {len(expected_device_filters)}, got {len(device_filters)}"
+    assert len(vm_filters) == len(
+        expected_vm_filters
+    ), f"VM filters count mismatch: expected {len(expected_vm_filters)}, got {len(vm_filters)}"
+
+    for i, filter_tuple in enumerate(device_filters):
+        assert (
+            list(filter_tuple) in expected_device_filters
+        ), f"Device filter {filter_tuple} not in expected filters: {expected_device_filters}"
+
+    for i, filter_tuple in enumerate(vm_filters):
+        assert (
+            list(filter_tuple) in expected_vm_filters
+        ), f"VM filter {filter_tuple} not in expected filters: {expected_vm_filters}"
+
+
+def test_fetch_hosts_without_filters(inventory_fixture):
+    inventory_fixture.query_filters = []
+    inventory_fixture.device_query_filters = []
+    inventory_fixture.vm_query_filters = []
+    inventory_fixture.nb = Mock()
+    inventory_fixture.nb.dcim.devices.filter.return_value = [{"id": 1}]
+    inventory_fixture.nb.virtualization.virtual_machines.filter.return_value = [
+        {"id": 2}
+    ]
+
+    def fetch(key, pynetbox_fn, filters=None):
+        return list(pynetbox_fn())
+
+    inventory_fixture._fetch_information_pynetbox = fetch
+
+    inventory_fixture.fetch_hosts()
+
+    inventory_fixture.nb.dcim.devices.filter.assert_called_once_with()
+    inventory_fixture.nb.virtualization.virtual_machines.filter.assert_called_once_with()
+    assert inventory_fixture.devices_lookup == {1: {"id": 1, "is_virtual": False}}
+    assert inventory_fixture.vms_lookup == {2: {"id": 2, "is_virtual": True}}
+
+
+def test_fetch_hosts_with_invalid_query_filters(inventory_fixture):
+    inventory_fixture.query_filters = [{"invalid_param": "value"}]
+    inventory_fixture.device_query_filters = []
+    inventory_fixture.vm_query_filters = []
+    inventory_fixture.nb = Mock()
+    inventory_fixture._fetch_information_pynetbox = Mock()
+
+    inventory_fixture.fetch_hosts()
+
+    inventory_fixture._fetch_information_pynetbox.assert_not_called()
+    inventory_fixture.nb.dcim.devices.filter.assert_not_called()
+    inventory_fixture.nb.virtualization.virtual_machines.filter.assert_not_called()
+
+
+def test_fetch_information_pynetbox_cache_key_includes_filters(inventory_fixture):
+    inventory_fixture.use_cache = True
+    inventory_fixture._cache = {}
+    inventory_fixture.get_option = Mock(return_value=True)
+
+    first_fetch = Mock(return_value=[{"id": 1}])
+    second_fetch = Mock(return_value=[{"id": 2}])
+
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", first_fetch, filters=[("name", "router1")]
+    )
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", second_fetch, filters=[("name", "router2")]
+    )
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", second_fetch, filters=[("name", "router1")]
+    )
+
+    first_fetch.assert_called_once()
+    second_fetch.assert_called_once()
+    assert len(inventory_fixture._cache) == 2
+
+
+def test_refresh_services_without_hosts(inventory_fixture):
+    inventory_fixture.fetch_all = False
+    inventory_fixture.devices_lookup = {}
+    inventory_fixture.vms_lookup = {}
+    inventory_fixture.nb = Mock()
+    inventory_fixture._fetch_information_pynetbox = Mock()
+
+    inventory_fixture.refresh_services()
+
+    inventory_fixture._fetch_information_pynetbox.assert_not_called()
+    assert inventory_fixture.device_services_lookup == {}
+    assert inventory_fixture.vm_services_lookup == {}
 
 
 def test_refresh_lookups(inventory_fixture):
@@ -194,41 +297,16 @@ def test_group_extractors(
         assert key not in expected
 
 
-@pytest.mark.parametrize(
-    "api_url, max_uri_length, query_key, query_values, expected",
-    load_relative_test_data("get_resource_list_chunked"),
-)
-def test_get_resource_list_chunked(
-    inventory_fixture, api_url, max_uri_length, query_key, query_values, expected
-):
-    mock_get_resource_list = Mock()
-    mock_get_resource_list.return_value = ["resource"]
-
-    inventory_fixture.get_resource_list = mock_get_resource_list
-    inventory_fixture.max_uri_length = max_uri_length
-
-    resources = inventory_fixture.get_resource_list_chunked(
-        api_url, query_key, query_values
-    )
-
-    mock_get_resource_list.assert_has_calls(map(call, expected))
-    assert mock_get_resource_list.call_count == len(expected)
-    assert resources == mock_get_resource_list.return_value * len(expected)
-
-
 @patch(
     "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.DEFAULT_LOCAL_TMP",
     "/fake/path/asdasd3456",
 )
 @pytest.mark.parametrize("netbox_ver", ["2.0.2", "3.0.0"])
 def test_fetch_api_docs(inventory_fixture, netbox_ver):
-    mock_fetch_information = Mock()
-    mock_fetch_information.side_effect = [
-        {"netbox-version": netbox_ver},
-        {"info": {"version": "3.0"}},
-    ]
-
-    inventory_fixture._fetch_information = mock_fetch_information
+    inventory_fixture.nb = Mock()
+    inventory_fixture.nb.status.return_value = {"netbox-version": netbox_ver}
+    get_mock = inventory_fixture.nb.http_session.get
+    get_mock.return_value.content = b"{}"
 
     with pytest.raises(KeyError, match="paths"):
         with patch("builtins.open", mock_open()) as filemock:
@@ -236,7 +314,13 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
                 "ansible_collections.netbox.netbox.plugins.inventory.nb_inventory.json"
             ) as json_mock:
                 json_mock.load.return_value = {"info": {"version": "2.0"}}
+                json_mock.loads.return_value = {"info": {"version": "3.0"}}
                 inventory_fixture.fetch_api_docs()
+
+    if netbox_ver == "3.0.0":
+        get_mock.assert_called_once()
+    else:
+        get_mock.assert_not_called()
 
     ref_args_list = [call("/fake/path/netbox_api_dump.json")]
     if netbox_ver == "3.0.0":
@@ -246,23 +330,23 @@ def test_fetch_api_docs(inventory_fixture, netbox_ver):
     assert str(inventory_fixture.api_version) == netbox_ver[:-2]
 
 
-def test_new_token(inventory_fixture, templar_fixture):
-    mock_get_option = Mock()
+@pytest.mark.parametrize(
+    "ca_path, validate_certs, expected_verify",
+    [(False, True, True), (False, False, False), ("/tmp/ca.pem", True, "/tmp/ca.pem")],
+)
+def test_build_session(inventory_fixture, ca_path, validate_certs, expected_verify):
+    inventory_fixture.ca_path = ca_path
+    inventory_fixture.validate_certs = validate_certs
+    inventory_fixture.cert = "/tmp/client.pem"
+    inventory_fixture.key = "/tmp/client.key"
+    inventory_fixture.get_option = Mock(return_value={"X-Test-Header": "present"})
 
-    mock_templar_template_token = Mock()
-    mock_templar_template_token.return_value = {"type": "foo", "value": "bar"}
+    session = inventory_fixture._build_session()
 
-    inventory_fixture.templar = templar_fixture
-    inventory_fixture.templar.template = mock_templar_template_token
-
-    inventory_fixture.get_option = mock_get_option
-
-    inventory_fixture.headers = {}
-
-    inventory_fixture._set_authorization()
-
-    assert "Authorization" in inventory_fixture.headers
-    assert inventory_fixture.headers["Authorization"] == "Foo bar"
+    assert session.timeout == inventory_fixture.timeout
+    assert session.verify == expected_verify
+    assert session.cert == ("/tmp/client.pem", "/tmp/client.key")
+    assert session.headers["X-Test-Header"] == "present"
 
 
 @pytest.mark.parametrize(
