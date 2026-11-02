@@ -187,7 +187,7 @@ def test_fetch_hosts_without_filters(inventory_fixture):
         {"id": 2}
     ]
 
-    def fetch(key, pynetbox_fn):
+    def fetch(key, pynetbox_fn, filters=None):
         return list(pynetbox_fn())
 
     inventory_fixture._fetch_information_pynetbox = fetch
@@ -212,6 +212,29 @@ def test_fetch_hosts_with_invalid_query_filters(inventory_fixture):
     inventory_fixture._fetch_information_pynetbox.assert_not_called()
     inventory_fixture.nb.dcim.devices.filter.assert_not_called()
     inventory_fixture.nb.virtualization.virtual_machines.filter.assert_not_called()
+
+
+def test_fetch_information_pynetbox_cache_key_includes_filters(inventory_fixture):
+    inventory_fixture.use_cache = True
+    inventory_fixture._cache = {}
+    inventory_fixture.get_option = Mock(return_value=True)
+
+    first_fetch = Mock(return_value=[{"id": 1}])
+    second_fetch = Mock(return_value=[{"id": 2}])
+
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", first_fetch, filters=[("name", "router1")]
+    )
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", second_fetch, filters=[("name", "router2")]
+    )
+    inventory_fixture._fetch_information_pynetbox(
+        "devices", second_fetch, filters=[("name", "router1")]
+    )
+
+    first_fetch.assert_called_once()
+    second_fetch.assert_called_once()
+    assert len(inventory_fixture._cache) == 2
 
 
 def test_refresh_lookups(inventory_fixture):
