@@ -1,5 +1,5 @@
 ---
-requires_ansible: ">=2.15.0"
+requires_ansible: ">=2.16.0"
 plugin_routing:
   modules:
     netbox_interface:

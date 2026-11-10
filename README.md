@@ -133,7 +133,7 @@ tasks:
 
 ```
 ## Testing
-Tested with Ansible Core v2.15+ Ansible Core versions prior to 2.15 are not supported.
+Tested with Ansible Core v2.16+ Ansible Core versions prior to 2.16 are not supported.
 
 ## Contributing
 If you would to contribute to the project then you can find out how to get started [here](https://github.com/netbox-community/ansible_modules/blob/devel/CONTRIBUTING.md).
