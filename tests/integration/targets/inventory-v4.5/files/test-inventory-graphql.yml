@@ -1,0 +1,27 @@
+---
+plugin: netbox.netbox.nb_inventory_graphql
+api_endpoint: http://localhost:32768
+token:
+  type: "{{ 'Bearer' if (lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true)).startswith('nbt_') else 'Token' }}"
+  value: "{{ lookup('env', 'NETBOX_TOKEN') | default('0123456789abcdef0123456789abcdef01234567', true) }}"
+validate_certs: false
+
+ansible_host_dns_name: true
+
+sources:
+  - query_file: graphql/devices.graphql
+    list_path: device_list
+  - query_file: graphql/virtual_machines.graphql
+    list_path: virtual_machine_list
+    hostname: name | replace(' ', '_')
+
+groups:
+  is_virtual: cluster is defined
+
+keyed_groups:
+  - prefix: role
+    key: role.slug
+  - prefix: site
+    key: site.slug
+  - prefix: cluster
+    key: cluster.name

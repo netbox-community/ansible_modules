@@ -1,0 +1,10 @@
+query ($pagination: OffsetPaginationInput) {
+  device_list(pagination: $pagination) {
+    id
+    name
+    status
+    role { slug }
+    site { slug }
+    primary_ip4 { address dns_name }
+  }
+}
