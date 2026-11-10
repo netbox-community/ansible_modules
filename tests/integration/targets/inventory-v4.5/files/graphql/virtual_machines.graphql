@@ -1,0 +1,9 @@
+query ($pagination: OffsetPaginationInput) {
+  virtual_machine_list(pagination: $pagination) {
+    id
+    name
+    status
+    cluster { name }
+    primary_ip4 { address dns_name }
+  }
+}

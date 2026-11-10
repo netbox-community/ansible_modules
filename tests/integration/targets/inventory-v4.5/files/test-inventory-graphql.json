@@ -1,0 +1,170 @@
+{
+    "_meta": {
+        "hostvars": {
+            "R1-Device": {
+                "id": "3",
+                "primary_ip4": null,
+                "role": {
+                    "slug": "core-switch"
+                },
+                "site": {
+                    "slug": "test-site2"
+                },
+                "status": "active"
+            },
+            "Test Nexus Child One": {
+                "id": "5",
+                "primary_ip4": null,
+                "role": {
+                    "slug": "core-switch"
+                },
+                "site": {
+                    "slug": "test-site"
+                },
+                "status": "active"
+            },
+            "Test Nexus One": {
+                "ansible_host": "nexus.example.com",
+                "id": "4",
+                "primary_ip4": {
+                    "address": "172.16.180.12/24",
+                    "dns_name": "nexus.example.com"
+                },
+                "role": {
+                    "slug": "core-switch"
+                },
+                "site": {
+                    "slug": "test-site"
+                },
+                "status": "active"
+            },
+            "TestDeviceR1": {
+                "id": "2",
+                "primary_ip4": null,
+                "role": {
+                    "slug": "core-switch"
+                },
+                "site": {
+                    "slug": "test-site"
+                },
+                "status": "active"
+            },
+            "Test_VM_With_Spaces": {
+                "cluster": {
+                    "name": "Test Cluster 2"
+                },
+                "id": "6",
+                "primary_ip4": null,
+                "status": "active"
+            },
+            "test100": {
+                "id": "1",
+                "primary_ip4": null,
+                "role": {
+                    "slug": "core-switch"
+                },
+                "site": {
+                    "slug": "test-site"
+                },
+                "status": "active"
+            },
+            "test100-vm": {
+                "cluster": {
+                    "name": "Test Cluster"
+                },
+                "id": "1",
+                "primary_ip4": null,
+                "status": "active"
+            },
+            "test101-vm": {
+                "cluster": {
+                    "name": "Test Cluster"
+                },
+                "id": "2",
+                "primary_ip4": null,
+                "status": "active"
+            },
+            "test102-vm": {
+                "cluster": {
+                    "name": "Test Cluster"
+                },
+                "id": "3",
+                "primary_ip4": null,
+                "status": "active"
+            },
+            "test103-vm": {
+                "cluster": {
+                    "name": "Test Cluster"
+                },
+                "id": "4",
+                "primary_ip4": null,
+                "status": "active"
+            },
+            "test104-vm": {
+                "cluster": {
+                    "name": "Test Cluster 2"
+                },
+                "id": "5",
+                "primary_ip4": null,
+                "status": "active"
+            }
+        }
+    },
+    "all": {
+        "children": [
+            "ungrouped",
+            "role_core_switch",
+            "site_test_site2",
+            "site_test_site",
+            "is_virtual",
+            "cluster_Test_Cluster_2",
+            "cluster_Test_Cluster"
+        ]
+    },
+    "cluster_Test_Cluster": {
+        "hosts": [
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm"
+        ]
+    },
+    "cluster_Test_Cluster_2": {
+        "hosts": [
+            "Test_VM_With_Spaces",
+            "test104-vm"
+        ]
+    },
+    "is_virtual": {
+        "hosts": [
+            "Test_VM_With_Spaces",
+            "test100-vm",
+            "test101-vm",
+            "test102-vm",
+            "test103-vm",
+            "test104-vm"
+        ]
+    },
+    "role_core_switch": {
+        "hosts": [
+            "R1-Device",
+            "Test Nexus Child One",
+            "Test Nexus One",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "site_test_site": {
+        "hosts": [
+            "Test Nexus Child One",
+            "Test Nexus One",
+            "test100",
+            "TestDeviceR1"
+        ]
+    },
+    "site_test_site2": {
+        "hosts": [
+            "R1-Device"
+        ]
+    }
+}
