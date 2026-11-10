@@ -1011,6 +1011,18 @@ releases:
     - release-3.23.1.yml
     - v45-provision-v2-token.yml
     release_date: '2026-09-25'
+  3.24.0:
+    changes:
+      minor_changes:
+      - Raised the minimum supported ansible-core version to 2.16.0 (``requires_ansible``
+        in ``meta/runtime.yml``). ansible-core 2.15 is end of life and no longer supported
+        by Ansible Automation Platform.
+      release_summary: Minor release. The collection now requires ansible-core 2.16.0
+        or newer, which Red Hat Automation Hub certification requires.
+    fragments:
+    - int-649-requires-ansible-2-16.yml
+    - release-3.24.0.yml
+    release_date: '2026-11-10'
   3.3.0:
     changes:
       minor_changes:
