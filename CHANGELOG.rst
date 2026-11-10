@@ -4,6 +4,19 @@ NetBox.NetBox Release Notes
 
 .. contents:: Topics
 
+v3.24.0
+=======
+
+Release Summary
+---------------
+
+Minor release. The collection now requires ansible-core 2.16.0 or newer, which Red Hat Automation Hub certification requires.
+
+Minor Changes
+-------------
+
+- Raised the minimum supported ansible-core version to 2.16.0 (``requires_ansible`` in ``meta/runtime.yml``). ansible-core 2.15 is end of life and no longer supported by Ansible Automation Platform.
+
 v3.23.1
 =======
 

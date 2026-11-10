@@ -1,6 +1,0 @@
----
-minor_changes:
-  - >-
-    Raised the minimum supported ansible-core version to 2.16.0
-    (``requires_ansible`` in ``meta/runtime.yml``). ansible-core 2.15 is end
-    of life and no longer supported by Ansible Automation Platform.
