@@ -1,0 +1,8 @@
+---
+bugfixes:
+  - >-
+    nb_inventory - parse NetBox API responses with ``json.loads()`` instead of
+    ``DataLoader.load()`` to avoid ansible-core 2.19+ data-tagging overhead that
+    severely slowed inventory builds on medium-to-large NetBox instances
+    (https://github.com/netbox-community/ansible_modules/issues/1411,
+    https://github.com/netbox-community/ansible_modules/pull/1602).
