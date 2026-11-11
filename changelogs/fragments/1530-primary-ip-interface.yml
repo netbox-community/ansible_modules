@@ -1,0 +1,3 @@
+---
+minor_changes:
+  - nb_inventory - Add ``primary_ip_interface`` option to expose the name of the interface the primary IP is assigned to as a host var, without fetching all IP addresses (#1530)

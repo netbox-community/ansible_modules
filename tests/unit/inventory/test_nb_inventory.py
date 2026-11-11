@@ -163,7 +163,7 @@ def test_refresh_lookups(inventory_fixture):
 
 
 @pytest.mark.parametrize(
-    "plurals, services, virtual_disks, interfaces, dns_name, ansible_host_dns_name, racks, expected, not_expected",
+    "plurals, services, virtual_disks, interfaces, dns_name, ansible_host_dns_name, primary_ip_interface, racks, expected, not_expected",
     load_relative_test_data("group_extractors"),
 )
 def test_group_extractors(
@@ -174,6 +174,7 @@ def test_group_extractors(
     interfaces,
     dns_name,
     ansible_host_dns_name,
+    primary_ip_interface,
     racks,
     expected,
     not_expected,
@@ -184,6 +185,7 @@ def test_group_extractors(
     inventory_fixture.interfaces = interfaces
     inventory_fixture.dns_name = dns_name
     inventory_fixture.ansible_host_dns_name = ansible_host_dns_name
+    inventory_fixture.primary_ip_interface = primary_ip_interface
     inventory_fixture.racks = racks
     extractors = inventory_fixture.group_extractors
 
@@ -295,3 +297,131 @@ def test_rename_variables(inventory_fixture):
         "netbox_cluster": "staging",
         "netbox_cluster_id": "0xdeadbeef",
     }
+
+
+@pytest.mark.parametrize(
+    "host, lookup, expected",
+    [
+        # Device with primary IP assigned to an interface
+        (
+            {"primary_ip": {"id": 1}, "is_virtual": False},
+            {1: "Management1"},
+            "Management1",
+        ),
+        # Virtual machine with primary IP assigned to an interface
+        ({"primary_ip": {"id": 2}, "is_virtual": True}, {2: "eth0"}, "eth0"),
+        # No primary IP
+        ({"primary_ip": None, "is_virtual": False}, {1: "Management1"}, None),
+        # Primary IP not assigned to an interface
+        ({"primary_ip": {"id": 3}, "is_virtual": False}, {1: "Management1"}, None),
+    ],
+)
+def test_extract_primary_ip_interface(inventory_fixture, host, lookup, expected):
+    inventory_fixture.ip_interface_name_lookup = lookup
+
+    assert inventory_fixture.extract_primary_ip_interface(host) == expected
+
+
+def test_refresh_primary_ip_addresses(inventory_fixture):
+    inventory_fixture.api_endpoint = "https://netbox.example.com"
+    inventory_fixture.devices_list = [
+        {"id": 10, "primary_ip": {"id": 1}},
+        {"id": 11, "primary_ip": None},
+        # Two hosts sharing a primary IP must only request it once
+        {"id": 12, "primary_ip": {"id": 1}},
+        {"id": 13, "primary_ip": {"id": 4}},
+    ]
+    inventory_fixture.vms_list = [{"id": 20, "primary_ip": {"id": 2}}]
+    ipaddresses = [
+        {"id": 1, "assigned_object": {"name": "Management1"}},
+        {"id": 2, "assigned_object": {"name": "eth0"}},
+        # NetBox returns null for an IP address which is not assigned to an interface
+        {"id": 4, "assigned_object": None},
+    ]
+    inventory_fixture.get_resource_list_chunked = Mock(return_value=ipaddresses)
+
+    inventory_fixture.refresh_primary_ip_addresses()
+
+    inventory_fixture.get_resource_list_chunked.assert_called_once_with(
+        api_url="https://netbox.example.com/api/ipam/ip-addresses/?limit=0",
+        query_key="id",
+        query_values=[1, 2, 4],
+    )
+    assert inventory_fixture.ip_interface_name_lookup == {1: "Management1", 2: "eth0"}
+
+
+def test_refresh_primary_ip_addresses_no_primary_ips(inventory_fixture):
+    inventory_fixture.devices_list = [{"id": 10, "primary_ip": None}]
+    inventory_fixture.vms_list = []
+    inventory_fixture.get_resource_list_chunked = Mock()
+
+    inventory_fixture.refresh_primary_ip_addresses()
+
+    # No request should be made when there is nothing to look up
+    inventory_fixture.get_resource_list_chunked.assert_not_called()
+    assert inventory_fixture.ip_interface_name_lookup == {}
+
+
+def test_refresh_ipaddresses_interface_name_lookup(inventory_fixture):
+    inventory_fixture.api_endpoint = "https://netbox.example.com"
+    inventory_fixture.fetch_all = True
+    ipaddresses = [
+        {
+            "id": 1,
+            "address": "192.0.2.10/24",
+            "assigned_object_id": 100,
+            "assigned_object_type": "dcim.interface",
+            "assigned_object": {"id": 100, "name": "Management1"},
+        },
+        {
+            "id": 2,
+            "address": "192.0.2.20/24",
+            "assigned_object_id": 200,
+            "assigned_object_type": "virtualization.vminterface",
+            "assigned_object": {"id": 200, "name": "eth0"},
+        },
+    ]
+    inventory_fixture.get_resource_list = Mock(return_value=ipaddresses)
+
+    inventory_fixture.refresh_ipaddresses()
+
+    assert inventory_fixture.ip_interface_name_lookup == {1: "Management1", 2: "eth0"}
+    # The IP address records exposed in the interfaces host var must not gain new keys
+    assert inventory_fixture.device_ipaddresses_lookup[1] == {
+        "id": 1,
+        "address": "192.0.2.10/24",
+    }
+    assert inventory_fixture.vm_ipaddresses_lookup[2] == {
+        "id": 2,
+        "address": "192.0.2.20/24",
+    }
+
+
+@pytest.mark.parametrize(
+    "interfaces, dns_name, ansible_host_dns_name, primary_ip_interface, expected",
+    [
+        (False, False, False, False, []),
+        (False, False, False, True, ["refresh_primary_ip_addresses"]),
+        # The full IP address fetch is reused instead of making a second request
+        (True, False, False, True, ["refresh_ipaddresses"]),
+        (False, True, False, True, ["refresh_ipaddresses"]),
+        (False, False, True, True, ["refresh_ipaddresses"]),
+    ],
+)
+def test_lookup_processes_secondary_ip_addresses(
+    inventory_fixture,
+    interfaces,
+    dns_name,
+    ansible_host_dns_name,
+    primary_ip_interface,
+    expected,
+):
+    inventory_fixture.interfaces = interfaces
+    inventory_fixture.dns_name = dns_name
+    inventory_fixture.ansible_host_dns_name = ansible_host_dns_name
+    inventory_fixture.primary_ip_interface = primary_ip_interface
+    inventory_fixture.prefixes = False
+
+    names = [lookup.__name__ for lookup in inventory_fixture.lookup_processes_secondary]
+
+    assert names == expected

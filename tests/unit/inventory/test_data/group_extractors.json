@@ -7,6 +7,7 @@
         "services": false,
         "dns_name": false,
         "ansible_host_dns_name": false,
+        "primary_ip_interface": false,
         "racks": false,
         "expected": [
             "disk",
@@ -41,7 +42,8 @@
             "virtual_disks",
             "interfaces",
             "dns_name",
-            "ansible_host_dns_name"
+            "ansible_host_dns_name",
+            "primary_ip_interface"
         ]
     },
     {
@@ -52,6 +54,7 @@
         "services": true,
         "dns_name": true,
         "ansible_host_dns_name": true,
+        "primary_ip_interface": true,
         "racks": true,
         "expected": [
             "disk",
@@ -75,7 +78,8 @@
             "services",
             "virtual_disks",
             "interfaces",
-            "dns_name"
+            "dns_name",
+            "primary_ip_interface"
         ],
         "not_expected": [
             "site",
@@ -96,6 +100,7 @@
         "services": true,
         "dns_name": false,
         "ansible_host_dns_name": true,
+        "primary_ip_interface": false,
         "racks": true,
         "expected": [
             "disk",
@@ -129,7 +134,8 @@
             "role",
             "platform",
             "device_type",
-            "manufacturer"
+            "manufacturer",
+            "primary_ip_interface"
         ]
     }
 ]

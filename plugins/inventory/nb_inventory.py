@@ -229,6 +229,16 @@ DOCUMENTATION = """
                 - Setting interfaces will also fetch IP addresses and the dns_name host_var will be set.
             type: boolean
             default: false
+        primary_ip_interface:
+            description:
+                - If True, it adds the name of the interface the primary IP is assigned to as a host var named C(primary_ip_interface).
+                - This is informational only, it does not change how Ansible connects to the host, see I(ansible_host_dns_name) and I(dns_name) for that.
+                - Hosts without a primary IP, or whose primary IP is not assigned to an interface, do not get the host var.
+                - If I(interfaces), I(dns_name) or I(ansible_host_dns_name) is set the IP addresses fetched for those options are reused.
+                  Otherwise only the primary IP addresses of the fetched devices and virtual machines are requested, not all IP addresses.
+            type: boolean
+            default: false
+            version_added: "3.24.0"
         ansible_host_dns_name:
             description:
                 - If True, sets DNS Name (fetched from primary_ip) to be used in ansible_host variable, instead of IP Address.
@@ -642,6 +652,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 }
             )
 
+        if self.primary_ip_interface:
+            extractors.update(
+                {
+                    "primary_ip_interface": self.extract_primary_ip_interface,
+                }
+            )
+
         return extractors
 
     def _pluralize_group_by(self, group_by):
@@ -1042,6 +1059,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         return ip_address.get("dns_name")
 
+    def extract_primary_ip_interface(self, host):
+        # No primary IP assigned
+        if not host.get("primary_ip"):
+            return None
+
+        # IP address ids are unique across devices and virtual machines.
+        # Don't assign a host_var if the primary IP is not assigned to an interface
+        return self.ip_interface_name_lookup.get(host["primary_ip"]["id"])
+
     def extract_serial(self, host):
         return host.get("serial", None)
 
@@ -1401,6 +1427,42 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             self.vm_virtual_disks_lookup[vm_id][virtual_disk_id] = virtual_disk
 
+    @staticmethod
+    def _ipaddress_interface_name(ipaddress):
+        # "assigned_object" replaces "interface" as of NetBox v2.9, and is null for unassigned IPs
+        assigned_object = ipaddress.get("assigned_object") or ipaddress.get("interface")
+        if not assigned_object:
+            return None
+        return assigned_object.get("name")
+
+    def refresh_primary_ip_addresses(self):
+        # Only fetch the primary IPs of the fetched hosts, instead of every IP address,
+        # as that is all that is needed to find the interface name of the primary IP
+        self.ip_interface_name_lookup = {}
+
+        primary_ip_ids = sorted(
+            {
+                host["primary_ip"]["id"]
+                for host in chain(self.devices_list, self.vms_list)
+                if host.get("primary_ip") and host["primary_ip"].get("id")
+            }
+        )
+
+        if not primary_ip_ids:
+            return
+
+        url = self.api_endpoint + "/api/ipam/ip-addresses/?limit=0"
+        ipaddresses = self.get_resource_list_chunked(
+            api_url=url,
+            query_key="id",
+            query_values=primary_ip_ids,
+        )
+
+        for ipaddress in ipaddresses:
+            interface_name = self._ipaddress_interface_name(ipaddress)
+            if interface_name:
+                self.ip_interface_name_lookup[ipaddress["id"]] = interface_name
+
     def refresh_interfaces(self):
         url_device_interfaces = self.api_endpoint + "/api/dcim/interfaces/?limit=0"
         url_vm_interfaces = (
@@ -1495,12 +1557,17 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         self.vm_ipaddresses_lookup = defaultdict(dict)
         self.device_ipaddresses_intf_lookup = defaultdict(dict)
         self.device_ipaddresses_lookup = defaultdict(dict)
+        # Interface name of each IP address, for the primary_ip_interface option
+        self.ip_interface_name_lookup = {}
 
         for ipaddress in ipaddresses:
             # As of NetBox v2.9 "assigned_object_x" replaces "interface"
             if ipaddress.get("assigned_object_id"):
                 interface_id = ipaddress["assigned_object_id"]
                 ip_id = ipaddress["id"]
+                interface_name = self._ipaddress_interface_name(ipaddress)
+                if interface_name:
+                    self.ip_interface_name_lookup[ip_id] = interface_name
                 # We need to copy the ipaddress entry to preserve the original in case caching is used.
                 ipaddress_copy = ipaddress.copy()
 
@@ -1570,9 +1637,12 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     def lookup_processes_secondary(self):
         lookups = []
 
-        # IP addresses are needed for either interfaces or dns_name options
+        # IP addresses are needed for either interfaces, dns_name or ansible_host_dns_name options
         if self.interfaces or self.dns_name or self.ansible_host_dns_name:
             lookups.append(self.refresh_ipaddresses)
+        elif self.primary_ip_interface:
+            # Only primary IPs are needed — use a targeted fetch instead of all IPs
+            lookups.append(self.refresh_primary_ip_addresses)
 
         if self.prefixes:
             lookups.append(self.refresh_prefixes)
@@ -2206,6 +2276,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             )
         self.virtual_chassis_name = self.get_option("virtual_chassis_name")
         self.dns_name = self.get_option("dns_name")
+        self.primary_ip_interface = self.get_option("primary_ip_interface")
         self.ansible_host_dns_name = self.get_option("ansible_host_dns_name")
         self.racks = self.get_option("racks")
 
