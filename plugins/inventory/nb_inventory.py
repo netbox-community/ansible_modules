@@ -265,7 +265,9 @@ DOCUMENTATION = """
                 - If set, sets the inventory hostname from this field in custom_fields instead
             default: False
         headers:
-            description: Dictionary of headers to be passed to the NetBox API.
+            description:
+                - Dictionary of headers to be passed to the NetBox API.
+                - Header values may use Jinja2 templates.
             default: {}
             env:
                 - name: NETBOX_HEADERS
@@ -288,6 +290,7 @@ device_query_filters:
   - tenant__n: internal
 headers:
   Cookie: "{{ auth_cookie }}"
+  X-NetBox-Branch: "{{ lookup('ansible.builtin.env', 'NETBOX_BRANCH_ID') }}"
 
 # has_primary_ip is a useful way to filter out patch panels and other passive devices
 # Adding '__n' to a field searches for the negation of the value.
@@ -2149,6 +2152,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 self.headers.update({"Authorization": "Token %s" % token})
         headers = self.get_option("headers")
         if headers:
+            if version.parse(ansible_version) >= version.parse("2.11"):
+                self.templar.available_variables = self._vars
+                headers = self.templar.template(headers, fail_on_undefined=False)
             if isinstance(headers, str):
                 headers = json.loads(headers)
             if isinstance(headers, dict):

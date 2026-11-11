@@ -1198,6 +1198,8 @@ Parameters
 
       Dictionary of headers to be passed to the NetBox API.
 
+      Header values may use Jinja2 templates.
+
 
       .. rst-class:: ansible-option-line
 
@@ -2636,6 +2638,7 @@ Examples
       - tenant__n: internal
     headers:
       Cookie: "{{ auth_cookie }}"
+      X-NetBox-Branch: "{{ lookup('ansible.builtin.env', 'NETBOX_BRANCH_ID') }}"
 
     # has_primary_ip is a useful way to filter out patch panels and other passive devices
     # Adding '__n' to a field searches for the negation of the value.
