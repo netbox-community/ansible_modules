@@ -177,3 +177,38 @@
       - test_six['interface']['name'] == "Eth1"
       - test_six['interface']['virtual_machine'] == 1
       - test_six['interface']['primary_mac_address'] == 5
+
+- name: "NETBOX_VM_INTERFACE 7: Legacy mac_address again - idempotent (NetBox v4.2+, #1586)"
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: test100-vm
+      name: Eth0
+      mac_address: "00:00:00:AA:AA:01"
+    state: present
+  register: test_vm_mac_idempotent
+
+- name: "NETBOX_VM_INTERFACE 7: ASSERT - second run reports no change and the MAC is the primary"
+  ansible.builtin.assert:
+    that:
+      - not test_vm_mac_idempotent['changed']
+      - test_vm_mac_idempotent['interface']['mac_address'] == "00:00:00:AA:AA:01"
+      - test_vm_mac_idempotent['interface']['primary_mac_address'] is not none
+
+- name: "NETBOX_VM_INTERFACE 8: Legacy mac_address in check mode (already set) - no phantom change"
+  netbox.netbox.netbox_vm_interface:
+    netbox_url: http://localhost:32768
+    netbox_token: "0123456789abcdef0123456789abcdef01234567"
+    data:
+      virtual_machine: test100-vm
+      name: Eth0
+      mac_address: "00:00:00:AA:AA:01"
+    state: present
+  check_mode: true
+  register: test_vm_mac_check_mode
+
+- name: "NETBOX_VM_INTERFACE 8: ASSERT - check mode reports no phantom change"
+  ansible.builtin.assert:
+    that:
+      - not test_vm_mac_check_mode['changed']
