@@ -295,3 +295,63 @@ def test_rename_variables(inventory_fixture):
         "netbox_cluster": "staging",
         "netbox_cluster_id": "0xdeadbeef",
     }
+
+
+def test_get_hosts_related_ids(inventory_fixture):
+    inventory_fixture.devices_list = [
+        {"id": 1, "site": {"id": 3}, "rack": {"id": 10}},
+        {"id": 2, "site": {"id": 1}, "rack": None},
+        {"id": 3, "site": {"id": 3}},
+    ]
+    inventory_fixture.vms_list = [
+        {"id": 4, "site": {"id": 2}},
+        {"id": 5, "site": None},
+    ]
+
+    assert inventory_fixture._get_hosts_related_ids("site") == [1, 2, 3]
+    assert inventory_fixture._get_hosts_related_ids("rack") == [10]
+    assert inventory_fixture._get_hosts_related_ids("location") == []
+
+
+@pytest.mark.parametrize(
+    "fetch_all, expected_urls",
+    [
+        (
+            True,
+            [
+                "https://netbox.test.endpoint:1234/api/dcim/sites/?limit=0",
+                "https://netbox.test.endpoint:1234/api/dcim/locations/?limit=0",
+                "https://netbox.test.endpoint:1234/api/dcim/racks/?limit=0",
+            ],
+        ),
+        (
+            False,
+            [
+                "https://netbox.test.endpoint:1234/api/dcim/sites/?limit=0&id=1&id=2",
+                "https://netbox.test.endpoint:1234/api/dcim/locations/?limit=0&site_id=1&site_id=2",
+                "https://netbox.test.endpoint:1234/api/dcim/racks/?limit=0&id=10",
+            ],
+        ),
+    ],
+)
+def test_lookups_filtered_by_hosts(inventory_fixture, fetch_all, expected_urls):
+    mock_get_resource_list = Mock()
+    mock_get_resource_list.return_value = []
+
+    inventory_fixture.get_resource_list = mock_get_resource_list
+    inventory_fixture.api_version = version.Version("4.0")
+    inventory_fixture.fetch_all = fetch_all
+    inventory_fixture.max_uri_length = 4000
+    inventory_fixture.site_data = False
+    inventory_fixture.prefixes = False
+    inventory_fixture.group_by = []
+    inventory_fixture.devices_list = [{"id": 1, "site": {"id": 2}, "rack": {"id": 10}}]
+    inventory_fixture.vms_list = [{"id": 2, "site": {"id": 1}}]
+
+    inventory_fixture.refresh_sites_lookup()
+    inventory_fixture.refresh_locations_lookup()
+    inventory_fixture.refresh_racks_lookup()
+
+    assert mock_get_resource_list.call_args_list == [
+        call(url) if not fetch_all else call(api_url=url) for url in expected_urls
+    ]

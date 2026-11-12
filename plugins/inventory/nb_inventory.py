@@ -135,6 +135,8 @@ DOCUMENTATION = """
             description:
                 - By default, fetching interfaces and services will get all of the contents of NetBox regardless of query_filters applied to devices and VMs.
                 - When set to False, separate requests will be made fetching interfaces, services, and IP addresses for each device_id and virtual_machine_id.
+                - When set to False, sites and racks are also only fetched for the sites and racks of the selected devices and VMs, and locations only for those sites.
+                - As a consequence, when set to False, no group is created for sites without any selected device or VM, nor for the locations of those sites. Region and site group groups are still all created.
                 - If you are using the various query_filters options to reduce the number of devices, you may find querying NetBox faster with fetch_all set to False.  # noqa: E501
                 - For efficiency, when False, these requests will be batched, for example /api/dcim/interfaces?limit=0&device_id=1&device_id=2&device_id=3
                 - These GET request URIs can become quite large for a large number of devices. If you run into HTTP 414 errors, you can adjust the max_uri_length option to suit your web server.  # noqa: E501
@@ -1061,7 +1063,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # "sites_lookup" contains the full data structure. Most site lookups use this
         # "sites_with_prefixes" keeps track of which sites have prefixes assigned. Passed to get_resource_list_chunked()
         url = self.api_endpoint + "/api/dcim/sites/?limit=0"
-        sites = self.get_resource_list(api_url=url)
+        if self.fetch_all:
+            sites = self.get_resource_list(api_url=url)
+        else:
+            sites = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="id",
+                query_values=self._get_hosts_related_ids("site"),
+            )
         # The following dictionary is used for host group creation only,
         # as the grouping function expects a string as the value of each key
         self.sites_lookup_slug = dict((site["id"], site["slug"]) for site in sites)
@@ -1210,7 +1219,16 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             return
 
         url = self.api_endpoint + "/api/dcim/locations/?limit=0"
-        locations = self.get_resource_list(api_url=url)
+        if self.fetch_all:
+            locations = self.get_resource_list(api_url=url)
+        else:
+            # Location groups are nested under site groups, so fetch every location
+            # of the fetched sites (a location and its parents share the same site)
+            locations = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="site_id",
+                query_values=self._get_hosts_related_ids("site"),
+            )
         self.locations_lookup = dict(
             (location["id"], location["slug"]) for location in locations
         )
@@ -1240,7 +1258,14 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def refresh_racks_lookup(self):
         url = self.api_endpoint + "/api/dcim/racks/?limit=0"
-        racks = self.get_resource_list(api_url=url)
+        if self.fetch_all:
+            racks = self.get_resource_list(api_url=url)
+        else:
+            racks = self.get_resource_list_chunked(
+                api_url=url,
+                query_key="id",
+                query_values=self._get_hosts_related_ids("rack"),
+            )
         self.racks_lookup = dict((rack["id"], rack["name"]) for rack in racks)
 
         def get_group_for_rack(rack):
@@ -1793,6 +1818,15 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
         for host in self.vms_list:
             host["is_virtual"] = True
+
+    def _get_hosts_related_ids(self, key):
+        # Ids of the objects referenced by "key" (e.g. "site", "rack") on the fetched devices and VMs
+        ids = set()
+        for host in chain(self.devices_list, self.vms_list):
+            related = host.get(key)
+            if isinstance(related, dict) and related.get("id") is not None:
+                ids.add(related["id"])
+        return sorted(ids)
 
     def extract_name(self, host):
         # An host in an Ansible inventory requires an hostname.
