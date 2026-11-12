@@ -262,7 +262,8 @@ DOCUMENTATION = """
         hostname_field:
             description:
                 - By default, the inventory hostname is the netbox device name
-                - If set, sets the inventory hostname from this field in custom_fields instead
+                - If set, sets the inventory hostname from this field instead
+                - supports nested fields ('field.nested_field')
             default: False
         headers:
             description: Dictionary of headers to be passed to the NetBox API.
@@ -1794,17 +1795,26 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         for host in self.vms_list:
             host["is_virtual"] = True
 
+    def _get_nested_field_value(self, data:dict, path:list):
+        # traverse a supplied dictionary along a path supplied as an ordered list of dictionary keys
+        if data and path:
+            field = path[0]
+            if field:
+                value = data.get(field)
+                return value if len(path) == 1 else self._get_nested_field_value(value, path[1:])
+
     def extract_name(self, host):
         # An host in an Ansible inventory requires an hostname.
         # name is an unique but not required attribute for a device in NetBox
         # We default to an UUID for hostname in case the name is not set in NetBox
         # Use virtual chassis name if set by the user.
         if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
-            return host["virtual_chassis"]["name"] or str(uuid.uuid4())
+            return str(host["virtual_chassis"]["name"]) or str(uuid.uuid4())
         elif self.hostname_field:
-            return host["custom_fields"][self.hostname_field]
+            name = self._get_nested_field_value(host, self.hostname_field.split('.'))
+            return str(name)
         else:
-            return host["name"] or str(uuid.uuid4())
+            return str(host["name"]) or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
         # Check for special case - if group is a boolean, just return grouping name instead
