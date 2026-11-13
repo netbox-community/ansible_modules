@@ -99,6 +99,7 @@ API_APPS_ENDPOINTS = dict(
         "fhrp_groups": {},
         "fhrp_group_assignments": {},
         "ip_addresses": {},
+        "ip_ranges": {},
         "l2vpns": {"deprecated": "3.7"},
         "l2vpn_terminations": {"deprecated": "3.7"},
         "prefixes": {},
@@ -278,6 +279,7 @@ CONVERT_TO_ID = {
     "interface_template": "interface_templates",
     "inventory_item_role": "inventory_item_roles",
     "ip_addresses": "ip_addresses",
+    "ip_range_role": "roles",
     "ipaddresses": "ip_addresses",
     "ipsec_profile": "ipsec_profiles",
     "location": "locations",
@@ -395,6 +397,7 @@ ENDPOINT_NAME_MAPPING = {
     "inventory_items": "inventory_item",
     "inventory_item_roles": "inventory_item_role",
     "ip_addresses": "ip_address",
+    "ip_ranges": "ip_range",
     "l2vpns": "l2vpn",
     "l2vpn_terminations": "l2vpn_termination",
     "locations": "location",
@@ -523,6 +526,7 @@ ALLOWED_QUERY_PARAMS = {
     "ipaddresses": set(
         ["address", "vrf", "device", "interface", "assigned_object", "virtual_machine"]
     ),
+    "ip_range": set(["start_address", "end_address", "vrf"]),
     "l2vpn": set(["name"]),
     "l2vpn_termination": set(
         ["l2vpn", "assigned_object_type", "interface_id", "vlan_id", "vminterface_id"]
@@ -640,6 +644,7 @@ REQUIRED_ID_FIND = {
     "interfaces": set(["form_factor", "mode", "type"]),
     "interface_templates": set(["type"]),
     "ip_addresses": set(["status", "role"]),
+    "ip_ranges": set(["status"]),
     "prefixes": set(["status"]),
     "power_feeds": set(["status", "type", "supply", "phase"]),
     "power_outlets": set(["type", "feed_leg"]),
@@ -668,6 +673,7 @@ CONVERT_KEYS = {
     "device_role": "role",
     "fhrp_group": "group",
     "inventory_item_role": "role",
+    "ip_range_role": "role",
     "parent_contact_group": "parent",
     "parent_location": "parent",
     "parent_interface": "parent",

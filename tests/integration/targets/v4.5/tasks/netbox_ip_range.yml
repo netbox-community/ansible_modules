@@ -1,0 +1,176 @@
+---
+##
+##
+### NETBOX_IP_RANGE
+##
+##
+- name: 1 - Create IP range within NetBox with only required information
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.0.10/24
+      end_address: 10.156.0.50/24
+    state: present
+  register: test_one
+
+- name: 1 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_one is changed
+      - test_one['diff']['before']['state'] == "absent"
+      - test_one['diff']['after']['state'] == "present"
+      - test_one['msg'] == "ip_range 10.156.0.10/24-10.156.0.50/24 created"
+      - test_one['ip_range']['start_address'] == "10.156.0.10/24"
+      - test_one['ip_range']['end_address'] == "10.156.0.50/24"
+      - test_one['ip_range']['status'] == "active"
+
+- name: 2 - Duplicate
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.0.10/24
+      end_address: 10.156.0.50/24
+    state: present
+  register: test_two
+
+- name: 2 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - not test_two['changed']
+      - test_two['msg'] == "ip_range 10.156.0.10/24-10.156.0.50/24 already exists"
+
+- name: 3 - Update 10.156.0.10/24-10.156.0.50/24
+  # vrf is intentionally left unset here: vrf is part of an IP range's
+  # lookup identity (ALLOWED_QUERY_PARAMS["ip_range"] = start_address,
+  # end_address, vrf), exactly as it is for netbox_prefix. Changing it in
+  # an "update" test would make the module look for a different object
+  # and create a second range instead of updating this one.
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.0.10/24
+      end_address: 10.156.0.50/24
+      tenant: Test Tenant
+      status: Reserved
+      ip_range_role: Network of care
+      description: This range has been updated
+      mark_populated: true
+      mark_utilized: true
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_three
+
+- name: 3 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_three is changed
+      - test_three['diff']['after']['tenant'] == 1
+      - test_three['diff']['after']['status'] == "reserved"
+      - test_three['diff']['after']['role'] == 1
+      - test_three['diff']['after']['description'] == "This range has been updated"
+      - test_three['diff']['after']['mark_populated'] == true
+      - test_three['diff']['after']['mark_utilized'] == true
+      - test_three['msg'] == "ip_range 10.156.0.10/24-10.156.0.50/24 updated"
+      - test_three['ip_range']['tenant'] == 1
+      - test_three['ip_range']['status'] == "reserved"
+      - test_three['ip_range']['role'] == 1
+      - test_three['ip_range']['description'] == "This range has been updated"
+      - test_three['ip_range']['mark_populated'] == true
+      - test_three['ip_range']['mark_utilized'] == true
+      - test_three['ip_range']['tags'][0] == 4
+
+- name: 4 - Delete IP range within netbox
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.0.10/24
+      end_address: 10.156.0.50/24
+    state: absent
+  register: test_four
+
+- name: 4 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_four is changed
+      - test_four['diff']['before']['state'] == "present"
+      - test_four['diff']['after']['state'] == "absent"
+      - test_four['msg'] == "ip_range 10.156.0.10/24-10.156.0.50/24 deleted"
+
+- name: 5 - Create IP range with several specified options
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.32.10/24
+      end_address: 10.156.32.50/24
+      vrf: Test VRF
+      tenant: Test Tenant
+      status: Reserved
+      ip_range_role: Network of care
+      description: Test description
+      mark_populated: true
+      mark_utilized: true
+      tags:
+        - Schnozzberry
+    state: present
+  register: test_five
+
+- name: 5 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_five is changed
+      - test_five['diff']['before']['state'] == "absent"
+      - test_five['diff']['after']['state'] == "present"
+      - test_five['msg'] == "ip_range 10.156.32.10/24-10.156.32.50/24 created"
+      - test_five['ip_range']['start_address'] == "10.156.32.10/24"
+      - test_five['ip_range']['end_address'] == "10.156.32.50/24"
+      - test_five['ip_range']['vrf'] == 1
+      - test_five['ip_range']['tenant'] == 1
+      - test_five['ip_range']['status'] == "reserved"
+      - test_five['ip_range']['role'] == 1
+      - test_five['ip_range']['description'] == "Test description"
+      - test_five['ip_range']['mark_populated'] == true
+      - test_five['ip_range']['mark_utilized'] == true
+      - test_five['ip_range']['tags'][0] == 4
+
+- name: 6 - Check mode must report changed and create nothing
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.99.10/24
+      end_address: 10.156.99.50/24
+    state: present
+  check_mode: true
+  register: test_six
+
+- name: 6 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_six is changed
+
+- name: 7 - Overlapping range in the same VRF must be rejected by NetBox itself
+  # NetBox only checks for overlap within the same VRF (IPRange.clean()
+  # filters by vrf=self.vrf), so this has to share the vrf used in test 5
+  # to actually overlap.
+  netbox.netbox.netbox_ip_range:
+    netbox_url: http://localhost:32768
+    netbox_token: "{{ lookup('file', '/tmp/.netbox_test_token', errors='ignore') | default(lookup('env', 'NETBOX_TOKEN', default='0123456789abcdef0123456789abcdef01234567'), true) }}"
+    data:
+      start_address: 10.156.32.20/24
+      end_address: 10.156.32.60/24
+      vrf: Test VRF
+    state: present
+  register: test_seven
+  ignore_errors: true
+
+- name: 7 - ASSERT
+  ansible.builtin.assert:
+    that:
+      - test_seven is failed
+      - "'overlap' in (test_seven['msg'] | lower)"
