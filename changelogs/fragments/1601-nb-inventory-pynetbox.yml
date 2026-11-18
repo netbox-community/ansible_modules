@@ -1,0 +1,8 @@
+---
+bugfixes:
+  - >-
+    nb_inventory - rework HTTP calls to use pynetbox instead of raw
+    requests via Ansible's open_url, fixing inventory runs failing when
+    NetBox is reached through a (SOCKS) proxy. The plugin now reuses the
+    same pynetbox client as the rest of the collection; option names and
+    inventory output are unchanged.

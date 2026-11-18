@@ -1,3 +1,4 @@
 pynetbox
 packaging
 pytz
+requests
