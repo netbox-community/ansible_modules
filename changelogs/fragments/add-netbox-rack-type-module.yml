@@ -1,0 +1,7 @@
+---
+minor_changes:
+  - Added ``netbox_rack_type`` module to create, update or delete rack types
+    (``dcim.rack-types`` endpoint, requires NetBox v4.1+) (#1322).
+  - Added ``rack_type`` option to ``netbox_rack`` so racks can be associated
+    to a rack type and inherit its form factor and dimensions (#1450).
+  - Added ``rack-types`` endpoint to the ``nb_lookup`` plugin.

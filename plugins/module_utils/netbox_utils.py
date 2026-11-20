@@ -73,6 +73,7 @@ API_APPS_ENDPOINTS = dict(
         "racks": {},
         "rack_groups": {},
         "rack_roles": {},
+        "rack_types": {},
         "rear_ports": {},
         "rear-ports": {},
         "rear_port_templates": {},
@@ -206,6 +207,7 @@ QUERY_TYPES = dict(
     rack="name",
     rack_group="slug",
     rack_role="slug",
+    rack_type="slug",
     rear_port="name",
     rear_port_template="name",
     region="slug",
@@ -315,6 +317,7 @@ CONVERT_TO_ID = {
     "rack": "racks",
     "rack_group": "rack_groups",
     "rack_role": "rack_roles",
+    "rack_type": "rack_types",
     "region": "regions",
     "regions": "regions",
     "rear_port": "rear_ports",
@@ -416,6 +419,7 @@ ENDPOINT_NAME_MAPPING = {
     "racks": "rack",
     "rack_groups": "rack_group",
     "rack_roles": "rack_role",
+    "rack_types": "rack_type",
     "rear_ports": "rear_port",
     "rear-ports": "rearport",
     "rear_port_templates": "rear_port_template",
@@ -561,6 +565,7 @@ ALLOWED_QUERY_PARAMS = {
     "rack": set(["name", "site", "location"]),
     "rack_group": set(["slug"]),
     "rack_role": set(["slug"]),
+    "rack_type": set(["slug"]),
     "region": set(["slug"]),
     "rear_port": set(["name", "device"]),
     "rear_port_template": set(["name", "device_type"]),
@@ -710,6 +715,7 @@ SLUG_REQUIRED = {
     "locations",
     "rack_groups",
     "rack_roles",
+    "rack_types",
     "regions",
     "rirs",
     "roles",
@@ -1061,7 +1067,10 @@ class NetboxModule(object):
         """
         temp_dict = dict()
         if self._version_check_greater(self.api_version, "2.7", greater_or_equal=True):
-            if data.get("form_factor"):
+            # Endpoints such as interfaces expose NetBox's `type` field under
+            # the legacy `form_factor` name and need this rename. Rack types
+            # (NetBox v4.1+) use `form_factor` natively, so skip the rename.
+            if data.get("form_factor") and self.endpoint != "rack_types":
                 temp_dict["type"] = data.pop("form_factor")
 
         for key in data:
