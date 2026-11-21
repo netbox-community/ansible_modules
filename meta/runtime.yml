@@ -27,6 +27,7 @@ action_groups:
     - netbox_console_server_port
     - netbox_console_server_port_template
     - netbox_contact
+    - netbox_contact_assignment
     - netbox_contact_group
     - netbox_contact_role
     - netbox_custom_field
