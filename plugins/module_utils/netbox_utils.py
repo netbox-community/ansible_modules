@@ -491,6 +491,7 @@ ALLOWED_QUERY_PARAMS = {
     "choice_set": set(["name"]),
     "custom_link": set(["name"]),
     "data_source": set(["name"]),
+    "default_platform": set(["slug"]),
     "dcim.consoleport": set(["name", "device"]),
     "dcim.consoleserverport": set(["name", "device"]),
     "dcim.frontport": set(["name", "device", "rear_port"]),
