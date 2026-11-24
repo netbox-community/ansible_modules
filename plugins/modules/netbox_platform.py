@@ -40,6 +40,12 @@ options:
           - This is auto-generated following NetBox rules if not provided
         required: false
         type: str
+      parent_platform:
+        description:
+          - The parent platform this platform should be tied to (NexBox 4.4+)
+        required: false
+        type: raw
+        version_added: "3.24.0"
       description:
         description:
           - The description of the platform
@@ -163,6 +169,7 @@ def main():
                     name=dict(required=True, type="str"),
                     slug=dict(required=False, type="str"),
                     description=dict(required=False, type="str"),
+                    parent_platform=dict(required=False, type="raw"),
                     manufacturer=dict(required=False, type="raw"),
                     config_template=dict(required=False, type="raw"),
                     napalm_driver=dict(required=False, type="str"),
