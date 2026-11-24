@@ -29,6 +29,11 @@ options:
     description:
       - Defines the device bay template configuration
     suboptions:
+      description:
+        description:
+          - The description of the device bay template
+        required: false
+        type: str
       device_type:
         description:
           - The device type the device bay template will be associated to. The device type must be "parent".
@@ -102,6 +107,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    description=dict(required=False, type="str"),
                     device_type=dict(required=True, type="raw"),
                     name=dict(required=True, type="str"),
                 ),

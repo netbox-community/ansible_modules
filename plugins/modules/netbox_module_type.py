@@ -28,6 +28,11 @@ options:
     description:
       - Defines the device type configuration
     suboptions:
+      description:
+        description:
+          - The description of the module type
+        required: false
+        type: str
       manufacturer:
         description:
           - The manufacturer of the module type
@@ -147,6 +152,7 @@ def main():
                 type="dict",
                 required=True,
                 options=dict(
+                    description=dict(required=False, type="str"),
                     manufacturer=dict(required=False, type="raw"),
                     model=dict(required=True, type="raw"),
                     part_number=dict(required=False, type="str"),
