@@ -1,0 +1,4 @@
+---
+
+minor_changes:
+  - nb_inventory - add description and comments field extraction
