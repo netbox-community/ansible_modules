@@ -1,0 +1,6 @@
+bugfixes:
+  - >-
+    nb_inventory - parse NetBox API responses with ``json.loads`` instead of
+    ``loader.load``. On ansible-core 2.19+ ``loader.load`` tags every value,
+    and the tags are saved in the inventory cache, which made it about 4x
+    bigger and slower to read than fetching from NetBox again.
