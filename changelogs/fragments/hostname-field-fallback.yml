@@ -1,0 +1,6 @@
+---
+bugfixes:
+  - >-
+    nb_inventory - with ``hostname_field`` set, a host whose custom field is empty or missing
+    now keeps its NetBox name. Before, one such host stopped the whole inventory with
+    "Invalid empty host name provided: None" (or a KeyError when the field didn't exist).
