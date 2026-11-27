@@ -295,3 +295,37 @@ def test_rename_variables(inventory_fixture):
         "netbox_cluster": "staging",
         "netbox_cluster_id": "0xdeadbeef",
     }
+
+
+@pytest.mark.parametrize(
+    "custom_fields, expected",
+    [
+        ({"fqdn": "host1.example.org"}, "host1.example.org"),
+        ({"fqdn": None}, "host1"),
+        ({"fqdn": ""}, "host1"),
+        ({}, "host1"),
+        (None, "host1"),
+    ],
+)
+def test_extract_name_hostname_field(inventory_fixture, custom_fields, expected):
+    inventory_fixture.virtual_chassis_name = False
+    inventory_fixture.hostname_field = "fqdn"
+
+    assert (
+        inventory_fixture.extract_name(
+            {"name": "host1", "custom_fields": custom_fields}
+        )
+        == expected
+    )
+
+
+def test_extract_name_without_hostname_field(inventory_fixture):
+    inventory_fixture.virtual_chassis_name = False
+    inventory_fixture.hostname_field = False
+
+    assert (
+        inventory_fixture.extract_name(
+            {"name": "host1", "custom_fields": {"fqdn": "host1.example.org"}}
+        )
+        == "host1"
+    )

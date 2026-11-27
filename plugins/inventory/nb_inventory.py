@@ -263,6 +263,7 @@ DOCUMENTATION = """
             description:
                 - By default, the inventory hostname is the netbox device name
                 - If set, sets the inventory hostname from this field in custom_fields instead
+                - If the field is empty or missing for a host, that host keeps its netbox device name
             default: False
         headers:
             description: Dictionary of headers to be passed to the NetBox API.
@@ -1801,10 +1802,13 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # Use virtual chassis name if set by the user.
         if self.virtual_chassis_name and self._get_host_virtual_chassis_master(host):
             return host["virtual_chassis"]["name"] or str(uuid.uuid4())
-        elif self.hostname_field:
-            return host["custom_fields"][self.hostname_field]
-        else:
-            return host["name"] or str(uuid.uuid4())
+        if self.hostname_field:
+            hostname = (host.get("custom_fields") or {}).get(self.hostname_field)
+            if hostname:
+                return str(hostname)
+            # An empty or missing field falls back to the device name: an empty
+            # hostname would stop the whole inventory with "Invalid empty host name".
+        return host["name"] or str(uuid.uuid4())
 
     def generate_group_name(self, grouping, group):
         # Check for special case - if group is a boolean, just return grouping name instead
