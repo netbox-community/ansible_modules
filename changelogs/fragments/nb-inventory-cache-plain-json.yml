@@ -1,3 +1,4 @@
+---
 bugfixes:
   - >-
     nb_inventory - parse NetBox API responses with ``json.loads`` instead of
