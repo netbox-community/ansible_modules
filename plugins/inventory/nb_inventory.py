@@ -487,7 +487,8 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                 )
 
             try:
-                results = self.loader.load(raw_data, json_only=True)
+                # Plain JSON: loader.load tags every value on ansible-core 2.19+, which bloats the cache and slows reads
+                results = json.loads(raw_data)
             except ValueError:
                 raise AnsibleError("Incorrect JSON payload: %s" % raw_data)
 
